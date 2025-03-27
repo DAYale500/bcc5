@@ -1,0 +1,21 @@
+lib
+├── app.dart
+├── config
+│   └── app_theme.dart
+├── main.dart
+├── navigation
+│   ├── app_router.dart
+│   └── main_scaffold.dart
+├── screens
+│   ├── flashcards
+│   │   └── flashcard_category_screen.dart
+│   ├── learning_paths
+│   │   └── path_chapter_screen.dart
+│   ├── modules
+│   │   └── lesson_module_screen.dart
+│   └── parts
+│       └── part_zone_screen.dart
+└── widgets
+    └── custom_app_bar_widget.dart
+
+9 directories, 10 files

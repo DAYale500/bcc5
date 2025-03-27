@@ -1,0 +1,235 @@
+
+
+
+
+
+
+
+
+
+
+File: lib/config/app_theme.dart
+import 'package:flutter/material.dart';
+
+class AppTheme {
+  static const Color primaryBlue = Color(0xFF0077B6);
+  static const Color primaryRed = Color(0xFFCC0000);
+
+  static ThemeData get lightTheme => ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: primaryBlue),
+    useMaterial3: true,
+  );
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/navigation/main_scaffold.dart
+import 'package:flutter/material.dart';
+import '../screens/lessons/lesson_module_screen.dart';
+import '../screens/parts/part_zone_screen.dart';
+import '../screens/flashcards/flashcard_category_screen.dart';
+import '../screens/learning_paths/path_chapter_screen.dart';
+
+class MainScaffold extends StatefulWidget {
+  const MainScaffold({super.key});
+
+  @override
+  State<MainScaffold> createState() => _MainScaffoldState();
+}
+
+class _MainScaffoldState extends State<MainScaffold> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _screens = const [
+    LessonModuleScreen(),
+    PartZoneScreen(),
+    FlashcardCategoryScreen(),
+    PathChapterScreen(),
+  ];
+
+  final List<BottomNavigationBarItem> _navItems = const [
+    BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Lessons'),
+    BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Parts'),
+    BottomNavigationBarItem(icon: Icon(Icons.style), label: 'Flashcards'),
+    BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Paths'),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: _navItems,
+        type: BottomNavigationBarType.fixed,
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/navigation/app_router.dart
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/flashcards/flashcard_category_screen.dart
+import 'package:flutter/material.dart';
+
+class FlashcardCategoryScreen extends StatelessWidget {
+  const FlashcardCategoryScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(child: Text('Flashcard Category Screen')),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/learning_paths/path_chapter_screen.dart
+import 'package:flutter/material.dart';
+
+class PathChapterScreen extends StatelessWidget {
+  const PathChapterScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: Center(child: Text('Path Chapter Screen')));
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/parts/part_zone_screen.dart
+import 'package:flutter/material.dart';
+
+class PartZoneScreen extends StatelessWidget {
+  const PartZoneScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: Center(child: Text('Part Zone Screen')));
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/modules/lesson_module_screen.dart
+import 'package:flutter/material.dart';
+
+class LessonModuleScreen extends StatelessWidget {
+  const LessonModuleScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: Center(child: Text('Lesson Module Screen')));
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/main.dart
+import 'package:flutter/material.dart';
+import 'app.dart';
+
+void main() {
+  runApp(const Bcc5App());
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/app.dart
+import 'package:flutter/material.dart';
+import 'config/app_theme.dart';
+import 'navigation/main_scaffold.dart';
+
+class Bcc5App extends StatelessWidget {
+  const Bcc5App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'BCC5 Sailing App',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      home: const MainScaffold(),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/custom_app_bar_widget.dart
