@@ -16,7 +16,7 @@ class LessonModuleScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Choose a Module'),
-        backgroundColor: Colors.blueGrey[50], // ✅ Visualize appBar presence
+        backgroundColor: Colors.blue[100], // ✅ Visualize appBar presence
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(16),
