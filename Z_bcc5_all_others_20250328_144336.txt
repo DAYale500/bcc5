@@ -461,19 +461,28 @@ class _ContentScreenNavigatorState extends State<ContentScreenNavigator> {
 
 
 File: lib/screens/parts/part_item_screen.dart
+import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/data/models/part_model.dart';
-import 'package:bcc5/repositories/parts/all_parts.dart';
-import 'package:bcc5/screens/common/content_detail_screen.dart';
 import 'package:bcc5/utils/logger.dart';
 
 class PartItemScreen extends StatelessWidget {
   final int selectedIndex;
 
   const PartItemScreen({super.key, required this.selectedIndex});
+
+  String _extractZoneFromId(String id) {
+    final match = RegExp(r'part_([a-z]+)_').firstMatch(id);
+    if (match != null) {
+      final zoneKey = match.group(1)!;
+      return zoneKey[0].toUpperCase() +
+          zoneKey.substring(1); // e.g., 'hull' -> 'Hull'
+    }
+    return 'Unknown';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -482,13 +491,15 @@ class PartItemScreen extends StatelessWidget {
 
     final List<PartItem> filteredParts =
         selectedZone != null
-            ? allParts.where((p) => p.zone == selectedZone).toList()
+            ? allParts
+                .where((p) => _extractZoneFromId(p.id) == selectedZone)
+                .toList()
             : allParts;
 
     logger.i('🟦 Displaying PartItemScreen (Zone: $selectedZone)');
 
     return MainScaffold(
-      currentIndex: selectedIndex,
+      selectedIndex: 2,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: GridView.builder(
@@ -504,13 +515,13 @@ class PartItemScreen extends StatelessWidget {
             final part = filteredParts[index];
 
             return ItemButton(
-              label: part.name,
+              label: part.title,
               onTap: () {
-                logger.i('🟥 Tapped part: ${part.name}');
+                logger.i('🟥 Tapped part: ${part.title}');
                 context.push(
                   '/content',
                   extra: {
-                    'title': part.name,
+                    'title': part.title,
                     'content': part.content,
                     'backDestination': '/parts/items',
                     'backExtra': {'zone': selectedZone},
@@ -597,49 +608,39 @@ class PartZoneScreen extends StatelessWidget {
 
 
 File: lib/screens/lessons/lesson_item_screen.dart
+import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
-
-import 'package:bcc5/data/models/lesson_model.dart';
-import 'package:bcc5/navigation/app_router.dart';
-import 'package:bcc5/widgets/scaffolds/main_scaffold.dart';
-import 'package:bcc5/widgets/buttons/item_button.dart';
-import 'package:bcc5/widgets/app_bars/custom_app_bar_widget.dart';
-import 'package:bcc5/theme/app_theme.dart';
-
-final logger = Logger();
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/widgets/item_button.dart';
+import 'package:bcc5/utils/logger.dart';
 
 class LessonItemScreen extends StatelessWidget {
   final String module;
-  final List<Lesson> lessons;
-  final int selectedIndex;
 
-  const LessonItemScreen({
-    super.key,
-    required this.module,
-    required this.lessons,
-    required this.selectedIndex,
-  });
+  const LessonItemScreen({super.key, required this.module});
 
   @override
   Widget build(BuildContext context) {
     logger.i('📘 LessonItemScreen loaded for module: $module');
+    const int selectedIndex = 1;
+    final lessons = LessonRepositoryIndex.getLessonsForModule(module);
 
     return PopScope(
       canPop: true,
-      onPopInvoked: (didPop) {
-        if (didPop) {
+      onPopInvokedWithResult: (didPop, context) {
+        if (didPop == true && context is BuildContext) {
           logger.i('🔙 Back button pressed on LessonItemScreen');
-          context.go('/modules'); // Go back to LessonModuleScreen
+          context.go('/modules');
         }
       },
+
       child: MainScaffold(
-        appBar: const CustomAppBarWidget(
-          title: 'Lessons',
-          showBackButton: true,
-        ),
-        selectedIndex: selectedIndex,
+        // appBar: const CustomAppBarWidget(
+        //   title: 'Lessons',
+        //   showBackButton: true,
+        // ),
+        selectedIndex: 2,
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: GridView.builder(
@@ -655,11 +656,12 @@ class LessonItemScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final lesson = lessons[index];
               return ItemButton(
-                title: lesson.title,
+                label: lesson.title,
                 onTap: () {
                   logger.i('📘 Tapped lesson: ${lesson.id}');
                   context.push(
-                    AppRoute.contentDetailScreen.path,
+                    '/content',
+                    // AppRoute.contentDetailScreen.path,
                     extra: {
                       'contentId': lesson.id,
                       'contentType': 'lesson',
@@ -693,6 +695,7 @@ class LessonItemScreen extends StatelessWidget {
 
 
 File: lib/screens/lessons/lesson_module_screen.dart
+import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
 import 'package:flutter/material.dart';
 import '../../navigation/main_scaffold.dart';
 import '../../widgets/group_button.dart';
@@ -709,10 +712,10 @@ class LessonModuleScreen extends StatelessWidget {
     logger.i('🟦 Entered LessonModuleScreen');
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Choose a Module'),
-        backgroundColor: Colors.blue.shade100,
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Choose a Module'),
+      //   backgroundColor: Colors.blue.shade100,
+      // ),
       body: ListView.separated(
         padding: const EdgeInsets.all(16),
         itemCount: moduleNames.length,
@@ -729,7 +732,7 @@ class LessonModuleScreen extends StatelessWidget {
                   builder:
                       (_) => MainScaffold(
                         selectedIndex: 1,
-                        child: LessonItemScreen(moduleName: moduleName),
+                        child: LessonItemScreen(module: moduleName),
                       ),
                 ),
               );
@@ -771,12 +774,62 @@ File: lib/theme/app_theme.dart
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  // 🟠 Primary Colors
   static const Color primaryBlue = Color(0xFF0077B6);
   static const Color primaryRed = Color(0xFFCC0000);
 
+  // 🟠 Light Theme (Material 3)
   static ThemeData get lightTheme => ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: primaryBlue),
     useMaterial3: true,
+    scaffoldBackgroundColor: Colors.white,
+    textTheme: textTheme,
+  );
+
+  // 🟠 Typography Styles
+  static const TextStyle headingStyle = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+  );
+
+  static const TextStyle subheadingStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: Colors.black87,
+  );
+
+  static const TextStyle bodyTextStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: Colors.black87,
+  );
+
+  static const TextStyle buttonTextStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+
+  // 🟠 Button Variants
+  static const double buttonCornerRadius = 12.0;
+
+  static const EdgeInsetsGeometry groupButtonPadding = EdgeInsets.symmetric(
+    vertical: 14,
+    horizontal: 24,
+  );
+
+  static const EdgeInsetsGeometry itemButtonPadding = EdgeInsets.symmetric(
+    vertical: 10,
+    horizontal: 12,
+  );
+
+  // 🟠 TextTheme for full app integration
+  static const TextTheme textTheme = TextTheme(
+    headlineLarge: headingStyle,
+    headlineMedium: subheadingStyle,
+    bodyLarge: bodyTextStyle,
+    labelLarge: buttonTextStyle,
   );
 }
 
@@ -911,7 +964,7 @@ class PartZone {
 
 File: lib/app.dart
 import 'package:flutter/material.dart';
-import 'config/app_theme.dart';
+import 'theme/app_theme.dart';
 import 'navigation/main_scaffold.dart';
 import 'screens/home/landing_screen.dart';
 
@@ -939,31 +992,37 @@ class Bcc5App extends StatelessWidget {
 
 
 File: lib/widgets/item_button.dart
-import 'package:bcc5/config/app_theme.dart';
-import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:flutter/material.dart';
 
 class ItemButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
   final Color color;
+  final double borderRadius;
+  final EdgeInsetsGeometry padding;
 
   const ItemButton({
     super.key,
     required this.label,
     required this.onTap,
-    this.color = AppTheme.primaryRed, // 🟠 default to red (DetailButton style)
+    this.color = AppTheme.primaryRed, // 🟠 Default to red (DetailButton style)
+    this.borderRadius = 12.0, // 🟠 Default rounded rectangle
+    this.padding = const EdgeInsets.symmetric(
+      vertical: 12,
+      horizontal: 8,
+    ), // 🟠 Default compact padding
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap, // 🟠 Clean onTap handler
+      onTap: onTap, // 🟠 Clean tap handler
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        padding: padding,
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(12), // 🟠 Rounded rectangle
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
         alignment: Alignment.center,
         child: Text(
@@ -1007,7 +1066,7 @@ class DisabledItemButton extends StatelessWidget {
         label,
         textAlign: TextAlign.center,
         style: AppTheme.buttonTextStyle.copyWith(
-          color: Colors.white.withAlpha(a: 153), // ✅ No error
+          color: Colors.white.withAlpha(153), // ✅ No error
         ),
       ),
     );
@@ -1036,7 +1095,7 @@ File: lib/widgets/custom_app_bar_widget.dart
 
 File: lib/widgets/group_button.dart
 import 'package:flutter/material.dart';
-import '../config/app_theme.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class GroupButton extends StatelessWidget {
   final String label;
@@ -1054,24 +1113,26 @@ class GroupButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final backgroundColor =
         isSelected
-            ? AppTheme.primaryBlue.withAlpha(229)
-            : AppTheme.primaryBlue.withAlpha(153);
+            ? AppTheme.primaryBlue.withAlpha(229) // 🟠 Selected: more opaque
+            : AppTheme.primaryBlue.withAlpha(
+              153,
+            ); // 🟠 Unselected: more transparent
 
     return FractionallySizedBox(
-      widthFactor: 0.6,
+      widthFactor: 0.6, // 🟠 Consistent width
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: AppTheme.groupButtonPadding,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),
           ),
         ),
         child: Text(
           label,
           textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.white),
+          style: AppTheme.buttonTextStyle,
         ),
       ),
     );
