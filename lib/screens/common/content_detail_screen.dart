@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/content_block.dart';
+import 'package:bcc5/data/models/content_block.dart';
 import '../../utils/logger.dart';
 
 class ContentDetailScreen extends StatelessWidget {
@@ -99,10 +99,11 @@ class ContentDetailScreen extends StatelessWidget {
           ),
         );
       case ContentBlockType.bulletList:
+        final bullets = block.bulletList ?? [];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children:
-              block.bullets!.map((item) {
+              bullets.map((item) {
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -114,7 +115,7 @@ class ContentDetailScreen extends StatelessWidget {
         );
       case ContentBlockType.image:
         return Image.asset(
-          block.imagePath!,
+          block.imagePath ?? 'assets/images/fallback_image.jpeg',
           fit: BoxFit.cover,
           errorBuilder: (_, __, ___) => const Placeholder(fallbackHeight: 150),
         );

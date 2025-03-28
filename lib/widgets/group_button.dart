@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../config/app_theme.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class GroupButton extends StatelessWidget {
   final String label;
@@ -17,24 +17,26 @@ class GroupButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final backgroundColor =
         isSelected
-            ? AppTheme.primaryBlue.withAlpha(229)
-            : AppTheme.primaryBlue.withAlpha(153);
+            ? AppTheme.primaryBlue.withAlpha(229) // 🟠 Selected: more opaque
+            : AppTheme.primaryBlue.withAlpha(
+              153,
+            ); // 🟠 Unselected: more transparent
 
     return FractionallySizedBox(
-      widthFactor: 0.6,
+      widthFactor: 0.6, // 🟠 Consistent width
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: AppTheme.groupButtonPadding,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),
           ),
         ),
         child: Text(
           label,
           textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.white),
+          style: AppTheme.buttonTextStyle,
         ),
       ),
     );

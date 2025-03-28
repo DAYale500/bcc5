@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/content_block.dart';
+import 'package:bcc5/data/models/content_block.dart';
 import 'content_detail_screen.dart';
 import '../../utils/logger.dart';
 

@@ -1,31 +1,40 @@
+import 'package:bcc5/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import '../config/app_theme.dart';
 
 class ItemButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
+  final Color color;
+  final double borderRadius;
+  final EdgeInsetsGeometry padding;
 
-  const ItemButton({super.key, required this.label, required this.onTap});
+  const ItemButton({
+    super.key,
+    required this.label,
+    required this.onTap,
+    this.color = AppTheme.primaryRed, // 🟠 Default to red (DetailButton style)
+    this.borderRadius = 12.0, // 🟠 Default rounded rectangle
+    this.padding = const EdgeInsets.symmetric(
+      vertical: 12,
+      horizontal: 8,
+    ), // 🟠 Default compact padding
+  });
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 2.8,
-      child: ElevatedButton(
-        onPressed: onTap,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppTheme.primaryRed..withAlpha(229),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: EdgeInsets.zero,
+    return GestureDetector(
+      onTap: onTap, // 🟠 Clean tap handler
+      child: Container(
+        padding: padding,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
-        child: Center(
-          child: Text(
-            label,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.white),
-          ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          style: AppTheme.buttonTextStyle.copyWith(color: Colors.white),
         ),
       ),
     );

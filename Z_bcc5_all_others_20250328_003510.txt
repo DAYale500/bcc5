@@ -1,0 +1,1079 @@
+
+
+
+
+
+
+
+
+
+
+File: lib/navigation/main_scaffold.dart
+import 'package:flutter/material.dart';
+import '../screens/home/landing_screen.dart';
+import '../screens/lessons/lesson_module_screen.dart';
+import '../screens/parts/part_zone_screen.dart';
+import '../screens/flashcards/flashcard_category_screen.dart';
+import '../screens/tools/tools_screen.dart';
+import '../utils/logger.dart';
+
+class MainScaffold extends StatelessWidget {
+  final int selectedIndex;
+  final Widget child;
+
+  const MainScaffold({
+    super.key,
+    required this.selectedIndex,
+    required this.child,
+  });
+
+  void _onItemTapped(BuildContext context, int index) {
+    if (index == selectedIndex) {
+      logger.i('🔁 BNB tapped same tab: $index — no navigation');
+      return;
+    }
+
+    logger.i('🧭 BNB tapped tab $index — switching screen');
+
+    Widget newScreen;
+    switch (index) {
+      case 0:
+        newScreen = const LandingScreen();
+        break;
+      case 1:
+        newScreen = const LessonModuleScreen();
+        break;
+      case 2:
+        newScreen = const PartZoneScreen();
+        break;
+      case 3:
+        newScreen = const FlashcardCategoryScreen();
+        break;
+      case 4:
+        newScreen = const ToolsScreen();
+        break;
+      default:
+        newScreen = const LandingScreen();
+    }
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => MainScaffold(selectedIndex: index, child: newScreen),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🔷 Building MainScaffold, tab index: $selectedIndex');
+
+    return Scaffold(
+      body: child,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: (index) => _onItemTapped(context, index),
+        backgroundColor: Colors.blue[100], // 🟠 Add this line
+
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: 'Modules',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Parts'),
+          BottomNavigationBarItem(icon: Icon(Icons.style), label: 'Flashcards'),
+          BottomNavigationBarItem(icon: Icon(Icons.build), label: 'Tools'),
+        ],
+        type: BottomNavigationBarType.fixed,
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/navigation/app_router.dart
+
+
+
+
+
+
+
+
+
+
+File: lib/navigation/scaffold_helpers.dart
+import 'package:flutter/material.dart';
+import 'main_scaffold.dart';
+
+/// Wraps any screen with the MainScaffold layout,
+/// ensuring the BottomNavigationBar remains visible.
+///
+/// [selectedIndex] determines which BNB tab is highlighted.
+/// [child] is the content screen to render inside the scaffold.
+Widget withBNB({required int selectedIndex, required Widget child}) {
+  return MainScaffold(selectedIndex: selectedIndex, child: child);
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/utils/logger.dart
+import 'package:logger/logger.dart';
+
+final logger = Logger(
+  printer: PrettyPrinter(
+    methodCount: 1,
+    colors: true,
+    printEmojis: true,
+    dateTimeFormat: DateTimeFormat.none, // ✅ Modern replacement for printTime
+  ),
+);
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/home/landing_screen.dart
+import 'package:flutter/material.dart';
+
+class LandingScreen extends StatelessWidget {
+  const LandingScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: Center(child: Text('Landing Screen (Home)')));
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/tools/tools_screen.dart
+import 'package:flutter/material.dart';
+
+class ToolsScreen extends StatelessWidget {
+  const ToolsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: Center(child: Text('Tools Screen')));
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/flashcards/flashcard_category_screen.dart
+import 'package:flutter/material.dart';
+
+class FlashcardCategoryScreen extends StatelessWidget {
+  const FlashcardCategoryScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(child: Text('Flashcard Category Screen')),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/learning_paths/path_chapter_screen.dart
+import 'package:flutter/material.dart';
+
+class PathChapterScreen extends StatelessWidget {
+  const PathChapterScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(body: Center(child: Text('Path Chapter Screen')));
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/common/content_detail_screen.dart
+import 'package:flutter/material.dart';
+import 'package:bcc5/data/models/content_block.dart';
+import '../../utils/logger.dart';
+
+class ContentDetailScreen extends StatelessWidget {
+  final String title;
+  final List<ContentBlock> content;
+  final VoidCallback? onPrevious;
+  final VoidCallback? onNext;
+  final VoidCallback? onBack;
+
+  const ContentDetailScreen({
+    super.key,
+    required this.title,
+    required this.content,
+    this.onPrevious,
+    this.onNext,
+    this.onBack,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🟪 Displaying ContentDetailScreen: $title');
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: Colors.blueGrey[50],
+        leading:
+            onBack != null
+                ? IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    logger.i('🔙 AppBar back tapped on $title');
+                    onBack?.call();
+                  },
+                )
+                : null,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: content.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 16),
+              itemBuilder: (context, index) {
+                final block = content[index];
+                return _renderBlock(context, block);
+              },
+            ),
+          ),
+          const Divider(height: 1),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (onPrevious != null)
+                TextButton.icon(
+                  onPressed: onPrevious,
+                  icon: const Icon(Icons.arrow_back),
+                  label: const Text('Previous'),
+                ),
+              if (onNext != null)
+                TextButton.icon(
+                  onPressed: onNext,
+                  icon: const Icon(Icons.arrow_forward),
+                  label: const Text('Next'),
+                ),
+            ],
+          ),
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
+  }
+
+  Widget _renderBlock(BuildContext context, ContentBlock block) {
+    switch (block.type) {
+      case ContentBlockType.heading:
+        return Text(
+          block.text ?? '',
+          style: Theme.of(context).textTheme.headlineSmall,
+        );
+      case ContentBlockType.text:
+        return Text(
+          block.text ?? '',
+          style: Theme.of(context).textTheme.bodyLarge,
+        );
+      case ContentBlockType.code:
+        return Container(
+          padding: const EdgeInsets.all(12),
+          color: Colors.black87,
+          child: Text(
+            block.text ?? '',
+            style: const TextStyle(
+              color: Colors.greenAccent,
+              fontFamily: 'monospace',
+            ),
+          ),
+        );
+      case ContentBlockType.bulletList:
+        final bullets = block.bulletList ?? [];
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children:
+              bullets.map((item) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('• ', style: TextStyle(fontSize: 16)),
+                    Expanded(child: Text(item)),
+                  ],
+                );
+              }).toList(),
+        );
+      case ContentBlockType.image:
+        return Image.asset(
+          block.imagePath ?? 'assets/images/fallback_image.jpeg',
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => const Placeholder(fallbackHeight: 150),
+        );
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/common/content_navigator.dart
+import 'package:flutter/material.dart';
+import 'package:bcc5/data/models/content_block.dart';
+import 'content_detail_screen.dart';
+import '../../utils/logger.dart';
+
+class ContentScreenNavigator extends StatefulWidget {
+  final String title;
+  final List<String> sequenceTitles;
+  final Map<String, List<ContentBlock>> contentMap;
+  final int startIndex;
+
+  const ContentScreenNavigator({
+    super.key,
+    required this.title,
+    required this.sequenceTitles,
+    required this.contentMap,
+    required this.startIndex,
+  });
+
+  @override
+  State<ContentScreenNavigator> createState() => _ContentScreenNavigatorState();
+}
+
+class _ContentScreenNavigatorState extends State<ContentScreenNavigator> {
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.startIndex;
+    logger.i('🟧 Entered ContentScreenNavigator at index $_currentIndex');
+  }
+
+  void _goToPrevious() {
+    if (_currentIndex > 0) {
+      setState(() {
+        _currentIndex--;
+        logger.i(
+          '⬅️ Navigated to previous content: ${widget.sequenceTitles[_currentIndex]}',
+        );
+      });
+    }
+  }
+
+  void _goToNext() {
+    if (_currentIndex < widget.sequenceTitles.length - 1) {
+      setState(() {
+        _currentIndex++;
+        logger.i(
+          '➡️ Navigated to next content: ${widget.sequenceTitles[_currentIndex]}',
+        );
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final title = widget.sequenceTitles[_currentIndex];
+    final content = widget.contentMap[title] ?? [];
+
+    logger.i('🟨 Rendering content: $title');
+
+    return ContentDetailScreen(
+      title: title,
+      content: content,
+      onBack: () {
+        logger.i('🔙 Back from content: $title');
+        Navigator.pop(context);
+      },
+      onPrevious: _currentIndex > 0 ? _goToPrevious : null,
+      onNext:
+          _currentIndex < widget.sequenceTitles.length - 1 ? _goToNext : null,
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/parts/part_item_screen.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/widgets/item_button.dart';
+import 'package:bcc5/data/models/part_model.dart';
+import 'package:bcc5/repositories/parts/all_parts.dart';
+import 'package:bcc5/screens/common/content_detail_screen.dart';
+import 'package:bcc5/utils/logger.dart';
+
+class PartItemScreen extends StatelessWidget {
+  final int selectedIndex;
+
+  const PartItemScreen({super.key, required this.selectedIndex});
+
+  @override
+  Widget build(BuildContext context) {
+    final zone = GoRouterState.of(context).extra as Map<String, dynamic>? ?? {};
+    final selectedZone = zone['zone'] as String?;
+
+    final List<PartItem> filteredParts =
+        selectedZone != null
+            ? allParts.where((p) => p.zone == selectedZone).toList()
+            : allParts;
+
+    logger.i('🟦 Displaying PartItemScreen (Zone: $selectedZone)');
+
+    return MainScaffold(
+      currentIndex: selectedIndex,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: GridView.builder(
+          shrinkWrap: true,
+          itemCount: filteredParts.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 4,
+            crossAxisSpacing: 4,
+            childAspectRatio: 2.8,
+          ),
+          itemBuilder: (context, index) {
+            final part = filteredParts[index];
+
+            return ItemButton(
+              label: part.name,
+              onTap: () {
+                logger.i('🟥 Tapped part: ${part.name}');
+                context.push(
+                  '/content',
+                  extra: {
+                    'title': part.name,
+                    'content': part.content,
+                    'backDestination': '/parts/items',
+                    'backExtra': {'zone': selectedZone},
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/parts/part_zone_screen.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/widgets/group_button.dart';
+
+class PartZoneScreen extends StatelessWidget {
+  const PartZoneScreen({super.key});
+
+  final List<String> zones = const [
+    'Deck',
+    'Hull',
+    'Rigging',
+    'Sails',
+    'Interior',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🟩 Displaying PartZoneScreen');
+
+    return MainScaffold(
+      selectedIndex: 2, // ✅ FIXED: correct parameter
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 24),
+          Text(
+            'Select a Zone',
+            style: AppTheme.headingStyle,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          ...zones.map(
+            (zone) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: GroupButton(
+                label: zone,
+                onTap: () {
+                  logger.i('🟦 Tapped zone: $zone');
+                  context.push('/parts/items', extra: {'zone': zone});
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/lessons/lesson_item_screen.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
+
+import 'package:bcc5/data/models/lesson_model.dart';
+import 'package:bcc5/navigation/app_router.dart';
+import 'package:bcc5/widgets/scaffolds/main_scaffold.dart';
+import 'package:bcc5/widgets/buttons/item_button.dart';
+import 'package:bcc5/widgets/app_bars/custom_app_bar_widget.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+final logger = Logger();
+
+class LessonItemScreen extends StatelessWidget {
+  final String module;
+  final List<Lesson> lessons;
+  final int selectedIndex;
+
+  const LessonItemScreen({
+    super.key,
+    required this.module,
+    required this.lessons,
+    required this.selectedIndex,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('📘 LessonItemScreen loaded for module: $module');
+
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (didPop) {
+        if (didPop) {
+          logger.i('🔙 Back button pressed on LessonItemScreen');
+          context.go('/modules'); // Go back to LessonModuleScreen
+        }
+      },
+      child: MainScaffold(
+        appBar: const CustomAppBarWidget(
+          title: 'Lessons',
+          showBackButton: true,
+        ),
+        selectedIndex: selectedIndex,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: GridView.builder(
+            shrinkWrap: true,
+            itemCount: lessons.length,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 4,
+              mainAxisSpacing: 4,
+              childAspectRatio: 2.8,
+            ),
+            itemBuilder: (context, index) {
+              final lesson = lessons[index];
+              return ItemButton(
+                title: lesson.title,
+                onTap: () {
+                  logger.i('📘 Tapped lesson: ${lesson.id}');
+                  context.push(
+                    AppRoute.contentDetailScreen.path,
+                    extra: {
+                      'contentId': lesson.id,
+                      'contentType': 'lesson',
+                      'backDestination': '/lessons',
+                      'backExtra': {
+                        'module': module,
+                        'lessons': lessons,
+                        'selectedIndex': selectedIndex,
+                      },
+                      'sequenceList': lessons,
+                      'selectedIndex': index,
+                    },
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/lessons/lesson_module_screen.dart
+import 'package:flutter/material.dart';
+import '../../navigation/main_scaffold.dart';
+import '../../widgets/group_button.dart';
+import '../../utils/logger.dart';
+import '../../data/repositories/lessons/lesson_repository_index.dart';
+
+class LessonModuleScreen extends StatelessWidget {
+  const LessonModuleScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final moduleNames = LessonRepositoryIndex.getModuleNames();
+
+    logger.i('🟦 Entered LessonModuleScreen');
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Choose a Module'),
+        backgroundColor: Colors.blue.shade100,
+      ),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(16),
+        itemCount: moduleNames.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          final moduleName = moduleNames[index];
+          return GroupButton(
+            label: moduleName,
+            onTap: () {
+              logger.i('📘 Tapped Module: $moduleName');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (_) => MainScaffold(
+                        selectedIndex: 1,
+                        child: LessonItemScreen(moduleName: moduleName),
+                      ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/main.dart
+import 'package:flutter/material.dart';
+import 'app.dart';
+
+void main() {
+  runApp(const Bcc5App());
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/theme/app_theme.dart
+import 'package:flutter/material.dart';
+
+class AppTheme {
+  static const Color primaryBlue = Color(0xFF0077B6);
+  static const Color primaryRed = Color(0xFFCC0000);
+
+  static ThemeData get lightTheme => ThemeData(
+    colorScheme: ColorScheme.fromSeed(seedColor: primaryBlue),
+    useMaterial3: true,
+  );
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/models/content_block.dart
+enum ContentBlockType { heading, text, code, bulletList, image }
+
+class ContentBlock {
+  final ContentBlockType type;
+  final String? text;
+  final List<String>? bulletList;
+  final String? imagePath;
+
+  const ContentBlock._({
+    required this.type,
+    this.text,
+    this.bulletList,
+    this.imagePath,
+  });
+
+  // Heading block
+  factory ContentBlock.heading(String text) =>
+      ContentBlock._(type: ContentBlockType.heading, text: text);
+
+  // Text block
+  factory ContentBlock.text(String text) =>
+      ContentBlock._(type: ContentBlockType.text, text: text);
+
+  // Code block
+  factory ContentBlock.code(String codeText) =>
+      ContentBlock._(type: ContentBlockType.code, text: codeText);
+
+  // Bullet list block
+  factory ContentBlock.bullets(List<String> bullets) =>
+      ContentBlock._(type: ContentBlockType.bulletList, bulletList: bullets);
+
+  // Image block
+  factory ContentBlock.image(String imagePath) =>
+      ContentBlock._(type: ContentBlockType.image, imagePath: imagePath);
+
+  // Optional convenience getter
+  List<String>? get bullets => bulletList;
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/models/lesson_model.dart
+import 'content_block.dart';
+
+class Lesson {
+  final String id;
+  final String moduleId;
+  final String title;
+  final List<ContentBlock> content;
+  final List<String> keywords;
+  final List<String> flashcardIds;
+  final bool isPaid;
+
+  Lesson({
+    required this.id,
+    required this.moduleId,
+    required this.title,
+    required this.content,
+    required this.keywords,
+    required this.flashcardIds,
+    required this.isPaid,
+  });
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/models/part_model.dart
+// 🟠 part_model.dart
+
+import 'package:bcc5/data/models/content_block.dart';
+
+class PartItem {
+  final String id; // e.g., part_hull_1.00
+  final String title;
+  final List<ContentBlock> content; // interleaved text and images
+  final List<String> flashcardIds;
+  final List<String> keywords;
+  final bool isPaid;
+
+  const PartItem({
+    required this.id,
+    required this.title,
+    required this.content,
+    this.flashcardIds = const [],
+    this.keywords = const [],
+    this.isPaid = false,
+  });
+}
+
+class PartZone {
+  final String name; // e.g., "Hull", "Deck"
+  final List<PartItem> items;
+
+  const PartZone({required this.name, required this.items});
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/app.dart
+import 'package:flutter/material.dart';
+import 'config/app_theme.dart';
+import 'navigation/main_scaffold.dart';
+import 'screens/home/landing_screen.dart';
+
+class Bcc5App extends StatelessWidget {
+  const Bcc5App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'BCC5 Sailing App',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      home: const MainScaffold(selectedIndex: 0, child: LandingScreen()),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/item_button.dart
+import 'package:bcc5/config/app_theme.dart';
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+class ItemButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  final Color color;
+
+  const ItemButton({
+    super.key,
+    required this.label,
+    required this.onTap,
+    this.color = AppTheme.primaryRed, // 🟠 default to red (DetailButton style)
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap, // 🟠 Clean onTap handler
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(12), // 🟠 Rounded rectangle
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          style: AppTheme.buttonTextStyle.copyWith(color: Colors.white),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/disabled_item_button.dart
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+class DisabledItemButton extends StatelessWidget {
+  final String label;
+
+  const DisabledItemButton({super.key, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: AppTheme.itemButtonPadding,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade400,
+        borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        label,
+        textAlign: TextAlign.center,
+        style: AppTheme.buttonTextStyle.copyWith(
+          color: Colors.white.withAlpha(a: 153), // ✅ No error
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/custom_app_bar_widget.dart
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/group_button.dart
+import 'package:flutter/material.dart';
+import '../config/app_theme.dart';
+
+class GroupButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  final bool isSelected;
+
+  const GroupButton({
+    super.key,
+    required this.label,
+    required this.onTap,
+    this.isSelected = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final backgroundColor =
+        isSelected
+            ? AppTheme.primaryBlue.withAlpha(229)
+            : AppTheme.primaryBlue.withAlpha(153);
+
+    return FractionallySizedBox(
+      widthFactor: 0.6,
+      child: ElevatedButton(
+        onPressed: onTap,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+}

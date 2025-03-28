@@ -1,32 +1,32 @@
+import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
 import 'package:flutter/material.dart';
-import '../../widgets/group_button.dart';
-import 'lesson_item_screen.dart';
 import '../../navigation/main_scaffold.dart';
+import '../../widgets/group_button.dart';
 import '../../utils/logger.dart';
+import '../../data/repositories/lessons/lesson_repository_index.dart';
 
 class LessonModuleScreen extends StatelessWidget {
   const LessonModuleScreen({super.key});
 
-  final List<String> modules = const ['Module 1', 'Module 2', 'Module 3'];
-
   @override
   Widget build(BuildContext context) {
+    final moduleNames = LessonRepositoryIndex.getModuleNames();
+
     logger.i('🟦 Entered LessonModuleScreen');
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Choose a Module'),
-        backgroundColor: Colors.blue[100], // ✅ Visualize appBar presence
-      ),
+      // appBar: AppBar(
+      //   title: const Text('Choose a Module'),
+      //   backgroundColor: Colors.blue.shade100,
+      // ),
       body: ListView.separated(
         padding: const EdgeInsets.all(16),
-        itemCount: modules.length,
+        itemCount: moduleNames.length,
         separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
-          final moduleName = modules[index];
+          final moduleName = moduleNames[index];
           return GroupButton(
             label: moduleName,
-            // From lesson_module_screen.dart
             onTap: () {
               logger.i('📘 Tapped Module: $moduleName');
               Navigator.push(
@@ -35,7 +35,7 @@ class LessonModuleScreen extends StatelessWidget {
                   builder:
                       (_) => MainScaffold(
                         selectedIndex: 1,
-                        child: LessonItemScreen(moduleName: moduleName),
+                        child: LessonItemScreen(module: moduleName),
                       ),
                 ),
               );

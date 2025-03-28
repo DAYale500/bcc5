@@ -1,0 +1,63 @@
+import 'package:bcc5/data/models/part_model.dart';
+import 'package:bcc5/data/models/content_block.dart';
+
+final List<PartItem> deckParts = [
+  PartItem(
+    id: 'part_deck_1.00',
+    title: 'Deck Cleats',
+    keywords: ['cleat', 'tie', 'dock'],
+    content: [
+      ContentBlock.text('Deck cleats are used for securing lines on the boat.'),
+      ContentBlock.image('assets/images/fallback_image.jpeg'),
+      ContentBlock.text(
+        'They are usually mounted on the deck near mooring points.',
+      ),
+    ],
+  ),
+  PartItem(
+    id: 'part_deck_2.00',
+    title: 'Winches',
+    keywords: ['winch', 'line handling', 'tension'],
+    content: [
+      ContentBlock.text(
+        'Winches provide mechanical advantage for tightening lines.',
+      ),
+      ContentBlock.image('assets/images/fallback_image.jpeg'),
+      ContentBlock.text('Used for trimming sails and controlling tension.'),
+    ],
+  ),
+  PartItem(
+    id: 'part_deck_3.00',
+    title: 'Lifelines',
+    keywords: ['safety', 'fence', 'rail'],
+    content: [
+      ContentBlock.text('Lifelines help prevent crew from falling overboard.'),
+      ContentBlock.image('assets/images/fallback_image.jpeg'),
+      ContentBlock.text('They run along the edges of the deck for safety.'),
+    ],
+  ),
+  PartItem(
+    id: 'part_deck_4.00',
+    title: 'Stanchions',
+    keywords: ['post', 'lifeline support'],
+    content: [
+      ContentBlock.text('Stanchions are vertical posts supporting lifelines.'),
+      ContentBlock.image('assets/images/fallback_image.jpeg'),
+      ContentBlock.text('They are mounted securely along the deck perimeter.'),
+    ],
+  ),
+  PartItem(
+    id: 'part_deck_5.00',
+    title: 'Deck Hatches',
+    keywords: ['hatch', 'ventilation'],
+    content: [
+      ContentBlock.text(
+        'Deck hatches provide access and ventilation below deck.',
+      ),
+      ContentBlock.image('assets/images/fallback_image.jpeg'),
+      ContentBlock.text(
+        'They often include seals and locks for watertightness.',
+      ),
+    ],
+  ),
+];
