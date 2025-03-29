@@ -23,7 +23,10 @@ class ToolsScreen extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {
                 logger.i('🛠️ Navigating to ToolItemScreen');
-                context.push('/tools/items');
+                context.push(
+                  '/tools/items',
+                  extra: {'toolbag': 'Checklists'}, // Or any valid string
+                );
               },
               child: const Text('View Tools'),
             ),

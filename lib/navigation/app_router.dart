@@ -1,5 +1,5 @@
 import 'package:bcc5/data/models/content_block.dart';
-import 'package:bcc5/screens/common/content_detail_screen.dart';
+import 'package:bcc5/screens/common/content_screen_navigator.dart';
 import 'package:bcc5/screens/flashcards/flashcard_item_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
 import 'package:bcc5/screens/parts/part_item_screen.dart';
@@ -29,13 +29,25 @@ final appRouter = GoRouter(
       path: '/content',
       builder: (context, state) {
         final extras = state.extra as Map<String, dynamic>? ?? {};
-        final title = extras['title'] as String? ?? 'Default Title';
-        final content = extras['content'] as List<ContentBlock>? ?? [];
+        final sequenceTitles = extras['sequenceTitles'] as List<String>? ?? [];
+        final contentMap =
+            extras['contentMap'] as Map<String, List<ContentBlock>>? ?? {};
+        final startIndex = extras['startIndex'] as int? ?? 0;
+        final backDestination = extras['backDestination'] as String? ?? '/';
+        final backExtra = extras['backExtra'] as Map<String, dynamic>?;
 
-        return ContentDetailScreen(
-          title: title,
-          content: content,
-          // Pass other necessary callbacks or data
+        return ContentScreenNavigator(
+          title: sequenceTitles[startIndex],
+          sequenceTitles: sequenceTitles,
+          contentMap: contentMap,
+          startIndex: startIndex,
+          onBack: () {
+            if (backExtra != null) {
+              context.go(backDestination, extra: backExtra);
+            } else {
+              context.go(backDestination);
+            }
+          },
         );
       },
     ),
@@ -158,12 +170,12 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       path: '/tools/items',
-      name: 'tool-items',
-      pageBuilder:
-          (context, state) => buildCustomTransition(
-            context: context,
-            child: const MainScaffold(branchIndex: 4, child: ToolItemScreen()),
-          ),
+      builder: (context, state) {
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final toolbag = extras['toolbag'] as String? ?? '';
+
+        return ToolItemScreen(toolbag: toolbag);
+      },
     ),
   ],
 );

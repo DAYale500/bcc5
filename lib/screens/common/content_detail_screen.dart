@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bcc5/data/models/content_block.dart';
-import '../../utils/logger.dart';
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:go_router/go_router.dart'; // 🟠 Added for fallback navigation
 
 class ContentDetailScreen extends StatelessWidget {
   final String title;
@@ -8,6 +11,7 @@ class ContentDetailScreen extends StatelessWidget {
   final VoidCallback? onPrevious;
   final VoidCallback? onNext;
   final VoidCallback? onBack;
+  final int branchIndex;
 
   const ContentDetailScreen({
     super.key,
@@ -16,29 +20,33 @@ class ContentDetailScreen extends StatelessWidget {
     this.onPrevious,
     this.onNext,
     this.onBack,
+    this.branchIndex = 0, // Default to Home tab if unspecified
   });
 
   @override
   Widget build(BuildContext context) {
     logger.i('🟪 Displaying ContentDetailScreen: $title');
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Colors.blueGrey[50],
-        leading:
-            onBack != null
-                ? IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    logger.i('🔙 AppBar back tapped on $title');
-                    onBack?.call();
-                  },
-                )
-                : null,
-      ),
-      body: Column(
+    return MainScaffold(
+      branchIndex: branchIndex,
+      child: Column(
         children: [
+          CustomAppBarWidget(
+            title: title,
+            showBackButton: true,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+            onBack:
+                onBack ??
+                () {
+                  logger.i('🔙 Fallback back on ContentDetailScreen');
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  } else {
+                    context.go('/');
+                  }
+                },
+          ),
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(16),

@@ -1,5 +1,3 @@
-// 📄 lib/screens/lessons/lesson_item_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -17,55 +15,56 @@ class LessonItemScreen extends StatelessWidget {
     logger.i('📘 LessonItemScreen loaded for module: $module');
     final lessons = LessonRepositoryIndex.getLessonsForModule(module);
 
-    return PopScope(
-      canPop: true,
-      onPopInvokedWithResult: (didPop, context) {
-        if (didPop == true && context is BuildContext) {
-          logger.i('🔙 Back button pressed on LessonItemScreen');
-          context.go('/lessons');
-        }
-      },
-      child: Column(
-        children: [
-          const CustomAppBarWidget(
-            title: 'Lessons',
-            showBackButton: true,
-            showSearchIcon: true,
-            showSettingsIcon: true,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: GridView.builder(
-                itemCount: lessons.length,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 4,
-                  childAspectRatio: 2.8,
-                ),
-                itemBuilder: (context, index) {
-                  final lesson = lessons[index];
-                  return ItemButton(
-                    label: lesson.title,
-                    onTap: () {
-                      logger.i('📘 Tapped lesson: ${lesson.id}');
-                      context.push(
-                        '/content',
-                        extra: {
-                          'title': lesson.title,
-                          'content': lesson.content,
-                        },
-                      );
-                    },
-                  );
-                },
+    return Column(
+      children: [
+        CustomAppBarWidget(
+          title: 'Lessons',
+          showBackButton: true,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+          onBack: () {
+            logger.i('🔙 AppBar back from LessonItemScreen');
+            context.go('/lessons');
+          },
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: GridView.builder(
+              itemCount: lessons.length,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4,
+                childAspectRatio: 2.8,
               ),
+              itemBuilder: (context, index) {
+                final lesson = lessons[index];
+                return ItemButton(
+                  label: lesson.title,
+                  onTap: () {
+                    logger.i('📘 Tapped lesson: ${lesson.id}');
+                    context.push(
+                      '/content',
+                      extra: {
+                        'sequenceTitles': lessons.map((l) => l.title).toList(),
+                        'contentMap': {
+                          for (var l in lessons) l.title: l.content,
+                        },
+                        'startIndex': index,
+                        'branchIndex': 1,
+                        'backDestination': '/lessons/items',
+                        'backExtra': {'module': module, 'branchIndex': 1},
+                      },
+                    );
+                  },
+                );
+              },
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

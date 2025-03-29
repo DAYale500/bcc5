@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
@@ -7,6 +8,7 @@ class CustomAppBarWidget extends StatelessWidget
   final bool showBackButton;
   final bool showSearchIcon;
   final bool showSettingsIcon;
+  final VoidCallback? onBack; // 🟠 Add this
 
   const CustomAppBarWidget({
     super.key,
@@ -14,6 +16,7 @@ class CustomAppBarWidget extends StatelessWidget
     this.showBackButton = false,
     this.showSearchIcon = true,
     this.showSettingsIcon = true,
+    this.onBack, // 🟠 Add this
   });
 
   @override
@@ -23,7 +26,16 @@ class CustomAppBarWidget extends StatelessWidget
           showBackButton
               ? IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed:
+                    onBack ??
+                    () {
+                      if (Navigator.of(context).canPop()) {
+                        Navigator.of(context).pop(); // 🟠 Safe fallback pop
+                      } else {
+                        // 🟠 Emergency fallback: go to root
+                        context.go('/');
+                      }
+                    },
               )
               : null,
       centerTitle: true,

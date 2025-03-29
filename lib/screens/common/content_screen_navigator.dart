@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/models/content_block.dart';
-import 'content_detail_screen.dart';
-import '../../utils/logger.dart';
+import 'package:bcc5/screens/common/content_detail_screen.dart';
+import 'package:bcc5/utils/logger.dart';
 
 class ContentScreenNavigator extends StatefulWidget {
   final String title;
   final List<String> sequenceTitles;
   final Map<String, List<ContentBlock>> contentMap;
   final int startIndex;
+  final VoidCallback? onBack;
+  final int branchIndex; // 🟠 NEW: Needed for MainScaffold BNB
 
   const ContentScreenNavigator({
     super.key,
@@ -15,6 +18,8 @@ class ContentScreenNavigator extends StatefulWidget {
     required this.sequenceTitles,
     required this.contentMap,
     required this.startIndex,
+    this.onBack,
+    this.branchIndex = 0, // 🟠 Fallback to Home
   });
 
   @override
@@ -63,10 +68,17 @@ class _ContentScreenNavigatorState extends State<ContentScreenNavigator> {
     return ContentDetailScreen(
       title: title,
       content: content,
-      onBack: () {
-        logger.i('🔙 Back from content: $title');
-        Navigator.pop(context);
-      },
+      branchIndex: widget.branchIndex, // 🟠 Ensure proper BNB display
+      onBack:
+          widget.onBack ??
+          () {
+            logger.i('🔙 Back from content: $title (default pop)');
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            } else {
+              context.go('/');
+            }
+          },
       onPrevious: _currentIndex > 0 ? _goToPrevious : null,
       onNext:
           _currentIndex < widget.sequenceTitles.length - 1 ? _goToNext : null,

@@ -1,11 +1,11 @@
-import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:bcc5/widgets/item_button.dart';
-import 'package:bcc5/data/models/part_model.dart';
-import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/utils/id_parser.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/widgets/item_button.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/data/models/part_model.dart';
+import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
+import 'package:bcc5/utils/id_parser.dart';
 
 class PartItemScreen extends StatelessWidget {
   final String zone;
@@ -26,11 +26,15 @@ class PartItemScreen extends StatelessWidget {
 
     return Column(
       children: [
-        const CustomAppBarWidget(
+        CustomAppBarWidget(
           title: 'Parts',
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          onBack: () {
+            logger.i('🔙 AppBar back from PartItemScreen');
+            context.go('/parts');
+          },
         ),
         Expanded(
           child: Padding(
@@ -52,10 +56,12 @@ class PartItemScreen extends StatelessWidget {
                     context.push(
                       '/content',
                       extra: {
-                        'title': part.title,
-                        'content': part.content,
+                        'sequenceTitles': [part.title],
+                        'contentMap': {part.title: part.content},
+                        'startIndex': 0,
+                        'branchIndex': 2,
                         'backDestination': '/parts/items',
-                        'backExtra': {'zone': zone},
+                        'backExtra': {'zone': zone, 'branchIndex': 2},
                       },
                     );
                   },

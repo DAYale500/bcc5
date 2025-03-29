@@ -221,3 +221,118 @@ DO: Use CustomAppBarWidget inside the screen and pass it via appBar: to MainScaf
 
 
 
+“If a widget might support custom back navigation (e.g. to maintain deep-link state), always expose an optional VoidCallback? onBack parameter.”
+
+
+
+
+
+✅ 2. Dev Guideline: AppBar Back Button Logic
+Screen	Should pass onBack?	Reason
+LessonItemScreen	✅ Yes	Needs to go back to LessonModuleScreen via context.go()
+PartItemScreen	✅ Yes	Must return to PartZoneScreen
+FlashcardItemScreen	✅ Yes	Returns to FlashcardCategoryScreen
+PathItemScreen	✅ Yes	Returns to PathChapterScreen
+ContentDetailScreen	✅ Yes (if from items)	Ensures backDestination is respected
+ContentDetailScreen (Search)	❌ No (uses fallback)	No reliable origin screen
+HomeScreen	❌ No	No back button needed
+🧭 Policy:
+
+If a screen was pushed via context.push(...) from a known origin, pass onBack explicitly using context.go(...) with the correct destination.
+
+If origin is ambiguous (e.g. search), rely on fallback logic inside CustomAppBarWidget.
+
+// TODO: Add `onBack` and `branchIndex` support for clean navigation.
+// This ensures proper back behavior and bottom nav visibility in ContentDetailScreen.
+// Refer to `LessonItemScreen` or `PartItemScreen` for the implementation pattern.
+
+
+
+
+
+
+
+
+### 🧭 Rule: All Navigations to `/content` Must Include Sequencing Extras
+
+To support `ContentScreenNavigator` and the shared `ContentDetailScreen`, all navigation to the `/content` route must include the following in `extra`:
+
+- `sequenceTitles`: `List<String>` of item titles.
+- `contentMap`: `Map<String, List<ContentBlock>>` keyed by title.
+- `startIndex`: `int` — where to begin in the sequence.
+- `branchIndex`: `int` — tab index for BottomNavigationBar.
+- `backDestination`: `String` — GoRouter path to return to.
+- `backExtra`: `Map<String, dynamic>` — extras required to rebuild previous screen.
+
+Even if a screen only shows one item (e.g., a single part), wrap it in a one-item sequence.
+
+#### ✅ Example:
+```dart
+context.push('/content', extra: {
+  'sequenceTitles': ['Deck Cleats'],
+  'contentMap': {'Deck Cleats': cleatContent},
+  'startIndex': 0,
+  'branchIndex': 2,
+  'backDestination': '/parts/items',
+  'backExtra': {'zone': 'Deck', 'branchIndex': 2},
+});
+
+
+
+
+
+
+
+
+
+
+✅ Got it! Here's the full rule formatted for your existing dev guide.
+
+---
+
+### 📘 `ContentScreenNavigator` Routing Rule
+
+#### 🔐 Rule: All Navigations to `/content` Must Include Full Sequencing Extras
+
+To maintain consistent behavior across all branches (Lessons, Parts, Flashcards, Tools, Paths), the `/content` route **must always receive** a complete set of sequencing extras. These extras are used by `ContentScreenNavigator` to determine which item to show, how to navigate between them, and how to return cleanly.
+
+---
+
+#### ✅ Required `extra` fields for `/content`:
+
+| Key              | Type                           | Purpose                                                                 |
+|------------------|--------------------------------|-------------------------------------------------------------------------|
+| `sequenceTitles` | `List<String>`                 | Ordered list of all item titles in the sequence                        |
+| `contentMap`     | `Map<String, List<ContentBlock>>` | Map of title → content blocks (same keys as in `sequenceTitles`)       |
+| `startIndex`     | `int`                          | Which item to start displaying                                         |
+| `branchIndex`    | `int`                          | Used to set the correct BottomNavigationBar tab                        |
+| `backDestination`| `String`                       | GoRouter path to return to (e.g., `/lessons/items`)                    |
+| `backExtra`      | `Map<String, dynamic>`         | All extras needed to rebuild the previous screen context               |
+
+---
+
+#### 🔁 Even for singleton content (e.g. single part or tool):
+
+Wrap the item as a **single-item sequence** to maintain compatibility:
+
+```dart
+context.push('/content', extra: {
+  'sequenceTitles': ['Deck Cleats'],
+  'contentMap': {'Deck Cleats': cleatContent},
+  'startIndex': 0,
+  'branchIndex': 2,
+  'backDestination': '/parts/items',
+  'backExtra': {'zone': 'Deck', 'branchIndex': 2},
+});
+```
+
+---
+
+#### 💡 Why this rule exists:
+- Enables Previous/Next navigation across branches.
+- Centralizes back button logic inside `ContentDetailScreen`.
+- Keeps all content flow uniform and scalable.
+
+---
+
+
