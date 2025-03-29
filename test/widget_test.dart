@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:bcc5/app.dart';
+import 'package:bcc5/bcc5_app.dart';
 
 void main() {
   testWidgets('App loads correctly', (WidgetTester tester) async {

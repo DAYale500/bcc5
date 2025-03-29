@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import '../screens/home/landing_screen.dart';
-import '../screens/lessons/lesson_module_screen.dart';
-import '../screens/parts/part_zone_screen.dart';
-import '../screens/flashcards/flashcard_category_screen.dart';
-import '../screens/tools/tools_screen.dart';
+import 'package:go_router/go_router.dart';
 import '../utils/logger.dart';
-// import '../theme/app_theme.dart';
 
 class MainScaffold extends StatelessWidget {
   final int branchIndex;
   final Widget child;
+  final PreferredSizeWidget? appBar; // 🟠 Added to support top AppBar injection
 
   const MainScaffold({
     super.key,
     required this.branchIndex,
     required this.child,
+    this.appBar, // 🟠 Optional AppBar
   });
 
   void _onItemTapped(BuildContext context, int index) {
@@ -23,34 +20,9 @@ class MainScaffold extends StatelessWidget {
       return;
     }
 
-    logger.i('🧭 BNB tapped tab $index — switching screen');
-
-    Widget newScreen;
-    switch (index) {
-      case 0:
-        newScreen = const LandingScreen();
-        break;
-      case 1:
-        newScreen = const LessonModuleScreen();
-        break;
-      case 2:
-        newScreen = const PartZoneScreen();
-        break;
-      case 3:
-        newScreen = const FlashcardCategoryScreen();
-        break;
-      case 4:
-        newScreen = const ToolsScreen();
-        break;
-      default:
-        newScreen = const LandingScreen();
-    }
-
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => MainScaffold(branchIndex: index, child: newScreen),
-      ),
-    );
+    logger.i('🧭 BNB tapped tab $index — switching via GoRouter');
+    final routes = ['/', '/lessons', '/parts', '/flashcards', '/tools'];
+    context.go(routes[index]);
   }
 
   @override
@@ -58,12 +30,11 @@ class MainScaffold extends StatelessWidget {
     logger.i('🔷 Building MainScaffold, tab index: $branchIndex');
 
     return Scaffold(
+      appBar: appBar, // 🟠 Use optional AppBar injected from screen
       body: child,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: branchIndex,
         onTap: (index) => _onItemTapped(context, index),
-
-        // backgroundColor: AppTheme.primaryBlue, // ✅ Themed!
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(

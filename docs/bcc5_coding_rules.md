@@ -158,5 +158,66 @@ Would you like an HTML/printable version exported, or for this to be added to yo
 
 ---
 
-Would you like this version exported or synced to a shared file?
+
+
+📘 Pattern Reminder for All Screens
+All GoRouter routes wrap the screen in MainScaffold.
+All screen files define only:
+AppBar (via CustomAppBarWidget)
+Body (Column, ListView, GridView, etc.)
+Optional PopScope if needed
+This is now the official BCC5 screen pattern.
+
+Rule: Route Structure & MainScaffold Wrapping
+All primary screens (Landing, LessonModule, PartZone, etc.) must not return full Scaffolds themselves.
+Instead, each screen should return a Column containing:
+A CustomAppBarWidget
+An Expanded body (e.g., ListView, GridView, etc.)
+These screens will be wrapped in MainScaffold by the corresponding GoRoute in app_router.dart.
+MainScaffold provides the BottomNavigationBar and accepts an optional AppBar via parameter.
+This approach avoids duplicate BNB rendering and keeps logic centralized, reducing risk of layout inconsistencies.
+
+
+
+## Route + Scaffold Pattern Rule
+
+🧠 All primary content screens should follow this architecture pattern:
+
+1. **Routing**  
+   - Each screen is launched via a `GoRoute` in `app_router.dart`.
+   - Dynamic data (e.g., `module`, `zone`, `category`, etc.) should be passed via `state.extra`.
+
+2. **Screen Widget Structure**  
+   - The screen widget (e.g., `LessonItemScreen`, `PartItemScreen`) should:
+     - Be passed all necessary data via constructor.
+     - Return a `Column` containing:
+       - A `CustomAppBarWidget`
+       - An `Expanded` child (typically `ListView`, `GridView`, etc.)
+
+3. **MainScaffold Wrapping**  
+   - `MainScaffold` should be applied **in the route**, not inside the screen itself.
+   - This avoids double BottomNavigationBars (BNB) and ensures consistent `branchIndex` control.
+
+✅ This enforces clean separation between layout and logic, enables smarter transitions, and keeps widgets reusable/testable.
+
+
+
+
+🧱 Architecture Rule: AppBar and BNB Pattern
+All screens should only return the AppBar + Body and be wrapped externally in MainScaffold by the route.
+This ensures:
+
+🧼 Clean separation of layout and logic
+
+🚫 No accidental double BottomNavigationBar
+
+🧭 Centralized control of transitions and navigation behavior
+
+DO NOT: Nest a Scaffold inside a screen that's already wrapped in MainScaffold.
+DO: Use CustomAppBarWidget inside the screen and pass it via appBar: to MainScaffold.
+
+
+
+
+
 

@@ -35,8 +35,22 @@ SettingScreen
 
 
 
-TO-DO
-Implement dark mode toggle in Settings
-Begin appRouter migration phase
-Expand to Path, Flashcard, Tool branches (full feature flow)
 
+FlashcardCategoryScreen:
+ Implemented the screen layout.
+ Resolved the double BottomNavigationBar issue.
+ Added navigation button to FlashcardItemScreen.
+ Fix navigation error: "❌ Missing or malformed category".
+
+
+
+ToolsScreen:
+ Implemented the screen layout.
+ Resolved the double BottomNavigationBar issue.
+ Added navigation button to ToolItemScreen.
+
+ToolItemScreen:
+ Created screen stub and route.
+
+LessonItemScreen:
+ Wire up ContentDetailScreen for detailed content display.
