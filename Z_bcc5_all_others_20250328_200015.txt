@@ -16,19 +16,20 @@ import '../screens/parts/part_zone_screen.dart';
 import '../screens/flashcards/flashcard_category_screen.dart';
 import '../screens/tools/tools_screen.dart';
 import '../utils/logger.dart';
+// import '../theme/app_theme.dart';
 
 class MainScaffold extends StatelessWidget {
-  final int selectedIndex;
+  final int branchIndex;
   final Widget child;
 
   const MainScaffold({
     super.key,
-    required this.selectedIndex,
+    required this.branchIndex,
     required this.child,
   });
 
   void _onItemTapped(BuildContext context, int index) {
-    if (index == selectedIndex) {
+    if (index == branchIndex) {
       logger.i('🔁 BNB tapped same tab: $index — no navigation');
       return;
     }
@@ -58,22 +59,22 @@ class MainScaffold extends StatelessWidget {
 
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (_) => MainScaffold(selectedIndex: index, child: newScreen),
+        builder: (_) => MainScaffold(branchIndex: index, child: newScreen),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    logger.i('🔷 Building MainScaffold, tab index: $selectedIndex');
+    logger.i('🔷 Building MainScaffold, tab index: $branchIndex');
 
     return Scaffold(
       body: child,
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
+        currentIndex: branchIndex,
         onTap: (index) => _onItemTapped(context, index),
-        backgroundColor: Colors.blue[100], // 🟠 Add this line
 
+        // backgroundColor: AppTheme.primaryBlue, // ✅ Themed!
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
@@ -117,10 +118,40 @@ import 'main_scaffold.dart';
 /// Wraps any screen with the MainScaffold layout,
 /// ensuring the BottomNavigationBar remains visible.
 ///
-/// [selectedIndex] determines which BNB tab is highlighted.
+/// [branchIndex] determines which BNB tab is highlighted.
 /// [child] is the content screen to render inside the scaffold.
-Widget withBNB({required int selectedIndex, required Widget child}) {
-  return MainScaffold(selectedIndex: selectedIndex, child: child);
+Widget withBNB({required int branchIndex, required Widget child}) {
+  return MainScaffold(branchIndex: branchIndex, child: child);
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/utils/id_parser.dart
+// 🟠 lib/utils/id_parser.dart
+
+/// Extracts the [type] from a content ID, e.g. 'lesson' from 'lesson_docking_1.00'
+String getTypeFromId(String id) {
+  final parts = id.split('_');
+  return parts.isNotEmpty ? parts[0] : 'unknown';
+}
+
+/// Extracts the [group] from a content ID, e.g. 'docking' from 'lesson_docking_1.00'
+String getGroupFromId(String id) {
+  final parts = id.split('_');
+  return parts.length >= 2 ? parts[1] : 'unknown';
+}
+
+/// Extracts the [sequence number] from a content ID, e.g. '1.00' from 'lesson_docking_1.00'
+String getSequenceFromId(String id) {
+  final parts = id.split('_');
+  return parts.length >= 3 ? parts[2] : 'unknown';
 }
 
 
@@ -155,13 +186,25 @@ final logger = Logger(
 
 File: lib/screens/home/landing_screen.dart
 import 'package:flutter/material.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/theme/app_theme.dart'; // If needed for styling
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('Landing Screen (Home)')));
+    return Scaffold(
+      appBar: const CustomAppBarWidget(
+        title: 'Welcome Aboard',
+        showBackButton: false,
+        showSearchIcon: true,
+        showSettingsIcon: true,
+      ),
+      body: Center(
+        child: Text('Landing screen body here', style: AppTheme.bodyTextStyle),
+      ),
+    );
   }
 }
 
@@ -176,13 +219,31 @@ class LandingScreen extends StatelessWidget {
 
 File: lib/screens/tools/tools_screen.dart
 import 'package:flutter/material.dart';
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/utils/logger.dart';
 
 class ToolsScreen extends StatelessWidget {
   const ToolsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('Tools Screen')));
+    logger.i('🟦 Entered ToolsScreen');
+
+    return MainScaffold(
+      branchIndex: 4,
+      child: const Column(
+        children: [
+          CustomAppBarWidget(
+            title: 'Tools',
+            showBackButton: false,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+          ),
+          Expanded(child: Center(child: Text('Tools Screen'))),
+        ],
+      ),
+    );
   }
 }
 
@@ -197,14 +258,30 @@ class ToolsScreen extends StatelessWidget {
 
 File: lib/screens/flashcards/flashcard_category_screen.dart
 import 'package:flutter/material.dart';
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/utils/logger.dart';
 
 class FlashcardCategoryScreen extends StatelessWidget {
   const FlashcardCategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Flashcard Category Screen')),
+    logger.i('🟦 Entered FlashcardCategoryScreen');
+
+    return MainScaffold(
+      branchIndex: 3,
+      child: const Column(
+        children: [
+          CustomAppBarWidget(
+            title: 'Flashcards',
+            showBackButton: false,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+          ),
+          Expanded(child: Center(child: Text('Flashcard Category Screen'))),
+        ],
+      ),
     );
   }
 }
@@ -468,26 +545,24 @@ import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/data/models/part_model.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/utils/id_parser.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart'; // 🟠 Added
 
 class PartItemScreen extends StatelessWidget {
-  final int selectedIndex;
+  final int branchIndex;
 
-  const PartItemScreen({super.key, required this.selectedIndex});
+  const PartItemScreen({super.key, required this.branchIndex});
 
   String _extractZoneFromId(String id) {
-    final match = RegExp(r'part_([a-z]+)_').firstMatch(id);
-    if (match != null) {
-      final zoneKey = match.group(1)!;
-      return zoneKey[0].toUpperCase() +
-          zoneKey.substring(1); // e.g., 'hull' -> 'Hull'
-    }
-    return 'Unknown';
+    final group = getGroupFromId(id);
+    return group[0].toUpperCase() + group.substring(1); // e.g., "hull" → "Hull"
   }
 
   @override
   Widget build(BuildContext context) {
-    final zone = GoRouterState.of(context).extra as Map<String, dynamic>? ?? {};
-    final selectedZone = zone['zone'] as String?;
+    final zoneExtra =
+        GoRouterState.of(context).extra as Map<String, dynamic>? ?? {};
+    final selectedZone = zoneExtra['zone'] as String?;
 
     final List<PartItem> filteredParts =
         selectedZone != null
@@ -499,38 +574,50 @@ class PartItemScreen extends StatelessWidget {
     logger.i('🟦 Displaying PartItemScreen (Zone: $selectedZone)');
 
     return MainScaffold(
-      selectedIndex: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: GridView.builder(
-          shrinkWrap: true,
-          itemCount: filteredParts.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 4,
-            crossAxisSpacing: 4,
-            childAspectRatio: 2.8,
+      branchIndex: 2,
+      child: Column(
+        children: [
+          const CustomAppBarWidget(
+            title: 'Parts',
+            showBackButton: true,
+            showSearchIcon: true,
+            showSettingsIcon: true,
           ),
-          itemBuilder: (context, index) {
-            final part = filteredParts[index];
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: GridView.builder(
+                shrinkWrap: true,
+                itemCount: filteredParts.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 4,
+                  crossAxisSpacing: 4,
+                  childAspectRatio: 2.8,
+                ),
+                itemBuilder: (context, index) {
+                  final part = filteredParts[index];
 
-            return ItemButton(
-              label: part.title,
-              onTap: () {
-                logger.i('🟥 Tapped part: ${part.title}');
-                context.push(
-                  '/content',
-                  extra: {
-                    'title': part.title,
-                    'content': part.content,
-                    'backDestination': '/parts/items',
-                    'backExtra': {'zone': selectedZone},
-                  },
-                );
-              },
-            );
-          },
-        ),
+                  return ItemButton(
+                    label: part.title,
+                    onTap: () {
+                      logger.i('🟥 Tapped part: ${part.title}');
+                      context.push(
+                        '/content',
+                        extra: {
+                          'title': part.title,
+                          'content': part.content,
+                          'backDestination': '/parts/items',
+                          'backExtra': {'zone': selectedZone},
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -549,9 +636,9 @@ File: lib/screens/parts/part_zone_screen.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
-import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/group_button.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart'; // 🟠 Added
 
 class PartZoneScreen extends StatelessWidget {
   const PartZoneScreen({super.key});
@@ -569,26 +656,37 @@ class PartZoneScreen extends StatelessWidget {
     logger.i('🟩 Displaying PartZoneScreen');
 
     return MainScaffold(
-      selectedIndex: 2, // ✅ FIXED: correct parameter
+      branchIndex: 2,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 24),
-          Text(
-            'Select a Zone',
-            style: AppTheme.headingStyle,
-            textAlign: TextAlign.center,
+          const CustomAppBarWidget(
+            title: 'Parts',
+            showBackButton: false,
+            showSearchIcon: true,
+            showSettingsIcon: true,
           ),
-          const SizedBox(height: 16),
-          ...zones.map(
-            (zone) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: GroupButton(
-                label: zone,
-                onTap: () {
-                  logger.i('🟦 Tapped zone: $zone');
-                  context.push('/parts/items', extra: {'zone': zone});
-                },
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: ListView(
+                children:
+                    zones
+                        .map(
+                          (zone) => Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: GroupButton(
+                              label: zone,
+                              onTap: () {
+                                logger.i('🟦 Tapped zone: $zone');
+                                context.push(
+                                  '/parts/items',
+                                  extra: {'zone': zone},
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                        .toList(),
               ),
             ),
           ),
@@ -613,6 +711,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/widgets/item_button.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart'; // 🟠 Added
 import 'package:bcc5/utils/logger.dart';
 
 class LessonItemScreen extends StatelessWidget {
@@ -623,7 +722,7 @@ class LessonItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     logger.i('📘 LessonItemScreen loaded for module: $module');
-    const int selectedIndex = 1;
+    const int branchIndex = 1;
     final lessons = LessonRepositoryIndex.getLessonsForModule(module);
 
     return PopScope(
@@ -631,54 +730,59 @@ class LessonItemScreen extends StatelessWidget {
       onPopInvokedWithResult: (didPop, context) {
         if (didPop == true && context is BuildContext) {
           logger.i('🔙 Back button pressed on LessonItemScreen');
-          context.go('/modules');
+          context.go('/lessons');
         }
       },
-
       child: MainScaffold(
-        // appBar: const CustomAppBarWidget(
-        //   title: 'Lessons',
-        //   showBackButton: true,
-        // ),
-        selectedIndex: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: GridView.builder(
-            shrinkWrap: true,
-            itemCount: lessons.length,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 4,
-              mainAxisSpacing: 4,
-              childAspectRatio: 2.8,
+        branchIndex: branchIndex,
+        child: Column(
+          children: [
+            const CustomAppBarWidget(
+              title: 'Lessons',
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
             ),
-            itemBuilder: (context, index) {
-              final lesson = lessons[index];
-              return ItemButton(
-                label: lesson.title,
-                onTap: () {
-                  logger.i('📘 Tapped lesson: ${lesson.id}');
-                  context.push(
-                    '/content',
-                    // AppRoute.contentDetailScreen.path,
-                    extra: {
-                      'contentId': lesson.id,
-                      'contentType': 'lesson',
-                      'backDestination': '/lessons',
-                      'backExtra': {
-                        'module': module,
-                        'lessons': lessons,
-                        'selectedIndex': selectedIndex,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: lessons.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
+                    childAspectRatio: 2.8,
+                  ),
+                  itemBuilder: (context, index) {
+                    final lesson = lessons[index];
+                    return ItemButton(
+                      label: lesson.title,
+                      onTap: () {
+                        logger.i('📘 Tapped lesson: ${lesson.id}');
+                        context.push(
+                          '/content',
+                          extra: {
+                            'contentId': lesson.id,
+                            'contentType': 'lesson',
+                            'backDestination': '/lessons',
+                            'backExtra': {
+                              'module': module,
+                              'branchIndex': branchIndex,
+                            },
+                            'sequenceList': lessons,
+                            'branchIndex': index,
+                          },
+                        );
                       },
-                      'sequenceList': lessons,
-                      'selectedIndex': index,
-                    },
-                  );
-                },
-              );
-            },
-          ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -697,10 +801,11 @@ class LessonItemScreen extends StatelessWidget {
 File: lib/screens/lessons/lesson_module_screen.dart
 import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
 import 'package:flutter/material.dart';
-import '../../navigation/main_scaffold.dart';
-import '../../widgets/group_button.dart';
-import '../../utils/logger.dart';
-import '../../data/repositories/lessons/lesson_repository_index.dart';
+import 'package:bcc5/widgets/group_button.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart'; // 🟠 Added
+import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/utils/logger.dart';
 
 class LessonModuleScreen extends StatelessWidget {
   const LessonModuleScreen({super.key});
@@ -708,37 +813,44 @@ class LessonModuleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final moduleNames = LessonRepositoryIndex.getModuleNames();
-
     logger.i('🟦 Entered LessonModuleScreen');
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Choose a Module'),
-      //   backgroundColor: Colors.blue.shade100,
-      // ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: moduleNames.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 12),
-        itemBuilder: (context, index) {
-          final moduleName = moduleNames[index];
-          return GroupButton(
-            label: moduleName,
-            onTap: () {
-              logger.i('📘 Tapped Module: $moduleName');
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (_) => MainScaffold(
-                        selectedIndex: 1,
-                        child: LessonItemScreen(module: moduleName),
+      body: Column(
+        children: [
+          const CustomAppBarWidget(
+            title: 'Choose a Module',
+            showBackButton: false,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+          ),
+          Expanded(
+            child: ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: moduleNames.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final moduleName = moduleNames[index];
+                return GroupButton(
+                  label: moduleName,
+                  onTap: () {
+                    logger.i('📘 Tapped Module: $moduleName');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (_) => MainScaffold(
+                              branchIndex: 1,
+                              child: LessonItemScreen(module: moduleName),
+                            ),
                       ),
-                ),
-              );
-            },
-          );
-        },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -774,29 +886,79 @@ File: lib/theme/app_theme.dart
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // 🟠 Primary Colors
-  static const Color primaryBlue = Color(0xFF0077B6);
-  static const Color primaryRed = Color(0xFFCC0000);
+  // 🔵 Primary Colors
+  static const Color primaryBlue = Color(0xFF163FE8); // System-wide blue
+  static const Color primaryRed = Color(0xFFCC0000); // Accent/alert color
+  static const Color backgroundColor = Colors.white;
+  static const Color darkBackground = Color(0xFF121212);
 
-  // 🟠 Light Theme (Material 3)
+  // 🧠 Semantic Color Aliases
+  static const Color infoColor = primaryBlue;
+  static const Color errorColor = primaryRed;
+  static const Color successColor = Colors.green;
+  static const Color warningColor = Colors.orange;
+  static const Color disabledGray = Colors.grey;
+
+  // 🌤️ Light Theme
   static ThemeData get lightTheme => ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: primaryBlue),
     useMaterial3: true,
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: backgroundColor,
+    colorScheme: ColorScheme.fromSeed(seedColor: primaryBlue),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: primaryBlue,
+      foregroundColor: Colors.white,
+      centerTitle: true,
+      elevation: 0,
+      titleTextStyle: headingStyle,
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: primaryBlue,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white70,
+      selectedIconTheme: IconThemeData(size: 26),
+      unselectedIconTheme: IconThemeData(size: 22),
+      selectedLabelStyle: buttonTextStyle,
+      unselectedLabelStyle: buttonTextStyle,
+      showUnselectedLabels: true,
+    ),
     textTheme: textTheme,
   );
 
-  // 🟠 Typography Styles
+  // 🌑 Dark Theme
+  static ThemeData get darkTheme => ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.dark,
+    scaffoldBackgroundColor: darkBackground,
+    colorScheme: ColorScheme.dark(primary: primaryBlue, secondary: primaryRed),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: primaryBlue,
+      centerTitle: true,
+      elevation: 0,
+      titleTextStyle: headingStyle,
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: primaryBlue,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white70,
+      selectedLabelStyle: buttonTextStyle,
+      unselectedLabelStyle: buttonTextStyle,
+    ),
+    textTheme: textTheme,
+  );
+
+  // ✍️ Typography
   static const TextStyle headingStyle = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.bold,
-    color: Colors.black,
+    color: Colors.white,
   );
 
   static const TextStyle subheadingStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,
-    color: Colors.black87,
+    color: Colors.white,
   );
 
   static const TextStyle bodyTextStyle = TextStyle(
@@ -811,8 +973,23 @@ class AppTheme {
     color: Colors.white,
   );
 
-  // 🟠 Button Variants
+  static const TextStyle captionStyle = TextStyle(
+    fontSize: 14,
+    color: Colors.grey,
+  );
+
+  static const TextTheme textTheme = TextTheme(
+    headlineLarge: headingStyle,
+    headlineMedium: subheadingStyle,
+    bodyLarge: bodyTextStyle,
+    labelLarge: buttonTextStyle,
+    bodySmall: captionStyle,
+  );
+
+  // 📏 Radius, Padding, Margins
   static const double buttonCornerRadius = 12.0;
+  static const double cardCornerRadius = 16.0;
+  static const double screenPadding = 16.0;
 
   static const EdgeInsetsGeometry groupButtonPadding = EdgeInsets.symmetric(
     vertical: 14,
@@ -824,13 +1001,7 @@ class AppTheme {
     horizontal: 12,
   );
 
-  // 🟠 TextTheme for full app integration
-  static const TextTheme textTheme = TextTheme(
-    headlineLarge: headingStyle,
-    headlineMedium: subheadingStyle,
-    bodyLarge: bodyTextStyle,
-    labelLarge: buttonTextStyle,
-  );
+  static const EdgeInsets cardPadding = EdgeInsets.all(12);
 }
 
 
@@ -977,7 +1148,7 @@ class Bcc5App extends StatelessWidget {
       title: 'BCC5 Sailing App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const MainScaffold(selectedIndex: 0, child: LandingScreen()),
+      home: const MainScaffold(branchIndex: 0, child: LandingScreen()),
     );
   }
 }
@@ -1083,6 +1254,60 @@ class DisabledItemButton extends StatelessWidget {
 
 
 File: lib/widgets/custom_app_bar_widget.dart
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+class CustomAppBarWidget extends StatelessWidget
+    implements PreferredSizeWidget {
+  final String title;
+  final bool showBackButton;
+  final bool showSearchIcon;
+  final bool showSettingsIcon;
+
+  const CustomAppBarWidget({
+    super.key,
+    required this.title,
+    this.showBackButton = false,
+    this.showSearchIcon = true,
+    this.showSettingsIcon = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      leading:
+          showBackButton
+              ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.of(context).pop(),
+              )
+              : null,
+      centerTitle: true,
+      title: Text(title, style: AppTheme.headingStyle),
+      backgroundColor: AppTheme.primaryBlue,
+      elevation: 0,
+      actions: [
+        if (showSearchIcon)
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              // TO-DO: Navigate to search screen
+            },
+          ),
+        if (showSettingsIcon)
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              // TO-DO: Navigate to settings screen
+            },
+          ),
+      ],
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
 
 
 

@@ -50,6 +50,7 @@ lib
 ├── theme
 │   └── app_theme.dart
 ├── utils
+│   ├── id_parser.dart
 │   └── logger.dart
 └── widgets
     ├── custom_app_bar_widget.dart
@@ -57,4 +58,4 @@ lib
     ├── group_button.dart
     └── item_button.dart
 
-18 directories, 40 files
+18 directories, 41 files

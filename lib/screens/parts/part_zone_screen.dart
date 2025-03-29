@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
-import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/group_button.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart'; // 🟠 Added
 
 class PartZoneScreen extends StatelessWidget {
   const PartZoneScreen({super.key});
@@ -21,26 +21,37 @@ class PartZoneScreen extends StatelessWidget {
     logger.i('🟩 Displaying PartZoneScreen');
 
     return MainScaffold(
-      selectedIndex: 2, // ✅ FIXED: correct parameter
+      branchIndex: 2,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 24),
-          Text(
-            'Select a Zone',
-            style: AppTheme.headingStyle,
-            textAlign: TextAlign.center,
+          const CustomAppBarWidget(
+            title: 'Parts',
+            showBackButton: false,
+            showSearchIcon: true,
+            showSettingsIcon: true,
           ),
-          const SizedBox(height: 16),
-          ...zones.map(
-            (zone) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: GroupButton(
-                label: zone,
-                onTap: () {
-                  logger.i('🟦 Tapped zone: $zone');
-                  context.push('/parts/items', extra: {'zone': zone});
-                },
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: ListView(
+                children:
+                    zones
+                        .map(
+                          (zone) => Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: GroupButton(
+                              label: zone,
+                              onTap: () {
+                                logger.i('🟦 Tapped zone: $zone');
+                                context.push(
+                                  '/parts/items',
+                                  extra: {'zone': zone},
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                        .toList(),
               ),
             ),
           ),

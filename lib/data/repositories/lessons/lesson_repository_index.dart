@@ -7,7 +7,7 @@ import 'lesson_seamanship_repository.dart';
 import 'lesson_systems_repository.dart';
 import 'lesson_teamwork_repository.dart';
 import 'lesson_terminology_repository.dart';
-
+import 'package:bcc5/utils/id_parser.dart';
 import 'package:bcc5/data/models/lesson_model.dart';
 
 class LessonRepositoryIndex {
@@ -44,5 +44,15 @@ class LessonRepositoryIndex {
       }
     }
     return null;
+  }
+
+  void assertLessonIdsMatchModules(List<Lesson> lessons) {
+    for (final lesson in lessons) {
+      final parsedGroup = getGroupFromId(lesson.id);
+      assert(
+        lesson.id.startsWith('lesson_${parsedGroup}_'),
+        'Lesson ID mismatch: ${lesson.id} should match group $parsedGroup',
+      );
+    }
   }
 }

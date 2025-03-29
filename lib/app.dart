@@ -12,7 +12,7 @@ class Bcc5App extends StatelessWidget {
       title: 'BCC5 Sailing App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: const MainScaffold(selectedIndex: 0, child: LandingScreen()),
+      home: const MainScaffold(branchIndex: 0, child: LandingScreen()),
     );
   }
 }

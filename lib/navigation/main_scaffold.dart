@@ -5,19 +5,20 @@ import '../screens/parts/part_zone_screen.dart';
 import '../screens/flashcards/flashcard_category_screen.dart';
 import '../screens/tools/tools_screen.dart';
 import '../utils/logger.dart';
+// import '../theme/app_theme.dart';
 
 class MainScaffold extends StatelessWidget {
-  final int selectedIndex;
+  final int branchIndex;
   final Widget child;
 
   const MainScaffold({
     super.key,
-    required this.selectedIndex,
+    required this.branchIndex,
     required this.child,
   });
 
   void _onItemTapped(BuildContext context, int index) {
-    if (index == selectedIndex) {
+    if (index == branchIndex) {
       logger.i('🔁 BNB tapped same tab: $index — no navigation');
       return;
     }
@@ -47,22 +48,22 @@ class MainScaffold extends StatelessWidget {
 
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (_) => MainScaffold(selectedIndex: index, child: newScreen),
+        builder: (_) => MainScaffold(branchIndex: index, child: newScreen),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    logger.i('🔷 Building MainScaffold, tab index: $selectedIndex');
+    logger.i('🔷 Building MainScaffold, tab index: $branchIndex');
 
     return Scaffold(
       body: child,
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
+        currentIndex: branchIndex,
         onTap: (index) => _onItemTapped(context, index),
-        backgroundColor: Colors.blue[100], // 🟠 Add this line
 
+        // backgroundColor: AppTheme.primaryBlue, // ✅ Themed!
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(

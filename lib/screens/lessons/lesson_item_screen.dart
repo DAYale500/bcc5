@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/widgets/item_button.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart'; // 🟠 Added
 import 'package:bcc5/utils/logger.dart';
 
 class LessonItemScreen extends StatelessWidget {
@@ -13,7 +14,7 @@ class LessonItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     logger.i('📘 LessonItemScreen loaded for module: $module');
-    const int selectedIndex = 1;
+    const int branchIndex = 1;
     final lessons = LessonRepositoryIndex.getLessonsForModule(module);
 
     return PopScope(
@@ -21,54 +22,59 @@ class LessonItemScreen extends StatelessWidget {
       onPopInvokedWithResult: (didPop, context) {
         if (didPop == true && context is BuildContext) {
           logger.i('🔙 Back button pressed on LessonItemScreen');
-          context.go('/modules');
+          context.go('/lessons');
         }
       },
-
       child: MainScaffold(
-        // appBar: const CustomAppBarWidget(
-        //   title: 'Lessons',
-        //   showBackButton: true,
-        // ),
-        selectedIndex: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: GridView.builder(
-            shrinkWrap: true,
-            itemCount: lessons.length,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 4,
-              mainAxisSpacing: 4,
-              childAspectRatio: 2.8,
+        branchIndex: branchIndex,
+        child: Column(
+          children: [
+            const CustomAppBarWidget(
+              title: 'Lessons',
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
             ),
-            itemBuilder: (context, index) {
-              final lesson = lessons[index];
-              return ItemButton(
-                label: lesson.title,
-                onTap: () {
-                  logger.i('📘 Tapped lesson: ${lesson.id}');
-                  context.push(
-                    '/content',
-                    // AppRoute.contentDetailScreen.path,
-                    extra: {
-                      'contentId': lesson.id,
-                      'contentType': 'lesson',
-                      'backDestination': '/lessons',
-                      'backExtra': {
-                        'module': module,
-                        'lessons': lessons,
-                        'selectedIndex': selectedIndex,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: lessons.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
+                    childAspectRatio: 2.8,
+                  ),
+                  itemBuilder: (context, index) {
+                    final lesson = lessons[index];
+                    return ItemButton(
+                      label: lesson.title,
+                      onTap: () {
+                        logger.i('📘 Tapped lesson: ${lesson.id}');
+                        context.push(
+                          '/content',
+                          extra: {
+                            'contentId': lesson.id,
+                            'contentType': 'lesson',
+                            'backDestination': '/lessons',
+                            'backExtra': {
+                              'module': module,
+                              'branchIndex': branchIndex,
+                            },
+                            'sequenceList': lessons,
+                            'branchIndex': index,
+                          },
+                        );
                       },
-                      'sequenceList': lessons,
-                      'selectedIndex': index,
-                    },
-                  );
-                },
-              );
-            },
-          ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
