@@ -1,11 +1,11 @@
 // 📄 lib/screens/tools/tools_screen.dart
 
+import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 
 class ToolsScreen extends StatelessWidget {
   const ToolsScreen({super.key});
@@ -14,7 +14,7 @@ class ToolsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i('🟦 Displaying ToolsScreen');
 
-    final toolbags = getToolbagNames();
+    final toolbags = ToolRepositoryIndex.getToolbagNames();
 
     return Column(
       children: [

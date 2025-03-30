@@ -18,7 +18,7 @@ class ToolItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i('🛠️ Displaying ToolItemScreen (Toolbag: $toolbag)');
 
-    final List<ToolItem> tools = getToolsForBag(toolbag);
+    final List<ToolItem> tools = ToolRepositoryIndex.getToolsForBag(toolbag);
 
     return MainScaffold(
       branchIndex: 4,
