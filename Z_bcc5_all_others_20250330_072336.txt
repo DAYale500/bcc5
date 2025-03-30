@@ -1,0 +1,2151 @@
+
+
+
+
+
+
+
+
+
+
+File: lib/navigation/main_scaffold.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../utils/logger.dart';
+
+class MainScaffold extends StatelessWidget {
+  final int branchIndex;
+  final Widget child;
+  final PreferredSizeWidget? appBar; // 🟠 Added to support top AppBar injection
+
+  const MainScaffold({
+    super.key,
+    required this.branchIndex,
+    required this.child,
+    this.appBar, // 🟠 Optional AppBar
+  });
+
+  void _onItemTapped(BuildContext context, int index) {
+    if (index == branchIndex) {
+      logger.i('🔁 BNB tapped same tab: $index — no navigation');
+      return;
+    }
+
+    logger.i('🧭 BNB tapped tab $index — switching via GoRouter');
+    final routes = ['/', '/lessons', '/parts', '/flashcards', '/tools'];
+    context.go(routes[index]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🔷 Building MainScaffold, tab index: $branchIndex');
+
+    return Scaffold(
+      appBar: appBar, // 🟠 Use optional AppBar injected from screen
+      body: child,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: branchIndex,
+        onTap: (index) => _onItemTapped(context, index),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: 'Modules',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Parts'),
+          BottomNavigationBarItem(icon: Icon(Icons.style), label: 'Flashcards'),
+          BottomNavigationBarItem(icon: Icon(Icons.build), label: 'Tools'),
+        ],
+        type: BottomNavigationBarType.fixed,
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/navigation/app_router.dart
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/screens/common/content_screen_navigator.dart';
+import 'package:bcc5/screens/paths/path_chapter_screen.dart';
+import 'package:bcc5/screens/paths/path_item_screen.dart';
+import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
+import 'package:bcc5/screens/parts/part_item_screen.dart';
+import 'package:bcc5/screens/tools/tool_item_screen.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/screens/home/landing_screen.dart';
+import 'package:bcc5/screens/lessons/lesson_module_screen.dart';
+import 'package:bcc5/screens/parts/part_zone_screen.dart';
+import 'package:bcc5/screens/flashcards/flashcard_category_screen.dart';
+import 'package:bcc5/screens/tools/tools_screen.dart';
+
+final appRouter = GoRouter(
+  initialLocation: '/',
+  routes: [
+    GoRoute(
+      path: '/',
+      name: 'landing',
+      pageBuilder:
+          (context, state) => buildCustomTransition(
+            context: context,
+            child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
+          ),
+    ),
+    GoRoute(
+      path: '/content',
+      builder: (context, state) {
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final sequenceTitles = extras['sequenceTitles'] as List<String>? ?? [];
+        final contentMap =
+            extras['contentMap'] as Map<String, List<ContentBlock>>? ?? {};
+        final startIndex = extras['startIndex'] as int? ?? 0;
+        final branchIndex =
+            extras['branchIndex'] as int? ?? 0; // ✅ Add this line
+        final backDestination = extras['backDestination'] as String? ?? '/';
+        final backExtra = extras['backExtra'] as Map<String, dynamic>?;
+
+        return ContentScreenNavigator(
+          title: sequenceTitles[startIndex],
+          sequenceTitles: sequenceTitles,
+          contentMap: contentMap,
+          startIndex: startIndex,
+          branchIndex: branchIndex, // ✅ Fix passed here
+          onBack: () {
+            if (backExtra != null) {
+              context.go(backDestination, extra: backExtra);
+            } else {
+              context.go(backDestination);
+            }
+          },
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/learning-paths/:pathName',
+      name: 'learning-path',
+      pageBuilder: (context, state) {
+        final pathName =
+            state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
+        logger.i('🧭 Navigating to PathChapterScreen for $pathName');
+
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
+            branchIndex: 0, // or whatever makes sense
+            child: PathChapterScreen(pathName: pathName),
+          ),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/learning-paths/:pathName/items',
+      name: 'learning-path-items',
+      pageBuilder: (context, state) {
+        final pathName =
+            state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final chapterId = extras['chapterId'] as String?;
+
+        logger.i('📥 Received pathName=$pathName, chapterId=$chapterId');
+
+        if (chapterId == null) {
+          logger.e('❌ Missing chapterId for $pathName');
+          return buildCustomTransition(
+            context: context,
+            child: const Scaffold(
+              body: Center(child: Text('Missing chapter ID')),
+            ),
+          );
+        }
+
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
+            branchIndex: 0,
+            child: PathItemScreen(pathName: pathName, chapterId: chapterId),
+          ),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/lessons',
+      name: 'lessons',
+      pageBuilder:
+          (context, state) => buildCustomTransition(
+            context: context,
+            child: const MainScaffold(
+              branchIndex: 1,
+              child: LessonModuleScreen(),
+            ),
+          ),
+    ),
+    GoRoute(
+      path: '/lessons/items',
+      name: 'lesson-items',
+      pageBuilder: (context, state) {
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final module = extras['module'] as String?;
+        if (module == null) {
+          return buildCustomTransition(
+            context: context,
+            child: const Scaffold(body: Center(child: Text('Missing module!'))),
+          );
+        }
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
+            branchIndex: 1,
+            child: LessonItemScreen(module: module),
+          ),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/parts',
+      name: 'parts',
+      pageBuilder:
+          (context, state) => buildCustomTransition(
+            context: context,
+            child: const MainScaffold(branchIndex: 2, child: PartZoneScreen()),
+          ),
+    ),
+    GoRoute(
+      path: '/parts/items',
+      name: 'part-items',
+      pageBuilder: (context, state) {
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final zone = extras['zone'] as String?;
+
+        if (zone == null || zone.trim().isEmpty) {
+          return buildCustomTransition(
+            context: context,
+            child: const Scaffold(
+              body: Center(child: Text('❌ Missing or malformed zone')),
+            ),
+          );
+        }
+
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
+            branchIndex: 2,
+            child: PartItemScreen(zone: zone),
+          ),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/flashcards',
+      name: 'flashcards',
+      pageBuilder:
+          (context, state) => buildCustomTransition(
+            context: context,
+            child: const MainScaffold(
+              branchIndex: 3,
+              child: FlashcardCategoryScreen(),
+            ),
+          ),
+    ),
+
+    GoRoute(
+      path: '/tools',
+      name: 'tools',
+      pageBuilder:
+          (context, state) => buildCustomTransition(
+            context: context,
+            child: const MainScaffold(branchIndex: 4, child: ToolsScreen()),
+          ),
+    ),
+    GoRoute(
+      path: '/tools/items',
+      builder: (context, state) {
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final toolbag = extras['toolbag'] as String? ?? '';
+
+        return ToolItemScreen(toolbag: toolbag);
+      },
+    ),
+  ],
+);
+
+CustomTransitionPage buildCustomTransition({
+  required BuildContext context,
+  required Widget child,
+}) {
+  return CustomTransitionPage(
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0); // Slide from right
+      const end = Offset.zero;
+      const curve = Curves.easeInOut;
+      final tween = Tween(
+        begin: begin,
+        end: end,
+      ).chain(CurveTween(curve: curve));
+      return SlideTransition(position: animation.drive(tween), child: child);
+    },
+  );
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/navigation/scaffold_helpers.dart
+import 'package:flutter/material.dart';
+import 'main_scaffold.dart';
+
+/// Wraps any screen with the MainScaffold layout,
+/// ensuring the BottomNavigationBar remains visible.
+///
+/// [branchIndex] determines which BNB tab is highlighted.
+/// [child] is the content screen to render inside the scaffold.
+Widget withBNB({required int branchIndex, required Widget child}) {
+  return MainScaffold(branchIndex: branchIndex, child: child);
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/bcc5_app.dart
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/navigation/app_router.dart';
+
+class Bcc5App extends StatelessWidget {
+  const Bcc5App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      title: 'BCC5 Sailing App',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      // darkTheme: AppTheme.darkTheme, // Optional: enable when needed
+      // themeMode: ThemeMode.system,   // Optional: system-based theming
+      routerConfig: appRouter,
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/utils/id_parser.dart
+// 🟠 lib/utils/id_parser.dart
+
+/// Extracts the [type] from a content ID, e.g. 'lesson' from 'lesson_docking_1.00'
+String getTypeFromId(String id) {
+  final parts = id.split('_');
+  return parts.isNotEmpty ? parts[0] : 'unknown';
+}
+
+/// Extracts the [group] from a content ID, e.g. 'docking' from 'lesson_docking_1.00'
+String getGroupFromId(String id) {
+  final parts = id.split('_');
+  return parts.length >= 2 ? parts[1] : 'unknown';
+}
+
+/// Extracts the [sequence number] from a content ID, e.g. '1.00' from 'lesson_docking_1.00'
+String getSequenceFromId(String id) {
+  final parts = id.split('_');
+  return parts.length >= 3 ? parts[2] : 'unknown';
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/utils/logger.dart
+import 'package:logger/logger.dart';
+
+final logger = Logger(
+  printer: PrettyPrinter(
+    methodCount: 1,
+    colors: true,
+    printEmojis: true,
+    dateTimeFormat: DateTimeFormat.none, // ✅ Modern replacement for printTime
+  ),
+);
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/home/landing_screen.dart
+// lib/screens/home/landing_screen.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/logger.dart';
+
+class LandingScreen extends StatelessWidget {
+  const LandingScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const CustomAppBarWidget(
+          title: 'Welcome Aboard',
+          showBackButton: false,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(AppTheme.screenPadding),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildPathButton(context, 'Start Tour', () {
+                  logger.i('🚀 Tour started (placeholder)');
+                }),
+                const SizedBox(height: 24),
+                _buildPathButton(context, 'Competent Crew', () {
+                  logger.i('📘 Navigating to Competent Crew Path');
+                  context.go('/learning-paths/competent-crew');
+                }),
+                const SizedBox(height: 24),
+                _buildPathButton(context, 'Knock the Rust Off', () {
+                  logger.i('📘 Navigating to Knock the Rust Off Path');
+                  context.go('/learning-paths/knock-the-rust-off');
+                }),
+                const SizedBox(height: 24),
+                _buildPathButton(context, 'Anchoring', () {
+                  logger.i('📘 Navigating to Anchoring Path');
+                  context.go('/learning-paths/anchoring');
+                }),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPathButton(
+    BuildContext context,
+    String label,
+    VoidCallback onTap,
+  ) {
+    return ElevatedButton(
+      onPressed: onTap,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppTheme.primaryRed,
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 32),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),
+        ),
+      ),
+      child: Text(label, style: AppTheme.buttonTextStyle),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/tools/tool_item_screen.dart
+// 📄 lib/screens/tools/tool_item_screen.dart
+
+import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/widgets/item_button.dart';
+import 'package:bcc5/data/models/tool_model.dart';
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/utils/logger.dart';
+
+class ToolItemScreen extends StatelessWidget {
+  final String toolbag;
+
+  const ToolItemScreen({super.key, required this.toolbag});
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🛠️ Displaying ToolItemScreen (Toolbag: $toolbag)');
+
+    final List<ToolItem> tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+
+    return MainScaffold(
+      branchIndex: 4,
+      child: Column(
+        children: [
+          CustomAppBarWidget(
+            title: '${toolbag[0].toUpperCase()}${toolbag.substring(1)} Tools',
+            showBackButton: true,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+            onBack: () {
+              logger.i('🔙 AppBar back from ToolItemScreen');
+              context.go('/tools');
+            },
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: GridView.builder(
+                itemCount: tools.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 4,
+                  mainAxisSpacing: 4,
+                  childAspectRatio: 2.8,
+                ),
+                itemBuilder: (context, index) {
+                  final tool = tools[index];
+                  return ItemButton(
+                    label: tool.title,
+                    onTap: () {
+                      logger.i('🛠️ Tapped tool: ${tool.title}');
+                      context.push(
+                        '/content',
+                        extra: {
+                          'sequenceTitles': tools.map((t) => t.title).toList(),
+                          'contentMap': {
+                            for (var t in tools) t.title: t.content,
+                          },
+                          'startIndex': index,
+                          'branchIndex': 4,
+                          'backDestination': '/tools/items',
+                          'backExtra': {'toolbag': toolbag, 'branchIndex': 4},
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/tools/tools_screen.dart
+// 📄 lib/screens/tools/tools_screen.dart
+
+import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/widgets/group_button.dart';
+import 'package:bcc5/utils/logger.dart';
+
+class ToolsScreen extends StatelessWidget {
+  const ToolsScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🟦 Displaying ToolsScreen');
+
+    final toolbags = ToolRepositoryIndex.getToolbagNames();
+
+    return Column(
+      children: [
+        const CustomAppBarWidget(
+          title: 'Tools',
+          showBackButton: false,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: ListView.builder(
+              itemCount: toolbags.length,
+              itemBuilder: (context, index) {
+                final toolbag = toolbags[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: GroupButton(
+                    label: toolbag[0].toUpperCase() + toolbag.substring(1),
+                    onTap: () {
+                      logger.i('🛠️ Selected toolbag: $toolbag');
+                      context.push('/tools/items', extra: {'toolbag': toolbag});
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/flashcards/flashcard_detail_screen.dart
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/flashcards/flashcard_category_screen.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/utils/logger.dart';
+
+class FlashcardCategoryScreen extends StatelessWidget {
+  const FlashcardCategoryScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🟦 Entered FlashcardCategoryScreen');
+
+    return Column(
+      children: [
+        const CustomAppBarWidget(
+          title: 'Flashcards',
+          showBackButton: false,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+        ),
+        Expanded(
+          child: Center(
+            child: ElevatedButton(
+              onPressed: () {
+                logger.i('📇 Navigating to FlashcardItemScreen');
+                context.push(
+                  '/flashcards/items',
+                  extra: {'category': 'TestCategory'},
+                );
+              },
+              child: const Text('View Flashcards'),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/flashcards/flashcard_item_screen.dart
+// // 📄 lib/screens/flashcards/flashcard_item_screen.dart
+
+// import 'package:flutter/material.dart';
+// import 'package:go_router/go_router.dart';
+// import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+// import 'package:bcc5/widgets/item_button.dart';
+// import 'package:bcc5/utils/logger.dart';
+// // import 'package:bcc5/data/repositories/flashcards/flashcard_repository.dart.bak';
+
+// class FlashcardItemScreen extends StatelessWidget {
+//   final String category;
+
+//   const FlashcardItemScreen({super.key, required this.category});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     logger.i('🟦 Entered FlashcardItemScreen for category: $category');
+
+//     final List<FlashcardItem> flashcards = getFlashcardsForCategory(category);
+
+//     return Column(
+//       children: [
+//         CustomAppBarWidget(
+//           title: 'Flashcards',
+//           showBackButton: true,
+//           showSearchIcon: true,
+//           showSettingsIcon: true,
+//           onBack: () {
+//             logger.i('🔙 AppBar back from FlashcardItemScreen');
+//             context.go('/flashcards');
+//           },
+//         ),
+//         Expanded(
+//           child: Padding(
+//             padding: const EdgeInsets.all(16),
+//             child: GridView.builder(
+//               itemCount: flashcards.length,
+//               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//                 crossAxisCount: 2,
+//                 crossAxisSpacing: 4,
+//                 mainAxisSpacing: 4,
+//                 childAspectRatio: 2.8,
+//               ),
+//               itemBuilder: (context, index) {
+//                 final card = flashcards[index];
+//                 return ItemButton(
+//                   label: card.title,
+//                   onTap: () {
+//                     logger.i('🟧 Tapped flashcard: ${card.title}');
+//                     context.push(
+//                       '/content',
+//                       extra: {
+//                         'sequenceTitles':
+//                             flashcards.map((f) => f.title).toList(),
+//                         'contentMap': {
+//                           for (var f in flashcards) f.title: f.content,
+//                         },
+//                         'startIndex': index,
+//                         'branchIndex': 3,
+//                         'backDestination': '/flashcards/items',
+//                         'backExtra': {'category': category, 'branchIndex': 3},
+//                       },
+//                     );
+//                   },
+//                 );
+//               },
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/paths/path_item_screen.dart
+// 📄 lib/screens/paths/path_item_screen.dart
+
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/widgets/item_button.dart';
+import 'package:bcc5/utils/logger.dart';
+
+class PathItemScreen extends StatelessWidget {
+  final String pathName;
+  final String chapterId;
+
+  const PathItemScreen({
+    super.key,
+    required this.pathName,
+    required this.chapterId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final chapter = PathRepositoryIndex.getChapterById(pathName, chapterId);
+
+    if (chapter == null) {
+      logger.e('❌ Could not find chapter for id: $chapterId in $pathName');
+      return const Center(child: Text('Chapter not found'));
+    }
+
+    final items = chapter.items;
+    logger.i(
+      '🟩 Entered PathItemScreen: ${chapter.title} with ${items.length} items',
+    );
+
+    return Column(
+      children: [
+        CustomAppBarWidget(
+          title: chapter.title,
+          showBackButton: true,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+          onBack: () {
+            logger.i('🔙 Back from PathItemScreen');
+            context.go(
+              '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}',
+            );
+          },
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: GridView.builder(
+              itemCount: items.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 4,
+                crossAxisSpacing: 4,
+                childAspectRatio: 2.8,
+              ),
+              itemBuilder: (context, index) {
+                final pathItem = items[index];
+                final label = pathItem.pathItemId;
+
+                return ItemButton(
+                  label: label,
+                  onTap: () {
+                    logger.i('🟦 Tapped PathItem: $label');
+
+                    context.push(
+                      '/content',
+                      extra: {
+                        'sequenceTitles':
+                            items.map((e) => e.pathItemId).toList(),
+                        'contentMap': {
+                          for (var item in items)
+                            item.pathItemId: [
+                              ContentBlock.text(
+                                'Placeholder for ${item.pathItemId}',
+                              ),
+                            ],
+                        },
+                        'startIndex': index,
+                        'branchIndex': 0, // Home tab index
+                        'backDestination':
+                            '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                        'backExtra': {
+                          'pathName': pathName,
+                          'chapterId': chapterId,
+                        },
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/paths/path_chapter_screen.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/group_button.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+import 'package:bcc5/utils/logger.dart';
+
+class PathChapterScreen extends StatelessWidget {
+  final String pathName;
+
+  const PathChapterScreen({super.key, required this.pathName});
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🟢 Entered PathChapterScreen for "$pathName"');
+
+    final titles = PathRepositoryIndex.getChapterTitles(pathName);
+    logger.i('📚 Found ${titles.length} chapters for "$pathName": $titles');
+
+    return Column(
+      children: [
+        const CustomAppBarWidget(
+          title: 'Choose a Chapter',
+          showBackButton: true,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+        ),
+        Expanded(
+          child:
+              titles.isEmpty
+                  ? const Center(child: Text('No chapters found.'))
+                  : ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: titles.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      final title = titles[index];
+                      final chapters = PathRepositoryIndex.getChaptersForPath(
+                        pathName,
+                      );
+                      if (index >= chapters.length) {
+                        logger.w(
+                          '⚠️ Index $index out of range for chapters in "$pathName"',
+                        );
+                        return const SizedBox.shrink();
+                      }
+
+                      final chapter = chapters[index];
+                      logger.i(
+                        '🔹 Rendering button for chapter: ${chapter.id}',
+                      );
+
+                      return GroupButton(
+                        label: title,
+                        onTap: () {
+                          logger.i('📗 Tapped Chapter: $title (${chapter.id})');
+                          context.push(
+                            '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                            extra: {
+                              'pathName': pathName,
+                              'chapterId': chapter.id,
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/common/content_screen_navigator.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/screens/common/content_detail_screen.dart';
+import 'package:bcc5/utils/logger.dart';
+
+class ContentScreenNavigator extends StatefulWidget {
+  final String title;
+  final List<String> sequenceTitles;
+  final Map<String, List<ContentBlock>> contentMap;
+  final int startIndex;
+  final VoidCallback? onBack;
+  final int branchIndex; // 🟠 NEW: Needed for MainScaffold BNB
+
+  const ContentScreenNavigator({
+    super.key,
+    required this.title,
+    required this.sequenceTitles,
+    required this.contentMap,
+    required this.startIndex,
+    this.onBack,
+    this.branchIndex = 0, // 🟠 Fallback to Home
+  });
+
+  @override
+  State<ContentScreenNavigator> createState() => _ContentScreenNavigatorState();
+}
+
+class _ContentScreenNavigatorState extends State<ContentScreenNavigator> {
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.startIndex;
+    logger.i('🟧 Entered ContentScreenNavigator at index $_currentIndex');
+  }
+
+  void _goToPrevious() {
+    if (_currentIndex > 0) {
+      setState(() {
+        _currentIndex--;
+        logger.i(
+          '⬅️ Navigated to previous content: ${widget.sequenceTitles[_currentIndex]}',
+        );
+      });
+    }
+  }
+
+  void _goToNext() {
+    if (_currentIndex < widget.sequenceTitles.length - 1) {
+      setState(() {
+        _currentIndex++;
+        logger.i(
+          '➡️ Navigated to next content: ${widget.sequenceTitles[_currentIndex]}',
+        );
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final title = widget.sequenceTitles[_currentIndex];
+    final content = widget.contentMap[title] ?? [];
+
+    logger.i('🟨 Rendering content: $title');
+
+    return ContentDetailScreen(
+      title: title,
+      content: content,
+      branchIndex: widget.branchIndex, // 🟠 Ensure proper BNB display
+      onBack:
+          widget.onBack ??
+          () {
+            logger.i('🔙 Back from content: $title (default pop)');
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            } else {
+              context.go('/');
+            }
+          },
+      onPrevious: _currentIndex > 0 ? _goToPrevious : null,
+      onNext:
+          _currentIndex < widget.sequenceTitles.length - 1 ? _goToNext : null,
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/common/content_detail_screen.dart
+import 'dart:ui';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+class ContentDetailScreen extends StatelessWidget {
+  final String title;
+  final List<ContentBlock> content;
+  final VoidCallback? onPrevious;
+  final VoidCallback? onNext;
+  final VoidCallback? onBack;
+  final int branchIndex;
+
+  const ContentDetailScreen({
+    super.key,
+    required this.title,
+    required this.content,
+    this.onPrevious,
+    this.onNext,
+    this.onBack,
+    this.branchIndex = 0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🟪 Displaying ContentDetailScreen: $title');
+
+    return MainScaffold(
+      branchIndex: branchIndex,
+      child: Column(
+        children: [
+          CustomAppBarWidget(
+            title: title,
+            showBackButton: true,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+            onBack:
+                onBack ??
+                () {
+                  logger.i('🔙 Fallback back on ContentDetailScreen');
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  } else {
+                    context.go('/');
+                  }
+                },
+          ),
+          Expanded(
+            child: ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: content.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 16),
+              itemBuilder:
+                  (context, index) => _renderBlock(context, content[index]),
+            ),
+          ),
+          ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(color: Colors.white.withAlpha(76)),
+                child: Row(
+                  children: [
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(minWidth: 160),
+                      child: ElevatedButton.icon(
+                        onPressed: onPrevious,
+                        icon: const Icon(Icons.arrow_back),
+                        label: const Text('Previous'),
+                        style:
+                            onPrevious != null
+                                ? AppTheme.navigationButtonStyle
+                                : AppTheme.disabledNavigationButtonStyle,
+                      ),
+                    ),
+                    const Spacer(),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(minWidth: 160),
+                      child: ElevatedButton(
+                        onPressed: onNext,
+                        style:
+                            onNext != null
+                                ? AppTheme.navigationButtonStyle
+                                : AppTheme.disabledNavigationButtonStyle,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text('Next'),
+                            SizedBox(width: 8),
+                            Icon(Icons.arrow_forward),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _renderBlock(BuildContext context, ContentBlock block) {
+    switch (block.type) {
+      case ContentBlockType.heading:
+        return Text(
+          block.text ?? '',
+          style: Theme.of(context).textTheme.headlineSmall,
+        );
+      case ContentBlockType.text:
+        return Text(
+          block.text ?? '',
+          style: Theme.of(context).textTheme.bodyLarge,
+        );
+      case ContentBlockType.code:
+        return Container(
+          padding: const EdgeInsets.all(12),
+          color: Colors.black87,
+          child: Text(
+            block.text ?? '',
+            style: const TextStyle(
+              color: Colors.greenAccent,
+              fontFamily: 'monospace',
+            ),
+          ),
+        );
+      case ContentBlockType.bulletList:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children:
+              block.bulletList!
+                  .map(
+                    (item) => Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('• ', style: TextStyle(fontSize: 16)),
+                        Expanded(child: Text(item)),
+                      ],
+                    ),
+                  )
+                  .toList(),
+        );
+      case ContentBlockType.image:
+        return Image.asset(
+          block.imagePath ?? 'assets/images/fallback_image.jpeg',
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => const Placeholder(fallbackHeight: 150),
+        );
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/parts/part_item_screen.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/widgets/item_button.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/data/models/part_model.dart';
+import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
+import 'package:bcc5/utils/id_parser.dart';
+
+class PartItemScreen extends StatelessWidget {
+  final String zone;
+
+  const PartItemScreen({super.key, required this.zone});
+
+  String _extractZoneFromId(String id) {
+    final group = getGroupFromId(id);
+    return group[0].toUpperCase() + group.substring(1); // e.g., "hull" → "Hull"
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final List<PartItem> filteredParts =
+        allParts.where((p) => _extractZoneFromId(p.id) == zone).toList();
+
+    logger.i('🟦 Displaying PartItemScreen (Zone: $zone)');
+
+    return Column(
+      children: [
+        CustomAppBarWidget(
+          title: '$zone Parts',
+          showBackButton: true,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+          onBack: () {
+            logger.i('🔙 AppBar back from PartItemScreen');
+            context.go('/parts');
+          },
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: GridView.builder(
+              itemCount: filteredParts.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 4,
+                crossAxisSpacing: 4,
+                childAspectRatio: 2.8,
+              ),
+              itemBuilder: (context, index) {
+                final part = filteredParts[index];
+                return ItemButton(
+                  label: part.title,
+                  onTap: () {
+                    logger.i('🟥 Tapped part: ${part.title}');
+
+                    final titles = filteredParts.map((p) => p.title).toList();
+                    final contentMap = {
+                      for (final part in filteredParts)
+                        part.title: part.content,
+                    };
+
+                    context.push(
+                      '/content',
+                      extra: {
+                        'sequenceTitles': titles,
+                        'contentMap': contentMap,
+                        'startIndex': index,
+                        'branchIndex': 2,
+                        'backDestination': '/parts/items',
+                        'backExtra': {'zone': zone, 'branchIndex': 2},
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/parts/part_zone_screen.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/widgets/group_button.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+
+class PartZoneScreen extends StatelessWidget {
+  const PartZoneScreen({super.key});
+
+  final List<String> zones = const [
+    'Deck',
+    'Hull',
+    'Rigging',
+    'Sails',
+    'Interior',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🟩 Displaying PartZoneScreen');
+
+    return Column(
+      children: [
+        const CustomAppBarWidget(
+          title: 'Parts',
+          showBackButton: false,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: ListView(
+              children:
+                  zones
+                      .map(
+                        (zone) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: GroupButton(
+                            label: zone,
+                            onTap: () {
+                              logger.i('🟦 Tapped zone: $zone');
+                              context.push(
+                                '/parts/items',
+                                extra: {'zone': zone},
+                              );
+                            },
+                          ),
+                        ),
+                      )
+                      .toList(),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/lessons/lesson_item_screen.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/widgets/item_button.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
+
+class LessonItemScreen extends StatelessWidget {
+  final String module;
+
+  const LessonItemScreen({super.key, required this.module});
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('📘 LessonItemScreen loaded for module: $module');
+    final lessons = LessonRepositoryIndex.getLessonsForModule(module);
+
+    return Column(
+      children: [
+        CustomAppBarWidget(
+          title: 'Lessons',
+          showBackButton: true,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+          onBack: () {
+            logger.i('🔙 AppBar back from LessonItemScreen');
+            context.go('/lessons');
+          },
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: GridView.builder(
+              itemCount: lessons.length,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4,
+                childAspectRatio: 2.8,
+              ),
+              itemBuilder: (context, index) {
+                final lesson = lessons[index];
+                return ItemButton(
+                  label: lesson.title,
+                  onTap: () {
+                    logger.i('📘 Tapped lesson: ${lesson.id}');
+                    context.push(
+                      '/content',
+                      extra: {
+                        'sequenceTitles': lessons.map((l) => l.title).toList(),
+                        'contentMap': {
+                          for (var l in lessons) l.title: l.content,
+                        },
+                        'startIndex': index,
+                        'branchIndex': 1,
+                        'backDestination': '/lessons/items',
+                        'backExtra': {'module': module, 'branchIndex': 1},
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/lessons/lesson_module_screen.dart
+// 📄 lib/screens/lessons/lesson_module_screen.dart
+
+import 'package:bcc5/widgets/group_button.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
+import 'package:bcc5/utils/logger.dart';
+
+class LessonModuleScreen extends StatelessWidget {
+  const LessonModuleScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final moduleNames = LessonRepositoryIndex.getModuleNames();
+    logger.i('🟦 Entered LessonModuleScreen');
+
+    return Scaffold(
+      appBar: const CustomAppBarWidget(
+        title: 'Choose a Module',
+        showBackButton: false,
+        showSearchIcon: true,
+        showSettingsIcon: true,
+      ),
+      body: ListView.separated(
+        padding: const EdgeInsets.all(16),
+        itemCount: moduleNames.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          final moduleName = moduleNames[index];
+          return GroupButton(
+            label: moduleName,
+            onTap: () {
+              logger.i('📘 Tapped Module: $moduleName');
+              context.push('/lessons/items', extra: {'module': moduleName});
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/main.dart
+import 'package:flutter/material.dart';
+import 'package:bcc5/bcc5_app.dart'; // Updated import
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const Bcc5App());
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/theme/app_theme.dart
+import 'package:flutter/material.dart';
+
+class AppTheme {
+  // 🔵 Primary Colors
+  static const Color primaryBlue = Color(0xFF163FE8); // System-wide blue
+  static const Color primaryRed = Color(0xFFCC0000); // Accent/alert color
+  static const Color backgroundColor = Colors.white;
+  static const Color darkBackground = Color(0xFF121212);
+
+  // 🧠 Semantic Color Aliases
+  static const Color infoColor = primaryBlue;
+  static const Color errorColor = primaryRed;
+  static const Color successColor = Colors.green;
+  static const Color warningColor = Colors.orange;
+  static const Color disabledGray = Colors.grey;
+
+  // 🌤️ Light Theme
+  static ThemeData get lightTheme => ThemeData(
+    useMaterial3: true,
+    scaffoldBackgroundColor: backgroundColor,
+    colorScheme: ColorScheme.fromSeed(seedColor: primaryBlue),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: primaryBlue,
+      foregroundColor: Colors.white,
+      centerTitle: true,
+      elevation: 0,
+      titleTextStyle: headingStyle,
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: primaryBlue,
+      selectedItemColor: primaryRed,
+      unselectedItemColor: Colors.white70,
+      selectedIconTheme: IconThemeData(size: 26),
+      unselectedIconTheme: IconThemeData(size: 22),
+      selectedLabelStyle: buttonTextStyle,
+      unselectedLabelStyle: buttonTextStyle,
+      showUnselectedLabels: true,
+    ),
+    textTheme: textTheme,
+  );
+
+  // 🌑 Dark Theme
+  static ThemeData get darkTheme => ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.dark,
+    scaffoldBackgroundColor: darkBackground,
+    colorScheme: ColorScheme.dark(primary: primaryBlue, secondary: primaryRed),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: primaryBlue,
+      centerTitle: true,
+      elevation: 0,
+      titleTextStyle: headingStyle,
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: primaryBlue,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white70,
+      selectedLabelStyle: buttonTextStyle,
+      unselectedLabelStyle: buttonTextStyle,
+    ),
+    textTheme: textTheme,
+  );
+
+  // ✍️ Typography
+  static const TextStyle headingStyle = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+  );
+
+  static const TextStyle subheadingStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+
+  static const TextStyle bodyTextStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: Colors.black87,
+  );
+
+  static const TextStyle buttonTextStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+
+  static const TextStyle captionStyle = TextStyle(
+    fontSize: 14,
+    color: Colors.grey,
+  );
+
+  static const TextTheme textTheme = TextTheme(
+    headlineLarge: headingStyle,
+    headlineMedium: subheadingStyle,
+    bodyLarge: bodyTextStyle,
+    labelLarge: buttonTextStyle,
+    bodySmall: captionStyle,
+  );
+
+  // 📏 Radius, Padding, Margins
+  static const double buttonCornerRadius = 12.0;
+  static const double cardCornerRadius = 16.0;
+  static const double screenPadding = 16.0;
+
+  static const EdgeInsetsGeometry groupButtonPadding = EdgeInsets.symmetric(
+    vertical: 14,
+    horizontal: 24,
+  );
+
+  static const EdgeInsetsGeometry itemButtonPadding = EdgeInsets.symmetric(
+    vertical: 10,
+    horizontal: 12,
+  );
+
+  static const EdgeInsets cardPadding = EdgeInsets.all(12);
+
+  // ⬇️ Add near the bottom of AppTheme
+  static final ButtonStyle navigationButtonStyle = ElevatedButton.styleFrom(
+    backgroundColor: primaryRed,
+    foregroundColor: Colors.white,
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+    textStyle: buttonTextStyle,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+  static final ButtonStyle disabledNavigationButtonStyle =
+      ElevatedButton.styleFrom(
+        backgroundColor: Colors.grey.shade400,
+        foregroundColor: Colors.white.withAlpha(153),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        textStyle: buttonTextStyle,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(buttonCornerRadius),
+        ),
+      );
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/models/content_block.dart
+enum ContentBlockType { heading, text, code, bulletList, image }
+
+class ContentBlock {
+  final ContentBlockType type;
+  final String? text;
+  final List<String>? bulletList;
+  final String? imagePath;
+
+  const ContentBlock._({
+    required this.type,
+    this.text,
+    this.bulletList,
+    this.imagePath,
+  });
+
+  // Heading block
+  factory ContentBlock.heading(String text) =>
+      ContentBlock._(type: ContentBlockType.heading, text: text);
+
+  // Text block
+  factory ContentBlock.text(String text) =>
+      ContentBlock._(type: ContentBlockType.text, text: text);
+
+  // Code block
+  factory ContentBlock.code(String codeText) =>
+      ContentBlock._(type: ContentBlockType.code, text: codeText);
+
+  // Bullet list block
+  factory ContentBlock.bullets(List<String> bullets) =>
+      ContentBlock._(type: ContentBlockType.bulletList, bulletList: bullets);
+
+  // Image block
+  factory ContentBlock.image(String imagePath) =>
+      ContentBlock._(type: ContentBlockType.image, imagePath: imagePath);
+
+  // Optional convenience getter
+  List<String>? get bullets => bulletList;
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/models/tool_model.dart
+// 📄 lib/data/models/tool_model.dart
+
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
+
+class ToolItem {
+  final String id;
+  final String title;
+  final List<ContentBlock> content;
+  final List<Flashcard> flashcards;
+
+  const ToolItem({
+    required this.id,
+    required this.title,
+    required this.content,
+    required this.flashcards,
+  });
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/models/lesson_model.dart
+// 📄 lib/data/models/lesson_model.dart
+
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
+
+class Lesson {
+  final String id;
+  final String title;
+  final List<ContentBlock> content;
+  final List<String> keywords;
+  final List<Flashcard> flashcards;
+  final bool isPaid;
+
+  const Lesson({
+    required this.id,
+    required this.title,
+    required this.content,
+    required this.keywords,
+    required this.flashcards,
+    required this.isPaid,
+  });
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/models/part_model.dart
+// 🟠 part_model.dart
+
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
+
+class PartItem {
+  final String id;
+  final String title;
+  final List<ContentBlock> content;
+  final List<Flashcard> flashcards;
+  final List<String> keywords;
+  final bool isPaid;
+
+  const PartItem({
+    required this.id,
+    required this.title,
+    required this.content,
+    required this.flashcards,
+    this.keywords = const [],
+    this.isPaid = false,
+  });
+}
+
+class PartZone {
+  final String name; // e.g., "Hull", "Deck"
+  final List<PartItem> items;
+
+  const PartZone({required this.name, required this.items});
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/models/path_model.dart
+// 📄 lib/data/models/path_model.dart
+
+class PathItem {
+  final String pathItemId; // e.g., "lesson_dock_1.00", "part_deck_3.00"
+
+  const PathItem({required this.pathItemId});
+}
+
+class LearningPathChapter {
+  final String id; // e.g., "path_competentCrew_1.00"
+  final String title;
+  final List<PathItem> items;
+
+  const LearningPathChapter({
+    required this.id,
+    required this.title,
+    required this.items,
+  });
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/models/flashcard_model.dart
+// 📄 lib/data/models/flashcard_model.dart
+
+import 'package:bcc5/data/models/content_block.dart';
+
+class Flashcard {
+  final String id;
+  final String title;
+  final List<ContentBlock> sideA;
+  final List<ContentBlock> sideB;
+  final bool isPaid;
+  final bool showAFirst; // true = show sideA first, false = sideB first
+  final List<String> keywords;
+
+  const Flashcard({
+    required this.id,
+    required this.title,
+    required this.sideA,
+    required this.sideB,
+    required this.isPaid,
+    required this.showAFirst,
+    this.keywords = const [],
+  });
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/item_button.dart
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:flutter/material.dart';
+
+class ItemButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  final Color color;
+  final double borderRadius;
+  final EdgeInsetsGeometry padding;
+
+  const ItemButton({
+    super.key,
+    required this.label,
+    required this.onTap,
+    this.color = AppTheme.primaryRed, // 🟠 Default to red (DetailButton style)
+    this.borderRadius = 12.0, // 🟠 Default rounded rectangle
+    this.padding = const EdgeInsets.symmetric(
+      vertical: 12,
+      horizontal: 8,
+    ), // 🟠 Default compact padding
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap, // 🟠 Clean tap handler
+      child: Container(
+        padding: padding,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          style: AppTheme.buttonTextStyle.copyWith(color: Colors.white),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/disabled_item_button.dart
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+class DisabledItemButton extends StatelessWidget {
+  final String label;
+
+  const DisabledItemButton({super.key, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: AppTheme.itemButtonPadding,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade400,
+        borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        label,
+        textAlign: TextAlign.center,
+        style: AppTheme.buttonTextStyle.copyWith(
+          color: Colors.white.withAlpha(153), // ✅ No error
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/custom_app_bar_widget.dart
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:go_router/go_router.dart';
+
+class CustomAppBarWidget extends StatelessWidget
+    implements PreferredSizeWidget {
+  final String title;
+  final bool showBackButton;
+  final bool showSearchIcon;
+  final bool showSettingsIcon;
+  final VoidCallback? onBack; // 🟠 Add this
+
+  const CustomAppBarWidget({
+    super.key,
+    required this.title,
+    this.showBackButton = false,
+    this.showSearchIcon = true,
+    this.showSettingsIcon = true,
+    this.onBack, // 🟠 Add this
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      leading:
+          showBackButton
+              ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed:
+                    onBack ??
+                    () {
+                      if (Navigator.of(context).canPop()) {
+                        Navigator.of(context).pop(); // 🟠 Safe fallback pop
+                      } else {
+                        // 🟠 Emergency fallback: go to root
+                        context.go('/');
+                      }
+                    },
+              )
+              : null,
+      centerTitle: true,
+      title: Text(title, style: AppTheme.headingStyle),
+      backgroundColor: AppTheme.primaryBlue,
+      elevation: 0,
+      actions: [
+        if (showSearchIcon)
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              // TO-DO: Navigate to search screen
+            },
+          ),
+        if (showSettingsIcon)
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              // TO-DO: Navigate to settings screen
+            },
+          ),
+      ],
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/group_button.dart
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+class GroupButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  final bool isSelected;
+
+  const GroupButton({
+    super.key,
+    required this.label,
+    required this.onTap,
+    this.isSelected = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final backgroundColor =
+        isSelected
+            ? AppTheme.primaryBlue.withAlpha(229) // 🟠 Selected: more opaque
+            : AppTheme.primaryBlue.withAlpha(
+              153,
+            ); // 🟠 Unselected: more transparent
+
+    return FractionallySizedBox(
+      widthFactor: 0.6, // 🟠 Consistent width
+      child: ElevatedButton(
+        onPressed: onTap,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          padding: AppTheme.groupButtonPadding,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),
+          ),
+        ),
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+          style: AppTheme.buttonTextStyle,
+        ),
+      ),
+    );
+  }
+}

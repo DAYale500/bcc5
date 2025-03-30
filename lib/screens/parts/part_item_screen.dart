@@ -5,22 +5,17 @@ import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/models/part_model.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
-import 'package:bcc5/utils/id_parser.dart';
 
 class PartItemScreen extends StatelessWidget {
   final String zone;
 
   const PartItemScreen({super.key, required this.zone});
 
-  String _extractZoneFromId(String id) {
-    final group = getGroupFromId(id);
-    return group[0].toUpperCase() + group.substring(1); // e.g., "hull" → "Hull"
-  }
-
   @override
   Widget build(BuildContext context) {
-    final List<PartItem> filteredParts =
-        allParts.where((p) => _extractZoneFromId(p.id) == zone).toList();
+    final List<PartItem> filteredParts = PartRepositoryIndex.getPartsForZone(
+      zone.toLowerCase(),
+    );
 
     logger.i('🟦 Displaying PartItemScreen (Zone: $zone)');
 
