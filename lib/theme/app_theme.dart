@@ -29,7 +29,7 @@ class AppTheme {
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: primaryBlue,
-      selectedItemColor: Colors.white,
+      selectedItemColor: primaryRed,
       unselectedItemColor: Colors.white70,
       selectedIconTheme: IconThemeData(size: 26),
       unselectedIconTheme: IconThemeData(size: 22),
@@ -117,4 +117,25 @@ class AppTheme {
   );
 
   static const EdgeInsets cardPadding = EdgeInsets.all(12);
+
+  // ⬇️ Add near the bottom of AppTheme
+  static final ButtonStyle navigationButtonStyle = ElevatedButton.styleFrom(
+    backgroundColor: primaryRed,
+    foregroundColor: Colors.white,
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+    textStyle: buttonTextStyle,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+  static final ButtonStyle disabledNavigationButtonStyle =
+      ElevatedButton.styleFrom(
+        backgroundColor: Colors.grey.shade400,
+        foregroundColor: Colors.white.withAlpha(153),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        textStyle: buttonTextStyle,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(buttonCornerRadius),
+        ),
+      );
 }

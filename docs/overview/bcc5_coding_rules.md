@@ -336,3 +336,26 @@ context.push('/content', extra: {
 ---
 
 
+
+
+
+
+
+
+
+---
+
+## ✅ New Rule for Dev Guide (Rule #12)
+
+```md
+## 12. Flashcard Architecture
+
+12.1 All flashcards must be **embedded inside their source item** (`LessonItem`, `PartItem`, or `ToolItem`).  
+12.2 Flashcards are **not stored in separate repositories**. They live within the same model and repository file as their source.  
+12.3 A shared utility file (e.g., `flashcard_repository.dart`) may exist to extract and group flashcards for UX purposes only.  
+12.4 All flashcards must follow the ID format: `flashcard_<sourceId>_<index>`.  
+12.5 Every lesson, part, or tool must include at least one flashcard.  
+12.6 Do not duplicate flashcards across models. If a concept is shared, create a shared utility flashcard object and reference it if needed.
+
+✅ This rule guarantees content cohesion and simplifies review workflows.
+

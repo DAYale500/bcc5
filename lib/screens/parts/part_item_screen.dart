@@ -27,7 +27,7 @@ class PartItemScreen extends StatelessWidget {
     return Column(
       children: [
         CustomAppBarWidget(
-          title: 'Parts',
+          title: '$zone Parts',
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
@@ -53,12 +53,19 @@ class PartItemScreen extends StatelessWidget {
                   label: part.title,
                   onTap: () {
                     logger.i('🟥 Tapped part: ${part.title}');
+
+                    final titles = filteredParts.map((p) => p.title).toList();
+                    final contentMap = {
+                      for (final part in filteredParts)
+                        part.title: part.content,
+                    };
+
                     context.push(
                       '/content',
                       extra: {
-                        'sequenceTitles': [part.title],
-                        'contentMap': {part.title: part.content},
-                        'startIndex': 0,
+                        'sequenceTitles': titles,
+                        'contentMap': contentMap,
+                        'startIndex': index,
                         'branchIndex': 2,
                         'backDestination': '/parts/items',
                         'backExtra': {'zone': zone, 'branchIndex': 2},

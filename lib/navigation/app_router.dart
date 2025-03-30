@@ -1,9 +1,11 @@
 import 'package:bcc5/data/models/content_block.dart';
 import 'package:bcc5/screens/common/content_screen_navigator.dart';
-import 'package:bcc5/screens/flashcards/flashcard_item_screen.dart';
+import 'package:bcc5/screens/paths/path_chapter_screen.dart';
+import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
 import 'package:bcc5/screens/parts/part_item_screen.dart';
 import 'package:bcc5/screens/tools/tool_item_screen.dart';
+import 'package:bcc5/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
@@ -33,6 +35,8 @@ final appRouter = GoRouter(
         final contentMap =
             extras['contentMap'] as Map<String, List<ContentBlock>>? ?? {};
         final startIndex = extras['startIndex'] as int? ?? 0;
+        final branchIndex =
+            extras['branchIndex'] as int? ?? 0; // ✅ Add this line
         final backDestination = extras['backDestination'] as String? ?? '/';
         final backExtra = extras['backExtra'] as Map<String, dynamic>?;
 
@@ -41,6 +45,7 @@ final appRouter = GoRouter(
           sequenceTitles: sequenceTitles,
           contentMap: contentMap,
           startIndex: startIndex,
+          branchIndex: branchIndex, // ✅ Fix passed here
           onBack: () {
             if (backExtra != null) {
               context.go(backDestination, extra: backExtra);
@@ -48,6 +53,55 @@ final appRouter = GoRouter(
               context.go(backDestination);
             }
           },
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/learning-paths/:pathName',
+      name: 'learning-path',
+      pageBuilder: (context, state) {
+        final pathName =
+            state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
+        logger.i('🧭 Navigating to PathChapterScreen for $pathName');
+
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
+            branchIndex: 0, // or whatever makes sense
+            child: PathChapterScreen(pathName: pathName),
+          ),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/learning-paths/:pathName/items',
+      name: 'learning-path-items',
+      pageBuilder: (context, state) {
+        final pathName =
+            state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final chapterId = extras['chapterId'] as String?;
+
+        logger.i('📥 Received pathName=$pathName, chapterId=$chapterId');
+
+        if (chapterId == null) {
+          logger.e('❌ Missing chapterId for $pathName');
+          return buildCustomTransition(
+            context: context,
+            child: const Scaffold(
+              body: Center(child: Text('Missing chapter ID')),
+            ),
+          );
+        }
+
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
+            branchIndex: 0,
+            child: PathItemScreen(pathName: pathName, chapterId: chapterId),
+          ),
         );
       },
     ),
@@ -132,31 +186,6 @@ final appRouter = GoRouter(
               child: FlashcardCategoryScreen(),
             ),
           ),
-    ),
-    GoRoute(
-      path: '/flashcards/items',
-      name: 'flashcard-items',
-      pageBuilder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {};
-        final category = extras['category'] as String?;
-
-        if (category == null || category.trim().isEmpty) {
-          return buildCustomTransition(
-            context: context,
-            child: const Scaffold(
-              body: Center(child: Text('❌ Missing or malformed category')),
-            ),
-          );
-        }
-
-        return buildCustomTransition(
-          context: context,
-          child: MainScaffold(
-            branchIndex: 3,
-            child: FlashcardItemScreen(category: category),
-          ),
-        );
-      },
     ),
 
     GoRoute(

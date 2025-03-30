@@ -1,13 +1,13 @@
 // 📄 lib/screens/tools/tool_item_screen.dart
 
-import 'package:bcc5/data/repositories/tools/tool_repository.dart';
+import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
-import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/models/tool_model.dart';
-import 'package:bcc5/navigation/main_scaffold.dart'; // ✅ Needed for BNB
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/utils/logger.dart';
 
 class ToolItemScreen extends StatelessWidget {
   final String toolbag;
@@ -16,16 +16,16 @@ class ToolItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.i('🛠️ Entered ToolItemScreen for toolbag: $toolbag');
+    logger.i('🛠️ Displaying ToolItemScreen (Toolbag: $toolbag)');
 
     final List<ToolItem> tools = getToolsForBag(toolbag);
 
     return MainScaffold(
-      branchIndex: 4, // ✅ Ensures BNB highlights the "Tools" tab
+      branchIndex: 4,
       child: Column(
         children: [
           CustomAppBarWidget(
-            title: 'Tool Items',
+            title: '${toolbag[0].toUpperCase()}${toolbag.substring(1)} Tools',
             showBackButton: true,
             showSearchIcon: true,
             showSettingsIcon: true,

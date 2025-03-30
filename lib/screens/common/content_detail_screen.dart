@@ -1,9 +1,11 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/models/content_block.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/utils/logger.dart';
-import 'package:go_router/go_router.dart'; // 🟠 Added for fallback navigation
+import 'package:bcc5/theme/app_theme.dart';
 
 class ContentDetailScreen extends StatelessWidget {
   final String title;
@@ -20,7 +22,7 @@ class ContentDetailScreen extends StatelessWidget {
     this.onPrevious,
     this.onNext,
     this.onBack,
-    this.branchIndex = 0, // Default to Home tab if unspecified
+    this.branchIndex = 0,
   });
 
   @override
@@ -52,31 +54,57 @@ class ContentDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               itemCount: content.length,
               separatorBuilder: (_, __) => const SizedBox(height: 16),
-              itemBuilder: (context, index) {
-                final block = content[index];
-                return _renderBlock(context, block);
-              },
+              itemBuilder:
+                  (context, index) => _renderBlock(context, content[index]),
             ),
           ),
-          const Divider(height: 1),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (onPrevious != null)
-                TextButton.icon(
-                  onPressed: onPrevious,
-                  icon: const Icon(Icons.arrow_back),
-                  label: const Text('Previous'),
+          ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
                 ),
-              if (onNext != null)
-                TextButton.icon(
-                  onPressed: onNext,
-                  icon: const Icon(Icons.arrow_forward),
-                  label: const Text('Next'),
+                decoration: BoxDecoration(color: Colors.white.withAlpha(76)),
+                child: Row(
+                  children: [
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(minWidth: 160),
+                      child: ElevatedButton.icon(
+                        onPressed: onPrevious,
+                        icon: const Icon(Icons.arrow_back),
+                        label: const Text('Previous'),
+                        style:
+                            onPrevious != null
+                                ? AppTheme.navigationButtonStyle
+                                : AppTheme.disabledNavigationButtonStyle,
+                      ),
+                    ),
+                    const Spacer(),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(minWidth: 160),
+                      child: ElevatedButton(
+                        onPressed: onNext,
+                        style:
+                            onNext != null
+                                ? AppTheme.navigationButtonStyle
+                                : AppTheme.disabledNavigationButtonStyle,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text('Next'),
+                            SizedBox(width: 8),
+                            Icon(Icons.arrow_forward),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-            ],
+              ),
+            ),
           ),
-          const SizedBox(height: 8),
         ],
       ),
     );
@@ -107,19 +135,20 @@ class ContentDetailScreen extends StatelessWidget {
           ),
         );
       case ContentBlockType.bulletList:
-        final bullets = block.bulletList ?? [];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children:
-              bullets.map((item) {
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('• ', style: TextStyle(fontSize: 16)),
-                    Expanded(child: Text(item)),
-                  ],
-                );
-              }).toList(),
+              block.bulletList!
+                  .map(
+                    (item) => Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('• ', style: TextStyle(fontSize: 16)),
+                        Expanded(child: Text(item)),
+                      ],
+                    ),
+                  )
+                  .toList(),
         );
       case ContentBlockType.image:
         return Image.asset(

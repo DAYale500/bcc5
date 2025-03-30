@@ -1,12 +1,13 @@
 // 🟠 part_model.dart
 
 import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
 
 class PartItem {
-  final String id; // e.g., part_hull_1.00
+  final String id;
   final String title;
-  final List<ContentBlock> content; // interleaved text and images
-  final List<String> flashcardIds;
+  final List<ContentBlock> content;
+  final List<Flashcard> flashcards;
   final List<String> keywords;
   final bool isPaid;
 
@@ -14,7 +15,7 @@ class PartItem {
     required this.id,
     required this.title,
     required this.content,
-    this.flashcardIds = const [],
+    required this.flashcards,
     this.keywords = const [],
     this.isPaid = false,
   });
