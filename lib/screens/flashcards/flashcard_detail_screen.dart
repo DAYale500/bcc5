@@ -20,7 +20,7 @@ class FlashcardDetailScreen extends StatefulWidget {
 class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     with SingleTickerProviderStateMixin {
   late List<String> sequenceTitles;
-  late Map<String, List<ContentBlock>> contentMap;
+  late Map<String, Map<String, List<ContentBlock>>> contentMap;
   late int currentIndex;
   late int branchIndex;
   late String backDestination;
@@ -35,7 +35,17 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     try {
       sequenceTitles = widget.extra['sequenceTitles']?.cast<String>() ?? [];
       contentMap = (widget.extra['contentMap'] as Map).map(
-        (key, value) => MapEntry(key.toString(), value.cast<ContentBlock>()),
+        (key, value) => MapEntry(
+          key.toString(),
+          Map<String, List<ContentBlock>>.from(
+            (value as Map).map(
+              (side, blocks) => MapEntry(
+                side.toString(),
+                (blocks as List).cast<ContentBlock>(),
+              ),
+            ),
+          ),
+        ),
       );
       currentIndex = widget.extra['startIndex'] as int? ?? 0;
       branchIndex = widget.extra['branchIndex'] as int? ?? 0;
@@ -100,14 +110,9 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
   @override
   Widget build(BuildContext context) {
     final String title = sequenceTitles[currentIndex];
-    final List<ContentBlock> content = contentMap[title] ?? [];
-    final List<ContentBlock> front =
-        content.takeWhile((b) => b.type != ContentBlockType.divider).toList();
-    final List<ContentBlock> back =
-        content
-            .skipWhile((b) => b.type != ContentBlockType.divider)
-            .skip(1)
-            .toList();
+    final Map<String, List<ContentBlock>> blocks = contentMap[title] ?? {};
+    final List<ContentBlock> front = blocks['sideA'] ?? [];
+    final List<ContentBlock> back = blocks['sideB'] ?? [];
 
     return Stack(
       fit: StackFit.expand,
@@ -152,12 +157,31 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                             transform: Matrix4.rotationY(
                               _flipAnimation.value * math.pi,
                             ),
-                            child: FlipCardWidget(
-                              front: front,
-                              back: back,
-                              showFront: isFront,
-                              animation: _flipAnimation, // 🛠️ this was missing
-                            ),
+                            child:
+                                isFront
+                                    ? FlipCardWidget(
+                                      front: front,
+                                      back: back,
+                                      showFront: true,
+                                      animation: _flipAnimation,
+                                    )
+                                    : Transform(
+                                      alignment: Alignment.center,
+                                      transform: Matrix4.rotationY(math.pi),
+                                      child: FlipCardWidget(
+                                        front: front,
+                                        back: back,
+                                        showFront: false,
+                                        animation: _flipAnimation,
+                                      ),
+                                    ),
+
+                            // child: FlipCardWidget(
+                            //   front: front,
+                            //   back: back,
+                            //   showFront: isFront,
+                            //   animation: _flipAnimation,
+                            // ),
                           );
                         },
                       ),

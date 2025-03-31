@@ -1,124 +1,61 @@
-// 📄 lib/data/repositories/learning_paths/competent_crew_repository.dart
-
 import 'package:bcc5/data/models/path_model.dart';
 
 class CompetentCrewRepository {
   static final List<LearningPathChapter> _chapters = [
-    LearningPathChapter(
-      id: 'path_competentCrew_1.00',
-      title: '1: Prepare in Advance',
-      items: [
-        PathItem(pathItemId: 'part_deck_2.00'),
-        PathItem(pathItemId: 'lesson_dock_1.00'),
-        PathItem(pathItemId: 'lesson_dock_3.00'),
-      ],
-    ),
-    LearningPathChapter(
-      id: 'path_competentCrew_2.00',
-      title: '2: Arrive at the Marina',
-      items: [
-        PathItem(pathItemId: 'part_deck_3.00'),
-        PathItem(pathItemId: 'lesson_dock_4.00'),
-        PathItem(pathItemId: 'lesson_dock_5.00'),
-        PathItem(pathItemId: 'lesson_dock_6.00'),
-        PathItem(pathItemId: 'lesson_dock_7.00'),
-        PathItem(pathItemId: 'lesson_dock_8.00'),
-        PathItem(pathItemId: 'lesson_dock_9.00'),
-        PathItem(pathItemId: 'flashcard_lesson_dock_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_dock_2.00'),
-        PathItem(pathItemId: 'flashcard_lesson_dock_3.00'),
-        PathItem(pathItemId: 'flashcard_lesson_dock_4.00'),
-      ],
-    ),
-    LearningPathChapter(
-      id: 'path_competentCrew_3.00',
-      title: '3: Get Settled Onboard',
-      items: [
-        PathItem(pathItemId: 'lesson_emer_1.00'),
-        PathItem(pathItemId: 'lesson_emer_2.00'),
-        PathItem(pathItemId: 'lesson_emer_3.00'),
-        PathItem(pathItemId: 'lesson_emer_4.00'),
-        PathItem(pathItemId: 'lesson_emer_5.00'),
-        PathItem(pathItemId: 'lesson_emer_6.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_2.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_3.00'),
-        PathItem(pathItemId: 'lesson_knot_1.00'),
-        PathItem(pathItemId: 'lesson_knot_2.00'),
-        PathItem(pathItemId: 'lesson_knot_3.00'),
-        PathItem(pathItemId: 'lesson_knot_4.00'),
-        PathItem(pathItemId: 'lesson_knot_5.00'),
-        PathItem(pathItemId: 'flashcard_lesson_knot_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_knot_2.00'),
-      ],
-    ),
-    LearningPathChapter(
-      id: 'path_competentCrew_4.00',
-      title: '4: Getting Underway',
-      items: [
-        PathItem(pathItemId: 'lesson_navi_1.00'),
-        PathItem(pathItemId: 'lesson_navi_2.00'),
-        PathItem(pathItemId: 'lesson_navi_3.00'),
-        PathItem(pathItemId: 'lesson_navi_4.00'),
-        PathItem(pathItemId: 'lesson_navi_5.00'),
-        PathItem(pathItemId: 'lesson_navi_6.00'),
-        PathItem(pathItemId: 'flashcard_lesson_navi_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_navi_2.00'),
-        PathItem(pathItemId: 'lesson_safe_1.00'),
-        PathItem(pathItemId: 'lesson_safe_2.00'),
-        PathItem(pathItemId: 'lesson_safe_3.00'),
-        PathItem(pathItemId: 'lesson_safe_4.00'),
-        PathItem(pathItemId: 'lesson_safe_5.00'),
-        PathItem(pathItemId: 'lesson_safe_6.00'),
-        PathItem(pathItemId: 'lesson_safe_7.00'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_2.00'),
-      ],
-    ),
-    LearningPathChapter(
-      id: 'path_competentCrew_5.00',
-      title: '5: Allhands Responsibilities',
-      items: [
-        PathItem(pathItemId: 'lesson_emer_1.00'),
-        PathItem(pathItemId: 'lesson_emer_2.00'),
-        PathItem(pathItemId: 'lesson_emer_3.00'),
-        PathItem(pathItemId: 'lesson_emer_4.00'),
-        PathItem(pathItemId: 'lesson_emer_5.00'),
-        PathItem(pathItemId: 'lesson_emer_6.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_2.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_3.00'),
-        PathItem(pathItemId: 'lesson_knot_1.00'),
-        PathItem(pathItemId: 'lesson_knot_2.00'),
-        PathItem(pathItemId: 'lesson_knot_3.00'),
-        PathItem(pathItemId: 'lesson_knot_4.00'),
-        PathItem(pathItemId: 'lesson_knot_5.00'),
-        PathItem(pathItemId: 'flashcard_lesson_knot_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_knot_2.00'),
-      ],
-    ),
-    LearningPathChapter(
-      id: 'path_competentCrew_6.00',
-      title: '6: Sailing at Last',
-      items: [
-        PathItem(pathItemId: 'lesson_emer_1.00'),
-        PathItem(pathItemId: 'lesson_emer_2.00'),
-        PathItem(pathItemId: 'lesson_emer_3.00'),
-        PathItem(pathItemId: 'lesson_emer_4.00'),
-        PathItem(pathItemId: 'lesson_emer_5.00'),
-        PathItem(pathItemId: 'lesson_emer_6.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_2.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_3.00'),
-        PathItem(pathItemId: 'lesson_knot_1.00'),
-        PathItem(pathItemId: 'lesson_knot_2.00'),
-        PathItem(pathItemId: 'lesson_knot_3.00'),
-        PathItem(pathItemId: 'lesson_knot_4.00'),
-        PathItem(pathItemId: 'lesson_knot_5.00'),
-        PathItem(pathItemId: 'flashcard_lesson_knot_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_knot_2.00'),
-      ],
-    ),
+    for (int i = 1; i <= 6; i++)
+      LearningPathChapter(
+        id: 'path_competentCrew_${i.toStringAsFixed(2)}',
+        title: '$i: Chapter ${(i ^ 2)}',
+        items: [
+          // 1. LESSON + FLASHCARD
+          PathItem(pathItemId: 'lesson_syst_1.00'),
+          PathItem(pathItemId: 'flashcard_lesson_syst_1.00'),
+
+          // 2. PART + FLASHCARD
+          PathItem(pathItemId: 'part_deck_1.00'),
+          PathItem(pathItemId: 'flashcard_part_deck_1.00'),
+
+          // 3. TOOL + FLASHCARD
+          PathItem(pathItemId: 'tool_procedures_1.00'),
+          PathItem(pathItemId: 'flashcard_tool_procedures_1.00'),
+
+          // 4. LESSON + FLASHCARD
+          PathItem(pathItemId: 'lesson_syst_2.00'),
+          PathItem(pathItemId: 'flashcard_lesson_syst_2.00'),
+
+          // 5. PART + FLASHCARD
+          PathItem(pathItemId: 'part_hull_1.00'),
+          PathItem(pathItemId: 'flashcard_part_hull_1.00'),
+
+          // 6. TOOL + FLASHCARD
+          PathItem(pathItemId: 'tool_procedures_2.00'),
+          PathItem(pathItemId: 'flashcard_tool_procedures_2.00'),
+
+          // 7. LESSON + FLASHCARD
+          PathItem(pathItemId: 'lesson_syst_3.00'),
+          PathItem(pathItemId: 'flashcard_lesson_syst_3.00'),
+
+          // 8. PART + FLASHCARD
+          PathItem(pathItemId: 'part_deck_2.00'),
+          PathItem(pathItemId: 'flashcard_part_deck_2.00'),
+
+          // 9. TOOL + FLASHCARD
+          PathItem(pathItemId: 'tool_checklists_1.00'),
+          PathItem(pathItemId: 'flashcard_tool_checklists_1.00'),
+
+          // 10. LESSON + FLASHCARD
+          PathItem(pathItemId: 'lesson_syst_6.00'),
+          PathItem(pathItemId: 'flashcard_lesson_syst_6.00'),
+
+          // 11. PART + FLASHCARD
+          PathItem(pathItemId: 'part_hull_2.00'),
+          PathItem(pathItemId: 'flashcard_part_hull_2.00'),
+
+          // 12. TOOL + FLASHCARD
+          PathItem(pathItemId: 'tool_checklists_2.00'),
+          PathItem(pathItemId: 'flashcard_tool_checklists_2.00'),
+        ],
+      ),
   ];
 
   static List<LearningPathChapter> getChapters() => _chapters;

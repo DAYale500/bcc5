@@ -79,7 +79,7 @@ class FlashcardItemScreen extends StatelessWidget {
                             flashcards.map((f) => f.title).toList(),
                         'contentMap': {
                           for (var f in flashcards)
-                            f.title: [...(f.showAFirst ? f.sideA : f.sideB)],
+                            f.title: {'sideA': f.sideA, 'sideB': f.sideB},
                         },
                         'startIndex': index,
                         'branchIndex': 3,

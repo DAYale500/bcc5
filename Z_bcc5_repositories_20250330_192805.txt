@@ -581,6 +581,16 @@ List<Flashcard> getFlashcardsForCategory(String category) {
   return [];
 }
 
+List<String> getAllCategories() {
+  return [
+    ...LessonRepositoryIndex.getModuleNames(),
+    ...PartRepositoryIndex.getZoneNames(),
+    ...ToolRepositoryIndex.getToolbagNames(),
+    'all',
+    'random',
+  ];
+}
+
 List<Flashcard> _getAllLessonFlashcards() =>
     LessonRepositoryIndex.getModuleNames()
         .expand((m) => LessonRepositoryIndex.getLessonsForModule(m))
@@ -1402,31 +1412,172 @@ class RiggingPartRepository {
 
 
 File: lib/data/repositories/lessons/lesson_systems_repository.dart
-// import 'package:bcc5/data/models/lesson_model.dart';
-// import 'package:bcc5/data/models/content_block.dart';
+// 📄 lib/data/repositories/lessons/systems_lessons_repository.dart
 
-// class SystemsLessonRepository {
-//   static final lessons = <Lesson>[
-//     Lesson(
-//       id: 'lesson_systems_1.00',
-//       moduleId: 'systems',
-//       title: 'Battery Basics',
-//       content: [
-//         ContentBlock.heading('12V DC Systems'),
-//         ContentBlock.text('Most boats use 12-volt DC electrical systems.'),
-//         ContentBlock.image('assets/images/battery_system.jpeg'),
-//         ContentBlock.bullets([
-//           'Check voltage before and after trips.',
-//           'Know location of battery switches.',
-//           'Don’t overload circuits.',
-//         ]),
-//       ],
-//       keywords: ['systems', 'battery', 'electrical'],
-//       flashcardIds: ['fc_systems_1'],
-//       isPaid: false,
-//     ),
-//   ];
-// }
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/lesson_model.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
+
+class SystemsLessonRepository {
+  static final lessons = <Lesson>[
+    Lesson(
+      id: "lesson_syst_1.00",
+      title: "Get Oriented with the Boat",
+      content: [
+        ContentBlock.text(
+          "Explore key areas of a sailboat, including the cockpit, deck, and cabin.",
+        ),
+      ],
+      keywords: ["boat layout", "cockpit", "deck", "cabin"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_syst_1.00",
+          title: "FC: Get Oriented with the Boat",
+          sideA: [ContentBlock.text("What are the key areas of a sailboat?")],
+          sideB: [
+            ContentBlock.text(
+              "The cockpit, deck, and cabin are primary areas of a sailboat.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_syst_2.00",
+      title: "Free: Essential Boat Equipment",
+      content: [
+        ContentBlock.text("Understand the essential equipment on a boat."),
+      ],
+      keywords: ["equipment", "boat safety", "essentials"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_syst_2.00",
+          title: "FC: Essential Boat Equipment",
+          sideA: [
+            ContentBlock.text("What are examples of essential boat equipment?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Life jackets, fire extinguishers, and navigation tools.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_syst_3.00",
+      title: "Free: Winches",
+      content: [
+        ContentBlock.text(
+          "Overview of a winch’s purpose and safe handling techniques.",
+        ),
+      ],
+      keywords: ["winches", "equipment", "handling"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_syst_3.00",
+          title: "FC: Winches",
+          sideA: [ContentBlock.text("What is a winch used for on a boat?")],
+          sideB: [
+            ContentBlock.text(
+              "A winch provides mechanical advantage for tightening lines.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_syst_4.00",
+      title: "Paid: Use of the Head (Toilet)",
+      content: [
+        ContentBlock.text(
+          "To use the head, pump a small amount of water into the bowl first, then pump 3–4 times after use.",
+        ),
+      ],
+      keywords: ["toilet", "head", "boat equipment"],
+      isPaid: true,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_syst_4.00",
+          title: "FC: Use of the Head (Toilet)",
+          sideA: [
+            ContentBlock.text("How do you properly use a marine toilet?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Pump water in, use the toilet, then pump 3–4 times after use.",
+            ),
+          ],
+          isPaid: true,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_syst_5.00",
+      title: "Paid: Introduction to Boat Equipment",
+      content: [
+        ContentBlock.text(
+          "This lesson covers essential boat equipment every crew member should know.",
+        ),
+      ],
+      keywords: ["equipment", "boat safety", "introduction"],
+      isPaid: true,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_syst_5.00",
+          title: "FC: Introduction to Boat Equipment",
+          sideA: [
+            ContentBlock.text("Why is it important to know boat equipment?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Understanding equipment improves safety and efficiency on board.",
+            ),
+          ],
+          isPaid: true,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_syst_6.00",
+      title: "Free: Parts of the Boat",
+      content: [
+        ContentBlock.text(
+          "Familiarize yourself with key parts of the boat: bow, stern, port, starboard, and boom.",
+        ),
+      ],
+      keywords: ["bow", "stern", "port", "starboard", "boom"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_syst_6.00",
+          title: "FC: Parts of the Boat",
+          sideA: [
+            ContentBlock.text("What are the key directional terms on a boat?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Bow (front), stern (back), port (left), starboard (right).",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+  ];
+}
 
 
 
@@ -1440,13 +1591,13 @@ File: lib/data/repositories/lessons/lesson_systems_repository.dart
 File: lib/data/repositories/lessons/lesson_repository_index.dart
 import 'lesson_docking_repository.dart';
 import 'lesson_emergencies_repository.dart';
-// import 'lesson_knots_repository.dart';
-// import 'lesson_navigation_repository.dart';
-// import 'lesson_safety_repository.dart';
-// import 'lesson_seamanship_repository.dart';
-// import 'lesson_systems_repository.dart';
-// import 'lesson_teamwork_repository.dart';
-// import 'lesson_terminology_repository.dart';
+import 'lesson_knots_repository.dart';
+import 'lesson_navigation_repository.dart';
+import 'lesson_safety_repository.dart';
+import 'lesson_seamanship_repository.dart';
+import 'lesson_systems_repository.dart';
+import 'lesson_teamwork_repository.dart';
+import 'lesson_terminology_repository.dart';
 import 'package:bcc5/utils/id_parser.dart';
 import 'package:bcc5/data/models/lesson_model.dart';
 
@@ -1454,13 +1605,13 @@ class LessonRepositoryIndex {
   static final Map<String, List<Lesson>> _modules = {
     'docking': DockingLessonRepository.lessons,
     'emergencies': EmergenciesLessonRepository.lessons,
-    // 'knots': KnotsLessonRepository.lessons,
-    // 'navigation': NavigationLessonRepository.lessons,
-    // 'safety': SafetyLessonRepository.lessons,
-    // 'seamanship': SeamanshipLessonRepository.lessons,
-    // 'systems': SystemsLessonRepository.lessons,
-    // 'teamwork': TeamworkLessonRepository.lessons,
-    // 'terminology': TerminologyLessonRepository.lessons,
+    'knots': KnotsLessonRepository.lessons,
+    'navigation': NavigationLessonRepository.lessons,
+    'safety': SafetyLessonRepository.lessons,
+    'seamanship': SeamanshipLessonRepository.lessons,
+    'systems': SystemsLessonRepository.lessons,
+    'teamwork': TeamworkLessonRepository.lessons,
+    'terminology': TerminologyLessonRepository.lessons,
   };
 
   static List<String> getModuleNames() => _modules.keys.toList();
@@ -1507,33 +1658,174 @@ class LessonRepositoryIndex {
 
 
 File: lib/data/repositories/lessons/lesson_navigation_repository.dart
-// import 'package:bcc5/data/models/content_block.dart';
-// import 'package:bcc5/data/models/lesson_model.dart';
+// 📄 lib/data/repositories/lessons/navigation_lessons_repository.dart
 
-// class NavigationLessonRepository {
-//   static final lessons = <Lesson>[
-//     Lesson(
-//       id: 'lesson_navigation_1.00',
-//       moduleId: 'navigation',
-//       title: 'Using a Compass',
-//       content: [
-//         ContentBlock.heading('Basic Compass Use'),
-//         ContentBlock.text(
-//           'A compass shows direction relative to magnetic north.',
-//         ),
-//         ContentBlock.image('assets/images/compass.jpeg'),
-//         ContentBlock.bullets([
-//           'Hold it flat and level.',
-//           'Avoid interference from metal.',
-//           'Use in conjunction with charts.',
-//         ]),
-//       ],
-//       keywords: ['navigation', 'compass', 'direction'],
-//       flashcardIds: ['fc_navigation_1'],
-//       isPaid: false,
-//     ),
-//   ];
-// }
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
+import 'package:bcc5/data/models/lesson_model.dart';
+
+class NavigationLessonRepository {
+  static final lessons = <Lesson>[
+    Lesson(
+      id: "lesson_navi_1.00",
+      title: "Being a Good Lookout",
+      content: [
+        ContentBlock.text(
+          "Understand the responsibilities of a lookout, including spotting hazards and maintaining awareness.",
+        ),
+      ],
+      keywords: ["navigation", "lookout", "hazards", "awareness"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_navi_1.00",
+          title: "FC: Being a Good Lookout",
+          sideA: [
+            ContentBlock.text("What is a key responsibility of a lookout?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Spotting hazards and maintaining situational awareness.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_navi_2.00",
+      title: "Weather Awareness Basics",
+      content: [
+        ContentBlock.text(
+          "Introduction to basic weather cues, like cloud patterns and wind shifts, which can impact safety and comfort on the water.",
+        ),
+      ],
+      keywords: ["weather awareness", "basic weather cues", "safety"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_navi_2.00",
+          title: "FC: Weather Awareness Basics",
+          sideA: [
+            ContentBlock.text("Why is recognizing cloud patterns important?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Cloud patterns can indicate changing weather conditions.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_navi_3.00",
+      title: "Understanding Weather on the Water",
+      content: [
+        ContentBlock.text(
+          "Weather conditions can change quickly on the water, affecting sailing safety and comfort.",
+        ),
+      ],
+      keywords: ["weather", "navigation", "safety"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_navi_3.00",
+          title: "FC: Understanding Weather on the Water",
+          sideA: [
+            ContentBlock.text("What weather conditions can impact sailing?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Wind shifts, sudden temperature drops, and cloud formations.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_navi_4.00",
+      title: "How to Read Wind Direction",
+      content: [
+        ContentBlock.text(
+          "Reading the wind direction is crucial for effective sailing and anticipating shifts in boat movement.",
+        ),
+      ],
+      keywords: ["wind direction", "sailing", "navigation"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_navi_4.00",
+          title: "FC: Reading Wind Direction",
+          sideA: [
+            ContentBlock.text("Why is wind direction important in sailing?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "It determines how you adjust the sails and steer the boat.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_navi_5.00",
+      title: "Advanced Weather Forecasting",
+      content: [
+        ContentBlock.text(
+          "Getting and interpreting GRIB files for detailed weather forecasts, useful for planning long passages.",
+        ),
+      ],
+      keywords: ["weather", "forecast", "GRIB files", "weather patterns"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_navi_5.00",
+          title: "FC: Advanced Weather Forecasting",
+          sideA: [ContentBlock.text("What is a GRIB file used for?")],
+          sideB: [
+            ContentBlock.text(
+              "Providing detailed weather forecast data for sailors.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_navi_6.00",
+      title: "Weather Awareness",
+      content: [
+        ContentBlock.text(
+          "Recognize signs of approaching weather changes like cloud formations, temperature drops, and sudden wind shifts.",
+        ),
+      ],
+      keywords: ["weather awareness", "weather changes", "safety"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_navi_6.00",
+          title: "FC: Weather Awareness",
+          sideA: [ContentBlock.text("What are signs of an approaching storm?")],
+          sideB: [
+            ContentBlock.text(
+              "Darkening clouds, dropping temperatures, and increasing wind speed.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+  ];
+}
 
 
 
@@ -1784,31 +2076,215 @@ class EmergenciesLessonRepository {
 
 
 File: lib/data/repositories/lessons/lesson_safety_repository.dart
-// import 'package:bcc5/data/models/content_block.dart';
-// import 'package:bcc5/data/models/lesson_model.dart';
+// 📄 lib/data/repositories/lessons/safety_lessons_repository.dart
 
-// class SafetyLessonRepository {
-//   static final lessons = <Lesson>[
-//     Lesson(
-//       id: 'lesson_safety_1.00',
-//       moduleId: 'safety',
-//       title: 'Lifejacket Basics',
-//       content: [
-//         ContentBlock.heading('When to Wear a Lifejacket'),
-//         ContentBlock.text('Lifejackets save lives — wear them proactively.'),
-//         ContentBlock.image('assets/images/lifejacket.jpeg'),
-//         ContentBlock.bullets([
-//           'Anytime on deck in rough seas.',
-//           'At night or in cold weather.',
-//           'If you cannot swim.',
-//         ]),
-//       ],
-//       keywords: ['safety', 'lifejacket', 'PFD'],
-//       flashcardIds: ['fc_safety_1'],
-//       isPaid: false,
-//     ),
-//   ];
-// }
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
+import 'package:bcc5/data/models/lesson_model.dart';
+
+class SafetyLessonRepository {
+  static final lessons = <Lesson>[
+    Lesson(
+      id: "lesson_safe_1.00",
+      title: "Packing List and Clothing",
+      content: [
+        ContentBlock.text(
+          "Learn what to pack for a sailing trip, including clothing, gear, and safety essentials.",
+        ),
+      ],
+      keywords: ["packing", "gear", "clothing", "preparation"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_safe_1.00",
+          title: "FC: Packing List and Clothing",
+          sideA: [
+            ContentBlock.text(
+              "What are essential items to pack for a sailing trip?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Clothing layers, waterproof gear, life jackets, and safety essentials.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_safe_2.00",
+      title: "Safety Briefing",
+      content: [
+        ContentBlock.text(
+          "Understand basic safety procedures on board, including life jackets, emergency signals, and safety drills.",
+        ),
+      ],
+      keywords: ["safety briefing", "life jackets", "emergency"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_safe_2.00",
+          title: "FC: Safety Briefing",
+          sideA: [
+            ContentBlock.text(
+              "What is a key topic covered in a safety briefing?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Emergency procedures, life jackets, and crew responsibilities.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_safe_3.00",
+      title: "Essential Safety Equipment",
+      content: [
+        ContentBlock.text(
+          "Guidance on locating and understanding the use of life jackets, fire extinguishers, and throwable flotation devices to ensure basic onboard safety.",
+        ),
+      ],
+      keywords: ["safety equipment", "life jacket", "fire extinguisher"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_safe_3.00",
+          title: "FC: Essential Safety Equipment",
+          sideA: [
+            ContentBlock.text(
+              "What is the purpose of a throwable flotation device?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "To assist a person overboard until they can be rescued.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_safe_4.00",
+      title: "Man Overboard Procedure",
+      content: [
+        ContentBlock.text(
+          "IMMEDIATE ACTIONS for MOB. If someone falls overboard, it's important to recover them quickly, especially in cold water.",
+        ),
+      ],
+      keywords: ["man overboard", "MOB", "rescue", "recovery"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_safe_4.00",
+          title: "FC: Man Overboard Procedure",
+          sideA: [
+            ContentBlock.text(
+              "What should you do immediately if someone falls overboard?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Shout 'Man Overboard', throw a flotation device, and maintain visual contact.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_safe_5.00",
+      title: "Where to Sit on the Boat",
+      content: [
+        ContentBlock.text(
+          "Sit in designated areas that are free from lines and equipment. Avoid sitting in areas like the bow (front) in rough conditions unless instructed.",
+        ),
+      ],
+      keywords: ["safety", "seating", "safe zones"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_safe_5.00",
+          title: "FC: Where to Sit on the Boat",
+          sideA: [
+            ContentBlock.text(
+              "Why should you avoid sitting on the bow in rough conditions?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "The bow can become unstable and increase the risk of falling overboard.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_safe_6.00",
+      title: "How to Move Around the Boat Safely",
+      content: [
+        ContentBlock.text(
+          "Always hold onto something (known as 'one hand for the boat'). Move slowly and deliberately, and be aware of swinging sails or lines.",
+        ),
+      ],
+      keywords: ["movement", "handrails", "safety"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_safe_6.00",
+          title: "FC: How to Move Around the Boat Safely",
+          sideA: [ContentBlock.text("What does 'one hand for the boat' mean?")],
+          sideB: [
+            ContentBlock.text(
+              "Always keep one hand holding onto the boat to maintain stability.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_safe_7.00",
+      title: "Advanced Safety",
+      content: [
+        ContentBlock.text(
+          "Learn how to stay as safe as possible in various scenarios.",
+        ),
+      ],
+      keywords: ["advanced safety", "safety protocols", "crew safety"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_safe_7.00",
+          title: "FC: Advanced Safety",
+          sideA: [
+            ContentBlock.text(
+              "What is one of the key aspects of advanced safety?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Being prepared for multiple emergency situations and knowing protocols.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+  ];
+}
 
 
 
@@ -1820,33 +2296,141 @@ File: lib/data/repositories/lessons/lesson_safety_repository.dart
 
 
 File: lib/data/repositories/lessons/lesson_knots_repository.dart
-// import 'package:bcc5/data/models/content_block.dart';
-// import 'package:bcc5/data/models/lesson_model.dart';
+// 📄 lib/data/repositories/lessons/knots_lessons_repository.dart
 
-// class KnotsLessonRepository {
-//   static final lessons = <Lesson>[
-//     Lesson(
-//       id: 'lesson_knots_1.00',
-//       moduleId: 'knots',
-//       title: 'Tying a Bowline',
-//       content: [
-//         ContentBlock.heading('Why Use a Bowline'),
-//         ContentBlock.text(
-//           'It creates a strong, non-slipping loop at the end of a rope.',
-//         ),
-//         ContentBlock.image('assets/images/bowline_knot.jpeg'),
-//         ContentBlock.bullets([
-//           'The rabbit comes out of the hole...',
-//           '...goes around the tree...',
-//           '...and back into the hole.',
-//         ]),
-//       ],
-//       keywords: ['knots', 'bowline', 'loop'],
-//       flashcardIds: ['fc_knots_1'],
-//       isPaid: false,
-//     ),
-//   ];
-// }
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
+import 'package:bcc5/data/models/lesson_model.dart';
+
+class KnotsLessonRepository {
+  static final lessons = <Lesson>[
+    Lesson(
+      id: "lesson_knot_1.00",
+      title: "Introductory Knots",
+      content: [
+        ContentBlock.text(
+          "Introduction to two essential knots: figure-eight and cleat hitch.",
+        ),
+      ],
+      keywords: ["figure-eight", "cleat hitch", "basic knots"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_knot_1.00",
+          title: "FC: Introductory Knots",
+          sideA: [ContentBlock.text("What is a figure-eight knot used for?")],
+          sideB: [
+            ContentBlock.text(
+              "To prevent a line from slipping through an opening.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_knot_2.00",
+      title: "Essential Knots",
+      content: [
+        ContentBlock.text(
+          "Learn the bowline, cleat hitch, figure-eight, and two half-hitches.",
+        ),
+      ],
+      keywords: ["knots", "bowline", "cleat hitch"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_knot_2.00",
+          title: "FC: Essential Knots",
+          sideA: [
+            ContentBlock.text(
+              "Which knot is best for creating a secure loop that won’t slip?",
+            ),
+          ],
+          sideB: [ContentBlock.text("The bowline knot.")],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_knot_3.00",
+      title: "Basic Knots for Sailing",
+      content: [
+        ContentBlock.text(
+          "Knowing basic knots is essential for securing lines.",
+        ),
+      ],
+      keywords: ["knots", "rope_work", "sailing"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_knot_3.00",
+          title: "FC: Knots for Sailing",
+          sideA: [
+            ContentBlock.text("Why is the cleat hitch important in sailing?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "It secures a line to a cleat quickly and securely.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_knot_4.00",
+      title: "How to Coil and Store Lines",
+      content: [
+        ContentBlock.text(
+          "Proper coiling and storage of lines prevent tangles and reduce wear.",
+        ),
+      ],
+      keywords: ["lines", "rope_work", "coiling"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_knot_4.00",
+          title: "FC: Coiling and Storing Lines",
+          sideA: [
+            ContentBlock.text(
+              "What is the benefit of properly coiling a line?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text("Prevents tangles and makes deployment easier."),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_knot_5.00",
+      title: "Advanced Knots",
+      content: [
+        ContentBlock.text(
+          "Learn advanced knots like the sheet bend and alpine bend.",
+        ),
+      ],
+      keywords: ["advanced knots", "sheet bend", "alpine bend"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_knot_5.00",
+          title: "FC: Advanced Knots",
+          sideA: [ContentBlock.text("What is a sheet bend used for?")],
+          sideB: [ContentBlock.text("Joining two ropes of different sizes.")],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+  ];
+}
 
 
 
@@ -1858,33 +2442,124 @@ File: lib/data/repositories/lessons/lesson_knots_repository.dart
 
 
 File: lib/data/repositories/lessons/lesson_seamanship_repository.dart
-// import 'package:bcc5/data/models/lesson_model.dart';
-// import 'package:bcc5/data/models/content_block.dart';
+// 📄 lib/data/repositories/lessons/lesson_seamanship_repository.dart
 
-// class SeamanshipLessonRepository {
-//   static final lessons = <Lesson>[
-//     Lesson(
-//       id: 'lesson_seamanship_1.00',
-//       moduleId: 'seamanship',
-//       title: 'Line Handling Skills',
-//       content: [
-//         ContentBlock.heading('Why It Matters'),
-//         ContentBlock.text(
-//           'Proper line handling prevents accidents and damage.',
-//         ),
-//         ContentBlock.image('assets/images/line_handling.jpeg'),
-//         ContentBlock.bullets([
-//           'Coil lines neatly to avoid tangles.',
-//           'Never step into a loop.',
-//           'Wear gloves when handling under load.',
-//         ]),
-//       ],
-//       keywords: ['seamanship', 'line', 'handling'],
-//       flashcardIds: ['fc_seamanship_1'],
-//       isPaid: false,
-//     ),
-//   ];
-// }
+import 'package:bcc5/data/models/lesson_model.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
+import 'package:bcc5/data/models/content_block.dart';
+
+class SeamanshipLessonRepository {
+  static final lessons = <Lesson>[
+    Lesson(
+      id: "lesson_seam_1.00",
+      title: "Raising the Sails",
+      content: [
+        ContentBlock.heading("Teamwork & Terminology"),
+        ContentBlock.text(
+          "Learn the names of sails and the teamwork required to raise them properly.",
+        ),
+      ],
+      keywords: ["sails", "halyards", "winches"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_seam_1.00",
+          title: "FC: Raising the Sails",
+          sideA: [
+            ContentBlock.text("What is the primary function of halyards?"),
+          ],
+          sideB: [
+            ContentBlock.text("Halyards are used to hoist sails up the mast."),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_seam_2.00",
+      title: "Sailing Along - Trimming Sails",
+      content: [
+        ContentBlock.heading("Trim for Speed"),
+        ContentBlock.text(
+          "Learn how to trim sails to optimize performance based on wind conditions.",
+        ),
+      ],
+      keywords: ["sail trim", "tacking", "jibing"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_seam_2.00",
+          title: "FC: Sailing Along - Trimming Sails",
+          sideA: [ContentBlock.text("What does proper sail trimming achieve?")],
+          sideB: [
+            ContentBlock.text(
+              "It optimizes boat speed and efficiency by adjusting sails to wind conditions.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_seam_3.00",
+      title: "Understanding Wind and Sail Interaction",
+      content: [
+        ContentBlock.heading("Harnessing Wind Power"),
+        ContentBlock.text(
+          "Gain an understanding of how sails interact with the wind to generate propulsion.",
+        ),
+      ],
+      keywords: ["wind", "aerodynamics", "sail force"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_seam_3.00",
+          title: "FC: Understanding Wind and Sail Interaction",
+          sideA: [
+            ContentBlock.text(
+              "How does wind generate propulsion on a sailboat?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Wind flows over the sails, creating lift and pushing the boat forward.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_seam_4.00",
+      title: "Heaving-To: How to Stop a Sailboat",
+      content: [
+        ContentBlock.heading("Pausing in Open Water"),
+        ContentBlock.text(
+          "Learn how to heave-to, an essential sailing maneuver to pause in open water.",
+        ),
+      ],
+      keywords: ["heaving-to", "stopping", "storm tactics"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_seam_4.00",
+          title: "FC: Heaving-To: How to Stop a Sailboat",
+          sideA: [ContentBlock.text("What is heaving-to?")],
+          sideB: [
+            ContentBlock.text(
+              "A maneuver where the sails and rudder are adjusted to keep the boat nearly stationary in the water.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+  ];
+}
 
 
 
@@ -1896,33 +2571,147 @@ File: lib/data/repositories/lessons/lesson_seamanship_repository.dart
 
 
 File: lib/data/repositories/lessons/lesson_teamwork_repository.dart
-// import 'package:bcc5/data/models/lesson_model.dart';
-// import 'package:bcc5/data/models/content_block.dart';
+// 📄 lib/data/repositories/lessons/teamwork_lessons_repository.dart
 
-// class TeamworkLessonRepository {
-//   static final lessons = <Lesson>[
-//     Lesson(
-//       id: 'lesson_teamwork_1.00',
-//       moduleId: 'teamwork',
-//       title: 'Clear Communication',
-//       content: [
-//         ContentBlock.heading('Why It Matters'),
-//         ContentBlock.text(
-//           'Onboard communication prevents confusion and injury.',
-//         ),
-//         ContentBlock.image('assets/images/communication.jpeg'),
-//         ContentBlock.bullets([
-//           'Use hand signals when noisy.',
-//           'Assign clear roles before docking.',
-//           'Practice commands ahead of time.',
-//         ]),
-//       ],
-//       keywords: ['teamwork', 'communication', 'roles'],
-//       flashcardIds: ['fc_teamwork_1'],
-//       isPaid: false,
-//     ),
-//   ];
-// }
+import 'package:bcc5/data/models/flashcard_model.dart';
+import 'package:bcc5/data/models/lesson_model.dart';
+import 'package:bcc5/data/models/content_block.dart';
+
+class TeamworkLessonRepository {
+  static final lessons = <Lesson>[
+    Lesson(
+      id: "lesson_team_1.00",
+      title: "Boarding Etiquette",
+      content: [
+        ContentBlock.text(
+          "Learn the proper way to board a sailboat and where to stow gear.",
+        ),
+      ],
+      keywords: ["boarding", "etiquette", "gear storage"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_team_1.00",
+          title: "FC: Boarding Etiquette",
+          sideA: [
+            ContentBlock.text("What is the proper way to board a sailboat?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Step carefully, distribute weight evenly, and secure gear immediately.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_team_2.00",
+      title: "Free: Welcome Aboard: Expectations and Basic Boat Etiquette",
+      content: [
+        ContentBlock.text("Brief introduction to crew roles and expectations."),
+      ],
+      keywords: ["boat etiquette", "crew expectations", "onboard"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_team_2.00",
+          title: "FC: Basic Boat Etiquette",
+          sideA: [ContentBlock.text("Why is boat etiquette important?")],
+          sideB: [
+            ContentBlock.text(
+              "It ensures safety, smooth operations, and harmony among crew members.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_team_3.00",
+      title: "Free: Basic Crew Responsibilities",
+      content: [ContentBlock.text("Understand the roles of each crew member.")],
+      keywords: ["crew", "roles", "responsibilities"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_team_3.00",
+          title: "FC: Basic Crew Responsibilities",
+          sideA: [
+            ContentBlock.text(
+              "What are the primary responsibilities of a crew member?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Assisting in navigation, keeping watch, handling lines, and maintaining safety.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_team_4.00",
+      title: "Paid: Crew Roles and Communication",
+      content: [
+        ContentBlock.text(
+          "Clear communication is crucial for coordination and safety.",
+        ),
+      ],
+      keywords: ["crew", "communication", "roles"],
+      isPaid: true,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_team_4.00",
+          title: "FC: Crew Roles and Communication",
+          sideA: [
+            ContentBlock.text(
+              "Why is communication essential among crew members?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Clear communication prevents accidents and ensures smooth operations.",
+            ),
+          ],
+          isPaid: true,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_team_5.00",
+      title: "Paid: Assist in Docking and Anchoring",
+      content: [
+        ContentBlock.text("Be ready to handle lines and follow directions."),
+      ],
+      keywords: ["docking", "anchoring", "crew roles"],
+      isPaid: true,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_team_5.00",
+          title: "FC: Assist in Docking and Anchoring",
+          sideA: [
+            ContentBlock.text(
+              "What is a crew member's role in docking and anchoring?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Handling lines, securing the boat, and following skipper instructions.",
+            ),
+          ],
+          isPaid: true,
+          showAFirst: true,
+        ),
+      ],
+    ),
+  ];
+}
 
 
 
@@ -1934,31 +2723,141 @@ File: lib/data/repositories/lessons/lesson_teamwork_repository.dart
 
 
 File: lib/data/repositories/lessons/lesson_terminology_repository.dart
-// import 'package:bcc5/data/models/lesson_model.dart';
-// import 'package:bcc5/data/models/content_block.dart';
+// 📄 lib/data/repositories/lessons/terminology_lessons_repository.dart
 
-// class TerminologyLessonRepository {
-//   static final lessons = <Lesson>[
-//     Lesson(
-//       id: 'lesson_terminology_1.00',
-//       moduleId: 'terminology',
-//       title: 'Port vs. Starboard',
-//       content: [
-//         ContentBlock.heading('Sides of the Boat'),
-//         ContentBlock.text('Facing forward, port is left, starboard is right.'),
-//         ContentBlock.image('assets/images/port_starboard.jpeg'),
-//         ContentBlock.bullets([
-//           'Port has four letters, so does left.',
-//           'Red = Port = Odd Numbered Buoys.',
-//           'Green = Starboard = Even Numbered Buoys.',
-//         ]),
-//       ],
-//       keywords: ['terminology', 'port', 'starboard'],
-//       flashcardIds: ['fc_terminology_1'],
-//       isPaid: false,
-//     ),
-//   ];
-// }
+import 'package:bcc5/data/models/lesson_model.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
+import 'package:bcc5/data/models/content_block.dart';
+
+class TerminologyLessonRepository {
+  static final lessons = <Lesson>[
+    Lesson(
+      id: "lesson_term_1.00",
+      title: "Free: Essential Terms",
+      content: [ContentBlock.text("Introduction to essential sailing terms.")],
+      keywords: ["essential terms", "sailing basics", "orientation"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_term_1.00",
+          title: "FC: Essential Terms",
+          sideA: [
+            ContentBlock.text(
+              "What are some essential sailing terms every crew member should know?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Terms like 'bow' (front), 'stern' (back), 'port' (left), 'starboard' (right).",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_term_2.00",
+      title: "Free: Common Nautical Terms",
+      content: [
+        ContentBlock.text(
+          "Learn basic terms like “port” (left), “starboard” (right).",
+        ),
+      ],
+      keywords: ["nautical terms", "port", "starboard"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_term_2.00",
+          title: "FC: Common Nautical Terms",
+          sideA: [ContentBlock.text("What does 'port' and 'starboard' mean?")],
+          sideB: [
+            ContentBlock.text(
+              "'Port' refers to the left side of the boat, 'starboard' refers to the right side.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_term_3.00",
+      title: "Paid: Basic Parts of the Boat",
+      content: [
+        ContentBlock.text(
+          "Understand the key parts: mast, boom, rudder, cockpit, and deck.",
+        ),
+      ],
+      keywords: ["boat parts", "mast", "rudder"],
+      isPaid: true,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_term_3.00",
+          title: "FC: Basic Parts of the Boat",
+          sideA: [ContentBlock.text("What are the key parts of a sailboat?")],
+          sideB: [
+            ContentBlock.text(
+              "Mast (holds sails), boom (controls sail angle), rudder (steering), cockpit (control area), deck (walking space).",
+            ),
+          ],
+          isPaid: true,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_term_4.00",
+      title: "Paid: Types of Sails",
+      content: [
+        ContentBlock.text(
+          "Main sail, jib, and spinnaker are common types of sails.",
+        ),
+      ],
+      keywords: ["sails", "types of sails", "spinnaker"],
+      isPaid: true,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_term_4.00",
+          title: "FC: Types of Sails",
+          sideA: [ContentBlock.text("What are the common types of sails?")],
+          sideB: [
+            ContentBlock.text(
+              "Main sail (primary driving force), jib (front sail), spinnaker (large, balloon-like sail for downwind sailing).",
+            ),
+          ],
+          isPaid: true,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    Lesson(
+      id: "lesson_term_5.00",
+      title: "Paid: Points of Sail",
+      content: [
+        ContentBlock.text(
+          "The angle of the boat relative to the wind determines the \"point of sail\".",
+        ),
+      ],
+      keywords: ["points of sail", "wind", "sailing"],
+      isPaid: true,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_term_5.00",
+          title: "FC: Points of Sail",
+          sideA: [ContentBlock.text("What are the main points of sail?")],
+          sideB: [
+            ContentBlock.text(
+              "Close-hauled (into the wind), beam reach (90° to wind), broad reach (wind behind), run (directly downwind).",
+            ),
+          ],
+          isPaid: true,
+          showAFirst: true,
+        ),
+      ],
+    ),
+  ];
+}
 
 
 
