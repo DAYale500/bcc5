@@ -156,6 +156,8 @@ class ContentDetailScreen extends StatelessWidget {
           fit: BoxFit.cover,
           errorBuilder: (_, __, ___) => const Placeholder(fallbackHeight: 150),
         );
+      case ContentBlockType.divider:
+        return const Divider(thickness: 2);
     }
   }
 }

@@ -1,5 +1,7 @@
 import 'package:bcc5/data/models/content_block.dart';
 import 'package:bcc5/screens/common/content_screen_navigator.dart';
+import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
+import 'package:bcc5/screens/flashcards/flashcard_item_screen.dart';
 import 'package:bcc5/screens/paths/path_chapter_screen.dart';
 import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
@@ -186,6 +188,31 @@ final appRouter = GoRouter(
               child: FlashcardCategoryScreen(),
             ),
           ),
+    ),
+    GoRoute(
+      path: '/flashcards/items/:category',
+      name: 'flashcardItems',
+      pageBuilder: (context, state) {
+        final category = state.pathParameters['category'] ?? 'all';
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
+            branchIndex: 3,
+            child: FlashcardItemScreen(category: category),
+          ),
+        );
+      },
+    ),
+
+    GoRoute(
+      path: '/flashcards/detail',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>;
+        return MainScaffold(
+          branchIndex: extra['branchIndex'] ?? 0,
+          child: FlashcardDetailScreen(extra: extra),
+        );
+      },
     ),
 
     GoRoute(

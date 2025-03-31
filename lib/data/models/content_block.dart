@@ -1,4 +1,4 @@
-enum ContentBlockType { heading, text, code, bulletList, image }
+enum ContentBlockType { heading, text, code, bulletList, image, divider }
 
 class ContentBlock {
   final ContentBlockType type;

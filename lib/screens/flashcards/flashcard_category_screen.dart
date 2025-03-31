@@ -1,3 +1,5 @@
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository.dart';
+import 'package:bcc5/widgets/item_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -10,6 +12,11 @@ class FlashcardCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i('🟦 Entered FlashcardCategoryScreen');
 
+    final categories = getAllCategories();
+    logger.i(
+      '📇 Loaded ${categories.length} flashcard categories: $categories',
+    );
+
     return Column(
       children: [
         const CustomAppBarWidget(
@@ -19,16 +26,24 @@ class FlashcardCategoryScreen extends StatelessWidget {
           showSettingsIcon: true,
         ),
         Expanded(
-          child: Center(
-            child: ElevatedButton(
-              onPressed: () {
-                logger.i('📇 Navigating to FlashcardItemScreen');
-                context.push(
-                  '/flashcards/items',
-                  extra: {'category': 'TestCategory'},
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: ListView.separated(
+              itemCount: categories.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final category = categories[index];
+                return ItemButton(
+                  label: category[0].toUpperCase() + category.substring(1),
+                  onTap: () {
+                    logger.i('🟥 Tapped flashcard category: $category');
+                    context.push(
+                      '/flashcards/items/$category',
+                      extra: {'category': category},
+                    );
+                  },
                 );
               },
-              child: const Text('View Flashcards'),
             ),
           ),
         ),

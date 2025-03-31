@@ -138,4 +138,8 @@ class AppTheme {
           borderRadius: BorderRadius.circular(buttonCornerRadius),
         ),
       );
+  static ButtonStyle get navigationButton => navigationButtonStyle;
+
+  static ButtonStyle get disabledNavigationButton =>
+      disabledNavigationButtonStyle;
 }

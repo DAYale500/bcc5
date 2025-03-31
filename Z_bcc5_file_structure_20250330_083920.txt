@@ -10,8 +10,7 @@ lib
 │   │   └── tool_model.dart
 │   └── repositories
 │       ├── flashcards
-│       │   ├── flashcard_category_repository.dart
-│       │   └── flashcard_repository.dart.bak
+│       │   └── flashcard_repository.dart
 │       ├── lessons
 │       │   ├── lesson_docking_repository.dart
 │       │   ├── lesson_emergencies_repository.dart
@@ -80,4 +79,4 @@ lib
     ├── group_button.dart
     └── item_button.dart
 
-21 directories, 60 files
+21 directories, 59 files
