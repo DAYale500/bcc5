@@ -57,5 +57,10 @@ This will allow ContentDetailScreen to act as a full ContentScreenNavigator, sup
 // To-Do: add a feature to allow users to suggest edits or contribute additional content
 // To-Do: add a feature to allow users to follow or subscribe to specific paths or chapters for updates
 // To-Do: add a feature to allow users to create custom paths or collections of items
+//
 
+
+move tools to left of flashcards?
+
+pathItem = flashcard, doesn't navigate to flashcardDetailScreen
 

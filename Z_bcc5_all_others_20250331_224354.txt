@@ -72,7 +72,9 @@ class MainScaffold extends StatelessWidget {
 
 
 File: lib/navigation/app_router.dart
-import 'package:bcc5/data/models/content_block.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:bcc5/screens/common/content_screen_navigator.dart';
 import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
 import 'package:bcc5/screens/flashcards/flashcard_item_screen.dart';
@@ -81,15 +83,13 @@ import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
 import 'package:bcc5/screens/parts/part_item_screen.dart';
 import 'package:bcc5/screens/tools/tool_item_screen.dart';
-import 'package:bcc5/utils/logger.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/screens/home/landing_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_module_screen.dart';
 import 'package:bcc5/screens/parts/part_zone_screen.dart';
 import 'package:bcc5/screens/flashcards/flashcard_category_screen.dart';
 import 'package:bcc5/screens/tools/tools_screen.dart';
+import 'package:bcc5/navigation/main_scaffold.dart';
+import 'package:bcc5/utils/logger.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -97,38 +97,37 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/',
       name: 'landing',
-      pageBuilder:
-          (context, state) => buildCustomTransition(
-            context: context,
-            child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
-          ),
+      pageBuilder: (context, state) {
+        logger.i('🏁 Entering LandingScreen');
+        return buildCustomTransition(
+          context: context,
+          child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
+        );
+      },
     ),
+
     GoRoute(
       path: '/content',
       builder: (context, state) {
         final extras = state.extra as Map<String, dynamic>? ?? {};
-        final sequenceTitles = extras['sequenceTitles'] as List<String>? ?? [];
-        final contentMap =
-            extras['contentMap'] as Map<String, List<ContentBlock>>? ?? {};
+        final sequenceIds = extras['sequenceIds'] as List<String>? ?? [];
         final startIndex = extras['startIndex'] as int? ?? 0;
-        final branchIndex =
-            extras['branchIndex'] as int? ?? 0; // ✅ Add this line
+        final branchIndex = extras['branchIndex'] as int? ?? 0;
         final backDestination = extras['backDestination'] as String? ?? '/';
         final backExtra = extras['backExtra'] as Map<String, dynamic>?;
 
+        logger.i('📦 Navigating to ContentScreenNavigator');
+        logger.i('   └── sequenceIds: $sequenceIds');
+        logger.i('   └── startIndex: $startIndex');
+        logger.i('   └── branchIndex: $branchIndex');
+        logger.i('   └── backDestination: $backDestination');
+        logger.i('   └── backExtra: $backExtra');
+
         return ContentScreenNavigator(
-          title: sequenceTitles[startIndex],
-          sequenceTitles: sequenceTitles,
-          contentMap: contentMap,
+          sequenceIds: sequenceIds,
           startIndex: startIndex,
-          branchIndex: branchIndex, // ✅ Fix passed here
-          onBack: () {
-            if (backExtra != null) {
-              context.go(backDestination, extra: backExtra);
-            } else {
-              context.go(backDestination);
-            }
-          },
+          branchIndex: branchIndex,
+          backDestination: backDestination,
         );
       },
     ),
@@ -139,12 +138,11 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final pathName =
             state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
-        logger.i('🧭 Navigating to PathChapterScreen for $pathName');
-
+        logger.i('🧭 Navigating to PathChapterScreen for "$pathName"');
         return buildCustomTransition(
           context: context,
           child: MainScaffold(
-            branchIndex: 0, // or whatever makes sense
+            branchIndex: 0,
             child: PathChapterScreen(pathName: pathName),
           ),
         );
@@ -160,14 +158,14 @@ final appRouter = GoRouter(
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final chapterId = extras['chapterId'] as String?;
 
-        logger.i('📥 Received pathName=$pathName, chapterId=$chapterId');
+        logger.i('📘 Navigating to PathItemScreen: $pathName / $chapterId');
 
         if (chapterId == null) {
-          logger.e('❌ Missing chapterId for $pathName');
+          logger.e('❌ Missing chapterId for path $pathName');
           return buildCustomTransition(
             context: context,
             child: const Scaffold(
-              body: Center(child: Text('Missing chapter ID')),
+              body: Center(child: Text('❌ Missing chapter ID')),
             ),
           );
         }
@@ -185,27 +183,35 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/lessons',
       name: 'lessons',
-      pageBuilder:
-          (context, state) => buildCustomTransition(
-            context: context,
-            child: const MainScaffold(
-              branchIndex: 1,
-              child: LessonModuleScreen(),
-            ),
+      pageBuilder: (context, state) {
+        logger.i('📘 Entering LessonModuleScreen');
+        return buildCustomTransition(
+          context: context,
+          child: const MainScaffold(
+            branchIndex: 1,
+            child: LessonModuleScreen(),
           ),
+        );
+      },
     ),
+
     GoRoute(
       path: '/lessons/items',
       name: 'lesson-items',
       pageBuilder: (context, state) {
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final module = extras['module'] as String?;
+
+        logger.i('📘 Navigating to LessonItemScreen for module: $module');
+
         if (module == null) {
+          logger.e('❌ Missing module parameter for LessonItemScreen');
           return buildCustomTransition(
             context: context,
             child: const Scaffold(body: Center(child: Text('Missing module!'))),
           );
         }
+
         return buildCustomTransition(
           context: context,
           child: MainScaffold(
@@ -219,27 +225,22 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/parts',
       name: 'parts',
-      pageBuilder:
-          (context, state) => buildCustomTransition(
-            context: context,
-            child: const MainScaffold(branchIndex: 2, child: PartZoneScreen()),
-          ),
+      pageBuilder: (context, state) {
+        logger.i('🧩 Entering PartZoneScreen');
+        return buildCustomTransition(
+          context: context,
+          child: const MainScaffold(branchIndex: 2, child: PartZoneScreen()),
+        );
+      },
     ),
+
     GoRoute(
       path: '/parts/items',
       name: 'part-items',
       pageBuilder: (context, state) {
         final extras = state.extra as Map<String, dynamic>? ?? {};
-        final zone = extras['zone'] as String?;
-
-        if (zone == null || zone.trim().isEmpty) {
-          return buildCustomTransition(
-            context: context,
-            child: const Scaffold(
-              body: Center(child: Text('❌ Missing or malformed zone')),
-            ),
-          );
-        }
+        final zone = extras['zone'] as String? ?? '';
+        logger.i('🧩 Navigating to PartItemScreen for zone: $zone');
 
         return buildCustomTransition(
           context: context,
@@ -254,20 +255,26 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/flashcards',
       name: 'flashcards',
-      pageBuilder:
-          (context, state) => buildCustomTransition(
-            context: context,
-            child: const MainScaffold(
-              branchIndex: 3,
-              child: FlashcardCategoryScreen(),
-            ),
+      pageBuilder: (context, state) {
+        logger.i('📇 Entering FlashcardCategoryScreen');
+        return buildCustomTransition(
+          context: context,
+          child: const MainScaffold(
+            branchIndex: 3,
+            child: FlashcardCategoryScreen(),
           ),
+        );
+      },
     ),
+
     GoRoute(
       path: '/flashcards/items/:category',
       name: 'flashcardItems',
       pageBuilder: (context, state) {
         final category = state.pathParameters['category'] ?? 'all';
+        logger.i(
+          '📇 Navigating to FlashcardItemScreen for category: $category',
+        );
         return buildCustomTransition(
           context: context,
           child: MainScaffold(
@@ -282,6 +289,7 @@ final appRouter = GoRouter(
       path: '/flashcards/detail',
       builder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
+        logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
         return MainScaffold(
           branchIndex: extra['branchIndex'] ?? 0,
           child: FlashcardDetailScreen(extra: extra),
@@ -292,18 +300,21 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/tools',
       name: 'tools',
-      pageBuilder:
-          (context, state) => buildCustomTransition(
-            context: context,
-            child: const MainScaffold(branchIndex: 4, child: ToolsScreen()),
-          ),
+      pageBuilder: (context, state) {
+        logger.i('🛠️ Entering ToolsScreen');
+        return buildCustomTransition(
+          context: context,
+          child: const MainScaffold(branchIndex: 4, child: ToolsScreen()),
+        );
+      },
     ),
+
     GoRoute(
       path: '/tools/items',
       builder: (context, state) {
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final toolbag = extras['toolbag'] as String? ?? '';
-
+        logger.i('🛠️ Navigating to ToolItemScreen for toolbag: $toolbag');
         return ToolItemScreen(toolbag: toolbag);
       },
     ),
@@ -317,7 +328,7 @@ CustomTransitionPage buildCustomTransition({
   return CustomTransitionPage(
     child: child,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0); // Slide from right
+      const begin = Offset(1.0, 0.0);
       const end = Offset.zero;
       const curve = Curves.easeInOut;
       final tween = Tween(
@@ -441,6 +452,114 @@ final logger = Logger(
 
 
 
+File: lib/utils/render_item_helpers.dart
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/render_item.dart'; // ✅ centralized model
+import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
+import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
+import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
+import 'package:bcc5/utils/logger.dart';
+
+List<RenderItem> buildRenderItems({required List<String> ids}) {
+  logger.i('🛠️ buildRenderItems → ids: $ids');
+
+  final items = <RenderItem>[];
+  final invalidIds = <String>[];
+
+  for (final id in ids) {
+    logger.i('🔍 Attempting to build RenderItem for id: $id');
+    final item = getContentObject(id);
+    if (item != null) {
+      logger.i('✅ Success → id: ${item.id}, type: ${item.type}');
+      items.add(item);
+    } else {
+      logger.w('❌ Failed to resolve id: $id');
+      invalidIds.add(id);
+    }
+  }
+
+  logger.i(
+    '📦 buildRenderItems summary:\n'
+    '  • valid: ${items.length}\n'
+    '  • invalid: ${invalidIds.length}',
+  );
+
+  if (invalidIds.isNotEmpty) {
+    logger.w('⚠️ Invalid IDs: $invalidIds');
+  }
+
+  return items;
+}
+
+RenderItem? getContentObject(String id) {
+  if (id.startsWith('lesson_')) {
+    final lesson = LessonRepositoryIndex.getLessonById(id);
+    if (lesson != null) {
+      logger.i('📘 Matched lesson → ${lesson.id}');
+      return RenderItem(
+        type: RenderItemType.lesson,
+        id: lesson.id,
+        title: lesson.title,
+        content: lesson.content,
+        flashcards: lesson.flashcards,
+      );
+    }
+  } else if (id.startsWith('part_')) {
+    final part = PartRepositoryIndex.getPartById(id);
+    if (part != null) {
+      logger.i('🔧 Matched part → ${part.id}');
+      return RenderItem(
+        type: RenderItemType.part,
+        id: part.id,
+        title: part.title,
+        content: part.content,
+        flashcards: part.flashcards,
+      );
+    }
+  } else if (id.startsWith('tool_')) {
+    final tool = ToolRepositoryIndex.getToolById(id);
+    if (tool != null) {
+      logger.i('🧰 Matched tool → ${tool.id}');
+      return RenderItem(
+        type: RenderItemType.tool,
+        id: tool.id,
+        title: tool.title,
+        content: tool.content,
+        flashcards: tool.flashcards,
+      );
+    }
+  } else if (id.startsWith('flashcard_')) {
+    final flashcard = LessonRepositoryIndex.getFlashcardById(id);
+    if (flashcard != null) {
+      logger.i('🧠 Matched flashcard → ${flashcard.id}');
+
+      final sideA = flashcard.sideA;
+      final sideB = flashcard.sideB;
+
+      return RenderItem(
+        type: RenderItemType.flashcard,
+        id: flashcard.id,
+        title: flashcard.title,
+        content: sideA + ContentBlock.divider() + sideB,
+        flashcards: [flashcard],
+      );
+    }
+  } else {
+    logger.w('⚠️ Unknown content prefix for id: $id');
+  }
+
+  return null;
+}
+
+
+
+
+
+
+
+
+
+
 File: lib/screens/home/landing_screen.dart
 // lib/screens/home/landing_screen.dart
 import 'package:flutter/material.dart';
@@ -523,8 +642,6 @@ class LandingScreen extends StatelessWidget {
 
 
 File: lib/screens/tools/tool_item_screen.dart
-// 📄 lib/screens/tools/tool_item_screen.dart
-
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -575,14 +692,11 @@ class ToolItemScreen extends StatelessWidget {
                   return ItemButton(
                     label: tool.title,
                     onTap: () {
-                      logger.i('🛠️ Tapped tool: ${tool.title}');
+                      logger.i('🛠️ Tapped tool: ${tool.id}');
                       context.push(
                         '/content',
                         extra: {
-                          'sequenceTitles': tools.map((t) => t.title).toList(),
-                          'contentMap': {
-                            for (var t in tools) t.title: t.content,
-                          },
+                          'sequenceIds': tools.map((t) => t.id).toList(),
                           'startIndex': index,
                           'branchIndex': 4,
                           'backDestination': '/tools/items',
@@ -728,7 +842,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       backExtra = widget.extra['backExtra'] as Map<String, dynamic>?;
 
       logger.i(
-        '🟩 Loaded FlashcardDetailScreen: index=$currentIndex title=${sequenceTitles[currentIndex]}',
+        '🟩 Loaded FlashcardDetailScreen:\n'
+        '  • index: $currentIndex\n'
+        '  • title: ${sequenceTitles[currentIndex]}\n'
+        '  • sequenceTitles: $sequenceTitles\n'
+        '  • branchIndex: $branchIndex\n'
+        '  • backDestination: $backDestination\n'
+        '  • backExtra: $backExtra',
       );
     } catch (e, st) {
       logger.e(
@@ -762,16 +882,19 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
   void goTo(int newIndex) {
     if (newIndex >= 0 && newIndex < sequenceTitles.length) {
+      logger.i('🔁 Switching from index $currentIndex → $newIndex');
       setState(() {
         currentIndex = newIndex;
         showFront = true;
         _controller.reset();
       });
-      logger.i('🔁 Navigated to flashcard index: $newIndex');
+    } else {
+      logger.i('⛔ Invalid index navigation attempt: $newIndex');
     }
   }
 
   void flipCard() {
+    logger.i(showFront ? '🔃 Flipping to back' : '🔃 Flipping to front');
     setState(() {
       showFront = !showFront;
       if (_controller.isCompleted || _controller.velocity > 0) {
@@ -788,6 +911,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final Map<String, List<ContentBlock>> blocks = contentMap[title] ?? {};
     final List<ContentBlock> front = blocks['sideA'] ?? [];
     final List<ContentBlock> back = blocks['sideB'] ?? [];
+
+    logger.i(
+      '🖼️ Building FlashcardDetailScreen UI:\n'
+      '  • title: $title\n'
+      '  • front blocks: ${front.length}\n'
+      '  • back blocks: ${back.length}',
+    );
 
     return Stack(
       fit: StackFit.expand,
@@ -850,13 +980,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                         animation: _flipAnimation,
                                       ),
                                     ),
-
-                            // child: FlipCardWidget(
-                            //   front: front,
-                            //   back: back,
-                            //   showFront: isFront,
-                            //   animation: _flipAnimation,
-                            // ),
                           );
                         },
                       ),
@@ -896,7 +1019,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
 
 File: lib/screens/flashcards/flashcard_category_screen.dart
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository.dart';
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -966,7 +1089,7 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/models/flashcard_model.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository.dart';
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 
 class FlashcardItemScreen extends StatelessWidget {
   final String category;
@@ -1070,11 +1193,8 @@ class FlashcardItemScreen extends StatelessWidget {
 
 
 File: lib/screens/paths/path_item_screen.dart
-// 📄 lib/screens/paths/path_item_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:bcc5/data/models/content_block.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
@@ -1092,17 +1212,21 @@ class PathItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.i(
+      '📘 Building PathItemScreen for path "$pathName", chapter "$chapterId"',
+    );
+
     final chapter = PathRepositoryIndex.getChapterById(pathName, chapterId);
 
     if (chapter == null) {
-      logger.e('❌ Could not find chapter for id: $chapterId in $pathName');
+      logger.e(
+        '❌ Could not find chapter for id: "$chapterId" in path: "$pathName"',
+      );
       return const Center(child: Text('Chapter not found'));
     }
 
     final items = chapter.items;
-    logger.i(
-      '🟩 Entered PathItemScreen: ${chapter.title} with ${items.length} items',
-    );
+    logger.i('🟩 Found chapter "${chapter.title}" with ${items.length} items');
 
     return Column(
       children: [
@@ -1112,7 +1236,9 @@ class PathItemScreen extends StatelessWidget {
           showSearchIcon: true,
           showSettingsIcon: true,
           onBack: () {
-            logger.i('🔙 Back from PathItemScreen');
+            logger.i(
+              '🔙 Back tapped — returning to PathChapterScreen for "$pathName"',
+            );
             context.go(
               '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}',
             );
@@ -1133,26 +1259,32 @@ class PathItemScreen extends StatelessWidget {
                 final pathItem = items[index];
                 final label = pathItem.pathItemId;
 
+                logger.i(
+                  '📦 Rendering button for pathItem: $label (index $index)',
+                );
+
                 return ItemButton(
                   label: label,
                   onTap: () {
-                    logger.i('🟦 Tapped PathItem: $label');
+                    logger.i('🟦 Tapped PathItem: $label (index $index)');
+
+                    final sequenceIds = items.map((e) => e.pathItemId).toList();
+
+                    if (sequenceIds.isEmpty) {
+                      logger.e('❌ sequenceIds is empty — navigation aborted');
+                      return;
+                    }
+
+                    logger.i(
+                      '🧭 Navigating to /content with sequenceIds: $sequenceIds, startIndex: $index',
+                    );
 
                     context.push(
                       '/content',
                       extra: {
-                        'sequenceTitles':
-                            items.map((e) => e.pathItemId).toList(),
-                        'contentMap': {
-                          for (var item in items)
-                            item.pathItemId: [
-                              ContentBlock.text(
-                                'Placeholder for ${item.pathItemId}',
-                              ),
-                            ],
-                        },
+                        'sequenceIds': sequenceIds,
                         'startIndex': index,
-                        'branchIndex': 0, // Home tab index
+                        'branchIndex': 0,
                         'backDestination':
                             '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
                         'backExtra': {
@@ -1266,27 +1398,24 @@ class PathChapterScreen extends StatelessWidget {
 
 File: lib/screens/common/content_screen_navigator.dart
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/render_item.dart' as model;
 import 'package:bcc5/screens/common/content_detail_screen.dart';
+import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
+import 'package:bcc5/utils/render_item_helpers.dart' as helpers;
 import 'package:bcc5/utils/logger.dart';
 
 class ContentScreenNavigator extends StatefulWidget {
-  final String title;
-  final List<String> sequenceTitles;
-  final Map<String, List<ContentBlock>> contentMap;
+  final List<String> sequenceIds;
   final int startIndex;
-  final VoidCallback? onBack;
-  final int branchIndex; // 🟠 NEW: Needed for MainScaffold BNB
+  final int branchIndex;
+  final String backDestination;
 
   const ContentScreenNavigator({
     super.key,
-    required this.title,
-    required this.sequenceTitles,
-    required this.contentMap,
+    required this.sequenceIds,
     required this.startIndex,
-    this.onBack,
-    this.branchIndex = 0, // 🟠 Fallback to Home
+    required this.branchIndex,
+    required this.backDestination,
   });
 
   @override
@@ -1295,60 +1424,121 @@ class ContentScreenNavigator extends StatefulWidget {
 
 class _ContentScreenNavigatorState extends State<ContentScreenNavigator> {
   late int _currentIndex;
+  late List<model.RenderItem> _items;
 
   @override
   void initState() {
     super.initState();
+
+    logger.i(
+      '🌀 ContentScreenNavigator initState\n'
+      '  • sequenceIds: ${widget.sequenceIds}\n'
+      '  • startIndex: ${widget.startIndex}',
+    );
+
+    _items =
+        helpers
+            .buildRenderItems(ids: widget.sequenceIds)
+            .cast<model.RenderItem>();
     _currentIndex = widget.startIndex;
-    logger.i('🟧 Entered ContentScreenNavigator at index $_currentIndex');
+
+    logger.i('✅ Built ${_items.length} renderItems from sequenceIds');
+
+    for (int i = 0; i < _items.length; i++) {
+      final item = _items[i];
+      logger.i('📦 RenderItem [$i] → id: ${item.id}, type: ${item.type}');
+    }
+
+    if (_items.isEmpty) {
+      logger.e('❌ No renderable content — _items is empty');
+    }
+
+    if (_currentIndex < 0 || _currentIndex >= _items.length) {
+      logger.e(
+        '❌ Invalid startIndex: $_currentIndex (valid range: 0–${_items.length - 1})',
+      );
+    }
   }
 
-  void _goToPrevious() {
+  void _goTo(int newIndex) {
+    logger.i(
+      '🔁 Switching index: $_currentIndex → $newIndex '
+      '(of ${_items.length} items)',
+    );
+    setState(() => _currentIndex = newIndex);
+  }
+
+  void onPrevious() {
     if (_currentIndex > 0) {
-      setState(() {
-        _currentIndex--;
-        logger.i(
-          '⬅️ Navigated to previous content: ${widget.sequenceTitles[_currentIndex]}',
-        );
-      });
+      logger.i('⬅️ Previous tapped: ${_currentIndex - 1}');
+      _goTo(_currentIndex - 1);
+    } else {
+      logger.i('⛔ At first item — cannot go back');
     }
   }
 
-  void _goToNext() {
-    if (_currentIndex < widget.sequenceTitles.length - 1) {
-      setState(() {
-        _currentIndex++;
-        logger.i(
-          '➡️ Navigated to next content: ${widget.sequenceTitles[_currentIndex]}',
-        );
-      });
+  void onNext() {
+    if (_currentIndex < _items.length - 1) {
+      logger.i('➡️ Next tapped: ${_currentIndex + 1}');
+      _goTo(_currentIndex + 1);
+    } else {
+      logger.i('⛔ At last item — cannot go forward');
     }
+  }
+
+  void onBack() {
+    logger.i('🔙 Back tapped → navigating to ${widget.backDestination}');
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    final title = widget.sequenceTitles[_currentIndex];
-    final content = widget.contentMap[title] ?? [];
+    if (_items.isEmpty) {
+      return const Scaffold(body: Center(child: Text('No content available')));
+    }
 
-    logger.i('🟨 Rendering content: $title');
+    if (_currentIndex < 0 || _currentIndex >= _items.length) {
+      return Scaffold(
+        body: Center(
+          child: Text(
+            'Invalid start index: $_currentIndex (length: ${_items.length})',
+          ),
+        ),
+      );
+    }
 
+    final currentItem = _items[_currentIndex];
+    logger.i(
+      '🖥️ Rendering item\n'
+      '  • index: $_currentIndex\n'
+      '  • id: ${currentItem.id}\n'
+      '  • type: ${currentItem.type}',
+    );
+
+    if (currentItem.type == model.RenderItemType.flashcard) {
+      logger.i('🧠 Showing FlashcardDetailScreen for ${currentItem.id}');
+      return FlashcardDetailScreen(
+        extra: {
+          'flashcards': currentItem.flashcards,
+          'initialIndex': 0,
+          'branchIndex': widget.branchIndex,
+          'onBack': onBack,
+          'onPrevious': onPrevious,
+          'onNext': onNext,
+        },
+      );
+    }
+
+    logger.i('📘 Showing ContentDetailScreen for ${currentItem.id}');
     return ContentDetailScreen(
-      title: title,
-      content: content,
-      branchIndex: widget.branchIndex, // 🟠 Ensure proper BNB display
-      onBack:
-          widget.onBack ??
-          () {
-            logger.i('🔙 Back from content: $title (default pop)');
-            if (Navigator.of(context).canPop()) {
-              Navigator.of(context).pop();
-            } else {
-              context.go('/');
-            }
-          },
-      onPrevious: _currentIndex > 0 ? _goToPrevious : null,
-      onNext:
-          _currentIndex < widget.sequenceTitles.length - 1 ? _goToNext : null,
+      title: currentItem.title,
+      content: currentItem.content,
+      flashcards: currentItem.flashcards,
+      startIndex: 0,
+      onBack: onBack,
+      onPrevious: onPrevious,
+      onNext: onNext,
+      branchIndex: widget.branchIndex,
     );
   }
 }
@@ -1364,6 +1554,7 @@ class _ContentScreenNavigatorState extends State<ContentScreenNavigator> {
 
 File: lib/screens/common/content_detail_screen.dart
 import 'dart:ui';
+import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/models/content_block.dart';
@@ -1388,11 +1579,14 @@ class ContentDetailScreen extends StatelessWidget {
     this.onNext,
     this.onBack,
     this.branchIndex = 0,
+    required List<Flashcard> flashcards,
+    required int startIndex,
   });
 
   @override
   Widget build(BuildContext context) {
     logger.i('🟪 Displaying ContentDetailScreen: $title');
+    logger.i('📄 ContentBlock count: ${content.length}');
 
     return MainScaffold(
       branchIndex: branchIndex,
@@ -1419,8 +1613,11 @@ class ContentDetailScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               itemCount: content.length,
               separatorBuilder: (_, __) => const SizedBox(height: 16),
-              itemBuilder:
-                  (context, index) => _renderBlock(context, content[index]),
+              itemBuilder: (context, index) {
+                final block = content[index];
+                logger.i('📦 Rendering block [$index] → ${block.type}');
+                return _renderBlock(context, block);
+              },
             ),
           ),
           ClipRect(
@@ -1437,7 +1634,18 @@ class ContentDetailScreen extends StatelessWidget {
                     ConstrainedBox(
                       constraints: const BoxConstraints(minWidth: 160),
                       child: ElevatedButton.icon(
-                        onPressed: onPrevious,
+                        onPressed: () {
+                          if (onPrevious != null) {
+                            logger.i(
+                              '⬅️ Previous tapped on ContentDetailScreen',
+                            );
+                            onPrevious!();
+                          } else {
+                            logger.i(
+                              '⛔ Previous disabled on ContentDetailScreen',
+                            );
+                          }
+                        },
                         icon: const Icon(Icons.arrow_back),
                         label: const Text('Previous'),
                         style:
@@ -1450,7 +1658,14 @@ class ContentDetailScreen extends StatelessWidget {
                     ConstrainedBox(
                       constraints: const BoxConstraints(minWidth: 160),
                       child: ElevatedButton(
-                        onPressed: onNext,
+                        onPressed: () {
+                          if (onNext != null) {
+                            logger.i('➡️ Next tapped on ContentDetailScreen');
+                            onNext!();
+                          } else {
+                            logger.i('⛔ Next disabled on ContentDetailScreen');
+                          }
+                        },
                         style:
                             onNext != null
                                 ? AppTheme.navigationButtonStyle
@@ -1586,19 +1801,11 @@ class PartItemScreen extends StatelessWidget {
                 return ItemButton(
                   label: part.title,
                   onTap: () {
-                    logger.i('🟥 Tapped part: ${part.title}');
-
-                    final titles = filteredParts.map((p) => p.title).toList();
-                    final contentMap = {
-                      for (final part in filteredParts)
-                        part.title: part.content,
-                    };
-
+                    logger.i('🟥 Tapped part: ${part.id}');
                     context.push(
                       '/content',
                       extra: {
-                        'sequenceTitles': titles,
-                        'contentMap': contentMap,
+                        'sequenceIds': filteredParts.map((p) => p.id).toList(),
                         'startIndex': index,
                         'branchIndex': 2,
                         'backDestination': '/parts/items',
@@ -1745,10 +1952,7 @@ class LessonItemScreen extends StatelessWidget {
                     context.push(
                       '/content',
                       extra: {
-                        'sequenceTitles': lessons.map((l) => l.title).toList(),
-                        'contentMap': {
-                          for (var l in lessons) l.title: l.content,
-                        },
+                        'sequenceIds': lessons.map((l) => l.id).toList(),
                         'startIndex': index,
                         'branchIndex': 1,
                         'backDestination': '/lessons/items',
@@ -2040,6 +2244,8 @@ class ContentBlock {
 
   // Optional convenience getter
   List<String>? get bullets => bulletList;
+
+  static divider() {}
 }
 
 
@@ -2194,17 +2400,47 @@ class Flashcard {
   final List<ContentBlock> sideA;
   final List<ContentBlock> sideB;
   final bool isPaid;
-  final bool showAFirst; // true = show sideA first, false = sideB first
-  final List<String> keywords;
+  final bool showAFirst;
 
-  const Flashcard({
+  Flashcard({
     required this.id,
     required this.title,
-    required this.sideA,
-    required this.sideB,
+    List<ContentBlock>? sideA,
+    List<ContentBlock>? sideB,
     required this.isPaid,
     required this.showAFirst,
-    this.keywords = const [],
+  }) : sideA = sideA ?? [],
+       sideB = sideB ?? [];
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/models/render_item.dart
+import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
+
+enum RenderItemType { lesson, part, tool, flashcard }
+
+class RenderItem {
+  final RenderItemType type;
+  final String id;
+  final String title;
+  final List<ContentBlock> content;
+  final List<Flashcard> flashcards;
+
+  RenderItem({
+    required this.type,
+    required this.id,
+    required this.title,
+    required this.content,
+    required this.flashcards,
   });
 }
 

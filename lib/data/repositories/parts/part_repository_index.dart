@@ -1,4 +1,7 @@
+import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:bcc5/data/models/part_model.dart';
+import 'package:bcc5/utils/logger.dart';
+
 import 'part_deck_repository.dart';
 import 'part_hull_repository.dart';
 import 'part_interior_repository.dart';
@@ -14,14 +17,11 @@ class PartRepositoryIndex {
     'sails': SailsPartRepository.partItems,
   };
 
-  /// Returns a list of all zone names
   static List<String> getZoneNames() => _zones.keys.toList();
 
-  /// Gets all parts for a specific zone
   static List<PartItem> getPartsForZone(String zone) =>
       _zones[zone.toLowerCase()] ?? [];
 
-  /// Looks up a part by ID
   static PartItem? getPartById(String id) {
     for (final items in _zones.values) {
       for (final item in items) {
@@ -31,7 +31,28 @@ class PartRepositoryIndex {
     return null;
   }
 
-  /// Resolves a part ID to its zone
+  static List<PartItem> getAllParts() =>
+      _zones.values.expand((list) => list).toList();
+
+  static Flashcard? getFlashcardById(String id) {
+    logger.i(
+      '🔍 PartRepositoryIndex.getFlashcardById → attempting lookup for "$id"',
+    );
+
+    for (final part in getAllParts()) {
+      for (final card in part.flashcards) {
+        logger.i('   • checking ${card.id}');
+        if (card.id == id) {
+          logger.i('✅ match found in part zone for $id');
+          return card;
+        }
+      }
+    }
+
+    logger.e('❌ Flashcard not found in part zones for id: $id');
+    return null;
+  }
+
   static String? getZoneForPartId(String partId) {
     for (final entry in _zones.entries) {
       if (entry.value.any((item) => item.id == partId)) {
@@ -41,7 +62,6 @@ class PartRepositoryIndex {
     return null;
   }
 
-  /// Validates all part IDs match zone prefixes
   static void assertPartIdsMatchZonePrefixes() {
     _zones.forEach((zone, items) {
       for (final item in items) {

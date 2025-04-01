@@ -4,7 +4,7 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/models/flashcard_model.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository.dart';
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 
 class FlashcardItemScreen extends StatelessWidget {
   final String category;

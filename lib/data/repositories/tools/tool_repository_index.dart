@@ -1,6 +1,6 @@
-// 📄 lib/data/repositories/tools/tool_repository_index.dart
-
+import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:bcc5/data/models/tool_model.dart';
+import 'package:bcc5/utils/logger.dart';
 
 import 'tool_procedures_repository.dart';
 import 'tool_references_repository.dart';
@@ -28,6 +28,28 @@ class ToolRepositoryIndex {
         if (item.id == id) return item;
       }
     }
+    return null;
+  }
+
+  static List<ToolItem> getAllTools() =>
+      _toolbags.values.expand((list) => list).toList();
+
+  static Flashcard? getFlashcardById(String id) {
+    logger.i(
+      '🔍 ToolRepositoryIndex.getFlashcardById → attempting lookup for "$id"',
+    );
+
+    for (final tool in getAllTools()) {
+      for (final card in tool.flashcards) {
+        logger.i('   • checking ${card.id}');
+        if (card.id == id) {
+          logger.i('✅ match found in toolbag for $id');
+          return card;
+        }
+      }
+    }
+
+    logger.e('❌ Flashcard not found in toolbags for id: $id');
     return null;
   }
 

@@ -7,10 +7,11 @@ lib
 │   │   ├── lesson_model.dart
 │   │   ├── part_model.dart
 │   │   ├── path_model.dart
+│   │   ├── render_item.dart
 │   │   └── tool_model.dart
 │   └── repositories
 │       ├── flashcards
-│       │   └── flashcard_repository.dart
+│       │   └── flashcard_repository_index.dart
 │       ├── lessons
 │       │   ├── lesson_docking_repository.dart
 │       │   ├── lesson_emergencies_repository.dart
@@ -31,6 +32,7 @@ lib
 │       │   └── part_sails_repository.dart
 │       ├── paths
 │       │   ├── competent_crew_repository.dart
+│       │   ├── competent_crew_repository.dart.bak
 │       │   └── path_repository_index.dart
 │       └── tools
 │           ├── tool_calculators_repository.dart
@@ -72,7 +74,8 @@ lib
 │   └── app_theme.dart
 ├── utils
 │   ├── id_parser.dart
-│   └── logger.dart
+│   ├── logger.dart
+│   └── render_item_helpers.dart
 └── widgets
     ├── content_block_renderer.dart
     ├── custom_app_bar_widget.dart
@@ -82,4 +85,4 @@ lib
     ├── item_button.dart
     └── navigation_buttons.dart
 
-21 directories, 62 files
+21 directories, 65 files

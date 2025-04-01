@@ -1,3 +1,6 @@
+import 'package:bcc5/data/models/flashcard_model.dart';
+import 'package:bcc5/utils/logger.dart';
+
 import 'lesson_docking_repository.dart';
 import 'lesson_emergencies_repository.dart';
 import 'lesson_knots_repository.dart';
@@ -7,7 +10,6 @@ import 'lesson_seamanship_repository.dart';
 import 'lesson_systems_repository.dart';
 import 'lesson_teamwork_repository.dart';
 import 'lesson_terminology_repository.dart';
-import 'package:bcc5/utils/id_parser.dart';
 import 'package:bcc5/data/models/lesson_model.dart';
 
 class LessonRepositoryIndex {
@@ -46,13 +48,49 @@ class LessonRepositoryIndex {
     return null;
   }
 
-  void assertLessonIdsMatchModules(List<Lesson> lessons) {
-    for (final lesson in lessons) {
-      final parsedGroup = getGroupFromId(lesson.id);
-      assert(
-        lesson.id.startsWith('lesson_${parsedGroup}_'),
-        'Lesson ID mismatch: ${lesson.id} should match group $parsedGroup',
-      );
+  static List<Lesson> getAllLessons() =>
+      _modules.values.expand((list) => list).toList();
+
+  static Flashcard? getFlashcardById(String id) {
+    logger.i(
+      '🔍 LessonRepositoryIndex.getFlashcardById → attempting lookup for "$id"',
+    );
+
+    for (final lesson in getAllLessons()) {
+      for (final card in lesson.flashcards) {
+        logger.i('   • checking ${card.id}');
+        if (card.id == id) {
+          logger.i('✅ match found in lesson module for $id');
+          return card;
+        }
+      }
+    }
+
+    logger.e('❌ Flashcard not found in lesson modules for id: $id');
+    return null;
+  }
+
+  static void assertAllLessonIdsMatchModules() {
+    for (final entry in _modules.entries) {
+      for (final lesson in entry.value) {
+        assert(
+          lesson.id.startsWith('lesson_${entry.key}_'),
+          'Lesson ID mismatch: ${lesson.id} should start with lesson_${entry.key}_',
+        );
+      }
+    }
+  }
+
+  static void assertAllFlashcardIdsValid() {
+    for (final entry in _modules.entries) {
+      for (final lesson in entry.value) {
+        for (final card in lesson.flashcards) {
+          assert(
+            card.id.startsWith('flashcard_lesson_${entry.key}_'),
+            'Flashcard ID mismatch in module ${entry.key}: ${card.id}',
+          );
+        }
+      }
     }
   }
 }

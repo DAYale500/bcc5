@@ -48,10 +48,7 @@ class LessonItemScreen extends StatelessWidget {
                     context.push(
                       '/content',
                       extra: {
-                        'sequenceTitles': lessons.map((l) => l.title).toList(),
-                        'contentMap': {
-                          for (var l in lessons) l.title: l.content,
-                        },
+                        'sequenceIds': lessons.map((l) => l.id).toList(),
                         'startIndex': index,
                         'branchIndex': 1,
                         'backDestination': '/lessons/items',

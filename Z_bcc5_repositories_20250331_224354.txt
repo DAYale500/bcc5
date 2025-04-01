@@ -86,8 +86,6 @@ class ToolProceduresRepository {
 
 
 File: lib/data/repositories/tools/tool_repository_index.dart
-// 📄 lib/data/repositories/tools/tool_repository_index.dart
-
 import 'package:bcc5/data/models/tool_model.dart';
 
 import 'tool_procedures_repository.dart';
@@ -531,7 +529,7 @@ class ToolReferencesRepository {
 
 
 
-File: lib/data/repositories/flashcards/flashcard_repository.dart
+File: lib/data/repositories/flashcards/flashcard_repository_index.dart
 // 📄 lib/data/repositories/flashcards/flashcard_repository.dart
 
 import 'package:bcc5/data/models/flashcard_model.dart';
@@ -668,6 +666,79 @@ class PathRepositoryIndex {
 
 
 File: lib/data/repositories/paths/competent_crew_repository.dart
+import 'package:bcc5/data/models/path_model.dart';
+
+class CompetentCrewRepository {
+  static final List<LearningPathChapter> _chapters = [
+    for (int i = 1; i <= 6; i++)
+      LearningPathChapter(
+        id: 'path_competentCrew_${i.toStringAsFixed(2)}',
+        title: '$i: Chapter ${(i ^ 2)}',
+        items: [
+          // 1. LESSON + FLASHCARD
+          PathItem(pathItemId: 'lesson_syst_1.00'),
+          PathItem(pathItemId: 'flashcard_lesson_syst_1.00'),
+
+          // 2. PART + FLASHCARD
+          PathItem(pathItemId: 'part_deck_1.00'),
+          PathItem(pathItemId: 'flashcard_part_deck_1.00'),
+
+          // 3. TOOL + FLASHCARD
+          PathItem(pathItemId: 'tool_procedures_1.00'),
+          PathItem(pathItemId: 'flashcard_tool_procedures_1.00'),
+
+          // 4. LESSON + FLASHCARD
+          PathItem(pathItemId: 'lesson_syst_2.00'),
+          PathItem(pathItemId: 'flashcard_lesson_syst_2.00'),
+
+          // 5. PART + FLASHCARD
+          PathItem(pathItemId: 'part_hull_1.00'),
+          PathItem(pathItemId: 'flashcard_part_hull_1.00'),
+
+          // 6. TOOL + FLASHCARD
+          PathItem(pathItemId: 'tool_procedures_2.00'),
+          PathItem(pathItemId: 'flashcard_tool_procedures_2.00'),
+
+          // 7. LESSON + FLASHCARD
+          PathItem(pathItemId: 'lesson_syst_3.00'),
+          PathItem(pathItemId: 'flashcard_lesson_syst_3.00'),
+
+          // 8. PART + FLASHCARD
+          PathItem(pathItemId: 'part_deck_2.00'),
+          PathItem(pathItemId: 'flashcard_part_deck_2.00'),
+
+          // 9. TOOL + FLASHCARD
+          PathItem(pathItemId: 'tool_checklists_1.00'),
+          PathItem(pathItemId: 'flashcard_tool_checklists_1.00'),
+
+          // 10. LESSON + FLASHCARD
+          PathItem(pathItemId: 'lesson_syst_6.00'),
+          PathItem(pathItemId: 'flashcard_lesson_syst_6.00'),
+
+          // 11. PART + FLASHCARD
+          PathItem(pathItemId: 'part_hull_2.00'),
+          PathItem(pathItemId: 'flashcard_part_hull_2.00'),
+
+          // 12. TOOL + FLASHCARD
+          PathItem(pathItemId: 'tool_checklists_2.00'),
+          PathItem(pathItemId: 'flashcard_tool_checklists_2.00'),
+        ],
+      ),
+  ];
+
+  static List<LearningPathChapter> getChapters() => _chapters;
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/repositories/paths/competent_crew_repository.dart.bak
 // 📄 lib/data/repositories/learning_paths/competent_crew_repository.dart
 
 import 'package:bcc5/data/models/path_model.dart';
@@ -1177,6 +1248,7 @@ class HullPartRepository {
 
 File: lib/data/repositories/parts/part_repository_index.dart
 import 'package:bcc5/data/models/part_model.dart';
+
 import 'part_deck_repository.dart';
 import 'part_hull_repository.dart';
 import 'part_interior_repository.dart';
@@ -1192,14 +1264,11 @@ class PartRepositoryIndex {
     'sails': SailsPartRepository.partItems,
   };
 
-  /// Returns a list of all zone names
   static List<String> getZoneNames() => _zones.keys.toList();
 
-  /// Gets all parts for a specific zone
   static List<PartItem> getPartsForZone(String zone) =>
       _zones[zone.toLowerCase()] ?? [];
 
-  /// Looks up a part by ID
   static PartItem? getPartById(String id) {
     for (final items in _zones.values) {
       for (final item in items) {
@@ -1209,7 +1278,6 @@ class PartRepositoryIndex {
     return null;
   }
 
-  /// Resolves a part ID to its zone
   static String? getZoneForPartId(String partId) {
     for (final entry in _zones.entries) {
       if (entry.value.any((item) => item.id == partId)) {
@@ -1219,7 +1287,6 @@ class PartRepositoryIndex {
     return null;
   }
 
-  /// Validates all part IDs match zone prefixes
   static void assertPartIdsMatchZonePrefixes() {
     _zones.forEach((zone, items) {
       for (final item in items) {
@@ -1589,6 +1656,8 @@ class SystemsLessonRepository {
 
 
 File: lib/data/repositories/lessons/lesson_repository_index.dart
+import 'package:bcc5/data/models/flashcard_model.dart';
+
 import 'lesson_docking_repository.dart';
 import 'lesson_emergencies_repository.dart';
 import 'lesson_knots_repository.dart';
@@ -1598,7 +1667,6 @@ import 'lesson_seamanship_repository.dart';
 import 'lesson_systems_repository.dart';
 import 'lesson_teamwork_repository.dart';
 import 'lesson_terminology_repository.dart';
-import 'package:bcc5/utils/id_parser.dart';
 import 'package:bcc5/data/models/lesson_model.dart';
 
 class LessonRepositoryIndex {
@@ -1637,13 +1705,39 @@ class LessonRepositoryIndex {
     return null;
   }
 
-  void assertLessonIdsMatchModules(List<Lesson> lessons) {
-    for (final lesson in lessons) {
-      final parsedGroup = getGroupFromId(lesson.id);
-      assert(
-        lesson.id.startsWith('lesson_${parsedGroup}_'),
-        'Lesson ID mismatch: ${lesson.id} should match group $parsedGroup',
-      );
+  static List<Lesson> getAllLessons() =>
+      _modules.values.expand((list) => list).toList();
+
+  static Flashcard? getFlashcardById(String id) {
+    for (final lesson in getAllLessons()) {
+      for (final card in lesson.flashcards) {
+        if (card.id == id) return card;
+      }
+    }
+    return null;
+  }
+
+  static void assertAllLessonIdsMatchModules() {
+    for (final entry in _modules.entries) {
+      for (final lesson in entry.value) {
+        assert(
+          lesson.id.startsWith('lesson_${entry.key}_'),
+          'Lesson ID mismatch: ${lesson.id} should start with lesson_${entry.key}_',
+        );
+      }
+    }
+  }
+
+  static void assertAllFlashcardIdsValid() {
+    for (final entry in _modules.entries) {
+      for (final lesson in entry.value) {
+        for (final card in lesson.flashcards) {
+          assert(
+            card.id.startsWith('flashcard_lesson_${entry.key}_'),
+            'Flashcard ID mismatch in module ${entry.key}: ${card.id}',
+          );
+        }
+      }
     }
   }
 }

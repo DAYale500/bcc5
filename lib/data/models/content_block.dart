@@ -35,4 +35,6 @@ class ContentBlock {
 
   // Optional convenience getter
   List<String>? get bullets => bulletList;
+
+  static divider() {}
 }

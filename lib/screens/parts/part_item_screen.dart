@@ -47,19 +47,11 @@ class PartItemScreen extends StatelessWidget {
                 return ItemButton(
                   label: part.title,
                   onTap: () {
-                    logger.i('🟥 Tapped part: ${part.title}');
-
-                    final titles = filteredParts.map((p) => p.title).toList();
-                    final contentMap = {
-                      for (final part in filteredParts)
-                        part.title: part.content,
-                    };
-
+                    logger.i('🟥 Tapped part: ${part.id}');
                     context.push(
                       '/content',
                       extra: {
-                        'sequenceTitles': titles,
-                        'contentMap': contentMap,
+                        'sequenceIds': filteredParts.map((p) => p.id).toList(),
                         'startIndex': index,
                         'branchIndex': 2,
                         'backDestination': '/parts/items',

@@ -1,4 +1,4 @@
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository.dart';
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

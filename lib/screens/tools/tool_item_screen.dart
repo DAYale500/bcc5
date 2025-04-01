@@ -1,5 +1,3 @@
-// 📄 lib/screens/tools/tool_item_screen.dart
-
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -50,14 +48,11 @@ class ToolItemScreen extends StatelessWidget {
                   return ItemButton(
                     label: tool.title,
                     onTap: () {
-                      logger.i('🛠️ Tapped tool: ${tool.title}');
+                      logger.i('🛠️ Tapped tool: ${tool.id}');
                       context.push(
                         '/content',
                         extra: {
-                          'sequenceTitles': tools.map((t) => t.title).toList(),
-                          'contentMap': {
-                            for (var t in tools) t.title: t.content,
-                          },
+                          'sequenceIds': tools.map((t) => t.id).toList(),
                           'startIndex': index,
                           'branchIndex': 4,
                           'backDestination': '/tools/items',

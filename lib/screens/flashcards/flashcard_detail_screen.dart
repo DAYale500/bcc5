@@ -53,7 +53,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       backExtra = widget.extra['backExtra'] as Map<String, dynamic>?;
 
       logger.i(
-        '🟩 Loaded FlashcardDetailScreen: index=$currentIndex title=${sequenceTitles[currentIndex]}',
+        '🟩 Loaded FlashcardDetailScreen:\n'
+        '  • index: $currentIndex\n'
+        '  • title: ${sequenceTitles[currentIndex]}\n'
+        '  • sequenceTitles: $sequenceTitles\n'
+        '  • branchIndex: $branchIndex\n'
+        '  • backDestination: $backDestination\n'
+        '  • backExtra: $backExtra',
       );
     } catch (e, st) {
       logger.e(
@@ -87,16 +93,19 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
   void goTo(int newIndex) {
     if (newIndex >= 0 && newIndex < sequenceTitles.length) {
+      logger.i('🔁 Switching from index $currentIndex → $newIndex');
       setState(() {
         currentIndex = newIndex;
         showFront = true;
         _controller.reset();
       });
-      logger.i('🔁 Navigated to flashcard index: $newIndex');
+    } else {
+      logger.i('⛔ Invalid index navigation attempt: $newIndex');
     }
   }
 
   void flipCard() {
+    logger.i(showFront ? '🔃 Flipping to back' : '🔃 Flipping to front');
     setState(() {
       showFront = !showFront;
       if (_controller.isCompleted || _controller.velocity > 0) {
@@ -113,6 +122,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final Map<String, List<ContentBlock>> blocks = contentMap[title] ?? {};
     final List<ContentBlock> front = blocks['sideA'] ?? [];
     final List<ContentBlock> back = blocks['sideB'] ?? [];
+
+    logger.i(
+      '🖼️ Building FlashcardDetailScreen UI:\n'
+      '  • title: $title\n'
+      '  • front blocks: ${front.length}\n'
+      '  • back blocks: ${back.length}',
+    );
 
     return Stack(
       fit: StackFit.expand,
@@ -175,13 +191,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                         animation: _flipAnimation,
                                       ),
                                     ),
-
-                            // child: FlipCardWidget(
-                            //   front: front,
-                            //   back: back,
-                            //   showFront: isFront,
-                            //   animation: _flipAnimation,
-                            // ),
                           );
                         },
                       ),

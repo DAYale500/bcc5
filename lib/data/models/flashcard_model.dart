@@ -8,16 +8,15 @@ class Flashcard {
   final List<ContentBlock> sideA;
   final List<ContentBlock> sideB;
   final bool isPaid;
-  final bool showAFirst; // true = show sideA first, false = sideB first
-  final List<String> keywords;
+  final bool showAFirst;
 
-  const Flashcard({
+  Flashcard({
     required this.id,
     required this.title,
-    required this.sideA,
-    required this.sideB,
+    List<ContentBlock>? sideA,
+    List<ContentBlock>? sideB,
     required this.isPaid,
     required this.showAFirst,
-    this.keywords = const [],
-  });
+  }) : sideA = sideA ?? [],
+       sideB = sideB ?? [];
 }
