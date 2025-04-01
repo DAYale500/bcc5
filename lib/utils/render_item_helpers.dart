@@ -1,5 +1,5 @@
 import 'package:bcc5/data/models/content_block.dart';
-import 'package:bcc5/data/models/render_item.dart'; // ✅ centralized model
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
@@ -37,6 +37,7 @@ List<RenderItem> buildRenderItems({required List<String> ids}) {
 }
 
 RenderItem? getContentObject(String id) {
+  // Strict prefix match for lesson
   if (id.startsWith('lesson_')) {
     final lesson = LessonRepositoryIndex.getLessonById(id);
     if (lesson != null) {
@@ -48,8 +49,12 @@ RenderItem? getContentObject(String id) {
         content: lesson.content,
         flashcards: lesson.flashcards,
       );
+    } else {
+      logger.w('❌ No lesson found for ID: $id');
     }
-  } else if (id.startsWith('part_')) {
+  }
+  // Strict prefix match for part
+  else if (id.startsWith('part_')) {
     final part = PartRepositoryIndex.getPartById(id);
     if (part != null) {
       logger.i('🔧 Matched part → ${part.id}');
@@ -60,8 +65,12 @@ RenderItem? getContentObject(String id) {
         content: part.content,
         flashcards: part.flashcards,
       );
+    } else {
+      logger.w('❌ No part found for ID: $id');
     }
-  } else if (id.startsWith('tool_')) {
+  }
+  // Strict prefix match for tool
+  else if (id.startsWith('tool_')) {
     final tool = ToolRepositoryIndex.getToolById(id);
     if (tool != null) {
       logger.i('🧰 Matched tool → ${tool.id}');
@@ -72,26 +81,50 @@ RenderItem? getContentObject(String id) {
         content: tool.content,
         flashcards: tool.flashcards,
       );
+    } else {
+      logger.w('❌ No tool found for ID: $id');
     }
-  } else if (id.startsWith('flashcard_')) {
-    final flashcard = LessonRepositoryIndex.getFlashcardById(id);
+  }
+  // Strict prefix match for flashcard
+  else if (id.startsWith('flashcard_')) {
+    logger.i('🧠 Looking up flashcard ID: $id');
+
+    final fromLesson = LessonRepositoryIndex.getFlashcardById(id);
+    logger.i(
+      fromLesson != null
+          ? '   ✅ Found in lesson repo → ${fromLesson.id}'
+          : '   ❌ Not found in lesson repo',
+    );
+
+    final fromPart = PartRepositoryIndex.getFlashcardById(id);
+    logger.i(
+      fromPart != null
+          ? '   ✅ Found in part repo → ${fromPart.id}'
+          : '   ❌ Not found in part repo',
+    );
+
+    final fromTool = ToolRepositoryIndex.getFlashcardById(id);
+    logger.i(
+      fromTool != null
+          ? '   ✅ Found in tool repo → ${fromTool.id}'
+          : '   ❌ Not found in tool repo',
+    );
+
+    final flashcard = fromLesson ?? fromPart ?? fromTool;
+
     if (flashcard != null) {
-      logger.i('🧠 Matched flashcard → ${flashcard.id}');
-
-      final sideA = flashcard.sideA;
-      final sideB = flashcard.sideB;
-
       return RenderItem(
         type: RenderItemType.flashcard,
         id: flashcard.id,
         title: flashcard.title,
-        content: sideA + ContentBlock.divider() + sideB,
+        content: flashcard.sideA + ContentBlock.dividerList() + flashcard.sideB,
         flashcards: [flashcard],
       );
     } else {
-      logger.w('⚠️ No flashcard found for id: $id');
+      logger.w('⚠️ Flashcard lookup failed in all repositories for id: $id');
     }
   }
 
+  logger.w('❌ getContentObject: No match for id: $id');
   return null;
 }

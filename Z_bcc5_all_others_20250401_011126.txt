@@ -454,7 +454,7 @@ final logger = Logger(
 
 File: lib/utils/render_item_helpers.dart
 import 'package:bcc5/data/models/content_block.dart';
-import 'package:bcc5/data/models/render_item.dart'; // ✅ centralized model
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
@@ -529,23 +529,60 @@ RenderItem? getContentObject(String id) {
       );
     }
   } else if (id.startsWith('flashcard_')) {
-    final flashcard = LessonRepositoryIndex.getFlashcardById(id);
-    if (flashcard != null) {
-      logger.i('🧠 Matched flashcard → ${flashcard.id}');
+    logger.i('🧠 Looking up flashcard ID: $id');
 
-      final sideA = flashcard.sideA;
-      final sideB = flashcard.sideB;
+    final fromLesson = LessonRepositoryIndex.getFlashcardById(id);
+    logger.i(
+      fromLesson != null
+          ? '   ✅ Found in lesson repo → ${fromLesson.id}'
+          : '   ❌ Not found in lesson repo',
+    );
 
+    final fromPart = PartRepositoryIndex.getFlashcardById(id);
+    logger.i(
+      fromPart != null
+          ? '   ✅ Found in part repo → ${fromPart.id}'
+          : '   ❌ Not found in part repo',
+    );
+
+    final fromTool = ToolRepositoryIndex.getFlashcardById(id);
+    logger.i(
+      fromTool != null
+          ? '   ✅ Found in tool repo → ${fromTool.id}'
+          : '   ❌ Not found in tool repo',
+    );
+
+    if (fromLesson != null) {
       return RenderItem(
         type: RenderItemType.flashcard,
-        id: flashcard.id,
-        title: flashcard.title,
-        content: sideA + ContentBlock.divider() + sideB,
-        flashcards: [flashcard],
+        id: fromLesson.id,
+        title: fromLesson.title,
+        content: fromLesson.sideA + ContentBlock.divider() + fromLesson.sideB,
+        flashcards: [fromLesson],
       );
     }
-  } else {
-    logger.w('⚠️ Unknown content prefix for id: $id');
+
+    if (fromPart != null) {
+      return RenderItem(
+        type: RenderItemType.flashcard,
+        id: fromPart.id,
+        title: fromPart.title,
+        content: fromPart.sideA + ContentBlock.divider() + fromPart.sideB,
+        flashcards: [fromPart],
+      );
+    }
+
+    if (fromTool != null) {
+      return RenderItem(
+        type: RenderItemType.flashcard,
+        id: fromTool.id,
+        title: fromTool.title,
+        content: fromTool.sideA + ContentBlock.divider() + fromTool.sideB,
+        flashcards: [fromTool],
+      );
+    }
+
+    logger.w('⚠️ Flashcard lookup failed in all repositories for id: $id');
   }
 
   return null;
@@ -1436,28 +1473,27 @@ class _ContentScreenNavigatorState extends State<ContentScreenNavigator> {
       '  • startIndex: ${widget.startIndex}',
     );
 
-    _items =
-        helpers
-            .buildRenderItems(ids: widget.sequenceIds)
-            .cast<model.RenderItem>();
     _currentIndex = widget.startIndex;
 
-    logger.i('✅ Built ${_items.length} renderItems from sequenceIds');
+    // Create placeholders for lazy loading
+    _items =
+        widget.sequenceIds.map((id) {
+          return model.RenderItem(
+            id: id,
+            type: _inferType(id),
+            title: 'Loading...',
+            content: const [],
+            flashcards: const [],
+          );
+        }).toList();
+  }
 
-    for (int i = 0; i < _items.length; i++) {
-      final item = _items[i];
-      logger.i('📦 RenderItem [$i] → id: ${item.id}, type: ${item.type}');
-    }
-
-    if (_items.isEmpty) {
-      logger.e('❌ No renderable content — _items is empty');
-    }
-
-    if (_currentIndex < 0 || _currentIndex >= _items.length) {
-      logger.e(
-        '❌ Invalid startIndex: $_currentIndex (valid range: 0–${_items.length - 1})',
-      );
-    }
+  model.RenderItemType _inferType(String id) {
+    if (id.startsWith('lesson_')) return model.RenderItemType.lesson;
+    if (id.startsWith('part_')) return model.RenderItemType.part;
+    if (id.startsWith('tool_')) return model.RenderItemType.tool;
+    if (id.startsWith('flashcard_')) return model.RenderItemType.flashcard;
+    return model.RenderItemType.lesson; // fallback to something safe
   }
 
   void _goTo(int newIndex) {
@@ -1507,13 +1543,29 @@ class _ContentScreenNavigatorState extends State<ContentScreenNavigator> {
       );
     }
 
-    final currentItem = _items[_currentIndex];
+    var currentItem = _items[_currentIndex];
+
     logger.i(
       '🖥️ Rendering item\n'
       '  • index: $_currentIndex\n'
       '  • id: ${currentItem.id}\n'
       '  • type: ${currentItem.type}',
     );
+
+    // Lazy-resolve if not done already
+    if (!currentItem.isResolved) {
+      final resolved = helpers.getContentObject(currentItem.id);
+      if (resolved != null) {
+        logger.i('🧩 Resolved content for ${currentItem.id}');
+        _items[_currentIndex] = resolved;
+        currentItem = resolved; // use the resolved one immediately
+      } else {
+        logger.e('❌ Could not resolve content for ${currentItem.id}');
+        return const Scaffold(
+          body: Center(child: Text('Error loading content')),
+        );
+      }
+    }
 
     if (currentItem.type == model.RenderItemType.flashcard) {
       logger.i('🧠 Showing FlashcardDetailScreen for ${currentItem.id}');
@@ -2442,6 +2494,8 @@ class RenderItem {
     required this.content,
     required this.flashcards,
   });
+
+  bool get isResolved => content.isNotEmpty || flashcards.isNotEmpty;
 }
 
 

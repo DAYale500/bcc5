@@ -33,8 +33,13 @@ class ContentBlock {
   factory ContentBlock.image(String imagePath) =>
       ContentBlock._(type: ContentBlockType.image, imagePath: imagePath);
 
+  // Divider block
+  factory ContentBlock.divider() =>
+      ContentBlock._(type: ContentBlockType.divider);
+
+  // Optional: utility for combining sides with divider
+  static List<ContentBlock> dividerList() => [ContentBlock.divider()];
+
   // Optional convenience getter
   List<String>? get bullets => bulletList;
-
-  static divider() {}
 }
