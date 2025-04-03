@@ -8,6 +8,7 @@ import 'package:bcc5/widgets/flip_card_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 
 class FlashcardDetailScreen extends StatefulWidget {
   final Map<String, dynamic> extra;
@@ -115,8 +116,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
         case RenderItemType.tool:
           context.go('/tools/detail', extra: extra);
           break;
-        // default:
-        // logger.e('⛔ Unknown type: ${nextItem.type}');
       }
     } else {
       logger.w('⛔ Invalid navigation attempt: $newIndex');
@@ -143,15 +142,12 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
     final currentItem = renderItems[currentIndex];
 
-    // 🚨 Type check + redirect
     if (currentItem.type != RenderItemType.flashcard) {
-      logger.w(
-        '⚠️ Redirecting from FlashcardDetailScreen to correct detail screen',
-      );
+      logger.w('⚠️ Redirecting from FlashcardDetailScreen to correct screen');
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        goTo(currentIndex); // will route to correct screen
+        goTo(currentIndex);
       });
-      return const Scaffold(body: SizedBox()); // Placeholder during redirect
+      return const Scaffold(body: SizedBox());
     }
 
     if (currentItem.flashcards.isEmpty) {
@@ -164,6 +160,8 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final title = flashcard.title;
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
+    final category =
+        (backExtra?['category'] as String?)?.toTitleCase() ?? 'Flashcards';
 
     logger.i(
       '🖼️ Rendering Flashcard:\n'
@@ -175,11 +173,11 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     return Stack(
       fit: StackFit.expand,
       children: [
-        Image.asset('assets/images/fallback_image.jpeg', fit: BoxFit.cover),
+        Image.asset('assets/images/sailboat_cartoon.jpg', fit: BoxFit.cover),
         Column(
           children: [
             CustomAppBarWidget(
-              title: title,
+              title: category,
               showBackButton: true,
               showSearchIcon: true,
               showSettingsIcon: true,
@@ -192,6 +190,15 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                 }
               },
             ),
+            const SizedBox(height: 16),
+            Text(
+              title,
+              style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                color: AppTheme.primaryBlue,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
             Expanded(
               child: Center(
                 child: Stack(
@@ -199,13 +206,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                   children: [
                     Image.asset(
                       'assets/images/index_card.png',
-                      width: 500,
-                      height: 450,
+                      width: 360,
+                      height: 420,
                       fit: BoxFit.fill,
                     ),
                     SizedBox(
-                      width: 500,
-                      height: 450,
+                      width: 360,
+                      height: 420,
                       child: AnimatedBuilder(
                         animation: _flipAnimation,
                         builder: (context, child) {
@@ -217,20 +224,26 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                             ),
                             child:
                                 isFront
-                                    ? FlipCardWidget(
-                                      front: sideA,
-                                      back: sideB,
-                                      showFront: true,
-                                      animation: _flipAnimation,
+                                    ? Padding(
+                                      padding: const EdgeInsets.only(top: 32),
+                                      child: FlipCardWidget(
+                                        front: sideA,
+                                        back: sideB,
+                                        showFront: true,
+                                        animation: _flipAnimation,
+                                      ),
                                     )
                                     : Transform(
                                       alignment: Alignment.center,
                                       transform: Matrix4.rotationY(math.pi),
-                                      child: FlipCardWidget(
-                                        front: sideA,
-                                        back: sideB,
-                                        showFront: false,
-                                        animation: _flipAnimation,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 32),
+                                        child: FlipCardWidget(
+                                          front: sideA,
+                                          back: sideB,
+                                          showFront: false,
+                                          animation: _flipAnimation,
+                                        ),
                                       ),
                                     ),
                           );

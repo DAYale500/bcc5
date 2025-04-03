@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
+import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class ToolDetailScreen extends StatelessWidget {
   final List<RenderItem> renderItems;
@@ -33,7 +36,6 @@ class ToolDetailScreen extends StatelessWidget {
 
     final RenderItem item = renderItems[currentIndex];
 
-    // 🚨 Redirect if not tool
     if (item.type != RenderItemType.tool) {
       logger.w('⚠️ Redirecting from non-tool type: ${item.id} (${item.type})');
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -42,19 +44,27 @@ class ToolDetailScreen extends StatelessWidget {
       return const Scaffold(body: SizedBox());
     }
 
-    final String title = item.title;
+    final String toolTitle = item.title;
+    final String toolbagTitle =
+        (backExtra?['toolbag'] as String?)?.toTitleCase() ?? 'Tool';
 
-    logger.i('🛠️ ToolDetailScreen: $title');
+    logger.i('🛠️ ToolDetailScreen: $toolTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
 
     return Stack(
       fit: StackFit.expand,
       children: [
-        Image.asset('assets/images/rudder.gif', fit: BoxFit.cover),
+        Opacity(
+          opacity: 0.2,
+          child: Image.asset(
+            'assets/images/navigation_lights.png',
+            fit: BoxFit.cover,
+          ),
+        ),
         Column(
           children: [
             CustomAppBarWidget(
-              title: title,
+              title: toolbagTitle,
               showBackButton: true,
               showSearchIcon: true,
               showSettingsIcon: true,
@@ -67,9 +77,19 @@ class ToolDetailScreen extends StatelessWidget {
                 }
               },
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                toolTitle,
+                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ContentBlockRenderer(blocks: item.content),
               ),
             ),
@@ -119,8 +139,6 @@ class ToolDetailScreen extends StatelessWidget {
       case RenderItemType.flashcard:
         context.go('/flashcards/detail', extra: extra);
         break;
-      // default:
-      //   logger.e('⛔ Unknown RenderItemType: ${nextItem.type}');
     }
   }
 }

@@ -47,7 +47,7 @@ class AppTheme {
     color: Colors.grey,
   );
 
-  // ✨ Default TextTheme (used by ThemeData)
+  // ✨ Default TextTheme
   static const TextTheme textTheme = TextTheme(
     headlineLarge: headingStyle,
     headlineMedium: subheadingStyle,
@@ -56,7 +56,6 @@ class AppTheme {
     bodySmall: captionStyle,
   );
 
-  // ✨ Scaled TextTheme for content-heavy views
   static final TextTheme scaledTextTheme = TextTheme(
     headlineLarge: headingStyle.copyWith(
       fontSize: headingStyle.fontSize! * textScaleMultiplier,
@@ -98,7 +97,7 @@ class AppTheme {
       unselectedLabelStyle: buttonTextStyle,
       showUnselectedLabels: true,
     ),
-    textTheme: textTheme, // You can swap in scaledTextTheme here if needed
+    textTheme: textTheme,
   );
 
   // 🌑 Dark Theme
@@ -124,7 +123,7 @@ class AppTheme {
     textTheme: textTheme,
   );
 
-  // 📏 Radius, Padding, Margins
+  // 📏 Dimensions
   static const double buttonCornerRadius = 12.0;
   static const double cardCornerRadius = 16.0;
   static const double screenPadding = 16.0;
@@ -133,15 +132,13 @@ class AppTheme {
     vertical: 14,
     horizontal: 24,
   );
-
   static const EdgeInsetsGeometry itemButtonPadding = EdgeInsets.symmetric(
     vertical: 10,
     horizontal: 12,
   );
-
   static const EdgeInsets cardPadding = EdgeInsets.all(12);
 
-  // 🔘 Navigation Button Styles
+  // 🔘 Navigation Buttons
   static final ButtonStyle navigationButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: primaryRed,
     foregroundColor: Colors.white,
@@ -162,6 +159,10 @@ class AppTheme {
           borderRadius: BorderRadius.circular(buttonCornerRadius),
         ),
       );
+
+  // ✅ New Reusable Button Backgrounds
+  static Color get groupButtonSelected => primaryBlue.withAlpha(229);
+  static Color get groupButtonUnselected => primaryBlue.withAlpha(153);
 
   static ButtonStyle get navigationButton => navigationButtonStyle;
   static ButtonStyle get disabledNavigationButton =>

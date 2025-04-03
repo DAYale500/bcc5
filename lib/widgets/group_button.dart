@@ -17,13 +17,11 @@ class GroupButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final backgroundColor =
         isSelected
-            ? AppTheme.primaryBlue.withAlpha(229) // 🟠 Selected: more opaque
-            : AppTheme.primaryBlue.withAlpha(
-              153,
-            ); // 🟠 Unselected: more transparent
+            ? AppTheme.groupButtonSelected
+            : AppTheme.groupButtonUnselected;
 
     return FractionallySizedBox(
-      widthFactor: 0.6, // 🟠 Consistent width
+      widthFactor: 0.6,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(

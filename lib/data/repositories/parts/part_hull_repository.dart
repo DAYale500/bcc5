@@ -80,6 +80,8 @@ class HullPartRepository {
         ),
         ContentBlock.image('assets/images/fallback_image.jpeg'),
         ContentBlock.text('They must be sealed properly to prevent leaks.'),
+        ContentBlock.image('assets/images/fallback_image.jpeg'),
+        ContentBlock.text('Just more text here to make it longer.'),
       ],
       flashcards: [
         Flashcard(

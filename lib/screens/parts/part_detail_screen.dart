@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
+import 'package:bcc5/utils/string_extensions.dart'; // for toTitleCase
+import 'package:bcc5/theme/app_theme.dart';
 
 class PartDetailScreen extends StatelessWidget {
   final List<RenderItem> renderItems;
@@ -43,19 +44,30 @@ class PartDetailScreen extends StatelessWidget {
       return const Scaffold(body: SizedBox());
     }
 
-    final String title = item.title;
+    final String partTitle = item.title;
+    final String zoneTitle =
+        (backExtra?['zone'] as String?)?.toTitleCase() ?? 'Part';
 
-    logger.i('🧩 PartDetailScreen: $title');
+    logger.i('🧩 PartDetailScreen: $partTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
 
     return Stack(
       fit: StackFit.expand,
       children: [
-        Image.asset('assets/images/boat_overview.png', fit: BoxFit.cover),
+        // 🔲 Background Image
+        Opacity(
+          opacity: 0.2,
+          child: Image.asset(
+            'assets/images/deck_parts_montage.webp',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // 🧱 Foreground content
         Column(
           children: [
             CustomAppBarWidget(
-              title: title,
+              title: zoneTitle,
               showBackButton: true,
               showSearchIcon: true,
               showSettingsIcon: true,
@@ -64,25 +76,45 @@ class PartDetailScreen extends StatelessWidget {
                 context.go(backDestination, extra: backExtra);
               },
             ),
+
+            // 📌 Part Title (Under AppBar)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                partTitle,
+                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            // 📜 Content (scrollable)
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ContentBlockRenderer(blocks: item.content),
               ),
             ),
-            NavigationButtons(
-              isPreviousEnabled: currentIndex > 0,
-              isNextEnabled: currentIndex < renderItems.length - 1,
-              onPrevious: () {
-                logger.i('⬅️ Previous tapped on PartDetailScreen');
-                _navigateTo(context, currentIndex - 1);
-              },
-              onNext: () {
-                logger.i('➡️ Next tapped on PartDetailScreen');
-                _navigateTo(context, currentIndex + 1);
-              },
-            ),
           ],
+        ),
+        // ⬅️➡️ Navigation Buttons (pinned to bottom)
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: NavigationButtons(
+            isPreviousEnabled: currentIndex > 0,
+            isNextEnabled: currentIndex < renderItems.length - 1,
+            onPrevious: () {
+              logger.i('⬅️ Previous tapped on PartDetailScreen');
+              _navigateTo(context, currentIndex - 1);
+            },
+            onNext: () {
+              logger.i('➡️ Next tapped on PartDetailScreen');
+              _navigateTo(context, currentIndex + 1);
+            },
+          ),
         ),
       ],
     );
@@ -116,8 +148,6 @@ class PartDetailScreen extends StatelessWidget {
       case RenderItemType.flashcard:
         context.go('/flashcards/detail', extra: extra);
         break;
-      // default:
-      //   logger.e('⛔ Unknown RenderItemType: ${nextItem.type}');
     }
   }
 }

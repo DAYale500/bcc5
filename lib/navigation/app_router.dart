@@ -284,12 +284,30 @@ final appRouter = GoRouter(
       builder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
+
+        final currentIndex = extra['currentIndex'] ?? extra['startIndex'] ?? 0;
+
         return MainScaffold(
           branchIndex: extra['branchIndex'] ?? 4,
-          child: FlashcardDetailScreen(extra: extra),
+          child: FlashcardDetailScreen(
+            key: ValueKey(currentIndex), // 👈 forces rebuild when index changes
+            extra: extra,
+          ),
         );
       },
     ),
+
+    // GoRoute(
+    //   path: '/flashcards/detail',
+    //   builder: (context, state) {
+    //     final extra = state.extra as Map<String, dynamic>;
+    //     logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
+    //     return MainScaffold(
+    //       branchIndex: extra['branchIndex'] ?? 4,
+    //       child: FlashcardDetailScreen(extra: extra),
+    //     );
+    //   },
+    // ),
   ],
 );
 

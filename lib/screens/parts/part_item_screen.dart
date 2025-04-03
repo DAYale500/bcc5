@@ -6,6 +6,7 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/models/part_model.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class PartItemScreen extends StatelessWidget {
   final String zone;
@@ -34,6 +35,12 @@ class PartItemScreen extends StatelessWidget {
             context.go('/parts');
           },
         ),
+        const SizedBox(height: 16),
+        Text(
+          'Choose a Part',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+        ),
+        const SizedBox(height: 12),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -58,7 +65,7 @@ class PartItemScreen extends StatelessWidget {
                         'currentIndex': index,
                         'branchIndex': 2,
                         'backDestination': '/parts/items',
-                        'backExtra': {'zone': zone}, // ✅ ADD THIS!
+                        'backExtra': {'zone': zone}, // ✅ Keep back context
                       },
                     );
                   },

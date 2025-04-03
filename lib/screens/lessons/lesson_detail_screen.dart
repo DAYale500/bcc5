@@ -6,7 +6,8 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
-import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase
+import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class LessonDetailScreen extends StatelessWidget {
   final List<RenderItem> renderItems;
@@ -40,15 +41,16 @@ class LessonDetailScreen extends StatelessWidget {
         '⚠️ LessonDetailScreen received a non-lesson RenderItem: ${item.id} (${item.type})',
       );
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _navigateTo(context, currentIndex); // Redirect to correct screen
+        _navigateTo(context, currentIndex);
       });
-      return const Scaffold(body: SizedBox()); // Blank placeholder
+      return const Scaffold(body: SizedBox());
     }
 
     final String moduleTitle =
         (backExtra?['module'] as String?)?.toTitleCase() ?? 'Lesson';
+    final String lessonTitle = item.title;
 
-    logger.i('📘 LessonDetailScreen: ${item.title}');
+    logger.i('📘 LessonDetailScreen: $lessonTitle');
     logger.i('🧩 Content blocks: ${item.content.length}');
     logger.i('🧠 Flashcards: ${item.flashcards.length}');
 
@@ -56,7 +58,7 @@ class LessonDetailScreen extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         Opacity(
-          opacity: 0.2, // ✅ 80% transparent background image
+          opacity: 0.2,
           child: Image.asset(
             'assets/images/boat_overview_new.png',
             fit: BoxFit.cover,
@@ -78,18 +80,28 @@ class LessonDetailScreen extends StatelessWidget {
                 }
               },
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: ListView.separated(
-                  itemCount: item.content.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 16),
-                  itemBuilder: (context, index) {
-                    return ContentBlockRenderer(blocks: [item.content[index]]);
-                  },
+
+            // 📌 Lesson Title Under AppBar
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                lessonTitle,
+                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                  color: AppTheme.primaryBlue,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
+
+            // 📜 Lesson Content
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ContentBlockRenderer(blocks: item.content),
+              ),
+            ),
+
+            // ⬅️➡️ Navigation Buttons
             NavigationButtons(
               isPreviousEnabled: currentIndex > 0,
               isNextEnabled: currentIndex < renderItems.length - 1,

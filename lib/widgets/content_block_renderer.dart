@@ -5,13 +5,16 @@ import 'package:bcc5/theme/app_theme.dart';
 class ContentBlockRenderer extends StatelessWidget {
   final List<ContentBlock> blocks;
 
-  const ContentBlockRenderer({required this.blocks, super.key});
+  const ContentBlockRenderer({super.key, required this.blocks});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: blocks.map((block) => _renderBlock(context, block)).toList(),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 16), // add bottom spacing
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: blocks.map((block) => _renderBlock(context, block)).toList(),
+      ),
     );
   }
 
@@ -58,12 +61,7 @@ class ContentBlockRenderer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('• ', style: TextStyle(fontSize: 16)),
-                      Expanded(
-                        child: Text(
-                          b,
-                          style: AppTheme.scaledTextTheme.bodyLarge,
-                        ),
-                      ),
+                      Expanded(child: Text(b)),
                     ],
                   ),
                 );

@@ -1,49 +1,112 @@
 import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
-import 'package:bcc5/widgets/item_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class FlashcardCategoryScreen extends StatelessWidget {
   const FlashcardCategoryScreen({super.key});
+
+  static const double appBarOffset = 80.0;
 
   @override
   Widget build(BuildContext context) {
     logger.i('🟦 Entered FlashcardCategoryScreen');
 
     final categories = getAllCategories();
-    logger.i(
-      '📇 Loaded ${categories.length} flashcard categories: $categories',
-    );
+    final sorted = [
+      ...categories.where((c) => c == 'all' || c == 'random'),
+      ...categories.where((c) => c != 'all' && c != 'random'),
+    ];
+    logger.i('📇 Sorted flashcard categories: $sorted');
 
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        const CustomAppBarWidget(
-          title: 'Flashcards',
-          showBackButton: false,
-          showSearchIcon: true,
-          showSettingsIcon: true,
+        // 🔵 AppBar
+        const Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomAppBarWidget(
+            title: 'Flashcards',
+            showBackButton: false,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+          ),
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListView.separated(
-              itemCount: categories.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                return ItemButton(
-                  label: category[0].toUpperCase() + category.substring(1),
-                  onTap: () {
-                    logger.i('🟥 Tapped flashcard category: category');
-                    context.push(
-                      '/flashcards/items',
-                      extra: {'category': category},
-                    );
-                  },
-                );
-              },
+
+        // 🧭 Instruction Text
+        Positioned(
+          top: appBarOffset + 32,
+          left: 32,
+          right: 32,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(217),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                'Choose a Group',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        // 📚 Button Grid
+        Positioned.fill(
+          top: appBarOffset + 100,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Center(
+              child: Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children:
+                    sorted.map((category) {
+                      final label =
+                          category[0].toUpperCase() + category.substring(1);
+
+                      return SizedBox(
+                        width: 160,
+                        child: GestureDetector(
+                          onTap: () {
+                            logger.i('🟥 Tapped flashcard category: $category');
+                            context.push(
+                              '/flashcards/items',
+                              extra: {'category': category},
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 14,
+                              horizontal: 24,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTheme.groupButtonUnselected,
+                              borderRadius: BorderRadius.circular(
+                                AppTheme.buttonCornerRadius,
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              label,
+                              textAlign: TextAlign.center,
+                              style: AppTheme.buttonTextStyle.copyWith(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+              ),
             ),
           ),
         ),

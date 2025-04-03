@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 
@@ -10,6 +12,8 @@ class FlashcardItemScreen extends StatelessWidget {
   final String category;
 
   const FlashcardItemScreen({super.key, required this.category});
+
+  static const double appBarOffset = 80.0;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +24,13 @@ class FlashcardItemScreen extends StatelessWidget {
       '📘 Loaded ${flashcards.length} flashcards for category: $category',
     );
 
+    final titleCaseCategory = category.toTitleCase();
+
     if (flashcards.isEmpty) {
       return Column(
         children: [
           CustomAppBarWidget(
-            title: 'Flashcards',
+            title: titleCaseCategory,
             showBackButton: true,
             showSearchIcon: true,
             showSettingsIcon: true,
@@ -42,19 +48,51 @@ class FlashcardItemScreen extends StatelessWidget {
       );
     }
 
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        CustomAppBarWidget(
-          title: 'Flashcards',
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          onBack: () {
-            logger.i('🔙 AppBar back from FlashcardItemScreen');
-            context.go('/flashcards');
-          },
+        // 🔵 AppBar
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomAppBarWidget(
+            title: titleCaseCategory,
+            showBackButton: true,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+            onBack: () {
+              logger.i('🔙 AppBar back from FlashcardItemScreen');
+              context.go('/flashcards');
+            },
+          ),
         ),
-        Expanded(
+
+        // 🧭 Instruction Text
+        Positioned(
+          top: appBarOffset + 32,
+          left: 32,
+          right: 32,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(217),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                'Choose a Flashcard',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        // 🧩 Flashcard Grid
+        Positioned.fill(
+          top: appBarOffset + 100,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: GridView.builder(
