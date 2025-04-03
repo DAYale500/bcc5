@@ -1,5 +1,3 @@
-// 📄 lib/screens/tools/tool_detail_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/models/render_item.dart';
@@ -13,7 +11,7 @@ class ToolDetailScreen extends StatelessWidget {
   final int currentIndex;
   final int branchIndex;
   final String backDestination;
-  final Map<String, dynamic>? backExtra; // ✅ NEW
+  final Map<String, dynamic>? backExtra;
 
   const ToolDetailScreen({
     super.key,
@@ -21,7 +19,7 @@ class ToolDetailScreen extends StatelessWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra, // ✅ NEW
+    this.backExtra,
   });
 
   @override
@@ -34,46 +32,60 @@ class ToolDetailScreen extends StatelessWidget {
     }
 
     final RenderItem item = renderItems[currentIndex];
+
+    // 🚨 Redirect if not tool
+    if (item.type != RenderItemType.tool) {
+      logger.w('⚠️ Redirecting from non-tool type: ${item.id} (${item.type})');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _navigateTo(context, currentIndex);
+      });
+      return const Scaffold(body: SizedBox());
+    }
+
     final String title = item.title;
 
     logger.i('🛠️ ToolDetailScreen: $title');
     logger.i('📄 Content blocks: ${item.content.length}');
 
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        CustomAppBarWidget(
-          title: title,
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          onBack: () {
-            final toolId =
-                renderItems[currentIndex].id; // e.g. tool_procedures_1.00
-            final toolbag = toolId.split('_')[1]; // procedures
-            logger.i('🔙 Back tapped → /tools/items with toolbag: $toolbag');
-            context.go(
-              '/tools/items',
-              extra: {'toolbag': toolbag, 'branchIndex': branchIndex},
-            );
-          },
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ContentBlockRenderer(blocks: item.content),
-          ),
-        ),
-        NavigationButtons(
-          isPreviousEnabled: currentIndex > 0,
-          isNextEnabled: currentIndex < renderItems.length - 1,
-          onPrevious: () {
-            logger.i('⬅️ Previous tapped on ToolDetailScreen');
-            _navigateTo(context, currentIndex - 1);
-          },
-          onNext: () {
-            logger.i('➡️ Next tapped on ToolDetailScreen');
-            _navigateTo(context, currentIndex + 1);
-          },
+        Image.asset('assets/images/rudder.gif', fit: BoxFit.cover),
+        Column(
+          children: [
+            CustomAppBarWidget(
+              title: title,
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              onBack: () {
+                logger.i('🔙 Back tapped → $backDestination');
+                if (backExtra != null) {
+                  context.go(backDestination, extra: backExtra);
+                } else {
+                  context.go(backDestination);
+                }
+              },
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: ContentBlockRenderer(blocks: item.content),
+              ),
+            ),
+            NavigationButtons(
+              isPreviousEnabled: currentIndex > 0,
+              isNextEnabled: currentIndex < renderItems.length - 1,
+              onPrevious: () {
+                logger.i('⬅️ Previous tapped on ToolDetailScreen');
+                _navigateTo(context, currentIndex - 1);
+              },
+              onNext: () {
+                logger.i('➡️ Next tapped on ToolDetailScreen');
+                _navigateTo(context, currentIndex + 1);
+              },
+            ),
+          ],
         ),
       ],
     );
@@ -85,15 +97,30 @@ class ToolDetailScreen extends StatelessWidget {
       return;
     }
 
-    context.go(
-      '/tools/detail',
-      extra: {
-        'renderItems': renderItems,
-        'currentIndex': newIndex,
-        'branchIndex': branchIndex,
-        'backDestination': backDestination,
-        'backExtra': backExtra, // ✅ preserve across navigation
-      },
-    );
+    final nextItem = renderItems[newIndex];
+    final extra = {
+      'renderItems': renderItems,
+      'currentIndex': newIndex,
+      'branchIndex': branchIndex,
+      'backDestination': backDestination,
+      'backExtra': backExtra,
+    };
+
+    switch (nextItem.type) {
+      case RenderItemType.tool:
+        context.go('/tools/detail', extra: extra);
+        break;
+      case RenderItemType.lesson:
+        context.go('/lessons/detail', extra: extra);
+        break;
+      case RenderItemType.part:
+        context.go('/parts/detail', extra: extra);
+        break;
+      case RenderItemType.flashcard:
+        context.go('/flashcards/detail', extra: extra);
+        break;
+      // default:
+      //   logger.e('⛔ Unknown RenderItemType: ${nextItem.type}');
+    }
   }
 }

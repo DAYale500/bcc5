@@ -1,5 +1,3 @@
-// 📄 lib/screens/parts/part_detail_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,7 +12,7 @@ class PartDetailScreen extends StatelessWidget {
   final int currentIndex;
   final int branchIndex;
   final String backDestination;
-  final Map<String, dynamic>? backExtra; // ✅ NEW
+  final Map<String, dynamic>? backExtra;
 
   const PartDetailScreen({
     super.key,
@@ -22,7 +20,7 @@ class PartDetailScreen extends StatelessWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra, // ✅ NEW
+    this.backExtra,
   });
 
   @override
@@ -35,40 +33,56 @@ class PartDetailScreen extends StatelessWidget {
     }
 
     final RenderItem item = renderItems[currentIndex];
+
+    // 🚨 Redirect if not part
+    if (item.type != RenderItemType.part) {
+      logger.w('⚠️ Redirecting from non-part type: ${item.id} (${item.type})');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _navigateTo(context, currentIndex);
+      });
+      return const Scaffold(body: SizedBox());
+    }
+
     final String title = item.title;
 
     logger.i('🧩 PartDetailScreen: $title');
     logger.i('📄 Content blocks: ${item.content.length}');
 
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        CustomAppBarWidget(
-          title: title,
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          onBack: () {
-            logger.i('🔙 Back tapped → $backDestination');
-            context.go(backDestination, extra: backExtra); // ✅ correct usage
-          },
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ContentBlockRenderer(blocks: item.content),
-          ),
-        ),
-        NavigationButtons(
-          isPreviousEnabled: currentIndex > 0,
-          isNextEnabled: currentIndex < renderItems.length - 1,
-          onPrevious: () {
-            logger.i('⬅️ Previous tapped on PartDetailScreen');
-            _navigateTo(context, currentIndex - 1);
-          },
-          onNext: () {
-            logger.i('➡️ Next tapped on PartDetailScreen');
-            _navigateTo(context, currentIndex + 1);
-          },
+        Image.asset('assets/images/boat_overview.png', fit: BoxFit.cover),
+        Column(
+          children: [
+            CustomAppBarWidget(
+              title: title,
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              onBack: () {
+                logger.i('🔙 Back tapped → $backDestination');
+                context.go(backDestination, extra: backExtra);
+              },
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: ContentBlockRenderer(blocks: item.content),
+              ),
+            ),
+            NavigationButtons(
+              isPreviousEnabled: currentIndex > 0,
+              isNextEnabled: currentIndex < renderItems.length - 1,
+              onPrevious: () {
+                logger.i('⬅️ Previous tapped on PartDetailScreen');
+                _navigateTo(context, currentIndex - 1);
+              },
+              onNext: () {
+                logger.i('➡️ Next tapped on PartDetailScreen');
+                _navigateTo(context, currentIndex + 1);
+              },
+            ),
+          ],
         ),
       ],
     );
@@ -80,15 +94,30 @@ class PartDetailScreen extends StatelessWidget {
       return;
     }
 
-    context.go(
-      '/parts/detail',
-      extra: {
-        'renderItems': renderItems,
-        'currentIndex': newIndex,
-        'branchIndex': branchIndex,
-        'backDestination': backDestination,
-        'backExtra': backExtra, // ✅ preserve across navigation
-      },
-    );
+    final nextItem = renderItems[newIndex];
+    final extra = {
+      'renderItems': renderItems,
+      'currentIndex': newIndex,
+      'branchIndex': branchIndex,
+      'backDestination': backDestination,
+      'backExtra': backExtra,
+    };
+
+    switch (nextItem.type) {
+      case RenderItemType.part:
+        context.go('/parts/detail', extra: extra);
+        break;
+      case RenderItemType.lesson:
+        context.go('/lessons/detail', extra: extra);
+        break;
+      case RenderItemType.tool:
+        context.go('/tools/detail', extra: extra);
+        break;
+      case RenderItemType.flashcard:
+        context.go('/flashcards/detail', extra: extra);
+        break;
+      // default:
+      //   logger.e('⛔ Unknown RenderItemType: ${nextItem.type}');
+    }
   }
 }

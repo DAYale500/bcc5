@@ -1,5 +1,3 @@
-// 📄 lib/screens/flashcards/flashcard_detail_screen.dart
-
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -36,23 +34,27 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     super.initState();
     try {
       final ids = List<String>.from(widget.extra['sequenceIds'] ?? []);
-      currentIndex = widget.extra['startIndex'] ?? 0;
+      final fromRenderItems = widget.extra['renderItems'] as List<RenderItem>?;
+
+      currentIndex =
+          widget.extra['currentIndex'] ?? widget.extra['startIndex'] ?? 0;
       branchIndex = widget.extra['branchIndex'] ?? 4;
       backDestination = widget.extra['backDestination'] ?? '/';
       backExtra = widget.extra['backExtra'] as Map<String, dynamic>?;
 
-      renderItems = buildRenderItems(ids: ids);
-      if (renderItems[currentIndex].type != RenderItemType.flashcard) {
-        throw Exception(
-          '⛔ FlashcardDetailScreen received non-flashcard type at index $currentIndex',
-        );
+      renderItems =
+          ids.isNotEmpty ? buildRenderItems(ids: ids) : fromRenderItems ?? [];
+
+      if (renderItems.isEmpty) {
+        throw Exception('RenderItems is empty');
       }
 
       logger.i(
         '🟩 FlashcardDetailScreen Loaded:\n'
         '  ├─ index: $currentIndex\n'
         '  ├─ id: ${renderItems[currentIndex].id}\n'
-        '  ├─ sequenceIds: $ids\n'
+        '  ├─ type: ${renderItems[currentIndex].type}\n'
+        '  ├─ renderItems.length: ${renderItems.length}\n'
         '  ├─ branchIndex: $branchIndex\n'
         '  ├─ backDestination: $backDestination\n'
         '  └─ backExtra: $backExtra',
@@ -89,19 +91,33 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
   void goTo(int newIndex) {
     if (newIndex >= 0 && newIndex < renderItems.length) {
-      logger.i('🔁 Switched index: $currentIndex → $newIndex');
-      final sequenceIds = renderItems.map((item) => item.id).toList();
+      final nextItem = renderItems[newIndex];
+      logger.i('🔁 Switching to index: $newIndex (${nextItem.id})');
 
-      context.go(
-        '/flashcards/detail',
-        extra: {
-          'sequenceIds': sequenceIds,
-          'startIndex': newIndex,
-          'branchIndex': branchIndex,
-          'backDestination': backDestination,
-          'backExtra': backExtra,
-        },
-      );
+      final extra = {
+        'renderItems': renderItems,
+        'currentIndex': newIndex,
+        'branchIndex': branchIndex,
+        'backDestination': backDestination,
+        'backExtra': backExtra,
+      };
+
+      switch (nextItem.type) {
+        case RenderItemType.flashcard:
+          context.go('/flashcards/detail', extra: extra);
+          break;
+        case RenderItemType.lesson:
+          context.go('/lessons/detail', extra: extra);
+          break;
+        case RenderItemType.part:
+          context.go('/parts/detail', extra: extra);
+          break;
+        case RenderItemType.tool:
+          context.go('/tools/detail', extra: extra);
+          break;
+        // default:
+        // logger.e('⛔ Unknown type: ${nextItem.type}');
+      }
     } else {
       logger.w('⛔ Invalid navigation attempt: $newIndex');
     }
@@ -119,13 +135,32 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    if (renderItems.isEmpty || renderItems[currentIndex].flashcards.isEmpty) {
+    if (renderItems.isEmpty) {
       return const Scaffold(
         body: Center(child: Text('No flashcard content available')),
       );
     }
 
-    final flashcard = renderItems[currentIndex].flashcards.first;
+    final currentItem = renderItems[currentIndex];
+
+    // 🚨 Type check + redirect
+    if (currentItem.type != RenderItemType.flashcard) {
+      logger.w(
+        '⚠️ Redirecting from FlashcardDetailScreen to correct detail screen',
+      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        goTo(currentIndex); // will route to correct screen
+      });
+      return const Scaffold(body: SizedBox()); // Placeholder during redirect
+    }
+
+    if (currentItem.flashcards.isEmpty) {
+      return const Scaffold(
+        body: Center(child: Text('No flashcard content available')),
+      );
+    }
+
+    final flashcard = currentItem.flashcards.first;
     final title = flashcard.title;
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
@@ -225,4 +260,22 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       ],
     );
   }
+
+  Map<String, dynamic> get debugState => {
+    'currentIndex': currentIndex,
+    'totalItems': renderItems.length,
+    'currentId': renderItems.isNotEmpty ? renderItems[currentIndex].id : 'n/a',
+    'currentType':
+        renderItems.isNotEmpty
+            ? renderItems[currentIndex].type.toString()
+            : 'n/a',
+    'hasFlashcards':
+        renderItems.isNotEmpty
+            ? renderItems[currentIndex].flashcards.isNotEmpty
+            : false,
+    'flashcardCount':
+        renderItems.isNotEmpty
+            ? renderItems[currentIndex].flashcards.length
+            : 0,
+  };
 }

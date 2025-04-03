@@ -20,57 +20,81 @@ class LessonDetailScreen extends StatelessWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra, // 👈 NEW
+    this.backExtra,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (renderItems.isEmpty) {
+      return const Scaffold(
+        body: Center(child: Text('No lesson content available')),
+      );
+    }
+
     final RenderItem item = renderItems[currentIndex];
+
+    // 🚨 Redirect if this isn't a lesson
+    if (item.type != RenderItemType.lesson) {
+      logger.w(
+        '⚠️ LessonDetailScreen received a non-lesson RenderItem: ${item.id} (${item.type})',
+      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _navigateTo(context, currentIndex); // Redirect to correct screen
+      });
+      return const Scaffold(body: SizedBox()); // Blank placeholder
+    }
+
     final String title = item.title;
 
     logger.i('📘 LessonDetailScreen: $title');
     logger.i('🧩 Content blocks: ${item.content.length}');
     logger.i('🧠 Flashcards: ${item.flashcards.length}');
 
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        CustomAppBarWidget(
-          title: title,
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          onBack: () {
-            logger.i('🔙 Back tapped → $backDestination');
-            if (backExtra != null) {
-              context.go(backDestination, extra: backExtra);
-            } else {
-              context.go(backDestination);
-            }
-          },
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListView.separated(
-              itemCount: item.content.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 16),
-              itemBuilder: (context, index) {
-                return ContentBlockRenderer(blocks: [item.content[index]]);
+        Image.asset('assets/images/boat_overview_new.png', fit: BoxFit.cover),
+        Column(
+          children: [
+            CustomAppBarWidget(
+              title: title,
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              onBack: () {
+                logger.i('🔙 Back tapped → $backDestination');
+                if (backExtra != null) {
+                  context.go(backDestination, extra: backExtra);
+                } else {
+                  context.go(backDestination);
+                }
               },
             ),
-          ),
-        ),
-        NavigationButtons(
-          isPreviousEnabled: currentIndex > 0,
-          isNextEnabled: currentIndex < renderItems.length - 1,
-          onPrevious: () {
-            logger.i('⬅️ Previous tapped on LessonDetailScreen');
-            _navigateTo(context, currentIndex - 1);
-          },
-          onNext: () {
-            logger.i('➡️ Next tapped on LessonDetailScreen');
-            _navigateTo(context, currentIndex + 1);
-          },
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: ListView.separated(
+                  itemCount: item.content.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 16),
+                  itemBuilder: (context, index) {
+                    return ContentBlockRenderer(blocks: [item.content[index]]);
+                  },
+                ),
+              ),
+            ),
+            NavigationButtons(
+              isPreviousEnabled: currentIndex > 0,
+              isNextEnabled: currentIndex < renderItems.length - 1,
+              onPrevious: () {
+                logger.i('⬅️ Previous tapped on LessonDetailScreen');
+                _navigateTo(context, currentIndex - 1);
+              },
+              onNext: () {
+                logger.i('➡️ Next tapped on LessonDetailScreen');
+                _navigateTo(context, currentIndex + 1);
+              },
+            ),
+          ],
         ),
       ],
     );
@@ -82,15 +106,30 @@ class LessonDetailScreen extends StatelessWidget {
       return;
     }
 
-    context.go(
-      '/lessons/detail',
-      extra: {
-        'renderItems': renderItems,
-        'currentIndex': newIndex,
-        'branchIndex': branchIndex,
-        'backDestination': backDestination,
-        'backExtra': backExtra, // ✅ Pass it forward!
-      },
-    );
+    final nextItem = renderItems[newIndex];
+    final extra = {
+      'renderItems': renderItems,
+      'currentIndex': newIndex,
+      'branchIndex': branchIndex,
+      'backDestination': backDestination,
+      'backExtra': backExtra,
+    };
+
+    switch (nextItem.type) {
+      case RenderItemType.lesson:
+        context.go('/lessons/detail', extra: extra);
+        break;
+      case RenderItemType.flashcard:
+        context.go('/flashcards/detail', extra: extra);
+        break;
+      case RenderItemType.part:
+        context.go('/parts/detail', extra: extra);
+        break;
+      case RenderItemType.tool:
+        context.go('/tools/detail', extra: extra);
+        break;
+      // default:
+      //   logger.e('⛔ Unknown RenderItemType: ${nextItem.type}');
+    }
   }
 }

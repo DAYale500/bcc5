@@ -998,12 +998,21 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     super.initState();
     try {
       final ids = List<String>.from(widget.extra['sequenceIds'] ?? []);
-      currentIndex = widget.extra['startIndex'] ?? 0;
+      final fromRenderItems = widget.extra['renderItems'] as List<RenderItem>?;
+
+      currentIndex =
+          widget.extra['currentIndex'] ?? widget.extra['startIndex'] ?? 0;
       branchIndex = widget.extra['branchIndex'] ?? 4;
       backDestination = widget.extra['backDestination'] ?? '/';
       backExtra = widget.extra['backExtra'] as Map<String, dynamic>?;
 
-      renderItems = buildRenderItems(ids: ids);
+      renderItems =
+          ids.isNotEmpty ? buildRenderItems(ids: ids) : fromRenderItems ?? [];
+
+      if (renderItems.isEmpty) {
+        throw Exception('RenderItems is empty');
+      }
+
       if (renderItems[currentIndex].type != RenderItemType.flashcard) {
         throw Exception(
           '⛔ FlashcardDetailScreen received non-flashcard type at index $currentIndex',
@@ -1014,7 +1023,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
         '🟩 FlashcardDetailScreen Loaded:\n'
         '  ├─ index: $currentIndex\n'
         '  ├─ id: ${renderItems[currentIndex].id}\n'
-        '  ├─ sequenceIds: $ids\n'
+        '  ├─ renderItems.length: ${renderItems.length}\n'
         '  ├─ branchIndex: $branchIndex\n'
         '  ├─ backDestination: $backDestination\n'
         '  └─ backExtra: $backExtra',
@@ -1052,14 +1061,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
   void goTo(int newIndex) {
     if (newIndex >= 0 && newIndex < renderItems.length) {
       logger.i('🔁 Switched index: $currentIndex → $newIndex');
-      final sequenceIds = renderItems.map((item) => item.id).toList();
 
-      context.push(
+      context.go(
         '/flashcards/detail',
         extra: {
-          'sequenceIds': sequenceIds,
-          'startIndex': newIndex,
-          'branchIndex': 4,
+          'renderItems': renderItems,
+          'currentIndex': newIndex,
+          'branchIndex': branchIndex,
           'backDestination': backDestination,
           'backExtra': backExtra,
         },
@@ -1115,7 +1123,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                 if (context.canPop()) {
                   context.pop();
                 } else {
-                  context.pop();
+                  context.go(backDestination, extra: backExtra);
                 }
               },
             ),

@@ -694,7 +694,8 @@ class CompetentCrewRepository {
     for (int i = 1; i <= 6; i++)
       LearningPathChapter(
         id: 'path_competentCrew_${i.toStringAsFixed(2)}',
-        title: '$i: Chapter ${(i ^ 2)}',
+        // title: '$i: Chapter ${(i ^ 2)}',
+        title: 'Chapter ${(i)}',
         items: [
           // 1. LESSON + FLASHCARD
           PathItem(pathItemId: 'lesson_syst_1.00'),
