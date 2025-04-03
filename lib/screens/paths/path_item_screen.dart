@@ -1,5 +1,3 @@
-// 📁 path_item_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
@@ -7,6 +5,7 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class PathItemScreen extends StatelessWidget {
   final String pathName;
@@ -55,6 +54,13 @@ class PathItemScreen extends StatelessWidget {
             );
           },
         ),
+        const SizedBox(height: 16),
+        Text(
+          'Choose a Topic',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 16),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -69,16 +75,16 @@ class PathItemScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final pathItem = items[index];
                 final id = pathItem.pathItemId;
-                final label = id;
+                final title = renderItems[index].title;
 
                 logger.i(
-                  '📦 Rendering button for pathItem: $label (index $index)',
+                  '📦 Rendering button for pathItem: $id — "$title" (index $index)',
                 );
 
                 return ItemButton(
-                  label: label,
+                  label: title,
                   onTap: () {
-                    logger.i('🟦 Tapped PathItem: $label (index $index)');
+                    logger.i('🟦 Tapped PathItem: $title (index $index)');
 
                     if (renderItems.isEmpty) {
                       logger.e('❌ renderItems is empty — navigation aborted');

@@ -18,16 +18,23 @@ class LandingScreen extends StatelessWidget {
           showSearchIcon: true,
           showSettingsIcon: true,
         ),
+        const SizedBox(height: 16),
+        Text(
+          'Choose a Voyage',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 16),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(AppTheme.screenPadding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildPathButton(context, 'Start Tour', () {
-                  logger.i('🚀 Tour started (placeholder)');
-                }),
-                const SizedBox(height: 24),
+                // _buildPathButton(context, 'Tour', () {
+                //   logger.i('🚀 Tour started (placeholder)');
+                // }),
+                // const SizedBox(height: 24),
                 _buildPathButton(context, 'Competent Crew', () {
                   logger.i('📘 Navigating to Competent Crew Path');
                   context.go('/learning-paths/competent-crew');

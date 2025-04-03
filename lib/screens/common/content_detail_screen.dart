@@ -134,12 +134,12 @@ class ContentDetailScreen extends StatelessWidget {
       case ContentBlockType.heading:
         return Text(
           block.text ?? '',
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: AppTheme.scaledTextTheme.headlineMedium,
         );
       case ContentBlockType.text:
         return Text(
           block.text ?? '',
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: AppTheme.scaledTextTheme.bodyLarge,
         );
       case ContentBlockType.code:
         return Container(
@@ -163,7 +163,12 @@ class ContentDetailScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text('• ', style: TextStyle(fontSize: 16)),
-                        Expanded(child: Text(item)),
+                        Expanded(
+                          child: Text(
+                            item,
+                            style: AppTheme.scaledTextTheme.bodyLarge,
+                          ),
+                        ),
                       ],
                     ),
                   )

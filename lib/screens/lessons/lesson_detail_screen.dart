@@ -6,6 +6,7 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
+import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase
 
 class LessonDetailScreen extends StatelessWidget {
   final List<RenderItem> renderItems;
@@ -44,20 +45,27 @@ class LessonDetailScreen extends StatelessWidget {
       return const Scaffold(body: SizedBox()); // Blank placeholder
     }
 
-    final String title = item.title;
+    final String moduleTitle =
+        (backExtra?['module'] as String?)?.toTitleCase() ?? 'Lesson';
 
-    logger.i('📘 LessonDetailScreen: $title');
+    logger.i('📘 LessonDetailScreen: ${item.title}');
     logger.i('🧩 Content blocks: ${item.content.length}');
     logger.i('🧠 Flashcards: ${item.flashcards.length}');
 
     return Stack(
       fit: StackFit.expand,
       children: [
-        Image.asset('assets/images/boat_overview_new.png', fit: BoxFit.cover),
+        Opacity(
+          opacity: 0.2, // ✅ 80% transparent background image
+          child: Image.asset(
+            'assets/images/boat_overview_new.png',
+            fit: BoxFit.cover,
+          ),
+        ),
         Column(
           children: [
             CustomAppBarWidget(
-              title: title,
+              title: moduleTitle,
               showBackButton: true,
               showSearchIcon: true,
               showSettingsIcon: true,
@@ -128,8 +136,6 @@ class LessonDetailScreen extends StatelessWidget {
       case RenderItemType.tool:
         context.go('/tools/detail', extra: extra);
         break;
-      // default:
-      //   logger.e('⛔ Unknown RenderItemType: ${nextItem.type}');
     }
   }
 }

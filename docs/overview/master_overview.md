@@ -491,3 +491,139 @@ Home | Modules | Parts | Flashcards | Tools
 
 > This document will be updated as architecture or features evolve. All team members are encouraged to surface ambiguity or drift from these principles so we can resolve it centrally.
 
+Here’s a complete **Markdown version** of the onboarding guide for the content detail screen navigation pattern:
+
+---
+
+# 📘 Onboarding Guide: Content Detail Screen Navigation
+
+This guide documents the standard navigation pattern used across `LessonDetailScreen`, `PartDetailScreen`, `ToolDetailScreen`, and `FlashcardDetailScreen`. It ensures consistent behavior, especially when navigating from `PathItemScreen`, module lists, or direct links.  
+
+---
+
+## ✅ Goals of This Pattern
+
+- Support full navigation context across all content types (lesson, part, tool, flashcard)
+- Ensure "Back" always goes to the correct screen (e.g., PathItemScreen vs ModuleList)
+- Enable navigation buttons (Next/Previous) across a sequence of items
+- Avoid type mismatches by redirecting screens if the RenderItem type doesn’t match
+
+---
+
+## 🧭 Core Navigation Parameters
+
+Each detail screen receives the following via `GoRouter` `.extra`:
+
+| Parameter         | Type                      | Purpose                                                                 |
+|------------------|---------------------------|-------------------------------------------------------------------------|
+| `renderItems`     | `List<RenderItem>`        | The full sequence of content to render (lessons, parts, tools, etc.)   |
+| `currentIndex`    | `int`                     | Index of the currently viewed item                                     |
+| `branchIndex`     | `int`                     | BottomNavBar index (used by `MainScaffold`)                            |
+| `backDestination` | `String`                  | Where the back button should go                                        |
+| `backExtra`       | `Map<String, dynamic>?`   | Extra data for the destination screen (e.g., pathName or module info)  |
+
+---
+
+## 🔙 Back Button Behavior
+
+### Logic:
+The back button uses this logic:
+
+```dart
+onBack: () {
+  if (backExtra != null) {
+    context.go(backDestination, extra: backExtra);
+  } else {
+    context.go(backDestination);
+  }
+}
+```
+
+### Why This Works:
+This pattern allows the same detail screen to be reused in different flows:
+
+- From `PathItemScreen`: Goes back to path item view
+- From `LessonItemScreen`: Goes back to lesson module list
+- From `ToolItemScreen`: Goes back to the toolbag
+- ...and so on
+
+No need for duplicate screens or fragile `canPop()` behavior.
+
+---
+
+## 🔁 Navigation Buttons
+
+Each screen includes `NavigationButtons` that call:
+
+```dart
+context.go(
+  '/<content-type>/detail',
+  extra: {
+    'renderItems': renderItems,
+    'currentIndex': newIndex,
+    'branchIndex': branchIndex,
+    'backDestination': backDestination,
+    'backExtra': backExtra,
+  },
+);
+```
+
+This keeps navigation seamless and stateful without needing global state or route params.
+
+---
+
+## 🚨 Type Checking and Redirection
+
+Each detail screen verifies that the current item matches its expected `RenderItemType`.
+
+For example, in `LessonDetailScreen`:
+
+```dart
+if (renderItems[currentIndex].type != RenderItemType.lesson) {
+  logger.w('⚠️ Mismatched type — redirecting...');
+  context.go('/<correct-type>/detail', extra: {
+    ... // all extras forwarded
+  });
+  return const SizedBox.shrink();
+}
+```
+
+This prevents crashes like:
+- `FlashcardDetailScreen` receiving a lesson
+- `ToolDetailScreen` trying to render a flashcard
+
+---
+
+## 🪵 Logger Diagnostics
+
+Each screen logs helpful debug output on load:
+
+```dart
+logger.i('📘 LessonDetailScreen: $title');
+logger.i('🧩 Content blocks: ${item.content.length}');
+logger.i('🧠 Flashcards: ${item.flashcards.length}');
+```
+
+And on navigation events:
+
+```dart
+logger.i('🔙 Back tapped → $backDestination');
+logger.i('⬅️ Previous tapped on ToolDetailScreen');
+```
+
+---
+
+## 🧪 Summary
+
+This pattern makes content navigation:
+
+- Modular
+- Context-aware
+- Robust against type mismatches
+- Easy to debug and maintain
+
+It is now the standard for all detail screen implementations in the app.
+
+---
+
+Let me know if you'd like this saved to a Markdown file or embedded in the codebase for future reference.

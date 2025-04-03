@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class ContentBlockRenderer extends StatelessWidget {
   final List<ContentBlock> blocks;
@@ -21,7 +22,7 @@ class ContentBlockRenderer extends StatelessWidget {
           padding: const EdgeInsets.only(top: 12, bottom: 4),
           child: Text(
             block.text ?? '',
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: AppTheme.scaledTextTheme.headlineMedium,
           ),
         );
 
@@ -30,7 +31,7 @@ class ContentBlockRenderer extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Text(
             block.text ?? '',
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: AppTheme.scaledTextTheme.bodyLarge,
           ),
         );
 
@@ -57,7 +58,12 @@ class ContentBlockRenderer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text('• ', style: TextStyle(fontSize: 16)),
-                      Expanded(child: Text(b)),
+                      Expanded(
+                        child: Text(
+                          b,
+                          style: AppTheme.scaledTextTheme.bodyLarge,
+                        ),
+                      ),
                     ],
                   ),
                 );

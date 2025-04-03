@@ -1,5 +1,3 @@
-// 📁 lesson_item_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -7,6 +5,8 @@ import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase()
 
 class LessonItemScreen extends StatelessWidget {
   final String module;
@@ -23,7 +23,7 @@ class LessonItemScreen extends StatelessWidget {
     return Column(
       children: [
         CustomAppBarWidget(
-          title: 'Lessons',
+          title: module.toTitleCase(),
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
@@ -32,6 +32,13 @@ class LessonItemScreen extends StatelessWidget {
             context.go('/lessons');
           },
         ),
+        const SizedBox(height: 16),
+        Text(
+          'Choose a Lesson',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 16),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(12),

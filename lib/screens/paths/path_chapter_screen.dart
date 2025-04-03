@@ -4,6 +4,8 @@ import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/theme/app_theme.dart'; // ✅ Needed for AppTheme.primaryBlue
+import 'package:bcc5/utils/string_extensions.dart'; // needed for title case
 
 class PathChapterScreen extends StatelessWidget {
   final String pathName;
@@ -20,12 +22,19 @@ class PathChapterScreen extends StatelessWidget {
 
     return Column(
       children: [
-        const CustomAppBarWidget(
-          title: 'Choose a Chapter',
+        CustomAppBarWidget(
+          title: pathName.toTitleCase(),
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
         ),
+        const SizedBox(height: 16),
+        Text(
+          'Choose a Chapter',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 16),
         Expanded(
           child:
               titles.isEmpty
