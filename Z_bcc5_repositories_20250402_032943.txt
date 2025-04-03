@@ -123,21 +123,18 @@ class ToolRepositoryIndex {
       _toolbags.values.expand((list) => list).toList();
 
   static Flashcard? getFlashcardById(String id) {
-    logger.i(
-      '🔍 ToolRepositoryIndex.getFlashcardById → attempting lookup for "$id"',
-    );
+    logger.i('🔍 Looking for flashcard in tools: $id');
 
     for (final tool in getAllTools()) {
       for (final card in tool.flashcards) {
-        logger.i('   • checking ${card.id}');
         if (card.id == id) {
-          logger.i('✅ match found in toolbag for $id');
+          logger.i('✅ Found flashcard in tool: ${card.id}');
           return card;
         }
       }
     }
 
-    logger.e('❌ Flashcard not found in toolbags for id: $id');
+    logger.w('❌ Flashcard not found in toolbags for id: $id');
     return null;
   }
 
@@ -1308,21 +1305,18 @@ class PartRepositoryIndex {
       _zones.values.expand((list) => list).toList();
 
   static Flashcard? getFlashcardById(String id) {
-    logger.i(
-      '🔍 PartRepositoryIndex.getFlashcardById → attempting lookup for "$id"',
-    );
+    logger.i('🔍 Looking for flashcard in parts: $id');
 
     for (final part in getAllParts()) {
       for (final card in part.flashcards) {
-        logger.i('   • checking ${card.id}');
         if (card.id == id) {
-          logger.i('✅ match found in part zone for $id');
+          logger.i('✅ Found flashcard in part: ${card.id}');
           return card;
         }
       }
     }
 
-    logger.e('❌ Flashcard not found in part zones for id: $id');
+    logger.w('❌ Flashcard not found in part zones for id: $id');
     return null;
   }
 
@@ -1758,21 +1752,18 @@ class LessonRepositoryIndex {
       _modules.values.expand((list) => list).toList();
 
   static Flashcard? getFlashcardById(String id) {
-    logger.i(
-      '🔍 LessonRepositoryIndex.getFlashcardById → attempting lookup for "$id"',
-    );
+    logger.i('🔍 Scanning lessons for flashcard id: $id');
 
     for (final lesson in getAllLessons()) {
       for (final card in lesson.flashcards) {
-        logger.i('   • checking ${card.id}');
         if (card.id == id) {
-          logger.i('✅ match found in lesson module for $id');
+          logger.i('✅ Match found in lesson for $id');
           return card;
         }
       }
     }
 
-    logger.e('❌ Flashcard not found in lesson modules for id: $id');
+    logger.w('❌ Flashcard not found in lesson modules for id: $id');
     return null;
   }
 
@@ -3022,9 +3013,8 @@ class TerminologyLessonRepository {
 
 
 File: lib/data/repositories/lessons/lesson_docking_repository.dart
-// 📄 lib/data/repositories/lessons/lesson_docking_repository.dart
-
 import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:bcc5/data/models/lesson_model.dart';
 
 class DockingLessonRepository {
@@ -3047,7 +3037,24 @@ class DockingLessonRepository {
       ],
       keywords: [],
       isPaid: false,
-      flashcards: [],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_lesson_dock_1.00',
+          title: 'Using Dock Lines',
+          sideA: [
+            ContentBlock.text(
+              'What is the purpose of dock lines during mooring?',
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              'To secure the vessel to the dock and control its movement.',
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
     ),
     Lesson(
       id: 'lesson_dock_2.00',
@@ -3067,7 +3074,22 @@ class DockingLessonRepository {
       ],
       keywords: [],
       isPaid: false,
-      flashcards: [],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_lesson_dock_2.00',
+          title: 'Choosing Anchor Location',
+          sideA: [
+            ContentBlock.text('What factors determine a good anchoring spot?'),
+          ],
+          sideB: [
+            ContentBlock.text(
+              'Wind direction, seabed type, depth, and swing room.',
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
     ),
     Lesson(
       id: 'lesson_dock_3.00',
@@ -3087,7 +3109,24 @@ class DockingLessonRepository {
       ],
       keywords: [],
       isPaid: false,
-      flashcards: [],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_lesson_dock_3.00',
+          title: 'Side Tie Basics',
+          sideA: [
+            ContentBlock.text(
+              'Why is fender placement critical during a side tie?',
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              'It prevents hull damage from contact with adjacent boats.',
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
     ),
     Lesson(
       id: 'lesson_dock_4.00',
@@ -3107,7 +3146,24 @@ class DockingLessonRepository {
       ],
       keywords: [],
       isPaid: false,
-      flashcards: [],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_lesson_dock_4.00',
+          title: 'Final Docking Steps',
+          sideA: [
+            ContentBlock.text(
+              'What should the crew do before the final docking approach?',
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              'Be briefed, ready in position, and aware of their tasks.',
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
     ),
     Lesson(
       id: 'lesson_dock_5.00',
@@ -3127,7 +3183,22 @@ class DockingLessonRepository {
       ],
       keywords: [],
       isPaid: false,
-      flashcards: [],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_lesson_dock_5.00',
+          title: 'Deck Safety',
+          sideA: [
+            ContentBlock.text('What is the “three points of contact” rule?'),
+          ],
+          sideB: [
+            ContentBlock.text(
+              'Always have two hands and one foot (or vice versa) in contact with the boat for stability.',
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
     ),
     Lesson(
       id: 'lesson_dock_6.00',
@@ -3147,7 +3218,24 @@ class DockingLessonRepository {
       ],
       keywords: [],
       isPaid: false,
-      flashcards: [],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_lesson_dock_6.00',
+          title: 'Assisting Docking',
+          sideA: [
+            ContentBlock.text(
+              'What is a crew member’s main role when assisting with docking?',
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              'Be alert, positioned, and ready to handle lines on command.',
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
     ),
     Lesson(
       id: 'lesson_dock_7.00',
@@ -3165,7 +3253,24 @@ class DockingLessonRepository {
       ],
       keywords: [],
       isPaid: false,
-      flashcards: [],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_lesson_dock_7.00',
+          title: 'Assisting Anchoring',
+          sideA: [
+            ContentBlock.text(
+              'What should crew do before dropping the anchor?',
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              'Verify the anchor is ready and listen for commands.',
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
     ),
     Lesson(
       id: 'lesson_dock_8.00',
@@ -3183,7 +3288,24 @@ class DockingLessonRepository {
       ],
       keywords: [],
       isPaid: false,
-      flashcards: [],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_lesson_dock_8.00',
+          title: 'Lowering Anchor',
+          sideA: [
+            ContentBlock.text(
+              'Why do you approach into the wind when anchoring?',
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              'To reduce drift and improve anchor set accuracy.',
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
     ),
     Lesson(
       id: 'lesson_dock_9.00',
@@ -3203,7 +3325,24 @@ class DockingLessonRepository {
       ],
       keywords: [],
       isPaid: false,
-      flashcards: [],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_lesson_dock_9.00',
+          title: 'Raising Anchor',
+          sideA: [
+            ContentBlock.text(
+              'Why is it important to coordinate engine and winch when raising anchor?',
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              'To reduce load on the windlass and avoid damaging gear.',
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
     ),
   ];
 }

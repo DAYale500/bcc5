@@ -14,8 +14,9 @@ class PathChapterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i('🟢 Entered PathChapterScreen for "$pathName"');
 
+    final chapters = PathRepositoryIndex.getChaptersForPath(pathName);
     final titles = PathRepositoryIndex.getChapterTitles(pathName);
-    logger.i('📚 Found ${titles.length} chapters for "$pathName": $titles');
+    logger.i('📚 Found ${titles.length} chapters for "$pathName"');
 
     return Column(
       children: [
@@ -34,10 +35,6 @@ class PathChapterScreen extends StatelessWidget {
                     itemCount: titles.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 12),
                     itemBuilder: (context, index) {
-                      final title = titles[index];
-                      final chapters = PathRepositoryIndex.getChaptersForPath(
-                        pathName,
-                      );
                       if (index >= chapters.length) {
                         logger.w(
                           '⚠️ Index $index out of range for chapters in "$pathName"',
@@ -45,10 +42,8 @@ class PathChapterScreen extends StatelessWidget {
                         return const SizedBox.shrink();
                       }
 
+                      final title = titles[index];
                       final chapter = chapters[index];
-                      logger.i(
-                        '🔹 Rendering button for chapter: ${chapter.id}',
-                      );
 
                       return GroupButton(
                         label: title,

@@ -1,0 +1,3 @@
+ok, that fixed some of it, now back button works from lesson items on pathItemScreen, but backbutton doesn't work after tapping a next button and then tapping backbutton: get missing chapter ID. 
+
+but first, solve that pathItemScreen doesn't go to correct flashcardDetailScreen and maybe not partDetailScreen and/or toolDetailsScreen. Need to check those first, then check on them when navigating form patchDetailScreen.

@@ -1,8 +1,11 @@
+// 📄 lib/screens/flashcards/flashcard_detail_screen.dart
+
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/render_item.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/widgets/flip_card_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/theme/app_theme.dart';
@@ -19,8 +22,7 @@ class FlashcardDetailScreen extends StatefulWidget {
 
 class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     with SingleTickerProviderStateMixin {
-  late List<String> sequenceTitles;
-  late Map<String, Map<String, List<ContentBlock>>> contentMap;
+  late List<RenderItem> renderItems;
   late int currentIndex;
   late int branchIndex;
   late String backDestination;
@@ -33,44 +35,37 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
   void initState() {
     super.initState();
     try {
-      sequenceTitles = widget.extra['sequenceTitles']?.cast<String>() ?? [];
-      contentMap = (widget.extra['contentMap'] as Map).map(
-        (key, value) => MapEntry(
-          key.toString(),
-          Map<String, List<ContentBlock>>.from(
-            (value as Map).map(
-              (side, blocks) => MapEntry(
-                side.toString(),
-                (blocks as List).cast<ContentBlock>(),
-              ),
-            ),
-          ),
-        ),
-      );
-      currentIndex = widget.extra['startIndex'] as int? ?? 0;
-      branchIndex = widget.extra['branchIndex'] as int? ?? 0;
-      backDestination = widget.extra['backDestination'] as String? ?? '/';
+      final ids = List<String>.from(widget.extra['sequenceIds'] ?? []);
+      currentIndex = widget.extra['startIndex'] ?? 0;
+      branchIndex = widget.extra['branchIndex'] ?? 4;
+      backDestination = widget.extra['backDestination'] ?? '/';
       backExtra = widget.extra['backExtra'] as Map<String, dynamic>?;
 
+      renderItems = buildRenderItems(ids: ids);
+      if (renderItems[currentIndex].type != RenderItemType.flashcard) {
+        throw Exception(
+          '⛔ FlashcardDetailScreen received non-flashcard type at index $currentIndex',
+        );
+      }
+
       logger.i(
-        '🟩 Loaded FlashcardDetailScreen:\n'
-        '  • index: $currentIndex\n'
-        '  • title: ${sequenceTitles[currentIndex]}\n'
-        '  • sequenceTitles: $sequenceTitles\n'
-        '  • branchIndex: $branchIndex\n'
-        '  • backDestination: $backDestination\n'
-        '  • backExtra: $backExtra',
+        '🟩 FlashcardDetailScreen Loaded:\n'
+        '  ├─ index: $currentIndex\n'
+        '  ├─ id: ${renderItems[currentIndex].id}\n'
+        '  ├─ sequenceIds: $ids\n'
+        '  ├─ branchIndex: $branchIndex\n'
+        '  ├─ backDestination: $backDestination\n'
+        '  └─ backExtra: $backExtra',
       );
     } catch (e, st) {
       logger.e(
-        '❌ Error parsing FlashcardDetailScreen extra map: $e',
+        '❌ Error loading FlashcardDetailScreen',
         error: e,
         stackTrace: st,
       );
-      sequenceTitles = [];
-      contentMap = {};
+      renderItems = [];
       currentIndex = 0;
-      branchIndex = 0;
+      branchIndex = 4;
       backDestination = '/';
       backExtra = null;
     }
@@ -79,6 +74,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
+
     _flipAnimation = Tween<double>(
       begin: 0,
       end: 1,
@@ -92,15 +88,22 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
   }
 
   void goTo(int newIndex) {
-    if (newIndex >= 0 && newIndex < sequenceTitles.length) {
-      logger.i('🔁 Switching from index $currentIndex → $newIndex');
-      setState(() {
-        currentIndex = newIndex;
-        showFront = true;
-        _controller.reset();
-      });
+    if (newIndex >= 0 && newIndex < renderItems.length) {
+      logger.i('🔁 Switched index: $currentIndex → $newIndex');
+      final sequenceIds = renderItems.map((item) => item.id).toList();
+
+      context.go(
+        '/flashcards/detail',
+        extra: {
+          'sequenceIds': sequenceIds,
+          'startIndex': newIndex,
+          'branchIndex': branchIndex,
+          'backDestination': backDestination,
+          'backExtra': backExtra,
+        },
+      );
     } else {
-      logger.i('⛔ Invalid index navigation attempt: $newIndex');
+      logger.w('⛔ Invalid navigation attempt: $newIndex');
     }
   }
 
@@ -108,26 +111,30 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     logger.i(showFront ? '🔃 Flipping to back' : '🔃 Flipping to front');
     setState(() {
       showFront = !showFront;
-      if (_controller.isCompleted || _controller.velocity > 0) {
-        _controller.reverse();
-      } else {
-        _controller.forward();
-      }
+      _controller.isCompleted || _controller.velocity > 0
+          ? _controller.reverse()
+          : _controller.forward();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final String title = sequenceTitles[currentIndex];
-    final Map<String, List<ContentBlock>> blocks = contentMap[title] ?? {};
-    final List<ContentBlock> front = blocks['sideA'] ?? [];
-    final List<ContentBlock> back = blocks['sideB'] ?? [];
+    if (renderItems.isEmpty || renderItems[currentIndex].flashcards.isEmpty) {
+      return const Scaffold(
+        body: Center(child: Text('No flashcard content available')),
+      );
+    }
+
+    final flashcard = renderItems[currentIndex].flashcards.first;
+    final title = flashcard.title;
+    final sideA = flashcard.sideA;
+    final sideB = flashcard.sideB;
 
     logger.i(
-      '🖼️ Building FlashcardDetailScreen UI:\n'
-      '  • title: $title\n'
-      '  • front blocks: ${front.length}\n'
-      '  • back blocks: ${back.length}',
+      '🖼️ Rendering Flashcard:\n'
+      '  ├─ title: $title\n'
+      '  ├─ sideA: ${sideA.length} blocks\n'
+      '  └─ sideB: ${sideB.length} blocks',
     );
 
     return Stack(
@@ -176,8 +183,8 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                             child:
                                 isFront
                                     ? FlipCardWidget(
-                                      front: front,
-                                      back: back,
+                                      front: sideA,
+                                      back: sideB,
                                       showFront: true,
                                       animation: _flipAnimation,
                                     )
@@ -185,8 +192,8 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                       alignment: Alignment.center,
                                       transform: Matrix4.rotationY(math.pi),
                                       child: FlipCardWidget(
-                                        front: front,
-                                        back: back,
+                                        front: sideA,
+                                        back: sideB,
                                         showFront: false,
                                         animation: _flipAnimation,
                                       ),
@@ -209,7 +216,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
             ),
             NavigationButtons(
               isPreviousEnabled: currentIndex > 0,
-              isNextEnabled: currentIndex < sequenceTitles.length - 1,
+              isNextEnabled: currentIndex < renderItems.length - 1,
               onPrevious: () => goTo(currentIndex - 1),
               onNext: () => goTo(currentIndex + 1),
             ),

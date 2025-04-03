@@ -1,9 +1,12 @@
+// 📁 lesson_item_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
 
 class LessonItemScreen extends StatelessWidget {
   final String module;
@@ -14,6 +17,8 @@ class LessonItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i('📘 LessonItemScreen loaded for module: $module');
     final lessons = LessonRepositoryIndex.getLessonsForModule(module);
+    final lessonIds = lessons.map((l) => l.id).toList();
+    final renderItems = buildRenderItems(ids: lessonIds);
 
     return Column(
       children: [
@@ -46,10 +51,10 @@ class LessonItemScreen extends StatelessWidget {
                   onTap: () {
                     logger.i('📘 Tapped lesson: ${lesson.id}');
                     context.push(
-                      '/content',
+                      '/lessons/detail',
                       extra: {
-                        'sequenceIds': lessons.map((l) => l.id).toList(),
-                        'startIndex': index,
+                        'renderItems': renderItems,
+                        'currentIndex': index,
                         'branchIndex': 1,
                         'backDestination': '/lessons/items',
                         'backExtra': {'module': module, 'branchIndex': 1},

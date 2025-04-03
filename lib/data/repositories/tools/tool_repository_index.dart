@@ -35,21 +35,18 @@ class ToolRepositoryIndex {
       _toolbags.values.expand((list) => list).toList();
 
   static Flashcard? getFlashcardById(String id) {
-    logger.i(
-      '🔍 ToolRepositoryIndex.getFlashcardById → attempting lookup for "$id"',
-    );
+    logger.i('🔍 Looking for flashcard in tools: $id');
 
     for (final tool in getAllTools()) {
       for (final card in tool.flashcards) {
-        logger.i('   • checking ${card.id}');
         if (card.id == id) {
-          logger.i('✅ match found in toolbag for $id');
+          logger.i('✅ Found flashcard in tool: ${card.id}');
           return card;
         }
       }
     }
 
-    logger.e('❌ Flashcard not found in toolbags for id: $id');
+    logger.w('❌ Flashcard not found in toolbags for id: $id');
     return null;
   }
 

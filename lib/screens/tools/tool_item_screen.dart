@@ -6,6 +6,7 @@ import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/data/models/tool_model.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
 
 class ToolItemScreen extends StatelessWidget {
   final String toolbag;
@@ -16,14 +17,24 @@ class ToolItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i('🛠️ Displaying ToolItemScreen (Toolbag: $toolbag)');
 
+    if (toolbag.isEmpty) {
+      logger.w(
+        '⚠️ ToolItemScreen received empty toolbag — using fallback title.',
+      );
+    }
+
     final List<ToolItem> tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+    final List<String> sequenceIds = tools.map((t) => t.id).toList();
 
     return MainScaffold(
-      branchIndex: 4,
+      branchIndex: 3,
       child: Column(
         children: [
           CustomAppBarWidget(
-            title: '${toolbag[0].toUpperCase()}${toolbag.substring(1)} Tools',
+            title:
+                (toolbag.isNotEmpty)
+                    ? '${toolbag[0].toUpperCase()}${toolbag.substring(1)} Tools'
+                    : 'Tools',
             showBackButton: true,
             showSearchIcon: true,
             showSettingsIcon: true,
@@ -50,13 +61,13 @@ class ToolItemScreen extends StatelessWidget {
                     onTap: () {
                       logger.i('🛠️ Tapped tool: ${tool.id}');
                       context.push(
-                        '/content',
+                        '/tools/detail',
                         extra: {
-                          'sequenceIds': tools.map((t) => t.id).toList(),
-                          'startIndex': index,
-                          'branchIndex': 4,
+                          'renderItems': buildRenderItems(ids: sequenceIds),
+                          'currentIndex': index,
+                          'branchIndex': 3,
                           'backDestination': '/tools/items',
-                          'backExtra': {'toolbag': toolbag, 'branchIndex': 4},
+                          'toolbag': toolbag,
                         },
                       );
                     },

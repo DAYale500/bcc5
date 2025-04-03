@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 class AppTheme {
   // 🔵 Primary Colors
   static const Color primaryBlue = Color(0xFF163FE8); // System-wide blue
-  static const Color primaryRed = Color(0xFFCC0000); // Accent/alert color
+  static const Color primaryRed = Color.fromARGB(
+    255,
+    255,
+    0,
+    0,
+  ); // Accent/alert color
   static const Color backgroundColor = Colors.white;
   static const Color darkBackground = Color(0xFF121212);
 

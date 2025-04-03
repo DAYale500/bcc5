@@ -36,9 +36,9 @@ class FlashcardCategoryScreen extends StatelessWidget {
                 return ItemButton(
                   label: category[0].toUpperCase() + category.substring(1),
                   onTap: () {
-                    logger.i('🟥 Tapped flashcard category: $category');
+                    logger.i('🟥 Tapped flashcard category: category');
                     context.push(
-                      '/flashcards/items/$category',
+                      '/flashcards/items',
                       extra: {'category': category},
                     );
                   },

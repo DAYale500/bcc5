@@ -5,6 +5,7 @@ import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/models/part_model.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
 
 class PartItemScreen extends StatelessWidget {
   final String zone;
@@ -16,6 +17,8 @@ class PartItemScreen extends StatelessWidget {
     final List<PartItem> filteredParts = PartRepositoryIndex.getPartsForZone(
       zone.toLowerCase(),
     );
+
+    final List<String> sequenceIds = filteredParts.map((p) => p.id).toList();
 
     logger.i('🟦 Displaying PartItemScreen (Zone: $zone)');
 
@@ -49,13 +52,13 @@ class PartItemScreen extends StatelessWidget {
                   onTap: () {
                     logger.i('🟥 Tapped part: ${part.id}');
                     context.push(
-                      '/content',
+                      '/parts/detail',
                       extra: {
-                        'sequenceIds': filteredParts.map((p) => p.id).toList(),
-                        'startIndex': index,
+                        'renderItems': buildRenderItems(ids: sequenceIds),
+                        'currentIndex': index,
                         'branchIndex': 2,
                         'backDestination': '/parts/items',
-                        'backExtra': {'zone': zone, 'branchIndex': 2},
+                        'backExtra': {'zone': zone}, // ✅ ADD THIS!
                       },
                     );
                   },

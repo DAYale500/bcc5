@@ -59,17 +59,20 @@ lib
 │   ├── home
 │   │   └── landing_screen.dart
 │   ├── lessons
+│   │   ├── lesson_detail_screen.dart
 │   │   ├── lesson_item_screen.dart
 │   │   └── lesson_module_screen.dart
 │   ├── parts
+│   │   ├── part_detail_screen.dart
 │   │   ├── part_item_screen.dart
 │   │   └── part_zone_screen.dart
 │   ├── paths
 │   │   ├── path_chapter_screen.dart
 │   │   └── path_item_screen.dart
 │   └── tools
+│       ├── tool_detail_screen.dart
 │       ├── tool_item_screen.dart
-│       └── tools_screen.dart
+│       └── tools_bag_screen.dart
 ├── theme
 │   └── app_theme.dart
 ├── utils
@@ -85,4 +88,4 @@ lib
     ├── item_button.dart
     └── navigation_buttons.dart
 
-21 directories, 65 files
+21 directories, 68 files

@@ -35,21 +35,18 @@ class PartRepositoryIndex {
       _zones.values.expand((list) => list).toList();
 
   static Flashcard? getFlashcardById(String id) {
-    logger.i(
-      '🔍 PartRepositoryIndex.getFlashcardById → attempting lookup for "$id"',
-    );
+    logger.i('🔍 Looking for flashcard in parts: $id');
 
     for (final part in getAllParts()) {
       for (final card in part.flashcards) {
-        logger.i('   • checking ${card.id}');
         if (card.id == id) {
-          logger.i('✅ match found in part zone for $id');
+          logger.i('✅ Found flashcard in part: ${card.id}');
           return card;
         }
       }
     }
 
-    logger.e('❌ Flashcard not found in part zones for id: $id');
+    logger.w('❌ Flashcard not found in part zones for id: $id');
     return null;
   }
 

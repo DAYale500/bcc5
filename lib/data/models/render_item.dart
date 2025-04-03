@@ -18,5 +18,14 @@ class RenderItem {
     required this.flashcards,
   });
 
+  /// Whether this item has any usable content or flashcards
   bool get isResolved => content.isNotEmpty || flashcards.isNotEmpty;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RenderItem && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

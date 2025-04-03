@@ -1,16 +1,15 @@
 import 'dart:ui';
-import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
 class ContentDetailScreen extends StatelessWidget {
-  final String title;
-  final List<ContentBlock> content;
+  final RenderItem item;
   final VoidCallback? onPrevious;
   final VoidCallback? onNext;
   final VoidCallback? onBack;
@@ -18,27 +17,24 @@ class ContentDetailScreen extends StatelessWidget {
 
   const ContentDetailScreen({
     super.key,
-    required this.title,
-    required this.content,
+    required this.item,
     this.onPrevious,
     this.onNext,
     this.onBack,
     this.branchIndex = 0,
-    required List<Flashcard> flashcards,
-    required int startIndex,
   });
 
   @override
   Widget build(BuildContext context) {
-    logger.i('🟪 Displaying ContentDetailScreen: $title');
-    logger.i('📄 ContentBlock count: ${content.length}');
+    logger.i('🟪 Displaying ContentDetailScreen: ${item.title}');
+    logger.i('📄 ContentBlock count: ${item.content.length}');
 
     return MainScaffold(
       branchIndex: branchIndex,
       child: Column(
         children: [
           CustomAppBarWidget(
-            title: title,
+            title: item.title,
             showBackButton: true,
             showSearchIcon: true,
             showSettingsIcon: true,
@@ -56,10 +52,10 @@ class ContentDetailScreen extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
-              itemCount: content.length,
+              itemCount: item.content.length,
               separatorBuilder: (_, __) => const SizedBox(height: 16),
               itemBuilder: (context, index) {
-                final block = content[index];
+                final block = item.content[index];
                 logger.i('📦 Rendering block [$index] → ${block.type}');
                 return _renderBlock(context, block);
               },
@@ -79,18 +75,15 @@ class ContentDetailScreen extends StatelessWidget {
                     ConstrainedBox(
                       constraints: const BoxConstraints(minWidth: 160),
                       child: ElevatedButton.icon(
-                        onPressed: () {
-                          if (onPrevious != null) {
-                            logger.i(
-                              '⬅️ Previous tapped on ContentDetailScreen',
-                            );
-                            onPrevious!();
-                          } else {
-                            logger.i(
-                              '⛔ Previous disabled on ContentDetailScreen',
-                            );
-                          }
-                        },
+                        onPressed:
+                            onPrevious != null
+                                ? () {
+                                  logger.i(
+                                    '⬅️ Previous tapped on ContentDetailScreen',
+                                  );
+                                  onPrevious!();
+                                }
+                                : null,
                         icon: const Icon(Icons.arrow_back),
                         label: const Text('Previous'),
                         style:
@@ -103,14 +96,15 @@ class ContentDetailScreen extends StatelessWidget {
                     ConstrainedBox(
                       constraints: const BoxConstraints(minWidth: 160),
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (onNext != null) {
-                            logger.i('➡️ Next tapped on ContentDetailScreen');
-                            onNext!();
-                          } else {
-                            logger.i('⛔ Next disabled on ContentDetailScreen');
-                          }
-                        },
+                        onPressed:
+                            onNext != null
+                                ? () {
+                                  logger.i(
+                                    '➡️ Next tapped on ContentDetailScreen',
+                                  );
+                                  onNext!();
+                                }
+                                : null,
                         style:
                             onNext != null
                                 ? AppTheme.navigationButtonStyle

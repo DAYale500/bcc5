@@ -52,21 +52,18 @@ class LessonRepositoryIndex {
       _modules.values.expand((list) => list).toList();
 
   static Flashcard? getFlashcardById(String id) {
-    logger.i(
-      '🔍 LessonRepositoryIndex.getFlashcardById → attempting lookup for "$id"',
-    );
+    logger.i('🔍 Scanning lessons for flashcard id: $id');
 
     for (final lesson in getAllLessons()) {
       for (final card in lesson.flashcards) {
-        logger.i('   • checking ${card.id}');
         if (card.id == id) {
-          logger.i('✅ match found in lesson module for $id');
+          logger.i('✅ Match found in lesson for $id');
           return card;
         }
       }
     }
 
-    logger.e('❌ Flashcard not found in lesson modules for id: $id');
+    logger.w('❌ Flashcard not found in lesson modules for id: $id');
     return null;
   }
 

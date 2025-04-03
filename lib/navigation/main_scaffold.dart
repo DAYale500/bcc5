@@ -5,47 +5,53 @@ import '../utils/logger.dart';
 class MainScaffold extends StatelessWidget {
   final int branchIndex;
   final Widget child;
-  final PreferredSizeWidget? appBar; // 🟠 Added to support top AppBar injection
+  final PreferredSizeWidget? appBar;
 
   const MainScaffold({
     super.key,
     required this.branchIndex,
     required this.child,
-    this.appBar, // 🟠 Optional AppBar
+    this.appBar,
   });
 
   void _onItemTapped(BuildContext context, int index) {
-    if (index == branchIndex) {
-      logger.i('🔁 BNB tapped same tab: $index — no navigation');
-      return;
-    }
+    if (index == branchIndex) return;
 
     logger.i('🧭 BNB tapped tab $index — switching via GoRouter');
-    final routes = ['/', '/lessons', '/parts', '/flashcards', '/tools'];
+    final routes = ['/', '/lessons', '/parts', '/tools', '/flashcards'];
     context.go(routes[index]);
   }
 
   @override
   Widget build(BuildContext context) {
-    logger.i('🔷 Building MainScaffold, tab index: $branchIndex');
+    logger.d('🔷 Building MainScaffold, tab index: $branchIndex');
 
     return Scaffold(
-      appBar: appBar, // 🟠 Use optional AppBar injected from screen
+      appBar: appBar,
       body: child,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: branchIndex,
         onTap: (index) => _onItemTapped(context, index),
+        type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
+            icon: Icon(Icons.anchor_outlined),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.public_outlined),
             label: 'Modules',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Parts'),
-          BottomNavigationBarItem(icon: Icon(Icons.style), label: 'Flashcards'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.sailing_outlined),
+            label: 'Parts',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.build), label: 'Tools'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.quiz_outlined),
+            label: 'Flashcards',
+          ),
         ],
-        type: BottomNavigationBarType.fixed,
       ),
     );
   }

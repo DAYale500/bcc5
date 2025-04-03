@@ -6,7 +6,7 @@ class FlipCardWidget extends StatelessWidget {
   final List<ContentBlock> front;
   final List<ContentBlock> back;
   final bool showFront;
-  final Animation<double> animation; // ✅ required
+  final Animation<double> animation; // Required for flip, even if unused here
 
   const FlipCardWidget({
     super.key,
@@ -18,14 +18,17 @@ class FlipCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = showFront ? front : back;
+    final visibleContent = showFront ? front : back;
 
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: SingleChildScrollView(
-        child: DefaultTextStyle.merge(
-          style: const TextStyle(fontSize: 19), // 🧠 20% larger font
-          child: ContentBlockRenderer(blocks: content),
+    return Semantics(
+      label: showFront ? 'Flashcard front' : 'Flashcard back',
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+        child: SingleChildScrollView(
+          child: DefaultTextStyle.merge(
+            style: const TextStyle(fontSize: 19),
+            child: ContentBlockRenderer(blocks: visibleContent),
+          ),
         ),
       ),
     );

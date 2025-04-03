@@ -75,16 +75,11 @@ class FlashcardItemScreen extends StatelessWidget {
                     context.push(
                       '/flashcards/detail',
                       extra: {
-                        'sequenceTitles':
-                            flashcards.map((f) => f.title).toList(),
-                        'contentMap': {
-                          for (var f in flashcards)
-                            f.title: {'sideA': f.sideA, 'sideB': f.sideB},
-                        },
+                        'sequenceIds': flashcards.map((fc) => fc.id).toList(),
                         'startIndex': index,
-                        'branchIndex': 3,
-                        'backDestination': '/flashcards/items/$category',
-                        'backExtra': {'category': category, 'branchIndex': 3},
+                        'branchIndex': 4,
+                        'backDestination': '/flashcards/items',
+                        'backExtra': {'category': category},
                       },
                     );
                   },

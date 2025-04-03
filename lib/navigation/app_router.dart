@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:bcc5/screens/common/content_screen_navigator.dart';
-import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
-import 'package:bcc5/screens/flashcards/flashcard_item_screen.dart';
-import 'package:bcc5/screens/paths/path_chapter_screen.dart';
-import 'package:bcc5/screens/paths/path_item_screen.dart';
-import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
-import 'package:bcc5/screens/parts/part_item_screen.dart';
-import 'package:bcc5/screens/tools/tool_item_screen.dart';
-import 'package:bcc5/screens/home/landing_screen.dart';
-import 'package:bcc5/screens/lessons/lesson_module_screen.dart';
-import 'package:bcc5/screens/parts/part_zone_screen.dart';
-import 'package:bcc5/screens/flashcards/flashcard_category_screen.dart';
-import 'package:bcc5/screens/tools/tools_screen.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/utils/logger.dart';
+
+import 'package:bcc5/screens/home/landing_screen.dart';
+import 'package:bcc5/screens/lessons/lesson_module_screen.dart';
+import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
+import 'package:bcc5/screens/lessons/lesson_detail_screen.dart';
+import 'package:bcc5/screens/parts/part_zone_screen.dart';
+import 'package:bcc5/screens/parts/part_item_screen.dart';
+import 'package:bcc5/screens/parts/part_detail_screen.dart';
+import 'package:bcc5/screens/tools/tools_bag_screen.dart';
+import 'package:bcc5/screens/tools/tool_item_screen.dart';
+import 'package:bcc5/screens/tools/tool_detail_screen.dart';
+import 'package:bcc5/screens/flashcards/flashcard_category_screen.dart';
+import 'package:bcc5/screens/flashcards/flashcard_item_screen.dart';
+import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
+import 'package:bcc5/screens/paths/path_chapter_screen.dart';
+import 'package:bcc5/screens/paths/path_item_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -32,32 +34,32 @@ final appRouter = GoRouter(
       },
     ),
 
-    GoRoute(
-      path: '/content',
-      builder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {};
-        final sequenceIds = extras['sequenceIds'] as List<String>? ?? [];
-        final startIndex = extras['startIndex'] as int? ?? 0;
-        final branchIndex = extras['branchIndex'] as int? ?? 0;
-        final backDestination = extras['backDestination'] as String? ?? '/';
-        final backExtra = extras['backExtra'] as Map<String, dynamic>?;
+    // ⛑️ Legacy /content fallback
+    // GoRoute(
+    //   path: '/content',
+    //   builder: (context, state) {
+    //     final extras = state.extra as Map<String, dynamic>? ?? {};
+    //     final sequenceIds = extras['sequenceIds'] as List<String>? ?? [];
+    //     final startIndex = extras['startIndex'] as int? ?? 0;
+    //     final branchIndex = extras['branchIndex'] as int? ?? 0;
+    //     final backDestination = extras['backDestination'] as String? ?? '/';
 
-        logger.i('📦 Navigating to ContentScreenNavigator');
-        logger.i('   └── sequenceIds: $sequenceIds');
-        logger.i('   └── startIndex: $startIndex');
-        logger.i('   └── branchIndex: $branchIndex');
-        logger.i('   └── backDestination: $backDestination');
-        logger.i('   └── backExtra: $backExtra');
+    //     logger.i('📦 Navigating to ContentScreenNavigator');
+    //     logger.i('   └── sequenceIds: $sequenceIds');
+    //     logger.i('   └── startIndex: $startIndex');
+    //     logger.i('   └── branchIndex: $branchIndex');
+    //     logger.i('   └── backDestination: $backDestination');
 
-        return ContentScreenNavigator(
-          sequenceIds: sequenceIds,
-          startIndex: startIndex,
-          branchIndex: branchIndex,
-          backDestination: backDestination,
-        );
-      },
-    ),
+    //     return ContentScreenNavigator(
+    //       sequenceIds: sequenceIds,
+    //       startIndex: startIndex,
+    //       branchIndex: branchIndex,
+    //       backDestination: backDestination,
+    //     );
+    //   },
+    // ),
 
+    // 🧭 Learning Paths
     GoRoute(
       path: '/learning-paths/:pathName',
       name: 'learning-path',
@@ -84,8 +86,6 @@ final appRouter = GoRouter(
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final chapterId = extras['chapterId'] as String?;
 
-        logger.i('📘 Navigating to PathItemScreen: $pathName / $chapterId');
-
         if (chapterId == null) {
           logger.e('❌ Missing chapterId for path $pathName');
           return buildCustomTransition(
@@ -96,6 +96,7 @@ final appRouter = GoRouter(
           );
         }
 
+        logger.i('📘 Navigating to PathItemScreen: $pathName / $chapterId');
         return buildCustomTransition(
           context: context,
           child: MainScaffold(
@@ -106,6 +107,7 @@ final appRouter = GoRouter(
       },
     ),
 
+    // 📘 Lessons
     GoRoute(
       path: '/lessons',
       name: 'lessons',
@@ -120,16 +122,12 @@ final appRouter = GoRouter(
         );
       },
     ),
-
     GoRoute(
       path: '/lessons/items',
       name: 'lesson-items',
       pageBuilder: (context, state) {
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final module = extras['module'] as String?;
-
-        logger.i('📘 Navigating to LessonItemScreen for module: $module');
-
         if (module == null) {
           logger.e('❌ Missing module parameter for LessonItemScreen');
           return buildCustomTransition(
@@ -137,7 +135,7 @@ final appRouter = GoRouter(
             child: const Scaffold(body: Center(child: Text('Missing module!'))),
           );
         }
-
+        logger.i('📘 Navigating to LessonItemScreen for module: $module');
         return buildCustomTransition(
           context: context,
           child: MainScaffold(
@@ -147,7 +145,25 @@ final appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: '/lessons/detail',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>;
+        logger.i('📘 Entering LessonDetailScreen with extra: $extra');
+        return MainScaffold(
+          branchIndex: extra['branchIndex'],
+          child: LessonDetailScreen(
+            renderItems: extra['renderItems'],
+            currentIndex: extra['currentIndex'],
+            branchIndex: extra['branchIndex'],
+            backDestination: extra['backDestination'] as String? ?? '/',
+            backExtra: extra['backExtra'] as Map<String, dynamic>?,
+          ),
+        );
+      },
+    ),
 
+    // 🧩 Parts
     GoRoute(
       path: '/parts',
       name: 'parts',
@@ -159,7 +175,6 @@ final appRouter = GoRouter(
         );
       },
     ),
-
     GoRoute(
       path: '/parts/items',
       name: 'part-items',
@@ -167,7 +182,6 @@ final appRouter = GoRouter(
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final zone = extras['zone'] as String? ?? '';
         logger.i('🧩 Navigating to PartItemScreen for zone: $zone');
-
         return buildCustomTransition(
           context: context,
           child: MainScaffold(
@@ -177,7 +191,64 @@ final appRouter = GoRouter(
         );
       },
     ),
+    GoRoute(
+      path: '/parts/detail',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>;
+        logger.i('🧩 Entering PartDetailScreen with extra: $extra');
+        return MainScaffold(
+          branchIndex: extra['branchIndex'],
+          child: PartDetailScreen(
+            renderItems: extra['renderItems'],
+            currentIndex: extra['currentIndex'],
+            branchIndex: extra['branchIndex'],
+            backDestination: extra['backDestination'],
+            backExtra: extra['backExtra'] as Map<String, dynamic>?,
+          ),
+        );
+      },
+    ),
 
+    // 🛠️ Tools
+    GoRoute(
+      path: '/tools',
+      name: 'tools',
+      pageBuilder: (context, state) {
+        logger.i('🛠️ Entering ToolsScreen');
+        return buildCustomTransition(
+          context: context,
+          child: const MainScaffold(branchIndex: 3, child: ToolsScreen()),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/tools/items',
+      builder: (context, state) {
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final toolbag = extras['toolbag'] as String? ?? '';
+        logger.i('🛠️ Navigating to ToolItemScreen for toolbag: $toolbag');
+        return ToolItemScreen(toolbag: toolbag);
+      },
+    ),
+    GoRoute(
+      path: '/tools/detail',
+      builder: (context, state) {
+        final extra = state.extra as Map<String, dynamic>;
+        logger.i('🛠️ Entering ToolDetailScreen with extra: $extra');
+        return MainScaffold(
+          branchIndex: extra['branchIndex'],
+          child: ToolDetailScreen(
+            renderItems: extra['renderItems'],
+            currentIndex: extra['currentIndex'],
+            branchIndex: extra['branchIndex'],
+            backDestination: extra['backDestination'],
+            backExtra: extra['backExtra'] as Map<String, dynamic>?,
+          ),
+        );
+      },
+    ),
+
+    // 🃏 Flashcards
     GoRoute(
       path: '/flashcards',
       name: 'flashcards',
@@ -186,62 +257,37 @@ final appRouter = GoRouter(
         return buildCustomTransition(
           context: context,
           child: const MainScaffold(
-            branchIndex: 3,
+            branchIndex: 4,
             child: FlashcardCategoryScreen(),
           ),
         );
       },
     ),
-
     GoRoute(
-      path: '/flashcards/items/:category',
+      path: '/flashcards/items',
       name: 'flashcardItems',
       pageBuilder: (context, state) {
-        final category = state.pathParameters['category'] ?? 'all';
-        logger.i(
-          '📇 Navigating to FlashcardItemScreen for category: $category',
-        );
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final category = extras['category'] as String? ?? 'all';
+        logger.i('📇 Navigating to FlashcardItemScreen for category: category');
         return buildCustomTransition(
           context: context,
           child: MainScaffold(
-            branchIndex: 3,
+            branchIndex: 4,
             child: FlashcardItemScreen(category: category),
           ),
         );
       },
     ),
-
     GoRoute(
       path: '/flashcards/detail',
       builder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
         return MainScaffold(
-          branchIndex: extra['branchIndex'] ?? 0,
+          branchIndex: extra['branchIndex'] ?? 4,
           child: FlashcardDetailScreen(extra: extra),
         );
-      },
-    ),
-
-    GoRoute(
-      path: '/tools',
-      name: 'tools',
-      pageBuilder: (context, state) {
-        logger.i('🛠️ Entering ToolsScreen');
-        return buildCustomTransition(
-          context: context,
-          child: const MainScaffold(branchIndex: 4, child: ToolsScreen()),
-        );
-      },
-    ),
-
-    GoRoute(
-      path: '/tools/items',
-      builder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {};
-        final toolbag = extras['toolbag'] as String? ?? '';
-        logger.i('🛠️ Navigating to ToolItemScreen for toolbag: $toolbag');
-        return ToolItemScreen(toolbag: toolbag);
       },
     ),
   ],
