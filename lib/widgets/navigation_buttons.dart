@@ -25,7 +25,7 @@ class NavigationButtons extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
           child: Container(
             color: Colors.white.withValues(
-              alpha: 0.1,
+              alpha: 0.0,
             ), // subtle background tint
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
             child: Row(

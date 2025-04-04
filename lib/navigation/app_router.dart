@@ -1,3 +1,4 @@
+import 'package:bcc5/screens/common/transition_demo_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
@@ -19,6 +20,25 @@ import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
 import 'package:bcc5/screens/paths/path_chapter_screen.dart';
 import 'package:bcc5/screens/paths/path_item_screen.dart';
 
+CustomTransitionPage buildCustomTransition({
+  required BuildContext context,
+  required Widget child,
+}) {
+  return CustomTransitionPage(
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.easeInOut;
+      final tween = Tween(
+        begin: begin,
+        end: end,
+      ).chain(CurveTween(curve: curve));
+      return SlideTransition(position: animation.drive(tween), child: child);
+    },
+  );
+}
+
 final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
@@ -33,31 +53,6 @@ final appRouter = GoRouter(
         );
       },
     ),
-
-    // ⛑️ Legacy /content fallback
-    // GoRoute(
-    //   path: '/content',
-    //   builder: (context, state) {
-    //     final extras = state.extra as Map<String, dynamic>? ?? {};
-    //     final sequenceIds = extras['sequenceIds'] as List<String>? ?? [];
-    //     final startIndex = extras['startIndex'] as int? ?? 0;
-    //     final branchIndex = extras['branchIndex'] as int? ?? 0;
-    //     final backDestination = extras['backDestination'] as String? ?? '/';
-
-    //     logger.i('📦 Navigating to ContentScreenNavigator');
-    //     logger.i('   └── sequenceIds: $sequenceIds');
-    //     logger.i('   └── startIndex: $startIndex');
-    //     logger.i('   └── branchIndex: $branchIndex');
-    //     logger.i('   └── backDestination: $backDestination');
-
-    //     return ContentScreenNavigator(
-    //       sequenceIds: sequenceIds,
-    //       startIndex: startIndex,
-    //       branchIndex: branchIndex,
-    //       backDestination: backDestination,
-    //     );
-    //   },
-    // ),
 
     // 🧭 Learning Paths
     GoRoute(
@@ -145,23 +140,45 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/lessons/detail',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('📘 Entering LessonDetailScreen with extra: $extra');
-        return MainScaffold(
-          branchIndex: extra['branchIndex'],
-          child: LessonDetailScreen(
-            renderItems: extra['renderItems'],
-            currentIndex: extra['currentIndex'],
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
             branchIndex: extra['branchIndex'],
-            backDestination: extra['backDestination'] as String? ?? '/',
-            backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            child: LessonDetailScreen(
+              renderItems: extra['renderItems'],
+              currentIndex: extra['currentIndex'],
+              branchIndex: extra['branchIndex'],
+              backDestination: extra['backDestination'] as String? ?? '/',
+              backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            ),
           ),
         );
       },
     ),
+
+    // GoRoute(
+    //   path: '/lessons/detail',
+    //   builder: (context, state) {
+    //     final extra = state.extra as Map<String, dynamic>;
+    //     logger.i('📘 Entering LessonDetailScreen with extra: $extra');
+    //     return MainScaffold(
+    //       branchIndex: extra['branchIndex'],
+    //       child: LessonDetailScreen(
+    //         renderItems: extra['renderItems'],
+    //         currentIndex: extra['currentIndex'],
+    //         branchIndex: extra['branchIndex'],
+    //         backDestination: extra['backDestination'] as String? ?? '/',
+    //         backExtra: extra['backExtra'] as Map<String, dynamic>?,
+    //       ),
+    //     );
+    //   },
+    // ),
 
     // 🧩 Parts
     GoRoute(
@@ -191,23 +208,45 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/parts/detail',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🧩 Entering PartDetailScreen with extra: $extra');
-        return MainScaffold(
-          branchIndex: extra['branchIndex'],
-          child: PartDetailScreen(
-            renderItems: extra['renderItems'],
-            currentIndex: extra['currentIndex'],
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
             branchIndex: extra['branchIndex'],
-            backDestination: extra['backDestination'],
-            backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            child: PartDetailScreen(
+              renderItems: extra['renderItems'],
+              currentIndex: extra['currentIndex'],
+              branchIndex: extra['branchIndex'],
+              backDestination: extra['backDestination'],
+              backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            ),
           ),
         );
       },
     ),
+
+    // GoRoute(
+    //   path: '/parts/detail',
+    //   builder: (context, state) {
+    //     final extra = state.extra as Map<String, dynamic>;
+    //     logger.i('🧩 Entering PartDetailScreen with extra: $extra');
+    //     return MainScaffold(
+    //       branchIndex: extra['branchIndex'],
+    //       child: PartDetailScreen(
+    //         renderItems: extra['renderItems'],
+    //         currentIndex: extra['currentIndex'],
+    //         branchIndex: extra['branchIndex'],
+    //         backDestination: extra['backDestination'],
+    //         backExtra: extra['backExtra'] as Map<String, dynamic>?,
+    //       ),
+    //     );
+    //   },
+    // ),
 
     // 🛠️ Tools
     GoRoute(
@@ -230,23 +269,45 @@ final appRouter = GoRouter(
         return ToolItemScreen(toolbag: toolbag);
       },
     ),
+
     GoRoute(
       path: '/tools/detail',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🛠️ Entering ToolDetailScreen with extra: $extra');
-        return MainScaffold(
-          branchIndex: extra['branchIndex'],
-          child: ToolDetailScreen(
-            renderItems: extra['renderItems'],
-            currentIndex: extra['currentIndex'],
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
             branchIndex: extra['branchIndex'],
-            backDestination: extra['backDestination'],
-            backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            child: ToolDetailScreen(
+              renderItems: extra['renderItems'],
+              currentIndex: extra['currentIndex'],
+              branchIndex: extra['branchIndex'],
+              backDestination: extra['backDestination'],
+              backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            ),
           ),
         );
       },
     ),
+
+    // GoRoute(
+    //   path: '/tools/detail',
+    //   builder: (context, state) {
+    //     final extra = state.extra as Map<String, dynamic>;
+    //     logger.i('🛠️ Entering ToolDetailScreen with extra: $extra');
+    //     return MainScaffold(
+    //       branchIndex: extra['branchIndex'],
+    //       child: ToolDetailScreen(
+    //         renderItems: extra['renderItems'],
+    //         currentIndex: extra['currentIndex'],
+    //         branchIndex: extra['branchIndex'],
+    //         backDestination: extra['backDestination'],
+    //         backExtra: extra['backExtra'] as Map<String, dynamic>?,
+    //       ),
+    //     );
+    //   },
+    // ),
 
     // 🃏 Flashcards
     GoRoute(
@@ -279,23 +340,45 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/flashcards/detail',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
 
         final currentIndex = extra['currentIndex'] ?? extra['startIndex'] ?? 0;
 
-        return MainScaffold(
-          branchIndex: extra['branchIndex'] ?? 4,
-          child: FlashcardDetailScreen(
-            key: ValueKey(currentIndex), // 👈 forces rebuild when index changes
-            extra: extra,
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
+            branchIndex: extra['branchIndex'] ?? 4,
+            child: FlashcardDetailScreen(
+              key: ValueKey(currentIndex),
+              extra: extra,
+            ),
           ),
         );
       },
     ),
+
+    // GoRoute(
+    //   path: '/flashcards/detail',
+    //   builder: (context, state) {
+    //     final extra = state.extra as Map<String, dynamic>;
+    //     logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
+
+    //     final currentIndex = extra['currentIndex'] ?? extra['startIndex'] ?? 0;
+
+    //     return MainScaffold(
+    //       branchIndex: extra['branchIndex'] ?? 4,
+    //       child: FlashcardDetailScreen(
+    //         key: ValueKey(currentIndex), // 👈 forces rebuild when index changes
+    //         extra: extra,
+    //       ),
+    //     );
+    //   },
+    // ),
 
     // GoRoute(
     //   path: '/flashcards/detail',
@@ -308,24 +391,37 @@ final appRouter = GoRouter(
     //     );
     //   },
     // ),
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+
+    // 🧪 Transition Demo
+    GoRoute(
+      path: '/transition-demo',
+      pageBuilder:
+          (context, state) =>
+              buildDemoTransitionPage(const TransitionDemoScreen(), 'none'),
+    ),
+    GoRoute(
+      path: '/transition-demo/:type',
+      pageBuilder: (context, state) {
+        final type = state.pathParameters['type'] ?? 'none';
+        return buildDemoTransitionPage(
+          TransitionTargetScreen(type: type),
+          type,
+        );
+      },
+    ),
   ],
 );
-
-CustomTransitionPage buildCustomTransition({
-  required BuildContext context,
-  required Widget child,
-}) {
-  return CustomTransitionPage(
-    child: child,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0);
-      const end = Offset.zero;
-      const curve = Curves.easeInOut;
-      final tween = Tween(
-        begin: begin,
-        end: end,
-      ).chain(CurveTween(curve: curve));
-      return SlideTransition(position: animation.drive(tween), child: child);
-    },
-  );
-}

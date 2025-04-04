@@ -50,7 +50,8 @@ lib
 │   └── scaffold_helpers.dart
 ├── screens
 │   ├── common
-│   │   └── content_detail_screen.dart
+│   │   ├── content_detail_screen.dart
+│   │   └── transition_demo_screen.dart
 │   ├── flashcards
 │   │   ├── flashcard_category_screen.dart
 │   │   ├── flashcard_detail_screen.dart
@@ -77,6 +78,7 @@ lib
 ├── utils
 │   ├── id_parser.dart
 │   ├── logger.dart
+│   ├── navigation_transitions.dart.bak
 │   ├── render_item_helpers.dart
 │   └── string_extensions.dart
 └── widgets
@@ -88,4 +90,4 @@ lib
     ├── item_button.dart
     └── navigation_buttons.dart
 
-21 directories, 68 files
+21 directories, 70 files

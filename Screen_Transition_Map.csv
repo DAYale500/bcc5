@@ -1,0 +1,43 @@
+Screen,Trigger,Destination,Transition
+FlashcardDetailScreen,Back button,FlashcardItemScreen,Slide from right
+FlashcardDetailScreen,Flip Over button,Same screen,Y-axis rotation
+FlashcardDetailScreen,Previous/Next button,FlashcardDetailScreen,Fade in via key change
+FlashcardDetailScreen,Bottom nav bar,Tab switch,Instant
+FlashcardItemScreen,Back button,FlashcardCategoryScreen,Slide from right
+FlashcardItemScreen,Tap on flashcard,FlashcardDetailScreen,Fade in
+FlashcardItemScreen,Bottom nav bar,Tab switch,Instant
+FlashcardCategoryScreen,Tap on category,FlashcardItemScreen,Slide from right
+FlashcardCategoryScreen,Bottom nav bar,Tab switch,Instant
+LessonDetailScreen,Back button,LessonItemScreen,Slide from right
+LessonDetailScreen,Previous/Next button,LessonDetailScreen,Fade in via key change
+LessonDetailScreen,Bottom nav bar,Tab switch,Instant
+LessonItemScreen,Back button,LessonModuleScreen,Slide from right
+LessonItemScreen,Tap on lesson,LessonDetailScreen,Fade in
+LessonItemScreen,Bottom nav bar,Tab switch,Instant
+LessonModuleScreen,Tap on module,LessonItemScreen,Slide from right
+LessonModuleScreen,Bottom nav bar,Tab switch,Instant
+PartDetailScreen,Back button,PartItemScreen,Slide from right
+PartDetailScreen,Previous/Next button,PartDetailScreen,Fade in
+PartDetailScreen,Bottom nav bar,Tab switch,Instant
+PartItemScreen,Back button,PartZoneScreen,Slide from right
+PartItemScreen,Tap on part,PartDetailScreen,Fade in
+PartItemScreen,Bottom nav bar,Tab switch,Instant
+PartZoneScreen,Tap on zone,PartItemScreen,Slide from right
+PartZoneScreen,Bottom nav bar,Tab switch,Instant
+ToolDetailScreen,Back button,ToolItemScreen,Slide from right
+ToolDetailScreen,Previous/Next button,ToolDetailScreen,Fade in
+ToolDetailScreen,Bottom nav bar,Tab switch,Instant
+ToolItemScreen,Back button,ToolsScreen,Slide from right
+ToolItemScreen,Tap on tool,ToolDetailScreen,Fade in
+ToolItemScreen,Bottom nav bar,Tab switch,Instant
+ToolsScreen,Tap on tool group,ToolItemScreen,Slide from right
+ToolsScreen,Bottom nav bar,Tab switch,Instant
+PathChapterScreen,Tap on chapter,PathItemScreen,Slide from right
+PathChapterScreen,Back button,LandingScreen,Slide from right
+PathItemScreen,Tap on item,*_DetailScreen,Fade in
+PathItemScreen,Back button,PathChapterScreen,Slide from right
+LandingScreen,Tap path button,PathChapterScreen,Slide from right
+LandingScreen,Tap 'Anchoring' (demo),TransitionDemoScreen,Slide from right
+LandingScreen,Bottom nav bar,Tab switch,Instant
+TransitionDemoScreen,Tap demo type,TransitionTargetScreen,Dynamic (slide/fade/scale/etc)
+TransitionTargetScreen,Back to Menu,TransitionDemoScreen,Dynamic (reversed)

@@ -1,0 +1,5 @@
+Screen,Transition Type,Source
+LessonDetailScreen,Slide from right,app_router.dart via buildCustomTransition
+PartDetailScreen,Slide from right,app_router.dart via buildCustomTransition
+ToolDetailScreen,Slide from right,app_router.dart via buildCustomTransition
+FlashcardDetailScreen,"Slide from right (on first tap), Fade or No Transition (on subsequent taps)",app_router.dart + direct use of ValueKey(currentIndex)

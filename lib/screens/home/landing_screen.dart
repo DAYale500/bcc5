@@ -64,7 +64,6 @@ class LandingScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 28),
-                // 📘 Competent Crew Intro Text
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
@@ -93,9 +92,13 @@ class LandingScreen extends StatelessWidget {
                   context.go('/learning-paths/docking');
                 }),
                 const SizedBox(height: 16),
+
+                // 🧪 TEMP: Anchoring → Transition Demo
                 _buildPathButton(context, 'Anchoring', _groupButtonStyle(), () {
-                  logger.i('📘 Navigating to Anchoring Path');
-                  context.go('/learning-paths/anchoring');
+                  logger.i(
+                    '🎬 Navigating to Transition Demo via Anchoring button',
+                  );
+                  context.go('/transition-demo'); // 👈 temporarily rerouted
                 }),
 
                 const SizedBox(height: 36),

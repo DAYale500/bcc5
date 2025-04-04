@@ -78,6 +78,7 @@ class MainScaffold extends StatelessWidget {
 
 
 File: lib/navigation/app_router.dart
+import 'package:bcc5/screens/common/transition_demo_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
@@ -99,6 +100,25 @@ import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
 import 'package:bcc5/screens/paths/path_chapter_screen.dart';
 import 'package:bcc5/screens/paths/path_item_screen.dart';
 
+CustomTransitionPage buildCustomTransition({
+  required BuildContext context,
+  required Widget child,
+}) {
+  return CustomTransitionPage(
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.easeInOut;
+      final tween = Tween(
+        begin: begin,
+        end: end,
+      ).chain(CurveTween(curve: curve));
+      return SlideTransition(position: animation.drive(tween), child: child);
+    },
+  );
+}
+
 final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
@@ -113,31 +133,6 @@ final appRouter = GoRouter(
         );
       },
     ),
-
-    // ⛑️ Legacy /content fallback
-    // GoRoute(
-    //   path: '/content',
-    //   builder: (context, state) {
-    //     final extras = state.extra as Map<String, dynamic>? ?? {};
-    //     final sequenceIds = extras['sequenceIds'] as List<String>? ?? [];
-    //     final startIndex = extras['startIndex'] as int? ?? 0;
-    //     final branchIndex = extras['branchIndex'] as int? ?? 0;
-    //     final backDestination = extras['backDestination'] as String? ?? '/';
-
-    //     logger.i('📦 Navigating to ContentScreenNavigator');
-    //     logger.i('   └── sequenceIds: $sequenceIds');
-    //     logger.i('   └── startIndex: $startIndex');
-    //     logger.i('   └── branchIndex: $branchIndex');
-    //     logger.i('   └── backDestination: $backDestination');
-
-    //     return ContentScreenNavigator(
-    //       sequenceIds: sequenceIds,
-    //       startIndex: startIndex,
-    //       branchIndex: branchIndex,
-    //       backDestination: backDestination,
-    //     );
-    //   },
-    // ),
 
     // 🧭 Learning Paths
     GoRoute(
@@ -225,23 +220,45 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/lessons/detail',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('📘 Entering LessonDetailScreen with extra: $extra');
-        return MainScaffold(
-          branchIndex: extra['branchIndex'],
-          child: LessonDetailScreen(
-            renderItems: extra['renderItems'],
-            currentIndex: extra['currentIndex'],
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
             branchIndex: extra['branchIndex'],
-            backDestination: extra['backDestination'] as String? ?? '/',
-            backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            child: LessonDetailScreen(
+              renderItems: extra['renderItems'],
+              currentIndex: extra['currentIndex'],
+              branchIndex: extra['branchIndex'],
+              backDestination: extra['backDestination'] as String? ?? '/',
+              backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            ),
           ),
         );
       },
     ),
+
+    // GoRoute(
+    //   path: '/lessons/detail',
+    //   builder: (context, state) {
+    //     final extra = state.extra as Map<String, dynamic>;
+    //     logger.i('📘 Entering LessonDetailScreen with extra: $extra');
+    //     return MainScaffold(
+    //       branchIndex: extra['branchIndex'],
+    //       child: LessonDetailScreen(
+    //         renderItems: extra['renderItems'],
+    //         currentIndex: extra['currentIndex'],
+    //         branchIndex: extra['branchIndex'],
+    //         backDestination: extra['backDestination'] as String? ?? '/',
+    //         backExtra: extra['backExtra'] as Map<String, dynamic>?,
+    //       ),
+    //     );
+    //   },
+    // ),
 
     // 🧩 Parts
     GoRoute(
@@ -271,23 +288,45 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/parts/detail',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🧩 Entering PartDetailScreen with extra: $extra');
-        return MainScaffold(
-          branchIndex: extra['branchIndex'],
-          child: PartDetailScreen(
-            renderItems: extra['renderItems'],
-            currentIndex: extra['currentIndex'],
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
             branchIndex: extra['branchIndex'],
-            backDestination: extra['backDestination'],
-            backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            child: PartDetailScreen(
+              renderItems: extra['renderItems'],
+              currentIndex: extra['currentIndex'],
+              branchIndex: extra['branchIndex'],
+              backDestination: extra['backDestination'],
+              backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            ),
           ),
         );
       },
     ),
+
+    // GoRoute(
+    //   path: '/parts/detail',
+    //   builder: (context, state) {
+    //     final extra = state.extra as Map<String, dynamic>;
+    //     logger.i('🧩 Entering PartDetailScreen with extra: $extra');
+    //     return MainScaffold(
+    //       branchIndex: extra['branchIndex'],
+    //       child: PartDetailScreen(
+    //         renderItems: extra['renderItems'],
+    //         currentIndex: extra['currentIndex'],
+    //         branchIndex: extra['branchIndex'],
+    //         backDestination: extra['backDestination'],
+    //         backExtra: extra['backExtra'] as Map<String, dynamic>?,
+    //       ),
+    //     );
+    //   },
+    // ),
 
     // 🛠️ Tools
     GoRoute(
@@ -310,23 +349,45 @@ final appRouter = GoRouter(
         return ToolItemScreen(toolbag: toolbag);
       },
     ),
+
     GoRoute(
       path: '/tools/detail',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🛠️ Entering ToolDetailScreen with extra: $extra');
-        return MainScaffold(
-          branchIndex: extra['branchIndex'],
-          child: ToolDetailScreen(
-            renderItems: extra['renderItems'],
-            currentIndex: extra['currentIndex'],
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
             branchIndex: extra['branchIndex'],
-            backDestination: extra['backDestination'],
-            backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            child: ToolDetailScreen(
+              renderItems: extra['renderItems'],
+              currentIndex: extra['currentIndex'],
+              branchIndex: extra['branchIndex'],
+              backDestination: extra['backDestination'],
+              backExtra: extra['backExtra'] as Map<String, dynamic>?,
+            ),
           ),
         );
       },
     ),
+
+    // GoRoute(
+    //   path: '/tools/detail',
+    //   builder: (context, state) {
+    //     final extra = state.extra as Map<String, dynamic>;
+    //     logger.i('🛠️ Entering ToolDetailScreen with extra: $extra');
+    //     return MainScaffold(
+    //       branchIndex: extra['branchIndex'],
+    //       child: ToolDetailScreen(
+    //         renderItems: extra['renderItems'],
+    //         currentIndex: extra['currentIndex'],
+    //         branchIndex: extra['branchIndex'],
+    //         backDestination: extra['backDestination'],
+    //         backExtra: extra['backExtra'] as Map<String, dynamic>?,
+    //       ),
+    //     );
+    //   },
+    // ),
 
     // 🃏 Flashcards
     GoRoute(
@@ -359,23 +420,45 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/flashcards/detail',
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
 
         final currentIndex = extra['currentIndex'] ?? extra['startIndex'] ?? 0;
 
-        return MainScaffold(
-          branchIndex: extra['branchIndex'] ?? 4,
-          child: FlashcardDetailScreen(
-            key: ValueKey(currentIndex), // 👈 forces rebuild when index changes
-            extra: extra,
+        return buildCustomTransition(
+          context: context,
+          child: MainScaffold(
+            branchIndex: extra['branchIndex'] ?? 4,
+            child: FlashcardDetailScreen(
+              key: ValueKey(currentIndex),
+              extra: extra,
+            ),
           ),
         );
       },
     ),
+
+    // GoRoute(
+    //   path: '/flashcards/detail',
+    //   builder: (context, state) {
+    //     final extra = state.extra as Map<String, dynamic>;
+    //     logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
+
+    //     final currentIndex = extra['currentIndex'] ?? extra['startIndex'] ?? 0;
+
+    //     return MainScaffold(
+    //       branchIndex: extra['branchIndex'] ?? 4,
+    //       child: FlashcardDetailScreen(
+    //         key: ValueKey(currentIndex), // 👈 forces rebuild when index changes
+    //         extra: extra,
+    //       ),
+    //     );
+    //   },
+    // ),
 
     // GoRoute(
     //   path: '/flashcards/detail',
@@ -388,27 +471,40 @@ final appRouter = GoRouter(
     //     );
     //   },
     // ),
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+
+    // 🧪 Transition Demo
+    GoRoute(
+      path: '/transition-demo',
+      pageBuilder:
+          (context, state) =>
+              buildDemoTransitionPage(const TransitionDemoScreen(), 'none'),
+    ),
+    GoRoute(
+      path: '/transition-demo/:type',
+      pageBuilder: (context, state) {
+        final type = state.pathParameters['type'] ?? 'none';
+        return buildDemoTransitionPage(
+          TransitionTargetScreen(type: type),
+          type,
+        );
+      },
+    ),
   ],
 );
-
-CustomTransitionPage buildCustomTransition({
-  required BuildContext context,
-  required Widget child,
-}) {
-  return CustomTransitionPage(
-    child: child,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0);
-      const end = Offset.zero;
-      const curve = Curves.easeInOut;
-      final tween = Tween(
-        begin: begin,
-        end: end,
-      ).chain(CurveTween(curve: curve));
-      return SlideTransition(position: animation.drive(tween), child: child);
-    },
-  );
-}
 
 
 
@@ -512,6 +608,143 @@ final logger = Logger(
     dateTimeFormat: DateTimeFormat.none, // ✅ Modern replacement for printTime
   ),
 );
+
+
+
+
+
+
+
+
+
+
+File: lib/utils/navigation_transitions.dart.bak
+// Relative path: lib/utils/navigation_transitions.dart
+
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+/// 🚀 NavigationContext
+/// Defines different navigation scenarios to apply context-specific transitions.
+enum NavigationContext {
+  drillDown, // No transition when navigating deeper within a hierarchy.
+  branchChange, // Slide from right when switching sections via BottomNavigationBar.
+  settings, // Scale animation for the Settings screen.
+  backNavigation, // Slide from left for back navigation.
+  sameScreenNavigation, // No transition when using previous/next buttons.
+  modalPresentation, // Slide from bottom for modal-like screens.
+  fadeTransition, // Fade effect for subtle transitions.
+  rotationTransition, // Rotates the screen during navigation (for creative effects).
+  scaleFadeCombination, // Combines scale and fade for a smooth effect.
+  noTransition, // Explicit no-animation navigation.
+}
+
+CustomTransitionPage<T> buildCustomTransition<T>({
+  required Widget child,
+  required NavigationContext contextType,
+}) {
+  // Curve used across most transitions for consistency
+  const curve = Curves.easeInOut;
+
+  /// 📚 Transition Builders
+  /// Define the animation for each NavigationContext.
+  Widget Function(
+    BuildContext,
+    Animation<double>,
+    Animation<double>,
+    Widget,
+  ) transitionsBuilder;
+
+  switch (contextType) {
+    case NavigationContext.drillDown:
+    case NavigationContext.sameScreenNavigation:
+    case NavigationContext.noTransition:
+      // 🚫 No animation (instant screen change)
+      transitionsBuilder =
+          (context, animation, secondaryAnimation, child) => child;
+      break;
+
+    case NavigationContext.branchChange:
+      // ➡️ Slide from right (BottomNavigationBar branch changes)
+      transitionsBuilder = (context, animation, _, child) {
+        final tween = Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero)
+            .chain(CurveTween(curve: curve));
+        return SlideTransition(position: animation.drive(tween), child: child);
+      };
+      break;
+
+    case NavigationContext.backNavigation:
+      // ⬅️ Slide from left (back navigation)
+      transitionsBuilder = (context, animation, _, child) {
+        final tween =
+            Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero)
+                .chain(CurveTween(curve: curve));
+        return SlideTransition(position: animation.drive(tween), child: child);
+      };
+      break;
+
+    case NavigationContext.settings:
+      // 🔍 Scale transition (Settings screen)
+      transitionsBuilder = (context, animation, _, child) {
+        return ScaleTransition(
+          scale: Tween<double>(begin: 0.8, end: 1.0)
+              .chain(CurveTween(curve: curve))
+              .animate(animation),
+          child: child,
+        );
+      };
+      break;
+
+    case NavigationContext.modalPresentation:
+      // ⬆️ Slide from bottom (modal screens)
+      transitionsBuilder = (context, animation, _, child) {
+        final tween = Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
+            .chain(CurveTween(curve: curve));
+        return SlideTransition(position: animation.drive(tween), child: child);
+      };
+      break;
+
+    case NavigationContext.fadeTransition:
+      // 🌫️ Fade in/out
+      transitionsBuilder = (context, animation, _, child) {
+        return FadeTransition(opacity: animation, child: child);
+      };
+      break;
+
+    case NavigationContext.rotationTransition:
+      // 🔄 Rotation transition (for creative use)
+      transitionsBuilder = (context, animation, _, child) {
+        return RotationTransition(
+          turns: Tween<double>(begin: 0.75, end: 1.0)
+              .chain(CurveTween(curve: curve))
+              .animate(animation),
+          child: child,
+        );
+      };
+      break;
+
+    case NavigationContext.scaleFadeCombination:
+      // ✨ Scale + fade transition
+      transitionsBuilder = (context, animation, _, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.9, end: 1.0)
+                .chain(CurveTween(curve: curve))
+                .animate(animation),
+            child: child,
+          ),
+        );
+      };
+      break;
+  }
+
+  // ✅ CustomTransitionPage provides the final animation.
+  return CustomTransitionPage<T>(
+    child: child,
+    transitionsBuilder: transitionsBuilder,
+  );
+}
 
 
 
@@ -720,7 +953,6 @@ class LandingScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 28),
-                // 📘 Competent Crew Intro Text
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
@@ -749,9 +981,13 @@ class LandingScreen extends StatelessWidget {
                   context.go('/learning-paths/docking');
                 }),
                 const SizedBox(height: 16),
+
+                // 🧪 TEMP: Anchoring → Transition Demo
                 _buildPathButton(context, 'Anchoring', _groupButtonStyle(), () {
-                  logger.i('📘 Navigating to Anchoring Path');
-                  context.go('/learning-paths/anchoring');
+                  logger.i(
+                    '🎬 Navigating to Transition Demo via Anchoring button',
+                  );
+                  context.go('/transition-demo'); // 👈 temporarily rerouted
                 }),
 
                 const SizedBox(height: 36),
@@ -2183,6 +2419,107 @@ class ContentDetailScreen extends StatelessWidget {
         return const Divider(thickness: 2);
     }
   }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/common/transition_demo_screen.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+class TransitionDemoScreen extends StatelessWidget {
+  const TransitionDemoScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Transition Demos')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            _buildDemoButton(context, 'Slide from Right', 'slide'),
+            _buildDemoButton(context, 'Fade In', 'fade'),
+            _buildDemoButton(context, 'Scale In', 'scale'),
+            _buildDemoButton(context, 'Slide from Bottom', 'bottom'),
+            _buildDemoButton(context, 'No Animation', 'none'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDemoButton(BuildContext context, String label, String type) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: ElevatedButton(
+        onPressed: () => context.push('/transition-demo/$type'),
+        child: Text(label),
+      ),
+    );
+  }
+}
+
+class TransitionTargetScreen extends StatelessWidget {
+  final String type;
+
+  const TransitionTargetScreen({super.key, required this.type});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('$type Transition')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () => context.push('/transition-demo'),
+          child: const Text('Back to Demo Menu'),
+        ),
+      ),
+    );
+  }
+}
+
+CustomTransitionPage buildDemoTransitionPage(Widget child, String type) {
+  final duration = const Duration(milliseconds: 300);
+
+  return CustomTransitionPage(
+    transitionDuration: duration,
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      switch (type) {
+        case 'slide':
+          return SlideTransition(
+            position: Tween(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        case 'fade':
+          return FadeTransition(opacity: animation, child: child);
+        case 'scale':
+          return ScaleTransition(scale: animation, child: child);
+        case 'bottom':
+          return SlideTransition(
+            position: Tween(
+              begin: const Offset(0, 1),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        case 'none':
+        default:
+          return child;
+      }
+    },
+  );
 }
 
 
