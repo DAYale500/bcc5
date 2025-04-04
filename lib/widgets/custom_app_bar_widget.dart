@@ -8,7 +8,7 @@ class CustomAppBarWidget extends StatelessWidget
   final bool showBackButton;
   final bool showSearchIcon;
   final bool showSettingsIcon;
-  final VoidCallback? onBack; // 🟠 Add this
+  final VoidCallback? onBack;
 
   const CustomAppBarWidget({
     super.key,
@@ -16,12 +16,15 @@ class CustomAppBarWidget extends StatelessWidget
     this.showBackButton = false,
     this.showSearchIcon = true,
     this.showSettingsIcon = true,
-    this.onBack, // 🟠 Add this
+    this.onBack,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: AppTheme.primaryBlue,
+      centerTitle: true,
+      elevation: 0,
       leading:
           showBackButton
               ? IconButton(
@@ -30,18 +33,16 @@ class CustomAppBarWidget extends StatelessWidget
                     onBack ??
                     () {
                       if (Navigator.of(context).canPop()) {
-                        Navigator.of(context).pop(); // 🟠 Safe fallback pop
+                        Navigator.of(context).pop();
                       } else {
-                        // 🟠 Emergency fallback: go to root
                         context.go('/');
                       }
                     },
               )
-              : null,
-      centerTitle: true,
+              : const SizedBox(
+                width: kToolbarHeight, // 🟢 Reserve space to center title
+              ),
       title: Text(title, style: AppTheme.headingStyle),
-      backgroundColor: AppTheme.primaryBlue,
-      elevation: 0,
       actions: [
         if (showSearchIcon)
           IconButton(

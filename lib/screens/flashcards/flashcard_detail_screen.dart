@@ -173,7 +173,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     return Stack(
       fit: StackFit.expand,
       children: [
-        Image.asset('assets/images/sailboat_cartoon.jpg', fit: BoxFit.cover),
+        Opacity(
+          opacity: 0.2, // 20% visible
+          child: Image.asset(
+            'assets/images/sailboat_cartoon.jpg',
+            fit: BoxFit.cover,
+          ),
+        ),
         Column(
           children: [
             CustomAppBarWidget(

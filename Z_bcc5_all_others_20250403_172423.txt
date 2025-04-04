@@ -364,12 +364,30 @@ final appRouter = GoRouter(
       builder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
+
+        final currentIndex = extra['currentIndex'] ?? extra['startIndex'] ?? 0;
+
         return MainScaffold(
           branchIndex: extra['branchIndex'] ?? 4,
-          child: FlashcardDetailScreen(extra: extra),
+          child: FlashcardDetailScreen(
+            key: ValueKey(currentIndex), // 👈 forces rebuild when index changes
+            extra: extra,
+          ),
         );
       },
     ),
+
+    // GoRoute(
+    //   path: '/flashcards/detail',
+    //   builder: (context, state) {
+    //     final extra = state.extra as Map<String, dynamic>;
+    //     logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
+    //     return MainScaffold(
+    //       branchIndex: extra['branchIndex'] ?? 4,
+    //       child: FlashcardDetailScreen(extra: extra),
+    //     );
+    //   },
+    // ),
   ],
 );
 
@@ -612,8 +630,30 @@ RenderItem? getContentObject(String id) {
 
 
 
+File: lib/utils/string_extensions.dart
+extension TitleCaseExtension on String {
+  String toTitleCase() {
+    return split(' ')
+        .map(
+          (word) =>
+              word.isEmpty
+                  ? word
+                  : word[0].toUpperCase() + word.substring(1).toLowerCase(),
+        )
+        .join(' ');
+  }
+}
+
+
+
+
+
+
+
+
+
+
 File: lib/screens/home/landing_screen.dart
-// lib/screens/home/landing_screen.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -634,29 +674,99 @@ class LandingScreen extends StatelessWidget {
           showSettingsIcon: true,
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(AppTheme.screenPadding),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              vertical: 24,
+              horizontal: AppTheme.screenPadding,
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _buildPathButton(context, 'Start Tour', () {
-                  logger.i('🚀 Tour started (placeholder)');
+                // 📝 General Intro Text
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Sailing Routes',
+                    style: AppTheme.subheadingStyle.copyWith(
+                      color: AppTheme.primaryBlue,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // 📘 Competent Crew Intro Text
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    "Competent Crew: New crew start here to learn how to be safe, helpful, and enjoy.",
+                    style: AppTheme.subheadingStyle.copyWith(
+                      color: AppTheme.primaryBlue,
+                      fontStyle: FontStyle.italic,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 28),
+
+                // 🚀 Path Buttons
+                _buildPathButton(
+                  context,
+                  'Competent Crew',
+                  AppTheme.highlightedGroupButtonStyle,
+                  () {
+                    logger.i('📘 Navigating to Competent Crew Path');
+                    context.go('/learning-paths/competent-crew');
+                  },
+                ),
+                const SizedBox(height: 28),
+                // 📘 Competent Crew Intro Text
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    "Knock the rust off these topics if your sea-legs are gone.",
+                    style: AppTheme.subheadingStyle.copyWith(
+                      color: AppTheme.primaryBlue,
+                      fontStyle: FontStyle.italic,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+                _buildPathButton(
+                  context,
+                  'Knock the Rust Off',
+                  _groupButtonStyle(),
+                  () {
+                    logger.i('📘 Navigating to Knock the Rust Off Path');
+                    context.go('/learning-paths/knock-the-rust-off');
+                  },
+                ),
+                const SizedBox(height: 16),
+                _buildPathButton(context, 'Docking', _groupButtonStyle(), () {
+                  logger.i('📘 Navigating to Docking Path');
+                  context.go('/learning-paths/docking');
                 }),
-                const SizedBox(height: 24),
-                _buildPathButton(context, 'Competent Crew', () {
-                  logger.i('📘 Navigating to Competent Crew Path');
-                  context.go('/learning-paths/competent-crew');
-                }),
-                const SizedBox(height: 24),
-                _buildPathButton(context, 'Knock the Rust Off', () {
-                  logger.i('📘 Navigating to Knock the Rust Off Path');
-                  context.go('/learning-paths/knock-the-rust-off');
-                }),
-                const SizedBox(height: 24),
-                _buildPathButton(context, 'Anchoring', () {
+                const SizedBox(height: 16),
+                _buildPathButton(context, 'Anchoring', _groupButtonStyle(), () {
                   logger.i('📘 Navigating to Anchoring Path');
                   context.go('/learning-paths/anchoring');
                 }),
+
+                const SizedBox(height: 36),
+
+                // 📍 BNB-related Hint
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Self-guided expeditions begin below.',
+                    style: AppTheme.subheadingStyle.copyWith(
+                      color: AppTheme.primaryBlue,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ],
             ),
           ),
@@ -668,18 +778,23 @@ class LandingScreen extends StatelessWidget {
   Widget _buildPathButton(
     BuildContext context,
     String label,
+    ButtonStyle style,
     VoidCallback onTap,
   ) {
     return ElevatedButton(
       onPressed: onTap,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: AppTheme.primaryRed,
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 32),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),
-        ),
-      ),
+      style: style,
       child: Text(label, style: AppTheme.buttonTextStyle),
+    );
+  }
+
+  ButtonStyle _groupButtonStyle() {
+    return ElevatedButton.styleFrom(
+      backgroundColor: AppTheme.groupButtonSelected,
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),
+      ),
     );
   }
 }
@@ -694,35 +809,77 @@ class LandingScreen extends StatelessWidget {
 
 
 File: lib/screens/tools/tools_bag_screen.dart
-// 📄 lib/screens/tools/tools_screen.dart
-
-import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/group_button.dart';
+import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 
 class ToolsScreen extends StatelessWidget {
   const ToolsScreen({super.key});
 
+  static const double appBarOffset = 80.0;
+
   @override
   Widget build(BuildContext context) {
+    final toolbags = ToolRepositoryIndex.getToolbagNames();
     logger.i('🟦 Displaying ToolsScreen');
 
-    final toolbags = ToolRepositoryIndex.getToolbagNames();
-
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        const CustomAppBarWidget(
-          title: 'Tools',
-          showBackButton: false,
-          showSearchIcon: true,
-          showSettingsIcon: true,
+        // Background (optional: can add if needed)
+        // Opacity(
+        //   opacity: 0.2,
+        //   child: Image.asset(
+        //     'assets/images/some_background.png',
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
+
+        // AppBar
+        const Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomAppBarWidget(
+            title: 'Tools',
+            showBackButton: false,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+          ),
         ),
-        Expanded(
+
+        // "Choose a Toolbag" title
+        Positioned(
+          top: appBarOffset + 24,
+          left: 32,
+          right: 32,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.85),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                'Choose a Toolbag',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        // Button list
+        Positioned.fill(
+          top: appBarOffset + 100,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ListView.builder(
               itemCount: toolbags.length,
               itemBuilder: (context, index) {
@@ -765,11 +922,14 @@ import 'package:bcc5/data/models/tool_model.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class ToolItemScreen extends StatelessWidget {
   final String toolbag;
 
   const ToolItemScreen({super.key, required this.toolbag});
+
+  static const double appBarOffset = 80.0;
 
   @override
   Widget build(BuildContext context) {
@@ -786,51 +946,81 @@ class ToolItemScreen extends StatelessWidget {
 
     return MainScaffold(
       branchIndex: 3,
-      child: Column(
+      child: Stack(
+        fit: StackFit.expand,
         children: [
-          CustomAppBarWidget(
-            title:
-                (toolbag.isNotEmpty)
-                    ? '${toolbag[0].toUpperCase()}${toolbag.substring(1)} Tools'
-                    : 'Tools',
-            showBackButton: true,
-            showSearchIcon: true,
-            showSettingsIcon: true,
-            onBack: () {
-              logger.i('🔙 AppBar back from ToolItemScreen');
-              context.go('/tools');
-            },
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: GridView.builder(
-                itemCount: tools.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 4,
-                  childAspectRatio: 2.8,
-                ),
-                itemBuilder: (context, index) {
-                  final tool = tools[index];
-                  return ItemButton(
-                    label: tool.title,
-                    onTap: () {
-                      logger.i('🛠️ Tapped tool: ${tool.id}');
-                      context.push(
-                        '/tools/detail',
-                        extra: {
-                          'renderItems': buildRenderItems(ids: sequenceIds),
-                          'currentIndex': index,
-                          'branchIndex': 3,
-                          'backDestination': '/tools/items',
-                          'toolbag': toolbag,
+          // 🔵 AppBar
+          Column(
+            children: [
+              CustomAppBarWidget(
+                title:
+                    (toolbag.isNotEmpty)
+                        ? '${toolbag[0].toUpperCase()}${toolbag.substring(1)} Tools'
+                        : 'Tools',
+                showBackButton: true,
+                showSearchIcon: true,
+                showSettingsIcon: true,
+                onBack: () {
+                  logger.i('🔙 AppBar back from ToolItemScreen');
+                  context.go('/tools');
+                },
+              ),
+              const SizedBox(height: 90), // leaves space for "Choose a Rule"
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: GridView.builder(
+                    itemCount: tools.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 4,
+                          mainAxisSpacing: 4,
+                          childAspectRatio: 2.8,
+                        ),
+                    itemBuilder: (context, index) {
+                      final tool = tools[index];
+                      return ItemButton(
+                        label: tool.title,
+                        onTap: () {
+                          logger.i('🛠️ Tapped tool: ${tool.id}');
+                          context.push(
+                            '/tools/detail',
+                            extra: {
+                              'renderItems': buildRenderItems(ids: sequenceIds),
+                              'currentIndex': index,
+                              'branchIndex': 3,
+                              'backDestination': '/tools/items',
+                              'backExtra': {'toolbag': toolbag},
+                            },
+                          );
                         },
                       );
                     },
-                  );
-                },
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // 🧭 Screen Instruction: "Choose a Rule"
+          Positioned(
+            top: appBarOffset + 32,
+            left: 32,
+            right: 32,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.85),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Text(
+                  'Choose a Rule',
+                  style: AppTheme.subheadingStyle.copyWith(
+                    color: AppTheme.primaryBlue,
+                  ),
+                ),
               ),
             ),
           ),
@@ -850,22 +1040,23 @@ class ToolItemScreen extends StatelessWidget {
 
 
 File: lib/screens/tools/tool_detail_screen.dart
-// 📄 lib/screens/tools/tool_detail_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
+import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class ToolDetailScreen extends StatelessWidget {
   final List<RenderItem> renderItems;
   final int currentIndex;
   final int branchIndex;
   final String backDestination;
-  final Map<String, dynamic>? backExtra; // ✅ NEW
+  final Map<String, dynamic>? backExtra;
 
   const ToolDetailScreen({
     super.key,
@@ -873,7 +1064,7 @@ class ToolDetailScreen extends StatelessWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra, // ✅ NEW
+    this.backExtra,
   });
 
   @override
@@ -886,46 +1077,77 @@ class ToolDetailScreen extends StatelessWidget {
     }
 
     final RenderItem item = renderItems[currentIndex];
-    final String title = item.title;
 
-    logger.i('🛠️ ToolDetailScreen: $title');
+    if (item.type != RenderItemType.tool) {
+      logger.w('⚠️ Redirecting from non-tool type: ${item.id} (${item.type})');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _navigateTo(context, currentIndex);
+      });
+      return const Scaffold(body: SizedBox());
+    }
+
+    final String toolTitle = item.title;
+    final String toolbagTitle =
+        (backExtra?['toolbag'] as String?)?.toTitleCase() ?? 'Tool';
+
+    logger.i('🛠️ ToolDetailScreen: $toolTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
 
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        CustomAppBarWidget(
-          title: title,
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          onBack: () {
-            final toolId =
-                renderItems[currentIndex].id; // e.g. tool_procedures_1.00
-            final toolbag = toolId.split('_')[1]; // procedures
-            logger.i('🔙 Back tapped → /tools/items with toolbag: $toolbag');
-            context.go(
-              '/tools/items',
-              extra: {'toolbag': toolbag, 'branchIndex': branchIndex},
-            );
-          },
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ContentBlockRenderer(blocks: item.content),
+        Opacity(
+          opacity: 0.2,
+          child: Image.asset(
+            'assets/images/navigation_lights.png',
+            fit: BoxFit.cover,
           ),
         ),
-        NavigationButtons(
-          isPreviousEnabled: currentIndex > 0,
-          isNextEnabled: currentIndex < renderItems.length - 1,
-          onPrevious: () {
-            logger.i('⬅️ Previous tapped on ToolDetailScreen');
-            _navigateTo(context, currentIndex - 1);
-          },
-          onNext: () {
-            logger.i('➡️ Next tapped on ToolDetailScreen');
-            _navigateTo(context, currentIndex + 1);
-          },
+        Column(
+          children: [
+            CustomAppBarWidget(
+              title: toolbagTitle,
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              onBack: () {
+                logger.i('🔙 Back tapped → $backDestination');
+                if (backExtra != null) {
+                  context.go(backDestination, extra: backExtra);
+                } else {
+                  context.go(backDestination);
+                }
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                toolTitle,
+                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ContentBlockRenderer(blocks: item.content),
+              ),
+            ),
+            NavigationButtons(
+              isPreviousEnabled: currentIndex > 0,
+              isNextEnabled: currentIndex < renderItems.length - 1,
+              onPrevious: () {
+                logger.i('⬅️ Previous tapped on ToolDetailScreen');
+                _navigateTo(context, currentIndex - 1);
+              },
+              onNext: () {
+                logger.i('➡️ Next tapped on ToolDetailScreen');
+                _navigateTo(context, currentIndex + 1);
+              },
+            ),
+          ],
         ),
       ],
     );
@@ -937,16 +1159,29 @@ class ToolDetailScreen extends StatelessWidget {
       return;
     }
 
-    context.go(
-      '/tools/detail',
-      extra: {
-        'renderItems': renderItems,
-        'currentIndex': newIndex,
-        'branchIndex': branchIndex,
-        'backDestination': backDestination,
-        'backExtra': backExtra, // ✅ preserve across navigation
-      },
-    );
+    final nextItem = renderItems[newIndex];
+    final extra = {
+      'renderItems': renderItems,
+      'currentIndex': newIndex,
+      'branchIndex': branchIndex,
+      'backDestination': backDestination,
+      'backExtra': backExtra,
+    };
+
+    switch (nextItem.type) {
+      case RenderItemType.tool:
+        context.go('/tools/detail', extra: extra);
+        break;
+      case RenderItemType.lesson:
+        context.go('/lessons/detail', extra: extra);
+        break;
+      case RenderItemType.part:
+        context.go('/parts/detail', extra: extra);
+        break;
+      case RenderItemType.flashcard:
+        context.go('/flashcards/detail', extra: extra);
+        break;
+    }
   }
 }
 
@@ -960,8 +1195,6 @@ class ToolDetailScreen extends StatelessWidget {
 
 
 File: lib/screens/flashcards/flashcard_detail_screen.dart
-// 📄 lib/screens/flashcards/flashcard_detail_screen.dart
-
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -972,6 +1205,7 @@ import 'package:bcc5/widgets/flip_card_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 
 class FlashcardDetailScreen extends StatefulWidget {
   final Map<String, dynamic> extra;
@@ -1013,16 +1247,11 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
         throw Exception('RenderItems is empty');
       }
 
-      if (renderItems[currentIndex].type != RenderItemType.flashcard) {
-        throw Exception(
-          '⛔ FlashcardDetailScreen received non-flashcard type at index $currentIndex',
-        );
-      }
-
       logger.i(
         '🟩 FlashcardDetailScreen Loaded:\n'
         '  ├─ index: $currentIndex\n'
         '  ├─ id: ${renderItems[currentIndex].id}\n'
+        '  ├─ type: ${renderItems[currentIndex].type}\n'
         '  ├─ renderItems.length: ${renderItems.length}\n'
         '  ├─ branchIndex: $branchIndex\n'
         '  ├─ backDestination: $backDestination\n'
@@ -1060,18 +1289,31 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
   void goTo(int newIndex) {
     if (newIndex >= 0 && newIndex < renderItems.length) {
-      logger.i('🔁 Switched index: $currentIndex → $newIndex');
+      final nextItem = renderItems[newIndex];
+      logger.i('🔁 Switching to index: $newIndex (${nextItem.id})');
 
-      context.go(
-        '/flashcards/detail',
-        extra: {
-          'renderItems': renderItems,
-          'currentIndex': newIndex,
-          'branchIndex': branchIndex,
-          'backDestination': backDestination,
-          'backExtra': backExtra,
-        },
-      );
+      final extra = {
+        'renderItems': renderItems,
+        'currentIndex': newIndex,
+        'branchIndex': branchIndex,
+        'backDestination': backDestination,
+        'backExtra': backExtra,
+      };
+
+      switch (nextItem.type) {
+        case RenderItemType.flashcard:
+          context.go('/flashcards/detail', extra: extra);
+          break;
+        case RenderItemType.lesson:
+          context.go('/lessons/detail', extra: extra);
+          break;
+        case RenderItemType.part:
+          context.go('/parts/detail', extra: extra);
+          break;
+        case RenderItemType.tool:
+          context.go('/tools/detail', extra: extra);
+          break;
+      }
     } else {
       logger.w('⛔ Invalid navigation attempt: $newIndex');
     }
@@ -1089,16 +1331,34 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    if (renderItems.isEmpty || renderItems[currentIndex].flashcards.isEmpty) {
+    if (renderItems.isEmpty) {
       return const Scaffold(
         body: Center(child: Text('No flashcard content available')),
       );
     }
 
-    final flashcard = renderItems[currentIndex].flashcards.first;
+    final currentItem = renderItems[currentIndex];
+
+    if (currentItem.type != RenderItemType.flashcard) {
+      logger.w('⚠️ Redirecting from FlashcardDetailScreen to correct screen');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        goTo(currentIndex);
+      });
+      return const Scaffold(body: SizedBox());
+    }
+
+    if (currentItem.flashcards.isEmpty) {
+      return const Scaffold(
+        body: Center(child: Text('No flashcard content available')),
+      );
+    }
+
+    final flashcard = currentItem.flashcards.first;
     final title = flashcard.title;
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
+    final category =
+        (backExtra?['category'] as String?)?.toTitleCase() ?? 'Flashcards';
 
     logger.i(
       '🖼️ Rendering Flashcard:\n'
@@ -1110,11 +1370,17 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     return Stack(
       fit: StackFit.expand,
       children: [
-        Image.asset('assets/images/fallback_image.jpeg', fit: BoxFit.cover),
+        Opacity(
+          opacity: 0.2, // 20% visible
+          child: Image.asset(
+            'assets/images/sailboat_cartoon.jpg',
+            fit: BoxFit.cover,
+          ),
+        ),
         Column(
           children: [
             CustomAppBarWidget(
-              title: title,
+              title: category,
               showBackButton: true,
               showSearchIcon: true,
               showSettingsIcon: true,
@@ -1127,6 +1393,15 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                 }
               },
             ),
+            const SizedBox(height: 16),
+            Text(
+              title,
+              style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                color: AppTheme.primaryBlue,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
             Expanded(
               child: Center(
                 child: Stack(
@@ -1134,13 +1409,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                   children: [
                     Image.asset(
                       'assets/images/index_card.png',
-                      width: 500,
-                      height: 450,
+                      width: 360,
+                      height: 420,
                       fit: BoxFit.fill,
                     ),
                     SizedBox(
-                      width: 500,
-                      height: 450,
+                      width: 360,
+                      height: 420,
                       child: AnimatedBuilder(
                         animation: _flipAnimation,
                         builder: (context, child) {
@@ -1152,20 +1427,26 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                             ),
                             child:
                                 isFront
-                                    ? FlipCardWidget(
-                                      front: sideA,
-                                      back: sideB,
-                                      showFront: true,
-                                      animation: _flipAnimation,
+                                    ? Padding(
+                                      padding: const EdgeInsets.only(top: 32),
+                                      child: FlipCardWidget(
+                                        front: sideA,
+                                        back: sideB,
+                                        showFront: true,
+                                        animation: _flipAnimation,
+                                      ),
                                     )
                                     : Transform(
                                       alignment: Alignment.center,
                                       transform: Matrix4.rotationY(math.pi),
-                                      child: FlipCardWidget(
-                                        front: sideA,
-                                        back: sideB,
-                                        showFront: false,
-                                        animation: _flipAnimation,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 32),
+                                        child: FlipCardWidget(
+                                          front: sideA,
+                                          back: sideB,
+                                          showFront: false,
+                                          animation: _flipAnimation,
+                                        ),
                                       ),
                                     ),
                           );
@@ -1195,6 +1476,24 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       ],
     );
   }
+
+  Map<String, dynamic> get debugState => {
+    'currentIndex': currentIndex,
+    'totalItems': renderItems.length,
+    'currentId': renderItems.isNotEmpty ? renderItems[currentIndex].id : 'n/a',
+    'currentType':
+        renderItems.isNotEmpty
+            ? renderItems[currentIndex].type.toString()
+            : 'n/a',
+    'hasFlashcards':
+        renderItems.isNotEmpty
+            ? renderItems[currentIndex].flashcards.isNotEmpty
+            : false,
+    'flashcardCount':
+        renderItems.isNotEmpty
+            ? renderItems[currentIndex].flashcards.length
+            : 0,
+  };
 }
 
 
@@ -1208,51 +1507,107 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
 File: lib/screens/flashcards/flashcard_category_screen.dart
 import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
-import 'package:bcc5/widgets/item_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class FlashcardCategoryScreen extends StatelessWidget {
   const FlashcardCategoryScreen({super.key});
+
+  static const double appBarOffset = 80.0;
 
   @override
   Widget build(BuildContext context) {
     logger.i('🟦 Entered FlashcardCategoryScreen');
 
     final categories = getAllCategories();
-    logger.i(
-      '📇 Loaded ${categories.length} flashcard categories: $categories',
-    );
+    final sorted = [
+      ...categories.where((c) => c == 'all' || c == 'random'),
+      ...categories.where((c) => c != 'all' && c != 'random'),
+    ];
+    logger.i('📇 Sorted flashcard categories: $sorted');
 
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        const CustomAppBarWidget(
-          title: 'Flashcards',
-          showBackButton: false,
-          showSearchIcon: true,
-          showSettingsIcon: true,
+        const Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomAppBarWidget(
+            title: 'Flashcards',
+            showBackButton: false,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+          ),
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListView.separated(
-              itemCount: categories.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                return ItemButton(
-                  label: category[0].toUpperCase() + category.substring(1),
-                  onTap: () {
-                    logger.i('🟥 Tapped flashcard category: category');
-                    context.push(
-                      '/flashcards/items',
-                      extra: {'category': category},
-                    );
-                  },
-                );
-              },
+        Positioned(
+          top: appBarOffset + 32,
+          left: 32,
+          right: 32,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(217),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                'Choose a Group',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          top: appBarOffset + 100,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Center(
+              child: Wrap(
+                spacing: 12,
+                runSpacing: 12,
+                children:
+                    sorted.map((category) {
+                      final isSpecial =
+                          category == 'all' || category == 'random';
+                      final style =
+                          isSpecial
+                              ? AppTheme.highlightedGroupButtonStyle
+                              : ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.groupButtonUnselected,
+                                padding: AppTheme.groupButtonPadding,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    AppTheme.buttonCornerRadius,
+                                  ),
+                                ),
+                              );
+
+                      return SizedBox(
+                        width: 160,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            logger.i('🟥 Tapped flashcard category: $category');
+                            context.push(
+                              '/flashcards/items',
+                              extra: {'category': category},
+                            );
+                          },
+                          style: style,
+                          child: Text(
+                            category[0].toUpperCase() + category.substring(1),
+                            style: AppTheme.buttonTextStyle,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+              ),
             ),
           ),
         ),
@@ -1276,6 +1631,8 @@ import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 
@@ -1283,6 +1640,8 @@ class FlashcardItemScreen extends StatelessWidget {
   final String category;
 
   const FlashcardItemScreen({super.key, required this.category});
+
+  static const double appBarOffset = 80.0;
 
   @override
   Widget build(BuildContext context) {
@@ -1293,11 +1652,13 @@ class FlashcardItemScreen extends StatelessWidget {
       '📘 Loaded ${flashcards.length} flashcards for category: $category',
     );
 
+    final titleCaseCategory = category.toTitleCase();
+
     if (flashcards.isEmpty) {
       return Column(
         children: [
           CustomAppBarWidget(
-            title: 'Flashcards',
+            title: titleCaseCategory,
             showBackButton: true,
             showSearchIcon: true,
             showSettingsIcon: true,
@@ -1315,19 +1676,51 @@ class FlashcardItemScreen extends StatelessWidget {
       );
     }
 
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        CustomAppBarWidget(
-          title: 'Flashcards',
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          onBack: () {
-            logger.i('🔙 AppBar back from FlashcardItemScreen');
-            context.go('/flashcards');
-          },
+        // 🔵 AppBar
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomAppBarWidget(
+            title: titleCaseCategory,
+            showBackButton: true,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+            onBack: () {
+              logger.i('🔙 AppBar back from FlashcardItemScreen');
+              context.go('/flashcards');
+            },
+          ),
         ),
-        Expanded(
+
+        // 🧭 Instruction Text
+        Positioned(
+          top: appBarOffset + 32,
+          left: 32,
+          right: 32,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(217),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                'Choose a Flashcard',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        // 🧩 Flashcard Grid
+        Positioned.fill(
+          top: appBarOffset + 100,
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: GridView.builder(
@@ -1376,8 +1769,6 @@ class FlashcardItemScreen extends StatelessWidget {
 
 
 File: lib/screens/paths/path_item_screen.dart
-// 📁 path_item_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
@@ -1385,6 +1776,7 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class PathItemScreen extends StatelessWidget {
   final String pathName;
@@ -1433,6 +1825,13 @@ class PathItemScreen extends StatelessWidget {
             );
           },
         ),
+        const SizedBox(height: 16),
+        Text(
+          'Choose a Topic',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 16),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -1447,16 +1846,16 @@ class PathItemScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final pathItem = items[index];
                 final id = pathItem.pathItemId;
-                final label = id;
+                final title = renderItems[index].title;
 
                 logger.i(
-                  '📦 Rendering button for pathItem: $label (index $index)',
+                  '📦 Rendering button for pathItem: $id — "$title" (index $index)',
                 );
 
                 return ItemButton(
-                  label: label,
+                  label: title,
                   onTap: () {
-                    logger.i('🟦 Tapped PathItem: $label (index $index)');
+                    logger.i('🟦 Tapped PathItem: $title (index $index)');
 
                     if (renderItems.isEmpty) {
                       logger.e('❌ renderItems is empty — navigation aborted');
@@ -1517,6 +1916,8 @@ import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/theme/app_theme.dart'; // ✅ Needed for AppTheme.primaryBlue
+import 'package:bcc5/utils/string_extensions.dart'; // needed for title case
 
 class PathChapterScreen extends StatelessWidget {
   final String pathName;
@@ -1533,12 +1934,19 @@ class PathChapterScreen extends StatelessWidget {
 
     return Column(
       children: [
-        const CustomAppBarWidget(
-          title: 'Choose a Chapter',
+        CustomAppBarWidget(
+          title: pathName.toTitleCase(),
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
         ),
+        const SizedBox(height: 16),
+        Text(
+          'Navigate these in any order you want - circle back to any chapter at any time.',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 16),
         Expanded(
           child:
               titles.isEmpty
@@ -1578,77 +1986,6 @@ class PathChapterScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-File: lib/screens/common/content_screen_navigator.dart
-// import 'package:flutter/material.dart';
-// import 'package:bcc5/utils/logger.dart';
-
-// class ContentScreenNavigator extends StatelessWidget {
-//   final List<String> sequenceIds;
-//   final int startIndex;
-//   final int branchIndex;
-//   final String backDestination;
-
-//   const ContentScreenNavigator({
-//     super.key,
-//     required this.sequenceIds,
-//     required this.startIndex,
-//     required this.branchIndex,
-//     required this.backDestination,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     logger.w(
-//       '⚠️ ContentScreenNavigator is deprecated.\n'
-//       '  • sequenceIds: $sequenceIds\n'
-//       '  • startIndex: $startIndex\n'
-//       '  • branchIndex: $branchIndex\n'
-//       '  • backDestination: $backDestination\n'
-//       'Please route to the correct detail screen directly.',
-//     );
-
-//     return Scaffold(
-//       body: Center(
-//         child: Padding(
-//           padding: const EdgeInsets.all(24.0),
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               const Icon(Icons.warning_rounded, size: 80, color: Colors.orange),
-//               const SizedBox(height: 20),
-//               const Text(
-//                 'Deprecated Screen',
-//                 style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-//               ),
-//               const SizedBox(height: 16),
-//               const Text(
-//                 'ContentScreenNavigator is no longer used.\n\n'
-//                 'Please navigate to the proper detail screen for lessons, parts, tools, or flashcards.',
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(fontSize: 16),
-//               ),
-//               const SizedBox(height: 40),
-//               ElevatedButton(
-//                 onPressed: () => Navigator.of(context).pop(),
-//                 child: const Text('Back'),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 
 
@@ -1796,12 +2133,12 @@ class ContentDetailScreen extends StatelessWidget {
       case ContentBlockType.heading:
         return Text(
           block.text ?? '',
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: AppTheme.scaledTextTheme.headlineMedium,
         );
       case ContentBlockType.text:
         return Text(
           block.text ?? '',
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: AppTheme.scaledTextTheme.bodyLarge,
         );
       case ContentBlockType.code:
         return Container(
@@ -1825,7 +2162,12 @@ class ContentDetailScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text('• ', style: TextStyle(fontSize: 16)),
-                        Expanded(child: Text(item)),
+                        Expanded(
+                          child: Text(
+                            item,
+                            style: AppTheme.scaledTextTheme.bodyLarge,
+                          ),
+                        ),
                       ],
                     ),
                   )
@@ -1861,6 +2203,7 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/models/part_model.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class PartItemScreen extends StatelessWidget {
   final String zone;
@@ -1889,6 +2232,12 @@ class PartItemScreen extends StatelessWidget {
             context.go('/parts');
           },
         ),
+        const SizedBox(height: 16),
+        Text(
+          'Choose a Part',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+        ),
+        const SizedBox(height: 12),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -1913,7 +2262,7 @@ class PartItemScreen extends StatelessWidget {
                         'currentIndex': index,
                         'branchIndex': 2,
                         'backDestination': '/parts/items',
-                        'backExtra': {'zone': zone}, // ✅ ADD THIS!
+                        'backExtra': {'zone': zone}, // ✅ Keep back context
                       },
                     );
                   },
@@ -1937,23 +2286,22 @@ class PartItemScreen extends StatelessWidget {
 
 
 File: lib/screens/parts/part_detail_screen.dart
-// 📄 lib/screens/parts/part_detail_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
+import 'package:bcc5/utils/string_extensions.dart'; // for toTitleCase
+import 'package:bcc5/theme/app_theme.dart';
 
 class PartDetailScreen extends StatelessWidget {
   final List<RenderItem> renderItems;
   final int currentIndex;
   final int branchIndex;
   final String backDestination;
-  final Map<String, dynamic>? backExtra; // ✅ NEW
+  final Map<String, dynamic>? backExtra;
 
   const PartDetailScreen({
     super.key,
@@ -1961,7 +2309,7 @@ class PartDetailScreen extends StatelessWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra, // ✅ NEW
+    this.backExtra,
   });
 
   @override
@@ -1974,40 +2322,87 @@ class PartDetailScreen extends StatelessWidget {
     }
 
     final RenderItem item = renderItems[currentIndex];
-    final String title = item.title;
 
-    logger.i('🧩 PartDetailScreen: $title');
+    // 🚨 Redirect if not part
+    if (item.type != RenderItemType.part) {
+      logger.w('⚠️ Redirecting from non-part type: ${item.id} (${item.type})');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _navigateTo(context, currentIndex);
+      });
+      return const Scaffold(body: SizedBox());
+    }
+
+    final String partTitle = item.title;
+    final String zoneTitle =
+        (backExtra?['zone'] as String?)?.toTitleCase() ?? 'Part';
+
+    logger.i('🧩 PartDetailScreen: $partTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
 
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        CustomAppBarWidget(
-          title: title,
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          onBack: () {
-            logger.i('🔙 Back tapped → $backDestination');
-            context.go(backDestination, extra: backExtra); // ✅ correct usage
-          },
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ContentBlockRenderer(blocks: item.content),
+        // 🔲 Background Image
+        Opacity(
+          opacity: 0.2,
+          child: Image.asset(
+            'assets/images/deck_parts_montage.webp',
+            fit: BoxFit.cover,
           ),
         ),
-        NavigationButtons(
-          isPreviousEnabled: currentIndex > 0,
-          isNextEnabled: currentIndex < renderItems.length - 1,
-          onPrevious: () {
-            logger.i('⬅️ Previous tapped on PartDetailScreen');
-            _navigateTo(context, currentIndex - 1);
-          },
-          onNext: () {
-            logger.i('➡️ Next tapped on PartDetailScreen');
-            _navigateTo(context, currentIndex + 1);
-          },
+
+        // 🧱 Foreground content
+        Column(
+          children: [
+            CustomAppBarWidget(
+              title: zoneTitle,
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              onBack: () {
+                logger.i('🔙 Back tapped → $backDestination');
+                context.go(backDestination, extra: backExtra);
+              },
+            ),
+
+            // 📌 Part Title (Under AppBar)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                partTitle,
+                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            // 📜 Content (scrollable)
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ContentBlockRenderer(blocks: item.content),
+              ),
+            ),
+          ],
+        ),
+        // ⬅️➡️ Navigation Buttons (pinned to bottom)
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: NavigationButtons(
+            isPreviousEnabled: currentIndex > 0,
+            isNextEnabled: currentIndex < renderItems.length - 1,
+            onPrevious: () {
+              logger.i('⬅️ Previous tapped on PartDetailScreen');
+              _navigateTo(context, currentIndex - 1);
+            },
+            onNext: () {
+              logger.i('➡️ Next tapped on PartDetailScreen');
+              _navigateTo(context, currentIndex + 1);
+            },
+          ),
         ),
       ],
     );
@@ -2019,16 +2414,29 @@ class PartDetailScreen extends StatelessWidget {
       return;
     }
 
-    context.go(
-      '/parts/detail',
-      extra: {
-        'renderItems': renderItems,
-        'currentIndex': newIndex,
-        'branchIndex': branchIndex,
-        'backDestination': backDestination,
-        'backExtra': backExtra, // ✅ preserve across navigation
-      },
-    );
+    final nextItem = renderItems[newIndex];
+    final extra = {
+      'renderItems': renderItems,
+      'currentIndex': newIndex,
+      'branchIndex': branchIndex,
+      'backDestination': backDestination,
+      'backExtra': backExtra,
+    };
+
+    switch (nextItem.type) {
+      case RenderItemType.part:
+        context.go('/parts/detail', extra: extra);
+        break;
+      case RenderItemType.lesson:
+        context.go('/lessons/detail', extra: extra);
+        break;
+      case RenderItemType.tool:
+        context.go('/tools/detail', extra: extra);
+        break;
+      case RenderItemType.flashcard:
+        context.go('/flashcards/detail', extra: extra);
+        break;
+    }
   }
 }
 
@@ -2045,57 +2453,154 @@ File: lib/screens/parts/part_zone_screen.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class PartZoneScreen extends StatelessWidget {
   const PartZoneScreen({super.key});
 
   final List<String> zones = const [
-    'Deck',
-    'Hull',
-    'Rigging',
     'Sails',
+    'Rigging',
+    'Deck',
     'Interior',
+    'Hull',
   ];
+
+  final Map<String, Offset> zonePositions = const {
+    'Deck': Offset(0.17, 0.57),
+    'Hull': Offset(0.39, 0.69),
+    'Rigging': Offset(0.6, 0.49),
+    'Sails': Offset(0.32, 0.49),
+    'Interior': Offset(0.7, 0.63),
+  };
+
+  final Map<String, String> zoneDescriptions = const {
+    'Sails': 'Sails -- Wind-catching cloth',
+    'Rigging': 'Rigging -- Cables & spars for the sails',
+    'Deck': 'Deck -- Top surface of the boat',
+    'Interior': 'Interior -- Cabin and below-deck area',
+    'Hull': 'Hull -- Main body of the boat',
+  };
+
+  final double appBarOffset = 80.0;
 
   @override
   Widget build(BuildContext context) {
-    logger.i('🟩 Displaying PartZoneScreen');
+    final screenSize = MediaQuery.of(context).size;
 
-    return Column(
+    logger.i('🟩 Displaying PartZoneScreen with layout polish');
+
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        const CustomAppBarWidget(
-          title: 'Parts',
-          showBackButton: false,
-          showSearchIcon: true,
-          showSettingsIcon: true,
+        // ⛵ Background
+        Opacity(
+          opacity: 0.8,
+          child: Image.asset(
+            'assets/images/boat_overview_tall.png',
+            fit: BoxFit.cover,
+          ),
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListView(
-              children:
-                  zones
-                      .map(
-                        (zone) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: GroupButton(
-                            label: zone,
-                            onTap: () {
-                              logger.i('🟦 Tapped zone: $zone');
-                              context.push(
-                                '/parts/items',
-                                extra: {'zone': zone},
-                              );
-                            },
-                          ),
-                        ),
-                      )
-                      .toList(),
+
+        // 🔵 AppBar
+        const Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: CustomAppBarWidget(
+            title: 'Parts',
+            showBackButton: false,
+            showSearchIcon: true,
+            showSettingsIcon: true,
+          ),
+        ),
+
+        // 🧭 Screen Instruction: "Choose a Zone" with background box
+        Positioned(
+          top: appBarOffset + 32,
+          left: 32,
+          right: 32,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.85),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                'Choose a Zone',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+              ),
             ),
           ),
         ),
+
+        // 🧾 Zone Legend Box
+        Positioned(
+          top: appBarOffset + 120, // spacing under title
+          left: 32,
+          right: 32,
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.85),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.center, // 👈 changed from start to center
+              children:
+                  zones.map((zone) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 2),
+                      child: Text(
+                        zoneDescriptions[zone]!,
+                        textAlign:
+                            TextAlign
+                                .center, // 👈 ensures multiline wraps stay centered
+                        style: AppTheme.textTheme.bodyLarge?.copyWith(
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+            ),
+          ),
+        ),
+
+        // 📍 Positioned Buttons
+        ...zones.map((zone) {
+          final offset = zonePositions[zone]!;
+          final left = offset.dx * screenSize.width;
+          final top = offset.dy * screenSize.height + appBarOffset;
+
+          return Positioned(
+            left: left,
+            top: top,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 8,
+                ),
+                backgroundColor: AppTheme.groupButtonUnselected,
+                foregroundColor: Colors.white,
+                minimumSize: const Size(0, 40),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              onPressed: () {
+                logger.i('🟦 Tapped zone: $zone');
+                context.push('/parts/items', extra: {'zone': zone});
+              },
+              child: Text(zone, style: const TextStyle(fontSize: 15)),
+            ),
+          );
+        }),
       ],
     );
   }
@@ -2119,6 +2624,8 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
+import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class LessonDetailScreen extends StatelessWidget {
   final List<RenderItem> renderItems;
@@ -2133,57 +2640,99 @@ class LessonDetailScreen extends StatelessWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra, // 👈 NEW
+    this.backExtra,
   });
 
   @override
   Widget build(BuildContext context) {
-    final RenderItem item = renderItems[currentIndex];
-    final String title = item.title;
+    if (renderItems.isEmpty) {
+      return const Scaffold(
+        body: Center(child: Text('No lesson content available')),
+      );
+    }
 
-    logger.i('📘 LessonDetailScreen: $title');
+    final RenderItem item = renderItems[currentIndex];
+
+    // 🚨 Redirect if this isn't a lesson
+    if (item.type != RenderItemType.lesson) {
+      logger.w(
+        '⚠️ LessonDetailScreen received a non-lesson RenderItem: ${item.id} (${item.type})',
+      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _navigateTo(context, currentIndex);
+      });
+      return const Scaffold(body: SizedBox());
+    }
+
+    final String moduleTitle =
+        (backExtra?['module'] as String?)?.toTitleCase() ?? 'Lesson';
+    final String lessonTitle = item.title;
+
+    logger.i('📘 LessonDetailScreen: $lessonTitle');
     logger.i('🧩 Content blocks: ${item.content.length}');
     logger.i('🧠 Flashcards: ${item.flashcards.length}');
 
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        CustomAppBarWidget(
-          title: title,
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          onBack: () {
-            logger.i('🔙 Back tapped → $backDestination');
-            if (backExtra != null) {
-              context.go(backDestination, extra: backExtra);
-            } else {
-              context.go(backDestination);
-            }
-          },
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListView.separated(
-              itemCount: item.content.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 16),
-              itemBuilder: (context, index) {
-                return ContentBlockRenderer(blocks: [item.content[index]]);
-              },
-            ),
+        Opacity(
+          opacity: 0.2,
+          child: Image.asset(
+            'assets/images/boat_overview_new.png',
+            fit: BoxFit.cover,
           ),
         ),
-        NavigationButtons(
-          isPreviousEnabled: currentIndex > 0,
-          isNextEnabled: currentIndex < renderItems.length - 1,
-          onPrevious: () {
-            logger.i('⬅️ Previous tapped on LessonDetailScreen');
-            _navigateTo(context, currentIndex - 1);
-          },
-          onNext: () {
-            logger.i('➡️ Next tapped on LessonDetailScreen');
-            _navigateTo(context, currentIndex + 1);
-          },
+        Column(
+          children: [
+            CustomAppBarWidget(
+              title: moduleTitle,
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              onBack: () {
+                logger.i('🔙 Back tapped → $backDestination');
+                if (backExtra != null) {
+                  context.go(backDestination, extra: backExtra);
+                } else {
+                  context.go(backDestination);
+                }
+              },
+            ),
+
+            // 📌 Lesson Title Under AppBar
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(
+                lessonTitle,
+                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+
+            // 📜 Lesson Content
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ContentBlockRenderer(blocks: item.content),
+              ),
+            ),
+
+            // ⬅️➡️ Navigation Buttons
+            NavigationButtons(
+              isPreviousEnabled: currentIndex > 0,
+              isNextEnabled: currentIndex < renderItems.length - 1,
+              onPrevious: () {
+                logger.i('⬅️ Previous tapped on LessonDetailScreen');
+                _navigateTo(context, currentIndex - 1);
+              },
+              onNext: () {
+                logger.i('➡️ Next tapped on LessonDetailScreen');
+                _navigateTo(context, currentIndex + 1);
+              },
+            ),
+          ],
         ),
       ],
     );
@@ -2195,16 +2744,29 @@ class LessonDetailScreen extends StatelessWidget {
       return;
     }
 
-    context.go(
-      '/lessons/detail',
-      extra: {
-        'renderItems': renderItems,
-        'currentIndex': newIndex,
-        'branchIndex': branchIndex,
-        'backDestination': backDestination,
-        'backExtra': backExtra, // ✅ Pass it forward!
-      },
-    );
+    final nextItem = renderItems[newIndex];
+    final extra = {
+      'renderItems': renderItems,
+      'currentIndex': newIndex,
+      'branchIndex': branchIndex,
+      'backDestination': backDestination,
+      'backExtra': backExtra,
+    };
+
+    switch (nextItem.type) {
+      case RenderItemType.lesson:
+        context.go('/lessons/detail', extra: extra);
+        break;
+      case RenderItemType.flashcard:
+        context.go('/flashcards/detail', extra: extra);
+        break;
+      case RenderItemType.part:
+        context.go('/parts/detail', extra: extra);
+        break;
+      case RenderItemType.tool:
+        context.go('/tools/detail', extra: extra);
+        break;
+    }
   }
 }
 
@@ -2218,8 +2780,6 @@ class LessonDetailScreen extends StatelessWidget {
 
 
 File: lib/screens/lessons/lesson_item_screen.dart
-// 📁 lesson_item_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -2227,6 +2787,8 @@ import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase()
 
 class LessonItemScreen extends StatelessWidget {
   final String module;
@@ -2243,7 +2805,7 @@ class LessonItemScreen extends StatelessWidget {
     return Column(
       children: [
         CustomAppBarWidget(
-          title: 'Lessons',
+          title: module.toTitleCase(),
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
@@ -2252,6 +2814,13 @@ class LessonItemScreen extends StatelessWidget {
             context.go('/lessons');
           },
         ),
+        const SizedBox(height: 16),
+        Text(
+          'Choose a Lesson',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 16),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(12),
@@ -2301,14 +2870,15 @@ class LessonItemScreen extends StatelessWidget {
 
 
 File: lib/screens/lessons/lesson_module_screen.dart
-// 📄 lib/screens/lessons/lesson_module_screen.dart
-
-import 'package:bcc5/widgets/group_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase
 
 class LessonModuleScreen extends StatelessWidget {
   const LessonModuleScreen({super.key});
@@ -2320,25 +2890,45 @@ class LessonModuleScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: const CustomAppBarWidget(
-        title: 'Choose a Module',
+        title: 'Lessons',
         showBackButton: false,
         showSearchIcon: true,
         showSettingsIcon: true,
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: moduleNames.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 12),
-        itemBuilder: (context, index) {
-          final moduleName = moduleNames[index];
-          return GroupButton(
-            label: moduleName,
-            onTap: () {
-              logger.i('📘 Tapped Module: $moduleName');
-              context.push('/lessons/items', extra: {'module': moduleName});
-            },
-          );
-        },
+      body: Column(
+        children: [
+          const SizedBox(height: 16),
+          Text(
+            'Choose a Module',
+            style: AppTheme.subheadingStyle.copyWith(
+              color: AppTheme.primaryBlue,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          Expanded(
+            child: ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: moduleNames.length,
+              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final moduleName = moduleNames[index];
+                final label = moduleName.toTitleCase(); // ✅ Title Case
+
+                return GroupButton(
+                  label: label,
+                  onTap: () {
+                    logger.i('📘 Tapped Module: $moduleName');
+                    context.push(
+                      '/lessons/items',
+                      extra: {'module': moduleName},
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -2375,74 +2965,19 @@ File: lib/theme/app_theme.dart
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // 🔵 Primary Colors
-  static const Color primaryBlue = Color(0xFF163FE8); // System-wide blue
-  static const Color primaryRed = Color.fromARGB(
-    255,
-    255,
-    0,
-    0,
-  ); // Accent/alert color
+  static const Color primaryBlue = Color(0xFF163FE8);
+  static const Color primaryRed = Color.fromARGB(255, 255, 0, 0);
   static const Color backgroundColor = Colors.white;
   static const Color darkBackground = Color(0xFF121212);
 
-  // 🧠 Semantic Color Aliases
   static const Color infoColor = primaryBlue;
   static const Color errorColor = primaryRed;
   static const Color successColor = Colors.green;
   static const Color warningColor = Colors.orange;
   static const Color disabledGray = Colors.grey;
 
-  // 🌤️ Light Theme
-  static ThemeData get lightTheme => ThemeData(
-    useMaterial3: true,
-    scaffoldBackgroundColor: backgroundColor,
-    colorScheme: ColorScheme.fromSeed(seedColor: primaryBlue),
-    appBarTheme: const AppBarTheme(
-      backgroundColor: primaryBlue,
-      foregroundColor: Colors.white,
-      centerTitle: true,
-      elevation: 0,
-      titleTextStyle: headingStyle,
-      iconTheme: IconThemeData(color: Colors.white),
-    ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: primaryBlue,
-      selectedItemColor: primaryRed,
-      unselectedItemColor: Colors.white70,
-      selectedIconTheme: IconThemeData(size: 26),
-      unselectedIconTheme: IconThemeData(size: 22),
-      selectedLabelStyle: buttonTextStyle,
-      unselectedLabelStyle: buttonTextStyle,
-      showUnselectedLabels: true,
-    ),
-    textTheme: textTheme,
-  );
+  static const double textScaleMultiplier = 1.5;
 
-  // 🌑 Dark Theme
-  static ThemeData get darkTheme => ThemeData(
-    useMaterial3: true,
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: darkBackground,
-    colorScheme: ColorScheme.dark(primary: primaryBlue, secondary: primaryRed),
-    appBarTheme: const AppBarTheme(
-      backgroundColor: primaryBlue,
-      centerTitle: true,
-      elevation: 0,
-      titleTextStyle: headingStyle,
-      iconTheme: IconThemeData(color: Colors.white),
-    ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: primaryBlue,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white70,
-      selectedLabelStyle: buttonTextStyle,
-      unselectedLabelStyle: buttonTextStyle,
-    ),
-    textTheme: textTheme,
-  );
-
-  // ✍️ Typography
   static const TextStyle headingStyle = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.bold,
@@ -2480,7 +3015,71 @@ class AppTheme {
     bodySmall: captionStyle,
   );
 
-  // 📏 Radius, Padding, Margins
+  static final TextTheme scaledTextTheme = TextTheme(
+    headlineLarge: headingStyle.copyWith(
+      fontSize: headingStyle.fontSize! * textScaleMultiplier,
+    ),
+    headlineMedium: subheadingStyle.copyWith(
+      fontSize: subheadingStyle.fontSize! * textScaleMultiplier,
+    ),
+    bodyLarge: bodyTextStyle.copyWith(
+      fontSize: bodyTextStyle.fontSize! * textScaleMultiplier,
+    ),
+    labelLarge: buttonTextStyle.copyWith(
+      fontSize: buttonTextStyle.fontSize! * textScaleMultiplier,
+    ),
+    bodySmall: captionStyle.copyWith(
+      fontSize: captionStyle.fontSize! * textScaleMultiplier,
+    ),
+  );
+
+  static ThemeData get lightTheme => ThemeData(
+    useMaterial3: true,
+    scaffoldBackgroundColor: backgroundColor,
+    colorScheme: ColorScheme.fromSeed(seedColor: primaryBlue),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: primaryBlue,
+      foregroundColor: Colors.white,
+      centerTitle: true,
+      elevation: 0,
+      titleTextStyle: headingStyle,
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: primaryBlue,
+      selectedItemColor: primaryRed,
+      unselectedItemColor: Colors.white70,
+      selectedIconTheme: IconThemeData(size: 26),
+      unselectedIconTheme: IconThemeData(size: 22),
+      selectedLabelStyle: buttonTextStyle,
+      unselectedLabelStyle: buttonTextStyle,
+      showUnselectedLabels: true,
+    ),
+    textTheme: textTheme,
+  );
+
+  static ThemeData get darkTheme => ThemeData(
+    useMaterial3: true,
+    brightness: Brightness.dark,
+    scaffoldBackgroundColor: darkBackground,
+    colorScheme: ColorScheme.dark(primary: primaryBlue, secondary: primaryRed),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: primaryBlue,
+      centerTitle: true,
+      elevation: 0,
+      titleTextStyle: headingStyle,
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: primaryBlue,
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white70,
+      selectedLabelStyle: buttonTextStyle,
+      unselectedLabelStyle: buttonTextStyle,
+    ),
+    textTheme: textTheme,
+  );
+
   static const double buttonCornerRadius = 12.0;
   static const double cardCornerRadius = 16.0;
   static const double screenPadding = 16.0;
@@ -2497,7 +3096,6 @@ class AppTheme {
 
   static const EdgeInsets cardPadding = EdgeInsets.all(12);
 
-  // ⬇️ Add near the bottom of AppTheme
   static final ButtonStyle navigationButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: primaryRed,
     foregroundColor: Colors.white,
@@ -2507,6 +3105,7 @@ class AppTheme {
       borderRadius: BorderRadius.circular(buttonCornerRadius),
     ),
   );
+
   static final ButtonStyle disabledNavigationButtonStyle =
       ElevatedButton.styleFrom(
         backgroundColor: Colors.grey.shade400,
@@ -2517,8 +3116,20 @@ class AppTheme {
           borderRadius: BorderRadius.circular(buttonCornerRadius),
         ),
       );
-  static ButtonStyle get navigationButton => navigationButtonStyle;
 
+  static final ButtonStyle highlightedGroupButtonStyle =
+      ElevatedButton.styleFrom(
+        backgroundColor: primaryRed,
+        padding: groupButtonPadding,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(buttonCornerRadius),
+        ),
+      );
+
+  static Color get groupButtonSelected => primaryBlue.withAlpha(229);
+  static Color get groupButtonUnselected => primaryBlue.withAlpha(153);
+
+  static ButtonStyle get navigationButton => navigationButtonStyle;
   static ButtonStyle get disabledNavigationButton =>
       disabledNavigationButtonStyle;
 }
@@ -2851,17 +3462,21 @@ class ItemButton extends StatelessWidget {
 File: lib/widgets/content_block_renderer.dart
 import 'package:flutter/material.dart';
 import 'package:bcc5/data/models/content_block.dart';
+import 'package:bcc5/theme/app_theme.dart';
 
 class ContentBlockRenderer extends StatelessWidget {
   final List<ContentBlock> blocks;
 
-  const ContentBlockRenderer({required this.blocks, super.key});
+  const ContentBlockRenderer({super.key, required this.blocks});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: blocks.map((block) => _renderBlock(context, block)).toList(),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 16), // add bottom spacing
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: blocks.map((block) => _renderBlock(context, block)).toList(),
+      ),
     );
   }
 
@@ -2872,7 +3487,7 @@ class ContentBlockRenderer extends StatelessWidget {
           padding: const EdgeInsets.only(top: 12, bottom: 4),
           child: Text(
             block.text ?? '',
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: AppTheme.scaledTextTheme.headlineMedium,
           ),
         );
 
@@ -2881,7 +3496,7 @@ class ContentBlockRenderer extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Text(
             block.text ?? '',
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: AppTheme.scaledTextTheme.bodyLarge,
           ),
         );
 
@@ -2988,7 +3603,7 @@ class CustomAppBarWidget extends StatelessWidget
   final bool showBackButton;
   final bool showSearchIcon;
   final bool showSettingsIcon;
-  final VoidCallback? onBack; // 🟠 Add this
+  final VoidCallback? onBack;
 
   const CustomAppBarWidget({
     super.key,
@@ -2996,12 +3611,15 @@ class CustomAppBarWidget extends StatelessWidget
     this.showBackButton = false,
     this.showSearchIcon = true,
     this.showSettingsIcon = true,
-    this.onBack, // 🟠 Add this
+    this.onBack,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: AppTheme.primaryBlue,
+      centerTitle: true,
+      elevation: 0,
       leading:
           showBackButton
               ? IconButton(
@@ -3010,18 +3628,16 @@ class CustomAppBarWidget extends StatelessWidget
                     onBack ??
                     () {
                       if (Navigator.of(context).canPop()) {
-                        Navigator.of(context).pop(); // 🟠 Safe fallback pop
+                        Navigator.of(context).pop();
                       } else {
-                        // 🟠 Emergency fallback: go to root
                         context.go('/');
                       }
                     },
               )
-              : null,
-      centerTitle: true,
+              : const SizedBox(
+                width: kToolbarHeight, // 🟢 Reserve space to center title
+              ),
       title: Text(title, style: AppTheme.headingStyle),
-      backgroundColor: AppTheme.primaryBlue,
-      elevation: 0,
       actions: [
         if (showSearchIcon)
           IconButton(
@@ -3082,7 +3698,7 @@ class NavigationButtons extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
           child: Container(
             color: Colors.white.withValues(
-              alpha: 0.6,
+              alpha: 0.1,
             ), // subtle background tint
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
             child: Row(
@@ -3149,13 +3765,11 @@ class GroupButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final backgroundColor =
         isSelected
-            ? AppTheme.primaryBlue.withAlpha(229) // 🟠 Selected: more opaque
-            : AppTheme.primaryBlue.withAlpha(
-              153,
-            ); // 🟠 Unselected: more transparent
+            ? AppTheme.groupButtonSelected
+            : AppTheme.groupButtonUnselected;
 
     return FractionallySizedBox(
-      widthFactor: 0.6, // 🟠 Consistent width
+      widthFactor: 0.6,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(

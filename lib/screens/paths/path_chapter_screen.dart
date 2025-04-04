@@ -30,7 +30,7 @@ class PathChapterScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          'Choose a Chapter',
+          'Navigate these in any order you want - circle back to any chapter at any time.',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),

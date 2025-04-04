@@ -50,8 +50,7 @@ lib
 │   └── scaffold_helpers.dart
 ├── screens
 │   ├── common
-│   │   ├── content_detail_screen.dart
-│   │   └── content_screen_navigator.dart
+│   │   └── content_detail_screen.dart
 │   ├── flashcards
 │   │   ├── flashcard_category_screen.dart
 │   │   ├── flashcard_detail_screen.dart
@@ -78,7 +77,8 @@ lib
 ├── utils
 │   ├── id_parser.dart
 │   ├── logger.dart
-│   └── render_item_helpers.dart
+│   ├── render_item_helpers.dart
+│   └── string_extensions.dart
 └── widgets
     ├── content_block_renderer.dart
     ├── custom_app_bar_widget.dart

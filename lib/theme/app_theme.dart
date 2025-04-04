@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // 🔵 Primary Colors
   static const Color primaryBlue = Color(0xFF163FE8);
   static const Color primaryRed = Color.fromARGB(255, 255, 0, 0);
   static const Color backgroundColor = Colors.white;
   static const Color darkBackground = Color(0xFF121212);
 
-  // 🧠 Semantic Aliases
   static const Color infoColor = primaryBlue;
   static const Color errorColor = primaryRed;
   static const Color successColor = Colors.green;
   static const Color warningColor = Colors.orange;
   static const Color disabledGray = Colors.grey;
 
-  // 🔠 Global text scale for accessibility/design tuning
   static const double textScaleMultiplier = 1.5;
 
-  // ✍️ Base Typography (unscaled)
   static const TextStyle headingStyle = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.bold,
@@ -47,7 +43,6 @@ class AppTheme {
     color: Colors.grey,
   );
 
-  // ✨ Default TextTheme
   static const TextTheme textTheme = TextTheme(
     headlineLarge: headingStyle,
     headlineMedium: subheadingStyle,
@@ -74,7 +69,6 @@ class AppTheme {
     ),
   );
 
-  // 🌤️ Light Theme
   static ThemeData get lightTheme => ThemeData(
     useMaterial3: true,
     scaffoldBackgroundColor: backgroundColor,
@@ -100,7 +94,6 @@ class AppTheme {
     textTheme: textTheme,
   );
 
-  // 🌑 Dark Theme
   static ThemeData get darkTheme => ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
@@ -123,7 +116,6 @@ class AppTheme {
     textTheme: textTheme,
   );
 
-  // 📏 Dimensions
   static const double buttonCornerRadius = 12.0;
   static const double cardCornerRadius = 16.0;
   static const double screenPadding = 16.0;
@@ -132,13 +124,14 @@ class AppTheme {
     vertical: 14,
     horizontal: 24,
   );
+
   static const EdgeInsetsGeometry itemButtonPadding = EdgeInsets.symmetric(
     vertical: 10,
     horizontal: 12,
   );
+
   static const EdgeInsets cardPadding = EdgeInsets.all(12);
 
-  // 🔘 Navigation Buttons
   static final ButtonStyle navigationButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: primaryRed,
     foregroundColor: Colors.white,
@@ -160,7 +153,15 @@ class AppTheme {
         ),
       );
 
-  // ✅ New Reusable Button Backgrounds
+  static final ButtonStyle highlightedGroupButtonStyle =
+      ElevatedButton.styleFrom(
+        backgroundColor: primaryRed,
+        padding: groupButtonPadding,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(buttonCornerRadius),
+        ),
+      );
+
   static Color get groupButtonSelected => primaryBlue.withAlpha(229);
   static Color get groupButtonUnselected => primaryBlue.withAlpha(153);
 

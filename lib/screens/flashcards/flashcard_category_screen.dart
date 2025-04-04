@@ -24,7 +24,6 @@ class FlashcardCategoryScreen extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        // 🔵 AppBar
         const Positioned(
           top: 0,
           left: 0,
@@ -36,8 +35,6 @@ class FlashcardCategoryScreen extends StatelessWidget {
             showSettingsIcon: true,
           ),
         ),
-
-        // 🧭 Instruction Text
         Positioned(
           top: appBarOffset + 32,
           left: 32,
@@ -58,8 +55,6 @@ class FlashcardCategoryScreen extends StatelessWidget {
             ),
           ),
         ),
-
-        // 📚 Button Grid
         Positioned.fill(
           top: appBarOffset + 100,
           child: SingleChildScrollView(
@@ -70,38 +65,36 @@ class FlashcardCategoryScreen extends StatelessWidget {
                 runSpacing: 12,
                 children:
                     sorted.map((category) {
-                      final label =
-                          category[0].toUpperCase() + category.substring(1);
+                      final isSpecial =
+                          category == 'all' || category == 'random';
+                      final style =
+                          isSpecial
+                              ? AppTheme.highlightedGroupButtonStyle
+                              : ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.groupButtonUnselected,
+                                padding: AppTheme.groupButtonPadding,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    AppTheme.buttonCornerRadius,
+                                  ),
+                                ),
+                              );
 
                       return SizedBox(
                         width: 160,
-                        child: GestureDetector(
-                          onTap: () {
+                        child: ElevatedButton(
+                          onPressed: () {
                             logger.i('🟥 Tapped flashcard category: $category');
                             context.push(
                               '/flashcards/items',
                               extra: {'category': category},
                             );
                           },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 14,
-                              horizontal: 24,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppTheme.groupButtonUnselected,
-                              borderRadius: BorderRadius.circular(
-                                AppTheme.buttonCornerRadius,
-                              ),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              label,
-                              textAlign: TextAlign.center,
-                              style: AppTheme.buttonTextStyle.copyWith(
-                                color: Colors.white,
-                              ),
-                            ),
+                          style: style,
+                          child: Text(
+                            category[0].toUpperCase() + category.substring(1),
+                            style: AppTheme.buttonTextStyle,
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       );
