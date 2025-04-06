@@ -1,4 +1,4 @@
-// 📄 lib/data/repositories/flashcards/flashcard_repository.dart
+// 📄 lib/data/repositories/flashcards/flashcard_repository_index.dart
 
 import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
@@ -74,3 +74,10 @@ List<Flashcard> _getAllToolFlashcards() =>
         .expand((t) => ToolRepositoryIndex.getToolsForBag(t))
         .expand((tool) => tool.flashcards)
         .toList();
+List<Flashcard> getAllFlashcards() {
+  return [
+    ..._getAllLessonFlashcards(),
+    ..._getAllPartFlashcards(),
+    ..._getAllToolFlashcards(),
+  ];
+}

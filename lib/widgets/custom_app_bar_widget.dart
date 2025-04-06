@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:bcc5/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/widgets/search_modal.dart'; // 🔍 Search Modal
+import 'package:bcc5/widgets/settings_modal.dart'; // ⚙️ Settings Modal
 
 class CustomAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
@@ -9,6 +11,8 @@ class CustomAppBarWidget extends StatelessWidget
   final bool showSearchIcon;
   final bool showSettingsIcon;
   final VoidCallback? onBack;
+  final VoidCallback? onSearchTap;
+  final VoidCallback? onSettingsTap;
 
   const CustomAppBarWidget({
     super.key,
@@ -17,6 +21,8 @@ class CustomAppBarWidget extends StatelessWidget
     this.showSearchIcon = true,
     this.showSettingsIcon = true,
     this.onBack,
+    this.onSearchTap,
+    this.onSettingsTap,
   });
 
   @override
@@ -39,24 +45,29 @@ class CustomAppBarWidget extends StatelessWidget
                       }
                     },
               )
-              : const SizedBox(
-                width: kToolbarHeight, // 🟢 Reserve space to center title
-              ),
+              : const SizedBox(width: kToolbarHeight),
       title: Text(title, style: AppTheme.headingStyle),
       actions: [
         if (showSearchIcon)
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {
-              // TO-DO: Navigate to search screen
-            },
+            onPressed:
+                onSearchTap ??
+                () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => const SearchModal(),
+                  );
+                },
           ),
         if (showSettingsIcon)
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {
-              // TO-DO: Navigate to settings screen
-            },
+            onPressed:
+                onSettingsTap ??
+                () {
+                  showSettingsModal(context);
+                },
           ),
       ],
     );
