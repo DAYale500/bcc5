@@ -127,12 +127,14 @@ class LessonDetailScreen extends StatelessWidget {
     }
 
     final nextItem = renderItems[newIndex];
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
     final extra = {
       'renderItems': renderItems,
       'currentIndex': newIndex,
       'branchIndex': branchIndex,
       'backDestination': backDestination,
       'backExtra': backExtra,
+      'transitionKey': 'lesson_${nextItem.id}_$timestamp',
     };
 
     switch (nextItem.type) {

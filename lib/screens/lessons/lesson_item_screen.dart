@@ -53,6 +53,7 @@ class LessonItemScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final lesson = lessons[index];
+                final timestamp = DateTime.now().millisecondsSinceEpoch;
 
                 return ItemButton(
                   label: lesson.title,
@@ -66,6 +67,7 @@ class LessonItemScreen extends StatelessWidget {
                         'branchIndex': 1,
                         'backDestination': '/lessons/items',
                         'backExtra': {'module': module, 'branchIndex': 1},
+                        'transitionKey': 'lesson_${lesson.id}_$timestamp',
                       },
                     );
                   },

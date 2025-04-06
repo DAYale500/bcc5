@@ -79,7 +79,14 @@ class ToolsScreen extends StatelessWidget {
                     label: toolbag[0].toUpperCase() + toolbag.substring(1),
                     onTap: () {
                       logger.i('🛠️ Selected toolbag: $toolbag');
-                      context.push('/tools/items', extra: {'toolbag': toolbag});
+                      final timestamp = DateTime.now().millisecondsSinceEpoch;
+                      context.push(
+                        '/tools/items',
+                        extra: {
+                          'toolbag': toolbag,
+                          'transitionKey': 'tool_items_${toolbag}_$timestamp',
+                        },
+                      );
                     },
                   ),
                 );

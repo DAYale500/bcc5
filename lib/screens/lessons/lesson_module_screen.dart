@@ -47,9 +47,13 @@ class LessonModuleScreen extends StatelessWidget {
                   label: label,
                   onTap: () {
                     logger.i('📘 Tapped Module: $moduleName');
+                    final timestamp = DateTime.now().millisecondsSinceEpoch;
                     context.push(
                       '/lessons/items',
-                      extra: {'module': moduleName},
+                      extra: {
+                        'module': moduleName,
+                        'transitionKey': 'lesson_items_${index}_$timestamp',
+                      },
                     );
                   },
                 );

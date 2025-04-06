@@ -115,7 +115,8 @@ class FlashcardItemScreen extends StatelessWidget {
                   label: card.title,
                   onTap: () {
                     logger.i('🟧 Tapped flashcard: ${card.title}');
-                    context.push(
+                    final timestamp = DateTime.now().millisecondsSinceEpoch;
+                    context.go(
                       '/flashcards/detail',
                       extra: {
                         'renderItems': renderItems,
@@ -123,6 +124,7 @@ class FlashcardItemScreen extends StatelessWidget {
                         'branchIndex': 4,
                         'backDestination': '/flashcards/items',
                         'backExtra': {'category': category},
+                        'transitionKey': 'flashcard_detail_${index}_$timestamp',
                       },
                     );
                   },

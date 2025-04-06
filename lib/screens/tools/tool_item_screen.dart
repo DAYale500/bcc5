@@ -65,6 +65,8 @@ class ToolItemScreen extends StatelessWidget {
                         ),
                     itemBuilder: (context, index) {
                       final tool = tools[index];
+                      final timestamp = DateTime.now().millisecondsSinceEpoch;
+
                       return ItemButton(
                         label: tool.title,
                         onTap: () {
@@ -77,6 +79,7 @@ class ToolItemScreen extends StatelessWidget {
                               'branchIndex': 3,
                               'backDestination': '/tools/items',
                               'backExtra': {'toolbag': toolbag},
+                              'transitionKey': 'tool_${tool.id}_$timestamp',
                             },
                           );
                         },

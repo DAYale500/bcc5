@@ -58,11 +58,15 @@ class PathChapterScreen extends StatelessWidget {
                         label: title,
                         onTap: () {
                           logger.i('📗 Tapped Chapter: $title (${chapter.id})');
+                          final timestamp =
+                              DateTime.now().millisecondsSinceEpoch;
                           context.push(
                             '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
                             extra: {
                               'pathName': pathName,
                               'chapterId': chapter.id,
+                              'transitionKey':
+                                  'path_items_${chapter.id}_$timestamp',
                             },
                           );
                         },

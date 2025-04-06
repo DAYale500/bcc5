@@ -101,56 +101,30 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     }
 
     final next = renderItems[newIndex];
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    final extra = {
+      'renderItems': renderItems,
+      'currentIndex': newIndex,
+      'branchIndex': branchIndex,
+      'backDestination': backDestination,
+      'backExtra': backExtra,
+      'transitionKey': 'flashcard_${next.id}_$timestamp',
+    };
+
     logger.i('🔁 Switching to index: $newIndex (${next.id})');
 
     switch (next.type) {
       case RenderItemType.flashcard:
-        context.go(
-          '/flashcards/detail',
-          extra: {
-            'renderItems': renderItems,
-            'currentIndex': newIndex,
-            'branchIndex': branchIndex,
-            'backDestination': backDestination,
-            'backExtra': backExtra,
-          },
-        );
+        context.go('/flashcards/detail', extra: extra);
         break;
       case RenderItemType.lesson:
-        context.go(
-          '/lessons/detail',
-          extra: {
-            'renderItems': renderItems,
-            'currentIndex': newIndex,
-            'branchIndex': branchIndex,
-            'backDestination': backDestination,
-            'backExtra': backExtra,
-          },
-        );
+        context.go('/lessons/detail', extra: extra);
         break;
       case RenderItemType.part:
-        context.go(
-          '/parts/detail',
-          extra: {
-            'renderItems': renderItems,
-            'currentIndex': newIndex,
-            'branchIndex': branchIndex,
-            'backDestination': backDestination,
-            'backExtra': backExtra,
-          },
-        );
+        context.go('/parts/detail', extra: extra);
         break;
       case RenderItemType.tool:
-        context.go(
-          '/tools/detail',
-          extra: {
-            'renderItems': renderItems,
-            'currentIndex': newIndex,
-            'branchIndex': branchIndex,
-            'backDestination': backDestination,
-            'backExtra': backExtra,
-          },
-        );
+        context.go('/tools/detail', extra: extra);
         break;
     }
   }

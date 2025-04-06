@@ -1,9 +1,7 @@
-import 'package:bcc5/screens/common/transition_demo_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/utils/logger.dart';
-
 import 'package:bcc5/screens/home/landing_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_module_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
@@ -306,24 +304,6 @@ final appRouter = GoRouter(
               backExtra: extra['backExtra'] as Map<String, dynamic>?,
             ),
           ),
-        );
-      },
-    ),
-
-    // 🧪 Transition Demo
-    GoRoute(
-      path: '/transition-demo',
-      pageBuilder:
-          (context, state) =>
-              buildDemoTransitionPage(const TransitionDemoScreen(), 'none'),
-    ),
-    GoRoute(
-      path: '/transition-demo/:type',
-      pageBuilder: (context, state) {
-        final type = state.pathParameters['type'] ?? 'none';
-        return buildDemoTransitionPage(
-          TransitionTargetScreen(type: type),
-          type,
         );
       },
     ),

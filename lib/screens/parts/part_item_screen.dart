@@ -54,6 +54,8 @@ class PartItemScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final part = filteredParts[index];
+                final timestamp = DateTime.now().millisecondsSinceEpoch;
+
                 return ItemButton(
                   label: part.title,
                   onTap: () {
@@ -65,7 +67,8 @@ class PartItemScreen extends StatelessWidget {
                         'currentIndex': index,
                         'branchIndex': 2,
                         'backDestination': '/parts/items',
-                        'backExtra': {'zone': zone}, // ✅ Keep back context
+                        'backExtra': {'zone': zone},
+                        'transitionKey': 'part_${part.id}_$timestamp',
                       },
                     );
                   },

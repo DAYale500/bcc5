@@ -85,11 +85,18 @@ class FlashcardCategoryScreen extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             logger.i('🟥 Tapped flashcard category: $category');
+                            final timestamp =
+                                DateTime.now().millisecondsSinceEpoch;
                             context.push(
                               '/flashcards/items',
-                              extra: {'category': category},
+                              extra: {
+                                'category': category,
+                                'transitionKey':
+                                    'flashcards_items_${category}_$timestamp',
+                              },
                             );
                           },
+
                           style: style,
                           child: Text(
                             category[0].toUpperCase() + category.substring(1),

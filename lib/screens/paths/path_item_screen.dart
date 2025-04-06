@@ -91,6 +91,7 @@ class PathItemScreen extends StatelessWidget {
                       return;
                     }
 
+                    final timestamp = DateTime.now().millisecondsSinceEpoch;
                     final extra = {
                       'renderItems': renderItems,
                       'currentIndex': index,
@@ -101,6 +102,7 @@ class PathItemScreen extends StatelessWidget {
                         'pathName': pathName,
                         'chapterId': chapterId,
                       },
+                      'transitionKey': 'path_${id}_$timestamp',
                     };
 
                     if (id.startsWith('lesson_')) {

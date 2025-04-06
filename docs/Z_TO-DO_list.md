@@ -64,3 +64,78 @@ move tools to left of flashcards?
 
 pathItem = flashcard, doesn't navigate to flashcardDetailScreen
 
+Option to add darkTheme + themeMode: ThemeMode.system when ready.
+
+Excellent prompt. Let's break this down with precision. We'll conduct a full audit of **`.go()` vs `.push()` usage** across your codebase (based on the latest uploaded file `Z_bcc5_all_others_20250405_195841.txt`), then offer:
+
+1. **A complete file-by-file usage table**  
+2. **Explanations for each case**: Why `.go()` or `.push()` was used, and if it needs to be changed  
+3. **A task checklist**: Clear list of proposed refactor tasks (mergeable when appropriate)
+
+---
+
+## ✅ Audit: `.go()` vs `.push()` Usage
+
+| **File** | **Method** | **Usage Context** | **Should Be** | **Notes** |
+|---------|-------------|------------------|----------------|----------|
+| `landing_screen.dart` | `.go()` | Navigating to `/learning-paths/...` | ✅ `.go()` | ✅ Correct: top-level branch/tab nav |
+| `flashcard_category_screen.dart` | `.push()` | Navigating to `/flashcards/items` | ✅ `.push()` | ✅ Correct: keeps stack inside flashcards |
+| `flashcard_item_screen.dart` | `.push()` | Navigating to `/flashcards/detail` | ⚠️ `.go()` preferred | ❗ Needs `.go()` + `transitionKey` to match detail screen behavior |
+| `flashcard_item_screen.dart` | `.go()` | Returning to `/flashcards` via AppBar | ✅ `.go()` | ✅ Correct: replaces stack when backing to parent screen |
+| `main_scaffold.dart` | `.go()` | BottomNavBar routing | ✅ `.go()` | ✅ Correct: resets stack per branch/tab |
+| `navigation_buttons.dart` | `.go()` | Navigating to next/prev detail screens | ✅ `.go()` | ✅ Correct: detail-level, same-stack swap |
+| `flashcard_detail_screen.dart` | `.go()` inside `onBack()` | Returns to `backDestination` | ✅ `.go()` | ✅ Correct, given MainScaffold wraps screen |
+| `lesson_module_screen.dart`, `part_zone_screen.dart`, `tool_bag_screen.dart` | `.go()` (assumed) | Nav to `/items` screen | ⚠️ Missing `transitionKey` | 🛠 Needs `.go()` audit for `transitionKey` injection |
+
+---
+
+## 💬 Clarifying Guidelines
+
+### When to Use `.go()`
+Use when:
+- You're switching top-level tabs (BNB)
+- You're **replacing** the current screen entirely (not nesting deeper)
+- You want to **reset** the navigation stack
+
+### When to Use `.push()`
+Use when:
+- You're going **deeper** into a navigation hierarchy (like opening an item from a list)
+- You want to **preserve** the current screen in the back stack
+- You’re showing a modal or a drill-down detail (like flashcard detail from a list)
+
+---
+
+## 🔧 Recommended Tasks (Grouped)
+
+### 📂 `flashcard_item_screen.dart`
+- [ ] ✅ Convert `.push('/flashcards/detail')` → `.go('/flashcards/detail')`
+- [ ] ✅ Add `transitionKey` to all `.go()` calls
+
+### 📂 `lesson_module_screen.dart`, `part_zone_screen.dart`, `tool_bag_screen.dart`
+- [ ] 🛠 Audit `.go()` usage for missing `transitionKey`
+- [ ] 🧼 Add `transitionKey` when navigating to `/items` routes
+
+### 📂 `main_scaffold.dart`
+- [ ] ✅ Already uses `.go()` for tab navigation — **no changes needed**
+
+### 📂 `landing_screen.dart`
+- [ ] ✅ All `.go()` calls are appropriate — **no changes needed**
+
+---
+
+## 🧭 Final Task Checklist
+
+| **File** | **Task(s)** |
+|----------|-------------|
+| `flashcard_item_screen.dart` | Convert `.push()` to `.go()` for detail, inject `transitionKey` |
+| `lesson_module_screen.dart` | Ensure `.go()` to `/lessons/items` includes `transitionKey` |
+| `part_zone_screen.dart` | Ensure `.go()` to `/parts/items` includes `transitionKey` |
+| `tool_bag_screen.dart` | Ensure `.go()` to `/tools/items` includes `transitionKey` |
+| `navigation_buttons.dart` | Already OK — `.go()` for forward/back item nav |
+| `main_scaffold.dart` | Already OK — `.go()` for BNB |
+| `landing_screen.dart` | Already OK — `.go()` for learning paths |
+
+---
+
+Ready to begin the refactors?  
+If yes, I recommend we start with `flashcard_item_screen.dart` — it has the most immediate impact and is the only file currently misusing `.push()` where `.go()` is required. Shall I start there?
