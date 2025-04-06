@@ -7,6 +7,7 @@ import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
+import 'package:bcc5/utils/render_item_helpers.dart'; // ✅ needed for buildRenderItems
 
 class FlashcardItemScreen extends StatelessWidget {
   final String category;
@@ -20,6 +21,10 @@ class FlashcardItemScreen extends StatelessWidget {
     logger.i('🟦 Entered FlashcardItemScreen for category: $category');
 
     final List<Flashcard> flashcards = getFlashcardsForCategory(category);
+    final renderItems = buildRenderItems(
+      ids: flashcards.map((fc) => fc.id).toList(),
+    );
+
     logger.i(
       '📘 Loaded ${flashcards.length} flashcards for category: $category',
     );
@@ -113,8 +118,8 @@ class FlashcardItemScreen extends StatelessWidget {
                     context.push(
                       '/flashcards/detail',
                       extra: {
-                        'sequenceIds': flashcards.map((fc) => fc.id).toList(),
-                        'startIndex': index,
+                        'renderItems': renderItems,
+                        'currentIndex': index,
                         'branchIndex': 4,
                         'backDestination': '/flashcards/items',
                         'backExtra': {'category': category},

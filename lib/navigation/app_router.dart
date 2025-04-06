@@ -11,7 +11,7 @@ import 'package:bcc5/screens/lessons/lesson_detail_screen.dart';
 import 'package:bcc5/screens/parts/part_zone_screen.dart';
 import 'package:bcc5/screens/parts/part_item_screen.dart';
 import 'package:bcc5/screens/parts/part_detail_screen.dart';
-import 'package:bcc5/screens/tools/tools_bag_screen.dart';
+import 'package:bcc5/screens/tools/tool_bag_screen.dart';
 import 'package:bcc5/screens/tools/tool_item_screen.dart';
 import 'package:bcc5/screens/tools/tool_detail_screen.dart';
 import 'package:bcc5/screens/flashcards/flashcard_category_screen.dart';
@@ -149,36 +149,18 @@ final appRouter = GoRouter(
         return buildCustomTransition(
           context: context,
           child: MainScaffold(
-            branchIndex: extra['branchIndex'],
+            branchIndex: extra['branchIndex'] ?? 1,
             child: LessonDetailScreen(
               renderItems: extra['renderItems'],
-              currentIndex: extra['currentIndex'],
-              branchIndex: extra['branchIndex'],
-              backDestination: extra['backDestination'] as String? ?? '/',
+              currentIndex: extra['currentIndex'] ?? extra['startIndex'] ?? 0,
+              branchIndex: extra['branchIndex'] ?? 1,
+              backDestination: extra['backDestination'] ?? '/',
               backExtra: extra['backExtra'] as Map<String, dynamic>?,
             ),
           ),
         );
       },
     ),
-
-    // GoRoute(
-    //   path: '/lessons/detail',
-    //   builder: (context, state) {
-    //     final extra = state.extra as Map<String, dynamic>;
-    //     logger.i('📘 Entering LessonDetailScreen with extra: $extra');
-    //     return MainScaffold(
-    //       branchIndex: extra['branchIndex'],
-    //       child: LessonDetailScreen(
-    //         renderItems: extra['renderItems'],
-    //         currentIndex: extra['currentIndex'],
-    //         branchIndex: extra['branchIndex'],
-    //         backDestination: extra['backDestination'] as String? ?? '/',
-    //         backExtra: extra['backExtra'] as Map<String, dynamic>?,
-    //       ),
-    //     );
-    //   },
-    // ),
 
     // 🧩 Parts
     GoRoute(
@@ -217,36 +199,18 @@ final appRouter = GoRouter(
         return buildCustomTransition(
           context: context,
           child: MainScaffold(
-            branchIndex: extra['branchIndex'],
+            branchIndex: extra['branchIndex'] ?? 2,
             child: PartDetailScreen(
               renderItems: extra['renderItems'],
-              currentIndex: extra['currentIndex'],
-              branchIndex: extra['branchIndex'],
-              backDestination: extra['backDestination'],
+              currentIndex: extra['currentIndex'] ?? extra['startIndex'] ?? 0,
+              branchIndex: extra['branchIndex'] ?? 2,
+              backDestination: extra['backDestination'] ?? '/',
               backExtra: extra['backExtra'] as Map<String, dynamic>?,
             ),
           ),
         );
       },
     ),
-
-    // GoRoute(
-    //   path: '/parts/detail',
-    //   builder: (context, state) {
-    //     final extra = state.extra as Map<String, dynamic>;
-    //     logger.i('🧩 Entering PartDetailScreen with extra: $extra');
-    //     return MainScaffold(
-    //       branchIndex: extra['branchIndex'],
-    //       child: PartDetailScreen(
-    //         renderItems: extra['renderItems'],
-    //         currentIndex: extra['currentIndex'],
-    //         branchIndex: extra['branchIndex'],
-    //         backDestination: extra['backDestination'],
-    //         backExtra: extra['backExtra'] as Map<String, dynamic>?,
-    //       ),
-    //     );
-    //   },
-    // ),
 
     // 🛠️ Tools
     GoRoute(
@@ -278,36 +242,18 @@ final appRouter = GoRouter(
         return buildCustomTransition(
           context: context,
           child: MainScaffold(
-            branchIndex: extra['branchIndex'],
+            branchIndex: extra['branchIndex'] ?? 3,
             child: ToolDetailScreen(
               renderItems: extra['renderItems'],
-              currentIndex: extra['currentIndex'],
-              branchIndex: extra['branchIndex'],
-              backDestination: extra['backDestination'],
+              currentIndex: extra['currentIndex'] ?? extra['startIndex'] ?? 0,
+              branchIndex: extra['branchIndex'] ?? 3,
+              backDestination: extra['backDestination'] ?? '/',
               backExtra: extra['backExtra'] as Map<String, dynamic>?,
             ),
           ),
         );
       },
     ),
-
-    // GoRoute(
-    //   path: '/tools/detail',
-    //   builder: (context, state) {
-    //     final extra = state.extra as Map<String, dynamic>;
-    //     logger.i('🛠️ Entering ToolDetailScreen with extra: $extra');
-    //     return MainScaffold(
-    //       branchIndex: extra['branchIndex'],
-    //       child: ToolDetailScreen(
-    //         renderItems: extra['renderItems'],
-    //         currentIndex: extra['currentIndex'],
-    //         branchIndex: extra['branchIndex'],
-    //         backDestination: extra['backDestination'],
-    //         backExtra: extra['backExtra'] as Map<String, dynamic>?,
-    //       ),
-    //     );
-    //   },
-    // ),
 
     // 🃏 Flashcards
     GoRoute(
@@ -347,64 +293,22 @@ final appRouter = GoRouter(
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
 
-        final currentIndex = extra['currentIndex'] ?? extra['startIndex'] ?? 0;
-
         return buildCustomTransition(
           context: context,
           child: MainScaffold(
             branchIndex: extra['branchIndex'] ?? 4,
             child: FlashcardDetailScreen(
-              key: ValueKey(currentIndex),
-              extra: extra,
+              key: ValueKey(extra['currentIndex'] ?? extra['startIndex'] ?? 0),
+              renderItems: extra['renderItems'],
+              currentIndex: extra['currentIndex'] ?? extra['startIndex'] ?? 0,
+              branchIndex: extra['branchIndex'] ?? 4,
+              backDestination: extra['backDestination'] ?? '/',
+              backExtra: extra['backExtra'] as Map<String, dynamic>?,
             ),
           ),
         );
       },
     ),
-
-    // GoRoute(
-    //   path: '/flashcards/detail',
-    //   builder: (context, state) {
-    //     final extra = state.extra as Map<String, dynamic>;
-    //     logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
-
-    //     final currentIndex = extra['currentIndex'] ?? extra['startIndex'] ?? 0;
-
-    //     return MainScaffold(
-    //       branchIndex: extra['branchIndex'] ?? 4,
-    //       child: FlashcardDetailScreen(
-    //         key: ValueKey(currentIndex), // 👈 forces rebuild when index changes
-    //         extra: extra,
-    //       ),
-    //     );
-    //   },
-    // ),
-
-    // GoRoute(
-    //   path: '/flashcards/detail',
-    //   builder: (context, state) {
-    //     final extra = state.extra as Map<String, dynamic>;
-    //     logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
-    //     return MainScaffold(
-    //       branchIndex: extra['branchIndex'] ?? 4,
-    //       child: FlashcardDetailScreen(extra: extra),
-    //     );
-    //   },
-    // ),
-
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
 
     // 🧪 Transition Demo
     GoRoute(

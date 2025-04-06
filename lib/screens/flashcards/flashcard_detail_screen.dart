@@ -1,19 +1,29 @@
 import 'dart:math' as math;
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/models/render_item.dart';
-import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/flip_card_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
-import 'package:bcc5/utils/string_extensions.dart';
 
 class FlashcardDetailScreen extends StatefulWidget {
-  final Map<String, dynamic> extra;
+  final List<RenderItem> renderItems;
+  final int currentIndex;
+  final int branchIndex;
+  final String backDestination;
+  final Map<String, dynamic>? backExtra;
 
-  const FlashcardDetailScreen({super.key, required this.extra});
+  const FlashcardDetailScreen({
+    super.key,
+    required this.renderItems,
+    required this.currentIndex,
+    required this.branchIndex,
+    required this.backDestination,
+    this.backExtra,
+  });
 
   @override
   State<FlashcardDetailScreen> createState() => _FlashcardDetailScreenState();
@@ -26,6 +36,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
   late int branchIndex;
   late String backDestination;
   Map<String, dynamic>? backExtra;
+
   bool showFront = true;
   late AnimationController _controller;
   late Animation<double> _flipAnimation;
@@ -33,44 +44,27 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
   @override
   void initState() {
     super.initState();
-    try {
-      final ids = List<String>.from(widget.extra['sequenceIds'] ?? []);
-      final fromRenderItems = widget.extra['renderItems'] as List<RenderItem>?;
 
-      currentIndex =
-          widget.extra['currentIndex'] ?? widget.extra['startIndex'] ?? 0;
-      branchIndex = widget.extra['branchIndex'] ?? 4;
-      backDestination = widget.extra['backDestination'] ?? '/';
-      backExtra = widget.extra['backExtra'] as Map<String, dynamic>?;
+    renderItems = widget.renderItems;
+    currentIndex = widget.currentIndex;
+    branchIndex = widget.branchIndex;
+    backDestination = widget.backDestination;
+    backExtra = widget.backExtra;
 
-      renderItems =
-          ids.isNotEmpty ? buildRenderItems(ids: ids) : fromRenderItems ?? [];
-
-      if (renderItems.isEmpty) {
-        throw Exception('RenderItems is empty');
-      }
-
+    if (renderItems.isEmpty) {
+      logger.e('❌ FlashcardDetailScreen received empty renderItems');
+    } else {
+      final item = renderItems[currentIndex];
       logger.i(
         '🟩 FlashcardDetailScreen Loaded:\n'
         '  ├─ index: $currentIndex\n'
-        '  ├─ id: ${renderItems[currentIndex].id}\n'
-        '  ├─ type: ${renderItems[currentIndex].type}\n'
+        '  ├─ id: ${item.id}\n'
+        '  ├─ type: ${item.type}\n'
         '  ├─ renderItems.length: ${renderItems.length}\n'
         '  ├─ branchIndex: $branchIndex\n'
         '  ├─ backDestination: $backDestination\n'
         '  └─ backExtra: $backExtra',
       );
-    } catch (e, st) {
-      logger.e(
-        '❌ Error loading FlashcardDetailScreen',
-        error: e,
-        stackTrace: st,
-      );
-      renderItems = [];
-      currentIndex = 0;
-      branchIndex = 4;
-      backDestination = '/';
-      backExtra = null;
     }
 
     _controller = AnimationController(
@@ -90,38 +84,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     super.dispose();
   }
 
-  void goTo(int newIndex) {
-    if (newIndex >= 0 && newIndex < renderItems.length) {
-      final nextItem = renderItems[newIndex];
-      logger.i('🔁 Switching to index: $newIndex (${nextItem.id})');
-
-      final extra = {
-        'renderItems': renderItems,
-        'currentIndex': newIndex,
-        'branchIndex': branchIndex,
-        'backDestination': backDestination,
-        'backExtra': backExtra,
-      };
-
-      switch (nextItem.type) {
-        case RenderItemType.flashcard:
-          context.go('/flashcards/detail', extra: extra);
-          break;
-        case RenderItemType.lesson:
-          context.go('/lessons/detail', extra: extra);
-          break;
-        case RenderItemType.part:
-          context.go('/parts/detail', extra: extra);
-          break;
-        case RenderItemType.tool:
-          context.go('/tools/detail', extra: extra);
-          break;
-      }
-    } else {
-      logger.w('⛔ Invalid navigation attempt: $newIndex');
-    }
-  }
-
   void flipCard() {
     logger.i(showFront ? '🔃 Flipping to back' : '🔃 Flipping to front');
     setState(() {
@@ -130,6 +92,67 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
           ? _controller.reverse()
           : _controller.forward();
     });
+  }
+
+  void goTo(int newIndex) {
+    if (newIndex < 0 || newIndex >= renderItems.length) {
+      logger.w('⛔ Invalid navigation attempt: $newIndex');
+      return;
+    }
+
+    final next = renderItems[newIndex];
+    logger.i('🔁 Switching to index: $newIndex (${next.id})');
+
+    switch (next.type) {
+      case RenderItemType.flashcard:
+        context.go(
+          '/flashcards/detail',
+          extra: {
+            'renderItems': renderItems,
+            'currentIndex': newIndex,
+            'branchIndex': branchIndex,
+            'backDestination': backDestination,
+            'backExtra': backExtra,
+          },
+        );
+        break;
+      case RenderItemType.lesson:
+        context.go(
+          '/lessons/detail',
+          extra: {
+            'renderItems': renderItems,
+            'currentIndex': newIndex,
+            'branchIndex': branchIndex,
+            'backDestination': backDestination,
+            'backExtra': backExtra,
+          },
+        );
+        break;
+      case RenderItemType.part:
+        context.go(
+          '/parts/detail',
+          extra: {
+            'renderItems': renderItems,
+            'currentIndex': newIndex,
+            'branchIndex': branchIndex,
+            'backDestination': backDestination,
+            'backExtra': backExtra,
+          },
+        );
+        break;
+      case RenderItemType.tool:
+        context.go(
+          '/tools/detail',
+          extra: {
+            'renderItems': renderItems,
+            'currentIndex': newIndex,
+            'branchIndex': branchIndex,
+            'backDestination': backDestination,
+            'backExtra': backExtra,
+          },
+        );
+        break;
+    }
   }
 
   @override
@@ -143,7 +166,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final currentItem = renderItems[currentIndex];
 
     if (currentItem.type != RenderItemType.flashcard) {
-      logger.w('⚠️ Redirecting from FlashcardDetailScreen to correct screen');
+      logger.w('⚠️ Redirecting to correct screen for: ${currentItem.type}');
       WidgetsBinding.instance.addPostFrameCallback((_) {
         goTo(currentIndex);
       });
@@ -174,7 +197,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       fit: StackFit.expand,
       children: [
         Opacity(
-          opacity: 0.2, // 20% visible
+          opacity: 0.2,
           child: Image.asset(
             'assets/images/sailboat_cartoon.jpg',
             fit: BoxFit.cover,

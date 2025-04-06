@@ -80,7 +80,8 @@ lib
 │   ├── logger.dart
 │   ├── navigation_transitions.dart.bak
 │   ├── render_item_helpers.dart
-│   └── string_extensions.dart
+│   ├── string_extensions.dart
+│   └── transition_manager.dart
 └── widgets
     ├── content_block_renderer.dart
     ├── custom_app_bar_widget.dart
@@ -90,4 +91,4 @@ lib
     ├── item_button.dart
     └── navigation_buttons.dart
 
-21 directories, 70 files
+21 directories, 71 files

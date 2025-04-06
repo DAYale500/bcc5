@@ -53,6 +53,7 @@ class LessonItemScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final lesson = lessons[index];
+
                 return ItemButton(
                   label: lesson.title,
                   onTap: () {
