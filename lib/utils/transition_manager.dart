@@ -30,3 +30,14 @@ class TransitionManager {
     );
   }
 }
+
+Widget buildScaleFadeTransition(
+  Widget child,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+) {
+  return ScaleTransition(
+    scale: Tween<double>(begin: 0.95, end: 1.0).animate(animation),
+    child: FadeTransition(opacity: animation, child: child),
+  );
+}

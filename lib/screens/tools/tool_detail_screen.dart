@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:animations/animations.dart';
 
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/utils/logger.dart';
@@ -8,8 +9,9 @@ import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 
-class ToolDetailScreen extends StatelessWidget {
+class ToolDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
   final int currentIndex;
   final int branchIndex;
@@ -26,27 +28,43 @@ class ToolDetailScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    if (renderItems.isEmpty ||
-        currentIndex < 0 ||
-        currentIndex >= renderItems.length) {
-      logger.e('❌ Invalid data in ToolDetailScreen: empty or out of bounds');
-      return const Scaffold(body: Center(child: Text('Invalid tool data')));
-    }
+  State<ToolDetailScreen> createState() => _ToolDetailScreenState();
+}
 
-    final RenderItem item = renderItems[currentIndex];
+class _ToolDetailScreenState extends State<ToolDetailScreen> {
+  late int currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.currentIndex;
+  }
+
+  void _navigateTo(int newIndex) {
+    if (newIndex < 0 || newIndex >= widget.renderItems.length) {
+      logger.w('⚠️ Navigation index out of bounds: $newIndex');
+      return;
+    }
+    setState(() {
+      currentIndex = newIndex;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final RenderItem item = widget.renderItems[currentIndex];
 
     if (item.type != RenderItemType.tool) {
       logger.w('⚠️ Redirecting from non-tool type: ${item.id} (${item.type})');
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _navigateTo(context, currentIndex);
+        _navigateTo(currentIndex);
       });
       return const Scaffold(body: SizedBox());
     }
 
     final String toolTitle = item.title;
     final String toolbagTitle =
-        (backExtra?['toolbag'] as String?)?.toTitleCase() ?? 'Tool';
+        (widget.backExtra?['toolbag'] as String?)?.toTitleCase() ?? 'Tool';
 
     logger.i('🛠️ ToolDetailScreen: $toolTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
@@ -69,11 +87,11 @@ class ToolDetailScreen extends StatelessWidget {
               showSearchIcon: true,
               showSettingsIcon: true,
               onBack: () {
-                logger.i('🔙 Back tapped → $backDestination');
-                if (backExtra != null) {
-                  context.go(backDestination, extra: backExtra);
+                logger.i('🔙 Back tapped → ${widget.backDestination}');
+                if (widget.backExtra != null) {
+                  context.go(widget.backDestination, extra: widget.backExtra);
                 } else {
-                  context.go(backDestination);
+                  context.go(widget.backDestination);
                 }
               },
             ),
@@ -90,57 +108,36 @@ class ToolDetailScreen extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ContentBlockRenderer(blocks: item.content),
+                child: PageTransitionSwitcher(
+                  transitionBuilder:
+                      (child, animation, secondaryAnimation) =>
+                          buildScaleFadeTransition(
+                            child,
+                            animation,
+                            secondaryAnimation,
+                          ),
+                  child: ContentBlockRenderer(
+                    key: ValueKey(item.id),
+                    blocks: item.content,
+                  ),
+                ),
               ),
             ),
             NavigationButtons(
               isPreviousEnabled: currentIndex > 0,
-              isNextEnabled: currentIndex < renderItems.length - 1,
+              isNextEnabled: currentIndex < widget.renderItems.length - 1,
               onPrevious: () {
                 logger.i('⬅️ Previous tapped on ToolDetailScreen');
-                _navigateTo(context, currentIndex - 1);
+                _navigateTo(currentIndex - 1);
               },
               onNext: () {
                 logger.i('➡️ Next tapped on ToolDetailScreen');
-                _navigateTo(context, currentIndex + 1);
+                _navigateTo(currentIndex + 1);
               },
             ),
           ],
         ),
       ],
     );
-  }
-
-  void _navigateTo(BuildContext context, int newIndex) {
-    if (newIndex < 0 || newIndex >= renderItems.length) {
-      logger.w('⚠️ Navigation index out of bounds: $newIndex');
-      return;
-    }
-
-    final nextItem = renderItems[newIndex];
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final extra = {
-      'renderItems': renderItems,
-      'currentIndex': newIndex,
-      'branchIndex': branchIndex,
-      'backDestination': backDestination,
-      'backExtra': backExtra,
-      'transitionKey': 'tool_${nextItem.id}_$timestamp',
-    };
-
-    switch (nextItem.type) {
-      case RenderItemType.tool:
-        context.go('/tools/detail', extra: extra);
-        break;
-      case RenderItemType.lesson:
-        context.go('/lessons/detail', extra: extra);
-        break;
-      case RenderItemType.part:
-        context.go('/parts/detail', extra: extra);
-        break;
-      case RenderItemType.flashcard:
-        context.go('/flashcards/detail', extra: extra);
-        break;
-    }
   }
 }

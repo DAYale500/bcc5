@@ -31,8 +31,11 @@ dependencies:
   # Logging
   logger: ^2.5.0
 
+  # animations
   # Flashcard animation
   flip_card: ^0.7.0
+  animations: ^2.0.7
+
 
   flutter_svg: ^2.0.7 # or latest
 

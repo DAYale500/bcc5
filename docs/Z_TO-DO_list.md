@@ -139,3 +139,13 @@ Use when:
 
 Ready to begin the refactors?  
 If yes, I recommend we start with `flashcard_item_screen.dart` — it has the most immediate impact and is the only file currently misusing `.push()` where `.go()` is required. Shall I start there?
+
+change landing page to have a new crew start here button and a knock the rust off picker to distinquish between the two users
+
+
+change the toolBag to:
+calculations
+checklists
+emergency procedues (always on top?)
+references (colregs, lights, sounds)
+

@@ -1,5 +1,8 @@
+// lib/screens/lessons/lesson_detail_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:animations/animations.dart'; // ✅ For PageTransitionSwitcher
 
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/utils/logger.dart';
@@ -8,8 +11,9 @@ import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/transition_manager.dart'; // ✅ For buildScaleFadeTransition
 
-class LessonDetailScreen extends StatelessWidget {
+class LessonDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
   final int currentIndex;
   final int branchIndex;
@@ -26,29 +30,74 @@ class LessonDetailScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    if (renderItems.isEmpty) {
-      return const Scaffold(
-        body: Center(child: Text('No lesson content available')),
-      );
+  State<LessonDetailScreen> createState() => _LessonDetailScreenState();
+}
+
+class _LessonDetailScreenState extends State<LessonDetailScreen> {
+  late int currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.currentIndex;
+  }
+
+  void _navigateTo(int newIndex) {
+    if (newIndex < 0 || newIndex >= widget.renderItems.length) {
+      logger.w('⚠️ Navigation index out of bounds: $newIndex');
+      return;
     }
 
-    final RenderItem item = renderItems[currentIndex];
+    final nextItem = widget.renderItems[newIndex];
+    final extra = {
+      'renderItems': widget.renderItems,
+      'currentIndex': newIndex,
+      'branchIndex': widget.branchIndex,
+      'backDestination': widget.backDestination,
+      'backExtra': widget.backExtra,
+    };
+
+    switch (nextItem.type) {
+      case RenderItemType.lesson:
+        context.go('/lessons/detail', extra: extra);
+        break;
+      case RenderItemType.flashcard:
+        context.go('/flashcards/detail', extra: extra);
+        break;
+      case RenderItemType.part:
+        context.go('/parts/detail', extra: extra);
+        break;
+      case RenderItemType.tool:
+        context.go('/tools/detail', extra: extra);
+        break;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.renderItems.isEmpty ||
+        currentIndex < 0 ||
+        currentIndex >= widget.renderItems.length) {
+      logger.e('❌ Invalid data in LessonDetailScreen');
+      return const Scaffold(body: Center(child: Text('Invalid lesson data')));
+    }
+
+    final item = widget.renderItems[currentIndex];
 
     // 🚨 Redirect if this isn't a lesson
     if (item.type != RenderItemType.lesson) {
       logger.w(
-        '⚠️ LessonDetailScreen received a non-lesson RenderItem: ${item.id} (${item.type})',
+        '⚠️ LessonDetailScreen received non-lesson item: ${item.id} (${item.type})',
       );
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _navigateTo(context, currentIndex);
+        _navigateTo(currentIndex);
       });
       return const Scaffold(body: SizedBox());
     }
 
-    final String moduleTitle =
-        (backExtra?['module'] as String?)?.toTitleCase() ?? 'Lesson';
-    final String lessonTitle = item.title;
+    final moduleTitle =
+        (widget.backExtra?['module'] as String?)?.toTitleCase() ?? 'Lesson';
+    final lessonTitle = item.title;
 
     logger.i('📘 LessonDetailScreen: $lessonTitle');
     logger.i('🧩 Content blocks: ${item.content.length}');
@@ -72,16 +121,15 @@ class LessonDetailScreen extends StatelessWidget {
               showSearchIcon: true,
               showSettingsIcon: true,
               onBack: () {
-                logger.i('🔙 Back tapped → $backDestination');
-                if (backExtra != null) {
-                  context.go(backDestination, extra: backExtra);
+                logger.i('🔙 Back tapped → ${widget.backDestination}');
+                if (widget.backExtra != null) {
+                  context.go(widget.backDestination, extra: widget.backExtra);
                 } else {
-                  context.go(backDestination);
+                  context.go(widget.backDestination);
                 }
               },
             ),
 
-            // 📌 Lesson Title Under AppBar
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
@@ -93,63 +141,35 @@ class LessonDetailScreen extends StatelessWidget {
               ),
             ),
 
-            // 📜 Lesson Content
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ContentBlockRenderer(blocks: item.content),
+                child: PageTransitionSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: buildScaleFadeTransition,
+                  child: ContentBlockRenderer(
+                    key: ValueKey(item.id),
+                    blocks: item.content,
+                  ),
+                ),
               ),
             ),
 
-            // ⬅️➡️ Navigation Buttons
             NavigationButtons(
               isPreviousEnabled: currentIndex > 0,
-              isNextEnabled: currentIndex < renderItems.length - 1,
+              isNextEnabled: currentIndex < widget.renderItems.length - 1,
               onPrevious: () {
                 logger.i('⬅️ Previous tapped on LessonDetailScreen');
-                _navigateTo(context, currentIndex - 1);
+                setState(() => currentIndex--);
               },
               onNext: () {
                 logger.i('➡️ Next tapped on LessonDetailScreen');
-                _navigateTo(context, currentIndex + 1);
+                setState(() => currentIndex++);
               },
             ),
           ],
         ),
       ],
     );
-  }
-
-  void _navigateTo(BuildContext context, int newIndex) {
-    if (newIndex < 0 || newIndex >= renderItems.length) {
-      logger.w('⚠️ Navigation index out of bounds: $newIndex');
-      return;
-    }
-
-    final nextItem = renderItems[newIndex];
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final extra = {
-      'renderItems': renderItems,
-      'currentIndex': newIndex,
-      'branchIndex': branchIndex,
-      'backDestination': backDestination,
-      'backExtra': backExtra,
-      'transitionKey': 'lesson_${nextItem.id}_$timestamp',
-    };
-
-    switch (nextItem.type) {
-      case RenderItemType.lesson:
-        context.go('/lessons/detail', extra: extra);
-        break;
-      case RenderItemType.flashcard:
-        context.go('/flashcards/detail', extra: extra);
-        break;
-      case RenderItemType.part:
-        context.go('/parts/detail', extra: extra);
-        break;
-      case RenderItemType.tool:
-        context.go('/tools/detail', extra: extra);
-        break;
-    }
   }
 }
