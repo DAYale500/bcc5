@@ -46,6 +46,7 @@ lib
 ├── main.dart
 ├── navigation
 │   ├── app_router.dart
+│   ├── detail_route.dart
 │   ├── main_scaffold.dart
 │   └── scaffold_helpers.dart
 ├── screens
@@ -73,7 +74,8 @@ lib
 │       ├── tool_detail_screen.dart
 │       └── tool_item_screen.dart
 ├── theme
-│   └── app_theme.dart
+│   ├── app_theme.dart
+│   └── slide_direction.dart
 ├── utils
 │   ├── id_parser.dart
 │   ├── logger.dart
@@ -91,4 +93,4 @@ lib
     ├── search_modal.dart
     └── settings_modal.dart
 
-21 directories, 71 files
+21 directories, 73 files

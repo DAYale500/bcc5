@@ -7,8 +7,8 @@ import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 
-class ToolsScreen extends StatelessWidget {
-  const ToolsScreen({super.key});
+class ToolBagScreen extends StatelessWidget {
+  const ToolBagScreen({super.key});
 
   static const double appBarOffset = 80.0;
 

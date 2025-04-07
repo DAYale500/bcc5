@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -15,6 +16,8 @@ class FlashcardDetailScreen extends StatefulWidget {
   final int branchIndex;
   final String backDestination;
   final Map<String, dynamic>? backExtra;
+  final DetailRoute? detailRoute;
+  final String? transitionKey;
 
   const FlashcardDetailScreen({
     super.key,
@@ -23,6 +26,8 @@ class FlashcardDetailScreen extends StatefulWidget {
     required this.branchIndex,
     required this.backDestination,
     this.backExtra,
+    this.detailRoute,
+    this.transitionKey,
   });
 
   @override

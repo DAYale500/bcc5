@@ -1,5 +1,6 @@
 // lib/screens/lessons/lesson_detail_screen.dart
 
+import 'package:bcc5/navigation/detail_route.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart'; // ✅ For PageTransitionSwitcher
@@ -19,6 +20,8 @@ class LessonDetailScreen extends StatefulWidget {
   final int branchIndex;
   final String backDestination;
   final Map<String, dynamic>? backExtra;
+  final DetailRoute? detailRoute;
+  final String? transitionKey;
 
   const LessonDetailScreen({
     super.key,
@@ -27,6 +30,8 @@ class LessonDetailScreen extends StatefulWidget {
     required this.branchIndex,
     required this.backDestination,
     this.backExtra,
+    this.detailRoute,
+    this.transitionKey,
   });
 
   @override
