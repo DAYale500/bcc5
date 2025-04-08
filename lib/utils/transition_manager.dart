@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -61,7 +64,8 @@ class TransitionManager {
     required GoRouterState state,
     required ValueKey<String> transitionKey,
     required Widget child,
-    SlideDirection slideFrom = SlideDirection.none, // ✅ Add this line
+    SlideDirection slideFrom = SlideDirection.none,
+    TransitionType transitionType = TransitionType.instant,
   }) {
     final extra = state.extra;
 
@@ -80,21 +84,96 @@ class TransitionManager {
             ? extra['slideFrom'] as SlideDirection
             : slideFrom;
 
+    final effectiveTransitionType =
+        extra is Map<String, dynamic> &&
+                extra['transitionType'] is TransitionType
+            ? extra['transitionType'] as TransitionType
+            : transitionType;
+
     logger.i(
       '[TransitionManager] buildCustomTransition → '
-      'detailRoute: $detailRoute | slideFrom: $effectiveSlideFrom',
+      'detailRoute: $detailRoute | transitionType: $effectiveTransitionType | slideFrom: $effectiveSlideFrom',
     );
 
+    // ✅ Add these additional transitions into your transitionsBuilder
+
     return CustomTransitionPage(
-      key: transitionKey, // ✅ fixed
+      key: transitionKey,
       child: child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        switch (detailRoute) {
-          case DetailRoute.branch:
-          case DetailRoute.search:
+        switch (effectiveTransitionType) {
+          case TransitionType.instant:
             return buildInstantTransition(child);
-          case DetailRoute.path:
+
+          case TransitionType.slide:
             return buildSlideTransition(child, animation, effectiveSlideFrom);
+
+          case TransitionType.fade:
+            return FadeTransition(opacity: animation, child: child);
+
+          case TransitionType.scale:
+            return ScaleTransition(
+              scale: Tween<double>(begin: 0.9, end: 1.0).animate(animation),
+              child: child,
+            );
+
+          case TransitionType.fadeScale:
+            return buildScaleFadeTransition(
+              child,
+              animation,
+              secondaryAnimation,
+            );
+
+          case TransitionType.rotation:
+            return RotationTransition(turns: animation, child: child);
+
+          case TransitionType.slideUp:
+            return buildSlideTransition(child, animation, SlideDirection.up);
+
+          case TransitionType.slideDown:
+            return buildSlideTransition(child, animation, SlideDirection.down);
+
+          case TransitionType.slideLeft:
+            return buildSlideTransition(child, animation, SlideDirection.left);
+
+          case TransitionType.slideRight:
+            return buildSlideTransition(child, animation, SlideDirection.right);
+
+          case TransitionType.zoomIn:
+            return ScaleTransition(
+              scale: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
+              child: child,
+            );
+
+          case TransitionType.zoomOut:
+            return ScaleTransition(
+              scale: Tween<double>(begin: 2.0, end: 1.0).animate(animation),
+              child: child,
+            );
+
+          case TransitionType.blurFade:
+            return FadeTransition(
+              opacity: animation,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                child: child,
+              ),
+            );
+
+          // You can fill in these with actual animations later
+          case TransitionType.morph:
+          case TransitionType.carousel:
+          case TransitionType.sharedAxis:
+          case TransitionType.ripple:
+          case TransitionType.delayFade:
+          case TransitionType.staggered:
+          case TransitionType.cube:
+          case TransitionType.flip:
+          case TransitionType.slide3D:
+            logger.w(
+              '[TransitionManager] Transition type not yet implemented: $effectiveTransitionType',
+            );
+            return child;
         }
       },
     );

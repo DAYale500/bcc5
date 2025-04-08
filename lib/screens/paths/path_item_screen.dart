@@ -1,3 +1,4 @@
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -55,6 +56,11 @@ class PathItemScreen extends StatelessWidget {
             );
             context.go(
               '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}',
+              extra: {
+                'slideFrom': SlideDirection.left,
+                'detailRoute': DetailRoute.path,
+                'transitionType': TransitionType.slide, // ✅ Add this
+              },
             );
           },
         ),
@@ -120,6 +126,7 @@ class PathItemScreen extends StatelessWidget {
                       'transitionKey': 'path_${id}_$timestamp',
                       'detailRoute': DetailRoute.path,
                       'slideFrom': SlideDirection.right,
+                      'transitionType': TransitionType.slide, // ✅ NEW LINE
                     };
 
                     if (id.startsWith('lesson_')) {

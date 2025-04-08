@@ -1,3 +1,4 @@
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -70,6 +71,7 @@ class LessonItemScreen extends StatelessWidget {
                         'backDestination': '/lessons/items',
                         'backExtra': {'module': module, 'branchIndex': 1},
                         'transitionKey': 'lesson_${lesson.id}_$timestamp',
+                        'transitionType': TransitionType.instant, // ✅ Add this
                       },
                     );
                   },

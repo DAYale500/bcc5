@@ -1,5 +1,6 @@
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/group_button.dart';
@@ -69,12 +70,9 @@ class PathChapterScreen extends StatelessWidget {
                               'chapterId': chapter.id,
                               'transitionKey':
                                   'path_items_${chapter.id}_$timestamp',
-                              'slideFrom':
-                                  SlideDirection
-                                      .right, // ✅ added for custom transition
-                              'detailRoute':
-                                  DetailRoute
-                                      .path, // ✅ critical for animation logic
+                              'slideFrom': SlideDirection.right,
+                              'detailRoute': DetailRoute.path,
+                              'transitionType': TransitionType.slide,
                             },
                           );
                         },
