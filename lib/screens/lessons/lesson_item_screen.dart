@@ -6,7 +6,8 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase()
+import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/navigation/detail_route.dart'; // ✅ for DetailRoute
 
 class LessonItemScreen extends StatelessWidget {
   final String module;
@@ -65,6 +66,7 @@ class LessonItemScreen extends StatelessWidget {
                         'renderItems': renderItems,
                         'currentIndex': index,
                         'branchIndex': 1,
+                        'detailRoute': DetailRoute.branch, // ✅ new
                         'backDestination': '/lessons/items',
                         'backExtra': {'module': module, 'branchIndex': 1},
                         'transitionKey': 'lesson_${lesson.id}_$timestamp',

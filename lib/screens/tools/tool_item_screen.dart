@@ -7,6 +7,7 @@ import 'package:bcc5/data/models/tool_model.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/navigation/detail_route.dart'; // ✅ PATCHED
 
 class ToolItemScreen extends StatelessWidget {
   final String toolbag;
@@ -76,6 +77,7 @@ class ToolItemScreen extends StatelessWidget {
                             'backDestination': '/tools/items',
                             'backExtra': {'toolbag': toolbag},
                             'transitionKey': 'tool_${tool.id}_$timestamp',
+                            'detailRoute': DetailRoute.branch, // ✅ PATCHED
                           },
                         );
                       },

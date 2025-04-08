@@ -8,6 +8,7 @@ import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart'; // ✅ needed for buildRenderItems
+import 'package:bcc5/navigation/detail_route.dart'; // ✅ PATCHED
 
 class FlashcardItemScreen extends StatelessWidget {
   final String category;
@@ -116,7 +117,7 @@ class FlashcardItemScreen extends StatelessWidget {
                   onTap: () {
                     logger.i('🟧 Tapped flashcard: ${card.title}');
                     final timestamp = DateTime.now().millisecondsSinceEpoch;
-                    context.go(
+                    context.push(
                       '/flashcards/detail',
                       extra: {
                         'renderItems': renderItems,
@@ -125,6 +126,7 @@ class FlashcardItemScreen extends StatelessWidget {
                         'backDestination': '/flashcards/items',
                         'backExtra': {'category': category},
                         'transitionKey': 'flashcard_detail_${index}_$timestamp',
+                        'detailRoute': DetailRoute.branch, // ✅ PATCHED
                       },
                     );
                   },

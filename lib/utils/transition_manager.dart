@@ -59,13 +59,20 @@ class TransitionManager {
   static CustomTransitionPage buildCustomTransition({
     required BuildContext context,
     required GoRouterState state,
+    required ValueKey<String> transitionKey,
     required Widget child,
   }) {
     final extra = state.extra;
+
     final detailRoute =
         extra is Map<String, dynamic> && extra['detailRoute'] is DetailRoute
             ? extra['detailRoute'] as DetailRoute
-            : DetailRoute.branch;
+            : (() {
+              logger.w(
+                '[TransitionManager] ❗ Missing detailRoute in .extra — defaulting to DetailRoute.branch',
+              );
+              return DetailRoute.branch;
+            })();
 
     final slideFrom =
         extra is Map<String, dynamic> && extra['slideFrom'] is SlideDirection
@@ -78,7 +85,7 @@ class TransitionManager {
     );
 
     return CustomTransitionPage(
-      key: state.pageKey,
+      key: transitionKey, // ✅ fixed
       child: child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         switch (detailRoute) {

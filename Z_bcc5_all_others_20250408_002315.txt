@@ -12,6 +12,8 @@ File: lib/navigation/main_scaffold.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../utils/logger.dart';
+import '../navigation/detail_route.dart';
+import '../theme/slide_direction.dart';
 
 class MainScaffold extends StatelessWidget {
   final int branchIndex;
@@ -29,8 +31,18 @@ class MainScaffold extends StatelessWidget {
     if (index == branchIndex) return;
 
     logger.i('🧭 BNB tapped tab $index — switching via GoRouter');
+
     final routes = ['/', '/lessons', '/parts', '/tools', '/flashcards'];
-    context.go(routes[index]);
+    final destination = routes[index];
+
+    context.go(
+      destination,
+      extra: {
+        'transitionKey': UniqueKey(),
+        'detailRoute': DetailRoute.branch,
+        'slideFrom': SlideDirection.none,
+      },
+    );
   }
 
   @override
@@ -78,6 +90,8 @@ class MainScaffold extends StatelessWidget {
 
 
 File: lib/navigation/app_router.dart
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
@@ -97,52 +111,7 @@ import 'package:bcc5/screens/flashcards/flashcard_item_screen.dart';
 import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
 import 'package:bcc5/screens/paths/path_chapter_screen.dart';
 import 'package:bcc5/screens/paths/path_item_screen.dart';
-import 'package:bcc5/theme/slide_direction.dart';
-
-CustomTransitionPage buildCustomTransition({
-  required BuildContext context,
-  required GoRouterState state,
-  required Widget child,
-}) {
-  final slideFrom =
-      state.extra is Map && (state.extra as Map).containsKey('slideFrom')
-          ? (state.extra as Map)['slideFrom'] as SlideDirection
-          : SlideDirection.right;
-
-  Offset begin;
-  switch (slideFrom) {
-    case SlideDirection.left:
-      begin = const Offset(-1.0, 0.0);
-      break;
-    case SlideDirection.up:
-      begin = const Offset(0.0, -1.0);
-      break;
-    case SlideDirection.down:
-      begin = const Offset(0.0, 1.0);
-      break;
-    case SlideDirection.none:
-      begin = Offset.zero;
-      break;
-    case SlideDirection.right:
-      begin = const Offset(1.0, 0.0);
-  }
-
-  const curve = Curves.easeInOut;
-  final tween = Tween(
-    begin: begin,
-    end: Offset.zero,
-  ).chain(CurveTween(curve: curve));
-
-  return CustomTransitionPage(
-    key: state.pageKey,
-    child: child,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return begin == Offset.zero
-          ? FadeTransition(opacity: animation, child: child)
-          : SlideTransition(position: animation.drive(tween), child: child);
-    },
-  );
-}
+import 'package:bcc5/utils/transition_manager.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -153,7 +122,7 @@ final appRouter = GoRouter(
       name: 'landing',
       pageBuilder: (context, state) {
         logger.i('🏁 Entering LandingScreen');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
@@ -169,7 +138,7 @@ final appRouter = GoRouter(
         final pathName =
             state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
         logger.i('🧭 Navigating to PathChapterScreen for "$pathName"');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(
@@ -189,21 +158,21 @@ final appRouter = GoRouter(
         final chapterId = extras['chapterId'] as String?;
         if (chapterId == null) {
           logger.e('❌ Missing chapterId for path $pathName');
-          return buildCustomTransition(
+          return TransitionManager.buildCustomTransition(
             context: context,
             state: state,
-            child: const Scaffold(
-              body: Center(child: Text('❌ Missing chapter ID')),
-            ),
+            transitionKey: state.pageKey,
+            child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
           );
         }
         logger.i('📘 Navigating to PathItemScreen: $pathName / $chapterId');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
+          transitionKey: state.pageKey,
           child: MainScaffold(
             branchIndex: 0,
-            child: PathItemScreen(pathName: pathName, chapterId: chapterId),
+            child: PathChapterScreen(pathName: pathName),
           ),
         );
       },
@@ -215,12 +184,13 @@ final appRouter = GoRouter(
       name: 'lessons',
       pageBuilder: (context, state) {
         logger.i('📘 Entering LessonModuleScreen');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          child: const MainScaffold(
-            branchIndex: 1,
-            child: LessonModuleScreen(),
+          transitionKey: state.pageKey,
+          child: MainScaffold(
+            branchIndex: 0,
+            child: PathItemScreen(pathName: pathName, chapterId: chapterId),
           ),
         );
       },
@@ -233,16 +203,21 @@ final appRouter = GoRouter(
         final module = extras['module'] as String?;
         if (module == null) {
           logger.e('❌ Missing module parameter for LessonItemScreen');
-          return buildCustomTransition(
+          return TransitionManager.buildCustomTransition(
             context: context,
             state: state,
-            child: const Scaffold(body: Center(child: Text('Missing module!'))),
+            transitionKey: state.pageKey,
+            child: const MainScaffold(
+              branchIndex: 1,
+              child: LessonModuleScreen(),
+            ),
           );
         }
         logger.i('📘 Navigating to LessonItemScreen for module: $module');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
+          transitionKey: state.pageKey,
           child: MainScaffold(
             branchIndex: 1,
             child: LessonItemScreen(module: module),
@@ -253,22 +228,27 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/lessons/detail',
       pageBuilder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        logger.i('📘 Entering LessonDetailScreen with extra: $extra');
-        return buildCustomTransition(
+        final extras = state.extra as Map<String, dynamic>;
+        final sequenceIds = extras['sequenceIds'] as List<String>;
+        final currentIndex = extras['currentIndex'] as int;
+        final branchIndex = extras['branchIndex'] as int;
+        final backDestination = extras['backDestination'] as String;
+        final backExtra = extras['backExtra'] as Map<String, dynamic>?;
+        final detailRoute = extras['detailRoute'] as DetailRoute;
+
+        final renderItems = buildRenderItems(ids: sequenceIds);
+
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          child: MainScaffold(
-            branchIndex: extra['branchIndex'] ?? 1,
-            child: LessonDetailScreen(
-              renderItems: extra['renderItems'],
-              currentIndex: extra['currentIndex'] ?? extra['startIndex'] ?? 0,
-              branchIndex: extra['branchIndex'] ?? 1,
-              backDestination: extra['backDestination'] ?? '/',
-              backExtra: extra['backExtra'] as Map<String, dynamic>?,
-              detailRoute: extra['detailRoute'],
-              transitionKey: extra['transitionKey'],
-            ),
+          transitionKey: state.pageKey,
+          child: LessonDetailScreen(
+            renderItems: renderItems,
+            currentIndex: currentIndex,
+            branchIndex: branchIndex,
+            backDestination: backDestination,
+            backExtra: backExtra,
+            detailRoute: detailRoute,
           ),
         );
       },
@@ -280,9 +260,10 @@ final appRouter = GoRouter(
       name: 'parts',
       pageBuilder: (context, state) {
         logger.i('🧩 Entering PartZoneScreen');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
+          transitionKey: state.pageKey,
           child: const MainScaffold(branchIndex: 2, child: PartZoneScreen()),
         );
       },
@@ -294,9 +275,10 @@ final appRouter = GoRouter(
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final zone = extras['zone'] as String? ?? '';
         logger.i('🧩 Navigating to PartItemScreen for zone: $zone');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
+          transitionKey: state.pageKey,
           child: MainScaffold(
             branchIndex: 2,
             child: PartItemScreen(zone: zone),
@@ -307,22 +289,27 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/parts/detail',
       pageBuilder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        logger.i('🧩 Entering PartDetailScreen with extra: $extra');
-        return buildCustomTransition(
+        final extras = state.extra as Map<String, dynamic>;
+        final sequenceIds = extras['sequenceIds'] as List<String>;
+        final currentIndex = extras['currentIndex'] as int;
+        final branchIndex = extras['branchIndex'] as int;
+        final backDestination = extras['backDestination'] as String;
+        final backExtra = extras['backExtra'] as Map<String, dynamic>?;
+        final detailRoute = extras['detailRoute'] as DetailRoute;
+
+        final renderItems = buildRenderItems(ids: sequenceIds);
+
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          child: MainScaffold(
-            branchIndex: extra['branchIndex'] ?? 2,
-            child: PartDetailScreen(
-              renderItems: extra['renderItems'],
-              currentIndex: extra['currentIndex'] ?? extra['startIndex'] ?? 0,
-              branchIndex: extra['branchIndex'] ?? 2,
-              backDestination: extra['backDestination'] ?? '/',
-              backExtra: extra['backExtra'] as Map<String, dynamic>?,
-              detailRoute: extra['detailRoute'],
-              transitionKey: extra['transitionKey'],
-            ),
+          transitionKey: state.pageKey,
+          child: PartDetailScreen(
+            renderItems: renderItems,
+            currentIndex: currentIndex,
+            branchIndex: branchIndex,
+            backDestination: backDestination,
+            backExtra: backExtra,
+            detailRoute: detailRoute,
           ),
         );
       },
@@ -334,10 +321,11 @@ final appRouter = GoRouter(
       name: 'tools',
       pageBuilder: (context, state) {
         logger.i('🛠️ Entering ToolsScreen');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          child: const MainScaffold(branchIndex: 3, child: ToolBagScreen()),
+          transitionKey: state.pageKey,
+          child: MainScaffold(branchIndex: 3, child: ToolBagScreen()),
         );
       },
     ),
@@ -348,9 +336,10 @@ final appRouter = GoRouter(
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final toolbag = extras['toolbag'] as String? ?? '';
         logger.i('🛠️ Navigating to ToolItemScreen for toolbag: $toolbag');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
+          transitionKey: state.pageKey,
           child: MainScaffold(
             branchIndex: 3,
             child: ToolItemScreen(toolbag: toolbag),
@@ -361,22 +350,27 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/tools/detail',
       pageBuilder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        logger.i('🛠️ Entering ToolDetailScreen with extra: $extra');
-        return buildCustomTransition(
+        final extras = state.extra as Map<String, dynamic>;
+        final sequenceIds = extras['sequenceIds'] as List<String>;
+        final currentIndex = extras['currentIndex'] as int;
+        final branchIndex = extras['branchIndex'] as int;
+        final backDestination = extras['backDestination'] as String;
+        final backExtra = extras['backExtra'] as Map<String, dynamic>?;
+        final detailRoute = extras['detailRoute'] as DetailRoute;
+
+        final renderItems = buildRenderItems(ids: sequenceIds);
+
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          child: MainScaffold(
-            branchIndex: extra['branchIndex'] ?? 3,
-            child: ToolDetailScreen(
-              renderItems: extra['renderItems'],
-              currentIndex: extra['currentIndex'] ?? extra['startIndex'] ?? 0,
-              branchIndex: extra['branchIndex'] ?? 3,
-              backDestination: extra['backDestination'] ?? '/',
-              backExtra: extra['backExtra'] as Map<String, dynamic>?,
-              detailRoute: extra['detailRoute'],
-              transitionKey: extra['transitionKey'],
-            ),
+          transitionKey: state.pageKey,
+          child: ToolDetailScreen(
+            renderItems: renderItems,
+            currentIndex: currentIndex,
+            branchIndex: branchIndex,
+            backDestination: backDestination,
+            backExtra: backExtra,
+            detailRoute: detailRoute,
           ),
         );
       },
@@ -388,9 +382,10 @@ final appRouter = GoRouter(
       name: 'flashcards',
       pageBuilder: (context, state) {
         logger.i('📇 Entering FlashcardCategoryScreen');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
+          transitionKey: state.pageKey, // ✅ added here
           child: const MainScaffold(
             branchIndex: 4,
             child: FlashcardCategoryScreen(),
@@ -407,9 +402,10 @@ final appRouter = GoRouter(
         logger.i(
           '📇 Navigating to FlashcardItemScreen for category: $category',
         );
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
+          transitionKey: state.pageKey, // ✅ added here
           child: MainScaffold(
             branchIndex: 4,
             child: FlashcardItemScreen(category: category),
@@ -422,9 +418,10 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
+          transitionKey: state.pageKey, // ✅ inserted here
           child: MainScaffold(
             branchIndex: extra['branchIndex'] ?? 4,
             child: FlashcardDetailScreen(
@@ -606,8 +603,53 @@ class TransitionManager {
         return '/flashcards/detail';
     }
   }
+
+  /// Route-level transition builder for GoRouter `pageBuilder`
+  static CustomTransitionPage buildCustomTransition({
+    required BuildContext context,
+    required GoRouterState state,
+    required ValueKey<String> transitionKey,
+    required Widget child,
+  }) {
+    final extra = state.extra;
+
+    final detailRoute =
+        extra is Map<String, dynamic> && extra['detailRoute'] is DetailRoute
+            ? extra['detailRoute'] as DetailRoute
+            : (() {
+              logger.w(
+                '[TransitionManager] ❗ Missing detailRoute in .extra — defaulting to DetailRoute.branch',
+              );
+              return DetailRoute.branch;
+            })();
+
+    final slideFrom =
+        extra is Map<String, dynamic> && extra['slideFrom'] is SlideDirection
+            ? extra['slideFrom'] as SlideDirection
+            : SlideDirection.none;
+
+    logger.i(
+      '[TransitionManager] buildCustomTransition → '
+      'detailRoute: $detailRoute | slideFrom: $slideFrom',
+    );
+
+    return CustomTransitionPage(
+      key: transitionKey, // ✅ fixed
+      child: child,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        switch (detailRoute) {
+          case DetailRoute.branch:
+          case DetailRoute.search:
+            return buildInstantTransition(child);
+          case DetailRoute.path:
+            return buildSlideTransition(child, animation, slideFrom);
+        }
+      },
+    );
+  }
 }
 
+/// Used for in-group transitions (Next/Previous)
 Widget buildScaleFadeTransition(
   Widget child,
   Animation<double> animation,
@@ -616,6 +658,44 @@ Widget buildScaleFadeTransition(
   return ScaleTransition(
     scale: Tween<double>(begin: 0.95, end: 1.0).animate(animation),
     child: FadeTransition(opacity: animation, child: child),
+  );
+}
+
+/// Used for instant appearance (default)
+Widget buildInstantTransition(Widget child) {
+  return child;
+}
+
+/// Used for initial entry into detail screen via path/search
+Widget buildSlideTransition(
+  Widget child,
+  Animation<double> animation,
+  SlideDirection direction,
+) {
+  late final Offset beginOffset;
+  switch (direction) {
+    case SlideDirection.right:
+      beginOffset = const Offset(1.0, 0.0);
+      break;
+    case SlideDirection.left:
+      beginOffset = const Offset(-1.0, 0.0);
+      break;
+    case SlideDirection.down:
+      beginOffset = const Offset(0.0, 1.0);
+      break;
+    case SlideDirection.up:
+      beginOffset = const Offset(0.0, -1.0);
+      break;
+    case SlideDirection.none:
+      return child;
+  }
+
+  return SlideTransition(
+    position: Tween<Offset>(
+      begin: beginOffset,
+      end: Offset.zero,
+    ).animate(animation),
+    child: child,
   );
 }
 
@@ -948,8 +1028,8 @@ import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 
-class ToolsScreen extends StatelessWidget {
-  const ToolsScreen({super.key});
+class ToolBagScreen extends StatelessWidget {
+  const ToolBagScreen({super.key});
 
   static const double appBarOffset = 80.0;
 
@@ -1056,10 +1136,10 @@ import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/data/models/tool_model.dart';
-import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/navigation/detail_route.dart'; // ✅ PATCHED
 
 class ToolItemScreen extends StatelessWidget {
   final String toolbag;
@@ -1081,91 +1161,88 @@ class ToolItemScreen extends StatelessWidget {
     final List<ToolItem> tools = ToolRepositoryIndex.getToolsForBag(toolbag);
     final List<String> sequenceIds = tools.map((t) => t.id).toList();
 
-    return MainScaffold(
-      branchIndex: 3,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // 🔵 AppBar
-          Column(
-            children: [
-              CustomAppBarWidget(
-                title:
-                    (toolbag.isNotEmpty)
-                        ? '${toolbag[0].toUpperCase()}${toolbag.substring(1)} Tools'
-                        : 'Tools',
-                showBackButton: true,
-                showSearchIcon: true,
-                showSettingsIcon: true,
-                onBack: () {
-                  logger.i('🔙 AppBar back from ToolItemScreen');
-                  context.go('/tools');
-                },
-              ),
-              const SizedBox(height: 90), // leaves space for "Choose a Rule"
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: GridView.builder(
-                    itemCount: tools.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 4,
-                          mainAxisSpacing: 4,
-                          childAspectRatio: 2.8,
-                        ),
-                    itemBuilder: (context, index) {
-                      final tool = tools[index];
-                      final timestamp = DateTime.now().millisecondsSinceEpoch;
-
-                      return ItemButton(
-                        label: tool.title,
-                        onTap: () {
-                          logger.i('🛠️ Tapped tool: ${tool.id}');
-                          context.push(
-                            '/tools/detail',
-                            extra: {
-                              'renderItems': buildRenderItems(ids: sequenceIds),
-                              'currentIndex': index,
-                              'branchIndex': 3,
-                              'backDestination': '/tools/items',
-                              'backExtra': {'toolbag': toolbag},
-                              'transitionKey': 'tool_${tool.id}_$timestamp',
-                            },
-                          );
-                        },
-                      );
-                    },
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        // 🔵 AppBar
+        Column(
+          children: [
+            CustomAppBarWidget(
+              title:
+                  (toolbag.isNotEmpty)
+                      ? '${toolbag[0].toUpperCase()}${toolbag.substring(1)} Tools'
+                      : 'Tools',
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              onBack: () {
+                logger.i('🔙 AppBar back from ToolItemScreen');
+                context.go('/tools');
+              },
+            ),
+            const SizedBox(height: 90), // leaves space for "Choose a Rule"
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: GridView.builder(
+                  itemCount: tools.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
+                    childAspectRatio: 2.8,
                   ),
+                  itemBuilder: (context, index) {
+                    final tool = tools[index];
+                    final timestamp = DateTime.now().millisecondsSinceEpoch;
+
+                    return ItemButton(
+                      label: tool.title,
+                      onTap: () {
+                        logger.i('🛠️ Tapped tool: ${tool.id}');
+                        context.push(
+                          '/tools/detail',
+                          extra: {
+                            'renderItems': buildRenderItems(ids: sequenceIds),
+                            'currentIndex': index,
+                            'branchIndex': 3,
+                            'backDestination': '/tools/items',
+                            'backExtra': {'toolbag': toolbag},
+                            'transitionKey': 'tool_${tool.id}_$timestamp',
+                            'detailRoute': DetailRoute.branch, // ✅ PATCHED
+                          },
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
+        ),
 
-          // 🧭 Screen Instruction: "Choose a Rule"
-          Positioned(
-            top: appBarOffset + 32,
-            left: 32,
-            right: 32,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.85),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Center(
-                child: Text(
-                  'Choose a Rule',
-                  style: AppTheme.subheadingStyle.copyWith(
-                    color: AppTheme.primaryBlue,
-                  ),
+        // 🧭 Screen Instruction: "Choose a Rule"
+        Positioned(
+          top: appBarOffset + 32,
+          left: 32,
+          right: 32,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(217),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                'Choose a Rule',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
                 ),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -1180,6 +1257,8 @@ class ToolItemScreen extends StatelessWidget {
 
 
 File: lib/screens/tools/tool_detail_screen.dart
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart';
@@ -1199,6 +1278,8 @@ class ToolDetailScreen extends StatefulWidget {
   final int branchIndex;
   final String backDestination;
   final Map<String, dynamic>? backExtra;
+  final DetailRoute detailRoute;
+  final String transitionKey;
 
   const ToolDetailScreen({
     super.key,
@@ -1206,7 +1287,9 @@ class ToolDetailScreen extends StatefulWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra,
+    required this.backExtra,
+    required this.detailRoute,
+    required this.transitionKey,
   });
 
   @override
@@ -1220,6 +1303,24 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
   void initState() {
     super.initState();
     currentIndex = widget.currentIndex;
+
+    final item = widget.renderItems[currentIndex];
+    if (item.type != RenderItemType.tool) {
+      logger.w('⚠️ Redirecting from non-tool type: ${item.id} (${item.type})');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        TransitionManager.goToDetailScreen(
+          context: context,
+          screenType: item.type,
+          renderItems: widget.renderItems,
+          currentIndex: currentIndex,
+          branchIndex: widget.branchIndex,
+          backDestination: widget.backDestination,
+          backExtra: widget.backExtra,
+          detailRoute: widget.detailRoute,
+          direction: SlideDirection.none,
+        );
+      });
+    }
   }
 
   void _navigateTo(int newIndex) {
@@ -1227,99 +1328,114 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
       logger.w('⚠️ Navigation index out of bounds: $newIndex');
       return;
     }
-    setState(() {
-      currentIndex = newIndex;
-    });
+
+    final targetItem = widget.renderItems[newIndex];
+    TransitionManager.goToDetailScreen(
+      context: context,
+      screenType: targetItem.type,
+      renderItems: widget.renderItems,
+      currentIndex: newIndex,
+      branchIndex: widget.branchIndex,
+      backDestination: widget.backDestination,
+      backExtra: widget.backExtra,
+      detailRoute: widget.detailRoute,
+      direction: SlideDirection.none,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final RenderItem item = widget.renderItems[currentIndex];
+    final item = widget.renderItems[currentIndex];
 
     if (item.type != RenderItemType.tool) {
-      logger.w('⚠️ Redirecting from non-tool type: ${item.id} (${item.type})');
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _navigateTo(currentIndex);
-      });
       return const Scaffold(body: SizedBox());
     }
 
-    final String toolTitle = item.title;
-    final String toolbagTitle =
+    final toolTitle = item.title;
+    final toolbagTitle =
         (widget.backExtra?['toolbag'] as String?)?.toTitleCase() ?? 'Tool';
 
     logger.i('🛠️ ToolDetailScreen: $toolTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Opacity(
-          opacity: 0.2,
-          child: Image.asset(
-            'assets/images/navigation_lights.png',
-            fit: BoxFit.cover,
+    return PageTransitionSwitcher(
+      duration: const Duration(milliseconds: 250),
+      transitionBuilder: buildScaleFadeTransition,
+      child: _buildScaffold(item, toolTitle, toolbagTitle),
+    );
+  }
+
+  Widget _buildScaffold(
+    RenderItem item,
+    String toolTitle,
+    String toolbagTitle,
+  ) {
+    return Scaffold(
+      key: ValueKey(widget.transitionKey),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Opacity(
+            opacity: 0.2,
+            child: Image.asset(
+              'assets/images/navigation_lights.png',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        Column(
-          children: [
-            CustomAppBarWidget(
-              title: toolbagTitle,
-              showBackButton: true,
-              showSearchIcon: true,
-              showSettingsIcon: true,
-              onBack: () {
-                logger.i('🔙 Back tapped → ${widget.backDestination}');
-                if (widget.backExtra != null) {
-                  context.go(widget.backDestination, extra: widget.backExtra);
-                } else {
-                  context.go(widget.backDestination);
-                }
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                toolTitle,
-                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
-                  color: AppTheme.primaryBlue,
-                ),
-                textAlign: TextAlign.center,
+          Column(
+            children: [
+              CustomAppBarWidget(
+                title: toolbagTitle,
+                showBackButton: true,
+                showSearchIcon: true,
+                showSettingsIcon: true,
+                onBack: () {
+                  logger.i('🔙 Back tapped → ${widget.backDestination}');
+                  context.go(
+                    widget.backDestination,
+                    extra: {
+                      ...?widget.backExtra,
+                      'transitionKey': UniqueKey().toString(),
+                      'slideFrom': SlideDirection.left,
+                    },
+                  );
+                },
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: PageTransitionSwitcher(
-                  transitionBuilder:
-                      (child, animation, secondaryAnimation) =>
-                          buildScaleFadeTransition(
-                            child,
-                            animation,
-                            secondaryAnimation,
-                          ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  toolTitle,
+                  style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                    color: AppTheme.primaryBlue,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: ContentBlockRenderer(
                     key: ValueKey(item.id),
                     blocks: item.content,
                   ),
                 ),
               ),
-            ),
-            NavigationButtons(
-              isPreviousEnabled: currentIndex > 0,
-              isNextEnabled: currentIndex < widget.renderItems.length - 1,
-              onPrevious: () {
-                logger.i('⬅️ Previous tapped on ToolDetailScreen');
-                _navigateTo(currentIndex - 1);
-              },
-              onNext: () {
-                logger.i('➡️ Next tapped on ToolDetailScreen');
-                _navigateTo(currentIndex + 1);
-              },
-            ),
-          ],
-        ),
-      ],
+              NavigationButtons(
+                isPreviousEnabled: currentIndex > 0,
+                isNextEnabled: currentIndex < widget.renderItems.length - 1,
+                onPrevious: () {
+                  logger.i('⬅️ Previous tapped on ToolDetailScreen');
+                  _navigateTo(currentIndex - 1);
+                },
+                onNext: () {
+                  logger.i('➡️ Next tapped on ToolDetailScreen');
+                  _navigateTo(currentIndex + 1);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -1335,15 +1451,19 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
 
 File: lib/screens/flashcards/flashcard_detail_screen.dart
 import 'dart:math' as math;
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/flip_card_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 
 class FlashcardDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -1351,6 +1471,8 @@ class FlashcardDetailScreen extends StatefulWidget {
   final int branchIndex;
   final String backDestination;
   final Map<String, dynamic>? backExtra;
+  final DetailRoute detailRoute;
+  final String transitionKey;
 
   const FlashcardDetailScreen({
     super.key,
@@ -1358,7 +1480,9 @@ class FlashcardDetailScreen extends StatefulWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra,
+    required this.backExtra,
+    required this.detailRoute,
+    required this.transitionKey,
   });
 
   @override
@@ -1367,40 +1491,49 @@ class FlashcardDetailScreen extends StatefulWidget {
 
 class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     with SingleTickerProviderStateMixin {
-  late List<RenderItem> renderItems;
   late int currentIndex;
-  late int branchIndex;
-  late String backDestination;
-  Map<String, dynamic>? backExtra;
-
-  bool showFront = true;
   late AnimationController _controller;
   late Animation<double> _flipAnimation;
+  bool showFront = true;
 
   @override
   void initState() {
     super.initState();
-
-    renderItems = widget.renderItems;
     currentIndex = widget.currentIndex;
-    branchIndex = widget.branchIndex;
-    backDestination = widget.backDestination;
-    backExtra = widget.backExtra;
 
-    if (renderItems.isEmpty) {
+    if (widget.renderItems.isEmpty) {
       logger.e('❌ FlashcardDetailScreen received empty renderItems');
     } else {
-      final item = renderItems[currentIndex];
+      final item = widget.renderItems[currentIndex];
       logger.i(
         '🟩 FlashcardDetailScreen Loaded:\n'
         '  ├─ index: $currentIndex\n'
         '  ├─ id: ${item.id}\n'
         '  ├─ type: ${item.type}\n'
-        '  ├─ renderItems.length: ${renderItems.length}\n'
-        '  ├─ branchIndex: $branchIndex\n'
-        '  ├─ backDestination: $backDestination\n'
-        '  └─ backExtra: $backExtra',
+        '  ├─ renderItems.length: ${widget.renderItems.length}\n'
+        '  ├─ branchIndex: ${widget.branchIndex}\n'
+        '  ├─ backDestination: ${widget.backDestination}\n'
+        '  └─ backExtra: ${widget.backExtra}',
       );
+
+      if (item.type != RenderItemType.flashcard) {
+        logger.w(
+          '⚠️ Redirecting from non-flashcard type: ${item.id} (${item.type})',
+        );
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          TransitionManager.goToDetailScreen(
+            context: context,
+            screenType: item.type,
+            renderItems: widget.renderItems,
+            currentIndex: currentIndex,
+            branchIndex: widget.branchIndex,
+            backDestination: widget.backDestination,
+            backExtra: widget.backExtra,
+            detailRoute: widget.detailRoute,
+            direction: SlideDirection.none,
+          );
+        });
+      }
     }
 
     _controller = AnimationController(
@@ -1430,71 +1563,48 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     });
   }
 
-  void goTo(int newIndex) {
-    if (newIndex < 0 || newIndex >= renderItems.length) {
+  void _navigateTo(int newIndex) {
+    if (newIndex < 0 || newIndex >= widget.renderItems.length) {
       logger.w('⛔ Invalid navigation attempt: $newIndex');
       return;
     }
 
-    final next = renderItems[newIndex];
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final extra = {
-      'renderItems': renderItems,
-      'currentIndex': newIndex,
-      'branchIndex': branchIndex,
-      'backDestination': backDestination,
-      'backExtra': backExtra,
-      'transitionKey': 'flashcard_${next.id}_$timestamp',
-    };
-
-    logger.i('🔁 Switching to index: $newIndex (${next.id})');
-
-    switch (next.type) {
-      case RenderItemType.flashcard:
-        context.go('/flashcards/detail', extra: extra);
-        break;
-      case RenderItemType.lesson:
-        context.go('/lessons/detail', extra: extra);
-        break;
-      case RenderItemType.part:
-        context.go('/parts/detail', extra: extra);
-        break;
-      case RenderItemType.tool:
-        context.go('/tools/detail', extra: extra);
-        break;
-    }
+    final target = widget.renderItems[newIndex];
+    TransitionManager.goToDetailScreen(
+      context: context,
+      screenType: target.type,
+      renderItems: widget.renderItems,
+      currentIndex: newIndex,
+      branchIndex: widget.branchIndex,
+      backDestination: widget.backDestination,
+      backExtra: widget.backExtra,
+      detailRoute: widget.detailRoute,
+      direction: SlideDirection.none,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (renderItems.isEmpty) {
+    if (widget.renderItems.isEmpty) {
       return const Scaffold(
         body: Center(child: Text('No flashcard content available')),
       );
     }
 
-    final currentItem = renderItems[currentIndex];
-
-    if (currentItem.type != RenderItemType.flashcard) {
-      logger.w('⚠️ Redirecting to correct screen for: ${currentItem.type}');
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        goTo(currentIndex);
-      });
-      return const Scaffold(body: SizedBox());
-    }
-
-    if (currentItem.flashcards.isEmpty) {
+    final item = widget.renderItems[currentIndex];
+    if (item.type != RenderItemType.flashcard || item.flashcards.isEmpty) {
       return const Scaffold(
         body: Center(child: Text('No flashcard content available')),
       );
     }
 
-    final flashcard = currentItem.flashcards.first;
+    final flashcard = item.flashcards.first;
     final title = flashcard.title;
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
     final category =
-        (backExtra?['category'] as String?)?.toTitleCase() ?? 'Flashcards';
+        (widget.backExtra?['category'] as String?)?.toTitleCase() ??
+        'Flashcards';
 
     logger.i(
       '🖼️ Rendering Flashcard:\n'
@@ -1503,133 +1613,123 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       '  └─ sideB: ${sideB.length} blocks',
     );
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Opacity(
-          opacity: 0.2,
-          child: Image.asset(
-            'assets/images/sailboat_cartoon.jpg',
-            fit: BoxFit.cover,
+    return Scaffold(
+      key: ValueKey(widget.transitionKey),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Opacity(
+            opacity: 0.2,
+            child: Image.asset(
+              'assets/images/sailboat_cartoon.jpg',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        Column(
-          children: [
-            CustomAppBarWidget(
-              title: category,
-              showBackButton: true,
-              showSearchIcon: true,
-              showSettingsIcon: true,
-              onBack: () {
-                logger.i('🔙 Returning from FlashcardDetailScreen');
-                if (context.canPop()) {
-                  context.pop();
-                } else {
-                  context.go(backDestination, extra: backExtra);
-                }
-              },
-            ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
-                color: AppTheme.primaryBlue,
+          Column(
+            children: [
+              CustomAppBarWidget(
+                title: category,
+                showBackButton: true,
+                showSearchIcon: true,
+                showSettingsIcon: true,
+                onBack: () {
+                  logger.i('🔙 Back tapped → ${widget.backDestination}');
+                  context.go(
+                    widget.backDestination,
+                    extra: {
+                      ...?widget.backExtra,
+                      'transitionKey': UniqueKey().toString(),
+                      'slideFrom': SlideDirection.left,
+                    },
+                  );
+                },
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: Center(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/index_card.png',
-                      width: 360,
-                      height: 420,
-                      fit: BoxFit.fill,
-                    ),
-                    SizedBox(
-                      width: 360,
-                      height: 420,
-                      child: AnimatedBuilder(
-                        animation: _flipAnimation,
-                        builder: (context, child) {
-                          final isFront = _flipAnimation.value < 0.5;
-                          return Transform(
-                            alignment: Alignment.center,
-                            transform: Matrix4.rotationY(
-                              _flipAnimation.value * math.pi,
-                            ),
-                            child:
-                                isFront
-                                    ? Padding(
-                                      padding: const EdgeInsets.only(top: 32),
-                                      child: FlipCardWidget(
-                                        front: sideA,
-                                        back: sideB,
-                                        showFront: true,
-                                        animation: _flipAnimation,
-                                      ),
-                                    )
-                                    : Transform(
-                                      alignment: Alignment.center,
-                                      transform: Matrix4.rotationY(math.pi),
-                                      child: Padding(
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Expanded(
+                child: Center(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/index_card.png',
+                        width: 360,
+                        height: 420,
+                        fit: BoxFit.fill,
+                      ),
+                      SizedBox(
+                        width: 360,
+                        height: 420,
+                        child: AnimatedBuilder(
+                          animation: _flipAnimation,
+                          builder: (context, child) {
+                            final isFront = _flipAnimation.value < 0.5;
+                            return Transform(
+                              alignment: Alignment.center,
+                              transform: Matrix4.rotationY(
+                                _flipAnimation.value * math.pi,
+                              ),
+                              child:
+                                  isFront
+                                      ? Padding(
                                         padding: const EdgeInsets.only(top: 32),
                                         child: FlipCardWidget(
                                           front: sideA,
                                           back: sideB,
-                                          showFront: false,
+                                          showFront: true,
                                           animation: _flipAnimation,
                                         ),
+                                      )
+                                      : Transform(
+                                        alignment: Alignment.center,
+                                        transform: Matrix4.rotationY(math.pi),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 32,
+                                          ),
+                                          child: FlipCardWidget(
+                                            front: sideA,
+                                            back: sideB,
+                                            showFront: false,
+                                            animation: _flipAnimation,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: ElevatedButton(
-                onPressed: flipCard,
-                style: AppTheme.navigationButton,
-                child: Text(showFront ? 'Flip Over' : 'Flip Back'),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: flipCard,
+                  style: AppTheme.navigationButton,
+                  child: Text(showFront ? 'Flip Over' : 'Flip Back'),
+                ),
               ),
-            ),
-            NavigationButtons(
-              isPreviousEnabled: currentIndex > 0,
-              isNextEnabled: currentIndex < renderItems.length - 1,
-              onPrevious: () => goTo(currentIndex - 1),
-              onNext: () => goTo(currentIndex + 1),
-            ),
-          ],
-        ),
-      ],
+              NavigationButtons(
+                isPreviousEnabled: currentIndex > 0,
+                isNextEnabled: currentIndex < widget.renderItems.length - 1,
+                onPrevious: () => _navigateTo(currentIndex - 1),
+                onNext: () => _navigateTo(currentIndex + 1),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
-
-  Map<String, dynamic> get debugState => {
-    'currentIndex': currentIndex,
-    'totalItems': renderItems.length,
-    'currentId': renderItems.isNotEmpty ? renderItems[currentIndex].id : 'n/a',
-    'currentType':
-        renderItems.isNotEmpty
-            ? renderItems[currentIndex].type.toString()
-            : 'n/a',
-    'hasFlashcards':
-        renderItems.isNotEmpty
-            ? renderItems[currentIndex].flashcards.isNotEmpty
-            : false,
-    'flashcardCount':
-        renderItems.isNotEmpty
-            ? renderItems[currentIndex].flashcards.length
-            : 0,
-  };
 }
 
 
@@ -1779,6 +1879,7 @@ import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart'; // ✅ needed for buildRenderItems
+import 'package:bcc5/navigation/detail_route.dart'; // ✅ PATCHED
 
 class FlashcardItemScreen extends StatelessWidget {
   final String category;
@@ -1887,7 +1988,7 @@ class FlashcardItemScreen extends StatelessWidget {
                   onTap: () {
                     logger.i('🟧 Tapped flashcard: ${card.title}');
                     final timestamp = DateTime.now().millisecondsSinceEpoch;
-                    context.go(
+                    context.push(
                       '/flashcards/detail',
                       extra: {
                         'renderItems': renderItems,
@@ -1896,6 +1997,7 @@ class FlashcardItemScreen extends StatelessWidget {
                         'backDestination': '/flashcards/items',
                         'backExtra': {'category': category},
                         'transitionKey': 'flashcard_detail_${index}_$timestamp',
+                        'detailRoute': DetailRoute.branch, // ✅ PATCHED
                       },
                     );
                   },
@@ -1927,6 +2029,8 @@ import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
 
 class PathItemScreen extends StatelessWidget {
   final String pathName;
@@ -2024,6 +2128,8 @@ class PathItemScreen extends StatelessWidget {
                         'chapterId': chapterId,
                       },
                       'transitionKey': 'path_${id}_$timestamp',
+                      'detailRoute': DetailRoute.path,
+                      'slideFrom': SlideDirection.right,
                     };
 
                     if (id.startsWith('lesson_')) {
@@ -2360,6 +2466,7 @@ import 'package:bcc5/data/models/part_model.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/navigation/detail_route.dart'; // <-- required for DetailRoute
 
 class PartItemScreen extends StatelessWidget {
   final String zone;
@@ -2422,6 +2529,7 @@ class PartItemScreen extends StatelessWidget {
                         'backDestination': '/parts/items',
                         'backExtra': {'zone': zone},
                         'transitionKey': 'part_${part.id}_$timestamp',
+                        'detailRoute': DetailRoute.branch, // <-- ✅ PATCHED
                       },
                     );
                   },
@@ -2445,6 +2553,8 @@ class PartItemScreen extends StatelessWidget {
 
 
 File: lib/screens/parts/part_detail_screen.dart
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart';
@@ -2464,6 +2574,8 @@ class PartDetailScreen extends StatefulWidget {
   final int branchIndex;
   final String backDestination;
   final Map<String, dynamic>? backExtra;
+  final DetailRoute detailRoute;
+  final String transitionKey;
 
   const PartDetailScreen({
     super.key,
@@ -2471,7 +2583,9 @@ class PartDetailScreen extends StatefulWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra,
+    required this.backExtra,
+    required this.detailRoute,
+    required this.transitionKey,
   });
 
   @override
@@ -2485,6 +2599,24 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
   void initState() {
     super.initState();
     currentIndex = widget.currentIndex;
+
+    final item = widget.renderItems[currentIndex];
+    if (item.type != RenderItemType.part) {
+      logger.w('⚠️ Redirecting from non-part type: ${item.id} (${item.type})');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        TransitionManager.goToDetailScreen(
+          context: context,
+          screenType: item.type,
+          renderItems: widget.renderItems,
+          currentIndex: currentIndex,
+          branchIndex: widget.branchIndex,
+          backDestination: widget.backDestination,
+          backExtra: widget.backExtra,
+          detailRoute: widget.detailRoute,
+          direction: SlideDirection.none,
+        );
+      });
+    }
   }
 
   void _navigateTo(int newIndex) {
@@ -2492,95 +2624,110 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
       logger.w('⚠️ Navigation index out of bounds: $newIndex');
       return;
     }
-    setState(() {
-      currentIndex = newIndex;
-    });
+
+    final targetItem = widget.renderItems[newIndex];
+    TransitionManager.goToDetailScreen(
+      context: context,
+      screenType: targetItem.type,
+      renderItems: widget.renderItems,
+      currentIndex: newIndex,
+      branchIndex: widget.branchIndex,
+      backDestination: widget.backDestination,
+      backExtra: widget.backExtra,
+      detailRoute: widget.detailRoute,
+      direction: SlideDirection.none,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final RenderItem item = widget.renderItems[currentIndex];
+    final item = widget.renderItems[currentIndex];
 
     if (item.type != RenderItemType.part) {
-      logger.w('⚠️ Redirecting from non-part type: ${item.id} (${item.type})');
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _navigateTo(currentIndex);
-      });
       return const Scaffold(body: SizedBox());
     }
 
-    final String partTitle = item.title;
-    final String zoneTitle =
+    final partTitle = item.title;
+    final zoneTitle =
         (widget.backExtra?['zone'] as String?)?.toTitleCase() ?? 'Part';
 
     logger.i('🧩 PartDetailScreen: $partTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Opacity(
-          opacity: 0.2,
-          child: Image.asset(
-            'assets/images/deck_parts_montage.webp',
-            fit: BoxFit.cover,
+    return PageTransitionSwitcher(
+      duration: const Duration(milliseconds: 250),
+      transitionBuilder: buildScaleFadeTransition,
+      child: _buildScaffold(item, partTitle, zoneTitle),
+    );
+  }
+
+  Widget _buildScaffold(RenderItem item, String partTitle, String zoneTitle) {
+    return Scaffold(
+      key: ValueKey(widget.transitionKey),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Opacity(
+            opacity: 0.2,
+            child: Image.asset(
+              'assets/images/deck_parts_montage.webp',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        Column(
-          children: [
-            CustomAppBarWidget(
-              title: zoneTitle,
-              showBackButton: true,
-              showSearchIcon: true,
-              showSettingsIcon: true,
-              onBack: () {
-                logger.i('🔙 Back tapped → ${widget.backDestination}');
-                context.go(widget.backDestination, extra: widget.backExtra);
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                partTitle,
-                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
-                  color: AppTheme.primaryBlue,
-                ),
-                textAlign: TextAlign.center,
+          Column(
+            children: [
+              CustomAppBarWidget(
+                title: zoneTitle,
+                showBackButton: true,
+                showSearchIcon: true,
+                showSettingsIcon: true,
+                onBack: () {
+                  logger.i('🔙 Back tapped → ${widget.backDestination}');
+                  context.go(
+                    widget.backDestination,
+                    extra: {
+                      ...?widget.backExtra,
+                      'transitionKey': UniqueKey().toString(),
+                      'slideFrom': SlideDirection.left,
+                    },
+                  );
+                },
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: PageTransitionSwitcher(
-                  transitionBuilder:
-                      (child, animation, secondaryAnimation) =>
-                          buildScaleFadeTransition(
-                            child,
-                            animation,
-                            secondaryAnimation,
-                          ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  partTitle,
+                  style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                    color: AppTheme.primaryBlue,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: ContentBlockRenderer(
                     key: ValueKey(item.id),
                     blocks: item.content,
                   ),
                 ),
               ),
-            ),
-            NavigationButtons(
-              isPreviousEnabled: currentIndex > 0,
-              isNextEnabled: currentIndex < widget.renderItems.length - 1,
-              onPrevious: () {
-                logger.i('⬅️ Previous tapped on PartDetailScreen');
-                _navigateTo(currentIndex - 1);
-              },
-              onNext: () {
-                logger.i('➡️ Next tapped on PartDetailScreen');
-                _navigateTo(currentIndex + 1);
-              },
-            ),
-          ],
-        ),
-      ],
+              NavigationButtons(
+                isPreviousEnabled: currentIndex > 0,
+                isNextEnabled: currentIndex < widget.renderItems.length - 1,
+                onPrevious: () {
+                  logger.i('⬅️ Previous tapped on PartDetailScreen');
+                  _navigateTo(currentIndex - 1);
+                },
+                onNext: () {
+                  logger.i('➡️ Next tapped on PartDetailScreen');
+                  _navigateTo(currentIndex + 1);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -2770,11 +2917,11 @@ class PartZoneScreen extends StatelessWidget {
 
 
 File: lib/screens/lessons/lesson_detail_screen.dart
-// lib/screens/lessons/lesson_detail_screen.dart
-
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:animations/animations.dart'; // ✅ For PageTransitionSwitcher
+import 'package:animations/animations.dart';
 
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/utils/logger.dart';
@@ -2783,7 +2930,7 @@ import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/utils/transition_manager.dart'; // ✅ For buildScaleFadeTransition
+import 'package:bcc5/utils/transition_manager.dart';
 
 class LessonDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -2791,6 +2938,8 @@ class LessonDetailScreen extends StatefulWidget {
   final int branchIndex;
   final String backDestination;
   final Map<String, dynamic>? backExtra;
+  final DetailRoute detailRoute;
+  final String transitionKey;
 
   const LessonDetailScreen({
     super.key,
@@ -2798,7 +2947,9 @@ class LessonDetailScreen extends StatefulWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra,
+    required this.backExtra,
+    required this.detailRoute,
+    required this.transitionKey,
   });
 
   @override
@@ -2812,6 +2963,26 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
   void initState() {
     super.initState();
     currentIndex = widget.currentIndex;
+
+    final item = widget.renderItems[currentIndex];
+    if (item.type != RenderItemType.lesson) {
+      logger.w(
+        '⚠️ Redirecting from non-lesson type: ${item.id} (${item.type})',
+      );
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        TransitionManager.goToDetailScreen(
+          context: context,
+          screenType: item.type,
+          renderItems: widget.renderItems,
+          currentIndex: currentIndex,
+          branchIndex: widget.branchIndex,
+          backDestination: widget.backDestination,
+          backExtra: widget.backExtra,
+          detailRoute: widget.detailRoute,
+          direction: SlideDirection.none,
+        );
+      });
+    }
   }
 
   void _navigateTo(int newIndex) {
@@ -2821,49 +2992,24 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     }
 
     final nextItem = widget.renderItems[newIndex];
-    final extra = {
-      'renderItems': widget.renderItems,
-      'currentIndex': newIndex,
-      'branchIndex': widget.branchIndex,
-      'backDestination': widget.backDestination,
-      'backExtra': widget.backExtra,
-    };
-
-    switch (nextItem.type) {
-      case RenderItemType.lesson:
-        context.go('/lessons/detail', extra: extra);
-        break;
-      case RenderItemType.flashcard:
-        context.go('/flashcards/detail', extra: extra);
-        break;
-      case RenderItemType.part:
-        context.go('/parts/detail', extra: extra);
-        break;
-      case RenderItemType.tool:
-        context.go('/tools/detail', extra: extra);
-        break;
-    }
+    TransitionManager.goToDetailScreen(
+      context: context,
+      screenType: nextItem.type,
+      renderItems: widget.renderItems,
+      currentIndex: newIndex,
+      branchIndex: widget.branchIndex,
+      backDestination: widget.backDestination,
+      backExtra: widget.backExtra,
+      detailRoute: widget.detailRoute,
+      direction: SlideDirection.none,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.renderItems.isEmpty ||
-        currentIndex < 0 ||
-        currentIndex >= widget.renderItems.length) {
-      logger.e('❌ Invalid data in LessonDetailScreen');
-      return const Scaffold(body: Center(child: Text('Invalid lesson data')));
-    }
-
     final item = widget.renderItems[currentIndex];
 
-    // 🚨 Redirect if this isn't a lesson
     if (item.type != RenderItemType.lesson) {
-      logger.w(
-        '⚠️ LessonDetailScreen received non-lesson item: ${item.id} (${item.type})',
-      );
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _navigateTo(currentIndex);
-      });
       return const Scaffold(body: SizedBox());
     }
 
@@ -2875,73 +3021,84 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     logger.i('🧩 Content blocks: ${item.content.length}');
     logger.i('🧠 Flashcards: ${item.flashcards.length}');
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Opacity(
-          opacity: 0.2,
-          child: Image.asset(
-            'assets/images/boat_overview_new.png',
-            fit: BoxFit.cover,
+    return PageTransitionSwitcher(
+      duration: const Duration(milliseconds: 250),
+      transitionBuilder: buildScaleFadeTransition,
+      child: _buildScaffold(item, moduleTitle, lessonTitle),
+    );
+  }
+
+  Widget _buildScaffold(
+    RenderItem item,
+    String moduleTitle,
+    String lessonTitle,
+  ) {
+    return Scaffold(
+      key: ValueKey(widget.transitionKey),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Opacity(
+            opacity: 0.2,
+            child: Image.asset(
+              'assets/images/boat_overview_new.png',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        Column(
-          children: [
-            CustomAppBarWidget(
-              title: moduleTitle,
-              showBackButton: true,
-              showSearchIcon: true,
-              showSettingsIcon: true,
-              onBack: () {
-                logger.i('🔙 Back tapped → ${widget.backDestination}');
-                if (widget.backExtra != null) {
-                  context.go(widget.backDestination, extra: widget.backExtra);
-                } else {
-                  context.go(widget.backDestination);
-                }
-              },
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                lessonTitle,
-                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
-                  color: AppTheme.primaryBlue,
-                ),
-                textAlign: TextAlign.center,
+          Column(
+            children: [
+              CustomAppBarWidget(
+                title: moduleTitle,
+                showBackButton: true,
+                showSearchIcon: true,
+                showSettingsIcon: true,
+                onBack: () {
+                  logger.i('🔙 Back tapped → ${widget.backDestination}');
+                  context.go(
+                    widget.backDestination,
+                    extra: {
+                      ...?widget.backExtra,
+                      'transitionKey': UniqueKey().toString(),
+                      'slideFrom': SlideDirection.left,
+                    },
+                  );
+                },
               ),
-            ),
-
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: PageTransitionSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  transitionBuilder: buildScaleFadeTransition,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  lessonTitle,
+                  style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                    color: AppTheme.primaryBlue,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: ContentBlockRenderer(
                     key: ValueKey(item.id),
                     blocks: item.content,
                   ),
                 ),
               ),
-            ),
-
-            NavigationButtons(
-              isPreviousEnabled: currentIndex > 0,
-              isNextEnabled: currentIndex < widget.renderItems.length - 1,
-              onPrevious: () {
-                logger.i('⬅️ Previous tapped on LessonDetailScreen');
-                setState(() => currentIndex--);
-              },
-              onNext: () {
-                logger.i('➡️ Next tapped on LessonDetailScreen');
-                setState(() => currentIndex++);
-              },
-            ),
-          ],
-        ),
-      ],
+              NavigationButtons(
+                isPreviousEnabled: currentIndex > 0,
+                isNextEnabled: currentIndex < widget.renderItems.length - 1,
+                onPrevious: () {
+                  logger.i('⬅️ Previous tapped on LessonDetailScreen');
+                  _navigateTo(currentIndex - 1);
+                },
+                onNext: () {
+                  logger.i('➡️ Next tapped on LessonDetailScreen');
+                  _navigateTo(currentIndex + 1);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -2964,7 +3121,8 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase()
+import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/navigation/detail_route.dart'; // ✅ for DetailRoute
 
 class LessonItemScreen extends StatelessWidget {
   final String module;
@@ -3023,6 +3181,7 @@ class LessonItemScreen extends StatelessWidget {
                         'renderItems': renderItems,
                         'currentIndex': index,
                         'branchIndex': 1,
+                        'detailRoute': DetailRoute.branch, // ✅ new
                         'backDestination': '/lessons/items',
                         'backExtra': {'module': module, 'branchIndex': 1},
                         'transitionKey': 'lesson_${lesson.id}_$timestamp',
@@ -4039,7 +4198,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
-class NavigationButtons extends StatelessWidget {
+class NavigationButtons extends StatefulWidget {
   final bool isPreviousEnabled;
   final bool isNextEnabled;
   final VoidCallback onPrevious;
@@ -4054,6 +4213,11 @@ class NavigationButtons extends StatelessWidget {
   });
 
   @override
+  State<NavigationButtons> createState() => _NavigationButtonsState();
+}
+
+class _NavigationButtonsState extends State<NavigationButtons> {
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: ClipRRect(
@@ -4061,17 +4225,18 @@ class NavigationButtons extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
           child: Container(
-            color: Colors.white.withValues(
-              alpha: 0.0,
-            ), // subtle background tint
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.0),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
                   height: 48,
                   child: ElevatedButton.icon(
-                    onPressed: isPreviousEnabled ? onPrevious : null,
+                    onPressed:
+                        widget.isPreviousEnabled ? widget.onPrevious : null,
                     icon: const Icon(Icons.arrow_back),
                     label: const Text('Previous'),
                     style: AppTheme.navigationButton,
@@ -4080,7 +4245,7 @@ class NavigationButtons extends StatelessWidget {
                 SizedBox(
                   height: 48,
                   child: ElevatedButton(
-                    onPressed: isNextEnabled ? onNext : null,
+                    onPressed: widget.isNextEnabled ? widget.onNext : null,
                     style: AppTheme.navigationButton,
                     child: Row(
                       children: const [

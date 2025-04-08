@@ -7,6 +7,7 @@ import 'package:bcc5/data/models/part_model.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/navigation/detail_route.dart'; // <-- required for DetailRoute
 
 class PartItemScreen extends StatelessWidget {
   final String zone;
@@ -69,6 +70,7 @@ class PartItemScreen extends StatelessWidget {
                         'backDestination': '/parts/items',
                         'backExtra': {'zone': zone},
                         'transitionKey': 'part_${part.id}_$timestamp',
+                        'detailRoute': DetailRoute.branch, // <-- ✅ PATCHED
                       },
                     );
                   },

@@ -802,3 +802,65 @@ Ready to commit. Let me know if you’d like:
 A one-liner commit message
 To move on to Step 4.1: navigation_buttons.dart
 Or a quick summary of progress so far
+
+
+
+
+
+
+
+
+
+
+
+
+
+Yes — and thank you, this log **confirms the root issue exactly**. Based on the final segment:
+
+```
+[2517] type 'Null' is not a subtype of type 'DetailRoute'
+```
+
+We now know for certain that:
+
+---
+
+### 🔥 CRITICAL ERROR
+
+**The crash in all three detail screens (Part, Tool, Flashcard) when launched via their branch screens is caused by a `null` value being passed for `detailRoute`, which the screen expects to be a non-null `DetailRoute` enum.**
+
+This means:
+
+- In `app_router.dart`, **routes for `/parts/detail`, `/tools/detail`, and `/flashcards/detail` are missing the `detailRoute:` parameter** (or passing `null`) when using `TransitionManager.buildCustomTransition`.
+- As a result, the screen tries to use a `null` where it expects `DetailRoute`, causing the `_TypeError`.
+
+---
+
+### ✅ YOUR ANALYSIS IS NOW UPDATED WITH THIS:
+
+> The part, tool, and flashcard detail screens all crash when navigating to them via their respective branch routes because `detailRoute` is not passed to `buildCustomTransition`, resulting in a `type 'Null' is not a subtype of type 'DetailRoute'` error.
+
+---
+
+### ✅ YES, THE CURRENT FIX PLAN IS STILL CORRECT
+
+Here's why:
+
+**Our existing plan begins with:**
+
+> **Step 1.1** — Fix `TransitionManager.buildCustomTransition()` to require both `context:` and `state:`, and ensure `detailRoute:` is explicitly passed everywhere it's needed.
+
+> **Step 1.2** — Fix every route in `app_router.dart` that calls `buildCustomTransition(...)`, especially `/lessons/detail`, `/parts/detail`, `/tools/detail`, and `/flashcards/detail`.
+
+This is **exactly what’s needed** to fix this crash and restore branch-based navigation.
+
+---
+
+### 🛠️ NEXT STEP
+
+We're now ready to begin with:
+
+#### ✅ **Step 1.1: Update `transition_manager.dart`**
+Make `detailRoute` required and handle it safely in `buildCustomTransition`.
+
+Would you like me to proceed by generating the **full refactored file for `transition_manager.dart`**, incorporating the current logic and transition direction handling?
