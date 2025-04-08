@@ -1,5 +1,6 @@
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
@@ -67,23 +68,25 @@ final appRouter = GoRouter(
             state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final chapterId = extras['chapterId'] as String?;
+
         if (chapterId == null) {
           logger.e('❌ Missing chapterId for path $pathName');
           return TransitionManager.buildCustomTransition(
             context: context,
             state: state,
-            transitionKey: state.pageKey,
+            transitionKey: ValueKey(state.pageKey.toString()),
             child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
           );
         }
+
         logger.i('📘 Navigating to PathItemScreen: $pathName / $chapterId');
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: state.pageKey,
+          transitionKey: ValueKey(state.pageKey.toString()),
           child: MainScaffold(
             branchIndex: 0,
-            child: PathChapterScreen(pathName: pathName),
+            child: PathItemScreen(pathName: pathName, chapterId: chapterId),
           ),
         );
       },
@@ -107,22 +110,6 @@ final appRouter = GoRouter(
       },
     ),
 
-    // GoRoute(
-    //   path: '/lessons',
-    //   name: 'lessons',
-    //   pageBuilder: (context, state) {
-    //     logger.i('📘 Entering LessonModuleScreen');
-    //     return TransitionManager.buildCustomTransition(
-    //       context: context,
-    //       state: state,
-    //       transitionKey: state.pageKey,
-    //       child: MainScaffold(
-    //         branchIndex: 0,
-    //         child: PathItemScreen(pathName: pathName, chapterId: chapterId),
-    //       ),
-    //     );
-    //   },
-    // ),
     GoRoute(
       path: '/lessons/items',
       name: 'lesson-items',
@@ -170,49 +157,21 @@ final appRouter = GoRouter(
           context: context,
           state: state,
           transitionKey: ValueKey(transitionKey),
-          child: LessonDetailScreen(
-            renderItems: renderItems,
-            currentIndex: currentIndex,
+          child: MainScaffold(
             branchIndex: branchIndex,
-            backDestination: backDestination,
-            backExtra: backExtra,
-            detailRoute: detailRoute,
-            transitionKey: transitionKey,
+            child: LessonDetailScreen(
+              renderItems: renderItems,
+              currentIndex: currentIndex,
+              branchIndex: branchIndex,
+              backDestination: backDestination,
+              backExtra: backExtra,
+              detailRoute: detailRoute,
+              transitionKey: transitionKey,
+            ),
           ),
         );
       },
     ),
-
-    // GoRoute(
-    //   path: '/lessons/detail',
-    //   pageBuilder: (context, state) {
-    //     final extras = state.extra as Map<String, dynamic>;
-    //     final sequenceIds = extras['sequenceIds'] as List<String>;
-    //     final currentIndex = extras['currentIndex'] as int;
-    //     final branchIndex = extras['branchIndex'] as int;
-    //     final backDestination = extras['backDestination'] as String;
-    //     final backExtra = extras['backExtra'] as Map<String, dynamic>?;
-    //     final detailRoute = extras['detailRoute'] as DetailRoute;
-
-    //     final renderItems = buildRenderItems(ids: sequenceIds);
-
-    //     return TransitionManager.buildCustomTransition(
-    //       context: context,
-    //       state: state,
-    //       transitionKey: state.pageKey,
-    //       child: LessonDetailScreen(
-    //         renderItems: renderItems,
-    //         currentIndex: currentIndex,
-    //         branchIndex: branchIndex,
-    //         backDestination: backDestination,
-    //         backExtra: backExtra,
-    //         detailRoute: detailRoute,
-    //         transitionKey:
-    //             state.pageKey.toString(), // ✅ This is the critical fix
-    //       ),
-    //     );
-    //   },
-    // ),
 
     // 🧩 Parts
     GoRoute(
@@ -246,6 +205,7 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/parts/detail',
       pageBuilder: (context, state) {
@@ -262,14 +222,17 @@ final appRouter = GoRouter(
           context: context,
           state: state,
           transitionKey: ValueKey(transitionKey),
-          child: PartDetailScreen(
-            renderItems: renderItems,
-            currentIndex: currentIndex,
+          child: MainScaffold(
             branchIndex: branchIndex,
-            backDestination: backDestination,
-            backExtra: backExtra,
-            detailRoute: detailRoute,
-            transitionKey: transitionKey,
+            child: PartDetailScreen(
+              renderItems: renderItems,
+              currentIndex: currentIndex,
+              branchIndex: branchIndex,
+              backDestination: backDestination,
+              backExtra: backExtra,
+              detailRoute: detailRoute,
+              transitionKey: transitionKey,
+            ),
           ),
         );
       },
@@ -323,14 +286,17 @@ final appRouter = GoRouter(
           context: context,
           state: state,
           transitionKey: ValueKey(transitionKey),
-          child: ToolDetailScreen(
-            renderItems: renderItems,
-            currentIndex: currentIndex,
+          child: MainScaffold(
             branchIndex: branchIndex,
-            backDestination: backDestination,
-            backExtra: backExtra,
-            detailRoute: detailRoute,
-            transitionKey: transitionKey,
+            child: ToolDetailScreen(
+              renderItems: renderItems,
+              currentIndex: currentIndex,
+              branchIndex: branchIndex,
+              backDestination: backDestination,
+              backExtra: backExtra,
+              detailRoute: detailRoute,
+              transitionKey: transitionKey,
+            ),
           ),
         );
       },
