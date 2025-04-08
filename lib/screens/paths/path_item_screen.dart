@@ -1,3 +1,4 @@
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
@@ -39,11 +40,12 @@ class PathItemScreen extends StatelessWidget {
     final renderItems = buildRenderItems(ids: sequenceIds);
 
     logger.i('🟩 Found chapter "${chapter.title}" with ${items.length} items');
+    logger.i('🧪 Chapter title is: "${chapter.title}"');
 
     return Column(
       children: [
         CustomAppBarWidget(
-          title: chapter.title,
+          title: pathName.toTitleCase(),
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
@@ -56,12 +58,23 @@ class PathItemScreen extends StatelessWidget {
             );
           },
         ),
+
         const SizedBox(height: 16),
+        Text(
+          chapter.title,
+          style: AppTheme.headingStyle.copyWith(
+            fontSize: 20,
+            color: AppTheme.primaryBlue, // or use a darker shade if needed
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 8),
         Text(
           'Choose a Topic',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),
+
         const SizedBox(height: 16),
         Expanded(
           child: Padding(
