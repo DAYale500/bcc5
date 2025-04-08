@@ -19,8 +19,8 @@ class FlashcardDetailScreen extends StatefulWidget {
   final int branchIndex;
   final String backDestination;
   final Map<String, dynamic>? backExtra;
-  final DetailRoute? detailRoute;
-  final String? transitionKey;
+  final DetailRoute detailRoute;
+  final String transitionKey;
 
   const FlashcardDetailScreen({
     super.key,
@@ -28,9 +28,9 @@ class FlashcardDetailScreen extends StatefulWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra,
-    this.detailRoute,
-    this.transitionKey,
+    required this.backExtra,
+    required this.detailRoute,
+    required this.transitionKey,
   });
 
   @override
@@ -77,7 +77,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
             branchIndex: widget.branchIndex,
             backDestination: widget.backDestination,
             backExtra: widget.backExtra,
-            detailRoute: widget.detailRoute ?? DetailRoute.branch,
+            detailRoute: widget.detailRoute,
             direction: SlideDirection.none,
           );
         });
@@ -126,7 +126,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       branchIndex: widget.branchIndex,
       backDestination: widget.backDestination,
       backExtra: widget.backExtra,
-      detailRoute: widget.detailRoute ?? DetailRoute.branch,
+      detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
     );
   }
@@ -139,15 +139,14 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       );
     }
 
-    final currentItem = widget.renderItems[currentIndex];
-    if (currentItem.type != RenderItemType.flashcard ||
-        currentItem.flashcards.isEmpty) {
+    final item = widget.renderItems[currentIndex];
+    if (item.type != RenderItemType.flashcard || item.flashcards.isEmpty) {
       return const Scaffold(
         body: Center(child: Text('No flashcard content available')),
       );
     }
 
-    final flashcard = currentItem.flashcards.first;
+    final flashcard = item.flashcards.first;
     final title = flashcard.title;
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
@@ -162,137 +161,121 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       '  └─ sideB: ${sideB.length} blocks',
     );
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Opacity(
-          opacity: 0.2,
-          child: Image.asset(
-            'assets/images/sailboat_cartoon.jpg',
-            fit: BoxFit.cover,
+    return Scaffold(
+      key: ValueKey(widget.transitionKey),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Opacity(
+            opacity: 0.2,
+            child: Image.asset(
+              'assets/images/sailboat_cartoon.jpg',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        Column(
-          children: [
-            CustomAppBarWidget(
-              title: category,
-              showBackButton: true,
-              showSearchIcon: true,
-              showSettingsIcon: true,
-              onBack: () {
-                logger.i('🔙 Returning from FlashcardDetailScreen');
-                context.go(
-                  widget.backDestination,
-                  extra: {
-                    ...?widget.backExtra,
-                    'transitionKey': UniqueKey().toString(),
-                    'slideFrom': SlideDirection.left,
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
-                color: AppTheme.primaryBlue,
+          Column(
+            children: [
+              CustomAppBarWidget(
+                title: category,
+                showBackButton: true,
+                showSearchIcon: true,
+                showSettingsIcon: true,
+                onBack: () {
+                  logger.i('🔙 Back tapped → ${widget.backDestination}');
+                  context.go(
+                    widget.backDestination,
+                    extra: {
+                      ...?widget.backExtra,
+                      'transitionKey': UniqueKey().toString(),
+                      'slideFrom': SlideDirection.left,
+                    },
+                  );
+                },
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: Center(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/index_card.png',
-                      width: 360,
-                      height: 420,
-                      fit: BoxFit.fill,
-                    ),
-                    SizedBox(
-                      width: 360,
-                      height: 420,
-                      child: AnimatedBuilder(
-                        animation: _flipAnimation,
-                        builder: (context, child) {
-                          final isFront = _flipAnimation.value < 0.5;
-                          return Transform(
-                            alignment: Alignment.center,
-                            transform: Matrix4.rotationY(
-                              _flipAnimation.value * math.pi,
-                            ),
-                            child:
-                                isFront
-                                    ? Padding(
-                                      padding: const EdgeInsets.only(top: 32),
-                                      child: FlipCardWidget(
-                                        front: sideA,
-                                        back: sideB,
-                                        showFront: true,
-                                        animation: _flipAnimation,
-                                      ),
-                                    )
-                                    : Transform(
-                                      alignment: Alignment.center,
-                                      transform: Matrix4.rotationY(math.pi),
-                                      child: Padding(
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Expanded(
+                child: Center(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/index_card.png',
+                        width: 360,
+                        height: 420,
+                        fit: BoxFit.fill,
+                      ),
+                      SizedBox(
+                        width: 360,
+                        height: 420,
+                        child: AnimatedBuilder(
+                          animation: _flipAnimation,
+                          builder: (context, child) {
+                            final isFront = _flipAnimation.value < 0.5;
+                            return Transform(
+                              alignment: Alignment.center,
+                              transform: Matrix4.rotationY(
+                                _flipAnimation.value * math.pi,
+                              ),
+                              child:
+                                  isFront
+                                      ? Padding(
                                         padding: const EdgeInsets.only(top: 32),
                                         child: FlipCardWidget(
                                           front: sideA,
                                           back: sideB,
-                                          showFront: false,
+                                          showFront: true,
                                           animation: _flipAnimation,
                                         ),
+                                      )
+                                      : Transform(
+                                        alignment: Alignment.center,
+                                        transform: Matrix4.rotationY(math.pi),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 32,
+                                          ),
+                                          child: FlipCardWidget(
+                                            front: sideA,
+                                            back: sideB,
+                                            showFront: false,
+                                            animation: _flipAnimation,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: ElevatedButton(
-                onPressed: flipCard,
-                style: AppTheme.navigationButton,
-                child: Text(showFront ? 'Flip Over' : 'Flip Back'),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: ElevatedButton(
+                  onPressed: flipCard,
+                  style: AppTheme.navigationButton,
+                  child: Text(showFront ? 'Flip Over' : 'Flip Back'),
+                ),
               ),
-            ),
-            NavigationButtons(
-              isPreviousEnabled: currentIndex > 0,
-              isNextEnabled: currentIndex < widget.renderItems.length - 1,
-              onPrevious: () => _navigateTo(currentIndex - 1),
-              onNext: () => _navigateTo(currentIndex + 1),
-            ),
-          ],
-        ),
-      ],
+              NavigationButtons(
+                isPreviousEnabled: currentIndex > 0,
+                isNextEnabled: currentIndex < widget.renderItems.length - 1,
+                onPrevious: () => _navigateTo(currentIndex - 1),
+                onNext: () => _navigateTo(currentIndex + 1),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
-
-  Map<String, dynamic> get debugState => {
-    'currentIndex': currentIndex,
-    'totalItems': widget.renderItems.length,
-    'currentId':
-        widget.renderItems.isNotEmpty
-            ? widget.renderItems[currentIndex].id
-            : 'n/a',
-    'currentType':
-        widget.renderItems.isNotEmpty
-            ? widget.renderItems[currentIndex].type.toString()
-            : 'n/a',
-    'hasFlashcards':
-        widget.renderItems.isNotEmpty
-            ? widget.renderItems[currentIndex].flashcards.isNotEmpty
-            : false,
-    'flashcardCount':
-        widget.renderItems.isNotEmpty
-            ? widget.renderItems[currentIndex].flashcards.length
-            : 0,
-  };
 }

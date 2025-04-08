@@ -19,8 +19,8 @@ class PartDetailScreen extends StatefulWidget {
   final int branchIndex;
   final String backDestination;
   final Map<String, dynamic>? backExtra;
-  final DetailRoute? detailRoute;
-  final String? transitionKey;
+  final DetailRoute detailRoute;
+  final String transitionKey;
 
   const PartDetailScreen({
     super.key,
@@ -28,9 +28,9 @@ class PartDetailScreen extends StatefulWidget {
     required this.currentIndex,
     required this.branchIndex,
     required this.backDestination,
-    this.backExtra,
-    this.detailRoute,
-    this.transitionKey,
+    required this.backExtra,
+    required this.detailRoute,
+    required this.transitionKey,
   });
 
   @override
@@ -45,7 +45,6 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
     super.initState();
     currentIndex = widget.currentIndex;
 
-    // If the item type doesn't match, redirect after build
     final item = widget.renderItems[currentIndex];
     if (item.type != RenderItemType.part) {
       logger.w('⚠️ Redirecting from non-part type: ${item.id} (${item.type})');
@@ -58,7 +57,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
           branchIndex: widget.branchIndex,
           backDestination: widget.backDestination,
           backExtra: widget.backExtra,
-          detailRoute: widget.detailRoute ?? DetailRoute.branch,
+          detailRoute: widget.detailRoute,
           direction: SlideDirection.none,
         );
       });
@@ -80,7 +79,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
       branchIndex: widget.branchIndex,
       backDestination: widget.backDestination,
       backExtra: widget.backExtra,
-      detailRoute: widget.detailRoute ?? DetailRoute.branch,
+      detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
     );
   }
@@ -89,90 +88,91 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
   Widget build(BuildContext context) {
     final item = widget.renderItems[currentIndex];
 
-    // Avoid rendering if the wrong screen type
     if (item.type != RenderItemType.part) {
       return const Scaffold(body: SizedBox());
     }
 
-    final String partTitle = item.title;
-    final String zoneTitle =
+    final partTitle = item.title;
+    final zoneTitle =
         (widget.backExtra?['zone'] as String?)?.toTitleCase() ?? 'Part';
 
     logger.i('🧩 PartDetailScreen: $partTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        Opacity(
-          opacity: 0.2,
-          child: Image.asset(
-            'assets/images/deck_parts_montage.webp',
-            fit: BoxFit.cover,
+    return PageTransitionSwitcher(
+      duration: const Duration(milliseconds: 250),
+      transitionBuilder: buildScaleFadeTransition,
+      child: _buildScaffold(item, partTitle, zoneTitle),
+    );
+  }
+
+  Widget _buildScaffold(RenderItem item, String partTitle, String zoneTitle) {
+    return Scaffold(
+      key: ValueKey(widget.transitionKey),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Opacity(
+            opacity: 0.2,
+            child: Image.asset(
+              'assets/images/deck_parts_montage.webp',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        Column(
-          children: [
-            CustomAppBarWidget(
-              title: zoneTitle,
-              showBackButton: true,
-              showSearchIcon: true,
-              showSettingsIcon: true,
-              onBack: () {
-                logger.i('🔙 Back tapped → ${widget.backDestination}');
-                context.go(
-                  widget.backDestination,
-                  extra: {
-                    ...?widget.backExtra,
-                    'transitionKey': UniqueKey().toString(),
-                    'slideFrom': SlideDirection.left,
-                  },
-                );
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
-                partTitle,
-                style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
-                  color: AppTheme.primaryBlue,
-                ),
-                textAlign: TextAlign.center,
+          Column(
+            children: [
+              CustomAppBarWidget(
+                title: zoneTitle,
+                showBackButton: true,
+                showSearchIcon: true,
+                showSettingsIcon: true,
+                onBack: () {
+                  logger.i('🔙 Back tapped → ${widget.backDestination}');
+                  context.go(
+                    widget.backDestination,
+                    extra: {
+                      ...?widget.backExtra,
+                      'transitionKey': UniqueKey().toString(),
+                      'slideFrom': SlideDirection.left,
+                    },
+                  );
+                },
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: PageTransitionSwitcher(
-                  transitionBuilder:
-                      (child, animation, secondaryAnimation) =>
-                          buildScaleFadeTransition(
-                            child,
-                            animation,
-                            secondaryAnimation,
-                          ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Text(
+                  partTitle,
+                  style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+                    color: AppTheme.primaryBlue,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: ContentBlockRenderer(
                     key: ValueKey(item.id),
                     blocks: item.content,
                   ),
                 ),
               ),
-            ),
-            NavigationButtons(
-              isPreviousEnabled: currentIndex > 0,
-              isNextEnabled: currentIndex < widget.renderItems.length - 1,
-              onPrevious: () {
-                logger.i('⬅️ Previous tapped on PartDetailScreen');
-                _navigateTo(currentIndex - 1);
-              },
-              onNext: () {
-                logger.i('➡️ Next tapped on PartDetailScreen');
-                _navigateTo(currentIndex + 1);
-              },
-            ),
-          ],
-        ),
-      ],
+              NavigationButtons(
+                isPreviousEnabled: currentIndex > 0,
+                isNextEnabled: currentIndex < widget.renderItems.length - 1,
+                onPrevious: () {
+                  logger.i('⬅️ Previous tapped on PartDetailScreen');
+                  _navigateTo(currentIndex - 1);
+                },
+                onNext: () {
+                  logger.i('➡️ Next tapped on PartDetailScreen');
+                  _navigateTo(currentIndex + 1);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

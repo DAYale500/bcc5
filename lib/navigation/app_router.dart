@@ -17,52 +17,7 @@ import 'package:bcc5/screens/flashcards/flashcard_item_screen.dart';
 import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
 import 'package:bcc5/screens/paths/path_chapter_screen.dart';
 import 'package:bcc5/screens/paths/path_item_screen.dart';
-import 'package:bcc5/theme/slide_direction.dart';
-
-CustomTransitionPage buildCustomTransition({
-  required BuildContext context,
-  required GoRouterState state,
-  required Widget child,
-}) {
-  final slideFrom =
-      state.extra is Map && (state.extra as Map).containsKey('slideFrom')
-          ? (state.extra as Map)['slideFrom'] as SlideDirection
-          : SlideDirection.right;
-
-  Offset begin;
-  switch (slideFrom) {
-    case SlideDirection.left:
-      begin = const Offset(-1.0, 0.0);
-      break;
-    case SlideDirection.up:
-      begin = const Offset(0.0, -1.0);
-      break;
-    case SlideDirection.down:
-      begin = const Offset(0.0, 1.0);
-      break;
-    case SlideDirection.none:
-      begin = Offset.zero;
-      break;
-    case SlideDirection.right:
-      begin = const Offset(1.0, 0.0);
-  }
-
-  const curve = Curves.easeInOut;
-  final tween = Tween(
-    begin: begin,
-    end: Offset.zero,
-  ).chain(CurveTween(curve: curve));
-
-  return CustomTransitionPage(
-    key: state.pageKey,
-    child: child,
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      return begin == Offset.zero
-          ? FadeTransition(opacity: animation, child: child)
-          : SlideTransition(position: animation.drive(tween), child: child);
-    },
-  );
-}
+import 'package:bcc5/utils/transition_manager.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -73,7 +28,7 @@ final appRouter = GoRouter(
       name: 'landing',
       pageBuilder: (context, state) {
         logger.i('🏁 Entering LandingScreen');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
@@ -89,7 +44,7 @@ final appRouter = GoRouter(
         final pathName =
             state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
         logger.i('🧭 Navigating to PathChapterScreen for "$pathName"');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(
@@ -109,7 +64,7 @@ final appRouter = GoRouter(
         final chapterId = extras['chapterId'] as String?;
         if (chapterId == null) {
           logger.e('❌ Missing chapterId for path $pathName');
-          return buildCustomTransition(
+          return TransitionManager.buildCustomTransition(
             context: context,
             state: state,
             child: const Scaffold(
@@ -118,7 +73,7 @@ final appRouter = GoRouter(
           );
         }
         logger.i('📘 Navigating to PathItemScreen: $pathName / $chapterId');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(
@@ -135,7 +90,7 @@ final appRouter = GoRouter(
       name: 'lessons',
       pageBuilder: (context, state) {
         logger.i('📘 Entering LessonModuleScreen');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: const MainScaffold(
@@ -153,14 +108,14 @@ final appRouter = GoRouter(
         final module = extras['module'] as String?;
         if (module == null) {
           logger.e('❌ Missing module parameter for LessonItemScreen');
-          return buildCustomTransition(
+          return TransitionManager.buildCustomTransition(
             context: context,
             state: state,
             child: const Scaffold(body: Center(child: Text('Missing module!'))),
           );
         }
         logger.i('📘 Navigating to LessonItemScreen for module: $module');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(
@@ -175,7 +130,7 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('📘 Entering LessonDetailScreen with extra: $extra');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(
@@ -200,7 +155,7 @@ final appRouter = GoRouter(
       name: 'parts',
       pageBuilder: (context, state) {
         logger.i('🧩 Entering PartZoneScreen');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: const MainScaffold(branchIndex: 2, child: PartZoneScreen()),
@@ -214,7 +169,7 @@ final appRouter = GoRouter(
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final zone = extras['zone'] as String? ?? '';
         logger.i('🧩 Navigating to PartItemScreen for zone: $zone');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(
@@ -229,7 +184,7 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🧩 Entering PartDetailScreen with extra: $extra');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(
@@ -254,7 +209,7 @@ final appRouter = GoRouter(
       name: 'tools',
       pageBuilder: (context, state) {
         logger.i('🛠️ Entering ToolsScreen');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(branchIndex: 3, child: ToolBagScreen()),
@@ -268,7 +223,7 @@ final appRouter = GoRouter(
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final toolbag = extras['toolbag'] as String? ?? '';
         logger.i('🛠️ Navigating to ToolItemScreen for toolbag: $toolbag');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(
@@ -283,7 +238,7 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🛠️ Entering ToolDetailScreen with extra: $extra');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(
@@ -308,7 +263,7 @@ final appRouter = GoRouter(
       name: 'flashcards',
       pageBuilder: (context, state) {
         logger.i('📇 Entering FlashcardCategoryScreen');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: const MainScaffold(
@@ -327,7 +282,7 @@ final appRouter = GoRouter(
         logger.i(
           '📇 Navigating to FlashcardItemScreen for category: $category',
         );
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(
@@ -342,7 +297,7 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final extra = state.extra as Map<String, dynamic>;
         logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
-        return buildCustomTransition(
+        return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           child: MainScaffold(
