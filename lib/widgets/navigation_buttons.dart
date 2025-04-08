@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
-class NavigationButtons extends StatelessWidget {
+class NavigationButtons extends StatefulWidget {
   final bool isPreviousEnabled;
   final bool isNextEnabled;
   final VoidCallback onPrevious;
@@ -17,6 +17,11 @@ class NavigationButtons extends StatelessWidget {
   });
 
   @override
+  State<NavigationButtons> createState() => _NavigationButtonsState();
+}
+
+class _NavigationButtonsState extends State<NavigationButtons> {
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: ClipRRect(
@@ -24,17 +29,18 @@ class NavigationButtons extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
           child: Container(
-            color: Colors.white.withValues(
-              alpha: 0.0,
-            ), // subtle background tint
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.0),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
                   height: 48,
                   child: ElevatedButton.icon(
-                    onPressed: isPreviousEnabled ? onPrevious : null,
+                    onPressed:
+                        widget.isPreviousEnabled ? widget.onPrevious : null,
                     icon: const Icon(Icons.arrow_back),
                     label: const Text('Previous'),
                     style: AppTheme.navigationButton,
@@ -43,7 +49,7 @@ class NavigationButtons extends StatelessWidget {
                 SizedBox(
                   height: 48,
                   child: ElevatedButton(
-                    onPressed: isNextEnabled ? onNext : null,
+                    onPressed: widget.isNextEnabled ? widget.onNext : null,
                     style: AppTheme.navigationButton,
                     child: Row(
                       children: const [
