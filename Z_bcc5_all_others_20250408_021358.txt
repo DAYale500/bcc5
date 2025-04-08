@@ -90,8 +90,9 @@ class MainScaffold extends StatelessWidget {
 
 
 File: lib/navigation/app_router.dart
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/detail_route.dart';
-import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
@@ -110,7 +111,7 @@ import 'package:bcc5/screens/flashcards/flashcard_category_screen.dart';
 import 'package:bcc5/screens/flashcards/flashcard_item_screen.dart';
 import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
 import 'package:bcc5/screens/paths/path_chapter_screen.dart';
-import 'package:bcc5/screens/paths/path_item_screen.dart';
+// import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:bcc5/utils/transition_manager.dart';
 
 final appRouter = GoRouter(
@@ -125,6 +126,7 @@ final appRouter = GoRouter(
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
+          transitionKey: ValueKey(state.pageKey.toString()), // ✅ FIXED
           child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
         );
       },
@@ -141,6 +143,8 @@ final appRouter = GoRouter(
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
+          transitionKey: ValueKey(state.pageKey.toString()), // ✅ FIXED
+
           child: MainScaffold(
             branchIndex: 0,
             child: PathChapterScreen(pathName: pathName),
@@ -156,23 +160,25 @@ final appRouter = GoRouter(
             state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final chapterId = extras['chapterId'] as String?;
+
         if (chapterId == null) {
           logger.e('❌ Missing chapterId for path $pathName');
           return TransitionManager.buildCustomTransition(
             context: context,
             state: state,
-            transitionKey: state.pageKey,
+            transitionKey: ValueKey(state.pageKey.toString()),
             child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
           );
         }
+
         logger.i('📘 Navigating to PathItemScreen: $pathName / $chapterId');
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: state.pageKey,
+          transitionKey: ValueKey(state.pageKey.toString()),
           child: MainScaffold(
             branchIndex: 0,
-            child: PathChapterScreen(pathName: pathName),
+            child: PathItemScreen(pathName: pathName, chapterId: chapterId),
           ),
         );
       },
@@ -187,14 +193,15 @@ final appRouter = GoRouter(
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: state.pageKey,
-          child: MainScaffold(
-            branchIndex: 0,
-            child: PathItemScreen(pathName: pathName, chapterId: chapterId),
+          transitionKey: ValueKey(state.pageKey.toString()),
+          child: const MainScaffold(
+            branchIndex: 1,
+            child: LessonModuleScreen(),
           ),
         );
       },
     ),
+
     GoRoute(
       path: '/lessons/items',
       name: 'lesson-items',
@@ -225,30 +232,34 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/lessons/detail',
       pageBuilder: (context, state) {
         final extras = state.extra as Map<String, dynamic>;
-        final sequenceIds = extras['sequenceIds'] as List<String>;
+        final renderItems = extras['renderItems'] as List<RenderItem>;
         final currentIndex = extras['currentIndex'] as int;
         final branchIndex = extras['branchIndex'] as int;
         final backDestination = extras['backDestination'] as String;
         final backExtra = extras['backExtra'] as Map<String, dynamic>?;
         final detailRoute = extras['detailRoute'] as DetailRoute;
-
-        final renderItems = buildRenderItems(ids: sequenceIds);
+        final transitionKey = extras['transitionKey'] as String;
 
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: state.pageKey,
-          child: LessonDetailScreen(
-            renderItems: renderItems,
-            currentIndex: currentIndex,
+          transitionKey: ValueKey(transitionKey),
+          child: MainScaffold(
             branchIndex: branchIndex,
-            backDestination: backDestination,
-            backExtra: backExtra,
-            detailRoute: detailRoute,
+            child: LessonDetailScreen(
+              renderItems: renderItems,
+              currentIndex: currentIndex,
+              branchIndex: branchIndex,
+              backDestination: backDestination,
+              backExtra: backExtra,
+              detailRoute: detailRoute,
+              transitionKey: transitionKey,
+            ),
           ),
         );
       },
@@ -286,30 +297,34 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/parts/detail',
       pageBuilder: (context, state) {
         final extras = state.extra as Map<String, dynamic>;
-        final sequenceIds = extras['sequenceIds'] as List<String>;
+        final renderItems = extras['renderItems'] as List<RenderItem>;
         final currentIndex = extras['currentIndex'] as int;
         final branchIndex = extras['branchIndex'] as int;
         final backDestination = extras['backDestination'] as String;
         final backExtra = extras['backExtra'] as Map<String, dynamic>?;
         final detailRoute = extras['detailRoute'] as DetailRoute;
-
-        final renderItems = buildRenderItems(ids: sequenceIds);
+        final transitionKey = extras['transitionKey'] as String;
 
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: state.pageKey,
-          child: PartDetailScreen(
-            renderItems: renderItems,
-            currentIndex: currentIndex,
+          transitionKey: ValueKey(transitionKey),
+          child: MainScaffold(
             branchIndex: branchIndex,
-            backDestination: backDestination,
-            backExtra: backExtra,
-            detailRoute: detailRoute,
+            child: PartDetailScreen(
+              renderItems: renderItems,
+              currentIndex: currentIndex,
+              branchIndex: branchIndex,
+              backDestination: backDestination,
+              backExtra: backExtra,
+              detailRoute: detailRoute,
+              transitionKey: transitionKey,
+            ),
           ),
         );
       },
@@ -351,26 +366,29 @@ final appRouter = GoRouter(
       path: '/tools/detail',
       pageBuilder: (context, state) {
         final extras = state.extra as Map<String, dynamic>;
-        final sequenceIds = extras['sequenceIds'] as List<String>;
+        final renderItems = extras['renderItems'] as List<RenderItem>;
         final currentIndex = extras['currentIndex'] as int;
         final branchIndex = extras['branchIndex'] as int;
         final backDestination = extras['backDestination'] as String;
         final backExtra = extras['backExtra'] as Map<String, dynamic>?;
         final detailRoute = extras['detailRoute'] as DetailRoute;
-
-        final renderItems = buildRenderItems(ids: sequenceIds);
+        final transitionKey = extras['transitionKey'] as String;
 
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: state.pageKey,
-          child: ToolDetailScreen(
-            renderItems: renderItems,
-            currentIndex: currentIndex,
+          transitionKey: ValueKey(transitionKey),
+          child: MainScaffold(
             branchIndex: branchIndex,
-            backDestination: backDestination,
-            backExtra: backExtra,
-            detailRoute: detailRoute,
+            child: ToolDetailScreen(
+              renderItems: renderItems,
+              currentIndex: currentIndex,
+              branchIndex: branchIndex,
+              backDestination: backDestination,
+              backExtra: backExtra,
+              detailRoute: detailRoute,
+              transitionKey: transitionKey,
+            ),
           ),
         );
       },
@@ -2021,6 +2039,7 @@ class FlashcardItemScreen extends StatelessWidget {
 
 
 File: lib/screens/paths/path_item_screen.dart
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
@@ -2062,11 +2081,12 @@ class PathItemScreen extends StatelessWidget {
     final renderItems = buildRenderItems(ids: sequenceIds);
 
     logger.i('🟩 Found chapter "${chapter.title}" with ${items.length} items');
+    logger.i('🧪 Chapter title is: "${chapter.title}"');
 
     return Column(
       children: [
         CustomAppBarWidget(
-          title: chapter.title,
+          title: pathName.toTitleCase(),
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
@@ -2079,12 +2099,23 @@ class PathItemScreen extends StatelessWidget {
             );
           },
         ),
+
         const SizedBox(height: 16),
+        Text(
+          chapter.title,
+          style: AppTheme.headingStyle.copyWith(
+            fontSize: 20,
+            color: AppTheme.primaryBlue, // or use a darker shade if needed
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 8),
         Text(
           'Choose a Topic',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),
+
         const SizedBox(height: 16),
         Expanded(
           child: Padding(

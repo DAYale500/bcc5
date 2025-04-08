@@ -1,6 +1,7 @@
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/screens/paths/path_item_screen.dart';
+import 'package:bcc5/theme/slide_direction.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
@@ -68,6 +69,15 @@ final appRouter = GoRouter(
             state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final chapterId = extras['chapterId'] as String?;
+        final slideFrom =
+            extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+
+        // Optional: just for logging
+        final detailRoute =
+            extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+        logger.i(
+          '[PathItemRoute] detailRoute: $detailRoute | slideFrom: $slideFrom',
+        );
 
         if (chapterId == null) {
           logger.e('❌ Missing chapterId for path $pathName');
@@ -84,6 +94,7 @@ final appRouter = GoRouter(
           context: context,
           state: state,
           transitionKey: ValueKey(state.pageKey.toString()),
+          slideFrom: slideFrom,
           child: MainScaffold(
             branchIndex: 0,
             child: PathItemScreen(pathName: pathName, chapterId: chapterId),

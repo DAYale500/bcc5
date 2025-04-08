@@ -61,6 +61,7 @@ class TransitionManager {
     required GoRouterState state,
     required ValueKey<String> transitionKey,
     required Widget child,
+    SlideDirection slideFrom = SlideDirection.none, // ✅ Add this line
   }) {
     final extra = state.extra;
 
@@ -74,14 +75,14 @@ class TransitionManager {
               return DetailRoute.branch;
             })();
 
-    final slideFrom =
+    final effectiveSlideFrom =
         extra is Map<String, dynamic> && extra['slideFrom'] is SlideDirection
             ? extra['slideFrom'] as SlideDirection
-            : SlideDirection.none;
+            : slideFrom;
 
     logger.i(
       '[TransitionManager] buildCustomTransition → '
-      'detailRoute: $detailRoute | slideFrom: $slideFrom',
+      'detailRoute: $detailRoute | slideFrom: $effectiveSlideFrom',
     );
 
     return CustomTransitionPage(
@@ -93,7 +94,7 @@ class TransitionManager {
           case DetailRoute.search:
             return buildInstantTransition(child);
           case DetailRoute.path:
-            return buildSlideTransition(child, animation, slideFrom);
+            return buildSlideTransition(child, animation, effectiveSlideFrom);
         }
       },
     );
