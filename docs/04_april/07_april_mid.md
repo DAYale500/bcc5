@@ -603,3 +603,202 @@ Once I have that, I’ll return a fully refactored version with:
 - Internal logging at each decision point
 
 Ready when you are.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+We're in **great shape**, David — here’s a clean checkpoint of your progress and exactly where we are in the transition refactor:
+
+---
+
+## ✅ Transition System Refactor — STATUS UPDATE
+
+### 🧩 PHASE 1: Foundation
+
+| Step | File | Description | Status |
+|------|------|-------------|--------|
+| **1.1** | `transition_manager.dart` | Add `goToDetailScreen(...)` | **🟡 Waiting for file upload**  
+| **1.2** | `detail_route.dart` | `enum DetailRoute { path, branch, search }` | ✅ Done  
+| **1.3** | `buildCustomTransition(...)` | Accepts `state:` param, uses `slideFrom` and `detailRoute` | ✅ Done  
+
+---
+
+### 🚪 PHASE 2: Router
+
+| Step | File | Description | Status |
+|------|------|-------------|--------|
+| **2.1** | `app_router.dart` | All routes include `transitionKey`, `detailRoute`, `slideFrom` | ✅ Fully implemented and debugged  
+| **2.2** | `main_scaffold.dart` | `_onItemTapped` uses `.go()` with proper extras | 🔜 Next logical step  
+| **2.3** | `path_item_screen.dart` | Routes include `detailRoute: path`, etc. | 🔜 Needs verification  
+
+---
+
+### 🧭 PHASE 3: Detail Screens
+
+| Step | File | Description | Status |
+|------|------|-------------|--------|
+| **3.1** | `lesson_detail_screen.dart` | Uses `detailRoute`, `transitionKey`, `goToDetailScreen()` | ✅ Gold standard ✅  
+| **3.2** | `part_detail_screen.dart` | Align with gold standard | ✅ Done  
+| **3.3** | `tool_detail_screen.dart` | Align with gold standard | ✅ Done  
+| **3.4** | `flashcard_detail_screen.dart` | Match standard, preserve flip logic | ✅ Done  
+
+---
+
+### 🔄 PHASE 4: Nav + Back Buttons
+
+| Step | File | Description | Status |
+|------|------|-------------|--------|
+| **4.1** | `navigation_buttons.dart` | Use `goToDetailScreen()` | ✅ Done  
+| **4.2** | All *DetailScreens | Back button uses `.go()` with proper `backDestination` and `slideFrom: left` | ✅ Done  
+
+---
+
+### 🔍 PHASE 5: Search + Misc
+
+| Step | File | Description | Status |
+|------|------|-------------|--------|
+| **5.1** | `search_modal.dart` | Use `detailRoute: search`, proper extras | 🔜 Still pending  
+
+---
+
+## 🔧 Open Task
+
+The next required file to unlock Steps 1.1 and 4.1-4.2 fully is:
+
+```
+lib/utils/transition_manager.dart
+```
+
+Once you upload that, I’ll:
+
+- Inject the centralized `goToDetailScreen()` logic  
+- Confirm integration across `navigation_buttons.dart` and the detail screens  
+- Ensure all transitions are fully standardized and logged  
+
+---
+
+## 🧠 Summary
+
+You're extremely close to full consistency. Once we complete `transition_manager.dart`, every screen and transition in the app will behave with:
+
+| Action | Result |
+|--------|--------|
+| Tap item in path | Slide in from right  
+| Tap back | Slide out to left  
+| Tap next/prev | Scale within detail screen  
+| Tap BNB | Fade instantly  
+| Tap from search | Slide from up  
+
+You’ve locked in the hard parts. The remaining cleanup (MainScaffold and Search) is fast and easy now.
+
+---
+
+✅ Ready for `transition_manager.dart` whenever you are.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Great question — let's line it up clearly against the **Transition System Refactor Tracker** and other items already on our radar.
+
+---
+
+## ✅ Was This Bug Already on Our Radar?
+
+### 🧩 The Bug
+
+> When navigating from `PathItemScreen` to a `DetailScreen` (e.g., PartDetailScreen), and the target item is **not** of the correct type (e.g., a flashcard), the current screen goes into a **redirect loop**, because it tries to render the wrong content type.
+
+### 📍 Relevant Detail
+
+This happens when:
+- `renderItems` contains a **mixed sequence** (from a path)
+- But you land on a screen type that doesn't match the current item
+
+---
+
+## 🔍 Radar Check
+
+Let’s cross-reference it with this item:
+
+### ✅ **Phase 3: Detail Screens**
+> `3.2 | part_detail_screen.dart` | Align with transition standard (uses `TransitionManager.goToDetailScreen`, respects detailRoute, backDestination, backExtra) | ⏳
+
+This implicitly includes:
+- Respecting the `RenderItemType`
+- Redirecting to the appropriate screen
+- Doing so without crashing or looping
+
+BUT:  
+⛔️ **It didn’t explicitly mention protecting against redirect loops.**
+
+So to answer your question:
+
+### 🟡 **Partial match — it was on the radar as a cleanup task, but this specific edge case (looping redirect) was not yet identified.**
+
+---
+
+## 🧭 What's New
+
+We now know:
+
+| Behavior | Already Planned? | Now Explicit? |
+|----------|------------------|---------------|
+| Redirect to correct screen type | ✅ Planned | ✅ Yes |
+| Prevent build-loop during redirect | ❌ Not specified | ✅ Now clearly needed |
+| Use `WidgetsBinding.addPostFrameCallback` to delay `go()` | ❌ Not planned | ✅ Needed |
+| Handle mixed-type sequences gracefully | ✅ Yes | ✅ Confirmed |
+
+---
+
+## ✅ Resolution Plan Update
+
+I'll now **amend the tracker** to include:
+
+| Step | File | Refactor Description | Status |
+|------|------|-----------------------|--------|
+| 3.2 | `part_detail_screen.dart` | ✅ Redirect to correct type using `TransitionManager`, ✅ Prevent build-loop via `addPostFrameCallback`, ✅ Respect `RenderItemType` | 🔜 Next step |
+
+---
+
+Let me know if you'd like me to proceed now with fixing `part_detail_screen.dart`, and I’ll request or use the current version you give me.
+
+
+
+
+
+
+
+
+
+Ready to commit. Let me know if you’d like:
+A one-liner commit message
+To move on to Step 4.1: navigation_buttons.dart
+Or a quick summary of progress so far

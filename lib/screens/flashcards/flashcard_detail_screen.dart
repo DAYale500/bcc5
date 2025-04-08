@@ -1,14 +1,17 @@
 import 'dart:math' as math;
 import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/flip_card_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 
 class FlashcardDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -36,40 +39,49 @@ class FlashcardDetailScreen extends StatefulWidget {
 
 class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     with SingleTickerProviderStateMixin {
-  late List<RenderItem> renderItems;
   late int currentIndex;
-  late int branchIndex;
-  late String backDestination;
-  Map<String, dynamic>? backExtra;
-
-  bool showFront = true;
   late AnimationController _controller;
   late Animation<double> _flipAnimation;
+  bool showFront = true;
 
   @override
   void initState() {
     super.initState();
-
-    renderItems = widget.renderItems;
     currentIndex = widget.currentIndex;
-    branchIndex = widget.branchIndex;
-    backDestination = widget.backDestination;
-    backExtra = widget.backExtra;
 
-    if (renderItems.isEmpty) {
+    if (widget.renderItems.isEmpty) {
       logger.e('❌ FlashcardDetailScreen received empty renderItems');
     } else {
-      final item = renderItems[currentIndex];
+      final item = widget.renderItems[currentIndex];
       logger.i(
         '🟩 FlashcardDetailScreen Loaded:\n'
         '  ├─ index: $currentIndex\n'
         '  ├─ id: ${item.id}\n'
         '  ├─ type: ${item.type}\n'
-        '  ├─ renderItems.length: ${renderItems.length}\n'
-        '  ├─ branchIndex: $branchIndex\n'
-        '  ├─ backDestination: $backDestination\n'
-        '  └─ backExtra: $backExtra',
+        '  ├─ renderItems.length: ${widget.renderItems.length}\n'
+        '  ├─ branchIndex: ${widget.branchIndex}\n'
+        '  ├─ backDestination: ${widget.backDestination}\n'
+        '  └─ backExtra: ${widget.backExtra}',
       );
+
+      if (item.type != RenderItemType.flashcard) {
+        logger.w(
+          '⚠️ Redirecting from non-flashcard type: ${item.id} (${item.type})',
+        );
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          TransitionManager.goToDetailScreen(
+            context: context,
+            screenType: item.type,
+            renderItems: widget.renderItems,
+            currentIndex: currentIndex,
+            branchIndex: widget.branchIndex,
+            backDestination: widget.backDestination,
+            backExtra: widget.backExtra,
+            detailRoute: widget.detailRoute ?? DetailRoute.branch,
+            direction: SlideDirection.none,
+          );
+        });
+      }
     }
 
     _controller = AnimationController(
@@ -99,60 +111,37 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     });
   }
 
-  void goTo(int newIndex) {
-    if (newIndex < 0 || newIndex >= renderItems.length) {
+  void _navigateTo(int newIndex) {
+    if (newIndex < 0 || newIndex >= widget.renderItems.length) {
       logger.w('⛔ Invalid navigation attempt: $newIndex');
       return;
     }
 
-    final next = renderItems[newIndex];
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-    final extra = {
-      'renderItems': renderItems,
-      'currentIndex': newIndex,
-      'branchIndex': branchIndex,
-      'backDestination': backDestination,
-      'backExtra': backExtra,
-      'transitionKey': 'flashcard_${next.id}_$timestamp',
-    };
-
-    logger.i('🔁 Switching to index: $newIndex (${next.id})');
-
-    switch (next.type) {
-      case RenderItemType.flashcard:
-        context.go('/flashcards/detail', extra: extra);
-        break;
-      case RenderItemType.lesson:
-        context.go('/lessons/detail', extra: extra);
-        break;
-      case RenderItemType.part:
-        context.go('/parts/detail', extra: extra);
-        break;
-      case RenderItemType.tool:
-        context.go('/tools/detail', extra: extra);
-        break;
-    }
+    final target = widget.renderItems[newIndex];
+    TransitionManager.goToDetailScreen(
+      context: context,
+      screenType: target.type,
+      renderItems: widget.renderItems,
+      currentIndex: newIndex,
+      branchIndex: widget.branchIndex,
+      backDestination: widget.backDestination,
+      backExtra: widget.backExtra,
+      detailRoute: widget.detailRoute ?? DetailRoute.branch,
+      direction: SlideDirection.none,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (renderItems.isEmpty) {
+    if (widget.renderItems.isEmpty) {
       return const Scaffold(
         body: Center(child: Text('No flashcard content available')),
       );
     }
 
-    final currentItem = renderItems[currentIndex];
-
-    if (currentItem.type != RenderItemType.flashcard) {
-      logger.w('⚠️ Redirecting to correct screen for: ${currentItem.type}');
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        goTo(currentIndex);
-      });
-      return const Scaffold(body: SizedBox());
-    }
-
-    if (currentItem.flashcards.isEmpty) {
+    final currentItem = widget.renderItems[currentIndex];
+    if (currentItem.type != RenderItemType.flashcard ||
+        currentItem.flashcards.isEmpty) {
       return const Scaffold(
         body: Center(child: Text('No flashcard content available')),
       );
@@ -163,7 +152,8 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
     final category =
-        (backExtra?['category'] as String?)?.toTitleCase() ?? 'Flashcards';
+        (widget.backExtra?['category'] as String?)?.toTitleCase() ??
+        'Flashcards';
 
     logger.i(
       '🖼️ Rendering Flashcard:\n'
@@ -191,11 +181,14 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
               showSettingsIcon: true,
               onBack: () {
                 logger.i('🔙 Returning from FlashcardDetailScreen');
-                if (context.canPop()) {
-                  context.pop();
-                } else {
-                  context.go(backDestination, extra: backExtra);
-                }
+                context.go(
+                  widget.backDestination,
+                  extra: {
+                    ...?widget.backExtra,
+                    'transitionKey': UniqueKey().toString(),
+                    'slideFrom': SlideDirection.left,
+                  },
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -272,9 +265,9 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
             ),
             NavigationButtons(
               isPreviousEnabled: currentIndex > 0,
-              isNextEnabled: currentIndex < renderItems.length - 1,
-              onPrevious: () => goTo(currentIndex - 1),
-              onNext: () => goTo(currentIndex + 1),
+              isNextEnabled: currentIndex < widget.renderItems.length - 1,
+              onPrevious: () => _navigateTo(currentIndex - 1),
+              onNext: () => _navigateTo(currentIndex + 1),
             ),
           ],
         ),
@@ -284,19 +277,22 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
   Map<String, dynamic> get debugState => {
     'currentIndex': currentIndex,
-    'totalItems': renderItems.length,
-    'currentId': renderItems.isNotEmpty ? renderItems[currentIndex].id : 'n/a',
+    'totalItems': widget.renderItems.length,
+    'currentId':
+        widget.renderItems.isNotEmpty
+            ? widget.renderItems[currentIndex].id
+            : 'n/a',
     'currentType':
-        renderItems.isNotEmpty
-            ? renderItems[currentIndex].type.toString()
+        widget.renderItems.isNotEmpty
+            ? widget.renderItems[currentIndex].type.toString()
             : 'n/a',
     'hasFlashcards':
-        renderItems.isNotEmpty
-            ? renderItems[currentIndex].flashcards.isNotEmpty
+        widget.renderItems.isNotEmpty
+            ? widget.renderItems[currentIndex].flashcards.isNotEmpty
             : false,
     'flashcardCount':
-        renderItems.isNotEmpty
-            ? renderItems[currentIndex].flashcards.length
+        widget.renderItems.isNotEmpty
+            ? widget.renderItems[currentIndex].flashcards.length
             : 0,
   };
 }

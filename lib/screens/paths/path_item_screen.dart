@@ -6,6 +6,8 @@ import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
 
 class PathItemScreen extends StatelessWidget {
   final String pathName;
@@ -103,6 +105,8 @@ class PathItemScreen extends StatelessWidget {
                         'chapterId': chapterId,
                       },
                       'transitionKey': 'path_${id}_$timestamp',
+                      'detailRoute': DetailRoute.path,
+                      'slideFrom': SlideDirection.right,
                     };
 
                     if (id.startsWith('lesson_')) {

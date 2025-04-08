@@ -1,4 +1,5 @@
 import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart';
@@ -43,6 +44,25 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
   void initState() {
     super.initState();
     currentIndex = widget.currentIndex;
+
+    // If the item type doesn't match, redirect after build
+    final item = widget.renderItems[currentIndex];
+    if (item.type != RenderItemType.part) {
+      logger.w('⚠️ Redirecting from non-part type: ${item.id} (${item.type})');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        TransitionManager.goToDetailScreen(
+          context: context,
+          screenType: item.type,
+          renderItems: widget.renderItems,
+          currentIndex: currentIndex,
+          branchIndex: widget.branchIndex,
+          backDestination: widget.backDestination,
+          backExtra: widget.backExtra,
+          detailRoute: widget.detailRoute ?? DetailRoute.branch,
+          direction: SlideDirection.none,
+        );
+      });
+    }
   }
 
   void _navigateTo(int newIndex) {
@@ -50,20 +70,27 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
       logger.w('⚠️ Navigation index out of bounds: $newIndex');
       return;
     }
-    setState(() {
-      currentIndex = newIndex;
-    });
+
+    final targetItem = widget.renderItems[newIndex];
+    TransitionManager.goToDetailScreen(
+      context: context,
+      screenType: targetItem.type,
+      renderItems: widget.renderItems,
+      currentIndex: newIndex,
+      branchIndex: widget.branchIndex,
+      backDestination: widget.backDestination,
+      backExtra: widget.backExtra,
+      detailRoute: widget.detailRoute ?? DetailRoute.branch,
+      direction: SlideDirection.none,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final RenderItem item = widget.renderItems[currentIndex];
+    final item = widget.renderItems[currentIndex];
 
+    // Avoid rendering if the wrong screen type
     if (item.type != RenderItemType.part) {
-      logger.w('⚠️ Redirecting from non-part type: ${item.id} (${item.type})');
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _navigateTo(currentIndex);
-      });
       return const Scaffold(body: SizedBox());
     }
 
@@ -93,7 +120,14 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
               showSettingsIcon: true,
               onBack: () {
                 logger.i('🔙 Back tapped → ${widget.backDestination}');
-                context.go(widget.backDestination, extra: widget.backExtra);
+                context.go(
+                  widget.backDestination,
+                  extra: {
+                    ...?widget.backExtra,
+                    'transitionKey': UniqueKey().toString(),
+                    'slideFrom': SlideDirection.left,
+                  },
+                );
               },
             ),
             Padding(
