@@ -30,6 +30,10 @@ class ToolItemScreen extends StatelessWidget {
 
     final List<ToolItem> tools = ToolRepositoryIndex.getToolsForBag(toolbag);
     final List<String> sequenceIds = tools.map((t) => t.id).toList();
+    final toolbagName = toolbag.replaceFirst(
+      RegExp(r's$'),
+      '',
+    ); // ✅ removes trailing "s" if present
 
     return Stack(
       fit: StackFit.expand,
@@ -57,7 +61,7 @@ class ToolItemScreen extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 90), // leaves space for "Choose a Rule"
+            const SizedBox(height: 90),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -113,10 +117,11 @@ class ToolItemScreen extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                'Choose a Rule',
+                'Which $toolbagName would you like?',
                 style: AppTheme.subheadingStyle.copyWith(
                   color: AppTheme.primaryBlue,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),

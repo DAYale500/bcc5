@@ -76,7 +76,7 @@ class PathItemScreen extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Choose a Topic',
+          'Resume your voyage, or chart any path below.',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),

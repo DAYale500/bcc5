@@ -97,7 +97,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     }
 
     final moduleTitle =
-        (widget.backExtra?['module'] as String?)?.toTitleCase() ?? 'Lesson';
+        (widget.backExtra?['module'] as String?)?.toTitleCase() ?? 'Course';
     final lessonTitle = item.title;
 
     logger.i('📘 LessonDetailScreen: $lessonTitle');

@@ -45,7 +45,9 @@ class PathChapterScreen extends StatelessWidget {
 
         const SizedBox(height: 16),
         Text(
-          'Navigate these in any order you want - circle back to any chapter at any time.',
+          '''
+          'Navigate these in any order you want - sail back here at any time.
+          Set sail on a new course, resume your voyage, or chart a path below.''',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),

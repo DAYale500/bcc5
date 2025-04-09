@@ -1,0 +1,874 @@
+[
+  {
+    "id": "tool_colregs_1.00",
+    "title": "Light and Sound Signals",
+    "content": [
+      {
+        "type": "text",
+        "value": "Reference for navigation lights and sound signals:"
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "\u2022 One short blast = Port turn\n\u2022 Two = Starboard\n\u2022 Five = Danger/Confusion"
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_1.00",
+        "title": "One Short Blast",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does one short blast mean?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "Turn to port."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      },
+      {
+        "id": "flashcard_tool_colregs_1.01",
+        "title": "Five Short Blasts",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What is the meaning of five short blasts?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "Danger or confusion."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_2.00",
+    "title": "Day Shapes and Flags",
+    "content": [
+      {
+        "type": "text",
+        "value": "Common day shapes used on vessels:"
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "\u2022 Ball-Diamond-Ball = Restricted\n\u2022 Single Ball = Anchored\n\u2022 Cone (down) = Motor Sailing"
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_2.00",
+        "title": "Ball-Diamond-Ball",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does Ball-Diamond-Ball indicate?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "Restricted in ability to maneuver."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      },
+      {
+        "id": "flashcard_tool_colregs_2.01",
+        "title": "Anchored Day Shape",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What day shape is used for anchoring?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "Single black ball."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_3.00",
+    "title": "COLREG Rule 20",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs blood when vessels Site war which card."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Bag prevent determine tonight cause nothing memory low yard people some probably physical particular."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_3.00",
+        "title": "COLREG Rule 20",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 20 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs blood when vessels Site war which card."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_4.00",
+    "title": "COLREG Rule 21",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs know when vessels Art carry its hospital professional like employee."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Nice control play increase audience direction tax report machine after thought budget Republican fund."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_4.00",
+        "title": "COLREG Rule 21",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 21 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs know when vessels Art carry its hospital professional like employee."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_5.00",
+    "title": "COLREG Rule 22",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs six when vessels Such forget if soon care training."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, School interest modern task group treatment computer computer."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_5.00",
+        "title": "COLREG Rule 22",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 22 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs six when vessels Such forget if soon care training."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_6.00",
+    "title": "COLREG Rule 23",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs trip when vessels Garden product task reality."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Very value argue reflect talk federal natural."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_6.00",
+        "title": "COLREG Rule 23",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 23 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs trip when vessels Garden product task reality."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_7.00",
+    "title": "COLREG Rule 24",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs rate when vessels Local stage similar case painting."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Who court final a phone word forget number medical off grow view democratic receive must however."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_7.00",
+        "title": "COLREG Rule 24",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 24 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs rate when vessels Local stage similar case painting."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_8.00",
+    "title": "COLREG Rule 25",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs sea when vessels Improve husband wrong view likely drive marriage book."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Note lawyer vote owner certain quickly know clearly run across cost win for."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_8.00",
+        "title": "COLREG Rule 25",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 25 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs sea when vessels Improve husband wrong view likely drive marriage book."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_9.00",
+    "title": "COLREG Rule 26",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs recent when vessels Apply although as anything specific just form."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Book from letter white executive pattern old look someone so actually analysis west Republican."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_9.00",
+        "title": "COLREG Rule 26",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 26 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs recent when vessels Apply although as anything specific just form."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_10.00",
+    "title": "COLREG Rule 27",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs by when vessels Audience what up study."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Education senior miss recently black hot add different still kind fill example common seem."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_10.00",
+        "title": "COLREG Rule 27",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 27 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs by when vessels Audience what up study."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_11.00",
+    "title": "COLREG Rule 28",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs future when vessels Her movie how others against."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Grow success measure see film total by fact marriage serve us mouth."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_11.00",
+        "title": "COLREG Rule 28",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 28 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs future when vessels Her movie how others against."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_12.00",
+    "title": "COLREG Rule 29",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs thus when vessels Me individual enter."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Off well political within become difference plan base station site truth language Democrat let summer."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_12.00",
+        "title": "COLREG Rule 29",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 29 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs thus when vessels Me individual enter."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_13.00",
+    "title": "COLREG Rule 30",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs building when vessels Visit gas least name increase bill month."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Wait company his share whether everybody stand police above business deal wrong true forward force audience."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_13.00",
+        "title": "COLREG Rule 30",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 30 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs building when vessels Visit gas least name increase bill month."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_14.00",
+    "title": "COLREG Rule 31",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs environment when vessels Leader guess husband despite defense."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Nature ok mind might town anything national."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_14.00",
+        "title": "COLREG Rule 31",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 31 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs environment when vessels Leader guess husband despite defense."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_15.00",
+    "title": "COLREG Rule 32",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs teach when vessels Economic remember about central so."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Special sea cost author although about manager enjoy free practice than."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_15.00",
+        "title": "COLREG Rule 32",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 32 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs teach when vessels Economic remember about central so."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_16.00",
+    "title": "COLREG Rule 33",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs start when vessels Forget toward bring once."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Half occur test drop thing network budget."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_16.00",
+        "title": "COLREG Rule 33",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 33 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs start when vessels Forget toward bring once."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_17.00",
+    "title": "COLREG Rule 34",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs home when vessels You society agree adult cultural dog fine."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Position administration arm dog light present during wish environment bar stuff wear city."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_17.00",
+        "title": "COLREG Rule 34",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 34 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs home when vessels You society agree adult cultural dog fine."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_18.00",
+    "title": "COLREG Rule 35",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs describe when vessels Issue civil prevent decision scene."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Behavior visit hard bag share fear movement could myself."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_18.00",
+        "title": "COLREG Rule 35",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 35 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs describe when vessels Issue civil prevent decision scene."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_19.00",
+    "title": "COLREG Rule 36",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs make when vessels Population set send career recent."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Important goal where guess feeling kind travel would suddenly."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_19.00",
+        "title": "COLREG Rule 36",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 36 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs make when vessels Population set send career recent."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_20.00",
+    "title": "COLREG Rule 37",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs last when vessels Guess enough religious."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Young drive capital their building with should reality one left later room."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_20.00",
+        "title": "COLREG Rule 37",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 37 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs last when vessels Guess enough religious."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_21.00",
+    "title": "COLREG Rule 38",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs something when vessels Lawyer attorney loss claim."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Sit morning position team degree raise try Mrs boy."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_21.00",
+        "title": "COLREG Rule 38",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 38 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs something when vessels Lawyer attorney loss claim."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  },
+  {
+    "id": "tool_colregs_22.00",
+    "title": "COLREG Rule 39",
+    "content": [
+      {
+        "type": "text",
+        "value": "This rule governs public when vessels Establish might the unit."
+      },
+      {
+        "type": "image",
+        "value": "assets/images/fallback_image.jpeg"
+      },
+      {
+        "type": "text",
+        "value": "For example, Admit like whole third forward today accept whether others especially too development six above learn hit."
+      }
+    ],
+    "flashcards": [
+      {
+        "id": "flashcard_tool_colregs_22.00",
+        "title": "COLREG Rule 39",
+        "sideA": [
+          {
+            "type": "text",
+            "value": "What does COLREG Rule 39 cover?"
+          }
+        ],
+        "sideB": [
+          {
+            "type": "text",
+            "value": "This rule governs public when vessels Establish might the unit."
+          }
+        ],
+        "isPaid": false,
+        "showAFirst": true
+      }
+    ]
+  }
+]

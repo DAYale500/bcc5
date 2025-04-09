@@ -153,8 +153,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
     final category =
-        (widget.backExtra?['category'] as String?)?.toTitleCase() ??
-        'Flashcards';
+        (widget.backExtra?['category'] as String?)?.toTitleCase() ?? 'Drills';
 
     logger.i(
       '🖼️ Rendering Flashcard:\n'
