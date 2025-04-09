@@ -1,3 +1,6 @@
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -30,7 +33,7 @@ class LandingScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'Sailing Routes',
+                    "Let's make this the Tour button?",
                     style: AppTheme.subheadingStyle.copyWith(
                       color: AppTheme.primaryBlue,
                     ),
@@ -57,17 +60,25 @@ class LandingScreen extends StatelessWidget {
                 _buildPathButton(
                   context,
                   'Competent Crew',
-                  AppTheme.highlightedGroupButtonStyle,
+                  _groupButtonStyle(), // 🔴 match the picker button style
                   () {
                     logger.i('📘 Navigating to Competent Crew Path');
-                    context.go('/learning-paths/competent-crew');
+                    context.go(
+                      '/learning-paths/competent-crew',
+                      extra: {
+                        'slideFrom': SlideDirection.right,
+                        'transitionType': TransitionType.slide,
+                        'detailRoute': DetailRoute.path,
+                      },
+                    );
                   },
                 ),
+
                 const SizedBox(height: 28),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    "Knock the rust off these topics if your sea-legs are gone.",
+                    "Sea-legs shaky? Knock the rust off with these!",
                     style: AppTheme.subheadingStyle.copyWith(
                       color: AppTheme.primaryBlue,
                       fontStyle: FontStyle.italic,
@@ -75,31 +86,84 @@ class LandingScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-
                 const SizedBox(height: 16),
-                _buildPathButton(
-                  context,
-                  'Knock the Rust Off',
-                  _groupButtonStyle(),
-                  () {
-                    logger.i('📘 Navigating to Knock the Rust Off Path');
-                    context.go('/learning-paths/knock-the-rust-off');
-                  },
+
+                // 🧭 Knock the Rust Off Picker
+                // Knock the Rust Off Picker
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Text(
+                      //   'Knock the Rust Off Paths',
+                      //   style: AppTheme.subheadingStyle.copyWith(
+                      //     color: AppTheme.primaryBlue,
+                      //   ),
+                      //   textAlign: TextAlign.center,
+                      // ),
+                      const SizedBox(height: 8),
+                      Center(
+                        child: PopupMenuButton<String>(
+                          onSelected: (value) {
+                            logger.i('📘 Navigating to $value');
+                            context.go(
+                              '/learning-paths/$value',
+                              extra: {
+                                'slideFrom': SlideDirection.right,
+                                'transitionType': TransitionType.slide,
+                                'detailRoute': DetailRoute.path,
+                              },
+                            );
+                          },
+
+                          itemBuilder:
+                              (context) => [
+                                const PopupMenuItem(
+                                  value: 'knock-the-rust-off',
+                                  child: Text('Knock the Rust Off'),
+                                ),
+                                const PopupMenuItem(
+                                  value: 'docking',
+                                  child: Text('Docking'),
+                                ),
+                                const PopupMenuItem(
+                                  value: 'transition-demo',
+                                  child: Text('Anchoring'),
+                                ),
+                              ],
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 14,
+                              horizontal: 24,
+                            ),
+                            decoration: BoxDecoration(
+                              color:
+                                  AppTheme.primaryRed, // 🔴 Your desired color
+                              borderRadius: BorderRadius.circular(
+                                AppTheme.buttonCornerRadius,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Text(
+                                  'Knock the Rust Off',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                SizedBox(width: 8),
+                                Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 16),
-                _buildPathButton(context, 'Docking', _groupButtonStyle(), () {
-                  logger.i('📘 Navigating to Docking Path');
-                  context.go('/learning-paths/docking');
-                }),
-                const SizedBox(height: 16),
-
-                // 🧪 TEMP: Anchoring → Transition Demo
-                _buildPathButton(context, 'Anchoring', _groupButtonStyle(), () {
-                  logger.i(
-                    '🎬 Navigating to Transition Demo via Anchoring button',
-                  );
-                  context.go('/transition-demo'); // 👈 temporarily rerouted
-                }),
 
                 const SizedBox(height: 36),
 
@@ -137,7 +201,8 @@ class LandingScreen extends StatelessWidget {
 
   ButtonStyle _groupButtonStyle() {
     return ElevatedButton.styleFrom(
-      backgroundColor: AppTheme.groupButtonSelected,
+      backgroundColor:
+          AppTheme.primaryRed, // 🔴 changed from groupButtonSelected
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),

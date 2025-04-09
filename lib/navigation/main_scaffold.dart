@@ -48,11 +48,11 @@ class MainScaffold extends StatelessWidget {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.anchor_outlined),
-            label: 'Home',
+            label: 'Harbor',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.public_outlined),
-            label: 'Modules',
+            label: 'Courses',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.sailing_outlined),
@@ -61,7 +61,7 @@ class MainScaffold extends StatelessWidget {
           BottomNavigationBarItem(icon: Icon(Icons.build), label: 'Tools'),
           BottomNavigationBarItem(
             icon: Icon(Icons.quiz_outlined),
-            label: 'Flashcards',
+            label: 'Drills',
           ),
         ],
       ),

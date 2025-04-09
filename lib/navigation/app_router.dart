@@ -49,12 +49,23 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final pathName =
             state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
+
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final slideFrom =
+            extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+        final transitionType =
+            extras['transitionType'] as TransitionType? ??
+            TransitionType.instant;
+        // final detailRoute = extras['detailRoute'] as DetailRoute? ?? DetailRoute.path;
+
         logger.i('🧭 Navigating to PathChapterScreen for "$pathName"');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: ValueKey(state.pageKey.toString()), // ✅ FIXED
-
+          transitionKey: ValueKey(state.pageKey.toString()),
+          slideFrom: slideFrom,
+          transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 0,
             child: PathChapterScreen(pathName: pathName),
@@ -62,6 +73,7 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/learning-paths/:pathName/items',
       name: 'learning-path-items',

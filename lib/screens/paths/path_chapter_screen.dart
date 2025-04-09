@@ -30,7 +30,19 @@ class PathChapterScreen extends StatelessWidget {
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          onBack: () {
+            logger.i('🔙 Back tapped from PathChapterScreen');
+            context.go(
+              '/',
+              extra: {
+                'slideFrom': SlideDirection.left,
+                'transitionType': TransitionType.slide,
+                'detailRoute': DetailRoute.path,
+              },
+            );
+          },
         ),
+
         const SizedBox(height: 16),
         Text(
           'Navigate these in any order you want - circle back to any chapter at any time.',
