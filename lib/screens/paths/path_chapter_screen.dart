@@ -43,15 +43,63 @@ class PathChapterScreen extends StatelessWidget {
           },
         ),
 
-        const SizedBox(height: 16),
-        Text(
-          '''
-          'Navigate these in any order you want - sail back here at any time.
-          Set sail on a new course, resume your voyage, or chart a path below.''',
-          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
-          textAlign: TextAlign.center,
+        const SizedBox(height: 20),
+
+        // 🚀 Primary actions
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        '⛵ This will start the path from the beginning.',
+                      ),
+                    ),
+                  );
+                },
+                style: AppTheme.groupRedButtonStyle,
+                child: const Text('Set sail on a new course'),
+              ),
+
+              const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        '📍 This will resume where you last left off.',
+                      ),
+                    ),
+                  );
+                },
+                style: AppTheme.groupRedButtonStyle,
+                child: const Text('Resume your voyage'),
+              ),
+            ],
+          ),
         ),
+
+        const SizedBox(height: 28),
+
+        // 🌊 Secondary instruction
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'or Explore these courses:',
+            style: AppTheme.subheadingStyle.copyWith(
+              color: AppTheme.primaryBlue,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+
         const SizedBox(height: 16),
+
+        // 📚 Chapter list
         Expanded(
           child:
               titles.isEmpty

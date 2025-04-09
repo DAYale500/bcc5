@@ -215,3 +215,46 @@ BottomNavigationBarItem(
 ---
 
 Want me to implement the direction-sensitive transition polish in the `_onItemTapped()` logic?
+
+
+
+
+1. placeholder for learning paths
+1.1 wire up "resume your voyage"
+1.2 include UI/UX visual cues
+
+2. breadcrumbs for item and deail screens
+2.1 don't need GroupName as it's in the bnb
+2.2 just need Item/detail across top of mainScaffold
+
+3. appTheme /styling guide for all text areas
+3.1 ensure works on screens of different types
+
+4. MOB floating button 
+4.1 lifering as icon
+4.2 get GPS coords?
+4.3 send user to MOB steps and follow up actions
+
+5. repos as jsons?
+
+6. polish search feature
+
+7. Flashcards 
+7.1 all button -> flashcardDetail right away?
+7.2 random button -> not flashcardItemScreen but random selection screen then -> flashcardDetailScreen
+
+8. Rename toolBag: References -> Thumbrules?
+
+9. partZoneScreen hover highlights the zone somehow?
+
+10. add tons of info
+
+11. create learning Paths persistence
+
+12. can a checklist be made interactive? 
+12.1 reset all
+12.2 show me what's not done
+12.3 edit the list..
+
+13. 
+
