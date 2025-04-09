@@ -2,6 +2,7 @@ import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
@@ -108,11 +109,20 @@ final appRouter = GoRouter(
       path: '/lessons',
       name: 'lessons',
       pageBuilder: (context, state) {
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final slideFrom =
+            extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+        final transitionType =
+            extras['transitionType'] as TransitionType? ??
+            TransitionType.instant;
+
         logger.i('📘 Entering LessonModuleScreen');
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: ValueKey(state.pageKey.toString()),
+          slideFrom: slideFrom,
+          transitionType: transitionType,
           child: const MainScaffold(
             branchIndex: 1,
             child: LessonModuleScreen(),
@@ -127,6 +137,14 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final module = extras['module'] as String?;
+        final slideFrom =
+            extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+        final transitionType =
+            extras['transitionType'] as TransitionType? ??
+            TransitionType.instant;
+        final detailRoute =
+            extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
         if (module == null) {
           logger.e('❌ Missing module parameter for LessonItemScreen');
           return TransitionManager.buildCustomTransition(
@@ -139,11 +157,18 @@ final appRouter = GoRouter(
             ),
           );
         }
-        logger.i('📘 Navigating to LessonItemScreen for module: $module');
+
+        logger.i(
+          '📘 Navigating to LessonItemScreen for module: $module | detailRoute: $detailRoute',
+        );
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: state.pageKey,
+          slideFrom: slideFrom,
+          transitionType: transitionType,
+
           child: MainScaffold(
             branchIndex: 1,
             child: LessonItemScreen(module: module),
@@ -189,26 +214,50 @@ final appRouter = GoRouter(
       path: '/parts',
       name: 'parts',
       pageBuilder: (context, state) {
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final slideFrom =
+            extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+        final transitionType =
+            extras['transitionType'] as TransitionType? ??
+            TransitionType.instant;
+
         logger.i('🧩 Entering PartZoneScreen');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: state.pageKey,
+          slideFrom: slideFrom,
+          transitionType: transitionType,
           child: const MainScaffold(branchIndex: 2, child: PartZoneScreen()),
         );
       },
     ),
+
     GoRoute(
       path: '/parts/items',
       name: 'part-items',
       pageBuilder: (context, state) {
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final zone = extras['zone'] as String? ?? '';
-        logger.i('🧩 Navigating to PartItemScreen for zone: $zone');
+        final slideFrom =
+            extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+        final transitionType =
+            extras['transitionType'] as TransitionType? ??
+            TransitionType.instant;
+        final detailRoute =
+            extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+        logger.i(
+          '🧩 Navigating to PartItemScreen for zone: $zone | detailRoute: $detailRoute',
+        );
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: state.pageKey,
+          slideFrom: slideFrom,
+          transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 2,
             child: PartItemScreen(zone: zone),
@@ -254,26 +303,50 @@ final appRouter = GoRouter(
       path: '/tools',
       name: 'tools',
       pageBuilder: (context, state) {
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final slideFrom =
+            extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+        final transitionType =
+            extras['transitionType'] as TransitionType? ??
+            TransitionType.instant;
+
         logger.i('🛠️ Entering ToolsScreen');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: state.pageKey,
+          slideFrom: slideFrom,
+          transitionType: transitionType,
           child: MainScaffold(branchIndex: 3, child: ToolBagScreen()),
         );
       },
     ),
+
     GoRoute(
       path: '/tools/items',
       name: 'tool-items',
       pageBuilder: (context, state) {
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final toolbag = extras['toolbag'] as String? ?? '';
-        logger.i('🛠️ Navigating to ToolItemScreen for toolbag: $toolbag');
+        final slideFrom =
+            extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+        final transitionType =
+            extras['transitionType'] as TransitionType? ??
+            TransitionType.instant;
+        final detailRoute =
+            extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+        logger.i(
+          '🛠️ Navigating to ToolItemScreen for toolbag: $toolbag | detailRoute: $detailRoute',
+        );
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: state.pageKey,
+          slideFrom: slideFrom,
+          transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 3,
             child: ToolItemScreen(toolbag: toolbag),
@@ -281,6 +354,7 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/tools/detail',
       pageBuilder: (context, state) {
@@ -319,10 +393,21 @@ final appRouter = GoRouter(
       name: 'flashcards',
       pageBuilder: (context, state) {
         logger.i('📇 Entering FlashcardCategoryScreen');
+
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final slideFrom =
+            extras['slideFrom'] as SlideDirection? ??
+            SlideDirection.left; // <- left for back nav
+        final transitionType =
+            extras['transitionType'] as TransitionType? ?? TransitionType.slide;
+        // final detailRoute = extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: state.pageKey, // ✅ added here
+          transitionKey: state.pageKey,
+          slideFrom: slideFrom,
+          transitionType: transitionType,
           child: const MainScaffold(
             branchIndex: 4,
             child: FlashcardCategoryScreen(),
@@ -330,19 +415,36 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/flashcards/items',
       name: 'flashcardItems',
       pageBuilder: (context, state) {
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final category = extras['category'] as String? ?? 'all';
+        final slideFrom =
+            extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+        final transitionType =
+            extras['transitionType'] as TransitionType? ??
+            TransitionType.instant;
+
+        // ✅ Just make sure we pull this from .extra so it's usable downstream
+        final detailRoute =
+            extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
         logger.i(
           '📇 Navigating to FlashcardItemScreen for category: $category',
         );
+        logger.i(
+          '📇 Navigating to FlashcardItemScreen for category: $category | detailRoute: $detailRoute',
+        );
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: state.pageKey, // ✅ added here
+          transitionKey: state.pageKey,
+          slideFrom: slideFrom,
+          transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 4,
             child: FlashcardItemScreen(category: category),
@@ -350,6 +452,7 @@ final appRouter = GoRouter(
         );
       },
     ),
+
     GoRoute(
       path: '/flashcards/detail',
       pageBuilder: (context, state) {

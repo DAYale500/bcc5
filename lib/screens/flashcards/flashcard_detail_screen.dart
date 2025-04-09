@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -128,6 +129,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       backExtra: widget.backExtra,
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
+      transitionType: TransitionType.fadeScale, // ✅ Added line
     );
   }
 
@@ -188,6 +190,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                       ...?widget.backExtra,
                       'transitionKey': UniqueKey().toString(),
                       'slideFrom': SlideDirection.left,
+                      'transitionType': TransitionType.slide,
                     },
                   );
                 },

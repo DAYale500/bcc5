@@ -19,6 +19,7 @@ class TransitionManager {
     required Map<String, dynamic>? backExtra,
     required DetailRoute detailRoute,
     SlideDirection direction = SlideDirection.none,
+    TransitionType transitionType = TransitionType.slide, // ✅ NEW PARAM
   }) {
     final route = _getRouteForScreenType(screenType);
     final transitionKey = UniqueKey().toString();
@@ -41,6 +42,7 @@ class TransitionManager {
         'detailRoute': detailRoute,
         'transitionKey': transitionKey,
         'slideFrom': direction,
+        'transitionType': transitionType, // ✅ NEW FIELD
       },
     );
   }
@@ -94,6 +96,8 @@ class TransitionManager {
       '[TransitionManager] buildCustomTransition → '
       'detailRoute: $detailRoute | transitionType: $effectiveTransitionType | slideFrom: $effectiveSlideFrom',
     );
+
+    // ✅ Add these additional transitions into your transitionsBuilder
 
     // ✅ Add these additional transitions into your transitionsBuilder
 

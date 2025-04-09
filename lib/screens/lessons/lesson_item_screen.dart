@@ -1,3 +1,4 @@
+import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -31,7 +32,15 @@ class LessonItemScreen extends StatelessWidget {
           showSettingsIcon: true,
           onBack: () {
             logger.i('🔙 AppBar back from LessonItemScreen');
-            context.go('/lessons');
+            context.go(
+              '/lessons',
+              extra: {
+                'slideFrom': SlideDirection.left,
+                'transitionType': TransitionType.slide,
+                'detailRoute':
+                    DetailRoute.branch, // optional but fine to include
+              },
+            );
           },
         ),
         const SizedBox(height: 16),
@@ -71,7 +80,8 @@ class LessonItemScreen extends StatelessWidget {
                         'backDestination': '/lessons/items',
                         'backExtra': {'module': module, 'branchIndex': 1},
                         'transitionKey': 'lesson_${lesson.id}_$timestamp',
-                        'transitionType': TransitionType.instant, // ✅ Add this
+                        'transitionType': TransitionType.slide,
+                        'slideFrom': SlideDirection.right,
                       },
                     );
                   },

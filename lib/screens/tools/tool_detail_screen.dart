@@ -1,5 +1,6 @@
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart';
@@ -81,6 +82,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
       backExtra: widget.backExtra,
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
+      transitionType: TransitionType.fadeScale, // ✅ NEW
     );
   }
 
@@ -138,6 +140,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                       ...?widget.backExtra,
                       'transitionKey': UniqueKey().toString(),
                       'slideFrom': SlideDirection.left,
+                      'transitionType': TransitionType.slide, // ✅ Add this line
                     },
                   );
                 },

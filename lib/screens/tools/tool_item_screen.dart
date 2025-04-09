@@ -1,4 +1,6 @@
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -45,7 +47,14 @@ class ToolItemScreen extends StatelessWidget {
               showSettingsIcon: true,
               onBack: () {
                 logger.i('🔙 AppBar back from ToolItemScreen');
-                context.go('/tools');
+                context.go(
+                  '/tools',
+                  extra: {
+                    'slideFrom': SlideDirection.left,
+                    'transitionType': TransitionType.slide,
+                    'detailRoute': DetailRoute.branch,
+                  },
+                );
               },
             ),
             const SizedBox(height: 90), // leaves space for "Choose a Rule"
@@ -78,6 +87,8 @@ class ToolItemScreen extends StatelessWidget {
                             'backExtra': {'toolbag': toolbag},
                             'transitionKey': 'tool_${tool.id}_$timestamp',
                             'detailRoute': DetailRoute.branch, // ✅ PATCHED
+                            'transitionType': TransitionType.slide,
+                            'slideFrom': SlideDirection.right,
                           },
                         );
                       },

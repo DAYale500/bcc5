@@ -1,3 +1,5 @@
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -42,7 +44,16 @@ class FlashcardItemScreen extends StatelessWidget {
             showSettingsIcon: true,
             onBack: () {
               logger.i('🔙 AppBar back from FlashcardItemScreen');
-              context.go('/flashcards');
+              context.go(
+                '/flashcards',
+                extra: {
+                  'slideFrom': SlideDirection.left,
+                  'transitionType': TransitionType.slide,
+                  'detailRoute':
+                      DetailRoute
+                          .branch, // optional if TransitionManager relies on it
+                },
+              );
             },
           ),
           const Expanded(
@@ -126,7 +137,9 @@ class FlashcardItemScreen extends StatelessWidget {
                         'backDestination': '/flashcards/items',
                         'backExtra': {'category': category},
                         'transitionKey': 'flashcard_detail_${index}_$timestamp',
-                        'detailRoute': DetailRoute.branch, // ✅ PATCHED
+                        'detailRoute': DetailRoute.branch,
+                        'slideFrom': SlideDirection.right, // ✅ NEW
+                        'transitionType': TransitionType.slide, // ✅ NEW
                       },
                     );
                   },

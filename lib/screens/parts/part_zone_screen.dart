@@ -1,3 +1,6 @@
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/utils/logger.dart';
@@ -150,6 +153,9 @@ class PartZoneScreen extends StatelessWidget {
                     'zone': zone,
                     'transitionKey':
                         'part_items_${zone.toLowerCase()}_$timestamp',
+                    'slideFrom': SlideDirection.right, // ✅ add this
+                    'transitionType': TransitionType.slide, // ✅ add this
+                    'detailRoute': DetailRoute.branch, // ✅ consistency
                   },
                 );
               },

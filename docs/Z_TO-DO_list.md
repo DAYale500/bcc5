@@ -149,3 +149,69 @@ checklists
 emergency procedues (always on top?)
 references (colregs, lights, sounds)
 
+
+
+
+
+
+some ideas:
+Your `MainScaffold` is already solid and clean, but here are a few polishing suggestions to make it airtight and consistent with the rest of your app architecture:
+
+---
+
+### ✅ 1. **SlideDirection.left for BNB back transitions**
+When switching *backward* (e.g., from index 3 → 2), you could optionally set the `slideFrom` based on the relative tab index to reflect directionality.
+
+```dart
+final SlideDirection direction =
+    (index < branchIndex) ? SlideDirection.left : SlideDirection.right;
+```
+
+Then in `context.go(...)`:
+
+```dart
+context.go(
+  destination,
+  extra: {
+    'transitionKey': UniqueKey(),
+    'detailRoute': DetailRoute.branch,
+    'slideFrom': direction,
+    'transitionType': TransitionType.slide,
+  },
+);
+```
+
+---
+
+### ✅ 2. **Use `ValueKey` for `transitionKey` if desired**
+Currently you're using `UniqueKey()`, which is great for forcing a rebuild. But if you want transitions between tabs to look a bit smoother (not full rebuilds), using `ValueKey('tab_$index')` would help with stability.
+
+---
+
+### ✅ 3. **Optional: Support hiding BNB per branch**
+If you ever need to hide the bottom navigation for a detail-only branch, you could wrap it in a flag:
+
+```dart
+final hideBNB = false; // or compute based on current route
+
+bottomNavigationBar: hideBNB ? null : BottomNavigationBar(...)
+```
+
+---
+
+### ✅ 4. **Optional: Add `onLongPress` for tooltips/debug**
+For dev/testing or power users, long-pressing a BNB item could log debug info:
+
+```dart
+BottomNavigationBarItem(
+  icon: GestureDetector(
+    onLongPress: () => logger.d('Long pressed tab $index'),
+    child: Icon(Icons.public_outlined),
+  ),
+  label: 'Modules',
+),
+```
+
+---
+
+Want me to implement the direction-sensitive transition polish in the `_onItemTapped()` logic?

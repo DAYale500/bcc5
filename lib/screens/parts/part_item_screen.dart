@@ -1,3 +1,5 @@
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -33,7 +35,14 @@ class PartItemScreen extends StatelessWidget {
           showSettingsIcon: true,
           onBack: () {
             logger.i('🔙 AppBar back from PartItemScreen');
-            context.go('/parts');
+            context.go(
+              '/parts',
+              extra: {
+                'slideFrom': SlideDirection.left,
+                'transitionType': TransitionType.slide,
+                'detailRoute': DetailRoute.branch,
+              },
+            );
           },
         ),
         const SizedBox(height: 16),
@@ -70,7 +79,9 @@ class PartItemScreen extends StatelessWidget {
                         'backDestination': '/parts/items',
                         'backExtra': {'zone': zone},
                         'transitionKey': 'part_${part.id}_$timestamp',
-                        'detailRoute': DetailRoute.branch, // <-- ✅ PATCHED
+                        'detailRoute': DetailRoute.branch,
+                        'transitionType': TransitionType.slide, // ✅ added
+                        'slideFrom': SlideDirection.right, // ✅ added
                       },
                     );
                   },

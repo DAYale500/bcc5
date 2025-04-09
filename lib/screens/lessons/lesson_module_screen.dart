@@ -1,3 +1,4 @@
+import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -54,7 +55,8 @@ class LessonModuleScreen extends StatelessWidget {
                       extra: {
                         'module': moduleName,
                         'transitionKey': 'lesson_items_${index}_$timestamp',
-                        'transitionType': TransitionType.instant, // ✅ Add this
+                        'transitionType': TransitionType.slide,
+                        'slideFrom': SlideDirection.right,
                       },
                     );
                   },

@@ -1,3 +1,6 @@
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -84,7 +87,10 @@ class ToolBagScreen extends StatelessWidget {
                         '/tools/items',
                         extra: {
                           'toolbag': toolbag,
+                          'slideFrom': SlideDirection.right, // ✅ NEW
+                          'transitionType': TransitionType.slide, // ✅ NEW
                           'transitionKey': 'tool_items_${toolbag}_$timestamp',
+                          'detailRoute': DetailRoute.branch,
                         },
                       );
                     },

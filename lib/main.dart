@@ -10,6 +10,24 @@ void main() {
 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
+🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕
 ''');
 
   runApp(const Bcc5App());
