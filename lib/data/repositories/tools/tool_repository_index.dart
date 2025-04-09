@@ -1,22 +1,18 @@
 import 'package:bcc5/data/models/flashcard_model.dart';
 import 'package:bcc5/data/models/tool_model.dart';
+import 'package:bcc5/data/repositories/tools/tool_references_repository.dart';
 import 'package:bcc5/utils/logger.dart';
 
 import 'tool_procedures_repository.dart';
-import 'tool_references_repository.dart';
+import 'tool_colregs_repository.dart';
 import 'tool_checklists_repository.dart';
-import 'tool_ditchbag_repository.dart';
-import 'tool_grabbag_repository.dart';
-import 'tool_thumbrules_repository.dart';
 
 class ToolRepositoryIndex {
   static final Map<String, List<ToolItem>> _toolbags = {
+    'checklists': ToolChecklistsRepository.toolItems,
     'procedures': ToolProceduresRepository.toolItems,
     'references': ToolReferencesRepository.toolItems,
-    'checklists': ToolChecklistsRepository.toolItems,
-    'grabbag': ToolGrabbagRepository.toolItems,
-    'ditchbag': ToolDitchbagRepository.toolItems,
-    'thumbrules': ToolThumbrulesRepository.toolItems,
+    'colregs': ToolColregsRepository.toolItems,
   };
 
   static List<ToolItem> getToolsForBag(String toolbag) =>

@@ -56,5 +56,78 @@ class ToolChecklistsRepository {
         ),
       ],
     ),
+    ToolItem(
+      id: 'tool_checklists_3.00',
+      title: 'Ditch Bag Essentials',
+      content: [
+        ContentBlock.text('Critical items to include in your ditch bag:'),
+        ContentBlock.image('assets/images/fallback_image.jpeg'),
+        ContentBlock.text(
+          '1. Waterproof VHF radio\n2. EPIRB/PLB\n3. Flares\n4. Water & rations\n5. First aid kit',
+        ),
+      ],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_tool_checklists_3.00',
+          title: 'Ditch Bag Contents',
+          sideA: [
+            ContentBlock.text('Name 3 essential items for your ditch bag.'),
+          ],
+          sideB: [
+            ContentBlock.text('VHF, flares, EPIRB/PLB, food/water, first aid.'),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    ToolItem(
+      id: 'tool_checklists_4.00',
+      title: 'Headlamp Basics',
+      content: [
+        ContentBlock.text(
+          'Use a red-light headlamp at night to preserve night vision.',
+        ),
+        ContentBlock.image('assets/images/fallback_image.jpeg'),
+        ContentBlock.text('Check battery levels before departure.'),
+      ],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_tool_checklists_4.00',
+          title: 'Night Vision Tip',
+          sideA: [
+            ContentBlock.text('What kind of headlamp preserves night vision?'),
+          ],
+          sideB: [ContentBlock.text('A red-light headlamp.')],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+    ToolItem(
+      id: 'tool_checklists_5.00',
+      title: 'Backup Navigation Tools',
+      content: [
+        ContentBlock.text('Always keep paper charts and a handheld compass.'),
+        ContentBlock.image('assets/images/fallback_image.jpeg'),
+        ContentBlock.text(
+          'Battery-powered GPS can fail; analog tools are essential.',
+        ),
+      ],
+      flashcards: [
+        Flashcard(
+          id: 'flashcard_tool_checklists_5.00',
+          title: 'Analog Navigation',
+          sideA: [
+            ContentBlock.text(
+              'What are two essential analog nav tools to carry?',
+            ),
+          ],
+          sideB: [ContentBlock.text('Paper charts and a handheld compass.')],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
   ];
 }

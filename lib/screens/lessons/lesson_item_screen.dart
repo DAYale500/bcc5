@@ -45,7 +45,8 @@ class LessonItemScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          'Choose a Lesson',
+          'Courses:\n'
+          'Dive in to any course below.',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),

@@ -20,7 +20,7 @@ class LessonModuleScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: const CustomAppBarWidget(
-        title: 'Lessons',
+        title: 'Courses',
         showBackButton: false,
         showSearchIcon: true,
         showSettingsIcon: true,
@@ -29,12 +29,13 @@ class LessonModuleScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 16),
           Text(
-            'Choose a Module',
+            'Select a course to embark upon:',
             style: AppTheme.subheadingStyle.copyWith(
               color: AppTheme.primaryBlue,
             ),
             textAlign: TextAlign.center,
           ),
+
           const SizedBox(height: 16),
           Expanded(
             child: ListView.separated(

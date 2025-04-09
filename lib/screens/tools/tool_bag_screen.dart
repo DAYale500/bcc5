@@ -58,7 +58,7 @@ class ToolBagScreen extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                'Choose a Toolbag',
+                'Which toolbag do you need?',
                 style: AppTheme.subheadingStyle.copyWith(
                   color: AppTheme.primaryBlue,
                 ),

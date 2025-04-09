@@ -98,7 +98,7 @@ class FlashcardItemScreen extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                'Choose a Flashcard',
+                'Dive into a trial...',
                 style: AppTheme.subheadingStyle.copyWith(
                   color: AppTheme.primaryBlue,
                 ),

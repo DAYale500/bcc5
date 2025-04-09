@@ -29,7 +29,7 @@ class FlashcardCategoryScreen extends StatelessWidget {
           left: 0,
           right: 0,
           child: CustomAppBarWidget(
-            title: 'Flashcards',
+            title: 'Sea Trials',
             showBackButton: false,
             showSearchIcon: true,
             showSettingsIcon: true,
@@ -47,7 +47,7 @@ class FlashcardCategoryScreen extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                'Choose a Group',
+                'Pick a Challenge!',
                 style: AppTheme.subheadingStyle.copyWith(
                   color: AppTheme.primaryBlue,
                 ),

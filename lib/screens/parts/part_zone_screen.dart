@@ -27,11 +27,11 @@ class PartZoneScreen extends StatelessWidget {
   };
 
   final Map<String, String> zoneDescriptions = const {
-    'Sails': 'Sails -- Wind-catching cloth',
-    'Rigging': 'Rigging -- Cables & spars for the sails',
-    'Deck': 'Deck -- Top surface of the boat',
-    'Interior': 'Interior -- Cabin and below-deck area',
-    'Hull': 'Hull -- Main body of the boat',
+    'Sails': 'Sails -- Harness the Wind',
+    'Rigging': 'Rigging -- Manage the sails',
+    'Deck': 'Deck -- Exterior working surface',
+    'Interior': 'Interior -- Below-deck area',
+    'Hull': 'Hull -- Body of the boat',
   };
 
   final double appBarOffset = 80.0;
@@ -80,7 +80,7 @@ class PartZoneScreen extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                'Choose a Zone',
+                'Where would you like to explore?',
                 style: AppTheme.subheadingStyle.copyWith(
                   color: AppTheme.primaryBlue,
                 ),
