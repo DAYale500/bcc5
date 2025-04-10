@@ -28,4 +28,14 @@ class RenderItem {
 
   @override
   int get hashCode => id.hashCode;
+
+  factory RenderItem.fromFlashcard(Flashcard flashcard) {
+    return RenderItem(
+      id: flashcard.id,
+      type: RenderItemType.flashcard,
+      title: flashcard.title,
+      content: flashcard.sideA, // or empty list if irrelevant
+      flashcards: [flashcard],
+    );
+  }
 }

@@ -14,6 +14,10 @@ import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/transition_manager.dart';
 
+import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+
 class PartDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
   final int currentIndex;
@@ -171,6 +175,159 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                   logger.i('➡️ Next tapped on PartDetailScreen');
                   _navigateTo(currentIndex + 1);
                 },
+                customNextButton:
+                    (currentIndex == widget.renderItems.length - 1)
+                        ? ElevatedButton(
+                          onPressed: () {
+                            logger.i(
+                              '⏭️ Next Chapter tapped on PartDetailScreen',
+                            );
+
+                            if (widget.detailRoute == DetailRoute.branch) {
+                              final currentZoneId =
+                                  widget.backExtra?['zone'] as String?;
+                              if (currentZoneId == null) {
+                                logger.w('⚠️ No zone ID found in backExtra');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Cannot find next zone.'),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              final nextZoneId =
+                                  PartRepositoryIndex.getNextZone(
+                                    currentZoneId,
+                                  );
+                              if (nextZoneId == null) {
+                                logger.i(
+                                  '⛔ No more zones after $currentZoneId',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'You’ve reached the final zone.',
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              final partItems =
+                                  PartRepositoryIndex.getPartsForZone(
+                                    nextZoneId,
+                                  );
+                              final renderItems = buildRenderItems(
+                                ids: partItems.map((p) => p.id).toList(),
+                              );
+
+                              if (renderItems.isEmpty) {
+                                logger.w(
+                                  '⚠️ Next zone has no renderable items',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Next zone has no items.'),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              TransitionManager.goToDetailScreen(
+                                context: context,
+                                screenType: renderItems.first.type,
+                                renderItems: renderItems,
+                                currentIndex: 0,
+                                branchIndex: widget.branchIndex,
+                                backDestination: '/parts/items',
+                                backExtra: {
+                                  'zone': nextZoneId,
+                                  'branchIndex': widget.branchIndex,
+                                },
+                                detailRoute: widget.detailRoute,
+                                direction: SlideDirection.right,
+                              );
+                            } else if (widget.detailRoute == DetailRoute.path) {
+                              final currentChapterId =
+                                  widget.backExtra?['chapterId'] as String?;
+                              final pathName =
+                                  widget.backExtra?['pathName'] as String?;
+
+                              if (currentChapterId == null ||
+                                  pathName == null) {
+                                logger.w(
+                                  '⚠️ Missing path context in backExtra',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('No path context found.'),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              final nextChapter =
+                                  PathRepositoryIndex.getNextChapter(
+                                    pathName,
+                                    currentChapterId,
+                                  );
+
+                              if (nextChapter == null) {
+                                logger.i(
+                                  '⛔ No next chapter in $pathName after $currentChapterId',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'You’ve reached the final chapter.',
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              final renderItems = buildRenderItems(
+                                ids:
+                                    nextChapter.items
+                                        .map((item) => item.pathItemId)
+                                        .toList(),
+                              );
+
+                              if (renderItems.isEmpty) {
+                                logger.w(
+                                  '⚠️ Next chapter has no renderable items',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Next chapter has no items.'),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              TransitionManager.goToDetailScreen(
+                                context: context,
+                                screenType: renderItems.first.type,
+                                renderItems: renderItems,
+                                currentIndex: 0,
+                                branchIndex: widget.branchIndex,
+                                backDestination:
+                                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                                backExtra: {
+                                  'chapterId': nextChapter.id,
+                                  'pathName': pathName,
+                                  'branchIndex': widget.branchIndex,
+                                },
+                                detailRoute: widget.detailRoute,
+                                direction: SlideDirection.right,
+                              );
+                            }
+                          },
+                          style: AppTheme.navigationButton,
+                          child: const Text('Next Chapter'),
+                        )
+                        : null,
               ),
             ],
           ),

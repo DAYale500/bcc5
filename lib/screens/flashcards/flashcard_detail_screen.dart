@@ -1,7 +1,9 @@
 import 'dart:math' as math;
+import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -13,6 +15,7 @@ import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/utils/transition_manager.dart';
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 
 class FlashcardDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -273,6 +276,159 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                 isNextEnabled: currentIndex < widget.renderItems.length - 1,
                 onPrevious: () => _navigateTo(currentIndex - 1),
                 onNext: () => _navigateTo(currentIndex + 1),
+                customNextButton:
+                    currentIndex == widget.renderItems.length - 1
+                        ? ElevatedButton(
+                          onPressed: () {
+                            logger.i(
+                              '⏭️ Next Chapter tapped on FlashcardDetailScreen',
+                            );
+
+                            if (widget.detailRoute == DetailRoute.branch) {
+                              final currentCategory =
+                                  widget.backExtra?['category'] as String?;
+                              if (currentCategory == null) {
+                                logger.w('⚠️ Missing category in backExtra');
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('No category context found.'),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              final nextCategory = getNextCategory(
+                                currentCategory,
+                              );
+                              if (nextCategory == null) {
+                                logger.i(
+                                  '⛔ No next category after $currentCategory',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'You’ve reached the final category.',
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              final nextFlashcards = getFlashcardsForCategory(
+                                nextCategory,
+                              );
+                              if (nextFlashcards.isEmpty) {
+                                logger.w(
+                                  '⚠️ Next category has no flashcards: $nextCategory',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Next category has no flashcards.',
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              final renderItems =
+                                  nextFlashcards
+                                      .map((f) => RenderItem.fromFlashcard(f))
+                                      .toList();
+
+                              TransitionManager.goToDetailScreen(
+                                context: context,
+                                screenType: RenderItemType.flashcard,
+                                renderItems: renderItems,
+                                currentIndex: 0,
+                                branchIndex: widget.branchIndex,
+                                backDestination: '/flashcards/items',
+                                backExtra: {
+                                  'category': nextCategory,
+                                  'branchIndex': widget.branchIndex,
+                                },
+                                detailRoute: widget.detailRoute,
+                                direction: SlideDirection.right,
+                              );
+                            } else if (widget.detailRoute == DetailRoute.path) {
+                              final currentChapterId =
+                                  widget.backExtra?['chapterId'] as String?;
+                              final pathName =
+                                  widget.backExtra?['pathName'] as String?;
+
+                              if (currentChapterId == null ||
+                                  pathName == null) {
+                                logger.w(
+                                  '⚠️ Missing path context in backExtra',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('No path context found.'),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              final nextChapter =
+                                  PathRepositoryIndex.getNextChapter(
+                                    pathName,
+                                    currentChapterId,
+                                  );
+                              if (nextChapter == null) {
+                                logger.i(
+                                  '⛔ No next chapter in $pathName after $currentChapterId',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'You’ve reached the final chapter.',
+                                    ),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              final renderItems = buildRenderItems(
+                                ids:
+                                    nextChapter.items
+                                        .map((item) => item.pathItemId)
+                                        .toList(),
+                              );
+
+                              if (renderItems.isEmpty) {
+                                logger.w(
+                                  '⚠️ Next chapter has no renderable items',
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Next chapter has no items.'),
+                                  ),
+                                );
+                                return;
+                              }
+
+                              TransitionManager.goToDetailScreen(
+                                context: context,
+                                screenType: renderItems.first.type,
+                                renderItems: renderItems,
+                                currentIndex: 0,
+                                branchIndex: widget.branchIndex,
+                                backDestination:
+                                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                                backExtra: {
+                                  'chapterId': nextChapter.id,
+                                  'pathName': pathName,
+                                  'branchIndex': widget.branchIndex,
+                                },
+                                detailRoute: widget.detailRoute,
+                                direction: SlideDirection.right,
+                              );
+                            }
+                          },
+                          style: AppTheme.navigationButton,
+                          child: const Text('Next Chapter'),
+                        )
+                        : null,
               ),
             ],
           ),

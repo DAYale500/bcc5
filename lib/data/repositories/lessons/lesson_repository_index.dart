@@ -90,4 +90,13 @@ class LessonRepositoryIndex {
       }
     }
   }
+
+  static String? getNextModule(String currentModuleId) {
+    final moduleNames = getModuleNames();
+    final currentIndex = moduleNames.indexOf(currentModuleId);
+    if (currentIndex == -1 || currentIndex + 1 >= moduleNames.length) {
+      return null;
+    }
+    return moduleNames[currentIndex + 1];
+  }
 }

@@ -58,4 +58,11 @@ class ToolRepositoryIndex {
       }
     });
   }
+
+  static String? getNextToolbag(String currentToolbagId) {
+    final bagNames = getToolbagNames();
+    final currentIndex = bagNames.indexOf(currentToolbagId.toLowerCase());
+    if (currentIndex == -1 || currentIndex + 1 >= bagNames.length) return null;
+    return bagNames[currentIndex + 1];
+  }
 }

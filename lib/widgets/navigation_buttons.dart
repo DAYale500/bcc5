@@ -7,6 +7,7 @@ class NavigationButtons extends StatefulWidget {
   final bool isNextEnabled;
   final VoidCallback onPrevious;
   final VoidCallback onNext;
+  final Widget? customNextButton;
 
   const NavigationButtons({
     super.key,
@@ -14,6 +15,7 @@ class NavigationButtons extends StatefulWidget {
     required this.isNextEnabled,
     required this.onPrevious,
     required this.onNext,
+    this.customNextButton, // ✅ new
   });
 
   @override
@@ -48,17 +50,19 @@ class _NavigationButtonsState extends State<NavigationButtons> {
                 ),
                 SizedBox(
                   height: 48,
-                  child: ElevatedButton(
-                    onPressed: widget.isNextEnabled ? widget.onNext : null,
-                    style: AppTheme.navigationButton,
-                    child: Row(
-                      children: const [
-                        Text('Next'),
-                        SizedBox(width: 8),
-                        Icon(Icons.arrow_forward),
-                      ],
-                    ),
-                  ),
+                  child:
+                      widget.customNextButton ??
+                      ElevatedButton(
+                        onPressed: widget.isNextEnabled ? widget.onNext : null,
+                        style: AppTheme.navigationButton,
+                        child: Row(
+                          children: const [
+                            Text('Next'),
+                            SizedBox(width: 8),
+                            Icon(Icons.arrow_forward),
+                          ],
+                        ),
+                      ),
                 ),
               ],
             ),

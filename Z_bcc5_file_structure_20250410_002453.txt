@@ -1,0 +1,97 @@
+lib
+├── bcc5_app.dart
+├── data
+│   ├── models
+│   │   ├── content_block.dart
+│   │   ├── flashcard_model.dart
+│   │   ├── lesson_model.dart
+│   │   ├── part_model.dart
+│   │   ├── path_model.dart
+│   │   ├── render_item.dart
+│   │   └── tool_model.dart
+│   └── repositories
+│       ├── flashcards
+│       │   └── flashcard_repository_index.dart
+│       ├── lessons
+│       │   ├── lesson_docking_repository.dart
+│       │   ├── lesson_emergencies_repository.dart
+│       │   ├── lesson_knots_repository.dart
+│       │   ├── lesson_navigation_repository.dart
+│       │   ├── lesson_repository_index.dart
+│       │   ├── lesson_safety_repository.dart
+│       │   ├── lesson_seamanship_repository.dart
+│       │   ├── lesson_systems_repository.dart
+│       │   ├── lesson_teamwork_repository.dart
+│       │   └── lesson_terminology_repository.dart
+│       ├── parts
+│       │   ├── part_deck_repository.dart
+│       │   ├── part_hull_repository.dart
+│       │   ├── part_interior_repository.dart
+│       │   ├── part_repository_index.dart
+│       │   ├── part_rigging_repository.dart
+│       │   └── part_sails_repository.dart
+│       ├── paths
+│       │   ├── competent_crew_repository.dart
+│       │   ├── competent_crew_repository_unused.dart
+│       │   └── path_repository_index.dart
+│       └── tools
+│           ├── tool_checklists_repository.dart
+│           ├── tool_colregs_repository.dart
+│           ├── tool_colregs_repository_expanded.json
+│           ├── tool_ditchbag_repository.dart.bak
+│           ├── tool_grabbag_repository.dart.bak
+│           ├── tool_procedures_repository.dart
+│           ├── tool_references_repository.dart
+│           └── tool_repository_index.dart
+├── main.dart
+├── navigation
+│   ├── app_router.dart
+│   ├── detail_route.dart
+│   ├── main_scaffold.dart
+│   └── scaffold_helpers.dart
+├── screens
+│   ├── common
+│   │   └── content_detail_screen.dart
+│   ├── flashcards
+│   │   ├── flashcard_category_screen.dart
+│   │   ├── flashcard_detail_screen.dart
+│   │   └── flashcard_item_screen.dart
+│   ├── home
+│   │   └── landing_screen.dart
+│   ├── lessons
+│   │   ├── lesson_detail_screen.dart
+│   │   ├── lesson_item_screen.dart
+│   │   └── lesson_module_screen.dart
+│   ├── parts
+│   │   ├── part_detail_screen.dart
+│   │   ├── part_item_screen.dart
+│   │   └── part_zone_screen.dart
+│   ├── paths
+│   │   ├── path_chapter_screen.dart
+│   │   └── path_item_screen.dart
+│   └── tools
+│       ├── tool_bag_screen.dart
+│       ├── tool_detail_screen.dart
+│       └── tool_item_screen.dart
+├── theme
+│   ├── app_theme.dart
+│   ├── slide_direction.dart
+│   └── transition_type.dart
+├── utils
+│   ├── id_parser.dart
+│   ├── logger.dart
+│   ├── render_item_helpers.dart
+│   ├── string_extensions.dart
+│   └── transition_manager.dart
+└── widgets
+    ├── content_block_renderer.dart
+    ├── custom_app_bar_widget.dart
+    ├── disabled_item_button.dart
+    ├── flip_card_widget.dart
+    ├── group_button.dart
+    ├── item_button.dart
+    ├── navigation_buttons.dart
+    ├── search_modal.dart
+    └── settings_modal.dart
+
+21 directories, 74 files

@@ -1,6 +1,8 @@
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/group_button.dart';
@@ -51,14 +53,51 @@ class PathChapterScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // this is the Start New Path button code
               ElevatedButton(
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        '⛵ This will start the path from the beginning.',
+                  logger.i('⛵ Set sail on a new course tapped → $pathName');
+                  final chapters = PathRepositoryIndex.getChaptersForPath(
+                    pathName,
+                  );
+                  if (chapters.isEmpty) {
+                    logger.w('⚠️ No chapters found for path: $pathName');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('No chapters found for this path.'),
                       ),
-                    ),
+                    );
+                    return;
+                  }
+
+                  final firstChapter = chapters.first;
+                  final items = firstChapter.items;
+                  if (items.isEmpty) {
+                    logger.w('⚠️ First chapter has no items.');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('This chapter has no items.'),
+                      ),
+                    );
+                    return;
+                  }
+
+                  final renderItems = buildRenderItems(
+                    ids: items.map((e) => e.pathItemId).toList(),
+                  );
+                  final item = renderItems.first;
+
+                  TransitionManager.goToDetailScreen(
+                    context: context,
+                    screenType: item.type,
+                    renderItems: renderItems,
+                    currentIndex: 0,
+                    branchIndex: 0,
+                    backDestination:
+                        '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}',
+                    backExtra: {'pathName': pathName},
+                    detailRoute: DetailRoute.path,
+                    direction: SlideDirection.right,
                   );
                 },
                 style: AppTheme.groupRedButtonStyle,

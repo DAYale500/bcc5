@@ -69,4 +69,11 @@ class PartRepositoryIndex {
       }
     });
   }
+
+  static String? getNextZone(String currentZoneId) {
+    final zoneNames = getZoneNames();
+    final currentIndex = zoneNames.indexOf(currentZoneId.toLowerCase());
+    if (currentIndex == -1 || currentIndex + 1 >= zoneNames.length) return null;
+    return zoneNames[currentIndex + 1];
+  }
 }

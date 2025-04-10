@@ -7,6 +7,9 @@ simulator, run command
 
 alias runsim='flutter run -d "iPhone 13" >> ZZ_BCC5_logs.txt 2>&1'
 
+runsim=$'gstdbuf -oL flutter run -d 3A04C62A-C78C-4470-A174-DD9285589BCA 2>&1 \\\n  | sed -E "s/^[[:space:]]*flutter:[[:space:]]*//" \\\n  | perl -pe "s/\\\\\\\\\\\\^\\\\[\\\\[[0-9;]+m//g" \\\n  | sed -E "s/^[[:space:]]*│[[:space:]]*//" \\\n  | grep -vE "^[┌├└]" \\\n  | awk \'{ printf "[%04d] %s\\n", NR, $0 }\' \\\n  | tee ZZ_BCC5_logs.txt'
+
+
 runsim
 
 -------------------------------------------------------------------------------------------------------------------------

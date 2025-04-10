@@ -35,4 +35,17 @@ class PathRepositoryIndex {
   static void logAvailablePathKeys() {
     logger.i('🧩 Available path keys: ${_pathMap.keys}');
   }
+
+  static LearningPathChapter? getNextChapter(
+    String pathName,
+    String currentChapterId,
+  ) {
+    final chapters = getChaptersForPath(pathName);
+    for (int i = 0; i < chapters.length - 1; i++) {
+      if (chapters[i].id == currentChapterId) {
+        return chapters[i + 1];
+      }
+    }
+    return null;
+  }
 }

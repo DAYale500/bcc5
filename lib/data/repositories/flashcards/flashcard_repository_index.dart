@@ -57,6 +57,17 @@ List<String> getAllCategories() {
   ];
 }
 
+String? getNextCategory(String currentCategory) {
+  final categories =
+      getAllCategories()
+          .where((c) => c != 'all' && c != 'random') // exclude special cases
+          .toList();
+
+  final index = categories.indexOf(currentCategory.toLowerCase());
+  if (index == -1 || index + 1 >= categories.length) return null;
+  return categories[index + 1];
+}
+
 List<Flashcard> _getAllLessonFlashcards() =>
     LessonRepositoryIndex.getModuleNames()
         .expand((m) => LessonRepositoryIndex.getLessonsForModule(m))

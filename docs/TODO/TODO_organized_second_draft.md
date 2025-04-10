@@ -196,3 +196,82 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 ---
 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+
+
+
+## ✅ REVISED TODO LIST (Sorted by Priority)
+
+### 🔺 HIGH PRIORITY
+
+#### 1. Onboarding & Navigation
+- 1. Add "New Crew? Start Here" button and wire it to first PathItem in repo — prioritize this as a key onboarding entry point for new users
+
+reorder competentCrewRepo to have FC's at end of chapters
+
+#### 2. Persistence & Progress
+- 2. Implement persistent storage for path progress (e.g., Riverpod `StateNotifier`, SharedPreferences, Hive) — essential for user experience continuity, prioritize as a top-priority backend task
+
+#### 3. Navigation Feedback
+- 3. Add loading spinner while content is being fetched — prioritize early for better user perception during network operations (improves polish and responsiveness)
+
+#### 4. Emergency Safety
+- 4. Add lifering button (FAB): consider placement (top right below appBar?) — could be a high-impact feature for emergency response, consider early prototyping if GPS support is feasible
+
+---
+
+### 🔸 MEDIUM PRIORITY
+
+#### 5. Navigation Enhancements
+- 5. After all PathItems in a chapter are complete, show a completion popup/modal with options:
+  - Go to next chapter in sequence
+  - Return to chapter selection screen
+- 6. Add breadcrumb nav to item and detail screens
+- 7. Breadcrumb should show Item > Detail, but omit detail when navigating back
+- 8. Include flashcards for each chapter's PathItems at the end of the chapter view — prioritize after core navigation flow since it reinforces learning without blocking progress
+
+#### 6. Flashcard UX
+- 9. Change "All" button to bypass FlashcardItemScreen and go directly to FlashcardDetailScreen
+- 10. Change "Random" to "Custom" → open FlashcardRandomPickerScreen — more complex than 9 but valuable for power users, prioritize after core flashcard navigation is solid:
+  - Choose number of cards
+  - Filter by category (checkboxes)
+  - Crew/skipper level
+  - Choose order: sequential or random
+
+#### 7. Theme & Visuals
+- 11. Build full theme control + support ThemeMode.system
+- 12. Finalize AppTheme text styles
+- 13. Ensure style access via clear naming (e.g., TextAboveDetailScreenButtonsLightTheme)
+- 14. Pick themes that work well in bright outdoor light
+
+---
+
+### 🔹 LOW PRIORITY
+
+#### 8. Remaining Navigation & Setup
+- 15. Expand "Knock the Rust Off" picker: build real review learning path repositories, allow future expansion
+- 16. Omit group name (covered in BottomNavBar)
+- 17. Auto-resume: restore last visited pathItem or chapter
+- 18. Add scroll-to-top sidebar (auto-hide when not scrolling)
+
+#### 9. User Tools
+- 19. Bookmark/save for later
+- 20. Track progress through PathItems
+- 21. Highlight/annotate content, with a saved highlights viewer screen/modal
+- 22. Enable feedback on items (for beta testers only)
+- 23. Add "Suggest an Edit" feature (accessed via Settings)
+
+#### 10. Tools & Data
+- 24. Convert tool repositories to local JSON files
+- 25. Add many more tools (incl. Colregs, signals, emergency steps)
+
+#### 11. Experimental
+- 26. Toggle done/undone in checklists
+- 27. Reset all checklist items
+- 28. Show incomplete only
+- 29. Support custom checklist variants
+- 30. Polish & expand search feature
+- 31. Add hover highlight to `PartZoneScreen` with visual feedback
+
