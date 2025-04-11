@@ -1,8 +1,11 @@
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/widgets/mob_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/widgets/search_modal.dart'; // 🔍 Search Modal
-import 'package:bcc5/widgets/settings_modal.dart'; // ⚙️ Settings Modal
+import 'package:bcc5/widgets/settings_modal.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'; // ⚙️ Settings Modal
 
 class CustomAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
@@ -29,47 +32,72 @@ class CustomAppBarWidget extends StatelessWidget
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppTheme.primaryBlue,
-      centerTitle: true,
+      centerTitle: false,
       elevation: 0,
-      leading:
-          showBackButton
-              ? IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed:
-                    onBack ??
-                    () {
-                      if (Navigator.of(context).canPop()) {
-                        Navigator.of(context).pop();
-                      } else {
-                        context.go('/');
-                      }
-                    },
-              )
-              : const SizedBox(width: kToolbarHeight),
-      title: Text(title, style: AppTheme.headingStyle),
-      actions: [
-        if (showSearchIcon)
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed:
-                onSearchTap ??
-                () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => const SearchModal(),
-                  );
-                },
+      automaticallyImplyLeading: false,
+      title: Row(
+        children: [
+          // LEFT: Back, Search, Settings
+          if (showBackButton)
+            IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed:
+                  onBack ??
+                  () {
+                    if (Navigator.of(context).canPop()) {
+                      Navigator.of(context).pop();
+                    } else {
+                      context.go('/');
+                    }
+                  },
+            ),
+          if (showSearchIcon)
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed:
+                  onSearchTap ??
+                  () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => const SearchModal(),
+                    );
+                  },
+            ),
+          if (showSettingsIcon)
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed:
+                  onSettingsTap ??
+                  () {
+                    showSettingsModal(context);
+                  },
+            ),
+          // CENTER: Title
+          Expanded(
+            child: Text(
+              title,
+              style: AppTheme.headingStyle,
+              textAlign: TextAlign.center,
+            ),
           ),
-        if (showSettingsIcon)
+          // RIGHT: Life Buoy (MOB)
+          // RIGHT: Life Ring (MOB)
           IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed:
-                onSettingsTap ??
-                () {
-                  showSettingsModal(context);
-                },
+            icon: Icon(
+              MdiIcons.lifebuoy,
+              size: 40, // Set to match previous image size
+              color:
+                  Colors
+                      .red, // Optional: makes it bright red for emergency visibility
+            ),
+            tooltip: 'Man Overboard',
+            onPressed: () {
+              logger.i('🆘 MOB button tapped');
+              showMOBModal(context);
+            },
           ),
-      ],
+        ],
+      ),
     );
   }
 
