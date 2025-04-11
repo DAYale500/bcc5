@@ -18,6 +18,8 @@ import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 
+import 'package:bcc5/widgets/group_picker_dropdown.dart';
+
 class PartDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
   final int currentIndex;
@@ -99,8 +101,8 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
     }
 
     final partTitle = item.title;
-    final zoneTitle =
-        (widget.backExtra?['zone'] as String?)?.toTitleCase() ?? 'Part';
+    // final zoneId = widget.backExtra?['zone'] as String?;
+    const zoneTitle = 'Parts';
 
     logger.i('🧩 PartDetailScreen: $partTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
@@ -113,6 +115,9 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
   }
 
   Widget _buildScaffold(RenderItem item, String partTitle, String zoneTitle) {
+    final zoneId = widget.backExtra?['zone'] as String?;
+    final subtitleText = item.title;
+
     return Scaffold(
       key: ValueKey(widget.transitionKey),
       body: Stack(
@@ -145,16 +150,69 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                   );
                 },
               ),
+              if (widget.detailRoute == DetailRoute.branch)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: GroupPickerDropdown(
+                    label: 'Zone',
+                    selectedId: zoneId?.toLowerCase() ?? '',
+                    ids: PartRepositoryIndex.getZoneNames(),
+                    idToTitle: {
+                      for (final id in PartRepositoryIndex.getZoneNames())
+                        id: id.toTitleCase(),
+                    },
+                    onChanged: (selectedZoneId) {
+                      if (selectedZoneId == zoneId) {
+                        logger.i('🟡 Same zone selected → no action');
+                        return;
+                      }
+
+                      final parts = PartRepositoryIndex.getPartsForZone(
+                        selectedZoneId,
+                      );
+                      final renderItems = buildRenderItems(
+                        ids: parts.map((p) => p.id).toList(),
+                      );
+
+                      if (renderItems.isEmpty) {
+                        logger.w('⚠️ Selected zone has no renderable items');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Selected zone has no items.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: renderItems.first.type,
+                        renderItems: renderItems,
+                        currentIndex: 0,
+                        branchIndex: widget.branchIndex,
+                        backDestination: '/parts/items',
+                        backExtra: {
+                          'zone': selectedZoneId,
+                          'branchIndex': widget.branchIndex,
+                        },
+                        detailRoute: widget.detailRoute,
+                        direction: SlideDirection.right,
+                      );
+                    },
+                  ),
+                ),
+
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(
-                  partTitle,
+                  subtitleText,
                   style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
                     color: AppTheme.primaryBlue,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),

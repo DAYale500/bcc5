@@ -576,3 +576,139 @@ onPressed: () {
 ---
 
 Let me know if you’d like me to do the same level of reporting for part/tool/flashcard screens.
+
+
+
+
+
+
+
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+
+
+
+Here's a comprehensive report of the successful Stage 2 and navigation display refactor completed for `LessonDetailScreen`. This summary serves as both a record of what was done and a definitive guide for applying the same principles to `PartDetailScreen`, `ToolDetailScreen`, and `FlashcardDetailScreen`.
+
+---
+
+## ✅ Objective
+
+Fully align `LessonDetailScreen` with:
+
+1. **Stage 2 of the Hybrid Chapter Navigation System**  
+   Enable switching between modules (groups) without tapping back repeatedly.
+
+2. **Navigation Display Source of Truth**  
+   Ensure the `AppBar` and subtitle reflect the desired structure and formatting.
+
+---
+
+## 🔧 Key Changes and Implementations
+
+### 1. **GroupPickerDropdown Integration**
+
+- **Where**: Placed directly under the `AppBar`, wrapped in:
+  ```dart
+  if (widget.detailRoute == DetailRoute.branch)
+  ```
+
+- **How it works**:
+  - Label: `'Module'`
+  - `selectedId`: `widget.backExtra?['module'] ?? ''`
+  - `ids`: from `LessonRepositoryIndex.getModuleNames()`
+  - `idToTitle`: converted to `.toTitleCase()` for display
+  - `onChanged`: fetches new lessons from the selected module and rebuilds the screen with those.
+
+- **Enhancement**: Avoids redundant navigation.
+  ```dart
+  if (selectedModuleId == widget.backExtra?['module']) return;
+  ```
+
+---
+
+### 2. **Updated Subtitle Formatting**
+
+- **Old**: A single line like `"Docking → L1: Handling Dock Lines"`
+- **New**:  
+  - **Top Picker**: Shows `"Docking"` in a dropdown (with distinct styling)
+  - **Subtitle Text Below**: `"L1: Handling Dock Lines"`
+
+- **Why**: This improves clarity and aligns with the navigation display source of truth.
+
+- **Where**: Below the `GroupPickerDropdown`, added:
+  ```dart
+  Padding(
+    padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
+    child: Text(
+      lessonTitle,
+      style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+        color: AppTheme.primaryBlue,
+      ),
+      textAlign: TextAlign.center,
+    ),
+  )
+  ```
+
+---
+
+extra:
+✅ Added! The gold standard report for `LessonDetailScreen` now includes a critical clarification:
+
+> **Zone/Module ID Normalization**  
+> When using identifiers like `'zone'`, `'module'`, `'toolbag'`, or `'category'` in `GroupPickerDropdown`, ensure you normalize them (e.g., lowercase) before comparing against repository maps.  
+>  
+> Example:
+> ```dart
+> final currentZoneId = zoneId?.toLowerCase();
+> final zoneNames = PartRepositoryIndex.getZoneNames();
+> final currentIndex = zoneNames.indexOf(currentZoneId);
+> ```
+
+This prevents crashes caused by casing mismatches (like `'Rigging'` vs `'rigging'`) when Flutter expects a dropdown value to exactly match one of its items.
+
+Ready to proceed to `ToolDetailScreen` next?
+
+
+### 3. **Consistent AppBar Title**
+
+- **Set statically to**: `"Courses"`
+- This matches the source of truth for the lesson branch.
+
+---
+
+### 4. **Preserved Existing Navigation Logic**
+
+- `NavigationButtons` remain unchanged.
+- `Next Chapter` logic remains intact (already supported in Stage 1).
+- Dynamic transition and `TransitionManager.goToDetailScreen` usage preserved for consistency.
+
+---
+
+### 5. **Error Prevention & Cleanup**
+
+- Ensured `buildRenderItems()` is only called when there are valid IDs.
+- Used proper null-checks on `module` values.
+- Fixed unused import warnings and removed obsolete `_navigateTo` if no longer used.
+
+---
+
+## 📘 Summary
+
+| Feature                          | Status        |
+|----------------------------------|---------------|
+| GroupPickerDropdown integrated   | ✅ Done        |
+| Prevent same-group re-navigation | ✅ Done        |
+| AppBar title = "Courses"         | ✅ Done        |
+| Subtitle = lesson title only     | ✅ Done        |
+| Module switching via dropdown    | ✅ Done        |
+| Next Chapter logic               | ✅ Preserved   |
+| Code structure clean and stable  | ✅ Done        |
+
+---
+
+This implementation now serves as the **gold standard** for refactoring the other `*DetailScreen` files across the Part, Tool, and Flashcard branches.
+
+Would you like to start with `PartDetailScreen` next?

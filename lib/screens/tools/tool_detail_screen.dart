@@ -2,6 +2,7 @@ import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/widgets/group_picker_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart';
@@ -98,9 +99,9 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
       return const Scaffold(body: SizedBox());
     }
 
+    const toolbagTitle = 'Tools';
     final toolTitle = item.title;
-    final toolbagTitle =
-        (widget.backExtra?['toolbag'] as String?)?.toTitleCase() ?? 'Tool';
+    // final toolbagId = widget.backExtra?['toolbag'] as String?;
 
     logger.i('🛠️ ToolDetailScreen: $toolTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
@@ -117,6 +118,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
     String toolTitle,
     String toolbagTitle,
   ) {
+    // final subtitleText = toolTitle;
     return Scaffold(
       key: ValueKey(widget.transitionKey),
       body: Stack(
@@ -149,8 +151,62 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                   );
                 },
               ),
+
+              if (widget.detailRoute == DetailRoute.branch)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: GroupPickerDropdown(
+                    label: 'Toolbag',
+                    selectedId: widget.backExtra?['toolbag'] ?? '',
+                    ids: ToolRepositoryIndex.getToolbagNames(),
+                    idToTitle: {
+                      for (final id in ToolRepositoryIndex.getToolbagNames())
+                        id: id.toTitleCase(),
+                    },
+                    onChanged: (selectedToolbagId) {
+                      if (selectedToolbagId == widget.backExtra?['toolbag']) {
+                        logger.i('🟡 Same toolbag selected → no action');
+                        return;
+                      }
+
+                      final tools = ToolRepositoryIndex.getToolsForBag(
+                        selectedToolbagId,
+                      );
+                      final renderItems = buildRenderItems(
+                        ids: tools.map((tool) => tool.id).toList(),
+                      );
+
+                      if (renderItems.isEmpty) {
+                        logger.w('⚠️ Selected toolbag has no renderable items');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Selected toolbag has no items.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: renderItems.first.type,
+                        renderItems: renderItems,
+                        currentIndex: 0,
+                        branchIndex: widget.branchIndex,
+                        backDestination: '/tools/items',
+                        backExtra: {
+                          'toolbag': selectedToolbagId,
+                          'branchIndex': widget.branchIndex,
+                        },
+                        detailRoute: widget.detailRoute,
+                        direction: SlideDirection.right,
+                      );
+                    },
+                  ),
+                ),
+
+              /// the bottom of insert area
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(
                   toolTitle,
                   style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
@@ -159,6 +215,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),

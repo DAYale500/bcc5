@@ -16,6 +16,7 @@ import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/transition_manager.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+import 'package:bcc5/widgets/group_picker_dropdown.dart';
 
 class LessonDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -98,9 +99,8 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     if (item.type != RenderItemType.lesson) {
       return const Scaffold(body: SizedBox());
     }
+    const moduleTitle = 'Courses';
 
-    final moduleTitle =
-        (widget.backExtra?['module'] as String?)?.toTitleCase() ?? 'Course';
     final lessonTitle = item.title;
 
     logger.i('📘 LessonDetailScreen: $lessonTitle');
@@ -119,6 +119,8 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     String moduleTitle,
     String lessonTitle,
   ) {
+    final subtitleText = lessonTitle;
+
     return Scaffold(
       key: ValueKey(widget.transitionKey),
       body: Stack(
@@ -151,16 +153,78 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   );
                 },
               ),
+              if (widget.detailRoute == DetailRoute.branch)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: GroupPickerDropdown(
+                    label: 'Module',
+                    selectedId: widget.backExtra?['module'] ?? '',
+                    ids: LessonRepositoryIndex.getModuleNames(),
+                    idToTitle: {
+                      for (final id in LessonRepositoryIndex.getModuleNames())
+                        id: id.toTitleCase(),
+                    },
+                    onChanged: (selectedModuleId) {
+                      final currentModuleId = widget.backExtra?['module'];
+                      if (selectedModuleId == currentModuleId) {
+                        logger.i(
+                          '⏹️ Same module selected ($selectedModuleId), no action taken',
+                        );
+                        return;
+                      }
+
+                      logger.i(
+                        '🔄 Module switched via dropdown → $selectedModuleId',
+                      );
+
+                      final lessons = LessonRepositoryIndex.getLessonsForModule(
+                        selectedModuleId,
+                      );
+
+                      final renderItems = buildRenderItems(
+                        ids: lessons.map((l) => l.id).toList(),
+                      );
+
+                      if (renderItems.isEmpty) {
+                        logger.w('⚠️ Selected module has no renderable items');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Selected module has no items.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: renderItems.first.type,
+                        renderItems: renderItems,
+                        currentIndex: 0,
+                        branchIndex: widget.branchIndex,
+                        backDestination: '/lessons/items',
+                        backExtra: {
+                          'module': selectedModuleId,
+                          'branchIndex': widget.branchIndex,
+                        },
+                        detailRoute: widget.detailRoute,
+                        direction: SlideDirection.right,
+                      );
+                    },
+                  ),
+                ),
+
+              // Then REPLACE the existing `Padding(...Text(...))` block with this:
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(
-                  lessonTitle,
+                  subtitleText,
                   style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
                     color: AppTheme.primaryBlue,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),

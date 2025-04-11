@@ -29,7 +29,7 @@ class FlashcardCategoryScreen extends StatelessWidget {
           left: 0,
           right: 0,
           child: CustomAppBarWidget(
-            title: 'Sea Trials',
+            title: 'Drills',
             showBackButton: false,
             showSearchIcon: true,
             showSettingsIcon: true,

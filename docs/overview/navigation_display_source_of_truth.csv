@@ -1,0 +1,19 @@
+Branch,Screen,Desired AppBar Title (e.g.),Desired Subtitle (e.g.),Source of AppBar Title,Source of Subtitle,Notes
+Path,PathChapterScreen,Competent Crew,(None),pathName (route param),(None),AppBar shows path name
+Path,PathItemScreen,Competent Crew,1: Prepare in Advance,pathName,chapter.title from PathRepositoryIndex,Subtitle is chapter title beneath AppBar
+Path,LessonDetailScreen,Competent Crew,1: Prepare in Advance → Ch 1 -> L1: Handling Dock Lines,backExtra['pathName'],chapterTitle + item.title,Breadcrumb for clarity inside path navigation
+Path,PartDetailScreen,Competent Crew,1: Prepare in Advance → Deck -> Winches,backExtra['pathName'],chapterTitle + item.title,
+Path,ToolDetailScreen,Competent Crew,1: Prepare in Advance → Checklists -> Docking,backExtra['pathName'],chapterTitle + item.title,
+Path,FlashcardDetailScreen,Competent Crew,1: Prepare in Advance → Drills -> Bowline Card,backExtra['pathName'],chapterTitle + item.title,
+Lesson,LessonModuleScreen,Courses,Select a course to embark upon:,Static,Static,Root of lesson branch
+Lesson,LessonItemScreen,Courses,Choose a Docking Course,module param,Static,Static instruction under module title
+Lesson,LessonDetailScreen,courses,Docking → L1: Handling Dock Lines,backExtra['module'],module + item.title,Module breadcrumb format
+Part,PartZoneScreen,Parts,Select a zone to explore,Static,Static,Root of part branch
+Part,PartItemScreen,Parts,Choose a Deck Part,zone param,Static,Mid-level drilldown
+Part,PartDetailScreen,Parts,Deck Zone → Winches,backExtra['zone'],zone + item.title,
+Tool,ToolBagScreen,Tools,Select a toolbag to access,Static,Static,Root of tool branch
+Tool,ToolItemScreen,Tools,Choose a Checklist Tool,toolbag param,Static,
+Tool,ToolDetailScreen,Tools,Checklist → Arrival Checklist,backExtra['toolbag'],toolbag + item.title,
+Flashcard,FlashcardCategoryScreen,Drills,Choose a drill category,Static,Static,Root of flashcard branch
+Flashcard,FlashcardItemScreen,Drills,Choose a Drill,category param,Static,
+Flashcard,FlashcardDetailScreen,Drills,Knots Drills → Bowline Card,backExtra['category'],category + item.title,
