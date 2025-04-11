@@ -1,5 +1,6 @@
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -29,7 +30,7 @@ class PartItemScreen extends StatelessWidget {
     return Column(
       children: [
         CustomAppBarWidget(
-          title: '$zone Parts',
+          title: 'Parts',
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
@@ -46,6 +47,12 @@ class PartItemScreen extends StatelessWidget {
           },
         ),
         const SizedBox(height: 16),
+        Text(
+          zone.toTitleCase(),
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 12),
         Text(
           'Choose a Part',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),

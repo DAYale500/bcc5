@@ -1,6 +1,7 @@
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart';
@@ -150,6 +151,11 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                   );
                 },
               ),
+              if (widget.detailRoute == DetailRoute.path)
+                LearningPathProgressBar(
+                  pathName: widget.backExtra?['pathName'] ?? '',
+                ),
+
               if (widget.detailRoute == DetailRoute.branch)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),

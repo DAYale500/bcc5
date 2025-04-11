@@ -1,6 +1,7 @@
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -79,7 +80,7 @@ class ToolBagScreen extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: GroupButton(
-                    label: toolbag[0].toUpperCase() + toolbag.substring(1),
+                    label: toolbag.toTitleCase(),
                     onTap: () {
                       logger.i('🛠️ Selected toolbag: $toolbag');
                       final timestamp = DateTime.now().millisecondsSinceEpoch;

@@ -9,7 +9,7 @@ import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart';
-import 'package:bcc5/navigation/detail_route.dart'; // ✅ for DetailRoute
+import 'package:bcc5/navigation/detail_route.dart';
 
 class LessonItemScreen extends StatelessWidget {
   final String module;
@@ -23,30 +23,19 @@ class LessonItemScreen extends StatelessWidget {
     final lessonIds = lessons.map((l) => l.id).toList();
     final renderItems = buildRenderItems(ids: lessonIds);
 
+    final moduleTitle = module.toTitleCase();
+
     return Column(
       children: [
-        CustomAppBarWidget(
-          title: module.toTitleCase(),
+        const CustomAppBarWidget(
+          title: 'Courses',
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
-          onBack: () {
-            logger.i('🔙 AppBar back from LessonItemScreen');
-            context.go(
-              '/lessons',
-              extra: {
-                'slideFrom': SlideDirection.left,
-                'transitionType': TransitionType.slide,
-                'detailRoute':
-                    DetailRoute.branch, // optional but fine to include
-              },
-            );
-          },
         ),
         const SizedBox(height: 16),
         Text(
-          'Courses:\n'
-          'Dive in to any course below.',
+          '$moduleTitle:\nDive in to any course below.',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),
@@ -77,7 +66,7 @@ class LessonItemScreen extends StatelessWidget {
                         'renderItems': renderItems,
                         'currentIndex': index,
                         'branchIndex': 1,
-                        'detailRoute': DetailRoute.branch, // ✅ new
+                        'detailRoute': DetailRoute.branch,
                         'backDestination': '/lessons/items',
                         'backExtra': {'module': module, 'branchIndex': 1},
                         'transitionKey': 'lesson_${lesson.id}_$timestamp',

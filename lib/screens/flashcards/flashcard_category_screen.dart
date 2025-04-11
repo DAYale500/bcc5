@@ -1,4 +1,8 @@
 import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -93,13 +97,16 @@ class FlashcardCategoryScreen extends StatelessWidget {
                                 'category': category,
                                 'transitionKey':
                                     'flashcards_items_${category}_$timestamp',
+                                'slideFrom': SlideDirection.right,
+                                'transitionType': TransitionType.slide,
+                                'detailRoute': DetailRoute.branch,
                               },
                             );
                           },
 
                           style: style,
                           child: Text(
-                            category[0].toUpperCase() + category.substring(1),
+                            category.toTitleCase(),
                             style: AppTheme.buttonTextStyle,
                             textAlign: TextAlign.center,
                           ),

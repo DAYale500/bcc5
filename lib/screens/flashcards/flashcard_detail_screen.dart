@@ -6,6 +6,7 @@ import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/widgets/group_picker_dropdown.dart';
+import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -198,6 +199,10 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                   );
                 },
               ),
+              if (widget.detailRoute == DetailRoute.path)
+                LearningPathProgressBar(
+                  pathName: widget.backExtra?['pathName'] ?? '',
+                ),
 
               if (widget.detailRoute == DetailRoute.branch)
                 Padding(

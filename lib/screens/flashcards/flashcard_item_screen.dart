@@ -1,44 +1,36 @@
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
-import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/utils/string_extensions.dart';
-import 'package:bcc5/data/models/flashcard_model.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
-import 'package:bcc5/utils/render_item_helpers.dart'; // ✅ needed for buildRenderItems
-import 'package:bcc5/navigation/detail_route.dart'; // ✅ PATCHED
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class FlashcardItemScreen extends StatelessWidget {
   final String category;
 
   const FlashcardItemScreen({super.key, required this.category});
 
-  static const double appBarOffset = 80.0;
-
   @override
   Widget build(BuildContext context) {
     logger.i('🟦 Entered FlashcardItemScreen for category: $category');
 
-    final List<Flashcard> flashcards = getFlashcardsForCategory(category);
+    final flashcards = getFlashcardsForCategory(category);
     final renderItems = buildRenderItems(
       ids: flashcards.map((fc) => fc.id).toList(),
     );
-
-    logger.i(
-      '📘 Loaded ${flashcards.length} flashcards for category: $category',
-    );
-
-    final titleCaseCategory = category.toTitleCase();
+    final categoryTitle = category.toTitleCase();
 
     if (flashcards.isEmpty) {
       return Column(
         children: [
           CustomAppBarWidget(
-            title: titleCaseCategory,
+            title: 'Drills',
             showBackButton: true,
             showSearchIcon: true,
             showSettingsIcon: true,
@@ -49,9 +41,7 @@ class FlashcardItemScreen extends StatelessWidget {
                 extra: {
                   'slideFrom': SlideDirection.left,
                   'transitionType': TransitionType.slide,
-                  'detailRoute':
-                      DetailRoute
-                          .branch, // optional if TransitionManager relies on it
+                  'detailRoute': DetailRoute.branch,
                 },
               );
             },
@@ -65,53 +55,35 @@ class FlashcardItemScreen extends StatelessWidget {
       );
     }
 
-    return Stack(
-      fit: StackFit.expand,
+    return Column(
       children: [
-        // 🔵 AppBar
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: CustomAppBarWidget(
-            title: titleCaseCategory,
-            showBackButton: true,
-            showSearchIcon: true,
-            showSettingsIcon: true,
-            onBack: () {
-              logger.i('🔙 AppBar back from FlashcardItemScreen');
-              context.go('/flashcards');
-            },
-          ),
+        CustomAppBarWidget(
+          title: 'Drills',
+          showBackButton: true,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+          onBack: () {
+            logger.i('🔙 AppBar back from FlashcardItemScreen');
+            context.go(
+              '/flashcards',
+              extra: {
+                'slideFrom': SlideDirection.left,
+                'transitionType': TransitionType.slide,
+                'detailRoute': DetailRoute.branch,
+              },
+            );
+          },
         ),
-
-        // 🧭 Instruction Text
-        Positioned(
-          top: appBarOffset + 32,
-          left: 32,
-          right: 32,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(217),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Center(
-              child: Text(
-                'Dive into a trial...',
-                style: AppTheme.subheadingStyle.copyWith(
-                  color: AppTheme.primaryBlue,
-                ),
-              ),
-            ),
-          ),
+        const SizedBox(height: 16),
+        Text(
+          '$categoryTitle:\nDive into a challenge.',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
         ),
-
-        // 🧩 Flashcard Grid
-        Positioned.fill(
-          top: appBarOffset + 100,
+        const SizedBox(height: 16),
+        Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(12),
             child: GridView.builder(
               itemCount: flashcards.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -123,11 +95,12 @@ class FlashcardItemScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final card = flashcards[index];
                 logger.i('📗 Rendering flashcard: ${card.title}');
+                final timestamp = DateTime.now().millisecondsSinceEpoch;
+
                 return ItemButton(
                   label: card.title,
                   onTap: () {
                     logger.i('🟧 Tapped flashcard: ${card.title}');
-                    final timestamp = DateTime.now().millisecondsSinceEpoch;
                     context.push(
                       '/flashcards/detail',
                       extra: {
@@ -135,11 +108,11 @@ class FlashcardItemScreen extends StatelessWidget {
                         'currentIndex': index,
                         'branchIndex': 4,
                         'backDestination': '/flashcards/items',
-                        'backExtra': {'category': category},
+                        'backExtra': {'category': category, 'branchIndex': 4},
                         'transitionKey': 'flashcard_detail_${index}_$timestamp',
                         'detailRoute': DetailRoute.branch,
-                        'slideFrom': SlideDirection.right, // ✅ NEW
-                        'transitionType': TransitionType.slide, // ✅ NEW
+                        'transitionType': TransitionType.slide,
+                        'slideFrom': SlideDirection.right,
                       },
                     );
                   },
