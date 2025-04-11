@@ -1,4 +1,5 @@
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
@@ -19,7 +20,7 @@ class LearningPathProgressBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Center(
         child: Text(
-          pathName,
+          pathName.toTitleCase(),
           style: AppTheme.scaledTextTheme.labelLarge?.copyWith(
             color: AppTheme.primaryRed,
             fontWeight: FontWeight.bold,

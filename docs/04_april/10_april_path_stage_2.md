@@ -1,62 +1,64 @@
-Perfect — I’ve locked in those preferences. Here’s the revised plan based on your clarified direction for each screen type.
+Great question — yes, these three **transition-focused tasks** are *related*, but they are **not technically interdependent**. Here's a breakdown of how they connect and where they stand independently:
 
 ---
 
-## ✅ Confirmed Standards
+## ✅ Relationship Diagram
 
-### 1. **PathChapterScreen**
-- **AppBar title** → ✅ `"Orientation"` or similar path name
-- **Subtitle / Body** → ✅ Already matches expectations
-- ✅ No changes needed here unless new styling is desired
-
-### 2. **PathItemScreen**
-- **AppBar title** → ✅ Use learning path name (e.g. `"Orientation"`)
-- **Subtitle** → ✅ Chapter title (e.g. `"Prepare Beforehand"`) followed by static instructions (e.g. `"Tap a topic to begin"`)
-- ✅ Confirmed structure and layout good
-- 🔧 *Ensure title uses `.toTitleCase()` and fallback gracefully if `pathName` is null*
-
-### 3. **DetailScreens from Path**
-- ❌ Do *not* modify AppBar title or subtitle
-- ✅ Instead, add a **progress strip** below the AppBar:
-  - Displays the full learning path name
-  - Serves as a future progress bar container
-  - Should be styled to allow dynamic background and text color based on progress
-    - e.g. *Accomplished*: red background with white text  
-    - e.g. *Yet to accomplish*: white background with red text
-
----
-
-## 🧱 Updated Action Plan: Stage 2 for Path Branch
-
-### 🔹 Refactor Path DetailScreens (Lesson, Part, Tool, Flashcard)
-Each will:
-- ✅ Keep current title + subtitle
-- ➕ Add a colored strip underneath AppBar:
-  ```dart
-  Container(
-    color: AppTheme.primaryRed,
-    width: double.infinity,
-    padding: const EdgeInsets.symmetric(vertical: 6),
-    child: Center(
-      child: Text(
-        pathName.toTitleCase(),
-        style: AppTheme.scaledTextTheme.bodyMedium?.copyWith(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
-  ),
-  ```
-  - 🔧 Dynamically style this container in the future (progress bar, text shifts)
+```
+                ┌────────────────────────────────────────┐
+                │          Main Transition Layer         │
+                │      (TransitionManager + extras)      │
+                └────────────────────────────────────────┘
+                               ▲          ▲
+             uses builders     │          │   uses transitions
+                               │          │
+       ┌──────────────────────┘          └────────────────────────┐
+       │                                                         │
+┌────────────────────┐                               ┌────────────────────────┐
+│ 2.1.1 Modularize   │                               │ 2.2.1 Directional Slide │
+│ transition_builders│                               │ Awareness in Scaffold   │
+└────────────────────┘                               └────────────────────────┘
+          ▲
+          │
+uses centralized builders
+          │
+┌─────────────────────────────┐
+│ 2.1.3 Use named transitions │
+└─────────────────────────────┘
+```
 
 ---
 
-## ✅ Next Step
-Which detail screen from the path branch should we start with?
-- [ ] LessonDetailScreen (Path)
-- [ ] PartDetailScreen (Path)
-- [ ] ToolDetailScreen (Path)
-- [ ] FlashcardDetailScreen (Path)
+## 🔍 Detailed Interdependency Breakdown
 
-Or would you like me to refactor all 4 in one pass for your review?
+| Task | Depends on... | Can be done independently? | Shares logic with |
+|------|----------------|----------------------------|-------------------|
+| **2.1.1 Modularize `transition_builders.dart`** | Nothing | ✅ Yes | Used by 2.1.3 and 2.2.1 optionally |
+| **2.1.3 Refactor routes for named transitions** | Optional: 2.1.1 | ✅ Yes (but cleaner with 2.1.1) | Uses transitions in centralized place |
+| **2.2.1 Add directional slide to `MainScaffold`** | Nothing | ✅ Yes | Might reuse transitions from 2.1.1 |
+
+---
+
+## 🔁 How They Fit Together
+
+- **You can do any one of them alone.**
+- **Doing 2.1.1 first** makes the other two *easier and cleaner*.
+- **2.1.3 and 2.2.1** don’t block each other — they affect different scopes:
+  - `2.1.3`: Routing-level transitions (declarative GoRoute transitions)
+  - `2.2.1`: Scaffold-level screen transitions (between tabs/pages)
+
+---
+
+## 🧠 Strategy Suggestions
+
+| You want... | Then start with... |
+|-------------|--------------------|
+| Cleaner transition structure now, for easier debugging or reuse later | ✅ `2.1.1` Modularize builders |
+| Fully declarative GoRouter logic | ✅ `2.1.3` Use named transitions |
+| Your UI to *feel* more native and polished ASAP | ✅ `2.2.1` Add directional transitions |
+
+---
+
+Would you like a scoped implementation plan starting with **2.1.1**, followed by **2.2.1**, then optionally **2.1.3** later?
+
+Or would you prefer to start with a visually obvious change (like `2.2.1`) for faster feedback?

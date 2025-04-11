@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/utils/resume_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/models/render_item.dart';
@@ -19,8 +20,23 @@ class TransitionManager {
     required Map<String, dynamic>? backExtra,
     required DetailRoute detailRoute,
     SlideDirection direction = SlideDirection.none,
-    TransitionType transitionType = TransitionType.slide, // ✅ NEW PARAM
+    TransitionType transitionType = TransitionType.slide,
   }) {
+    // ✅ Save resume point if navigating within path
+    if (detailRoute == DetailRoute.path &&
+        currentIndex >= 0 &&
+        currentIndex < renderItems.length) {
+      final item = renderItems[currentIndex];
+      final pathName = backExtra?['pathName'] as String?;
+      final chapterId = backExtra?['chapterId'] as String?;
+      if (pathName != null && chapterId != null) {
+        ResumeManager.saveResumePoint(
+          pathName: pathName,
+          chapterId: chapterId,
+          itemId: item.id,
+        );
+      }
+    }
     final route = _getRouteForScreenType(screenType);
     final transitionKey = UniqueKey().toString();
 

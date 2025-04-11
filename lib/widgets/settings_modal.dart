@@ -1,5 +1,8 @@
+// lib/widgets/settings_modal.dart
+
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/resume_manager.dart'; // ✅ Needed for reset
 
 void showSettingsModal(BuildContext context) {
   showDialog(
@@ -24,6 +27,25 @@ void showSettingsModal(BuildContext context) {
                   children: [
                     _settingSwitch('Dark Mode', false),
                     _settingSwitch('Show Tour Wizard', true),
+                    // 🧪 DEV: Reset Resume Point Button
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: ElevatedButton(
+                        style: AppTheme.navigationButton,
+                        onPressed: () async {
+                          await ResumeManager.clearResumePoint();
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('✅ Resume point cleared'),
+                            ),
+                          );
+                        },
+
+                        child: const Text('Reset Resume Point'),
+                      ),
+                    ),
+
                     _settingSwitch('Enable Paid Content', false),
                     _settingButton(context, 'Legal & Privacy Docs'),
                     _settingDropdown('Units', ['Meters', 'Feet'], 'Feet'),

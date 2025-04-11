@@ -95,3 +95,70 @@ Here's a milestone-based restructure of your TODO list:
 ---
 
 Would you like a **milestone progress tracker** generated in Markdown, or as a `.json`/`.csv` for a tool like Notion, Trello, or GitHub Projects? Or want a live Flutter UI component to visualize this in the app?
+
+
+
+
+
+
+
+
+
+
+
+
+april 10 Update
+
+
+
+
+
+
+
+
+
+
+
+Nice — and yes, several of the milestone items are **already complete** or partially addressed. Here's an audit:
+
+---
+
+## ✅ Already Complete
+
+### 🔹 Navigation & Transitions
+- ✅ 2.2.2 Audit all `.go()` calls for `transitionKey` inclusion  
+  → Done across all *DetailScreens and *ItemScreens
+- ✅ 2.2.3 Fix `.push()` vs `.go()` in `flashcard_item_screen`  
+  → Confirmed use of `.push()` with full `extra`
+
+### 🔹 UI Polish
+- ✅ 3.1.3 Handle empty chapter gracefully  
+  → All *DetailScreens check for empty `renderItems`
+  
+### 🔹 Learning Path UX
+- ✅ Navigation from "Set Sail" now correctly sets `backExtra['pathName']`
+- ✅ All branch detail screens display the path name with `LearningPathProgressBar`
+
+---
+
+## 🧭 Suggested Next Steps
+
+The **highest leverage item** right now is:
+
+### 🔹 1.1.3 Wire up "Resume your voyage" logic
+- It's the last broken button in the current path experience.
+- Unblocks deeper user continuity + onboarding UX.
+
+**Would you like to tackle that next?**  
+I can generate a `resumePathAtLastKnownLocation(pathName)` helper and wire it into the `PathChapterScreen`.
+
+Alternately, if you prefer a **navigation polish sprint**, we could:
+
+- 🧭 2.1.1 Modularize `transition_builders.dart`
+- 🧭 2.1.3 Refactor all routes to use named transitions
+- 🧭 2.2.1 Add directional awareness to `MainScaffold`
+
+Let me know which way you want to go — or if you’d like the **milestone tracker** in Markdown, Trello JSON, or visual Flutter widget format.
+
+
+repositories to json? (dis)advantages?

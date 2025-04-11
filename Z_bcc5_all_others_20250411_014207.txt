@@ -695,6 +695,7 @@ import 'dart:ui';
 
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/utils/resume_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/models/render_item.dart';
@@ -712,8 +713,23 @@ class TransitionManager {
     required Map<String, dynamic>? backExtra,
     required DetailRoute detailRoute,
     SlideDirection direction = SlideDirection.none,
-    TransitionType transitionType = TransitionType.slide, // ✅ NEW PARAM
+    TransitionType transitionType = TransitionType.slide,
   }) {
+    // ✅ Save resume point if navigating within path
+    if (detailRoute == DetailRoute.path &&
+        currentIndex >= 0 &&
+        currentIndex < renderItems.length) {
+      final item = renderItems[currentIndex];
+      final pathName = backExtra?['pathName'] as String?;
+      final chapterId = backExtra?['chapterId'] as String?;
+      if (pathName != null && chapterId != null) {
+        ResumeManager.saveResumePoint(
+          pathName: pathName,
+          chapterId: chapterId,
+          itemId: item.id,
+        );
+      }
+    }
     final route = _getRouteForScreenType(screenType);
     final transitionKey = UniqueKey().toString();
 
@@ -947,6 +963,90 @@ final logger = Logger(
     dateTimeFormat: DateTimeFormat.none, // ✅ Modern replacement for printTime
   ),
 );
+
+
+
+
+
+
+
+
+
+
+File: lib/utils/resume_manager.dart
+import 'package:bcc5/utils/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class ResumeManager {
+  static const String _prefix = 'resume_';
+  static const String _keyPathName = 'resume_path_name';
+  static const String _keyChapterId = 'resume_chapter_id';
+  static const String _keyItemId = 'resume_item_id';
+
+  static Future<void> saveProgress({
+    required String pathName,
+    required String chapterId,
+    required String itemId,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = '$_prefix${pathName.toLowerCase()}';
+    final value = '$chapterId|$itemId';
+    await prefs.setString(key, value);
+  }
+
+  static Future<(String chapterId, String itemId)?> getProgress(
+    String pathName,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = '$_prefix${pathName.toLowerCase()}';
+    final value = prefs.getString(key);
+    if (value == null) return null;
+
+    final parts = value.split('|');
+    if (parts.length != 2) return null;
+
+    return (parts[0], parts[1]); // chapterId, itemId
+  }
+
+  static Future<void> clearProgress(String pathName) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = '$_prefix${pathName.toLowerCase()}';
+    await prefs.remove(key);
+  }
+
+  static Future<void> clearResumePoint() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_keyPathName);
+    await prefs.remove(_keyChapterId);
+    await prefs.remove(_keyItemId);
+  }
+
+  static Future<void> saveResumePoint({
+    required String pathName,
+    required String chapterId,
+    required String itemId,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyPathName, pathName);
+    await prefs.setString(_keyChapterId, chapterId);
+    await prefs.setString(_keyItemId, itemId);
+    logger.i('💾 Saved resume point → $pathName / $chapterId / $itemId');
+  }
+
+  static Future<Map<String, String>?> getResumePoint() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final pathName = prefs.getString(_keyPathName);
+    final chapterId = prefs.getString(_keyChapterId);
+    final itemId = prefs.getString(_keyItemId);
+
+    if (pathName == null || chapterId == null || itemId == null) {
+      return null;
+    }
+
+    return {'pathName': pathName, 'chapterId': chapterId, 'itemId': itemId};
+  }
+}
 
 
 
@@ -1315,6 +1415,7 @@ File: lib/screens/tools/tool_bag_screen.dart
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -1393,7 +1494,7 @@ class ToolBagScreen extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: GroupButton(
-                    label: toolbag[0].toUpperCase() + toolbag.substring(1),
+                    label: toolbag.toTitleCase(),
                     onTap: () {
                       logger.i('🛠️ Selected toolbag: $toolbag');
                       final timestamp = DateTime.now().millisecondsSinceEpoch;
@@ -1432,128 +1533,82 @@ File: lib/screens/tools/tool_item_screen.dart
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
-import 'package:bcc5/data/models/tool_model.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/navigation/detail_route.dart'; // ✅ PATCHED
+import 'package:bcc5/navigation/detail_route.dart';
 
 class ToolItemScreen extends StatelessWidget {
   final String toolbag;
 
   const ToolItemScreen({super.key, required this.toolbag});
 
-  static const double appBarOffset = 80.0;
-
   @override
   Widget build(BuildContext context) {
-    logger.i('🛠️ Displaying ToolItemScreen (Toolbag: $toolbag)');
+    logger.i('🛠️ ToolItemScreen loaded for toolbag: $toolbag');
 
-    if (toolbag.isEmpty) {
-      logger.w(
-        '⚠️ ToolItemScreen received empty toolbag — using fallback title.',
-      );
-    }
+    final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+    final toolIds = tools.map((t) => t.id).toList();
+    final renderItems = buildRenderItems(ids: toolIds);
 
-    final List<ToolItem> tools = ToolRepositoryIndex.getToolsForBag(toolbag);
-    final List<String> sequenceIds = tools.map((t) => t.id).toList();
-    final toolbagName = toolbag.replaceFirst(
-      RegExp(r's$'),
-      '',
-    ); // ✅ removes trailing "s" if present
+    final toolbagTitle = toolbag.toTitleCase();
 
-    return Stack(
-      fit: StackFit.expand,
+    return Column(
       children: [
-        // 🔵 AppBar
-        Column(
-          children: [
-            CustomAppBarWidget(
-              title:
-                  (toolbag.isNotEmpty)
-                      ? '${toolbag[0].toUpperCase()}${toolbag.substring(1)} Tools'
-                      : 'Tools',
-              showBackButton: true,
-              showSearchIcon: true,
-              showSettingsIcon: true,
-              onBack: () {
-                logger.i('🔙 AppBar back from ToolItemScreen');
-                context.go(
-                  '/tools',
-                  extra: {
-                    'slideFrom': SlideDirection.left,
-                    'transitionType': TransitionType.slide,
-                    'detailRoute': DetailRoute.branch,
-                  },
-                );
-              },
-            ),
-            const SizedBox(height: 90),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: GridView.builder(
-                  itemCount: tools.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 4,
-                    mainAxisSpacing: 4,
-                    childAspectRatio: 2.8,
-                  ),
-                  itemBuilder: (context, index) {
-                    final tool = tools[index];
-                    final timestamp = DateTime.now().millisecondsSinceEpoch;
+        const CustomAppBarWidget(
+          title: 'Tools',
+          showBackButton: true,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+        ),
+        const SizedBox(height: 16),
+        Text(
+          '$toolbagTitle:\nWhich ${toolbagTitle.replaceFirst(RegExp(r's$'), '')} would you like?',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 16),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: GridView.builder(
+              itemCount: tools.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4,
+                childAspectRatio: 2.8,
+              ),
+              itemBuilder: (context, index) {
+                final tool = tools[index];
+                final timestamp = DateTime.now().millisecondsSinceEpoch;
 
-                    return ItemButton(
-                      label: tool.title,
-                      onTap: () {
-                        logger.i('🛠️ Tapped tool: ${tool.id}');
-                        context.push(
-                          '/tools/detail',
-                          extra: {
-                            'renderItems': buildRenderItems(ids: sequenceIds),
-                            'currentIndex': index,
-                            'branchIndex': 3,
-                            'backDestination': '/tools/items',
-                            'backExtra': {'toolbag': toolbag},
-                            'transitionKey': 'tool_${tool.id}_$timestamp',
-                            'detailRoute': DetailRoute.branch, // ✅ PATCHED
-                            'transitionType': TransitionType.slide,
-                            'slideFrom': SlideDirection.right,
-                          },
-                        );
+                return ItemButton(
+                  label: tool.title,
+                  onTap: () {
+                    logger.i('🛠️ Tapped tool: ${tool.id}');
+                    context.push(
+                      '/tools/detail',
+                      extra: {
+                        'renderItems': renderItems,
+                        'currentIndex': index,
+                        'branchIndex': 3,
+                        'backDestination': '/tools/items',
+                        'backExtra': {'toolbag': toolbag},
+                        'transitionKey': 'tool_${tool.id}_$timestamp',
+                        'detailRoute': DetailRoute.branch,
+                        'transitionType': TransitionType.slide,
+                        'slideFrom': SlideDirection.right,
                       },
                     );
                   },
-                ),
-              ),
-            ),
-          ],
-        ),
-
-        // 🧭 Screen Instruction: "Choose a Rule"
-        Positioned(
-          top: appBarOffset + 32,
-          left: 32,
-          right: 32,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(217),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Center(
-              child: Text(
-                'Which $toolbagName would you like?',
-                style: AppTheme.subheadingStyle.copyWith(
-                  color: AppTheme.primaryBlue,
-                ),
-                textAlign: TextAlign.center,
-              ),
+                );
+              },
             ),
           ),
         ),
@@ -1576,6 +1631,8 @@ import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/widgets/group_picker_dropdown.dart';
+import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart';
@@ -1672,9 +1729,9 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
       return const Scaffold(body: SizedBox());
     }
 
+    const toolbagTitle = 'Tools';
     final toolTitle = item.title;
-    final toolbagTitle =
-        (widget.backExtra?['toolbag'] as String?)?.toTitleCase() ?? 'Tool';
+    // final toolbagId = widget.backExtra?['toolbag'] as String?;
 
     logger.i('🛠️ ToolDetailScreen: $toolTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
@@ -1691,6 +1748,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
     String toolTitle,
     String toolbagTitle,
   ) {
+    // final subtitleText = toolTitle;
     return Scaffold(
       key: ValueKey(widget.transitionKey),
       body: Stack(
@@ -1723,8 +1781,66 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                   );
                 },
               ),
+              if (widget.detailRoute == DetailRoute.path)
+                LearningPathProgressBar(
+                  pathName: widget.backExtra?['pathName'] ?? '',
+                ),
+
+              if (widget.detailRoute == DetailRoute.branch)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: GroupPickerDropdown(
+                    label: 'Toolbag',
+                    selectedId: widget.backExtra?['toolbag'] ?? '',
+                    ids: ToolRepositoryIndex.getToolbagNames(),
+                    idToTitle: {
+                      for (final id in ToolRepositoryIndex.getToolbagNames())
+                        id: id.toTitleCase(),
+                    },
+                    onChanged: (selectedToolbagId) {
+                      if (selectedToolbagId == widget.backExtra?['toolbag']) {
+                        logger.i('🟡 Same toolbag selected → no action');
+                        return;
+                      }
+
+                      final tools = ToolRepositoryIndex.getToolsForBag(
+                        selectedToolbagId,
+                      );
+                      final renderItems = buildRenderItems(
+                        ids: tools.map((tool) => tool.id).toList(),
+                      );
+
+                      if (renderItems.isEmpty) {
+                        logger.w('⚠️ Selected toolbag has no renderable items');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Selected toolbag has no items.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: renderItems.first.type,
+                        renderItems: renderItems,
+                        currentIndex: 0,
+                        branchIndex: widget.branchIndex,
+                        backDestination: '/tools/items',
+                        backExtra: {
+                          'toolbag': selectedToolbagId,
+                          'branchIndex': widget.branchIndex,
+                        },
+                        detailRoute: widget.detailRoute,
+                        direction: SlideDirection.right,
+                      );
+                    },
+                  ),
+                ),
+
+              /// the bottom of insert area
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(
                   toolTitle,
                   style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
@@ -1733,6 +1849,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -1930,6 +2047,8 @@ import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/widgets/group_picker_dropdown.dart';
+import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -2080,8 +2199,8 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final title = flashcard.title;
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
-    final category =
-        (widget.backExtra?['category'] as String?)?.toTitleCase() ?? 'Drills';
+    const categoryTitle = 'Drills';
+    final categoryId = widget.backExtra?['category'] as String?;
 
     logger.i(
       '🖼️ Rendering Flashcard:\n'
@@ -2105,7 +2224,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
           Column(
             children: [
               CustomAppBarWidget(
-                title: category,
+                title: categoryTitle,
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
@@ -2122,6 +2241,66 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                   );
                 },
               ),
+              if (widget.detailRoute == DetailRoute.path)
+                LearningPathProgressBar(
+                  pathName: widget.backExtra?['pathName'] ?? '',
+                ),
+
+              if (widget.detailRoute == DetailRoute.branch)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: GroupPickerDropdown(
+                    label: 'Category',
+                    selectedId: categoryId ?? '',
+                    ids: getAllCategories(),
+                    idToTitle: {
+                      for (final id in getAllCategories()) id: id.toTitleCase(),
+                    },
+
+                    onChanged: (selectedCategoryId) {
+                      if (selectedCategoryId == categoryId) {
+                        logger.i('🟡 Same category selected → no action');
+                        return;
+                      }
+
+                      final flashcards = getFlashcardsForCategory(
+                        selectedCategoryId,
+                      );
+                      if (flashcards.isEmpty) {
+                        logger.w('⚠️ Selected category has no flashcards');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Selected category has no flashcards.',
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+
+                      final renderItems =
+                          flashcards
+                              .map((card) => RenderItem.fromFlashcard(card))
+                              .toList();
+
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: RenderItemType.flashcard,
+                        renderItems: renderItems,
+                        currentIndex: 0,
+                        branchIndex: widget.branchIndex,
+                        backDestination: '/flashcards/items',
+                        backExtra: {
+                          'category': selectedCategoryId,
+                          'branchIndex': widget.branchIndex,
+                        },
+                        detailRoute: widget.detailRoute,
+                        direction: SlideDirection.right,
+                      );
+                    },
+                  ),
+                ),
+
               const SizedBox(height: 16),
               Text(
                 title,
@@ -2374,6 +2553,10 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
 File: lib/screens/flashcards/flashcard_category_screen.dart
 import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -2468,13 +2651,16 @@ class FlashcardCategoryScreen extends StatelessWidget {
                                 'category': category,
                                 'transitionKey':
                                     'flashcards_items_${category}_$timestamp',
+                                'slideFrom': SlideDirection.right,
+                                'transitionType': TransitionType.slide,
+                                'detailRoute': DetailRoute.branch,
                               },
                             );
                           },
 
                           style: style,
                           child: Text(
-                            category[0].toUpperCase() + category.substring(1),
+                            category.toTitleCase(),
                             style: AppTheme.buttonTextStyle,
                             textAlign: TextAlign.center,
                           ),
@@ -2500,47 +2686,39 @@ class FlashcardCategoryScreen extends StatelessWidget {
 
 
 File: lib/screens/flashcards/flashcard_item_screen.dart
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
-import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/utils/string_extensions.dart';
-import 'package:bcc5/data/models/flashcard_model.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
-import 'package:bcc5/utils/render_item_helpers.dart'; // ✅ needed for buildRenderItems
-import 'package:bcc5/navigation/detail_route.dart'; // ✅ PATCHED
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class FlashcardItemScreen extends StatelessWidget {
   final String category;
 
   const FlashcardItemScreen({super.key, required this.category});
 
-  static const double appBarOffset = 80.0;
-
   @override
   Widget build(BuildContext context) {
     logger.i('🟦 Entered FlashcardItemScreen for category: $category');
 
-    final List<Flashcard> flashcards = getFlashcardsForCategory(category);
+    final flashcards = getFlashcardsForCategory(category);
     final renderItems = buildRenderItems(
       ids: flashcards.map((fc) => fc.id).toList(),
     );
-
-    logger.i(
-      '📘 Loaded ${flashcards.length} flashcards for category: $category',
-    );
-
-    final titleCaseCategory = category.toTitleCase();
+    final categoryTitle = category.toTitleCase();
 
     if (flashcards.isEmpty) {
       return Column(
         children: [
           CustomAppBarWidget(
-            title: titleCaseCategory,
+            title: 'Drills',
             showBackButton: true,
             showSearchIcon: true,
             showSettingsIcon: true,
@@ -2551,9 +2729,7 @@ class FlashcardItemScreen extends StatelessWidget {
                 extra: {
                   'slideFrom': SlideDirection.left,
                   'transitionType': TransitionType.slide,
-                  'detailRoute':
-                      DetailRoute
-                          .branch, // optional if TransitionManager relies on it
+                  'detailRoute': DetailRoute.branch,
                 },
               );
             },
@@ -2567,53 +2743,35 @@ class FlashcardItemScreen extends StatelessWidget {
       );
     }
 
-    return Stack(
-      fit: StackFit.expand,
+    return Column(
       children: [
-        // 🔵 AppBar
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: CustomAppBarWidget(
-            title: titleCaseCategory,
-            showBackButton: true,
-            showSearchIcon: true,
-            showSettingsIcon: true,
-            onBack: () {
-              logger.i('🔙 AppBar back from FlashcardItemScreen');
-              context.go('/flashcards');
-            },
-          ),
+        CustomAppBarWidget(
+          title: 'Drills',
+          showBackButton: true,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+          onBack: () {
+            logger.i('🔙 AppBar back from FlashcardItemScreen');
+            context.go(
+              '/flashcards',
+              extra: {
+                'slideFrom': SlideDirection.left,
+                'transitionType': TransitionType.slide,
+                'detailRoute': DetailRoute.branch,
+              },
+            );
+          },
         ),
-
-        // 🧭 Instruction Text
-        Positioned(
-          top: appBarOffset + 32,
-          left: 32,
-          right: 32,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            decoration: BoxDecoration(
-              color: Colors.white.withAlpha(217),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Center(
-              child: Text(
-                'Dive into a trial...',
-                style: AppTheme.subheadingStyle.copyWith(
-                  color: AppTheme.primaryBlue,
-                ),
-              ),
-            ),
-          ),
+        const SizedBox(height: 16),
+        Text(
+          '$categoryTitle:\nDive into a challenge.',
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
         ),
-
-        // 🧩 Flashcard Grid
-        Positioned.fill(
-          top: appBarOffset + 100,
+        const SizedBox(height: 16),
+        Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(12),
             child: GridView.builder(
               itemCount: flashcards.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -2625,11 +2783,12 @@ class FlashcardItemScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final card = flashcards[index];
                 logger.i('📗 Rendering flashcard: ${card.title}');
+                final timestamp = DateTime.now().millisecondsSinceEpoch;
+
                 return ItemButton(
                   label: card.title,
                   onTap: () {
                     logger.i('🟧 Tapped flashcard: ${card.title}');
-                    final timestamp = DateTime.now().millisecondsSinceEpoch;
                     context.push(
                       '/flashcards/detail',
                       extra: {
@@ -2637,11 +2796,11 @@ class FlashcardItemScreen extends StatelessWidget {
                         'currentIndex': index,
                         'branchIndex': 4,
                         'backDestination': '/flashcards/items',
-                        'backExtra': {'category': category},
+                        'backExtra': {'category': category, 'branchIndex': 4},
                         'transitionKey': 'flashcard_detail_${index}_$timestamp',
                         'detailRoute': DetailRoute.branch,
-                        'slideFrom': SlideDirection.right, // ✅ NEW
-                        'transitionType': TransitionType.slide, // ✅ NEW
+                        'transitionType': TransitionType.slide,
+                        'slideFrom': SlideDirection.right,
                       },
                     );
                   },
@@ -2836,6 +2995,7 @@ import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/utils/resume_manager.dart';
 import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -2843,16 +3003,22 @@ import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/theme/app_theme.dart'; // ✅ Needed for AppTheme.primaryBlue
-import 'package:bcc5/utils/string_extensions.dart'; // needed for title case
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 
-class PathChapterScreen extends StatelessWidget {
+class PathChapterScreen extends StatefulWidget {
   final String pathName;
 
   const PathChapterScreen({super.key, required this.pathName});
 
   @override
+  State<PathChapterScreen> createState() => _PathChapterScreenState();
+}
+
+class _PathChapterScreenState extends State<PathChapterScreen> {
+  @override
   Widget build(BuildContext context) {
+    final pathName = widget.pathName;
     logger.i('🟢 Entered PathChapterScreen for "$pathName"');
 
     final chapters = PathRepositoryIndex.getChaptersForPath(pathName);
@@ -2887,10 +3053,10 @@ class PathChapterScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // this is the Start New Path button code
               ElevatedButton(
                 onPressed: () {
                   logger.i('⛵ Set sail on a new course tapped → $pathName');
+
                   final chapters = PathRepositoryIndex.getChaptersForPath(
                     pathName,
                   );
@@ -2920,6 +3086,7 @@ class PathChapterScreen extends StatelessWidget {
                     ids: items.map((e) => e.pathItemId).toList(),
                   );
                   final item = renderItems.first;
+                  final chapterId = firstChapter.id;
 
                   TransitionManager.goToDetailScreen(
                     context: context,
@@ -2928,8 +3095,8 @@ class PathChapterScreen extends StatelessWidget {
                     currentIndex: 0,
                     branchIndex: 0,
                     backDestination:
-                        '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}',
-                    backExtra: {'pathName': pathName},
+                        '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                    backExtra: {'pathName': pathName, 'chapterId': chapterId},
                     detailRoute: DetailRoute.path,
                     direction: SlideDirection.right,
                   );
@@ -2939,14 +3106,81 @@ class PathChapterScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 12),
+
               ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        '📍 This will resume where you last left off.',
+                onPressed: () async {
+                  logger.i('📍 Resume tapped for "$pathName"');
+                  final resume = await ResumeManager.getResumePoint();
+
+                  if (!context.mounted) return;
+
+                  if (resume == null) {
+                    logger.w('⚠️ No resume point found');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('No saved location to resume.'),
                       ),
-                    ),
+                    );
+                    return;
+                  }
+
+                  final savedPath = resume['pathName'];
+                  final chapterId = resume['chapterId'];
+                  final itemId = resume['itemId'];
+
+                  if (savedPath != pathName) {
+                    logger.w(
+                      '⚠️ Resume point belongs to different path: $savedPath',
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('No resume point for this path.'),
+                      ),
+                    );
+                    return;
+                  }
+
+                  final chapter = PathRepositoryIndex.getChapterById(
+                    pathName,
+                    chapterId!,
+                  );
+                  if (chapter == null) {
+                    logger.w('⚠️ Chapter not found for ID: $chapterId');
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Saved chapter not found.')),
+                    );
+                    return;
+                  }
+
+                  final itemIndex = chapter.items.indexWhere(
+                    (i) => i.pathItemId == itemId,
+                  );
+                  if (itemIndex == -1) {
+                    logger.w(
+                      '⚠️ Saved item $itemId not found in chapter $chapterId',
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Saved item not found.')),
+                    );
+                    return;
+                  }
+
+                  final renderItems = buildRenderItems(
+                    ids: chapter.items.map((e) => e.pathItemId).toList(),
+                  );
+                  final targetItem = renderItems[itemIndex];
+
+                  TransitionManager.goToDetailScreen(
+                    context: context,
+                    screenType: targetItem.type,
+                    renderItems: renderItems,
+                    currentIndex: itemIndex,
+                    branchIndex: 0,
+                    backDestination:
+                        '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                    backExtra: {'pathName': pathName, 'chapterId': chapterId},
+                    detailRoute: DetailRoute.path,
+                    direction: SlideDirection.right,
                   );
                 },
                 style: AppTheme.groupRedButtonStyle,
@@ -3029,207 +3263,10 @@ class PathChapterScreen extends StatelessWidget {
 
 
 
-File: lib/screens/common/content_detail_screen.dart
-// import 'dart:ui';
-// import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
-// import 'package:bcc5/data/models/content_block.dart';
-// import 'package:bcc5/data/models/render_item.dart';
-// import 'package:bcc5/navigation/main_scaffold.dart';
-// import 'package:bcc5/widgets/custom_app_bar_widget.dart';
-// import 'package:bcc5/utils/logger.dart';
-// import 'package:bcc5/theme/app_theme.dart';
-
-// class ContentDetailScreen extends StatelessWidget {
-//   final RenderItem item;
-//   final VoidCallback? onPrevious;
-//   final VoidCallback? onNext;
-//   final VoidCallback? onBack;
-//   final int branchIndex;
-
-//   const ContentDetailScreen({
-//     super.key,
-//     required this.item,
-//     this.onPrevious,
-//     this.onNext,
-//     this.onBack,
-//     this.branchIndex = 0,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     logger.i('🟪 Displaying ContentDetailScreen: ${item.title}');
-//     logger.i('📄 ContentBlock count: ${item.content.length}');
-
-//     return MainScaffold(
-//       branchIndex: branchIndex,
-//       child: Column(
-//         children: [
-//           CustomAppBarWidget(
-//             title: item.title,
-//             showBackButton: true,
-//             showSearchIcon: true,
-//             showSettingsIcon: true,
-//             onBack:
-//                 onBack ??
-//                 () {
-//                   logger.i('🔙 Fallback back on ContentDetailScreen');
-//                   if (Navigator.of(context).canPop()) {
-//                     Navigator.of(context).pop();
-//                   } else {
-//                     context.go('/');
-//                   }
-//                 },
-//           ),
-//           Expanded(
-//             child: ListView.separated(
-//               padding: const EdgeInsets.all(16),
-//               itemCount: item.content.length,
-//               separatorBuilder: (_, __) => const SizedBox(height: 16),
-//               itemBuilder: (context, index) {
-//                 final block = item.content[index];
-//                 logger.i('📦 Rendering block [$index] → ${block.type}');
-//                 return _renderBlock(context, block);
-//               },
-//             ),
-//           ),
-//           ClipRect(
-//             child: BackdropFilter(
-//               filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-//               child: Container(
-//                 padding: const EdgeInsets.symmetric(
-//                   horizontal: 16,
-//                   vertical: 12,
-//                 ),
-//                 decoration: BoxDecoration(color: Colors.white.withAlpha(76)),
-//                 child: Row(
-//                   children: [
-//                     ConstrainedBox(
-//                       constraints: const BoxConstraints(minWidth: 160),
-//                       child: ElevatedButton.icon(
-//                         onPressed:
-//                             onPrevious != null
-//                                 ? () {
-//                                   logger.i(
-//                                     '⬅️ Previous tapped on ContentDetailScreen',
-//                                   );
-//                                   onPrevious!();
-//                                 }
-//                                 : null,
-//                         icon: const Icon(Icons.arrow_back),
-//                         label: const Text('Previous'),
-//                         style:
-//                             onPrevious != null
-//                                 ? AppTheme.navigationButtonStyle
-//                                 : AppTheme.disabledNavigationButtonStyle,
-//                       ),
-//                     ),
-//                     const Spacer(),
-//                     ConstrainedBox(
-//                       constraints: const BoxConstraints(minWidth: 160),
-//                       child: ElevatedButton(
-//                         onPressed:
-//                             onNext != null
-//                                 ? () {
-//                                   logger.i(
-//                                     '➡️ Next tapped on ContentDetailScreen',
-//                                   );
-//                                   onNext!();
-//                                 }
-//                                 : null,
-//                         style:
-//                             onNext != null
-//                                 ? AppTheme.navigationButtonStyle
-//                                 : AppTheme.disabledNavigationButtonStyle,
-//                         child: Row(
-//                           mainAxisAlignment: MainAxisAlignment.center,
-//                           children: const [
-//                             Text('Next'),
-//                             SizedBox(width: 8),
-//                             Icon(Icons.arrow_forward),
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _renderBlock(BuildContext context, ContentBlock block) {
-//     switch (block.type) {
-//       case ContentBlockType.heading:
-//         return Text(
-//           block.text ?? '',
-//           style: AppTheme.scaledTextTheme.headlineMedium,
-//         );
-//       case ContentBlockType.text:
-//         return Text(
-//           block.text ?? '',
-//           style: AppTheme.scaledTextTheme.bodyLarge,
-//         );
-//       case ContentBlockType.code:
-//         return Container(
-//           padding: const EdgeInsets.all(12),
-//           color: Colors.black87,
-//           child: Text(
-//             block.text ?? '',
-//             style: const TextStyle(
-//               color: Colors.greenAccent,
-//               fontFamily: 'monospace',
-//             ),
-//           ),
-//         );
-//       case ContentBlockType.bulletList:
-//         return Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children:
-//               block.bulletList!
-//                   .map(
-//                     (item) => Row(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         const Text('• ', style: TextStyle(fontSize: 16)),
-//                         Expanded(
-//                           child: Text(
-//                             item,
-//                             style: AppTheme.scaledTextTheme.bodyLarge,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   )
-//                   .toList(),
-//         );
-//       case ContentBlockType.image:
-//         return Image.asset(
-//           block.imagePath ?? 'assets/images/fallback_image.jpeg',
-//           fit: BoxFit.cover,
-//           errorBuilder: (_, __, ___) => const Placeholder(fallbackHeight: 150),
-//         );
-//       case ContentBlockType.divider:
-//         return const Divider(thickness: 2);
-//     }
-//   }
-// }
-
-
-
-
-
-
-
-
-
-
 File: lib/screens/parts/part_item_screen.dart
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -3259,7 +3296,7 @@ class PartItemScreen extends StatelessWidget {
     return Column(
       children: [
         CustomAppBarWidget(
-          title: '$zone Parts',
+          title: 'Parts',
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
@@ -3276,6 +3313,12 @@ class PartItemScreen extends StatelessWidget {
           },
         ),
         const SizedBox(height: 16),
+        Text(
+          zone.toTitleCase(),
+          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 12),
         Text(
           'Choose a Part',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
@@ -3338,6 +3381,7 @@ File: lib/screens/parts/part_detail_screen.dart
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart';
@@ -3354,6 +3398,8 @@ import 'package:bcc5/utils/transition_manager.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+
+import 'package:bcc5/widgets/group_picker_dropdown.dart';
 
 class PartDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -3436,8 +3482,8 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
     }
 
     final partTitle = item.title;
-    final zoneTitle =
-        (widget.backExtra?['zone'] as String?)?.toTitleCase() ?? 'Part';
+    // final zoneId = widget.backExtra?['zone'] as String?;
+    const zoneTitle = 'Parts';
 
     logger.i('🧩 PartDetailScreen: $partTitle');
     logger.i('📄 Content blocks: ${item.content.length}');
@@ -3450,6 +3496,9 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
   }
 
   Widget _buildScaffold(RenderItem item, String partTitle, String zoneTitle) {
+    final zoneId = widget.backExtra?['zone'] as String?;
+    final subtitleText = item.title;
+
     return Scaffold(
       key: ValueKey(widget.transitionKey),
       body: Stack(
@@ -3482,16 +3531,74 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                   );
                 },
               ),
+              if (widget.detailRoute == DetailRoute.path)
+                LearningPathProgressBar(
+                  pathName: widget.backExtra?['pathName'] ?? '',
+                ),
+
+              if (widget.detailRoute == DetailRoute.branch)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: GroupPickerDropdown(
+                    label: 'Zone',
+                    selectedId: zoneId?.toLowerCase() ?? '',
+                    ids: PartRepositoryIndex.getZoneNames(),
+                    idToTitle: {
+                      for (final id in PartRepositoryIndex.getZoneNames())
+                        id: id.toTitleCase(),
+                    },
+                    onChanged: (selectedZoneId) {
+                      if (selectedZoneId == zoneId) {
+                        logger.i('🟡 Same zone selected → no action');
+                        return;
+                      }
+
+                      final parts = PartRepositoryIndex.getPartsForZone(
+                        selectedZoneId,
+                      );
+                      final renderItems = buildRenderItems(
+                        ids: parts.map((p) => p.id).toList(),
+                      );
+
+                      if (renderItems.isEmpty) {
+                        logger.w('⚠️ Selected zone has no renderable items');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Selected zone has no items.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: renderItems.first.type,
+                        renderItems: renderItems,
+                        currentIndex: 0,
+                        branchIndex: widget.branchIndex,
+                        backDestination: '/parts/items',
+                        backExtra: {
+                          'zone': selectedZoneId,
+                          'branchIndex': widget.branchIndex,
+                        },
+                        detailRoute: widget.detailRoute,
+                        direction: SlideDirection.right,
+                      );
+                    },
+                  ),
+                ),
+
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(
-                  partTitle,
+                  subtitleText,
                   style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
                     color: AppTheme.primaryBlue,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -3870,6 +3977,7 @@ import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart';
@@ -3883,6 +3991,7 @@ import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/transition_manager.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+import 'package:bcc5/widgets/group_picker_dropdown.dart';
 
 class LessonDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -3965,9 +4074,8 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     if (item.type != RenderItemType.lesson) {
       return const Scaffold(body: SizedBox());
     }
+    const moduleTitle = 'Courses';
 
-    final moduleTitle =
-        (widget.backExtra?['module'] as String?)?.toTitleCase() ?? 'Course';
     final lessonTitle = item.title;
 
     logger.i('📘 LessonDetailScreen: $lessonTitle');
@@ -3986,6 +4094,8 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     String moduleTitle,
     String lessonTitle,
   ) {
+    final subtitleText = lessonTitle;
+
     return Scaffold(
       key: ValueKey(widget.transitionKey),
       body: Stack(
@@ -4018,16 +4128,83 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   );
                 },
               ),
+              if (widget.detailRoute == DetailRoute.path)
+                LearningPathProgressBar(
+                  pathName: widget.backExtra?['pathName'] ?? '',
+                ),
+
+              if (widget.detailRoute == DetailRoute.branch)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: GroupPickerDropdown(
+                    label: 'Module',
+                    selectedId: widget.backExtra?['module'] ?? '',
+                    ids: LessonRepositoryIndex.getModuleNames(),
+                    idToTitle: {
+                      for (final id in LessonRepositoryIndex.getModuleNames())
+                        id: id.toTitleCase(),
+                    },
+                    onChanged: (selectedModuleId) {
+                      final currentModuleId = widget.backExtra?['module'];
+                      if (selectedModuleId == currentModuleId) {
+                        logger.i(
+                          '⏹️ Same module selected ($selectedModuleId), no action taken',
+                        );
+                        return;
+                      }
+
+                      logger.i(
+                        '🔄 Module switched via dropdown → $selectedModuleId',
+                      );
+
+                      final lessons = LessonRepositoryIndex.getLessonsForModule(
+                        selectedModuleId,
+                      );
+
+                      final renderItems = buildRenderItems(
+                        ids: lessons.map((l) => l.id).toList(),
+                      );
+
+                      if (renderItems.isEmpty) {
+                        logger.w('⚠️ Selected module has no renderable items');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Selected module has no items.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: renderItems.first.type,
+                        renderItems: renderItems,
+                        currentIndex: 0,
+                        branchIndex: widget.branchIndex,
+                        backDestination: '/lessons/items',
+                        backExtra: {
+                          'module': selectedModuleId,
+                          'branchIndex': widget.branchIndex,
+                        },
+                        detailRoute: widget.detailRoute,
+                        direction: SlideDirection.right,
+                      );
+                    },
+                  ),
+                ),
+
+              // Then REPLACE the existing `Padding(...Text(...))` block with this:
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(
-                  lessonTitle,
+                  subtitleText,
                   style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
                     color: AppTheme.primaryBlue,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -4246,7 +4423,7 @@ import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart';
-import 'package:bcc5/navigation/detail_route.dart'; // ✅ for DetailRoute
+import 'package:bcc5/navigation/detail_route.dart';
 
 class LessonItemScreen extends StatelessWidget {
   final String module;
@@ -4260,30 +4437,19 @@ class LessonItemScreen extends StatelessWidget {
     final lessonIds = lessons.map((l) => l.id).toList();
     final renderItems = buildRenderItems(ids: lessonIds);
 
+    final moduleTitle = module.toTitleCase();
+
     return Column(
       children: [
-        CustomAppBarWidget(
-          title: module.toTitleCase(),
+        const CustomAppBarWidget(
+          title: 'Courses',
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
-          onBack: () {
-            logger.i('🔙 AppBar back from LessonItemScreen');
-            context.go(
-              '/lessons',
-              extra: {
-                'slideFrom': SlideDirection.left,
-                'transitionType': TransitionType.slide,
-                'detailRoute':
-                    DetailRoute.branch, // optional but fine to include
-              },
-            );
-          },
         ),
         const SizedBox(height: 16),
         Text(
-          'Courses:\n'
-          'Dive in to any course below.',
+          '$moduleTitle:\nDive in to any course below.',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),
@@ -4314,7 +4480,7 @@ class LessonItemScreen extends StatelessWidget {
                         'renderItems': renderItems,
                         'currentIndex': index,
                         'branchIndex': 1,
-                        'detailRoute': DetailRoute.branch, // ✅ new
+                        'detailRoute': DetailRoute.branch,
                         'backDestination': '/lessons/items',
                         'backExtra': {'module': module, 'branchIndex': 1},
                         'transitionKey': 'lesson_${lesson.id}_$timestamp',
@@ -5417,6 +5583,61 @@ class CustomAppBarWidget extends StatelessWidget
 
 
 
+File: lib/widgets/group_picker_dropdown.dart
+// 📄 lib/widgets/group_picker_dropdown.dart
+
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+class GroupPickerDropdown extends StatelessWidget {
+  final String label; // e.g., 'Module' or 'Chapter'
+  final String selectedId;
+  final List<String> ids;
+  final Map<String, String> idToTitle;
+  final ValueChanged<String> onChanged;
+
+  const GroupPickerDropdown({
+    super.key,
+    required this.label,
+    required this.selectedId,
+    required this.ids,
+    required this.idToTitle,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonHideUnderline(
+      child: DropdownButton<String>(
+        value: selectedId,
+        icon: const Icon(Icons.arrow_drop_down),
+        borderRadius: BorderRadius.circular(12),
+        style: AppTheme.scaledTextTheme.bodyLarge,
+        dropdownColor: Colors.white,
+        onChanged: (value) {
+          if (value != null) onChanged(value);
+        },
+        items:
+            ids.map((id) {
+              return DropdownMenuItem<String>(
+                value: id,
+                child: Text(idToTitle[id] ?? id),
+              );
+            }).toList(),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
 File: lib/widgets/navigation_buttons.dart
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -5556,8 +5777,11 @@ class GroupButton extends StatelessWidget {
 
 
 File: lib/widgets/settings_modal.dart
+// lib/widgets/settings_modal.dart
+
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/resume_manager.dart'; // ✅ Needed for reset
 
 void showSettingsModal(BuildContext context) {
   showDialog(
@@ -5582,6 +5806,25 @@ void showSettingsModal(BuildContext context) {
                   children: [
                     _settingSwitch('Dark Mode', false),
                     _settingSwitch('Show Tour Wizard', true),
+                    // 🧪 DEV: Reset Resume Point Button
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: ElevatedButton(
+                        style: AppTheme.navigationButton,
+                        onPressed: () async {
+                          await ResumeManager.clearResumePoint();
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('✅ Resume point cleared'),
+                            ),
+                          );
+                        },
+
+                        child: const Text('Reset Resume Point'),
+                      ),
+                    ),
+
                     _settingSwitch('Enable Paid Content', false),
                     _settingButton(context, 'Legal & Privacy Docs'),
                     _settingDropdown('Units', ['Meters', 'Feet'], 'Feet'),
@@ -5717,6 +5960,49 @@ class FlipCardWidget extends StatelessWidget {
           child: DefaultTextStyle.merge(
             style: const TextStyle(fontSize: 19),
             child: ContentBlockRenderer(blocks: visibleContent),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/learning_path_progress_bar.dart
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/utils/string_extensions.dart';
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+class LearningPathProgressBar extends StatelessWidget {
+  final String pathName;
+
+  const LearningPathProgressBar({super.key, required this.pathName});
+
+  @override
+  Widget build(BuildContext context) {
+    if (pathName.isEmpty) return const SizedBox.shrink();
+
+    logger.i('🧭 LearningPathProgressBar: $pathName');
+
+    return Container(
+      width: double.infinity,
+      color: Colors.red[50],
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Center(
+        child: Text(
+          pathName.toTitleCase(),
+          style: AppTheme.scaledTextTheme.labelLarge?.copyWith(
+            color: AppTheme.primaryRed,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

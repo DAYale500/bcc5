@@ -258,3 +258,7 @@ Want me to implement the direction-sensitive transition polish in the `_onItemTa
 
 13. 
 
+remember flashcards strengths/weaknesses to suggest review deck
+
+better "no path to resume" than those black snackbars...
+

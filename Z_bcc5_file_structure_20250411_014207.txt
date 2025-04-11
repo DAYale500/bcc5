@@ -50,8 +50,6 @@ lib
 │   ├── main_scaffold.dart
 │   └── scaffold_helpers.dart
 ├── screens
-│   ├── common
-│   │   └── content_detail_screen.dart
 │   ├── flashcards
 │   │   ├── flashcard_category_screen.dart
 │   │   ├── flashcard_detail_screen.dart
@@ -81,6 +79,7 @@ lib
 │   ├── id_parser.dart
 │   ├── logger.dart
 │   ├── render_item_helpers.dart
+│   ├── resume_manager.dart
 │   ├── string_extensions.dart
 │   └── transition_manager.dart
 └── widgets
@@ -89,9 +88,11 @@ lib
     ├── disabled_item_button.dart
     ├── flip_card_widget.dart
     ├── group_button.dart
+    ├── group_picker_dropdown.dart
     ├── item_button.dart
+    ├── learning_path_progress_bar.dart
     ├── navigation_buttons.dart
     ├── search_modal.dart
     └── settings_modal.dart
 
-21 directories, 74 files
+20 directories, 76 files
