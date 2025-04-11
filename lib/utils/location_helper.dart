@@ -29,3 +29,15 @@ Future<Position?> getCurrentLocation() async {
   logger.i('📍 Got location: ${position.latitude}, ${position.longitude}');
   return position;
 }
+
+String formatToMarineCoord(double decimal, {bool isLat = true}) {
+  final direction =
+      isLat ? (decimal >= 0 ? 'N' : 'S') : (decimal >= 0 ? 'E' : 'W');
+
+  final abs = decimal.abs();
+  final degrees = abs.floor();
+  final minutesDecimal = (abs - degrees) * 60;
+  final minutes = minutesDecimal.toStringAsFixed(3).padLeft(6, '0');
+
+  return '$direction $degrees° $minutes\'';
+}
