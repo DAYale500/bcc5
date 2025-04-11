@@ -57,6 +57,7 @@ class PathChapterScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   logger.i('⛵ Set sail on a new course tapped → $pathName');
+
                   final chapters = PathRepositoryIndex.getChaptersForPath(
                     pathName,
                   );
@@ -86,6 +87,7 @@ class PathChapterScreen extends StatelessWidget {
                     ids: items.map((e) => e.pathItemId).toList(),
                   );
                   final item = renderItems.first;
+                  final chapterId = firstChapter.id;
 
                   TransitionManager.goToDetailScreen(
                     context: context,
@@ -94,12 +96,58 @@ class PathChapterScreen extends StatelessWidget {
                     currentIndex: 0,
                     branchIndex: 0,
                     backDestination:
-                        '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}',
-                    backExtra: {'pathName': pathName},
+                        '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                    backExtra: {'pathName': pathName, 'chapterId': chapterId},
                     detailRoute: DetailRoute.path,
                     direction: SlideDirection.right,
                   );
                 },
+
+                // onPressed: () {
+                //   logger.i('⛵ Set sail on a new course tapped → $pathName');
+                //   final chapters = PathRepositoryIndex.getChaptersForPath(
+                //     pathName,
+                //   );
+                //   if (chapters.isEmpty) {
+                //     logger.w('⚠️ No chapters found for path: $pathName');
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       const SnackBar(
+                //         content: Text('No chapters found for this path.'),
+                //       ),
+                //     );
+                //     return;
+                //   }
+
+                //   final firstChapter = chapters.first;
+                //   final items = firstChapter.items;
+                //   if (items.isEmpty) {
+                //     logger.w('⚠️ First chapter has no items.');
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       const SnackBar(
+                //         content: Text('This chapter has no items.'),
+                //       ),
+                //     );
+                //     return;
+                //   }
+
+                //   final renderItems = buildRenderItems(
+                //     ids: items.map((e) => e.pathItemId).toList(),
+                //   );
+                //   final item = renderItems.first;
+
+                //   TransitionManager.goToDetailScreen(
+                //     context: context,
+                //     screenType: item.type,
+                //     renderItems: renderItems,
+                //     currentIndex: 0,
+                //     branchIndex: 0,
+                //     backDestination:
+                //         '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}',
+                //     backExtra: {'pathName': pathName},
+                //     detailRoute: DetailRoute.path,
+                //     direction: SlideDirection.right,
+                //   );
+                // },
                 style: AppTheme.groupRedButtonStyle,
                 child: const Text('Set sail on a new course'),
               ),
