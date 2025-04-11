@@ -1,0 +1,222 @@
+[0001] Launching lib/main.dart on iPhone 13 in debug mode...
+[0002] Running pod install...                                             532ms
+[0003] Running Xcode build...                                          
+[0004]  └─Compiling, linking and signing...                         4.2s
+[0005] Xcode build done.                                           14.4s
+[0006] #0   main (package:bcc5/main.dart:8:10)<…>
+[0007] 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+[0008] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0009] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0010] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0011] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0012] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0013] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0014] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0015] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0016] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0017] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0018] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0019] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0020] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0021] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0022] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0023] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0024] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0025] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0026] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0027] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0028] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0029] 💡 <…>
+[0030] Syncing files to device iPhone 13...                            
+[0031] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:35:16)<…>
+[0032] 💡 🏁 Entering LandingScreen<…>
+[0033] #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:94:22)<…>
+[0034] ⚠️ [TransitionManager] ❗ Missing detailRoute in .extra — defaulting to DetailRoute.branch<…>
+[0035] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0036] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0037] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0038] 🐛 🔷 Building MainScaffold, tab index: 0
+[0039] Syncing files to device iPhone 13...                                35ms
+[0040] 
+[0041] Flutter run key commands.
+[0042] r Hot reload. 🔥🔥🔥
+[0043] R Hot restart.
+[0044] h List all available interactive commands.
+[0045] d Detach (terminate "flutter run" but leave application running).
+[0046] c Clear the screen
+[0047] q Quit (terminate the application on the device).
+[0048] 
+[0049] A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:55043/8D2IQmqU0G0=/
+[0050] The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:55043/8D2IQmqU0G0=/
+[0051] #0   CustomAppBarWidget.build.<anonymous closure> (package:bcc5/widgets/custom_app_bar_widget.dart:95:22)<…>
+[0052] 💡 🆘 MOB button tapped<…>
+[0053] #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+[0054] 💡 📍 Got location: 37.785834, -122.406417<…>
+[0055] #0   showMOBModal (package:bcc5/widgets/mob_modal.dart:18:10)<…>
+[0056] 💡 🚨 MOB Modal triggered at 2025-04-11 12:51:31 with coords: 37.785834, -122.406417<…>
+[0057] #0   MOBEmergencyScreen.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:14:12)<…>
+[0058] 💡 🚨 MOB Emergency Screen opened<…>
+[0059] #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+[0060] 💡 📍 Got location: 37.785834, -122.406417<…>
+[0061] 
+[0062] Performing hot restart...                                       
+[0063] Restarted application in 296ms.
+[0064] #0   main (package:bcc5/main.dart:8:10)<…>
+[0065] 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+[0066] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0067] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0068] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0069] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0070] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0071] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0072] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0073] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0074] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0075] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0076] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0077] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0078] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0079] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0080] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0081] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0082] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0083] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0084] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0085] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0086] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0087] 💡 <…>
+[0088] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:35:16)<…>
+[0089] 💡 🏁 Entering LandingScreen<…>
+[0090] #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:94:22)<…>
+[0091] ⚠️ [TransitionManager] ❗ Missing detailRoute in .extra — defaulting to DetailRoute.branch<…>
+[0092] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0093] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0094] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0095] 🐛 🔷 Building MainScaffold, tab index: 0
+[0096] #0   CustomAppBarWidget.build.<anonymous closure> (package:bcc5/widgets/custom_app_bar_widget.dart:95:22)<…>
+[0097] 💡 🆘 MOB button tapped<…>
+[0098] #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+[0099] 💡 📍 Got location: 37.785834, -122.406417<…>
+[0100] #0   showMOBModal (package:bcc5/widgets/mob_modal.dart:18:10)<…>
+[0101] 💡 🚨 MOB Modal triggered at 2025-04-11 12:52:20 with coords: 37.785834, -122.406417<…>
+[0102] #0   MOBEmergencyScreen.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:14:12)<…>
+[0103] 💡 🚨 MOB Emergency Screen opened<…>
+[0104] #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+[0105] 💡 📍 Got location: 37.785834, -122.406417<…>
+[0106] #0   CustomAppBarWidget.build.<anonymous closure> (package:bcc5/widgets/custom_app_bar_widget.dart:95:22)<…>
+[0107] 💡 🆘 MOB button tapped<…>
+[0108] #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+[0109] 💡 📍 Got location: 37.785834, -122.406417<…>
+[0110] #0   showMOBModal (package:bcc5/widgets/mob_modal.dart:18:10)<…>
+[0111] 💡 🚨 MOB Modal triggered at 2025-04-11 12:52:32 with coords: 37.785834, -122.406417<…>
+[0112] #0   MOBEmergencyScreen.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:14:12)<…>
+[0113] 💡 🚨 MOB Emergency Screen opened<…>
+[0114] #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+[0115] 💡 📍 Got location: 37.785834, -122.406417<…>
+[0116] #0   CustomAppBarWidget.build.<anonymous closure> (package:bcc5/widgets/custom_app_bar_widget.dart:95:22)<…>
+[0117] 💡 🆘 MOB button tapped<…>
+[0118] #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+[0119] 💡 📍 Got location: 37.785834, -122.406417<…>
+[0120] #0   showMOBModal (package:bcc5/widgets/mob_modal.dart:18:10)<…>
+[0121] 💡 🚨 MOB Modal triggered at 2025-04-11 12:52:47 with coords: 37.785834, -122.406417<…>
+[0122] #0   MOBEmergencyScreen.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:14:12)<…>
+[0123] 💡 🚨 MOB Emergency Screen opened<…>
+[0124] #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+[0125] 💡 📍 Got location: 37.785834, -122.406417<…>
+[0126] 
+[0127] Performing hot reload...                                        
+[0128] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0129] 🐛 🔷 Building MainScaffold, tab index: 0
+[0130] Reloaded 21 of 1030 libraries in 185ms (compile: 39 ms, reload: 88 ms, reassemble: 43 ms).
+[0131] 
+[0132] Performing hot restart...                                       
+[0133] Restarted application in 249ms.
+[0134] #0   main (package:bcc5/main.dart:8:10)<…>
+[0135] 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+[0136] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0137] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0138] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0139] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0140] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0141] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0142] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0143] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0144] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0145] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0146] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0147] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0148] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0149] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0150] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0151] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0152] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0153] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0154] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0155] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0156] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0157] 💡 <…>
+[0158] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:35:16)<…>
+[0159] 💡 🏁 Entering LandingScreen<…>
+[0160] #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:94:22)<…>
+[0161] ⚠️ [TransitionManager] ❗ Missing detailRoute in .extra — defaulting to DetailRoute.branch<…>
+[0162] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0163] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0164] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0165] 🐛 🔷 Building MainScaffold, tab index: 0
+[0166] #0   CustomAppBarWidget.build.<anonymous closure> (package:bcc5/widgets/custom_app_bar_widget.dart:95:22)<…>
+[0167] 💡 🆘 MOB button tapped<…>
+[0168] #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+[0169] 💡 📍 Got location: 37.785834, -122.406417<…>
+[0170] #0   showMOBModal (package:bcc5/widgets/mob_modal.dart:18:10)<…>
+[0171] 💡 🚨 MOB Modal triggered at 2025-04-11 13:13:40 with coords: 37.785834, -122.406417<…>
+[0172] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:42:12)<…>
+[0173] 💡 🚨 MOB Emergency Screen opened<…>
+[0174] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:42:12)<…>
+[0175] 💡 🚨 MOB Emergency Screen opened<…>
+[0176] #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+[0177] 💡 📍 Got location: 37.785834, -122.406417<…>
+[0178] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:42:12)<…>
+[0179] 💡 🚨 MOB Emergency Screen opened<…>
+[0180] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:42:12)<…>
+[0181] 💡 🚨 MOB Emergency Screen opened<…>
+[0182] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:42:12)<…>
+[0183] 💡 🚨 MOB Emergency Screen opened<…>
+[0184] 
+[0185] Performing hot restart...                                       
+[0186] Restarted application in 281ms.
+[0187] #0   main (package:bcc5/main.dart:8:10)<…>
+[0188] 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+[0189] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0190] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0191] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0192] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0193] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0194] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0195] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0196] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0197] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0198] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0199] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0200] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0201] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0202] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0203] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0204] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0205] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0206] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0207] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0208] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0209] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0210] 💡 <…>
+[0211] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:35:16)<…>
+[0212] 💡 🏁 Entering LandingScreen<…>
+[0213] #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:94:22)<…>
+[0214] ⚠️ [TransitionManager] ❗ Missing detailRoute in .extra — defaulting to DetailRoute.branch<…>
+[0215] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0216] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0217] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0218] 🐛 🔷 Building MainScaffold, tab index: 0
+[0219] #0   CustomAppBarWidget.build.<anonymous closure> (package:bcc5/widgets/custom_app_bar_widget.dart:95:22)<…>
+[0220] 💡 🆘 MOB button tapped<…>
+[0221] #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+[0222] 💡 �

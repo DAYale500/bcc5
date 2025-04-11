@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/resume_manager.dart'; // ✅ Needed for reset
+import 'package:bcc5/utils/settings_manager.dart';
 
 void showSettingsModal(BuildContext context) {
   showDialog(
@@ -55,6 +56,38 @@ void showSettingsModal(BuildContext context) {
                       'Celsius',
                     ], 'Fahrenheit'),
 
+                    StatefulBuilder(
+                      builder: (context, setState) {
+                        return FutureBuilder<GPSDisplayFormat>(
+                          future: SettingsManager.getGPSDisplayFormat(),
+                          builder: (context, snapshot) {
+                            final current =
+                                snapshot.data ?? GPSDisplayFormat.marineCompact;
+
+                            return _settingEnumDropdown(
+                              'GPS Format',
+                              {
+                                'DMM (Marine Style)':
+                                    GPSDisplayFormat.marineCompact,
+                                'DMS (Older Charts)':
+                                    GPSDisplayFormat.marineFull,
+                                'DD (Decimal)': GPSDisplayFormat.decimal,
+                              },
+                              current,
+                              (newFormat) async {
+                                await SettingsManager.setGPSDisplayFormat(
+                                  newFormat,
+                                );
+                                setState(
+                                  () {},
+                                ); // ⬅️ Rebuilds the dropdown with updated value
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+
                     // Additional dummy settings
                     _settingSwitch('Enable Sound Effects', true),
                     _settingSwitch('Auto-Download Lessons', false),
@@ -97,6 +130,7 @@ Widget _settingSwitch(String label, bool value) {
 }
 
 // 📂 Dropdown Selector
+// 📂 Static Dropdown for legacy settings (read-only)
 Widget _settingDropdown(String label, List<String> options, String selected) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 4),
@@ -111,6 +145,37 @@ Widget _settingDropdown(String label, List<String> options, String selected) {
                   .map((o) => DropdownMenuItem(value: o, child: Text(o)))
                   .toList(),
           onChanged: (_) {},
+        ),
+      ],
+    ),
+  );
+}
+
+// 🧭 Dynamic Enum Dropdown
+Widget _settingEnumDropdown<T>(
+  String label,
+  Map<String, T> options,
+  T selected,
+  void Function(T) onChanged,
+) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: AppTheme.textTheme.bodyLarge),
+        DropdownButton<T>(
+          value: selected,
+          items:
+              options.entries
+                  .map(
+                    (e) =>
+                        DropdownMenuItem<T>(value: e.value, child: Text(e.key)),
+                  )
+                  .toList(),
+          onChanged: (val) {
+            if (val != null) onChanged(val);
+          },
         ),
       ],
     ),

@@ -30,14 +30,24 @@ Future<Position?> getCurrentLocation() async {
   return position;
 }
 
-String formatToMarineCoord(double decimal, {bool isLat = true}) {
+String formatToMarineCoord(
+  double decimal, {
+  required bool isLat,
+  bool full = false,
+}) {
   final direction =
       isLat ? (decimal >= 0 ? 'N' : 'S') : (decimal >= 0 ? 'E' : 'W');
 
   final abs = decimal.abs();
   final degrees = abs.floor();
   final minutesDecimal = (abs - degrees) * 60;
-  final minutes = minutesDecimal.toStringAsFixed(3).padLeft(6, '0');
 
-  return '$direction $degrees° $minutes\'';
+  if (full) {
+    final fullMinutes = minutesDecimal.floor();
+    final seconds = ((minutesDecimal - fullMinutes) * 60).toStringAsFixed(1);
+    return '$degrees°$fullMinutes\'$seconds"$direction';
+  } else {
+    final minutes = minutesDecimal.toStringAsFixed(3).padLeft(6, '0');
+    return '$direction $degrees° $minutes\'';
+  }
 }
