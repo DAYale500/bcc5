@@ -35,7 +35,9 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         logger.i('🏁 Entering LandingScreen');
 
-        final showReminder = state.extra as bool? ?? false;
+        final showReminder =
+            (state.extra as Map<String, dynamic>?)?['showReminder'] as bool? ??
+            false;
 
         return TransitionManager.buildCustomTransition(
           context: context,

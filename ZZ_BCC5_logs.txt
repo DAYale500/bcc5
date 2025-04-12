@@ -426,4 +426,408 @@
 [0426] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
 [0427] 🐛 🔷 Building MainScaffold, tab index: 0
 [0428] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
-[0429]
+[0429] 💡 🚨 MOB Emergency Screen opened<…>
+[0430] Reloaded 1 of 1032 libraries in 189ms (compile: 17 ms, reload: 97 ms, reassemble: 63 ms).
+[0431] 
+[0432] Performing hot reload...                                        
+[0433] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0434] 🐛 🔷 Building MainScaffold, tab index: 0
+[0435] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0436] 💡 🚨 MOB Emergency Screen opened<…>
+[0437] Reloaded 1 of 1032 libraries in 182ms (compile: 18 ms, reload: 86 ms, reassemble: 64 ms).
+[0438] 
+[0439] Performing hot reload...                                        
+[0440] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0441] 🐛 🔷 Building MainScaffold, tab index: 0
+[0442] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0443] 💡 🚨 MOB Emergency Screen opened<…>
+[0444] Reloaded 1 of 1032 libraries in 179ms (compile: 15 ms, reload: 86 ms, reassemble: 65 ms).
+[0445] 
+[0446] Performing hot reload...                                        
+[0447] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0448] 🐛 🔷 Building MainScaffold, tab index: 0
+[0449] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0450] 💡 🚨 MOB Emergency Screen opened<…>
+[0451] Reloaded 1 of 1032 libraries in 181ms (compile: 17 ms, reload: 87 ms, reassemble: 65 ms).
+[0452] 
+[0453] Performing hot reload...                                        
+[0454] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0455] 🐛 🔷 Building MainScaffold, tab index: 0
+[0456] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0457] 💡 🚨 MOB Emergency Screen opened<…>
+[0458] Reloaded 1 of 1032 libraries in 180ms (compile: 16 ms, reload: 85 ms, reassemble: 64 ms).
+[0459] 
+[0460] Performing hot reload...                                        
+[0461] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0462] 🐛 🔷 Building MainScaffold, tab index: 0
+[0463] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0464] 💡 🚨 MOB Emergency Screen opened<…>
+[0465] Reloaded 1 of 1032 libraries in 181ms (compile: 16 ms, reload: 85 ms, reassemble: 64 ms).
+[0466] 
+[0467] Performing hot reload...                                        
+[0468] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0469] 🐛 🔷 Building MainScaffold, tab index: 0
+[0470] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0471] 💡 🚨 MOB Emergency Screen opened<…>
+[0472] Reloaded 1 of 1032 libraries in 181ms (compile: 18 ms, reload: 88 ms, reassemble: 62 ms).
+[0473] 
+[0474] Performing hot reload...                                        
+[0475] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0476] 🐛 🔷 Building MainScaffold, tab index: 0
+[0477] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0478] 💡 🚨 MOB Emergency Screen opened<…>
+[0479] Reloaded 1 of 1032 libraries in 183ms (compile: 18 ms, reload: 86 ms, reassemble: 66 ms).
+[0480] 
+[0481] Performing hot reload...                                        
+[0482] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0483] 🐛 🔷 Building MainScaffold, tab index: 0
+[0484] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0485] 💡 🚨 MOB Emergency Screen opened<…>
+[0486] Reloaded 1 of 1032 libraries in 178ms (compile: 18 ms, reload: 83 ms, reassemble: 64 ms).
+[0487] 
+[0488] Performing hot reload...                                        
+[0489] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0490] 🐛 🔷 Building MainScaffold, tab index: 0
+[0491] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0492] 💡 🚨 MOB Emergency Screen opened<…>
+[0493] Reloaded 1 of 1032 libraries in 182ms (compile: 18 ms, reload: 84 ms, reassemble: 66 ms).
+[0494] 
+[0495] Performing hot reload...                                        
+[0496] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0497] 🐛 🔷 Building MainScaffold, tab index: 0
+[0498] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0499] 💡 🚨 MOB Emergency Screen opened<…>
+[0500] Reloaded 1 of 1032 libraries in 182ms (compile: 16 ms, reload: 85 ms, reassemble: 66 ms).
+[0501] 
+[0502] Performing hot reload...                                        
+[0503] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0504] 🐛 🔷 Building MainScaffold, tab index: 0
+[0505] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0506] 💡 🚨 MOB Emergency Screen opened<…>
+[0507] Reloaded 1 of 1032 libraries in 174ms (compile: 15 ms, reload: 83 ms, reassemble: 65 ms).
+[0508] 
+[0509] Performing hot reload...                                        
+[0510] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0511] 🐛 🔷 Building MainScaffold, tab index: 0
+[0512] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0513] 💡 🚨 MOB Emergency Screen opened<…>
+[0514] Reloaded 1 of 1032 libraries in 194ms (compile: 17 ms, reload: 98 ms, reassemble: 63 ms).
+[0515] 
+[0516] Performing hot reload...                                        
+[0517] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0518] 🐛 🔷 Building MainScaffold, tab index: 0
+[0519] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0520] 💡 🚨 MOB Emergency Screen opened<…>
+[0521] Reloaded 1 of 1032 libraries in 187ms (compile: 18 ms, reload: 88 ms, reassemble: 66 ms).
+[0522] 
+[0523] Performing hot reload...                                        
+[0524] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0525] 🐛 🔷 Building MainScaffold, tab index: 0
+[0526] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0527] 💡 🚨 MOB Emergency Screen opened<…>
+[0528] Reloaded 1 of 1032 libraries in 186ms (compile: 18 ms, reload: 89 ms, reassemble: 65 ms).
+[0529] #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:134:12)<…>
+[0530] 💡 🚨 MOB Emergency Screen opened<…>
+[0531] #0   _MOBEmergencyScreenState.build.<anonymous closure> (package:bcc5/screens/emergency/mob_emergency_screen.dart:338:24)<…>
+[0532] 💡 🆘 Other Emergencies button tapped<…>
+[0533] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:376:16)<…>
+[0534] 💡 🛠️ Navigating to ToolItemScreen for toolbag: procedures | detailRoute: DetailRoute.branch<…>
+[0535] #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:94:22)<…>
+[0536] ⚠️ [TransitionManager] ❗ Missing detailRoute in .extra — defaulting to DetailRoute.branch<…>
+[0537] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0538] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0539] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0540] 🐛 🔷 Building MainScaffold, tab index: 3
+[0541] #0   ToolItemScreen.build (package:bcc5/screens/tools/tool_item_screen.dart:21:12)<…>
+[0542] 💡 🛠️ ToolItemScreen loaded for toolbag: procedures<…>
+[0543] #0   buildRenderItems (package:bcc5/utils/render_item_helpers.dart:9:10)<…>
+[0544] 💡 🛠️ buildRenderItems → ids: [tool_procedures_1.00, tool_procedures_2.00]<…>
+[0545] #0   buildRenderItems (package:bcc5/utils/render_item_helpers.dart:25:10)
+[0546] 🐛 📦 buildRenderItems summary:
+[0547] 🐛   • valid: 2
+[0548] 🐛   • invalid: 0
+[0549] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:36:16)<…>
+[0550] 💡 🏁 Entering LandingScreen<…>
+[0551] #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:94:22)<…>
+[0552] ⚠️ [TransitionManager] ❗ Missing detailRoute in .extra — defaulting to DetailRoute.branch<…>
+[0553] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0554] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0555] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0556] 🐛 🔷 Building MainScaffold, tab index: 0
+[0557] #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:22:12)<…>
+[0558] 💡 🧭 BNB tapped tab 3 — switching via GoRouter<…>
+[0559] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:349:16)<…>
+[0560] 💡 🛠️ Entering ToolsScreen<…>
+[0561] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0562] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0563] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0564] 🐛 🔷 Building MainScaffold, tab index: 3
+[0565] #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:22:12)<…>
+[0566] 💡 🟦 Displaying ToolsScreen<…>
+[0567] #0   ToolBagScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/tools/tool_bag_screen.dart:85:30)<…>
+[0568] 💡 🛠️ Selected toolbag: procedures<…>
+[0569] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:349:16)<…>
+[0570] 💡 🛠️ Entering ToolsScreen<…>
+[0571] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0572] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0573] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:376:16)<…>
+[0574] 💡 🛠️ Navigating to ToolItemScreen for toolbag: procedures | detailRoute: DetailRoute.branch<…>
+[0575] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0576] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+[0577] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0578] 🐛 🔷 Building MainScaffold, tab index: 3
+[0579] #0   ToolItemScreen.build (package:bcc5/screens/tools/tool_item_screen.dart:21:12)<…>
+[0580] 💡 🛠️ ToolItemScreen loaded for toolbag: procedures<…>
+[0581] #0   buildRenderItems (package:bcc5/utils/render_item_helpers.dart:9:10)<…>
+[0582] 💡 🛠️ buildRenderItems → ids: [tool_procedures_1.00, tool_procedures_2.00]<…>
+[0583] #0   buildRenderItems (package:bcc5/utils/render_item_helpers.dart:25:10)
+[0584] 🐛 📦 buildRenderItems summary:
+[0585] 🐛   • valid: 2
+[0586] 🐛   • invalid: 0
+[0587] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0588] 🐛 🔷 Building MainScaffold, tab index: 3
+[0589] #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:22:12)<…>
+[0590] 💡 🟦 Displaying ToolsScreen<…>
+[0591] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:349:16)<…>
+[0592] 💡 🛠️ Entering ToolsScreen<…>
+[0593] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0594] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0595] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0596] 🐛 🔷 Building MainScaffold, tab index: 3
+[0597] #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:22:12)<…>
+[0598] 💡 🟦 Displaying ToolsScreen<…>
+[0599] #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:22:12)<…>
+[0600] 💡 🧭 BNB tapped tab 0 — switching via GoRouter<…>
+[0601] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:36:16)<…>
+[0602] 💡 🏁 Entering LandingScreen<…>
+[0603] 
+[0604] ══╡ EXCEPTION CAUGHT BY WIDGETS LIBRARY ╞═══════════════════════════════════════════════════════════
+[0605] The following _TypeError was thrown building _CustomNavigator-[GlobalObjectKey int#759c1](state:
+[0606] _CustomNavigatorState#48a5e):
+[0607] type '_Map<String, Object>' is not a subtype of type 'bool?' in type cast
+[0608] 
+[0609] The relevant error-causing widget was:
+[0610]   _CustomNavigator-[GlobalObjectKey int#759c1]
+[0611]   _CustomNavigator:file:///Users/david/.pub-cache/hosted/pub.dev/go_router-14.8.1/lib/src/builder.dart:112:7
+[0612] 
+[0613] When the exception was thrown, this was the stack:
+[0614] #0      appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:38:42)
+[0615] #1      _CustomNavigatorState._buildPageForGoRoute (package:go_router/src/builder.dart:247:45)
+[0616] #2      _CustomNavigatorState._buildPage (package:go_router/src/builder.dart:233:14)
+[0617] #3      _CustomNavigatorState._updatePages (package:go_router/src/builder.dart:213:37)
+[0618] #4      _CustomNavigatorState.build (package:go_router/src/builder.dart:431:7)
+[0619] #5      StatefulElement.build (package:flutter/src/widgets/framework.dart:5841:27)
+[0620] #6      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5733:15)
+[0621] #7      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5892:11)
+[0622] #8      Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0623] #9      StatefulElement.update (package:flutter/src/widgets/framework.dart:5917:5)
+[0624] #10     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0625] #11     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0626] #12     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0627] #13     ProxyElement.update (package:flutter/src/widgets/framework.dart:6059:5)
+[0628] #14     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0629] #15     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0630] #16     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0631] #17     StatelessElement.update (package:flutter/src/widgets/framework.dart:5805:5)
+[0632] #18     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0633] #19     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0634] #20     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0635] #21     ProxyElement.update (package:flutter/src/widgets/framework.dart:6059:5)
+[0636] #22     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0637] #23     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0638] #24     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0639] #25     ProxyElement.update (package:flutter/src/widgets/framework.dart:6059:5)
+[0640] #26     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0641] #27     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0642] #28     StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5892:11)
+[0643] #29     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0644] #30     BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2704:15)
+[0645] #31     BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2762:11)
+[0646] #32     BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3066:18)
+[0647] #33     WidgetsBinding.drawFrame (package:flutter/src/widgets/binding.dart:1229:21)
+[0648] #34     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:482:5)
+[0649] #35     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1442:15)
+[0650] #36     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1355:9)
+[0651] #37     SchedulerBinding._handleDrawFrame (package:flutter/src/scheduler/binding.dart:1208:5)
+[0652] #38     _invoke (dart:ui/hooks.dart:316:13)
+[0653] #39     PlatformDispatcher._drawFrame (dart:ui/platform_dispatcher.dart:428:5)
+[0654] #40     _drawFrame (dart:ui/hooks.dart:288:31)
+[0655] 
+[0656] ════════════════════════════════════════════════════════════════════════════════════════════════════
+[0657] 
+[0658] 
+[0659] Performing hot restart...                                       
+[0660] Restarted application in 282ms.
+[0661] #0   main (package:bcc5/main.dart:15:10)<…>
+[0662] 💡 🚀 App Launch | Emergency Reminder: true<…>
+[0663] 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+[0664] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0665] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0666] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0667] 💡 <…>
+[0668] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:36:16)<…>
+[0669] 💡 🏁 Entering LandingScreen<…>
+[0670] #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:94:22)<…>
+[0671] ⚠️ [TransitionManager] ❗ Missing detailRoute in .extra — defaulting to DetailRoute.branch<…>
+[0672] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0673] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0674] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0675] 🐛 🔷 Building MainScaffold, tab index: 0
+[0676] #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:22:12)<…>
+[0677] 💡 🧭 BNB tapped tab 1 — switching via GoRouter<…>
+[0678] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:155:16)<…>
+[0679] 💡 📘 Entering LessonModuleScreen<…>
+[0680] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0681] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0682] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0683] 🐛 🔷 Building MainScaffold, tab index: 1
+[0684] #0   LessonModuleScreen.build (package:bcc5/screens/lessons/lesson_module_screen.dart:19:12)<…>
+[0685] 💡 🟦 Entered LessonModuleScreen<…>
+[0686] #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:22:12)<…>
+[0687] 💡 🧭 BNB tapped tab 0 — switching via GoRouter<…>
+[0688] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:36:16)<…>
+[0689] 💡 🏁 Entering LandingScreen<…>
+[0690] 
+[0691] ══╡ EXCEPTION CAUGHT BY WIDGETS LIBRARY ╞═══════════════════════════════════════════════════════════
+[0692] The following _TypeError was thrown building _CustomNavigator-[GlobalObjectKey int#733c7](state:
+[0693] _CustomNavigatorState#bf581):
+[0694] type '_Map<String, Object>' is not a subtype of type 'bool?' in type cast
+[0695] 
+[0696] The relevant error-causing widget was:
+[0697]   _CustomNavigator-[GlobalObjectKey int#733c7]
+[0698]   _CustomNavigator:file:///Users/david/.pub-cache/hosted/pub.dev/go_router-14.8.1/lib/src/builder.dart:112:7
+[0699] 
+[0700] When the exception was thrown, this was the stack:
+[0701] #0      appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:38:42)
+[0702] #1      _CustomNavigatorState._buildPageForGoRoute (package:go_router/src/builder.dart:247:45)
+[0703] #2      _CustomNavigatorState._buildPage (package:go_router/src/builder.dart:233:14)
+[0704] #3      _CustomNavigatorState._updatePages (package:go_router/src/builder.dart:213:37)
+[0705] #4      _CustomNavigatorState.build (package:go_router/src/builder.dart:431:7)
+[0706] #5      StatefulElement.build (package:flutter/src/widgets/framework.dart:5841:27)
+[0707] #6      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5733:15)
+[0708] #7      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5892:11)
+[0709] #8      Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0710] #9      StatefulElement.update (package:flutter/src/widgets/framework.dart:5917:5)
+[0711] #10     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0712] #11     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0713] #12     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0714] #13     ProxyElement.update (package:flutter/src/widgets/framework.dart:6059:5)
+[0715] #14     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0716] #15     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0717] #16     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0718] #17     StatelessElement.update (package:flutter/src/widgets/framework.dart:5805:5)
+[0719] #18     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0720] #19     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0721] #20     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0722] #21     ProxyElement.update (package:flutter/src/widgets/framework.dart:6059:5)
+[0723] #22     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0724] #23     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0725] #24     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0726] #25     ProxyElement.update (package:flutter/src/widgets/framework.dart:6059:5)
+[0727] #26     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0728] #27     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0729] #28     StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5892:11)
+[0730] #29     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0731] #30     BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2704:15)
+[0732] #31     BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2762:11)
+[0733] #32     BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3066:18)
+[0734] #33     WidgetsBinding.drawFrame (package:flutter/src/widgets/binding.dart:1229:21)
+[0735] #34     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:482:5)
+[0736] #35     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1442:15)
+[0737] #36     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1355:9)
+[0738] #37     SchedulerBinding._handleDrawFrame (package:flutter/src/scheduler/binding.dart:1208:5)
+[0739] #38     _invoke (dart:ui/hooks.dart:316:13)
+[0740] #39     PlatformDispatcher._drawFrame (dart:ui/platform_dispatcher.dart:428:5)
+[0741] #40     _drawFrame (dart:ui/hooks.dart:288:31)
+[0742] 
+[0743] ════════════════════════════════════════════════════════════════════════════════════════════════════
+[0744] 
+[0745] 
+[0746] Performing hot restart...                                       
+[0747] Restarted application in 244ms.
+[0748] #0   main (package:bcc5/main.dart:15:10)<…>
+[0749] 💡 🚀 App Launch | Emergency Reminder: true<…>
+[0750] 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+[0751] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0752] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0753] 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+[0754] 💡 <…>
+[0755] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:36:16)<…>
+[0756] 💡 🏁 Entering LandingScreen<…>
+[0757] #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:94:22)<…>
+[0758] ⚠️ [TransitionManager] ❗ Missing detailRoute in .extra — defaulting to DetailRoute.branch<…>
+[0759] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0760] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0761] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0762] 🐛 🔷 Building MainScaffold, tab index: 0
+[0763] #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:22:12)<…>
+[0764] 💡 🧭 BNB tapped tab 2 — switching via GoRouter<…>
+[0765] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:260:16)<…>
+[0766] 💡 🧩 Entering PartZoneScreen<…>
+[0767] #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:111:12)<…>
+[0768] 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+[0769] #0   MainScaffold.build (package:bcc5/navigation/main_scaffold.dart:39:12)
+[0770] 🐛 🔷 Building MainScaffold, tab index: 2
+[0771] #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:43:12)<…>
+[0772] 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+[0773] #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:22:12)<…>
+[0774] 💡 🧭 BNB tapped tab 0 — switching via GoRouter<…>
+[0775] #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:36:16)<…>
+[0776] 💡 🏁 Entering LandingScreen<…>
+[0777] 
+[0778] ══╡ EXCEPTION CAUGHT BY WIDGETS LIBRARY ╞═══════════════════════════════════════════════════════════
+[0779] The following _TypeError was thrown building _CustomNavigator-[GlobalObjectKey int#b26e8](state:
+[0780] _CustomNavigatorState#4e91e):
+[0781] type '_Map<String, Object>' is not a subtype of type 'bool?' in type cast
+[0782] 
+[0783] The relevant error-causing widget was:
+[0784]   _CustomNavigator-[GlobalObjectKey int#b26e8]
+[0785]   _CustomNavigator:file:///Users/david/.pub-cache/hosted/pub.dev/go_router-14.8.1/lib/src/builder.dart:112:7
+[0786] 
+[0787] When the exception was thrown, this was the stack:
+[0788] #0      appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:38:42)
+[0789] #1      _CustomNavigatorState._buildPageForGoRoute (package:go_router/src/builder.dart:247:45)
+[0790] #2      _CustomNavigatorState._buildPage (package:go_router/src/builder.dart:233:14)
+[0791] #3      _CustomNavigatorState._updatePages (package:go_router/src/builder.dart:213:37)
+[0792] #4      _CustomNavigatorState.build (package:go_router/src/builder.dart:431:7)
+[0793] #5      StatefulElement.build (package:flutter/src/widgets/framework.dart:5841:27)
+[0794] #6      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5733:15)
+[0795] #7      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5892:11)
+[0796] #8      Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0797] #9      StatefulElement.update (package:flutter/src/widgets/framework.dart:5917:5)
+[0798] #10     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0799] #11     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0800] #12     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0801] #13     ProxyElement.update (package:flutter/src/widgets/framework.dart:6059:5)
+[0802] #14     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0803] #15     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0804] #16     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0805] #17     StatelessElement.update (package:flutter/src/widgets/framework.dart:5805:5)
+[0806] #18     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0807] #19     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0808] #20     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0809] #21     ProxyElement.update (package:flutter/src/widgets/framework.dart:6059:5)
+[0810] #22     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0811] #23     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0812] #24     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0813] #25     ProxyElement.update (package:flutter/src/widgets/framework.dart:6059:5)
+[0814] #26     Element.updateChild (package:flutter/src/widgets/framework.dart:3998:15)
+[0815] #27     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
+[0816] #28     StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5892:11)
+[0817] #29     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
+[0818] #30     BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2704:15)
+[0819] #31     BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2762:11)
+[0820] #32     BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3066:18)
+[0821] #33     WidgetsBinding.drawFrame (package:flutter/src/widgets/binding.dart:1229:21)
+[0822] #34     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:482:5)
+[0823] #35     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1442:15)
+[0824] #36     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1355:9)
+[0825] #37     SchedulerBinding._handleDrawFrame (package:flutter/src/scheduler/binding.dart:1208:5)
+[0826] #38     _invoke (dart:ui/hooks.dart:316:13)
+[0827] #39     PlatformDispatcher._drawFrame (dart:ui/platform_dispatcher.dart:428:5)
+[0828] #40     _drawFrame (dart:ui/hooks.dart:288:31)
+[0829] 
+[0830] ════════════════════════════════════════════════════════════════════════════════════════════════════
+[0831] 
+[0832] 
+[0833] Performing hot restart...          
