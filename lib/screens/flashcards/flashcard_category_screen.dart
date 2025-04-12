@@ -1,3 +1,4 @@
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
@@ -91,12 +92,43 @@ class FlashcardCategoryScreen extends StatelessWidget {
                             logger.i('🟥 Tapped flashcard category: $category');
                             final timestamp =
                                 DateTime.now().millisecondsSinceEpoch;
+                            final flashcards = getFlashcardsForCategory(
+                              category,
+                            );
+                            if (flashcards.isEmpty) {
+                              logger.w(
+                                '⚠️ No flashcards found in category: $category',
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'No flashcards found in this category.',
+                                  ),
+                                ),
+                              );
+                              return;
+                            }
+
+                            final renderItems =
+                                flashcards
+                                    .map(
+                                      (card) => RenderItem.fromFlashcard(card),
+                                    )
+                                    .toList();
+
                             context.push(
-                              '/flashcards/items',
+                              '/flashcards/detail',
                               extra: {
-                                'category': category,
+                                'renderItems': renderItems,
+                                'currentIndex': 0,
+                                'branchIndex': 4,
+                                'backDestination': '/flashcards',
+                                'backExtra': {
+                                  'category': category,
+                                  'branchIndex': 4,
+                                },
                                 'transitionKey':
-                                    'flashcards_items_${category}_$timestamp',
+                                    'flashcards_detail_${category}_$timestamp',
                                 'slideFrom': SlideDirection.right,
                                 'transitionType': TransitionType.slide,
                                 'detailRoute': DetailRoute.branch,

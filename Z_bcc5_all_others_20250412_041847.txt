@@ -127,7 +127,9 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         logger.i('🏁 Entering LandingScreen');
 
-        final showReminder = state.extra as bool? ?? false;
+        final showReminder =
+            (state.extra as Map<String, dynamic>?)?['showReminder'] as bool? ??
+            false;
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -783,6 +785,7 @@ String getSequenceFromId(String id) {
 File: lib/utils/radio_helper.dart
 // 📄 lib/utils/radio_helper.dart
 
+import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/settings_manager.dart';
 
 String formatPhonetic(String name) {
@@ -916,9 +919,15 @@ String _speakDigits(String numberStr) {
 Future<String> buildPhoneticVesselIntro() async {
   final boatName = await SettingsManager.getBoatName();
   final type = await SettingsManager.getVesselType();
+
+  if (boatName.isEmpty || type.isEmpty) {
+    logger.w('⚠️ Missing boat name or vessel type in buildPhoneticVesselIntro');
+  }
+
   final fullName = boatName.trim();
   final phonetic = formatPhonetic(fullName);
-  return 'This is the $type $fullName: $phonetic';
+
+  return 'This is the $type $fullName, $fullName, $fullName: $phonetic';
 }
 
 String getPluralizedUnit(String unit, String length) {
@@ -940,28 +949,21 @@ Future<String> buildSpokenVesselDescription() async {
           .trim()
           .toLowerCase(); // 'feet' or 'meters'
 
-  final spokenLength = formatSpokenDigits(length);
-  final unitLabel = getPluralizedUnit(unit, length);
-  final plural = length == '1' ? '' : 's';
+  if (length.isEmpty || type.isEmpty) {
+    logger.w(
+      '⚠️ Missing vessel length or type in buildSpokenVesselDescription',
+    );
+  }
 
-  final base = 'We are a $spokenLength $unitLabel$plural $type';
-  return description.isNotEmpty ? '$base $description.' : '$base.';
+  final unitLabel = unit == 'meters' ? 'meter' : 'foot';
+  final hyphenated = '$length-$unitLabel $type';
+
+  if (description.isNotEmpty) {
+    return 'We are a $hyphenated, with ${description.trim()}.';
+  } else {
+    return 'We are a $hyphenated.';
+  }
 }
-
-// Future<String> buildSpokenVesselDescription() async {
-//   final type = await SettingsManager.getVesselType();
-//   final length = await SettingsManager.getVesselLength();
-//   final description = await SettingsManager.getVesselDescription();
-//   final units =
-//       await SettingsManager.getSelectedUnit(); // returns 'feet' or 'meters'
-
-//   final unitLabel = units == 'feet' ? 'foot' : 'meter';
-//   final spokenLength = formatPhonetic(length); // Reuse phonetic for digit-speak
-
-//   final desc = description.trim().isEmpty ? '' : ' ${description.trim()}';
-
-//   return 'We are a $spokenLength $unitLabel $type$desc.';
-// }
 
 String formatSpokenDigits(String input) {
   final digits = input.replaceAll(RegExp(r'[^0-9]'), '');
@@ -3768,6 +3770,7 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
 
 
 File: lib/screens/emergency/mob_emergency_screen.dart
+import 'package:bcc5/screens/emergency/mob_radio_script_modal.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/location_helper.dart';
 import 'package:bcc5/utils/logger.dart';
@@ -3817,8 +3820,6 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
   }
 
   void _showRadioScriptModal() async {
-    if (!mounted) return;
-
     final position = _lockedPosition;
     final lat = position?.latitude ?? 0;
     final lon = position?.longitude ?? 0;
@@ -3828,82 +3829,73 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
     final description = await buildSpokenVesselDescription();
     final mmsi = await SettingsManager.getMMSI();
 
-    _presentRadioDialog(intro, gpsSpoken, description, mmsi);
+    if (!mounted) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showDialog(
+        context: context,
+        builder:
+            (_) => MOBRadioScriptModal(
+              intro: intro,
+              gpsSpoken: gpsSpoken,
+              description: description,
+              mmsi: mmsi,
+            ),
+      );
+    });
   }
 
-  void _presentRadioDialog(
-    String intro,
-    String gpsSpoken,
-    String description,
-    String mmsi,
-  ) {
+  void _showDSCInfoModal() {
     showDialog(
-      context: context, // this.context is guaranteed safe
+      context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('📻 Radio Script'),
+          title: const Text('🚨 How to Use DSC'),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Read this over VHF Channel 16:',
+                  'If your radio has a red “Distress” button:',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
-                SelectableText(
-                  'Mayday, Mayday, Mayday.\n\n'
-                  '$intro\n\n'
-                  '$description\n\n'
-                  'We have a man overboard at position:\n'
-                  '• ${gpsSpoken.split('\n')[0]}\n'
-                  '• ${gpsSpoken.split('\n')[1]}\n\n'
-                  'We are located near [INSERT LANDMARK], 📍e.g., "In the north bay, 2 miles east of Pelican Rock."',
-                ),
-
-                const SizedBox(height: 16),
                 const Text(
-                  '📍 Tip: Use a known landmark and distance/direction to help responders and nearby vessels locate you.',
-                  style: TextStyle(fontStyle: FontStyle.italic),
+                  '1. Lift the red safety cover.\n'
+                  '2. Press and hold the button underneath for 5 seconds.\n'
+                  '3. The radio will send your location, vessel info, and distress call digitally.\n\n'
+                  'This can greatly speed up response time and notify nearby vessels as well.',
+                ),
+                const SizedBox(height: 16),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: Image.asset(
+                    'assets/images/DSC_radio.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ],
             ),
           ),
           actions: [
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.only(bottom: 8),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              color: AppTheme.primaryRed,
-              child: Center(
+            Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: SizedBox(
+                height: 44,
+                width: double.infinity,
                 child: TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text(
-                    'Close',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  style: TextButton.styleFrom(
+                    backgroundColor: AppTheme.primaryRed,
+                    foregroundColor: Colors.white,
+                    shape: const RoundedRectangleBorder(),
+                    padding: EdgeInsets.zero,
                   ),
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Close', style: TextStyle(fontSize: 16)),
                 ),
               ),
             ),
           ],
-
-          // actions: [
-          //   Container(
-          //     width: double.infinity,
-          //     margin: const EdgeInsets.only(top: 12),
-          //     padding: const EdgeInsets.symmetric(vertical: 8),
-          //     color: AppTheme.primaryRed,
-          //     child: Center(
-          //       child: TextButton(
-          //         onPressed: () => Navigator.of(context).pop(),
-          //         child: const Text(
-          //           'Close',
-          //           style: TextStyle(color: Colors.white),
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          // ],
         );
       },
     );
@@ -3994,8 +3986,8 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
                         onSelected: _setFormat,
                         icon: Icon(
                           Icons.arrow_drop_down,
-                          color: AppTheme.primaryBlue,
-                          size: 20,
+                          color: AppTheme.primaryRed,
+                          size: 30,
                         ),
                         itemBuilder:
                             (context) => const [
@@ -4017,74 +4009,56 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
                   ],
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const Text(
-                  'Immediate Steps:',
+                  'Immediate Onboard Actions:',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 const SizedBox(height: 8),
                 const Text('1. Shout "Man Overboard!" loudly and clearly.'),
                 const Text('2. Assign a spotter to maintain visual contact.'),
-                const Text('3. Throw a flotation device immediately.'),
+                const Text('3. Throw flotation devices immediately.'),
                 const Text('4. Press MOB on GPS/chartplotter if available.'),
-                const Text('5. Radio Coast Guard with MAY DAY.'),
                 const Text(
-                  '6. Ensure all aboard are wearing pfds/life jackets.',
+                  '5. Ensure all onboard are wearing PFDs/life jackets.',
+                ),
+                const Text('6. Radio MAYDAY to Coast Guard.'),
+
+                const SizedBox(height: 6),
+
+                TextButton(
+                  style: AppTheme.groupRedButtonStyle,
+                  onPressed: _showRadioScriptModal,
+                  child: const Text('Ch 16: Radio Script'),
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 6),
+
+                TextButton(
+                  style: AppTheme.groupRedButtonStyle,
+                  onPressed: _showDSCInfoModal,
+                  child: const Text('DSC Use'),
+                ),
+
+                const SizedBox(height: 6),
                 const Text(
-                  'Initiate Rescue:',
+                  'Continue Rescue:',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 const SizedBox(height: 12),
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.record_voice_over),
-                  label: const Text('Radio Script'),
-                  onPressed: _showRadioScriptModal,
-                ),
-
-                const SizedBox(height: 8),
-                const Text('6. Note wind and current direction.'),
-                const Text('7. Maneuver vessel back under control.'),
-                const Text('8. Approach from downwind or leeward side.'),
-                const Text('9. Retrieve crew using LifeSling or ladder.'),
+                const Text('7. Note wind and current direction.'),
                 const Text(
-                  '10. Check injuries; administer first aid if needed.',
+                  '8. Maneuver vessel back to MOB under control (esp. sails).',
                 ),
-                const Text('11. Notify authorities if unresolved.'),
-                const SizedBox(height: 24),
-                ElevatedButton.icon(
-                  icon: const Icon(
-                    Icons.warning_amber_rounded,
-                    color: Colors.white,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange.shade700,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 14,
-                      horizontal: 20,
-                    ),
-                    textStyle: const TextStyle(fontSize: 16),
-                  ),
-                  label: const Text('Other Emergencies'),
-                  onPressed: () {
-                    logger.i('🆘 Other Emergencies button tapped');
-
-                    Navigator.of(context).pop();
-
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      context.go(
-                        '/tools/items',
-                        extra: {
-                          'toolbag': 'procedures',
-                          'transitionKey': UniqueKey(),
-                        },
-                      );
-                    });
-                  },
+                const Text('9. Approach from downwind or leeward side.'),
+                const Text(
+                  '10. Retrieve crew using LifeSling, ladder, swim platform, etc.',
                 ),
-                const SizedBox(height: 12),
+                const Text(
+                  '11. Check injuries; administer first aid if needed.',
+                ),
+                const Text('12. Notify Coast Guard of status.'),
+                const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -4120,6 +4094,150 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
           );
         },
       ),
+
+      bottomNavigationBar: Container(
+        color: Colors.orange.shade700,
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        child: SafeArea(
+          child: SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange.shade700,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+              onPressed: () {
+                logger.i('🆘 Other Emergencies button tapped');
+                Navigator.of(context).pop();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  context.go(
+                    '/tools/items',
+                    extra: {
+                      'toolbag': 'procedures',
+                      'transitionKey': UniqueKey(),
+                    },
+                  );
+                });
+              },
+              child: const Text(
+                'Other Emergencies',
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/screens/emergency/mob_radio_script_modal.dart
+// 📄 lib/screens/emergency/mob_radio_script_modal.dart
+
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+class MOBRadioScriptModal extends StatelessWidget {
+  final String intro;
+  final String gpsSpoken;
+  final String description;
+  final String mmsi;
+
+  const MOBRadioScriptModal({
+    super.key,
+    required this.intro,
+    required this.gpsSpoken,
+    required this.description,
+    required this.mmsi,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final gpsLines = gpsSpoken.split('\n');
+
+    return AlertDialog(
+      title: const Text('Report MAYDAY to the Coast Guard: '),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Ensure radio is on channel 16, press and hold the microphone transmit button while speaking slowly and clearly the following:',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+
+            // 🔊 Step-by-step script
+            SelectableText(
+              '1. Mayday, Mayday, Mayday.\n\n'
+              '2. $intro\n\n'
+              '3. We have a man overboard at position:\n'
+              '  • ${gpsLines[0]}\n'
+              '  • ${gpsLines[1]}\n\n'
+              '4. We are located near [SAY HELPFUL NEARBY LANDMARK IF YOU CAN], 📍e.g., ‘In the north bay, two miles east of Pelican Rock.’\n\n'
+              '5. $description\n\n'
+              '6. We have four adults and one child onboard, all wearing life jackets.\n\n'
+              '7. We need immediate assistance recovering the person in the water.\n\n'
+              '8. Over. (LET GO of the microphone button)\n\n'
+              '9. Wait for a response from the Coast Guard. If no response, repeat the message.',
+              style: AppTheme.textTheme.bodyMedium,
+            ),
+
+            const SizedBox(height: 24),
+            const Divider(thickness: 10), // separation line
+            const SizedBox(height: 12),
+
+            // 📌 Optional Details Section
+            const Text(
+              'Optional Follow-Up Details',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'You may offer and/or the Coast Guard may ask you about any other relevant details, such as :',
+            ),
+            const SizedBox(height: 6),
+            const Text('- Any injuries onboard.'),
+            const Text('- If any flares were fired.'),
+            if (mmsi.trim().isNotEmpty) Text('- Your MMSI: ${mmsi.trim()}'),
+            const Text(
+              '- Typically, they will want to call you if there is cell service. Be prepared to provide your cell phone number. Remember to slowly and clearly.',
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: SizedBox(
+            height: 44,
+            width: double.infinity,
+            child: TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: AppTheme.primaryRed,
+                foregroundColor: Colors.white,
+                shape: const RoundedRectangleBorder(),
+                padding: EdgeInsets.zero,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Close', style: TextStyle(fontSize: 16)),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
