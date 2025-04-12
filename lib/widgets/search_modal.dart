@@ -6,6 +6,7 @@ import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
+
 // 🚫 No need to import flashcards until keyword support is added
 
 class SearchResult {

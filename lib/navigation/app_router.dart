@@ -28,19 +28,40 @@ final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
     // 🏁 Landing
+    // 📄 lib/navigation/app_router.dart
     GoRoute(
       path: '/',
       name: 'landing',
       pageBuilder: (context, state) {
         logger.i('🏁 Entering LandingScreen');
+
+        final showReminder = state.extra as bool? ?? false;
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: ValueKey(state.pageKey.toString()), // ✅ FIXED
-          child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
+          transitionKey: ValueKey(state.pageKey.toString()),
+          child: MainScaffold(
+            branchIndex: 0,
+            child: LandingScreen(showReminder: showReminder),
+          ),
         );
       },
     ),
+
+    // GoRoute(
+    //   path: '/',
+    //   name: 'landing',
+    //   pageBuilder: (context, state) {
+    //     logger.i('🏁 Entering LandingScreen');
+    //     return TransitionManager.buildCustomTransition(
+    //       context: context,
+    //       state: state,
+    //       transitionKey: ValueKey(state.pageKey.toString()), // ✅ FIXED
+    //       child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
+    //     );
+    //   },
+    // ),
 
     // 🧭 Learning Paths
     GoRoute(
@@ -98,7 +119,10 @@ final appRouter = GoRouter(
             context: context,
             state: state,
             transitionKey: ValueKey(state.pageKey.toString()),
-            child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
+            child: MainScaffold(
+              branchIndex: 0,
+              child: const LandingScreen(showReminder: false),
+            ),
           );
         }
 

@@ -1,6 +1,7 @@
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/widgets/settings_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -8,10 +9,39 @@ import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 
 class LandingScreen extends StatelessWidget {
-  const LandingScreen({super.key});
+  final bool showReminder;
+
+  const LandingScreen({super.key, required this.showReminder});
 
   @override
   Widget build(BuildContext context) {
+    if (showReminder) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder:
+              (_) => AlertDialog(
+                title: const Text('Update Vessel Info'),
+                content: const Text(
+                  'Review your vessel info to ensure emergency details are up to date.',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Info is accurate"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      showSettingsModal(context);
+                    },
+                    child: const Text("Update Now"),
+                  ),
+                ],
+              ),
+        );
+      });
+    }
     return Column(
       children: [
         const CustomAppBarWidget(
