@@ -275,3 +275,9 @@ reorder competentCrewRepo to have FC's at end of chapters
 - 30. Polish & expand search feature
 - 31. Add hover highlight to `PartZoneScreen` with visual feedback
 
+
+
+
+
+do a vessel settings check at app startup, can be skipped with a "are you sure?" hesitation, and also enabled/disabled in settings (default is enabled).
+Mainly for MOB considerations...
