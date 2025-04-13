@@ -179,3 +179,198 @@ The “Resume Your Voyage” button (if visible)
 
 
 
+update April 12, 1348
+
+Absolutely — your revisions and questions are right on target. Let me incorporate all your notes, provide clarifications where needed, and revise the plan accordingly.
+
+---
+
+## 🧭 BCC5 User Tour – Revised Implementation Plan
+
+---
+
+### 🔹 Purpose
+
+The **Tour** introduces new users to the core interface and navigation of the app, so they can:
+- Understand what each major section does
+- Discover important features like:
+  - **Competent Crew** (recommended starting point)
+  - **Search** (explore content by keyword)
+  - **Settings** (customize vessel & emergency data)
+  - **Advanced Learning Paths** (like “Knock the Rust Off”)
+  - **MOB Button** (access safety info quickly)
+- Learn how structured content works in the app (Learning Paths → Chapters → Items → Detail Screens)  
+  **🛈 Note:** Structural learning will be deferred to later phases when multi-screen tours are introduced.
+
+---
+
+## ✅ Phase 1 – Initial Tour: `LandingScreen` (MVP)
+
+This is a **first-run experience only** (with optional retrigger later), limited to the Landing screen.
+
+### 🧱 Screens Covered
+- ✅ `LandingScreen` only
+
+### 🎯 Tour Targets (in order of appearance)
+We’ll highlight:
+
+1. **AppBar title** – meaning of “BCC5” or “Welcome Aboard”
+2. **Search icon** – explore topics like “fenders” or “radio”
+3. **Harbor (bottom nav)** – used to return here anytime
+4. **Competent Crew button** – start your foundational path
+5. **Advanced Paths (e.g. Knock the Rust Off)** – for experienced sailors
+6. **MOB button** – emergency info and procedures
+7. **Settings icon** – enter boat/vessel data for emergencies
+
+✅ All of these are currently visible on `LandingScreen`.
+
+---
+
+### 🧰 Tech Stack
+Using [`tutorial_coach_mark`](https://pub.dev/packages/tutorial_coach_mark):
+
+- Highlights any widget via `GlobalKey`
+- Shows step-by-step overlay messages
+- Supports “Skip,” “Next,” and touch-to-continue
+- Fully customizable visuals
+- Free, open source (MIT)
+
+---
+
+## 🏗️ Implementation Tasks (Phase 1)
+
+| Step | Task |
+|------|------|
+| 1 | ✅ Add `tutorial_coach_mark` to `pubspec.yaml` |
+| 2 | Add `GlobalKey`s for all targets listed above in `LandingScreen` |
+| 3 | Wire `harborIconKey` **from `LandingScreen` → `appRouter.dart` → `MainScaffold`**, since it's only available there |
+| 4 | Add a `startTour()` method to `LandingScreen` and call it with `addPostFrameCallback()` |
+| 5 | Build the step list: assign `targetFocus`, `content`, `shape`, and `position` for each |
+| 6 | Gate the tour with `SharedPreferences` so it only shows on first launch |
+| 7 | (Optional) Add a “Show tour again” toggle in settings or dev mode for re-triggering tour manually |
+| 8 | QA for onboarding clarity, overlaps, animation timing, and responsiveness across devices |
+
+---
+
+## 🔜 Phase 2 – Multi-Screen Tour (Future Expansion)
+
+### 🧱 Screens
+- `PathChapterScreen` (introduce chapters + “Set Sail / Resume”)
+- `PathItemScreen` (clarify structure: lessons, parts, tools, drills)
+- Any `*DetailScreen` (lesson, part, tool, flashcard)
+
+### 🎯 Additional Future Targets
+- “Set Sail on a New Course” button
+- “Resume Your Voyage” button (if visible)
+- Path items (e.g. “L1: Dock Lines”)
+- “Next” / “Previous” / “Next Chapter” buttons
+- Group picker dropdowns (e.g., switch zones)
+
+This phase will require:
+- Per-screen coordination
+- Route-aware logic for re-entry
+- Possibly splitting into “Tour 1: Basics” vs “Tour 2: Navigation Structure”
+
+---
+
+## 🗃️ Design Notes & UX Decisions
+
+- ✅ **SharedPreferences** will track `"tourShown"` (bool) so we avoid repeat tours
+- 🛠 **Manual retrigger?**  
+  Let’s discuss: Options include:
+  - Settings screen toggle: “Restart Tour”
+  - Dev-only shortcut (e.g., long-press logo)
+  - Snackbar after tour: “Show again?”
+- ✅ **Only show once by default**
+- ✅ Tour should never block core functionality
+- 🎨 Make sure text is legible on both light and dark themes
+- 🔄 Tour content should be updatable in future without resetting the flag
+
+---
+
+## ✅ Next Step
+
+> You’ve already rolled back the unstable key passing, so you’re ready to **rebuild the tour cleanly**.
+
+Would you like to:
+
+- 🔨 Start with **Step 2** and I’ll walk you through wiring the `GlobalKey`s and `startTour()` logic for `LandingScreen`, or
+- 💬 Discuss the “Restart Tour” UI/UX now?
+
+Let's change the order:
+We’ll highlight:
+AppBar title – meaning of “BCC5” or “Welcome Aboard”
+MOB button – emergency info and procedures
+Settings icon – enter boat/vessel data for emergencies
+Search icon – explore topics like “fenders” or “radio”
+Harbor (bottom nav) – used to return here anytime
+Competent Crew button – start your foundational path
+Advanced Paths (e.g. Knock the Rust Off) – for experienced sailors
+
+
+
+update April 12 1936
+:
+
+🧭 Onboarding GlobalKey Management (Option 1)
+Context:
+The onboarding tour system highlights specific UI elements across multiple screens using GlobalKeys. We initially considered passing these keys optionally (Option 2), but this introduced fragility and inconsistent developer expectations.
+
+Final Decision (Option 1):
+All screens that participate in the onboarding tour must explicitly receive any GlobalKeys they are responsible for. This ensures:
+
+💪 Robustness — keys are never null or stale
+
+🔄 Consistency — devs always know where keys are coming from
+
+🔧 Future readiness — as Phase 2 expands onboarding across screens, this pattern scales cleanly
+
+Example:
+In LandingScreen, harborKey is required and passed into MainScaffold, which then uses it in the BottomNavigationBar to tag the "Harbor" icon.
+
+Developer Guidance:
+
+Add any onboarding GlobalKey as a required constructor parameter.
+
+Pass it explicitly down to any widgets that need it.
+
+Avoid default GlobalKey() instantiation inside a widget — it creates isolation and breaks onboarding tracking.
+
+Why not Option 2? While easier for one screen, Option 2 caused:
+
+Hidden null errors in fallback screens
+
+Inconsistent architecture across screens
+
+Fragile tour step logic that’s harder to debug or expand
+
+
+
+
+
+
+
+update April 12 1947
+✅ 1. Updated Narrative: GlobalKey Onboarding Pattern (Option 1 with Nuances)
+Context
+The onboarding system uses GlobalKeys to spotlight elements across the UI. These keys allow the tutorial to programmatically locate widgets and animate focus or tooltips around them. Initially, we explored optional keys (Option 2), but after real-world stress-testing, this approach introduced subtle architectural risks.
+
+Final Decision: ✅ Option 1 (Required Keys Passed Explicitly)
+All onboarding-relevant GlobalKeys must be passed explicitly down the widget tree.
+
+Why We Chose Option 1:
+Benefit	Description
+💪 Robustness	Ensures keys are never null, avoids missing/duplicate widget tracking.
+🔄 Consistency	Every screen follows the same pattern—no guessing or conditional logic.
+🧱 Future-ready	Phase 2 of onboarding (multi-screen support) builds naturally from this.
+🧠 Developer Clarity	Keeps ownership of GlobalKeys at the top level, avoiding in-widget instantiation.
+Important Nuance
+Although MainScaffold is instantiated inside appRouter, it still receives harborKey from its parent screen—LandingScreen—which was created with that harborKey. This hop is safe and deliberate:
+
+appRouter passes the key to LandingScreen
+
+LandingScreen passes it to MainScaffold
+
+MainScaffold applies it to the BottomNavigationBarItem
+
+This forward-passing maintains central control while respecting the decoupled architecture.

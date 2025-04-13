@@ -11,7 +11,18 @@ import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase
 
 class LessonModuleScreen extends StatelessWidget {
-  const LessonModuleScreen({super.key});
+  const LessonModuleScreen({
+    super.key,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +30,15 @@ class LessonModuleScreen extends StatelessWidget {
     logger.i('🟦 Entered LessonModuleScreen');
 
     return Scaffold(
-      appBar: const CustomAppBarWidget(
+      appBar: CustomAppBarWidget(
         title: 'Courses',
         showBackButton: false,
         showSearchIcon: true,
         showSettingsIcon: true,
+        mobKey: mobKey,
+        settingsKey: settingsKey,
+        searchKey: searchKey,
+        titleKey: titleKey,
       ),
       body: Column(
         children: [

@@ -57,7 +57,7 @@ lib
 │   │   ├── flashcard_category_screen.dart
 │   │   ├── flashcard_detail_screen.dart
 │   │   └── flashcard_item_screen.dart
-│   ├── home
+│   ├── landing_screen
 │   │   └── landing_screen.dart
 │   ├── lessons
 │   │   ├── lesson_detail_screen.dart

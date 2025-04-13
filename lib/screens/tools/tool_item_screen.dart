@@ -14,7 +14,19 @@ import 'package:bcc5/navigation/detail_route.dart';
 class ToolItemScreen extends StatelessWidget {
   final String toolbag;
 
-  const ToolItemScreen({super.key, required this.toolbag});
+  const ToolItemScreen({
+    super.key,
+    required this.toolbag,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +40,15 @@ class ToolItemScreen extends StatelessWidget {
 
     return Column(
       children: [
-        const CustomAppBarWidget(
+        CustomAppBarWidget(
           title: 'Tools',
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: mobKey,
+          settingsKey: settingsKey,
+          searchKey: searchKey,
+          titleKey: titleKey,
         ),
         const SizedBox(height: 16),
         Text(

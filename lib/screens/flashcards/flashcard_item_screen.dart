@@ -14,7 +14,19 @@ import 'package:go_router/go_router.dart';
 class FlashcardItemScreen extends StatelessWidget {
   final String category;
 
-  const FlashcardItemScreen({super.key, required this.category});
+  const FlashcardItemScreen({
+    super.key,
+    required this.category,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +46,10 @@ class FlashcardItemScreen extends StatelessWidget {
             showBackButton: true,
             showSearchIcon: true,
             showSettingsIcon: true,
+            mobKey: mobKey,
+            settingsKey: settingsKey,
+            searchKey: searchKey,
+            titleKey: titleKey,
             onBack: () {
               logger.i('🔙 AppBar back from FlashcardItemScreen');
               context.go(
@@ -62,6 +78,10 @@ class FlashcardItemScreen extends StatelessWidget {
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: mobKey,
+          settingsKey: settingsKey,
+          searchKey: searchKey,
+          titleKey: titleKey,
           onBack: () {
             logger.i('🔙 AppBar back from FlashcardItemScreen');
             context.go(

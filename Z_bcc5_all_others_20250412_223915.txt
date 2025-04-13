@@ -19,12 +19,14 @@ class MainScaffold extends StatelessWidget {
   final int branchIndex;
   final Widget child;
   final PreferredSizeWidget? appBar;
+  final GlobalKey? harborKey;
 
   const MainScaffold({
     super.key,
     required this.branchIndex,
     required this.child,
     this.appBar,
+    this.harborKey,
   });
 
   void _onItemTapped(BuildContext context, int index) {
@@ -56,11 +58,12 @@ class MainScaffold extends StatelessWidget {
         currentIndex: branchIndex,
         onTap: (index) => _onItemTapped(context, index),
         type: BottomNavigationBarType.fixed,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.anchor_outlined),
+            icon: Icon(Icons.anchor_outlined, key: harborKey),
             label: 'Harbor',
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.public_outlined),
             label: 'Courses',
@@ -99,7 +102,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/screens/home/landing_screen.dart';
+import 'package:bcc5/screens/landing_screen/landing_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_module_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_detail_screen.dart';
@@ -120,7 +123,6 @@ final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
     // 🏁 Landing
-    // 📄 lib/navigation/app_router.dart
     GoRoute(
       path: '/',
       name: 'landing',
@@ -131,31 +133,32 @@ final appRouter = GoRouter(
             (state.extra as Map<String, dynamic>?)?['showReminder'] as bool? ??
             false;
 
+        // ✅ Onboarding GlobalKeys (created once in this route scope)
+        final mobKey = GlobalKey(debugLabel: 'MOBKey');
+        final settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+        final searchKey = GlobalKey(debugLabel: 'SearchKey');
+        final titleKey = GlobalKey(debugLabel: 'TitleKey');
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: ValueKey(state.pageKey.toString()),
           child: MainScaffold(
             branchIndex: 0,
-            child: LandingScreen(showReminder: showReminder),
+            harborKey: harborKey,
+            child: LandingScreen(
+              showReminder: showReminder,
+              harborKey: harborKey,
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
+            ),
           ),
         );
       },
     ),
-
-    // GoRoute(
-    //   path: '/',
-    //   name: 'landing',
-    //   pageBuilder: (context, state) {
-    //     logger.i('🏁 Entering LandingScreen');
-    //     return TransitionManager.buildCustomTransition(
-    //       context: context,
-    //       state: state,
-    //       transitionKey: ValueKey(state.pageKey.toString()), // ✅ FIXED
-    //       child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
-    //     );
-    //   },
-    // ),
 
     // 🧭 Learning Paths
     GoRoute(
@@ -164,16 +167,12 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final pathName =
             state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
-
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
         final transitionType =
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
-        // final detailRoute = extras['detailRoute'] as DetailRoute? ?? DetailRoute.path;
-
-        logger.i('🧭 Navigating to PathChapterScreen for "$pathName"');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -183,7 +182,13 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 0,
-            child: PathChapterScreen(pathName: pathName),
+            child: PathChapterScreen(
+              pathName: pathName,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -200,27 +205,6 @@ final appRouter = GoRouter(
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
 
-        // Optional: just for logging
-        final detailRoute =
-            extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
-        logger.i(
-          '[PathItemRoute] detailRoute: $detailRoute | slideFrom: $slideFrom',
-        );
-
-        if (chapterId == null) {
-          logger.e('❌ Missing chapterId for path $pathName');
-          return TransitionManager.buildCustomTransition(
-            context: context,
-            state: state,
-            transitionKey: ValueKey(state.pageKey.toString()),
-            child: MainScaffold(
-              branchIndex: 0,
-              child: const LandingScreen(showReminder: false),
-            ),
-          );
-        }
-
-        logger.i('📘 Navigating to PathItemScreen: $pathName / $chapterId');
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -228,7 +212,14 @@ final appRouter = GoRouter(
           slideFrom: slideFrom,
           child: MainScaffold(
             branchIndex: 0,
-            child: PathItemScreen(pathName: pathName, chapterId: chapterId),
+            child: PathItemScreen(
+              pathName: pathName,
+              chapterId: chapterId ?? '',
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -253,9 +244,14 @@ final appRouter = GoRouter(
           transitionKey: ValueKey(state.pageKey.toString()),
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: const MainScaffold(
+          child: MainScaffold(
             branchIndex: 1,
-            child: LessonModuleScreen(),
+            child: LessonModuleScreen(
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -281,9 +277,14 @@ final appRouter = GoRouter(
             context: context,
             state: state,
             transitionKey: state.pageKey,
-            child: const MainScaffold(
+            child: MainScaffold(
               branchIndex: 1,
-              child: LessonModuleScreen(),
+              child: LessonModuleScreen(
+                mobKey: extras['mobKey'],
+                settingsKey: extras['settingsKey'],
+                searchKey: extras['searchKey'],
+                titleKey: extras['titleKey'],
+              ),
             ),
           );
         }
@@ -298,10 +299,15 @@ final appRouter = GoRouter(
           transitionKey: state.pageKey,
           slideFrom: slideFrom,
           transitionType: transitionType,
-
           child: MainScaffold(
             branchIndex: 1,
-            child: LessonItemScreen(module: module),
+            child: LessonItemScreen(
+              module: module,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -333,6 +339,10 @@ final appRouter = GoRouter(
               backExtra: backExtra,
               detailRoute: detailRoute,
               transitionKey: transitionKey,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
             ),
           ),
         );
@@ -359,7 +369,15 @@ final appRouter = GoRouter(
           transitionKey: state.pageKey,
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: const MainScaffold(branchIndex: 2, child: PartZoneScreen()),
+          child: MainScaffold(
+            branchIndex: 2,
+            child: PartZoneScreen(
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
+          ),
         );
       },
     ),
@@ -390,7 +408,13 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 2,
-            child: PartItemScreen(zone: zone),
+            child: PartItemScreen(
+              zone: zone,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -422,6 +446,10 @@ final appRouter = GoRouter(
               backExtra: backExtra,
               detailRoute: detailRoute,
               transitionKey: transitionKey,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
             ),
           ),
         );
@@ -448,7 +476,15 @@ final appRouter = GoRouter(
           transitionKey: state.pageKey,
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: MainScaffold(branchIndex: 3, child: ToolBagScreen()),
+          child: MainScaffold(
+            branchIndex: 3,
+            child: ToolBagScreen(
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
+          ),
         );
       },
     ),
@@ -479,7 +515,13 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 3,
-            child: ToolItemScreen(toolbag: toolbag),
+            child: ToolItemScreen(
+              toolbag: toolbag,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -511,6 +553,10 @@ final appRouter = GoRouter(
               backExtra: backExtra,
               detailRoute: detailRoute,
               transitionKey: transitionKey,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
             ),
           ),
         );
@@ -530,7 +576,6 @@ final appRouter = GoRouter(
             SlideDirection.left; // <- left for back nav
         final transitionType =
             extras['transitionType'] as TransitionType? ?? TransitionType.slide;
-        // final detailRoute = extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -538,9 +583,14 @@ final appRouter = GoRouter(
           transitionKey: state.pageKey,
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: const MainScaffold(
+          child: MainScaffold(
             branchIndex: 4,
-            child: FlashcardCategoryScreen(),
+            child: FlashcardCategoryScreen(
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -557,14 +607,9 @@ final appRouter = GoRouter(
         final transitionType =
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
-
-        // ✅ Just make sure we pull this from .extra so it's usable downstream
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
 
-        logger.i(
-          '📇 Navigating to FlashcardItemScreen for category: $category',
-        );
         logger.i(
           '📇 Navigating to FlashcardItemScreen for category: $category | detailRoute: $detailRoute',
         );
@@ -577,7 +622,13 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 4,
-            child: FlashcardItemScreen(category: category),
+            child: FlashcardItemScreen(
+              category: category,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -591,7 +642,7 @@ final appRouter = GoRouter(
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: state.pageKey, // ✅ inserted here
+          transitionKey: state.pageKey,
           child: MainScaffold(
             branchIndex: extra['branchIndex'] ?? 4,
             child: FlashcardDetailScreen(
@@ -603,6 +654,10 @@ final appRouter = GoRouter(
               backExtra: extra['backExtra'] as Map<String, dynamic>?,
               detailRoute: extra['detailRoute'],
               transitionKey: extra['transitionKey'],
+              mobKey: extra['mobKey'],
+              settingsKey: extra['settingsKey'],
+              searchKey: extra['searchKey'],
+              titleKey: extra['titleKey'],
             ),
           ),
         );
@@ -1664,259 +1719,6 @@ extension TitleCaseExtension on String {
 
 
 
-File: lib/screens/home/landing_screen.dart
-import 'package:bcc5/navigation/detail_route.dart';
-import 'package:bcc5/theme/slide_direction.dart';
-import 'package:bcc5/theme/transition_type.dart';
-import 'package:bcc5/widgets/settings_modal.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:bcc5/widgets/custom_app_bar_widget.dart';
-import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/utils/logger.dart';
-
-class LandingScreen extends StatelessWidget {
-  final bool showReminder;
-
-  const LandingScreen({super.key, required this.showReminder});
-
-  @override
-  Widget build(BuildContext context) {
-    if (showReminder) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showDialog(
-          context: context,
-          builder:
-              (_) => AlertDialog(
-                title: const Text('Update Vessel Info'),
-                content: const Text(
-                  'Review your vessel info to ensure emergency details are up to date.',
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text("Info is accurate"),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      showSettingsModal(context);
-                    },
-                    child: const Text("Update Now"),
-                  ),
-                ],
-              ),
-        );
-      });
-    }
-    return Column(
-      children: [
-        const CustomAppBarWidget(
-          title: 'Welcome Aboard',
-          showBackButton: false,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-        ),
-        Expanded(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              vertical: 24,
-              horizontal: AppTheme.screenPadding,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // 📝 General Intro Text
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    "Let's make this the Tour button?",
-                    style: AppTheme.subheadingStyle.copyWith(
-                      color: AppTheme.primaryBlue,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                // 📘 Competent Crew Intro Text
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    "Competent Crew: New crew start here to learn how to be safe, helpful, and enjoy.",
-                    style: AppTheme.subheadingStyle.copyWith(
-                      color: AppTheme.primaryBlue,
-                      fontStyle: FontStyle.italic,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(height: 28),
-
-                // 🚀 Path Buttons
-                _buildPathButton(
-                  context,
-                  'Competent Crew',
-                  _groupButtonStyle(), // 🔴 match the picker button style
-                  () {
-                    logger.i('📘 Navigating to Competent Crew Path');
-                    context.go(
-                      '/learning-paths/competent-crew',
-                      extra: {
-                        'slideFrom': SlideDirection.right,
-                        'transitionType': TransitionType.slide,
-                        'detailRoute': DetailRoute.path,
-                      },
-                    );
-                  },
-                ),
-
-                const SizedBox(height: 28),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    "Sea-legs shaky? Knock the rust off with these!",
-                    style: AppTheme.subheadingStyle.copyWith(
-                      color: AppTheme.primaryBlue,
-                      fontStyle: FontStyle.italic,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(height: 16),
-
-                // 🧭 Knock the Rust Off Picker
-                // Knock the Rust Off Picker
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Text(
-                      //   'Knock the Rust Off Paths',
-                      //   style: AppTheme.subheadingStyle.copyWith(
-                      //     color: AppTheme.primaryBlue,
-                      //   ),
-                      //   textAlign: TextAlign.center,
-                      // ),
-                      const SizedBox(height: 8),
-                      Center(
-                        child: PopupMenuButton<String>(
-                          onSelected: (value) {
-                            logger.i('📘 Navigating to $value');
-                            context.go(
-                              '/learning-paths/$value',
-                              extra: {
-                                'slideFrom': SlideDirection.right,
-                                'transitionType': TransitionType.slide,
-                                'detailRoute': DetailRoute.path,
-                              },
-                            );
-                          },
-
-                          itemBuilder:
-                              (context) => [
-                                const PopupMenuItem(
-                                  value: 'knock-the-rust-off',
-                                  child: Text('Knock the Rust Off'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'docking',
-                                  child: Text('Docking'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'transition-demo',
-                                  child: Text('Anchoring'),
-                                ),
-                              ],
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 14,
-                              horizontal: 24,
-                            ),
-                            decoration: BoxDecoration(
-                              color:
-                                  AppTheme.primaryRed, // 🔴 Your desired color
-                              borderRadius: BorderRadius.circular(
-                                AppTheme.buttonCornerRadius,
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Text(
-                                  'Knock the Rust Off',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                SizedBox(width: 8),
-                                Icon(
-                                  Icons.arrow_drop_down,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 36),
-
-                // 📍 BNB-related Hint
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    'Self-guided expeditions begin below.',
-                    style: AppTheme.subheadingStyle.copyWith(
-                      color: AppTheme.primaryBlue,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPathButton(
-    BuildContext context,
-    String label,
-    ButtonStyle style,
-    VoidCallback onTap,
-  ) {
-    return ElevatedButton(
-      onPressed: onTap,
-      style: style,
-      child: Text(label, style: AppTheme.buttonTextStyle),
-    );
-  }
-
-  ButtonStyle _groupButtonStyle() {
-    return ElevatedButton.styleFrom(
-      backgroundColor:
-          AppTheme.primaryRed, // 🔴 changed from groupButtonSelected
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),
-      ),
-    );
-  }
-}
-
-
-
-
-
-
-
-
-
-
 File: lib/screens/tools/tool_bag_screen.dart
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
@@ -1932,7 +1734,18 @@ import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 
 class ToolBagScreen extends StatelessWidget {
-  const ToolBagScreen({super.key});
+  const ToolBagScreen({
+    super.key,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   static const double appBarOffset = 80.0;
 
@@ -1954,7 +1767,7 @@ class ToolBagScreen extends StatelessWidget {
         // ),
 
         // AppBar
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,
@@ -1963,6 +1776,10 @@ class ToolBagScreen extends StatelessWidget {
             showBackButton: false,
             showSearchIcon: true,
             showSettingsIcon: true,
+            mobKey: mobKey,
+            settingsKey: settingsKey,
+            searchKey: searchKey,
+            titleKey: titleKey,
           ),
         ),
 
@@ -2052,7 +1869,19 @@ import 'package:bcc5/navigation/detail_route.dart';
 class ToolItemScreen extends StatelessWidget {
   final String toolbag;
 
-  const ToolItemScreen({super.key, required this.toolbag});
+  const ToolItemScreen({
+    super.key,
+    required this.toolbag,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -2066,11 +1895,15 @@ class ToolItemScreen extends StatelessWidget {
 
     return Column(
       children: [
-        const CustomAppBarWidget(
+        CustomAppBarWidget(
           title: 'Tools',
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: mobKey,
+          settingsKey: settingsKey,
+          searchKey: searchKey,
+          titleKey: titleKey,
         ),
         const SizedBox(height: 16),
         Text(
@@ -2163,6 +1996,10 @@ class ToolDetailScreen extends StatefulWidget {
   final Map<String, dynamic>? backExtra;
   final DetailRoute detailRoute;
   final String transitionKey;
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   const ToolDetailScreen({
     super.key,
@@ -2173,6 +2010,10 @@ class ToolDetailScreen extends StatefulWidget {
     required this.backExtra,
     required this.detailRoute,
     required this.transitionKey,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
   });
 
   @override
@@ -2274,6 +2115,10 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
+                mobKey: widget.mobKey,
+                settingsKey: widget.settingsKey,
+                searchKey: widget.searchKey,
+                titleKey: widget.titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(
@@ -2585,7 +2430,16 @@ class FlashcardDetailScreen extends StatefulWidget {
     required this.backExtra,
     required this.detailRoute,
     required this.transitionKey,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
   });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   State<FlashcardDetailScreen> createState() => _FlashcardDetailScreenState();
@@ -2734,6 +2588,10 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
+                mobKey: widget.mobKey,
+                settingsKey: widget.settingsKey,
+                searchKey: widget.searchKey,
+                titleKey: widget.titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(
@@ -3071,7 +2929,18 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
 class FlashcardCategoryScreen extends StatelessWidget {
-  const FlashcardCategoryScreen({super.key});
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
+
+  const FlashcardCategoryScreen({
+    super.key,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
 
   static const double appBarOffset = 80.0;
 
@@ -3089,7 +2958,7 @@ class FlashcardCategoryScreen extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,
@@ -3098,6 +2967,10 @@ class FlashcardCategoryScreen extends StatelessWidget {
             showBackButton: false,
             showSearchIcon: true,
             showSettingsIcon: true,
+            mobKey: mobKey,
+            settingsKey: settingsKey,
+            searchKey: searchKey,
+            titleKey: titleKey,
           ),
         ),
         Positioned(
@@ -3240,7 +3113,19 @@ import 'package:go_router/go_router.dart';
 class FlashcardItemScreen extends StatelessWidget {
   final String category;
 
-  const FlashcardItemScreen({super.key, required this.category});
+  const FlashcardItemScreen({
+    super.key,
+    required this.category,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -3260,6 +3145,10 @@ class FlashcardItemScreen extends StatelessWidget {
             showBackButton: true,
             showSearchIcon: true,
             showSettingsIcon: true,
+            mobKey: mobKey,
+            settingsKey: settingsKey,
+            searchKey: searchKey,
+            titleKey: titleKey,
             onBack: () {
               logger.i('🔙 AppBar back from FlashcardItemScreen');
               context.go(
@@ -3288,6 +3177,10 @@ class FlashcardItemScreen extends StatelessWidget {
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: mobKey,
+          settingsKey: settingsKey,
+          searchKey: searchKey,
+          titleKey: titleKey,
           onBack: () {
             logger.i('🔙 AppBar back from FlashcardItemScreen');
             context.go(
@@ -3378,11 +3271,19 @@ import 'package:bcc5/theme/slide_direction.dart';
 class PathItemScreen extends StatelessWidget {
   final String pathName;
   final String chapterId;
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   const PathItemScreen({
     super.key,
     required this.pathName,
     required this.chapterId,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
   });
 
   @override
@@ -3414,6 +3315,10 @@ class PathItemScreen extends StatelessWidget {
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: mobKey,
+          settingsKey: settingsKey,
+          searchKey: searchKey,
+          titleKey: titleKey,
           onBack: () {
             logger.i(
               '🔙 Back tapped — returning to PathChapterScreen for "$pathName"',
@@ -3423,7 +3328,7 @@ class PathItemScreen extends StatelessWidget {
               extra: {
                 'slideFrom': SlideDirection.left,
                 'detailRoute': DetailRoute.path,
-                'transitionType': TransitionType.slide, // ✅ Add this
+                'transitionType': TransitionType.slide,
               },
             );
           },
@@ -3546,8 +3451,19 @@ import 'package:bcc5/utils/string_extensions.dart';
 
 class PathChapterScreen extends StatefulWidget {
   final String pathName;
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
-  const PathChapterScreen({super.key, required this.pathName});
+  const PathChapterScreen({
+    super.key,
+    required this.pathName,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
 
   @override
   State<PathChapterScreen> createState() => _PathChapterScreenState();
@@ -3570,6 +3486,10 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: widget.mobKey,
+          settingsKey: widget.settingsKey,
+          searchKey: widget.searchKey,
+          titleKey: widget.titleKey,
           onBack: () {
             logger.i('🔙 Back tapped from PathChapterScreen');
             context.go(
@@ -4283,6 +4203,283 @@ class MOBRadioScriptModal extends StatelessWidget {
 
 
 
+File: lib/screens/landing_screen/landing_screen.dart
+import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/widgets/settings_modal.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/logger.dart';
+
+class LandingScreen extends StatelessWidget {
+  final bool showReminder;
+  final GlobalKey harborKey;
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
+
+  // 🚩 GlobalKeys for onboarding tour steps
+  final GlobalKey _keyAppBarTitle = GlobalKey();
+  final GlobalKey _keyMOBButton = GlobalKey();
+  final GlobalKey _keySettingsIcon = GlobalKey();
+  final GlobalKey _keySearchIcon = GlobalKey();
+
+  LandingScreen({
+    super.key,
+    required this.showReminder,
+    required this.harborKey,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (showReminder) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showDialog(
+          context: context,
+          builder:
+              (_) => AlertDialog(
+                title: const Text('Update Vessel Info'),
+                content: const Text(
+                  'Review your vessel info to ensure emergency details are up to date.',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Info is accurate"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      showSettingsModal(context);
+                    },
+                    child: const Text("Update Now"),
+                  ),
+                ],
+              ),
+        );
+      });
+    }
+    return Column(
+      children: [
+        CustomAppBarWidget(
+          title: 'Welcome Aboard',
+          mobKey: _keyMOBButton,
+          settingsKey: _keySettingsIcon,
+          searchKey: _keySearchIcon,
+          titleKey: _keyAppBarTitle,
+          showBackButton: false,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+        ),
+
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              vertical: 24,
+              horizontal: AppTheme.screenPadding,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // 📝 General Intro Text
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    "Let's make this the Tour button?",
+                    style: AppTheme.subheadingStyle.copyWith(
+                      color: AppTheme.primaryBlue,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // 📘 Competent Crew Intro Text
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    "Competent Crew: New crew start here to learn how to be safe, helpful, and enjoy.",
+                    style: AppTheme.subheadingStyle.copyWith(
+                      color: AppTheme.primaryBlue,
+                      fontStyle: FontStyle.italic,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 28),
+
+                // 🚀 Path Buttons
+                _buildPathButton(
+                  context,
+                  'Competent Crew',
+                  _groupButtonStyle(), // 🔴 match the picker button style
+                  () {
+                    logger.i('📘 Navigating to Competent Crew Path');
+                    context.go(
+                      '/learning-paths/competent-crew',
+                      extra: {
+                        'slideFrom': SlideDirection.right,
+                        'transitionType': TransitionType.slide,
+                        'detailRoute': DetailRoute.path,
+                      },
+                    );
+                  },
+                ),
+
+                const SizedBox(height: 28),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    "Sea-legs shaky? Knock the rust off with these!",
+                    style: AppTheme.subheadingStyle.copyWith(
+                      color: AppTheme.primaryBlue,
+                      fontStyle: FontStyle.italic,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // 🧭 Knock the Rust Off Picker
+                // Knock the Rust Off Picker
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Text(
+                      //   'Knock the Rust Off Paths',
+                      //   style: AppTheme.subheadingStyle.copyWith(
+                      //     color: AppTheme.primaryBlue,
+                      //   ),
+                      //   textAlign: TextAlign.center,
+                      // ),
+                      const SizedBox(height: 8),
+                      Center(
+                        child: PopupMenuButton<String>(
+                          onSelected: (value) {
+                            logger.i('📘 Navigating to $value');
+                            context.go(
+                              '/learning-paths/$value',
+                              extra: {
+                                'slideFrom': SlideDirection.right,
+                                'transitionType': TransitionType.slide,
+                                'detailRoute': DetailRoute.path,
+                              },
+                            );
+                          },
+
+                          itemBuilder:
+                              (context) => [
+                                const PopupMenuItem(
+                                  value: 'knock-the-rust-off',
+                                  child: Text('Knock the Rust Off'),
+                                ),
+                                const PopupMenuItem(
+                                  value: 'docking',
+                                  child: Text('Docking'),
+                                ),
+                                const PopupMenuItem(
+                                  value: 'transition-demo',
+                                  child: Text('Anchoring'),
+                                ),
+                              ],
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 14,
+                              horizontal: 24,
+                            ),
+                            decoration: BoxDecoration(
+                              color:
+                                  AppTheme.primaryRed, // 🔴 Your desired color
+                              borderRadius: BorderRadius.circular(
+                                AppTheme.buttonCornerRadius,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Text(
+                                  'Knock the Rust Off',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                SizedBox(width: 8),
+                                Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 36),
+
+                // 📍 BNB-related Hint
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Self-guided expeditions begin below.',
+                    style: AppTheme.subheadingStyle.copyWith(
+                      color: AppTheme.primaryBlue,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPathButton(
+    BuildContext context,
+    String label,
+    ButtonStyle style,
+    VoidCallback onTap,
+  ) {
+    return ElevatedButton(
+      onPressed: onTap,
+      style: style,
+      child: Text(label, style: AppTheme.buttonTextStyle),
+    );
+  }
+
+  ButtonStyle _groupButtonStyle() {
+    return ElevatedButton.styleFrom(
+      backgroundColor:
+          AppTheme.primaryRed, // 🔴 changed from groupButtonSelected
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
 File: lib/screens/parts/part_item_screen.dart
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -4301,7 +4498,19 @@ import 'package:bcc5/navigation/detail_route.dart'; // <-- required for DetailRo
 class PartItemScreen extends StatelessWidget {
   final String zone;
 
-  const PartItemScreen({super.key, required this.zone});
+  const PartItemScreen({
+    super.key,
+    required this.zone,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -4320,6 +4529,10 @@ class PartItemScreen extends StatelessWidget {
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: mobKey,
+          settingsKey: settingsKey,
+          searchKey: searchKey,
+          titleKey: titleKey,
           onBack: () {
             logger.i('🔙 AppBar back from PartItemScreen');
             context.go(
@@ -4439,7 +4652,15 @@ class PartDetailScreen extends StatefulWidget {
     required this.backExtra,
     required this.detailRoute,
     required this.transitionKey,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
   });
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   State<PartDetailScreen> createState() => _PartDetailScreenState();
@@ -4538,6 +4759,10 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
+                mobKey: widget.mobKey,
+                settingsKey: widget.settingsKey,
+                searchKey: widget.searchKey,
+                titleKey: widget.titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(
@@ -4821,7 +5046,18 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
 class PartZoneScreen extends StatelessWidget {
-  const PartZoneScreen({super.key});
+  const PartZoneScreen({
+    super.key,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   final List<String> zones = const [
     'Sails',
@@ -4868,7 +5104,7 @@ class PartZoneScreen extends StatelessWidget {
         ),
 
         // 🔵 AppBar
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,
@@ -4877,6 +5113,10 @@ class PartZoneScreen extends StatelessWidget {
             showBackButton: false,
             showSearchIcon: true,
             showSettingsIcon: true,
+            mobKey: mobKey,
+            settingsKey: settingsKey,
+            searchKey: searchKey,
+            titleKey: titleKey,
           ),
         ),
 
@@ -5031,7 +5271,16 @@ class LessonDetailScreen extends StatefulWidget {
     required this.backExtra,
     required this.detailRoute,
     required this.transitionKey,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
   });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   State<LessonDetailScreen> createState() => _LessonDetailScreenState();
@@ -5135,6 +5384,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
+                mobKey: widget.mobKey,
+                settingsKey: widget.settingsKey,
+                searchKey: widget.searchKey,
+                titleKey: widget.titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(
@@ -5448,7 +5701,19 @@ import 'package:bcc5/navigation/detail_route.dart';
 class LessonItemScreen extends StatelessWidget {
   final String module;
 
-  const LessonItemScreen({super.key, required this.module});
+  const LessonItemScreen({
+    super.key,
+    required this.module,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -5461,11 +5726,15 @@ class LessonItemScreen extends StatelessWidget {
 
     return Column(
       children: [
-        const CustomAppBarWidget(
+        CustomAppBarWidget(
           title: 'Courses',
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: mobKey,
+          settingsKey: settingsKey,
+          searchKey: searchKey,
+          titleKey: titleKey,
         ),
         const SizedBox(height: 16),
         Text(
@@ -5542,7 +5811,18 @@ import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase
 
 class LessonModuleScreen extends StatelessWidget {
-  const LessonModuleScreen({super.key});
+  const LessonModuleScreen({
+    super.key,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -5550,11 +5830,15 @@ class LessonModuleScreen extends StatelessWidget {
     logger.i('🟦 Entered LessonModuleScreen');
 
     return Scaffold(
-      appBar: const CustomAppBarWidget(
+      appBar: CustomAppBarWidget(
         title: 'Courses',
         showBackButton: false,
         showSearchIcon: true,
         showSettingsIcon: true,
+        mobKey: mobKey,
+        settingsKey: settingsKey,
+        searchKey: searchKey,
+        titleKey: titleKey,
       ),
       body: Column(
         children: [
@@ -6663,7 +6947,16 @@ class CustomAppBarWidget extends StatelessWidget
     this.onBack,
     this.onSearchTap,
     this.onSettingsTap,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
   });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -6690,6 +6983,7 @@ class CustomAppBarWidget extends StatelessWidget
             ),
           if (showSearchIcon)
             IconButton(
+              key: searchKey,
               icon: const Icon(Icons.search),
               onPressed:
                   onSearchTap ??
@@ -6700,8 +6994,10 @@ class CustomAppBarWidget extends StatelessWidget
                     );
                   },
             ),
+
           if (showSettingsIcon)
             IconButton(
+              key: settingsKey,
               icon: const Icon(Icons.settings),
               onPressed:
                   onSettingsTap ??
@@ -6709,17 +7005,20 @@ class CustomAppBarWidget extends StatelessWidget
                     showSettingsModal(context);
                   },
             ),
+
           // CENTER: Title
           Expanded(
             child: Text(
               title,
+              key: titleKey,
               style: AppTheme.headingStyle,
               textAlign: TextAlign.center,
             ),
           ),
-          // RIGHT: Life Buoy (MOB)
+
           // RIGHT: Life Ring (MOB)
           IconButton(
+            key: mobKey,
             icon: Icon(
               MdiIcons.lifebuoy,
               size: 40, // Set to match previous image size

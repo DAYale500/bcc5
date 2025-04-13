@@ -11,7 +11,18 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
 class FlashcardCategoryScreen extends StatelessWidget {
-  const FlashcardCategoryScreen({super.key});
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
+
+  const FlashcardCategoryScreen({
+    super.key,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
 
   static const double appBarOffset = 80.0;
 
@@ -29,7 +40,7 @@ class FlashcardCategoryScreen extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,
@@ -38,6 +49,10 @@ class FlashcardCategoryScreen extends StatelessWidget {
             showBackButton: false,
             showSearchIcon: true,
             showSettingsIcon: true,
+            mobKey: mobKey,
+            settingsKey: settingsKey,
+            searchKey: searchKey,
+            titleKey: titleKey,
           ),
         ),
         Positioned(

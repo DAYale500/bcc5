@@ -14,7 +14,19 @@ import 'package:bcc5/navigation/detail_route.dart';
 class LessonItemScreen extends StatelessWidget {
   final String module;
 
-  const LessonItemScreen({super.key, required this.module});
+  const LessonItemScreen({
+    super.key,
+    required this.module,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +39,15 @@ class LessonItemScreen extends StatelessWidget {
 
     return Column(
       children: [
-        const CustomAppBarWidget(
+        CustomAppBarWidget(
           title: 'Courses',
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: mobKey,
+          settingsKey: settingsKey,
+          searchKey: searchKey,
+          titleKey: titleKey,
         ),
         const SizedBox(height: 16),
         Text(

@@ -10,8 +10,27 @@ import 'package:bcc5/utils/logger.dart';
 
 class LandingScreen extends StatelessWidget {
   final bool showReminder;
+  final GlobalKey harborKey;
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
-  const LandingScreen({super.key, required this.showReminder});
+  // 🚩 GlobalKeys for onboarding tour steps
+  final GlobalKey _keyAppBarTitle = GlobalKey();
+  final GlobalKey _keyMOBButton = GlobalKey();
+  final GlobalKey _keySettingsIcon = GlobalKey();
+  final GlobalKey _keySearchIcon = GlobalKey();
+
+  LandingScreen({
+    super.key,
+    required this.showReminder,
+    required this.harborKey,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +63,17 @@ class LandingScreen extends StatelessWidget {
     }
     return Column(
       children: [
-        const CustomAppBarWidget(
+        CustomAppBarWidget(
           title: 'Welcome Aboard',
+          mobKey: _keyMOBButton,
+          settingsKey: _keySettingsIcon,
+          searchKey: _keySearchIcon,
+          titleKey: _keyAppBarTitle,
           showBackButton: false,
           showSearchIcon: true,
           showSettingsIcon: true,
         ),
+
         Expanded(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(

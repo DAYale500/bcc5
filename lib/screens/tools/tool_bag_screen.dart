@@ -12,7 +12,18 @@ import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 
 class ToolBagScreen extends StatelessWidget {
-  const ToolBagScreen({super.key});
+  const ToolBagScreen({
+    super.key,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   static const double appBarOffset = 80.0;
 
@@ -34,7 +45,7 @@ class ToolBagScreen extends StatelessWidget {
         // ),
 
         // AppBar
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,
@@ -43,6 +54,10 @@ class ToolBagScreen extends StatelessWidget {
             showBackButton: false,
             showSearchIcon: true,
             showSettingsIcon: true,
+            mobKey: mobKey,
+            settingsKey: settingsKey,
+            searchKey: searchKey,
+            titleKey: titleKey,
           ),
         ),
 

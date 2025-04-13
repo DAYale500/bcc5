@@ -37,7 +37,16 @@ class LessonDetailScreen extends StatefulWidget {
     required this.backExtra,
     required this.detailRoute,
     required this.transitionKey,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
   });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   State<LessonDetailScreen> createState() => _LessonDetailScreenState();
@@ -141,6 +150,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
+                mobKey: widget.mobKey,
+                settingsKey: widget.settingsKey,
+                searchKey: widget.searchKey,
+                titleKey: widget.titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(

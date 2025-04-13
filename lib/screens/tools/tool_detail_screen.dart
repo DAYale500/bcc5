@@ -28,6 +28,10 @@ class ToolDetailScreen extends StatefulWidget {
   final Map<String, dynamic>? backExtra;
   final DetailRoute detailRoute;
   final String transitionKey;
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   const ToolDetailScreen({
     super.key,
@@ -38,6 +42,10 @@ class ToolDetailScreen extends StatefulWidget {
     required this.backExtra,
     required this.detailRoute,
     required this.transitionKey,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
   });
 
   @override
@@ -139,6 +147,10 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
+                mobKey: widget.mobKey,
+                settingsKey: widget.settingsKey,
+                searchKey: widget.searchKey,
+                titleKey: widget.titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(

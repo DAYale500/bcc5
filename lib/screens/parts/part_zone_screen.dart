@@ -8,7 +8,18 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
 class PartZoneScreen extends StatelessWidget {
-  const PartZoneScreen({super.key});
+  const PartZoneScreen({
+    super.key,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   final List<String> zones = const [
     'Sails',
@@ -55,7 +66,7 @@ class PartZoneScreen extends StatelessWidget {
         ),
 
         // 🔵 AppBar
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,
@@ -64,6 +75,10 @@ class PartZoneScreen extends StatelessWidget {
             showBackButton: false,
             showSearchIcon: true,
             showSettingsIcon: true,
+            mobKey: mobKey,
+            settingsKey: settingsKey,
+            searchKey: searchKey,
+            titleKey: titleKey,
           ),
         ),
 

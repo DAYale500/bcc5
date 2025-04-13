@@ -15,7 +15,19 @@ import 'package:bcc5/navigation/detail_route.dart'; // <-- required for DetailRo
 class PartItemScreen extends StatelessWidget {
   final String zone;
 
-  const PartItemScreen({super.key, required this.zone});
+  const PartItemScreen({
+    super.key,
+    required this.zone,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +46,10 @@ class PartItemScreen extends StatelessWidget {
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: mobKey,
+          settingsKey: settingsKey,
+          searchKey: searchKey,
+          titleKey: titleKey,
           onBack: () {
             logger.i('🔙 AppBar back from PartItemScreen');
             context.go(

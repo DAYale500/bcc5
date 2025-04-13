@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/screens/home/landing_screen.dart';
+import 'package:bcc5/screens/landing_screen/landing_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_module_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_item_screen.dart';
 import 'package:bcc5/screens/lessons/lesson_detail_screen.dart';
@@ -28,7 +28,6 @@ final appRouter = GoRouter(
   initialLocation: '/',
   routes: [
     // 🏁 Landing
-    // 📄 lib/navigation/app_router.dart
     GoRoute(
       path: '/',
       name: 'landing',
@@ -39,31 +38,32 @@ final appRouter = GoRouter(
             (state.extra as Map<String, dynamic>?)?['showReminder'] as bool? ??
             false;
 
+        // ✅ Onboarding GlobalKeys (created once in this route scope)
+        final mobKey = GlobalKey(debugLabel: 'MOBKey');
+        final settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+        final searchKey = GlobalKey(debugLabel: 'SearchKey');
+        final titleKey = GlobalKey(debugLabel: 'TitleKey');
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: ValueKey(state.pageKey.toString()),
           child: MainScaffold(
             branchIndex: 0,
-            child: LandingScreen(showReminder: showReminder),
+            harborKey: harborKey,
+            child: LandingScreen(
+              showReminder: showReminder,
+              harborKey: harborKey,
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
+            ),
           ),
         );
       },
     ),
-
-    // GoRoute(
-    //   path: '/',
-    //   name: 'landing',
-    //   pageBuilder: (context, state) {
-    //     logger.i('🏁 Entering LandingScreen');
-    //     return TransitionManager.buildCustomTransition(
-    //       context: context,
-    //       state: state,
-    //       transitionKey: ValueKey(state.pageKey.toString()), // ✅ FIXED
-    //       child: const MainScaffold(branchIndex: 0, child: LandingScreen()),
-    //     );
-    //   },
-    // ),
 
     // 🧭 Learning Paths
     GoRoute(
@@ -72,16 +72,12 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) {
         final pathName =
             state.pathParameters['pathName']?.replaceAll('-', ' ') ?? 'Unknown';
-
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
         final transitionType =
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
-        // final detailRoute = extras['detailRoute'] as DetailRoute? ?? DetailRoute.path;
-
-        logger.i('🧭 Navigating to PathChapterScreen for "$pathName"');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -91,7 +87,13 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 0,
-            child: PathChapterScreen(pathName: pathName),
+            child: PathChapterScreen(
+              pathName: pathName,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -108,27 +110,6 @@ final appRouter = GoRouter(
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
 
-        // Optional: just for logging
-        final detailRoute =
-            extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
-        logger.i(
-          '[PathItemRoute] detailRoute: $detailRoute | slideFrom: $slideFrom',
-        );
-
-        if (chapterId == null) {
-          logger.e('❌ Missing chapterId for path $pathName');
-          return TransitionManager.buildCustomTransition(
-            context: context,
-            state: state,
-            transitionKey: ValueKey(state.pageKey.toString()),
-            child: MainScaffold(
-              branchIndex: 0,
-              child: const LandingScreen(showReminder: false),
-            ),
-          );
-        }
-
-        logger.i('📘 Navigating to PathItemScreen: $pathName / $chapterId');
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -136,7 +117,14 @@ final appRouter = GoRouter(
           slideFrom: slideFrom,
           child: MainScaffold(
             branchIndex: 0,
-            child: PathItemScreen(pathName: pathName, chapterId: chapterId),
+            child: PathItemScreen(
+              pathName: pathName,
+              chapterId: chapterId ?? '',
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -161,9 +149,14 @@ final appRouter = GoRouter(
           transitionKey: ValueKey(state.pageKey.toString()),
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: const MainScaffold(
+          child: MainScaffold(
             branchIndex: 1,
-            child: LessonModuleScreen(),
+            child: LessonModuleScreen(
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -189,9 +182,14 @@ final appRouter = GoRouter(
             context: context,
             state: state,
             transitionKey: state.pageKey,
-            child: const MainScaffold(
+            child: MainScaffold(
               branchIndex: 1,
-              child: LessonModuleScreen(),
+              child: LessonModuleScreen(
+                mobKey: extras['mobKey'],
+                settingsKey: extras['settingsKey'],
+                searchKey: extras['searchKey'],
+                titleKey: extras['titleKey'],
+              ),
             ),
           );
         }
@@ -206,10 +204,15 @@ final appRouter = GoRouter(
           transitionKey: state.pageKey,
           slideFrom: slideFrom,
           transitionType: transitionType,
-
           child: MainScaffold(
             branchIndex: 1,
-            child: LessonItemScreen(module: module),
+            child: LessonItemScreen(
+              module: module,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -241,6 +244,10 @@ final appRouter = GoRouter(
               backExtra: backExtra,
               detailRoute: detailRoute,
               transitionKey: transitionKey,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
             ),
           ),
         );
@@ -267,7 +274,15 @@ final appRouter = GoRouter(
           transitionKey: state.pageKey,
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: const MainScaffold(branchIndex: 2, child: PartZoneScreen()),
+          child: MainScaffold(
+            branchIndex: 2,
+            child: PartZoneScreen(
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
+          ),
         );
       },
     ),
@@ -298,7 +313,13 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 2,
-            child: PartItemScreen(zone: zone),
+            child: PartItemScreen(
+              zone: zone,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -330,6 +351,10 @@ final appRouter = GoRouter(
               backExtra: backExtra,
               detailRoute: detailRoute,
               transitionKey: transitionKey,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
             ),
           ),
         );
@@ -356,7 +381,15 @@ final appRouter = GoRouter(
           transitionKey: state.pageKey,
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: MainScaffold(branchIndex: 3, child: ToolBagScreen()),
+          child: MainScaffold(
+            branchIndex: 3,
+            child: ToolBagScreen(
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
+          ),
         );
       },
     ),
@@ -387,7 +420,13 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 3,
-            child: ToolItemScreen(toolbag: toolbag),
+            child: ToolItemScreen(
+              toolbag: toolbag,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -419,6 +458,10 @@ final appRouter = GoRouter(
               backExtra: backExtra,
               detailRoute: detailRoute,
               transitionKey: transitionKey,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
             ),
           ),
         );
@@ -438,7 +481,6 @@ final appRouter = GoRouter(
             SlideDirection.left; // <- left for back nav
         final transitionType =
             extras['transitionType'] as TransitionType? ?? TransitionType.slide;
-        // final detailRoute = extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -446,9 +488,14 @@ final appRouter = GoRouter(
           transitionKey: state.pageKey,
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: const MainScaffold(
+          child: MainScaffold(
             branchIndex: 4,
-            child: FlashcardCategoryScreen(),
+            child: FlashcardCategoryScreen(
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -465,14 +512,9 @@ final appRouter = GoRouter(
         final transitionType =
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
-
-        // ✅ Just make sure we pull this from .extra so it's usable downstream
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
 
-        logger.i(
-          '📇 Navigating to FlashcardItemScreen for category: $category',
-        );
         logger.i(
           '📇 Navigating to FlashcardItemScreen for category: $category | detailRoute: $detailRoute',
         );
@@ -485,7 +527,13 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 4,
-            child: FlashcardItemScreen(category: category),
+            child: FlashcardItemScreen(
+              category: category,
+              mobKey: extras['mobKey'],
+              settingsKey: extras['settingsKey'],
+              searchKey: extras['searchKey'],
+              titleKey: extras['titleKey'],
+            ),
           ),
         );
       },
@@ -499,7 +547,7 @@ final appRouter = GoRouter(
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: state.pageKey, // ✅ inserted here
+          transitionKey: state.pageKey,
           child: MainScaffold(
             branchIndex: extra['branchIndex'] ?? 4,
             child: FlashcardDetailScreen(
@@ -511,6 +559,10 @@ final appRouter = GoRouter(
               backExtra: extra['backExtra'] as Map<String, dynamic>?,
               detailRoute: extra['detailRoute'],
               transitionKey: extra['transitionKey'],
+              mobKey: extra['mobKey'],
+              settingsKey: extra['settingsKey'],
+              searchKey: extra['searchKey'],
+              titleKey: extra['titleKey'],
             ),
           ),
         );

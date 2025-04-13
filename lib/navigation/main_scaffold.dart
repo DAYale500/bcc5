@@ -8,12 +8,14 @@ class MainScaffold extends StatelessWidget {
   final int branchIndex;
   final Widget child;
   final PreferredSizeWidget? appBar;
+  final GlobalKey? harborKey;
 
   const MainScaffold({
     super.key,
     required this.branchIndex,
     required this.child,
     this.appBar,
+    this.harborKey,
   });
 
   void _onItemTapped(BuildContext context, int index) {
@@ -45,11 +47,12 @@ class MainScaffold extends StatelessWidget {
         currentIndex: branchIndex,
         onTap: (index) => _onItemTapped(context, index),
         type: BottomNavigationBarType.fixed,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.anchor_outlined),
+            icon: Icon(Icons.anchor_outlined, key: harborKey),
             label: 'Harbor',
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.public_outlined),
             label: 'Courses',

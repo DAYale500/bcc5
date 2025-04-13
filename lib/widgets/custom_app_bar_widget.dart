@@ -26,7 +26,16 @@ class CustomAppBarWidget extends StatelessWidget
     this.onBack,
     this.onSearchTap,
     this.onSettingsTap,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
   });
+
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +62,7 @@ class CustomAppBarWidget extends StatelessWidget
             ),
           if (showSearchIcon)
             IconButton(
+              key: searchKey,
               icon: const Icon(Icons.search),
               onPressed:
                   onSearchTap ??
@@ -63,8 +73,10 @@ class CustomAppBarWidget extends StatelessWidget
                     );
                   },
             ),
+
           if (showSettingsIcon)
             IconButton(
+              key: settingsKey,
               icon: const Icon(Icons.settings),
               onPressed:
                   onSettingsTap ??
@@ -72,17 +84,20 @@ class CustomAppBarWidget extends StatelessWidget
                     showSettingsModal(context);
                   },
             ),
+
           // CENTER: Title
           Expanded(
             child: Text(
               title,
+              key: titleKey,
               style: AppTheme.headingStyle,
               textAlign: TextAlign.center,
             ),
           ),
-          // RIGHT: Life Buoy (MOB)
+
           // RIGHT: Life Ring (MOB)
           IconButton(
+            key: mobKey,
             icon: Icon(
               MdiIcons.lifebuoy,
               size: 40, // Set to match previous image size

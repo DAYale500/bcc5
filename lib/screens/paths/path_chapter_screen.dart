@@ -15,8 +15,19 @@ import 'package:bcc5/utils/string_extensions.dart';
 
 class PathChapterScreen extends StatefulWidget {
   final String pathName;
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
-  const PathChapterScreen({super.key, required this.pathName});
+  const PathChapterScreen({
+    super.key,
+    required this.pathName,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
+  });
 
   @override
   State<PathChapterScreen> createState() => _PathChapterScreenState();
@@ -39,6 +50,10 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: widget.mobKey,
+          settingsKey: widget.settingsKey,
+          searchKey: widget.searchKey,
+          titleKey: widget.titleKey,
           onBack: () {
             logger.i('🔙 Back tapped from PathChapterScreen');
             context.go(

@@ -14,11 +14,19 @@ import 'package:bcc5/theme/slide_direction.dart';
 class PathItemScreen extends StatelessWidget {
   final String pathName;
   final String chapterId;
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
 
   const PathItemScreen({
     super.key,
     required this.pathName,
     required this.chapterId,
+    required this.mobKey,
+    required this.settingsKey,
+    required this.searchKey,
+    required this.titleKey,
   });
 
   @override
@@ -50,6 +58,10 @@ class PathItemScreen extends StatelessWidget {
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
+          mobKey: mobKey,
+          settingsKey: settingsKey,
+          searchKey: searchKey,
+          titleKey: titleKey,
           onBack: () {
             logger.i(
               '🔙 Back tapped — returning to PathChapterScreen for "$pathName"',
@@ -59,7 +71,7 @@ class PathItemScreen extends StatelessWidget {
               extra: {
                 'slideFrom': SlideDirection.left,
                 'detailRoute': DetailRoute.path,
-                'transitionType': TransitionType.slide, // ✅ Add this
+                'transitionType': TransitionType.slide,
               },
             );
           },
