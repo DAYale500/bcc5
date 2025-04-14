@@ -123,6 +123,10 @@ class LandingScreen extends StatelessWidget {
                         'slideFrom': SlideDirection.right,
                         'transitionType': TransitionType.slide,
                         'detailRoute': DetailRoute.path,
+                        'mobKey': mobKey,
+                        'settingsKey': settingsKey,
+                        'searchKey': searchKey,
+                        'titleKey': titleKey,
                       },
                     );
                   },
@@ -167,6 +171,10 @@ class LandingScreen extends StatelessWidget {
                                 'slideFrom': SlideDirection.right,
                                 'transitionType': TransitionType.slide,
                                 'detailRoute': DetailRoute.path,
+                                'mobKey': mobKey,
+                                'settingsKey': settingsKey,
+                                'searchKey': searchKey,
+                                'titleKey': titleKey,
                               },
                             );
                           },

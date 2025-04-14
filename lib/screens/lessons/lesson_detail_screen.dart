@@ -76,6 +76,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
           backExtra: widget.backExtra,
           detailRoute: widget.detailRoute,
           direction: SlideDirection.none,
+          mobKey: widget.mobKey,
+          settingsKey: widget.settingsKey,
+          searchKey: widget.searchKey,
+          titleKey: widget.titleKey,
         );
       });
     }
@@ -99,6 +103,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale, // ✅ NEW
+      mobKey: widget.mobKey,
+      settingsKey: widget.settingsKey,
+      searchKey: widget.searchKey,
+      titleKey: widget.titleKey,
     );
   }
 
@@ -227,6 +235,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                         },
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
+                        mobKey: widget.mobKey,
+                        settingsKey: widget.settingsKey,
+                        searchKey: widget.searchKey,
+                        titleKey: widget.titleKey,
                       );
                     },
                   ),
@@ -343,9 +355,17 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                     backExtra: {
                                       'module': nextModuleId,
                                       'branchIndex': widget.branchIndex,
+                                      'mobKey': widget.mobKey,
+                                      'settingsKey': widget.settingsKey,
+                                      'searchKey': widget.searchKey,
+                                      'titleKey': widget.titleKey,
                                     },
                                     detailRoute: widget.detailRoute,
                                     direction: SlideDirection.right,
+                                    mobKey: widget.mobKey,
+                                    settingsKey: widget.settingsKey,
+                                    searchKey: widget.searchKey,
+                                    titleKey: widget.titleKey,
                                   );
                                 } else if (widget.detailRoute ==
                                     DetailRoute.path) {
@@ -420,12 +440,21 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                       'chapterId': nextChapter.id,
                                       'pathName': pathName,
                                       'branchIndex': widget.branchIndex,
+                                      'mobKey': widget.mobKey,
+                                      'settingsKey': widget.settingsKey,
+                                      'searchKey': widget.searchKey,
+                                      'titleKey': widget.titleKey,
                                     },
                                     detailRoute: widget.detailRoute,
                                     direction: SlideDirection.right,
+                                    mobKey: widget.mobKey,
+                                    settingsKey: widget.settingsKey,
+                                    searchKey: widget.searchKey,
+                                    titleKey: widget.titleKey,
                                   );
                                 }
                               },
+
                               style: AppTheme.navigationButton,
                               child: const Text('Next Chapter'),
                             )

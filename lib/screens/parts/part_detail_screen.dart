@@ -75,6 +75,10 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
           backExtra: widget.backExtra,
           detailRoute: widget.detailRoute,
           direction: SlideDirection.none,
+          mobKey: widget.mobKey,
+          settingsKey: widget.settingsKey,
+          searchKey: widget.searchKey,
+          titleKey: widget.titleKey,
         );
       });
     }
@@ -98,6 +102,10 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale, // ✅ NEW LINE
+      mobKey: widget.mobKey,
+      settingsKey: widget.settingsKey,
+      searchKey: widget.searchKey,
+      titleKey: widget.titleKey,
     );
   }
 
@@ -212,9 +220,17 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                         backExtra: {
                           'zone': selectedZoneId,
                           'branchIndex': widget.branchIndex,
+                          'mobKey': widget.mobKey,
+                          'settingsKey': widget.settingsKey,
+                          'searchKey': widget.searchKey,
+                          'titleKey': widget.titleKey,
                         },
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
+                        mobKey: widget.mobKey,
+                        settingsKey: widget.settingsKey,
+                        searchKey: widget.searchKey,
+                        titleKey: widget.titleKey,
                       );
                     },
                   ),
@@ -320,9 +336,17 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                 backExtra: {
                                   'zone': nextZoneId,
                                   'branchIndex': widget.branchIndex,
+                                  'mobKey': widget.mobKey,
+                                  'settingsKey': widget.settingsKey,
+                                  'searchKey': widget.searchKey,
+                                  'titleKey': widget.titleKey,
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
+                                mobKey: widget.mobKey,
+                                settingsKey: widget.settingsKey,
+                                searchKey: widget.searchKey,
+                                titleKey: widget.titleKey,
                               );
                             } else if (widget.detailRoute == DetailRoute.path) {
                               final currentChapterId =
@@ -394,9 +418,17 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                   'chapterId': nextChapter.id,
                                   'pathName': pathName,
                                   'branchIndex': widget.branchIndex,
+                                  'mobKey': widget.mobKey,
+                                  'settingsKey': widget.settingsKey,
+                                  'searchKey': widget.searchKey,
+                                  'titleKey': widget.titleKey,
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
+                                mobKey: widget.mobKey,
+                                settingsKey: widget.settingsKey,
+                                searchKey: widget.searchKey,
+                                titleKey: widget.titleKey,
                               );
                             }
                           },

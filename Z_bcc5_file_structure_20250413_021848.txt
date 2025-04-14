@@ -87,6 +87,7 @@ lib
 │   ├── resume_manager.dart
 │   ├── settings_manager.dart
 │   ├── string_extensions.dart
+│   ├── tour_manager.dart
 │   └── transition_manager.dart
 └── widgets
     ├── content_block_renderer.dart
@@ -102,4 +103,4 @@ lib
     ├── search_modal.dart
     └── settings_modal.dart
 
-21 directories, 82 files
+21 directories, 83 files

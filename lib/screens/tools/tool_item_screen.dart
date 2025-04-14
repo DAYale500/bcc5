@@ -76,6 +76,32 @@ class ToolItemScreen extends StatelessWidget {
                   label: tool.title,
                   onTap: () {
                     logger.i('🛠️ Tapped tool: ${tool.id}');
+                    final transitionKey = 'tool_${tool.id}_$timestamp';
+
+                    logger.i('🧭 Navigating to /tools/detail with:');
+                    logger.i('  ├─ currentIndex: $index');
+                    logger.i('  ├─ renderItems.length: ${renderItems.length}');
+                    logger.i(
+                      '  ├─ renderItems[$index].title: ${renderItems[index].title}',
+                    );
+                    logger.i('  ├─ branchIndex: 3');
+                    logger.i('  ├─ backDestination: /tools/items');
+                    logger.i('  ├─ toolbag: $toolbag');
+                    logger.i('  ├─ transitionKey: $transitionKey');
+                    logger.i('  ├─ detailRoute: DetailRoute.branch');
+                    logger.i('  ├─ transitionType: TransitionType.slide');
+                    logger.i('  ├─ slideFrom: SlideDirection.right');
+                    logger.i('  ├─ mobKey runtimeType: ${mobKey.runtimeType}');
+                    logger.i(
+                      '  ├─ settingsKey runtimeType: ${settingsKey.runtimeType}',
+                    );
+                    logger.i(
+                      '  ├─ searchKey runtimeType: ${searchKey.runtimeType}',
+                    );
+                    logger.i(
+                      '  └─ titleKey runtimeType: ${titleKey.runtimeType}',
+                    );
+
                     context.push(
                       '/tools/detail',
                       extra: {
@@ -84,6 +110,10 @@ class ToolItemScreen extends StatelessWidget {
                         'branchIndex': 3,
                         'backDestination': '/tools/items',
                         'backExtra': {'toolbag': toolbag},
+                        'mobKey': mobKey,
+                        'settingsKey': settingsKey,
+                        'searchKey': searchKey,
+                        'titleKey': titleKey,
                         'transitionKey': 'tool_${tool.id}_$timestamp',
                         'detailRoute': DetailRoute.branch,
                         'transitionType': TransitionType.slide,

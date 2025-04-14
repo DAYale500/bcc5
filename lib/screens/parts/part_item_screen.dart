@@ -100,7 +100,13 @@ class PartItemScreen extends StatelessWidget {
                         'currentIndex': index,
                         'branchIndex': 2,
                         'backDestination': '/parts/items',
-                        'backExtra': {'zone': zone},
+                        'backExtra': {
+                          'zone': zone,
+                          'mobKey': mobKey,
+                          'settingsKey': settingsKey,
+                          'searchKey': searchKey,
+                          'titleKey': titleKey,
+                        },
                         'transitionKey': 'part_${part.id}_$timestamp',
                         'detailRoute': DetailRoute.branch,
                         'transitionType': TransitionType.slide, // ✅ added

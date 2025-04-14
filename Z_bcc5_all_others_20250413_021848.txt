@@ -174,6 +174,18 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey');
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey');
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -184,10 +196,10 @@ final appRouter = GoRouter(
             branchIndex: 0,
             child: PathChapterScreen(
               pathName: pathName,
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
             ),
           ),
         );
@@ -205,6 +217,19 @@ final appRouter = GoRouter(
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
 
+        // ✅ Fix: Fallback GlobalKeys
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey');
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey');
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -215,10 +240,10 @@ final appRouter = GoRouter(
             child: PathItemScreen(
               pathName: pathName,
               chapterId: chapterId ?? '',
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
             ),
           ),
         );
@@ -237,6 +262,18 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey');
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey');
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey');
+
         logger.i('📘 Entering LessonModuleScreen');
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -247,10 +284,10 @@ final appRouter = GoRouter(
           child: MainScaffold(
             branchIndex: 1,
             child: LessonModuleScreen(
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
             ),
           ),
         );
@@ -325,6 +362,18 @@ final appRouter = GoRouter(
         final detailRoute = extras['detailRoute'] as DetailRoute;
         final transitionKey = extras['transitionKey'] as String;
 
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey');
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey');
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -339,10 +388,10 @@ final appRouter = GoRouter(
               backExtra: backExtra,
               detailRoute: detailRoute,
               transitionKey: transitionKey,
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
             ),
           ),
         );
@@ -363,6 +412,18 @@ final appRouter = GoRouter(
 
         logger.i('🧩 Entering PartZoneScreen');
 
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey');
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey');
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -372,10 +433,10 @@ final appRouter = GoRouter(
           child: MainScaffold(
             branchIndex: 2,
             child: PartZoneScreen(
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
             ),
           ),
         );
@@ -470,6 +531,18 @@ final appRouter = GoRouter(
 
         logger.i('🛠️ Entering ToolsScreen');
 
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey');
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey');
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -479,10 +552,10 @@ final appRouter = GoRouter(
           child: MainScaffold(
             branchIndex: 3,
             child: ToolBagScreen(
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
             ),
           ),
         );
@@ -539,6 +612,31 @@ final appRouter = GoRouter(
         final detailRoute = extras['detailRoute'] as DetailRoute;
         final transitionKey = extras['transitionKey'] as String;
 
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey');
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey');
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey');
+
+        logger.i('📦 /tools/detail Route Triggered');
+        logger.i(' - renderItems: ${renderItems.length}');
+        logger.i(' - currentIndex: $currentIndex');
+        logger.i(' - branchIndex: $branchIndex');
+        logger.i(' - backDestination: $backDestination');
+        logger.i(' - backExtra: $backExtra');
+        logger.i(' - detailRoute: $detailRoute');
+        logger.i(' - transitionKey: $transitionKey');
+        logger.i(' - mobKey: $mobKey');
+        logger.i(' - settingsKey: $settingsKey');
+        logger.i(' - searchKey: $searchKey');
+        logger.i(' - titleKey: $titleKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -553,10 +651,10 @@ final appRouter = GoRouter(
               backExtra: backExtra,
               detailRoute: detailRoute,
               transitionKey: transitionKey,
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
             ),
           ),
         );
@@ -572,10 +670,21 @@ final appRouter = GoRouter(
 
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final slideFrom =
-            extras['slideFrom'] as SlideDirection? ??
-            SlideDirection.left; // <- left for back nav
+            extras['slideFrom'] as SlideDirection? ?? SlideDirection.left;
         final transitionType =
             extras['transitionType'] as TransitionType? ?? TransitionType.slide;
+
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey');
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey');
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -586,10 +695,10 @@ final appRouter = GoRouter(
           child: MainScaffold(
             branchIndex: 4,
             child: FlashcardCategoryScreen(
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
             ),
           ),
         );
@@ -637,27 +746,51 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/flashcards/detail',
       pageBuilder: (context, state) {
-        final extra = state.extra as Map<String, dynamic>;
-        logger.i('🃏 Entering FlashcardDetailScreen with extra: $extra');
+        final extras = state.extra as Map<String, dynamic>;
+
+        final renderItems = extras['renderItems'] as List<RenderItem>;
+        final currentIndex =
+            extras['currentIndex'] ?? extras['startIndex'] ?? 0;
+        final branchIndex = extras['branchIndex'] ?? 4;
+        final backDestination = extras['backDestination'] ?? '/';
+        final backExtra = extras['backExtra'] as Map<String, dynamic>?;
+        final detailRoute = extras['detailRoute'] as DetailRoute;
+        final transitionKey = extras['transitionKey'] as String;
+
+        // ✅ Required GlobalKeys fallback to safe defaults
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey');
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey');
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey');
+
+        logger.i('🃏 Entering FlashcardDetailScreen with extra: $extras');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
-          transitionKey: state.pageKey,
+          transitionKey: ValueKey(transitionKey),
           child: MainScaffold(
-            branchIndex: extra['branchIndex'] ?? 4,
+            branchIndex: branchIndex,
             child: FlashcardDetailScreen(
-              key: ValueKey(extra['currentIndex'] ?? extra['startIndex'] ?? 0),
-              renderItems: extra['renderItems'],
-              currentIndex: extra['currentIndex'] ?? extra['startIndex'] ?? 0,
-              branchIndex: extra['branchIndex'] ?? 4,
-              backDestination: extra['backDestination'] ?? '/',
-              backExtra: extra['backExtra'] as Map<String, dynamic>?,
-              detailRoute: extra['detailRoute'],
-              transitionKey: extra['transitionKey'],
-              mobKey: extra['mobKey'],
-              settingsKey: extra['settingsKey'],
-              searchKey: extra['searchKey'],
-              titleKey: extra['titleKey'],
+              key: ValueKey(currentIndex),
+              renderItems: renderItems,
+              currentIndex: currentIndex,
+              branchIndex: branchIndex,
+              backDestination: backDestination,
+              backExtra: backExtra,
+              detailRoute: detailRoute,
+              transitionKey: transitionKey,
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
             ),
           ),
         );
@@ -827,6 +960,35 @@ String getSequenceFromId(String id) {
   final parts = id.split('_');
   return parts.length >= 3 ? parts[2] : 'unknown';
 }
+
+
+
+
+
+
+
+
+
+
+File: lib/utils/tour_manager.dart
+// class TourManager {
+//   static const _hasSeenLandingTourKey = 'hasSeenLandingTour';
+
+//   static Future<bool> hasSeenLandingTour() async {
+//     final prefs = await SharedPreferences.getInstance();
+//     return prefs.getBool(_hasSeenLandingTourKey) ?? false;
+//   }
+
+//   static Future<void> markLandingTourSeen() async {
+//     final prefs = await SharedPreferences.getInstance();
+//     await prefs.setBool(_hasSeenLandingTourKey, true);
+//   }
+
+//   static Future<void> resetLandingTour() async {
+//     final prefs = await SharedPreferences.getInstance();
+//     await prefs.remove(_hasSeenLandingTourKey);
+//   }
+// }
 
 
 
@@ -1931,6 +2093,32 @@ class ToolItemScreen extends StatelessWidget {
                   label: tool.title,
                   onTap: () {
                     logger.i('🛠️ Tapped tool: ${tool.id}');
+                    final transitionKey = 'tool_${tool.id}_$timestamp';
+
+                    logger.i('🧭 Navigating to /tools/detail with:');
+                    logger.i('  ├─ currentIndex: $index');
+                    logger.i('  ├─ renderItems.length: ${renderItems.length}');
+                    logger.i(
+                      '  ├─ renderItems[$index].title: ${renderItems[index].title}',
+                    );
+                    logger.i('  ├─ branchIndex: 3');
+                    logger.i('  ├─ backDestination: /tools/items');
+                    logger.i('  ├─ toolbag: $toolbag');
+                    logger.i('  ├─ transitionKey: $transitionKey');
+                    logger.i('  ├─ detailRoute: DetailRoute.branch');
+                    logger.i('  ├─ transitionType: TransitionType.slide');
+                    logger.i('  ├─ slideFrom: SlideDirection.right');
+                    logger.i('  ├─ mobKey runtimeType: ${mobKey.runtimeType}');
+                    logger.i(
+                      '  ├─ settingsKey runtimeType: ${settingsKey.runtimeType}',
+                    );
+                    logger.i(
+                      '  ├─ searchKey runtimeType: ${searchKey.runtimeType}',
+                    );
+                    logger.i(
+                      '  └─ titleKey runtimeType: ${titleKey.runtimeType}',
+                    );
+
                     context.push(
                       '/tools/detail',
                       extra: {
@@ -1939,6 +2127,10 @@ class ToolItemScreen extends StatelessWidget {
                         'branchIndex': 3,
                         'backDestination': '/tools/items',
                         'backExtra': {'toolbag': toolbag},
+                        'mobKey': mobKey,
+                        'settingsKey': settingsKey,
+                        'searchKey': searchKey,
+                        'titleKey': titleKey,
                         'transitionKey': 'tool_${tool.id}_$timestamp',
                         'detailRoute': DetailRoute.branch,
                         'transitionType': TransitionType.slide,
@@ -2289,7 +2481,12 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 backExtra: {
                                   'toolbag': nextToolbag,
                                   'branchIndex': widget.branchIndex,
+                                  'mobKey': widget.mobKey,
+                                  'settingsKey': widget.settingsKey,
+                                  'searchKey': widget.searchKey,
+                                  'titleKey': widget.titleKey,
                                 },
+
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
                               );
@@ -3227,7 +3424,14 @@ class FlashcardItemScreen extends StatelessWidget {
                         'currentIndex': index,
                         'branchIndex': 4,
                         'backDestination': '/flashcards/items',
-                        'backExtra': {'category': category, 'branchIndex': 4},
+                        'backExtra': {
+                          'category': category,
+                          'branchIndex': 4,
+                          'mobKey': mobKey,
+                          'settingsKey': settingsKey,
+                          'searchKey': searchKey,
+                          'titleKey': titleKey,
+                        },
                         'transitionKey': 'flashcard_detail_${index}_$timestamp',
                         'detailRoute': DetailRoute.branch,
                         'transitionType': TransitionType.slide,
@@ -4329,6 +4533,10 @@ class LandingScreen extends StatelessWidget {
                         'slideFrom': SlideDirection.right,
                         'transitionType': TransitionType.slide,
                         'detailRoute': DetailRoute.path,
+                        'mobKey': mobKey,
+                        'settingsKey': settingsKey,
+                        'searchKey': searchKey,
+                        'titleKey': titleKey,
                       },
                     );
                   },
@@ -4373,6 +4581,10 @@ class LandingScreen extends StatelessWidget {
                                 'slideFrom': SlideDirection.right,
                                 'transitionType': TransitionType.slide,
                                 'detailRoute': DetailRoute.path,
+                                'mobKey': mobKey,
+                                'settingsKey': settingsKey,
+                                'searchKey': searchKey,
+                                'titleKey': titleKey,
                               },
                             );
                           },
@@ -4583,7 +4795,13 @@ class PartItemScreen extends StatelessWidget {
                         'currentIndex': index,
                         'branchIndex': 2,
                         'backDestination': '/parts/items',
-                        'backExtra': {'zone': zone},
+                        'backExtra': {
+                          'zone': zone,
+                          'mobKey': mobKey,
+                          'settingsKey': settingsKey,
+                          'searchKey': searchKey,
+                          'titleKey': titleKey,
+                        },
                         'transitionKey': 'part_${part.id}_$timestamp',
                         'detailRoute': DetailRoute.branch,
                         'transitionType': TransitionType.slide, // ✅ added
@@ -4825,6 +5043,10 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                         backExtra: {
                           'zone': selectedZoneId,
                           'branchIndex': widget.branchIndex,
+                          'mobKey': widget.mobKey,
+                          'settingsKey': widget.settingsKey,
+                          'searchKey': widget.searchKey,
+                          'titleKey': widget.titleKey,
                         },
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
@@ -4933,6 +5155,10 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                 backExtra: {
                                   'zone': nextZoneId,
                                   'branchIndex': widget.branchIndex,
+                                  'mobKey': widget.mobKey,
+                                  'settingsKey': widget.settingsKey,
+                                  'searchKey': widget.searchKey,
+                                  'titleKey': widget.titleKey,
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
@@ -5458,6 +5684,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                         backExtra: {
                           'module': selectedModuleId,
                           'branchIndex': widget.branchIndex,
+                          'mobKey': widget.mobKey,
+                          'settingsKey': widget.settingsKey,
+                          'searchKey': widget.searchKey,
+                          'titleKey': widget.titleKey,
                         },
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
@@ -5577,7 +5807,12 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                     backExtra: {
                                       'module': nextModuleId,
                                       'branchIndex': widget.branchIndex,
+                                      'mobKey': widget.mobKey,
+                                      'settingsKey': widget.settingsKey,
+                                      'searchKey': widget.searchKey,
+                                      'titleKey': widget.titleKey,
                                     },
+
                                     detailRoute: widget.detailRoute,
                                     direction: SlideDirection.right,
                                   );
@@ -5771,10 +6006,21 @@ class LessonItemScreen extends StatelessWidget {
                         'branchIndex': 1,
                         'detailRoute': DetailRoute.branch,
                         'backDestination': '/lessons/items',
-                        'backExtra': {'module': module, 'branchIndex': 1},
+                        'backExtra': {
+                          'module': module,
+                          'branchIndex': 1,
+                          'mobKey': mobKey,
+                          'settingsKey': settingsKey,
+                          'searchKey': searchKey,
+                          'titleKey': titleKey,
+                        },
                         'transitionKey': 'lesson_${lesson.id}_$timestamp',
                         'transitionType': TransitionType.slide,
                         'slideFrom': SlideDirection.right,
+                        'mobKey': mobKey,
+                        'settingsKey': settingsKey,
+                        'searchKey': searchKey,
+                        'titleKey': titleKey,
                       },
                     );
                   },

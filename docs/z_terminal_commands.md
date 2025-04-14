@@ -12,6 +12,18 @@ runsim=$'gstdbuf -oL flutter run -d 3A04C62A-C78C-4470-A174-DD9285589BCA 2>&1 \\
 
 runsim
 
+runsim() {
+  gstdbuf -oL flutter run -d 3A04C62A-C78C-4470-A174-DD9285589BCA 2>&1 \
+    | sed -E "s/^[[:space:]]*flutter:[[:space:]]*//" \
+    | perl -pe "s/\x1B\[[0-9;]*m//g" \
+    | sed -E "s/^[[:space:]]*│[[:space:]]*//" \
+    | grep -vE "^[┌├└]" \
+    | awk '{ printf "[%04d] %s\n", NR, $0 }' \
+    > ZZ_BCC5_logs.txt
+}
+
+
+
 -------------------------------------------------------------------------------------------------------------------------
 
 

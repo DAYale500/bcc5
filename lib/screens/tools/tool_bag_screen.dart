@@ -103,10 +103,14 @@ class ToolBagScreen extends StatelessWidget {
                         '/tools/items',
                         extra: {
                           'toolbag': toolbag,
-                          'slideFrom': SlideDirection.right, // ✅ NEW
-                          'transitionType': TransitionType.slide, // ✅ NEW
+                          'slideFrom': SlideDirection.right,
+                          'transitionType': TransitionType.slide,
                           'transitionKey': 'tool_items_${toolbag}_$timestamp',
                           'detailRoute': DetailRoute.branch,
+                          'mobKey': mobKey,
+                          'settingsKey': settingsKey,
+                          'searchKey': searchKey,
+                          'titleKey': titleKey,
                         },
                       );
                     },

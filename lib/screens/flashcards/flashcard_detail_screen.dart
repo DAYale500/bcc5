@@ -94,6 +94,10 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
             backExtra: widget.backExtra,
             detailRoute: widget.detailRoute,
             direction: SlideDirection.none,
+            mobKey: widget.mobKey,
+            settingsKey: widget.settingsKey,
+            searchKey: widget.searchKey,
+            titleKey: widget.titleKey,
           );
         });
       }
@@ -143,7 +147,11 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       backExtra: widget.backExtra,
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
-      transitionType: TransitionType.fadeScale, // ✅ Added line
+      transitionType: TransitionType.fadeScale,
+      mobKey: widget.mobKey,
+      settingsKey: widget.settingsKey,
+      searchKey: widget.searchKey,
+      titleKey: widget.titleKey,
     );
   }
 
@@ -267,6 +275,10 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                         },
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
+                        mobKey: widget.mobKey,
+                        settingsKey: widget.settingsKey,
+                        searchKey: widget.searchKey,
+                        titleKey: widget.titleKey,
                       );
                     },
                   ),
@@ -424,6 +436,10 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
+                                mobKey: widget.mobKey,
+                                settingsKey: widget.settingsKey,
+                                searchKey: widget.searchKey,
+                                titleKey: widget.titleKey,
                               );
                             } else if (widget.detailRoute == DetailRoute.path) {
                               final currentChapterId =
@@ -497,6 +513,10 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
+                                mobKey: widget.mobKey,
+                                settingsKey: widget.settingsKey,
+                                searchKey: widget.searchKey,
+                                titleKey: widget.titleKey,
                               );
                             }
                           },

@@ -73,6 +73,10 @@ class LessonModuleScreen extends StatelessWidget {
                         'transitionKey': 'lesson_items_${index}_$timestamp',
                         'transitionType': TransitionType.slide,
                         'slideFrom': SlideDirection.right,
+                        'mobKey': mobKey,
+                        'settingsKey': settingsKey,
+                        'searchKey': searchKey,
+                        'titleKey': titleKey,
                       },
                     );
                   },

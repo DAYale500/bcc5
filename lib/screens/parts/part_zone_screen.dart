@@ -168,9 +168,13 @@ class PartZoneScreen extends StatelessWidget {
                     'zone': zone,
                     'transitionKey':
                         'part_items_${zone.toLowerCase()}_$timestamp',
-                    'slideFrom': SlideDirection.right, // ✅ add this
-                    'transitionType': TransitionType.slide, // ✅ add this
-                    'detailRoute': DetailRoute.branch, // ✅ consistency
+                    'slideFrom': SlideDirection.right,
+                    'transitionType': TransitionType.slide,
+                    'detailRoute': DetailRoute.branch,
+                    'mobKey': mobKey,
+                    'settingsKey': settingsKey,
+                    'searchKey': searchKey,
+                    'titleKey': titleKey,
                   },
                 );
               },

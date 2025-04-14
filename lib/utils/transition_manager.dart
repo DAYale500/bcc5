@@ -21,6 +21,10 @@ class TransitionManager {
     required DetailRoute detailRoute,
     SlideDirection direction = SlideDirection.none,
     TransitionType transitionType = TransitionType.slide,
+    required GlobalKey mobKey,
+    required GlobalKey settingsKey,
+    required GlobalKey searchKey,
+    required GlobalKey titleKey,
   }) {
     // ✅ Save resume point if navigating within path
     if (detailRoute == DetailRoute.path &&
@@ -58,7 +62,11 @@ class TransitionManager {
         'detailRoute': detailRoute,
         'transitionKey': transitionKey,
         'slideFrom': direction,
-        'transitionType': transitionType, // ✅ NEW FIELD
+        'transitionType': transitionType,
+        'mobKey': mobKey,
+        'settingsKey': settingsKey,
+        'searchKey': searchKey,
+        'titleKey': titleKey,
       },
     );
   }
@@ -85,27 +93,39 @@ class TransitionManager {
     SlideDirection slideFrom = SlideDirection.none,
     TransitionType transitionType = TransitionType.instant,
   }) {
-    final extra = state.extra;
+    final extras = state.extra as Map<String, dynamic>? ?? {};
+
+    logger.i(
+      '🧪 [TransitionManager] buildCustomTransition EXTRAS DUMP\n'
+      ' ├─ route: ${state.uri.toString()}\n'
+      ' ├─ transitionKey: $transitionKey\n'
+      ' ├─ detailRoute: ${extras['detailRoute']}\n'
+      ' ├─ slideFrom: ${extras['slideFrom']}\n'
+      ' ├─ transitionType: ${extras['transitionType']}\n'
+      ' ├─ mobKey: ${_safeKey(extras['mobKey'])}\n'
+      ' ├─ settingsKey: ${_safeKey(extras['settingsKey'])}\n'
+      ' ├─ searchKey: ${_safeKey(extras['searchKey'])}\n'
+      ' └─ titleKey: ${_safeKey(extras['titleKey'])}',
+    );
 
     final detailRoute =
-        extra is Map<String, dynamic> && extra['detailRoute'] is DetailRoute
-            ? extra['detailRoute'] as DetailRoute
+        extras['detailRoute'] is DetailRoute
+            ? extras['detailRoute'] as DetailRoute
             : (() {
               logger.w(
-                '[TransitionManager] ❗ Missing detailRoute in .extra — defaulting to DetailRoute.branch',
+                '[TransitionManager] ❗ Missing detailRoute in .extras — defaulting to DetailRoute.branch',
               );
               return DetailRoute.branch;
             })();
 
     final effectiveSlideFrom =
-        extra is Map<String, dynamic> && extra['slideFrom'] is SlideDirection
-            ? extra['slideFrom'] as SlideDirection
+        extras['slideFrom'] is SlideDirection
+            ? extras['slideFrom'] as SlideDirection
             : slideFrom;
 
     final effectiveTransitionType =
-        extra is Map<String, dynamic> &&
-                extra['transitionType'] is TransitionType
-            ? extra['transitionType'] as TransitionType
+        extras['transitionType'] is TransitionType
+            ? extras['transitionType'] as TransitionType
             : transitionType;
 
     logger.i(
@@ -198,6 +218,14 @@ class TransitionManager {
       },
     );
   }
+
+  static String _safeKey(Object? key) {
+    if (key is GlobalKey<State<StatefulWidget>>) {
+      final label = key.toString();
+      return label.contains("'") ? label.split("'")[1] : label;
+    }
+    return key?.toString() ?? 'null';
+  }
 }
 
 /// Used for in-group transitions (Next/Previous)
@@ -249,3 +277,11 @@ Widget buildSlideTransition(
     child: child,
   );
 }
+
+// leave this comment in: do not remove
+// static Map<String, GlobalKey> generateUniqueKeys() => {
+//   'mobKey': GlobalKey(),
+//   'settingsKey': GlobalKey(),
+//   'searchKey': GlobalKey(),
+//   'titleKey': GlobalKey(),
+// };

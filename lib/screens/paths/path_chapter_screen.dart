@@ -121,6 +121,10 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
                     backExtra: {'pathName': pathName, 'chapterId': chapterId},
                     detailRoute: DetailRoute.path,
                     direction: SlideDirection.right,
+                    mobKey: widget.mobKey,
+                    settingsKey: widget.settingsKey,
+                    searchKey: widget.searchKey,
+                    titleKey: widget.titleKey,
                   );
                 },
                 style: AppTheme.groupRedButtonStyle,
@@ -200,9 +204,20 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
                     branchIndex: 0,
                     backDestination:
                         '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                    backExtra: {'pathName': pathName, 'chapterId': chapterId},
+                    backExtra: {
+                      'pathName': pathName,
+                      'chapterId': chapterId,
+                      'mobKey': widget.mobKey,
+                      'settingsKey': widget.settingsKey,
+                      'searchKey': widget.searchKey,
+                      'titleKey': widget.titleKey,
+                    },
                     detailRoute: DetailRoute.path,
                     direction: SlideDirection.right,
+                    mobKey: widget.mobKey,
+                    settingsKey: widget.settingsKey,
+                    searchKey: widget.searchKey,
+                    titleKey: widget.titleKey,
                   );
                 },
                 style: AppTheme.groupRedButtonStyle,

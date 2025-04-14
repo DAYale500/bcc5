@@ -76,6 +76,8 @@ class LessonItemScreen extends StatelessWidget {
                   label: lesson.title,
                   onTap: () {
                     logger.i('📘 Tapped lesson: ${lesson.id}');
+                    final transitionKey = 'lesson_${lesson.id}_$timestamp';
+
                     context.push(
                       '/lessons/detail',
                       extra: {
@@ -84,10 +86,23 @@ class LessonItemScreen extends StatelessWidget {
                         'branchIndex': 1,
                         'detailRoute': DetailRoute.branch,
                         'backDestination': '/lessons/items',
-                        'backExtra': {'module': module, 'branchIndex': 1},
-                        'transitionKey': 'lesson_${lesson.id}_$timestamp',
+                        'backExtra': {
+                          'module': module,
+                          'branchIndex': 1,
+                          'mobKey': mobKey,
+                          'settingsKey': settingsKey,
+                          'searchKey': searchKey,
+                          'titleKey': titleKey,
+                          'transitionKey':
+                              transitionKey, // ✅ Ensures LessonItemScreen can be matched on return
+                        },
+                        'transitionKey': transitionKey,
                         'transitionType': TransitionType.slide,
                         'slideFrom': SlideDirection.right,
+                        'mobKey': mobKey,
+                        'settingsKey': settingsKey,
+                        'searchKey': searchKey,
+                        'titleKey': titleKey,
                       },
                     );
                   },

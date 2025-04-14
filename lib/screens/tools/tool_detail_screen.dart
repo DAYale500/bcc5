@@ -74,6 +74,10 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
           backExtra: widget.backExtra,
           detailRoute: widget.detailRoute,
           direction: SlideDirection.none,
+          mobKey: widget.mobKey,
+          settingsKey: widget.settingsKey,
+          searchKey: widget.searchKey,
+          titleKey: widget.titleKey,
         );
       });
     }
@@ -96,7 +100,11 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
       backExtra: widget.backExtra,
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
-      transitionType: TransitionType.fadeScale, // ✅ NEW
+      transitionType: TransitionType.fadeScale,
+      mobKey: widget.mobKey,
+      settingsKey: widget.settingsKey,
+      searchKey: widget.searchKey,
+      titleKey: widget.titleKey,
     );
   }
 
@@ -216,6 +224,10 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                         },
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
+                        mobKey: widget.mobKey,
+                        settingsKey: widget.settingsKey,
+                        searchKey: widget.searchKey,
+                        titleKey: widget.titleKey,
                       );
                     },
                   ),
@@ -321,9 +333,17 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 backExtra: {
                                   'toolbag': nextToolbag,
                                   'branchIndex': widget.branchIndex,
+                                  'mobKey': widget.mobKey,
+                                  'settingsKey': widget.settingsKey,
+                                  'searchKey': widget.searchKey,
+                                  'titleKey': widget.titleKey,
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
+                                mobKey: widget.mobKey,
+                                settingsKey: widget.settingsKey,
+                                searchKey: widget.searchKey,
+                                titleKey: widget.titleKey,
                               );
                             } else if (widget.detailRoute == DetailRoute.path) {
                               final currentChapterId =
@@ -394,9 +414,17 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                   'chapterId': nextChapter.id,
                                   'pathName': pathName,
                                   'branchIndex': widget.branchIndex,
+                                  'mobKey': widget.mobKey,
+                                  'settingsKey': widget.settingsKey,
+                                  'searchKey': widget.searchKey,
+                                  'titleKey': widget.titleKey,
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
+                                mobKey: widget.mobKey,
+                                settingsKey: widget.settingsKey,
+                                searchKey: widget.searchKey,
+                                titleKey: widget.titleKey,
                               );
                             }
                           },
