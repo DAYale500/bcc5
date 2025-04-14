@@ -48,7 +48,24 @@ class LessonItemScreen extends StatelessWidget {
           settingsKey: settingsKey,
           searchKey: searchKey,
           titleKey: titleKey,
+          onBack: () {
+            logger.i('🔙 Back tapped → /lessons');
+            context.go(
+              '/lessons',
+              extra: {
+                'transitionKey':
+                    'return_from_items_${DateTime.now().millisecondsSinceEpoch}',
+                'slideFrom': SlideDirection.left,
+                'transitionType': TransitionType.slide,
+                'mobKey': mobKey,
+                'settingsKey': settingsKey,
+                'searchKey': searchKey,
+                'titleKey': titleKey,
+              },
+            );
+          },
         ),
+
         const SizedBox(height: 16),
         Text(
           '$moduleTitle:\nDive in to any course below.',
