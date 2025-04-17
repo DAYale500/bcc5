@@ -227,3 +227,48 @@ You could now continue the sweep using:
   🔄 Check for cases where `.go(...)` lacks `extra: { ... }` or omits keys in `backExtra`
 
 Would you like me to walk you through the next file that likely needs a fix? (e.g., `part_detail_screen.dart` or `tool_detail_screen.dart`)
+
+
+
+
+
+
+
+
+
+
+📄 BCC5 GlobalKey Collision Bug Report
+🧠 Summary:
+A subtle bug caused AppBar icons (search, settings, MOB, title) to be invisible or disabled on ToolDetailScreen. Although the UI layout and props were correct, the underlying problem was due to reusing the same GlobalKey instances across multiple active screens.
+
+❌ Symptom:
+Icons appeared disabled, disabled in the VSCode debugger
+
+CustomAppBarWidget.build() received valid values, but buttons wouldn’t respond or render
+
+🕵️ Root Cause:
+Flutter enforces that each GlobalKey can only be used once in the widget tree. Navigating from ToolItemScreen to ToolDetailScreen using .push() meant both screens were live at once, and shared keys caused a silent conflict.
+
+✅ Fix:
+Pass a new instance of each GlobalKey when navigating:
+
+dart
+Copy
+Edit
+'mobKey': GlobalKey(debugLabel: 'MOBKey'),
+'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
+'searchKey': GlobalKey(debugLabel: 'SearchKey'),
+'titleKey': GlobalKey(debugLabel: 'TitleKey'),
+📌 Impact:
+Fix restores proper behavior and visibility for all AppBar icons
+
+Required for any navigation that keeps parent screen alive (e.g., .push())
+
+Same fix must be applied in LessonItemScreen → LessonDetailScreen and PartItemScreen → PartDetailScreen
+
+
+
+
+
+
+

@@ -1,8 +1,9 @@
+import 'package:bcc5/screens/emergency/mob_emergency_screen.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:bcc5/utils/location_helper.dart';
-import 'package:bcc5/screens/emergency/mob_emergency_screen.dart';
+// import 'package:bcc5/screens/emergency/mob_emergency_screen.dart';
 
 Future<void> showMOBModal(BuildContext context) async {
   final localContext = context;
@@ -26,6 +27,24 @@ Future<void> showMOBModal(BuildContext context) async {
       builder: (_) => const MOBEmergencyScreen(),
     ),
   );
+
+  // final tools = ToolRepositoryIndex.getToolsForBag('emergencies');
+  // final renderItems = buildRenderItems(ids: tools.map((t) => t.id).toList());
+
+  // GoRouter.of(context).go(
+  //   '/tools/items',
+  //   extra: {
+  //     'toolbag': 'emergencies',
+  //     'renderItems': renderItems,
+  //     'mobKey': GlobalKey(debugLabel: 'MOBKey'),
+  //     'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
+  //     'searchKey': GlobalKey(debugLabel: 'SearchKey'),
+  //     'titleKey': GlobalKey(debugLabel: 'TitleKey'),
+  //     'transitionKey': 'emergencies_${DateTime.now().millisecondsSinceEpoch}',
+  //     'transitionType': TransitionType.slide,
+  //     'slideFrom': SlideDirection.left,
+  //   },
+  // );
 }
 
 //   showDialog(

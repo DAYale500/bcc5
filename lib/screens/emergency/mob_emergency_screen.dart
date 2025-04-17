@@ -1,10 +1,11 @@
+import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/screens/emergency/mob_radio_script_modal.dart';
+import 'package:bcc5/screens/tools/tool_item_screen.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/location_helper.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/settings_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:bcc5/utils/radio_helper.dart';
@@ -336,17 +337,46 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
               ),
               onPressed: () {
                 logger.i('🆘 Other Emergencies button tapped');
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // ✅ close MOB modal first
+
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  context.go(
-                    '/tools/items',
-                    extra: {
-                      'toolbag': 'procedures',
-                      'transitionKey': UniqueKey(),
-                    },
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder:
+                          (_) => MainScaffold(
+                            branchIndex: 3,
+                            child: ToolItemScreen(
+                              toolbag: 'procedures',
+                              mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                              settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
+                              searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                              titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                              cameFromMob:
+                                  true, // 🌟 ADDED — signals ToolItemScreen to return to MOB
+                            ),
+                          ),
+                    ),
                   );
                 });
               },
+
+              // context.go(
+              //   '/tools/items',
+              //   extra: {
+              //     'toolbag': 'emergencies',
+              //     'renderItems': renderItems,
+              //     'mobKey': GlobalKey(debugLabel: 'MOBKey'),
+              //     'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
+              //     'searchKey': GlobalKey(debugLabel: 'SearchKey'),
+              //     'titleKey': GlobalKey(debugLabel: 'TitleKey'),
+              //     'transitionKey':
+              //         'emergencies_${DateTime.now().millisecondsSinceEpoch}',
+              //     'transitionType': TransitionType.slide,
+              //     'slideFrom': SlideDirection.left,
+              //   },
+              // );
+              //   });
+              // },
               child: const Text(
                 'Other Emergencies',
                 style: TextStyle(

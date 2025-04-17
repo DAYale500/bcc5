@@ -39,6 +39,16 @@ class CustomAppBarWidget extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    logger.i('🔍 CustomAppBarWidget.build()');
+    logger.i('  ├─ title: "$title"');
+    logger.i('  ├─ showBackButton: $showBackButton');
+    logger.i('  ├─ showSearchIcon: $showSearchIcon');
+    logger.i('  ├─ showSettingsIcon: $showSettingsIcon');
+    logger.i('  ├─ mobKey: ${mobKey.toString()}');
+    logger.i('  ├─ searchKey: ${searchKey.toString()}');
+    logger.i('  ├─ settingsKey: ${settingsKey.toString()}');
+    logger.i('  └─ titleKey: ${titleKey.toString()}');
+
     return AppBar(
       backgroundColor: AppTheme.primaryBlue,
       centerTitle: false,
@@ -61,28 +71,34 @@ class CustomAppBarWidget extends StatelessWidget
                   },
             ),
           if (showSearchIcon)
-            IconButton(
-              key: searchKey,
-              icon: const Icon(Icons.search),
-              onPressed:
-                  onSearchTap ??
-                  () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => const SearchModal(),
-                    );
-                  },
+            Builder(
+              builder:
+                  (innerContext) => IconButton(
+                    key: searchKey,
+                    icon: const Icon(Icons.search),
+                    onPressed:
+                        onSearchTap ??
+                        () {
+                          showDialog(
+                            context: innerContext,
+                            builder: (_) => const SearchModal(),
+                          );
+                        },
+                  ),
             ),
 
           if (showSettingsIcon)
-            IconButton(
-              key: settingsKey,
-              icon: const Icon(Icons.settings),
-              onPressed:
-                  onSettingsTap ??
-                  () {
-                    showSettingsModal(context);
-                  },
+            Builder(
+              builder:
+                  (innerContext) => IconButton(
+                    key: settingsKey,
+                    icon: const Icon(Icons.settings),
+                    onPressed:
+                        onSettingsTap ??
+                        () {
+                          showSettingsModal(innerContext);
+                        },
+                  ),
             ),
 
           // CENTER: Title
@@ -96,20 +112,17 @@ class CustomAppBarWidget extends StatelessWidget
           ),
 
           // RIGHT: Life Ring (MOB)
-          IconButton(
-            key: mobKey,
-            icon: Icon(
-              MdiIcons.lifebuoy,
-              size: 40, // Set to match previous image size
-              color:
-                  Colors
-                      .red, // Optional: makes it bright red for emergency visibility
-            ),
-            tooltip: 'Man Overboard',
-            onPressed: () {
-              logger.i('🆘 MOB button tapped');
-              showMOBModal(context);
-            },
+          Builder(
+            builder:
+                (innerContext) => IconButton(
+                  key: mobKey,
+                  icon: Icon(MdiIcons.lifebuoy, size: 40, color: Colors.red),
+                  tooltip: 'Man Overboard',
+                  onPressed: () {
+                    logger.i('🆘 MOB button tapped');
+                    showMOBModal(innerContext);
+                  },
+                ),
           ),
         ],
       ),

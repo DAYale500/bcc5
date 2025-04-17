@@ -65,4 +65,8 @@ class ToolRepositoryIndex {
     if (currentIndex == -1 || currentIndex + 1 >= bagNames.length) return null;
     return bagNames[currentIndex + 1];
   }
+
+  static List<String> getToolIdsForBag(String bagId) {
+    return getToolsForBag(bagId).map((tool) => tool.id).toList();
+  }
 }

@@ -425,3 +425,33 @@ Additional statements as necessary, the Coast Guard may ask about:
 **11.** “📡 MMSI: 123456789” *(only if MMSI is available)*
 12. They will likely want your cell phone number if in cell service range. Speak it slowly and clearly.
 
+
+
+
+
+update 4/16/25 1125
+Perfect — I've captured your intent clearly:
+
+✅ **Your goal** is a user-friendly **modal-like MOB flow**:
+- **Entry**: User taps the MOB icon → opens `MOBEmergencyScreen` (modal or modal-style full-screen).
+- **Action**: On that screen, they can tap **Other Emergencies** → see `ToolItemScreen(toolbag: 'emergencies')`.
+- **Back behavior**: Pressing back from the tool list should return them to the MOB modal.
+- **Final exit**: From the MOB modal, pressing close exits and returns to the prior context (e.g., LandingScreen or wherever they were).
+
+We're **not** using `GoRouter.go()` or `.pushNamed()` for these transitions because:
+- That would **lose the modal context** (back goes to LandingScreen instead of MOB).
+- We’d have to pass awkward `.extra` values and manually wire transition keys to preserve routing state.
+
+Instead, we’re using **`Navigator.push()`** and **`MaterialPageRoute`**, which:
+- Preserves the navigation stack naturally,
+- Gives you full control for **modality and styling**,
+- Avoids GoRouter overhead for emergency paths.
+
+---
+
+Next step: I’ll refactor the `MOBEmergencyScreen` to:
+1. **Fix the missing MainScaffold**, so it doesn't look black or broken.
+2. **Push `ToolItemScreen`** wrapped in a `MainScaffold`, with valid `renderItems`, and correct keys.
+3. Ensure **back navigation from tool screen goes to MOB** and not Landing or elsewhere.
+
+Ready to proceed?

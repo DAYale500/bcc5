@@ -1,3 +1,4 @@
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
@@ -36,6 +37,7 @@ class PartItemScreen extends StatelessWidget {
     );
 
     final List<String> sequenceIds = filteredParts.map((p) => p.id).toList();
+    final List<RenderItem> renderItems = buildRenderItems(ids: sequenceIds);
 
     logger.i('🟦 Displaying PartItemScreen (Zone: $zone)');
 
@@ -96,21 +98,19 @@ class PartItemScreen extends StatelessWidget {
                     context.push(
                       '/parts/detail',
                       extra: {
-                        'renderItems': buildRenderItems(ids: sequenceIds),
+                        'renderItems': renderItems,
                         'currentIndex': index,
-                        'branchIndex': 2,
+                        'branchIndex': 1,
                         'backDestination': '/parts/items',
-                        'backExtra': {
-                          'zone': zone,
-                          'mobKey': mobKey,
-                          'settingsKey': settingsKey,
-                          'searchKey': searchKey,
-                          'titleKey': titleKey,
-                        },
+                        'backExtra': {'zone': zone},
+                        'mobKey': GlobalKey(debugLabel: 'MOBKey'),
+                        'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
+                        'searchKey': GlobalKey(debugLabel: 'SearchKey'),
+                        'titleKey': GlobalKey(debugLabel: 'TitleKey'),
                         'transitionKey': 'part_${part.id}_$timestamp',
                         'detailRoute': DetailRoute.branch,
-                        'transitionType': TransitionType.slide, // ✅ added
-                        'slideFrom': SlideDirection.right, // ✅ added
+                        'transitionType': TransitionType.slide,
+                        'slideFrom': SlideDirection.right,
                       },
                     );
                   },

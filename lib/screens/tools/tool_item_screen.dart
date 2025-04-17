@@ -1,4 +1,5 @@
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
+import 'package:bcc5/screens/emergency/mob_emergency_screen.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
@@ -13,6 +14,7 @@ import 'package:bcc5/navigation/detail_route.dart';
 
 class ToolItemScreen extends StatelessWidget {
   final String toolbag;
+  final bool cameFromMob;
 
   const ToolItemScreen({
     super.key,
@@ -21,6 +23,7 @@ class ToolItemScreen extends StatelessWidget {
     required this.settingsKey,
     required this.searchKey,
     required this.titleKey,
+    this.cameFromMob = false,
   });
 
   final GlobalKey mobKey;
@@ -32,10 +35,34 @@ class ToolItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i('🛠️ ToolItemScreen loaded for toolbag: $toolbag');
 
+    final content = _buildContent(context);
+
+    return cameFromMob
+        ? PopScope(
+          canPop: true,
+          onPopInvokedWithResult: (bool didPop, Object? result) {
+            if (!didPop) {
+              logger.i(
+                '🔙 System back triggered — returning to MOBEmergencyScreen',
+              );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (_) => const MOBEmergencyScreen(),
+                ),
+              );
+            }
+          },
+
+          child: content,
+        )
+        : content;
+  }
+
+  Widget _buildContent(BuildContext context) {
     final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
     final toolIds = tools.map((t) => t.id).toList();
     final renderItems = buildRenderItems(ids: toolIds);
-
     final toolbagTitle = toolbag.toTitleCase();
 
     return Column(
@@ -49,10 +76,27 @@ class ToolItemScreen extends StatelessWidget {
           settingsKey: settingsKey,
           searchKey: searchKey,
           titleKey: titleKey,
+          onBack: () {
+            if (cameFromMob) {
+              logger.i('🔙 Back to MOBEmergencyScreen (cameFromMob = true)');
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (_) => const MOBEmergencyScreen(),
+                ),
+              );
+            } else if (Navigator.of(context).canPop()) {
+              // ✅ Check before popping
+              logger.i('🔙 Back to previous screen via Navigator');
+              Navigator.of(context).pop();
+            } else {
+              logger.w('⚠️ Back tap ignored — nothing to pop!');
+            }
+          },
         ),
         const SizedBox(height: 16),
         Text(
-          '$toolbagTitle:\nWhich ${toolbagTitle.replaceFirst(RegExp(r's$'), '')} would you like?',
+          '$toolbagTitle:\nWhich ${toolbagTitle.replaceFirst(RegExp(r's\$'), '')} would you like?',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),
@@ -71,37 +115,12 @@ class ToolItemScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final tool = tools[index];
                 final timestamp = DateTime.now().millisecondsSinceEpoch;
+                final transitionKey = 'tool_${tool.id}_$timestamp';
 
                 return ItemButton(
                   label: tool.title,
                   onTap: () {
                     logger.i('🛠️ Tapped tool: ${tool.id}');
-                    final transitionKey = 'tool_${tool.id}_$timestamp';
-
-                    logger.i('🧭 Navigating to /tools/detail with:');
-                    logger.i('  ├─ currentIndex: $index');
-                    logger.i('  ├─ renderItems.length: ${renderItems.length}');
-                    logger.i(
-                      '  ├─ renderItems[$index].title: ${renderItems[index].title}',
-                    );
-                    logger.i('  ├─ branchIndex: 3');
-                    logger.i('  ├─ backDestination: /tools/items');
-                    logger.i('  ├─ toolbag: $toolbag');
-                    logger.i('  ├─ transitionKey: $transitionKey');
-                    logger.i('  ├─ detailRoute: DetailRoute.branch');
-                    logger.i('  ├─ transitionType: TransitionType.slide');
-                    logger.i('  ├─ slideFrom: SlideDirection.right');
-                    logger.i('  ├─ mobKey runtimeType: ${mobKey.runtimeType}');
-                    logger.i(
-                      '  ├─ settingsKey runtimeType: ${settingsKey.runtimeType}',
-                    );
-                    logger.i(
-                      '  ├─ searchKey runtimeType: ${searchKey.runtimeType}',
-                    );
-                    logger.i(
-                      '  └─ titleKey runtimeType: ${titleKey.runtimeType}',
-                    );
-
                     context.push(
                       '/tools/detail',
                       extra: {
@@ -109,15 +128,19 @@ class ToolItemScreen extends StatelessWidget {
                         'currentIndex': index,
                         'branchIndex': 3,
                         'backDestination': '/tools/items',
-                        'backExtra': {'toolbag': toolbag},
-                        'mobKey': mobKey,
-                        'settingsKey': settingsKey,
-                        'searchKey': searchKey,
-                        'titleKey': titleKey,
-                        'transitionKey': 'tool_${tool.id}_$timestamp',
+                        'backExtra': {
+                          'toolbag': toolbag,
+                          'cameFromMob': cameFromMob, // 🟩 propagate it forward
+                        },
+                        'mobKey': GlobalKey(debugLabel: 'MOBKey'),
+                        'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
+                        'searchKey': GlobalKey(debugLabel: 'SearchKey'),
+                        'titleKey': GlobalKey(debugLabel: 'TitleKey'),
+                        'transitionKey': transitionKey,
                         'detailRoute': DetailRoute.branch,
                         'transitionType': TransitionType.slide,
                         'slideFrom': SlideDirection.right,
+                        'cameFromMob': cameFromMob, // 🟩 ✅ PRESERVE FLAG
                       },
                     );
                   },

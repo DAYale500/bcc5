@@ -264,3 +264,6 @@ better "no path to resume" than those black snackbars...
 
 toolBagScreen image line 27
 
+maybe change MOB to screen not modal
+log for MOB presses with gps, time/date data
+

@@ -5,7 +5,6 @@ import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/widgets/group_picker_dropdown.dart';
 import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:animations/animations.dart';
 
 import 'package:bcc5/data/models/render_item.dart';
@@ -161,15 +160,26 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                 titleKey: widget.titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
-                  context.go(
-                    widget.backDestination,
-                    extra: {
-                      ...?widget.backExtra,
-                      'transitionKey': UniqueKey().toString(),
-                      'slideFrom': SlideDirection.left,
-                      'transitionType': TransitionType.slide, // ✅ Add this line
-                    },
-                  );
+                  // final toolbag = widget.backExtra?['toolbag'];
+                  // final cameFromMob =
+                  //     widget.backExtra?['cameFromMob'] == true; // 🟩
+
+                  Navigator.of(context).pop();
+
+                  // context.pushReplacement(
+                  //   '/tools/items',
+                  //   extra: {
+                  //     'toolbag': toolbag,
+                  //     'cameFromMob': cameFromMob,
+                  //     'mobKey': GlobalKey(debugLabel: 'MOBKey'),
+                  //     'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
+                  //     'searchKey': GlobalKey(debugLabel: 'SearchKey'),
+                  //     'titleKey': GlobalKey(debugLabel: 'TitleKey'),
+                  //     'transitionKey': UniqueKey().toString(),
+                  //     'slideFrom': SlideDirection.left,
+                  //     'transitionType': TransitionType.slide,
+                  //   },
+                  // );
                 },
               ),
               if (widget.detailRoute == DetailRoute.path)
