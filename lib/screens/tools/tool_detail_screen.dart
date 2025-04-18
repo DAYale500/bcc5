@@ -96,7 +96,12 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
       currentIndex: newIndex,
       branchIndex: widget.branchIndex,
       backDestination: widget.backDestination,
-      backExtra: widget.backExtra,
+      backExtra: {
+        ...?widget.backExtra,
+        'transitionKey': UniqueKey().toString(),
+        'slideFrom': SlideDirection.none,
+        'transitionType': TransitionType.fadeScale,
+      },
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale,
@@ -160,26 +165,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                 titleKey: widget.titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
-                  // final toolbag = widget.backExtra?['toolbag'];
-                  // final cameFromMob =
-                  //     widget.backExtra?['cameFromMob'] == true; // 🟩
-
                   Navigator.of(context).pop();
-
-                  // context.pushReplacement(
-                  //   '/tools/items',
-                  //   extra: {
-                  //     'toolbag': toolbag,
-                  //     'cameFromMob': cameFromMob,
-                  //     'mobKey': GlobalKey(debugLabel: 'MOBKey'),
-                  //     'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
-                  //     'searchKey': GlobalKey(debugLabel: 'SearchKey'),
-                  //     'titleKey': GlobalKey(debugLabel: 'TitleKey'),
-                  //     'transitionKey': UniqueKey().toString(),
-                  //     'slideFrom': SlideDirection.left,
-                  //     'transitionType': TransitionType.slide,
-                  //   },
-                  // );
                 },
               ),
               if (widget.detailRoute == DetailRoute.path)
@@ -187,6 +173,10 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                   pathName: widget.backExtra?['pathName'] ?? '',
                 ),
 
+              // This section renders the GroupPickerDropdown used for switching between
+              //toolbags in branch mode. When the user selects a different toolbag,
+              //it rebuilds renderItems and navigates to the new tool.
+              //
               if (widget.detailRoute == DetailRoute.branch)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
@@ -231,13 +221,16 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                         backExtra: {
                           'toolbag': selectedToolbagId,
                           'branchIndex': widget.branchIndex,
+                          'cameFromMob':
+                              widget.backExtra?['cameFromMob'] == true,
                         },
+
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
-                        mobKey: widget.mobKey,
-                        settingsKey: widget.settingsKey,
-                        searchKey: widget.searchKey,
-                        titleKey: widget.titleKey,
+                        mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                        settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
+                        searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                        titleKey: GlobalKey(debugLabel: 'TitleKey'),
                       );
                     },
                   ),
@@ -282,7 +275,9 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                             logger.i(
                               '⏭️ Next Chapter tapped on ToolDetailScreen',
                             );
-
+                            // When in branch mode and on the last tool in the current
+                            //toolbag, tapping “Next Chapter” navigates to the next
+                            //toolbag (if one exists) and renders its items.
                             if (widget.detailRoute == DetailRoute.branch) {
                               final currentToolbag =
                                   widget.backExtra?['toolbag'] as String?;
@@ -343,18 +338,23 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 backExtra: {
                                   'toolbag': nextToolbag,
                                   'branchIndex': widget.branchIndex,
-                                  'mobKey': widget.mobKey,
-                                  'settingsKey': widget.settingsKey,
-                                  'searchKey': widget.searchKey,
-                                  'titleKey': widget.titleKey,
+                                  'cameFromMob':
+                                      widget.backExtra?['cameFromMob'] == true,
                                 },
+
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
-                                mobKey: widget.mobKey,
-                                settingsKey: widget.settingsKey,
-                                searchKey: widget.searchKey,
-                                titleKey: widget.titleKey,
+                                mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                                settingsKey: GlobalKey(
+                                  debugLabel: 'SettingsKey',
+                                ),
+                                searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                                titleKey: GlobalKey(debugLabel: 'TitleKey'),
                               );
+
+                              // If in path mode, and the current tool is the last in
+                              // the chapter, the “Next Chapter” button navigates to
+                              // the next chapter using PathRepositoryIndex.getNextChapter.
                             } else if (widget.detailRoute == DetailRoute.path) {
                               final currentChapterId =
                                   widget.backExtra?['chapterId'] as String?;
@@ -431,10 +431,12 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
-                                mobKey: widget.mobKey,
-                                settingsKey: widget.settingsKey,
-                                searchKey: widget.searchKey,
-                                titleKey: widget.titleKey,
+                                mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                                settingsKey: GlobalKey(
+                                  debugLabel: 'SettingsKey',
+                                ),
+                                searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                                titleKey: GlobalKey(debugLabel: 'TitleKey'),
                               );
                             }
                           },
