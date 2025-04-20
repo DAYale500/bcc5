@@ -299,7 +299,7 @@ final appRouter = GoRouter(
       path: '/lessons/items',
       name: 'lesson-items',
       pageBuilder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
         final module = extras['module'] as String?;
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
@@ -308,6 +308,19 @@ final appRouter = GoRouter(
             TransitionType.instant;
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'MOBKey'); // ✅
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey'); // ✅
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey'); // ✅
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey'); // ✅
 
         if (module == null) {
           logger.e('❌ Missing module parameter for LessonItemScreen');
@@ -318,10 +331,10 @@ final appRouter = GoRouter(
             child: MainScaffold(
               branchIndex: 1,
               child: LessonModuleScreen(
-                mobKey: extras['mobKey'],
-                settingsKey: extras['settingsKey'],
-                searchKey: extras['searchKey'],
-                titleKey: extras['titleKey'],
+                mobKey: mobKey, // ✅
+                settingsKey: settingsKey, // ✅
+                searchKey: searchKey, // ✅
+                titleKey: titleKey, // ✅
               ),
             ),
           );
@@ -341,10 +354,10 @@ final appRouter = GoRouter(
             branchIndex: 1,
             child: LessonItemScreen(
               module: module,
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey, // ✅
+              settingsKey: settingsKey, // ✅
+              searchKey: searchKey, // ✅
+              titleKey: titleKey, // ✅
             ),
           ),
         );
@@ -448,7 +461,7 @@ final appRouter = GoRouter(
       path: '/parts/items',
       name: 'part-items',
       pageBuilder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
         final zone = extras['zone'] as String? ?? '';
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
@@ -457,6 +470,19 @@ final appRouter = GoRouter(
             TransitionType.instant;
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'MOBKey'); // ✅
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey'); // ✅
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey'); // ✅
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey'); // ✅
 
         logger.i(
           '🧩 Navigating to PartItemScreen for zone: $zone | detailRoute: $detailRoute',
@@ -472,10 +498,10 @@ final appRouter = GoRouter(
             branchIndex: 2,
             child: PartItemScreen(
               zone: zone,
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey, // ✅
+              settingsKey: settingsKey, // ✅
+              searchKey: searchKey, // ✅
+              titleKey: titleKey, // ✅
             ),
           ),
         );
@@ -567,7 +593,7 @@ final appRouter = GoRouter(
       path: '/tools/items',
       name: 'tool-items',
       pageBuilder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
         final toolbag = extras['toolbag'] as String? ?? '';
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
@@ -576,6 +602,19 @@ final appRouter = GoRouter(
             TransitionType.instant;
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'MOBKey'); // ✅
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey'); // ✅
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey'); // ✅
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey'); // ✅
 
         logger.i(
           '🛠️ Navigating to ToolItemScreen for toolbag: $toolbag | detailRoute: $detailRoute',
@@ -591,10 +630,10 @@ final appRouter = GoRouter(
             branchIndex: 3,
             child: ToolItemScreen(
               toolbag: toolbag,
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey, // ✅
+              settingsKey: settingsKey, // ✅
+              searchKey: searchKey, // ✅
+              titleKey: titleKey, // ✅
             ),
           ),
         );
@@ -613,6 +652,7 @@ final appRouter = GoRouter(
         final detailRoute = extras['detailRoute'] as DetailRoute;
         final transitionKey = extras['transitionKey'] as String;
 
+        // ✅ GlobalKey fallbacks
         final mobKey =
             extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
         final settingsKey =
@@ -624,19 +664,6 @@ final appRouter = GoRouter(
         final titleKey =
             extras['titleKey'] as GlobalKey? ??
             GlobalKey(debugLabel: 'TitleKey');
-
-        logger.i('📦 /tools/detail Route Triggered');
-        logger.i(' - renderItems: ${renderItems.length}');
-        logger.i(' - currentIndex: $currentIndex');
-        logger.i(' - branchIndex: $branchIndex');
-        logger.i(' - backDestination: $backDestination');
-        logger.i(' - backExtra: $backExtra');
-        logger.i(' - detailRoute: $detailRoute');
-        logger.i(' - transitionKey: $transitionKey');
-        logger.i(' - mobKey: $mobKey');
-        logger.i(' - settingsKey: $settingsKey');
-        logger.i(' - searchKey: $searchKey');
-        logger.i(' - titleKey: $titleKey');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -710,7 +737,7 @@ final appRouter = GoRouter(
       path: '/flashcards/items',
       name: 'flashcardItems',
       pageBuilder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
         final category = extras['category'] as String? ?? 'all';
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
@@ -719,6 +746,19 @@ final appRouter = GoRouter(
             TransitionType.instant;
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'MOBKey'); // ✅
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey'); // ✅
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey'); // ✅
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey'); // ✅
 
         logger.i(
           '📇 Navigating to FlashcardItemScreen for category: $category | detailRoute: $detailRoute',
@@ -734,10 +774,10 @@ final appRouter = GoRouter(
             branchIndex: 4,
             child: FlashcardItemScreen(
               category: category,
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey, // ✅
+              settingsKey: settingsKey, // ✅
+              searchKey: searchKey, // ✅
+              titleKey: titleKey, // ✅
             ),
           ),
         );
@@ -1241,6 +1281,7 @@ class TransitionManager {
     required GlobalKey settingsKey,
     required GlobalKey searchKey,
     required GlobalKey titleKey,
+    bool replace = false, // ✅ new optional flag
   }) {
     // ✅ Save resume point if navigating within path
     if (detailRoute == DetailRoute.path &&
@@ -1257,6 +1298,7 @@ class TransitionManager {
         );
       }
     }
+
     final route = _getRouteForScreenType(screenType);
     final transitionKey = UniqueKey().toString();
 
@@ -1267,24 +1309,27 @@ class TransitionManager {
       '→ backDestination: $backDestination | transitionKey: $transitionKey',
     );
 
-    context.go(
-      route,
-      extra: {
-        'renderItems': renderItems,
-        'currentIndex': currentIndex,
-        'branchIndex': branchIndex,
-        'backDestination': backDestination,
-        'backExtra': backExtra,
-        'detailRoute': detailRoute,
-        'transitionKey': transitionKey,
-        'slideFrom': direction,
-        'transitionType': transitionType,
-        'mobKey': mobKey,
-        'settingsKey': settingsKey,
-        'searchKey': searchKey,
-        'titleKey': titleKey,
-      },
-    );
+    final extra = {
+      'renderItems': renderItems,
+      'currentIndex': currentIndex,
+      'branchIndex': branchIndex,
+      'backDestination': backDestination,
+      'backExtra': backExtra,
+      'detailRoute': detailRoute,
+      'transitionKey': transitionKey,
+      'slideFrom': direction,
+      'transitionType': transitionType,
+      'mobKey': mobKey,
+      'settingsKey': settingsKey,
+      'searchKey': searchKey,
+      'titleKey': titleKey,
+    };
+
+    if (replace) {
+      context.go(route, extra: extra);
+    } else {
+      context.push(route, extra: extra);
+    }
   }
 
   static String _getRouteForScreenType(RenderItemType type) {
@@ -2344,13 +2389,14 @@ File: lib/screens/tools/tool_detail_screen_old.dart
 
 
 File: lib/screens/tools/tool_bag_screen.dart
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/group_button.dart';
@@ -2444,20 +2490,40 @@ class ToolBagScreen extends StatelessWidget {
                     label: toolbag.toTitleCase(),
                     onTap: () {
                       logger.i('🛠️ Selected toolbag: $toolbag');
-                      final timestamp = DateTime.now().millisecondsSinceEpoch;
-                      context.push(
-                        '/tools/items',
-                        extra: {
-                          'toolbag': toolbag,
-                          'slideFrom': SlideDirection.right,
-                          'transitionType': TransitionType.slide,
-                          'transitionKey': 'tool_items_${toolbag}_$timestamp',
-                          'detailRoute': DetailRoute.branch,
-                          'mobKey': mobKey,
-                          'settingsKey': settingsKey,
-                          'searchKey': searchKey,
-                          'titleKey': titleKey,
-                        },
+
+                      final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+                      final renderItems = buildRenderItems(
+                        ids: tools.map((tool) => tool.id).toList(),
+                      );
+
+                      if (renderItems.isEmpty) {
+                        logger.w(
+                          '⚠️ No tools found in selected toolbag: $toolbag',
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('No tools found in this toolbag.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: RenderItemType.tool,
+                        renderItems: renderItems,
+                        currentIndex: 0,
+                        branchIndex: 3,
+                        backDestination: '/tools',
+                        backExtra: {'toolbag': toolbag},
+                        detailRoute: DetailRoute.branch,
+                        direction: SlideDirection.right,
+                        transitionType: TransitionType.slide,
+                        mobKey: mobKey,
+                        settingsKey: settingsKey,
+                        searchKey: searchKey,
+                        titleKey: titleKey,
+                        replace: false,
                       );
                     },
                   ),
@@ -2481,13 +2547,14 @@ class ToolBagScreen extends StatelessWidget {
 
 
 File: lib/screens/tools/tool_item_screen.dart
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/screens/emergency/mob_emergency_screen.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
@@ -2520,26 +2587,25 @@ class ToolItemScreen extends StatelessWidget {
 
     final content = _buildContent(context);
 
-    return cameFromMob
-        ? PopScope(
-          canPop: true,
-          onPopInvokedWithResult: (bool didPop, Object? result) {
-            if (!didPop) {
-              logger.i(
-                '🔙 System back triggered — returning to MOBEmergencyScreen',
-              );
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (_) => const MOBEmergencyScreen(),
-                ),
-              );
-            }
-          },
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (didPop) return;
 
-          child: content,
-        )
-        : content;
+        if (cameFromMob) {
+          logger.i('🔙 System back → MOBEmergencyScreen');
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (_) => const MOBEmergencyScreen(),
+            ),
+          );
+        } else {
+          logger.w('⚠️ Back ignored — nothing to pop and no override');
+        }
+      },
+      child: content,
+    );
   }
 
   Widget _buildContent(BuildContext context) {
@@ -2597,34 +2663,30 @@ class ToolItemScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final tool = tools[index];
-                final timestamp = DateTime.now().millisecondsSinceEpoch;
-                final transitionKey = 'tool_${tool.id}_$timestamp';
 
                 return ItemButton(
                   label: tool.title,
                   onTap: () {
                     logger.i('🛠️ Tapped tool: ${tool.id}');
-                    context.push(
-                      '/tools/detail',
-                      extra: {
-                        'renderItems': renderItems,
-                        'currentIndex': index,
-                        'branchIndex': 3,
-                        'backDestination': '/tools/items',
-                        'backExtra': {
-                          'toolbag': toolbag,
-                          'cameFromMob': cameFromMob, // 🟩 propagate it forward
-                        },
-                        'mobKey': GlobalKey(debugLabel: 'MOBKey'),
-                        'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
-                        'searchKey': GlobalKey(debugLabel: 'SearchKey'),
-                        'titleKey': GlobalKey(debugLabel: 'TitleKey'),
-                        'transitionKey': transitionKey,
-                        'detailRoute': DetailRoute.branch,
-                        'transitionType': TransitionType.slide,
-                        'slideFrom': SlideDirection.right,
-                        'cameFromMob': cameFromMob, // 🟩 ✅ PRESERVE FLAG
+                    TransitionManager.goToDetailScreen(
+                      context: context,
+                      screenType: RenderItemType.tool,
+                      renderItems: renderItems,
+                      currentIndex: index,
+                      branchIndex: 3,
+                      backDestination: '/tools/items',
+                      backExtra: {
+                        'toolbag': toolbag,
+                        'cameFromMob': cameFromMob,
                       },
+                      detailRoute: DetailRoute.branch,
+                      direction: SlideDirection.right,
+                      transitionType: TransitionType.slide,
+                      mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                      settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
+                      searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                      titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                      replace: false, // 🛠️ Critical: preserve the stack
                     );
                   },
                 );
@@ -2667,6 +2729,7 @@ import 'package:bcc5/utils/transition_manager.dart';
 
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:go_router/go_router.dart';
 
 class ToolDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -2726,6 +2789,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
           settingsKey: widget.settingsKey,
           searchKey: widget.searchKey,
           titleKey: widget.titleKey,
+          replace: true, // ✅ ensures redirect doesn’t stack
         );
       });
     }
@@ -2745,20 +2809,37 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
       currentIndex: newIndex,
       branchIndex: widget.branchIndex,
       backDestination: widget.backDestination,
-      backExtra: widget.backExtra,
+      backExtra: {
+        ...?widget.backExtra,
+        'toolbag': widget.backExtra?['toolbag'],
+        'cameFromMob': widget.backExtra?['cameFromMob'] == true,
+        'transitionKey': UniqueKey().toString(),
+        'slideFrom': SlideDirection.none,
+        'transitionType': TransitionType.fadeScale,
+      },
+
+      // backExtra: {
+      //   ...?widget.backExtra,
+      //   'transitionKey': UniqueKey().toString(),
+      //   'slideFrom': SlideDirection.none,
+      //   'transitionType': TransitionType.fadeScale,
+      // },
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale,
-      mobKey: widget.mobKey,
-      settingsKey: widget.settingsKey,
-      searchKey: widget.searchKey,
-      titleKey: widget.titleKey,
+      mobKey: GlobalKey(debugLabel: 'MOBKey'),
+      settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
+      searchKey: GlobalKey(debugLabel: 'SearchKey'),
+      titleKey: GlobalKey(debugLabel: 'TitleKey'),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final item = widget.renderItems[currentIndex];
+    logger.i(
+      'ToolDetailScreen GlobalKeys → mob: ${widget.mobKey}, settings: ${widget.settingsKey}, search: ${widget.searchKey}, title: ${widget.titleKey}',
+    );
 
     if (item.type != RenderItemType.tool) {
       return const Scaffold(body: SizedBox());
@@ -2809,26 +2890,13 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                 titleKey: widget.titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
-                  // final toolbag = widget.backExtra?['toolbag'];
-                  // final cameFromMob =
-                  //     widget.backExtra?['cameFromMob'] == true; // 🟩
 
-                  Navigator.of(context).pop();
-
-                  // context.pushReplacement(
-                  //   '/tools/items',
-                  //   extra: {
-                  //     'toolbag': toolbag,
-                  //     'cameFromMob': cameFromMob,
-                  //     'mobKey': GlobalKey(debugLabel: 'MOBKey'),
-                  //     'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
-                  //     'searchKey': GlobalKey(debugLabel: 'SearchKey'),
-                  //     'titleKey': GlobalKey(debugLabel: 'TitleKey'),
-                  //     'transitionKey': UniqueKey().toString(),
-                  //     'slideFrom': SlideDirection.left,
-                  //     'transitionType': TransitionType.slide,
-                  //   },
-                  // );
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  } else {
+                    logger.w('⚠️ No pages left to pop. Redirecting manually.');
+                    context.go(widget.backDestination, extra: widget.backExtra);
+                  }
                 },
               ),
               if (widget.detailRoute == DetailRoute.path)
@@ -2836,6 +2904,10 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                   pathName: widget.backExtra?['pathName'] ?? '',
                 ),
 
+              // This section renders the GroupPickerDropdown used for switching between
+              //toolbags in branch mode. When the user selects a different toolbag,
+              //it rebuilds renderItems and navigates to the new tool.
+              //
               if (widget.detailRoute == DetailRoute.branch)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
@@ -2879,23 +2951,16 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                         backDestination: '/tools/items',
                         backExtra: {
                           'toolbag': selectedToolbagId,
-                          'branchIndex': widget.branchIndex,
-                          'mobKey': widget.mobKey,
-                          'settingsKey': widget.settingsKey,
-                          'searchKey': widget.searchKey,
-                          'titleKey': widget.titleKey,
-                          'transitionKey': UniqueKey().toString(),
-                          'detailRoute': widget.detailRoute,
-                          'transitionType': TransitionType.slide,
-                          'slideFrom': SlideDirection.right,
+                          'cameFromMob':
+                              widget.backExtra?['cameFromMob'] == true,
                         },
-
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
-                        mobKey: widget.mobKey,
-                        settingsKey: widget.settingsKey,
-                        searchKey: widget.searchKey,
-                        titleKey: widget.titleKey,
+                        mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                        settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
+                        searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                        titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                        replace: true,
                       );
                     },
                   ),
@@ -2940,7 +3005,9 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                             logger.i(
                               '⏭️ Next Chapter tapped on ToolDetailScreen',
                             );
-
+                            // When in branch mode and on the last tool in the current
+                            //toolbag, tapping “Next Chapter Branch Mode” navigates to the next
+                            //toolbag (if one exists) and renders its items.
                             if (widget.detailRoute == DetailRoute.branch) {
                               final currentToolbag =
                                   widget.backExtra?['toolbag'] as String?;
@@ -3000,49 +3067,24 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 backDestination: '/tools/items',
                                 backExtra: {
                                   'toolbag': nextToolbag,
-                                  'branchIndex': widget.branchIndex,
                                   'cameFromMob':
                                       widget.backExtra?['cameFromMob'] == true,
-                                  'mobKey': widget.mobKey,
-                                  'settingsKey': widget.settingsKey,
-                                  'searchKey': widget.searchKey,
-                                  'titleKey': widget.titleKey,
-                                  'transitionKey': UniqueKey().toString(),
-                                  'detailRoute': widget.detailRoute,
-                                  'transitionType': TransitionType.slide,
-                                  'slideFrom': SlideDirection.right,
                                 },
 
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
-                                mobKey: widget.mobKey,
-                                settingsKey: widget.settingsKey,
-                                searchKey: widget.searchKey,
-                                titleKey: widget.titleKey,
+                                mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                                settingsKey: GlobalKey(
+                                  debugLabel: 'SettingsKey',
+                                ),
+                                searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                                titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                                replace: true,
                               );
 
-                              // TransitionManager.goToDetailScreen(
-                              //   context: context,
-                              //   screenType: renderItems.first.type,
-                              //   renderItems: renderItems,
-                              //   currentIndex: 0,
-                              //   branchIndex: widget.branchIndex,
-                              //   backDestination: '/tools/items',
-                              //   backExtra: {
-                              //     'toolbag': nextToolbag,
-                              //     'branchIndex': widget.branchIndex,
-                              //     'mobKey': widget.mobKey,
-                              //     'settingsKey': widget.settingsKey,
-                              //     'searchKey': widget.searchKey,
-                              //     'titleKey': widget.titleKey,
-                              //   },
-                              //   detailRoute: widget.detailRoute,
-                              //   direction: SlideDirection.right,
-                              //   mobKey: widget.mobKey,
-                              //   settingsKey: widget.settingsKey,
-                              //   searchKey: widget.searchKey,
-                              //   titleKey: widget.titleKey,
-                              // );
+                              // If in path mode, and the current tool is the last in
+                              // the chapter, the “Next Chapter Path Mode” button navigates to
+                              // the next chapter using PathRepositoryIndex.getNextChapter.
                             } else if (widget.detailRoute == DetailRoute.path) {
                               final currentChapterId =
                                   widget.backExtra?['chapterId'] as String?;
@@ -3119,10 +3161,13 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
-                                mobKey: widget.mobKey,
-                                settingsKey: widget.settingsKey,
-                                searchKey: widget.searchKey,
-                                titleKey: widget.titleKey,
+                                mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                                settingsKey: GlobalKey(
+                                  debugLabel: 'SettingsKey',
+                                ),
+                                searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                                titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                                replace: true,
                               );
                             }
                           },
@@ -3249,6 +3294,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
             settingsKey: widget.settingsKey,
             searchKey: widget.searchKey,
             titleKey: widget.titleKey,
+            replace: true,
           );
         });
       }
@@ -3430,6 +3476,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                         settingsKey: widget.settingsKey,
                         searchKey: widget.searchKey,
                         titleKey: widget.titleKey,
+                        replace: true,
                       );
                     },
                   ),
@@ -3591,6 +3638,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                 settingsKey: widget.settingsKey,
                                 searchKey: widget.searchKey,
                                 titleKey: widget.titleKey,
+                                replace: true,
                               );
                             } else if (widget.detailRoute == DetailRoute.path) {
                               final currentChapterId =
@@ -3668,6 +3716,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                 settingsKey: widget.settingsKey,
                                 searchKey: widget.searchKey,
                                 titleKey: widget.titleKey,
+                                replace: true,
                               );
                             }
                           },
@@ -5323,6 +5372,7 @@ import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -5410,29 +5460,27 @@ class PartItemScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final part = filteredParts[index];
-                final timestamp = DateTime.now().millisecondsSinceEpoch;
 
                 return ItemButton(
                   label: part.title,
                   onTap: () {
                     logger.i('🟥 Tapped part: ${part.id}');
-                    context.push(
-                      '/parts/detail',
-                      extra: {
-                        'renderItems': renderItems,
-                        'currentIndex': index,
-                        'branchIndex': 1,
-                        'backDestination': '/parts/items',
-                        'backExtra': {'zone': zone},
-                        'mobKey': GlobalKey(debugLabel: 'MOBKey'),
-                        'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
-                        'searchKey': GlobalKey(debugLabel: 'SearchKey'),
-                        'titleKey': GlobalKey(debugLabel: 'TitleKey'),
-                        'transitionKey': 'part_${part.id}_$timestamp',
-                        'detailRoute': DetailRoute.branch,
-                        'transitionType': TransitionType.slide,
-                        'slideFrom': SlideDirection.right,
-                      },
+                    TransitionManager.goToDetailScreen(
+                      context: context,
+                      screenType: renderItems[index].type,
+                      renderItems: renderItems,
+                      currentIndex: index,
+                      branchIndex: 1,
+                      backDestination: '/parts/items',
+                      backExtra: {'zone': zone},
+                      detailRoute: DetailRoute.branch,
+                      direction: SlideDirection.right,
+                      transitionType: TransitionType.slide,
+                      mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                      settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
+                      searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                      titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                      replace: false,
                     );
                   },
                 );
@@ -5678,6 +5726,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
           settingsKey: widget.settingsKey,
           searchKey: widget.searchKey,
           titleKey: widget.titleKey,
+          replace: true,
         );
       });
     }
@@ -5830,6 +5879,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                         settingsKey: widget.settingsKey,
                         searchKey: widget.searchKey,
                         titleKey: widget.titleKey,
+                        replace: true,
                       );
                     },
                   ),
@@ -5946,6 +5996,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                 settingsKey: widget.settingsKey,
                                 searchKey: widget.searchKey,
                                 titleKey: widget.titleKey,
+                                replace: true,
                               );
                             } else if (widget.detailRoute == DetailRoute.path) {
                               final currentChapterId =
@@ -6028,6 +6079,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                 settingsKey: widget.settingsKey,
                                 searchKey: widget.searchKey,
                                 titleKey: widget.titleKey,
+                                replace: true,
                               );
                             }
                           },
@@ -6336,6 +6388,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
           settingsKey: widget.settingsKey,
           searchKey: widget.searchKey,
           titleKey: widget.titleKey,
+          replace: true,
         );
       });
     }
@@ -6495,6 +6548,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                         settingsKey: widget.settingsKey,
                         searchKey: widget.searchKey,
                         titleKey: widget.titleKey,
+                        replace: true,
                       );
                     },
                   ),
@@ -6622,6 +6676,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                     settingsKey: widget.settingsKey,
                                     searchKey: widget.searchKey,
                                     titleKey: widget.titleKey,
+                                    replace: true,
                                   );
                                 } else if (widget.detailRoute ==
                                     DetailRoute.path) {
@@ -6707,6 +6762,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                     settingsKey: widget.settingsKey,
                                     searchKey: widget.searchKey,
                                     titleKey: widget.titleKey,
+                                    replace: true,
                                   );
                                 }
                               },
@@ -6738,6 +6794,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
 File: lib/screens/lessons/lesson_item_screen.dart
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -6825,40 +6882,28 @@ class LessonItemScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final lesson = lessons[index];
-                final timestamp = DateTime.now().millisecondsSinceEpoch;
 
                 return ItemButton(
                   label: lesson.title,
                   onTap: () {
                     logger.i('📘 Tapped lesson: ${lesson.id}');
-                    final transitionKey = 'lesson_${lesson.id}_$timestamp';
 
-                    context.push(
-                      '/lessons/detail',
-                      extra: {
-                        'renderItems': renderItems,
-                        'currentIndex': index,
-                        'branchIndex': 1,
-                        'detailRoute': DetailRoute.branch,
-                        'backDestination': '/lessons/items',
-                        'backExtra': {
-                          'module': module,
-                          'branchIndex': 1,
-                          'mobKey': mobKey,
-                          'settingsKey': settingsKey,
-                          'searchKey': searchKey,
-                          'titleKey': titleKey,
-                          'transitionKey':
-                              transitionKey, // ✅ Ensures LessonItemScreen can be matched on return
-                        },
-                        'transitionKey': transitionKey,
-                        'transitionType': TransitionType.slide,
-                        'slideFrom': SlideDirection.right,
-                        'mobKey': GlobalKey(debugLabel: 'MOBKey'),
-                        'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
-                        'searchKey': GlobalKey(debugLabel: 'SearchKey'),
-                        'titleKey': GlobalKey(debugLabel: 'TitleKey'),
-                      },
+                    TransitionManager.goToDetailScreen(
+                      context: context,
+                      screenType: renderItems[index].type,
+                      renderItems: renderItems,
+                      currentIndex: index,
+                      branchIndex: 1,
+                      backDestination: '/lessons/items',
+                      backExtra: {'module': module, 'branchIndex': 1},
+                      detailRoute: DetailRoute.branch,
+                      direction: SlideDirection.right,
+                      transitionType: TransitionType.slide,
+                      mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                      settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
+                      searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                      titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                      replace: false,
                     );
                   },
                 );

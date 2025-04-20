@@ -25,6 +25,7 @@ class TransitionManager {
     required GlobalKey settingsKey,
     required GlobalKey searchKey,
     required GlobalKey titleKey,
+    bool replace = false, // ✅ new optional flag
   }) {
     // ✅ Save resume point if navigating within path
     if (detailRoute == DetailRoute.path &&
@@ -41,6 +42,7 @@ class TransitionManager {
         );
       }
     }
+
     final route = _getRouteForScreenType(screenType);
     final transitionKey = UniqueKey().toString();
 
@@ -51,24 +53,27 @@ class TransitionManager {
       '→ backDestination: $backDestination | transitionKey: $transitionKey',
     );
 
-    context.go(
-      route,
-      extra: {
-        'renderItems': renderItems,
-        'currentIndex': currentIndex,
-        'branchIndex': branchIndex,
-        'backDestination': backDestination,
-        'backExtra': backExtra,
-        'detailRoute': detailRoute,
-        'transitionKey': transitionKey,
-        'slideFrom': direction,
-        'transitionType': transitionType,
-        'mobKey': mobKey,
-        'settingsKey': settingsKey,
-        'searchKey': searchKey,
-        'titleKey': titleKey,
-      },
-    );
+    final extra = {
+      'renderItems': renderItems,
+      'currentIndex': currentIndex,
+      'branchIndex': branchIndex,
+      'backDestination': backDestination,
+      'backExtra': backExtra,
+      'detailRoute': detailRoute,
+      'transitionKey': transitionKey,
+      'slideFrom': direction,
+      'transitionType': transitionType,
+      'mobKey': mobKey,
+      'settingsKey': settingsKey,
+      'searchKey': searchKey,
+      'titleKey': titleKey,
+    };
+
+    if (replace) {
+      context.go(route, extra: extra);
+    } else {
+      context.push(route, extra: extra);
+    }
   }
 
   static String _getRouteForScreenType(RenderItemType type) {

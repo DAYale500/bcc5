@@ -1,10 +1,11 @@
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/screens/emergency/mob_emergency_screen.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
@@ -37,26 +38,25 @@ class ToolItemScreen extends StatelessWidget {
 
     final content = _buildContent(context);
 
-    return cameFromMob
-        ? PopScope(
-          canPop: true,
-          onPopInvokedWithResult: (bool didPop, Object? result) {
-            if (!didPop) {
-              logger.i(
-                '🔙 System back triggered — returning to MOBEmergencyScreen',
-              );
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (_) => const MOBEmergencyScreen(),
-                ),
-              );
-            }
-          },
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (bool didPop, Object? result) {
+        if (didPop) return;
 
-          child: content,
-        )
-        : content;
+        if (cameFromMob) {
+          logger.i('🔙 System back → MOBEmergencyScreen');
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (_) => const MOBEmergencyScreen(),
+            ),
+          );
+        } else {
+          logger.w('⚠️ Back ignored — nothing to pop and no override');
+        }
+      },
+      child: content,
+    );
   }
 
   Widget _buildContent(BuildContext context) {
@@ -114,34 +114,30 @@ class ToolItemScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final tool = tools[index];
-                final timestamp = DateTime.now().millisecondsSinceEpoch;
-                final transitionKey = 'tool_${tool.id}_$timestamp';
 
                 return ItemButton(
                   label: tool.title,
                   onTap: () {
                     logger.i('🛠️ Tapped tool: ${tool.id}');
-                    context.push(
-                      '/tools/detail',
-                      extra: {
-                        'renderItems': renderItems,
-                        'currentIndex': index,
-                        'branchIndex': 3,
-                        'backDestination': '/tools/items',
-                        'backExtra': {
-                          'toolbag': toolbag,
-                          'cameFromMob': cameFromMob, // 🟩 propagate it forward
-                        },
-                        'mobKey': GlobalKey(debugLabel: 'MOBKey'),
-                        'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
-                        'searchKey': GlobalKey(debugLabel: 'SearchKey'),
-                        'titleKey': GlobalKey(debugLabel: 'TitleKey'),
-                        'transitionKey': transitionKey,
-                        'detailRoute': DetailRoute.branch,
-                        'transitionType': TransitionType.slide,
-                        'slideFrom': SlideDirection.right,
-                        'cameFromMob': cameFromMob, // 🟩 ✅ PRESERVE FLAG
+                    TransitionManager.goToDetailScreen(
+                      context: context,
+                      screenType: RenderItemType.tool,
+                      renderItems: renderItems,
+                      currentIndex: index,
+                      branchIndex: 3,
+                      backDestination: '/tools/items',
+                      backExtra: {
+                        'toolbag': toolbag,
+                        'cameFromMob': cameFromMob,
                       },
+                      detailRoute: DetailRoute.branch,
+                      direction: SlideDirection.right,
+                      transitionType: TransitionType.slide,
+                      mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                      settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
+                      searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                      titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                      replace: false, // 🛠️ Critical: preserve the stack
                     );
                   },
                 );

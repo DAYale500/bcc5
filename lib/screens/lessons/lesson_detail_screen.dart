@@ -80,6 +80,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
           settingsKey: widget.settingsKey,
           searchKey: widget.searchKey,
           titleKey: widget.titleKey,
+          replace: true,
         );
       });
     }
@@ -239,6 +240,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                         settingsKey: widget.settingsKey,
                         searchKey: widget.searchKey,
                         titleKey: widget.titleKey,
+                        replace: true,
                       );
                     },
                   ),
@@ -366,6 +368,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                     settingsKey: widget.settingsKey,
                                     searchKey: widget.searchKey,
                                     titleKey: widget.titleKey,
+                                    replace: true,
                                   );
                                 } else if (widget.detailRoute ==
                                     DetailRoute.path) {
@@ -451,6 +454,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                     settingsKey: widget.settingsKey,
                                     searchKey: widget.searchKey,
                                     titleKey: widget.titleKey,
+                                    replace: true,
                                   );
                                 }
                               },

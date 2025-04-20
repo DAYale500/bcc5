@@ -204,7 +204,7 @@ final appRouter = GoRouter(
       path: '/lessons/items',
       name: 'lesson-items',
       pageBuilder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
         final module = extras['module'] as String?;
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
@@ -213,6 +213,19 @@ final appRouter = GoRouter(
             TransitionType.instant;
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'MOBKey'); // ✅
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey'); // ✅
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey'); // ✅
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey'); // ✅
 
         if (module == null) {
           logger.e('❌ Missing module parameter for LessonItemScreen');
@@ -223,10 +236,10 @@ final appRouter = GoRouter(
             child: MainScaffold(
               branchIndex: 1,
               child: LessonModuleScreen(
-                mobKey: extras['mobKey'],
-                settingsKey: extras['settingsKey'],
-                searchKey: extras['searchKey'],
-                titleKey: extras['titleKey'],
+                mobKey: mobKey, // ✅
+                settingsKey: settingsKey, // ✅
+                searchKey: searchKey, // ✅
+                titleKey: titleKey, // ✅
               ),
             ),
           );
@@ -246,10 +259,10 @@ final appRouter = GoRouter(
             branchIndex: 1,
             child: LessonItemScreen(
               module: module,
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey, // ✅
+              settingsKey: settingsKey, // ✅
+              searchKey: searchKey, // ✅
+              titleKey: titleKey, // ✅
             ),
           ),
         );
@@ -353,7 +366,7 @@ final appRouter = GoRouter(
       path: '/parts/items',
       name: 'part-items',
       pageBuilder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
         final zone = extras['zone'] as String? ?? '';
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
@@ -362,6 +375,19 @@ final appRouter = GoRouter(
             TransitionType.instant;
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'MOBKey'); // ✅
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey'); // ✅
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey'); // ✅
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey'); // ✅
 
         logger.i(
           '🧩 Navigating to PartItemScreen for zone: $zone | detailRoute: $detailRoute',
@@ -377,10 +403,10 @@ final appRouter = GoRouter(
             branchIndex: 2,
             child: PartItemScreen(
               zone: zone,
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey, // ✅
+              settingsKey: settingsKey, // ✅
+              searchKey: searchKey, // ✅
+              titleKey: titleKey, // ✅
             ),
           ),
         );
@@ -472,7 +498,7 @@ final appRouter = GoRouter(
       path: '/tools/items',
       name: 'tool-items',
       pageBuilder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
         final toolbag = extras['toolbag'] as String? ?? '';
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
@@ -481,6 +507,19 @@ final appRouter = GoRouter(
             TransitionType.instant;
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'MOBKey'); // ✅
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey'); // ✅
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey'); // ✅
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey'); // ✅
 
         logger.i(
           '🛠️ Navigating to ToolItemScreen for toolbag: $toolbag | detailRoute: $detailRoute',
@@ -496,10 +535,10 @@ final appRouter = GoRouter(
             branchIndex: 3,
             child: ToolItemScreen(
               toolbag: toolbag,
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey, // ✅
+              settingsKey: settingsKey, // ✅
+              searchKey: searchKey, // ✅
+              titleKey: titleKey, // ✅
             ),
           ),
         );
@@ -518,6 +557,7 @@ final appRouter = GoRouter(
         final detailRoute = extras['detailRoute'] as DetailRoute;
         final transitionKey = extras['transitionKey'] as String;
 
+        // ✅ GlobalKey fallbacks
         final mobKey =
             extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
         final settingsKey =
@@ -529,19 +569,6 @@ final appRouter = GoRouter(
         final titleKey =
             extras['titleKey'] as GlobalKey? ??
             GlobalKey(debugLabel: 'TitleKey');
-
-        logger.i('📦 /tools/detail Route Triggered');
-        logger.i(' - renderItems: ${renderItems.length}');
-        logger.i(' - currentIndex: $currentIndex');
-        logger.i(' - branchIndex: $branchIndex');
-        logger.i(' - backDestination: $backDestination');
-        logger.i(' - backExtra: $backExtra');
-        logger.i(' - detailRoute: $detailRoute');
-        logger.i(' - transitionKey: $transitionKey');
-        logger.i(' - mobKey: $mobKey');
-        logger.i(' - settingsKey: $settingsKey');
-        logger.i(' - searchKey: $searchKey');
-        logger.i(' - titleKey: $titleKey');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -615,7 +642,7 @@ final appRouter = GoRouter(
       path: '/flashcards/items',
       name: 'flashcardItems',
       pageBuilder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
         final category = extras['category'] as String? ?? 'all';
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
@@ -624,6 +651,19 @@ final appRouter = GoRouter(
             TransitionType.instant;
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+        final mobKey =
+            extras['mobKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'MOBKey'); // ✅
+        final settingsKey =
+            extras['settingsKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SettingsKey'); // ✅
+        final searchKey =
+            extras['searchKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'SearchKey'); // ✅
+        final titleKey =
+            extras['titleKey'] as GlobalKey? ??
+            GlobalKey(debugLabel: 'TitleKey'); // ✅
 
         logger.i(
           '📇 Navigating to FlashcardItemScreen for category: $category | detailRoute: $detailRoute',
@@ -639,10 +679,10 @@ final appRouter = GoRouter(
             branchIndex: 4,
             child: FlashcardItemScreen(
               category: category,
-              mobKey: extras['mobKey'],
-              settingsKey: extras['settingsKey'],
-              searchKey: extras['searchKey'],
-              titleKey: extras['titleKey'],
+              mobKey: mobKey, // ✅
+              settingsKey: settingsKey, // ✅
+              searchKey: searchKey, // ✅
+              titleKey: titleKey, // ✅
             ),
           ),
         );

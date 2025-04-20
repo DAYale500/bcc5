@@ -1,10 +1,11 @@
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/group_button.dart';
@@ -98,20 +99,40 @@ class ToolBagScreen extends StatelessWidget {
                     label: toolbag.toTitleCase(),
                     onTap: () {
                       logger.i('🛠️ Selected toolbag: $toolbag');
-                      final timestamp = DateTime.now().millisecondsSinceEpoch;
-                      context.push(
-                        '/tools/items',
-                        extra: {
-                          'toolbag': toolbag,
-                          'slideFrom': SlideDirection.right,
-                          'transitionType': TransitionType.slide,
-                          'transitionKey': 'tool_items_${toolbag}_$timestamp',
-                          'detailRoute': DetailRoute.branch,
-                          'mobKey': mobKey,
-                          'settingsKey': settingsKey,
-                          'searchKey': searchKey,
-                          'titleKey': titleKey,
-                        },
+
+                      final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+                      final renderItems = buildRenderItems(
+                        ids: tools.map((tool) => tool.id).toList(),
+                      );
+
+                      if (renderItems.isEmpty) {
+                        logger.w(
+                          '⚠️ No tools found in selected toolbag: $toolbag',
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('No tools found in this toolbag.'),
+                          ),
+                        );
+                        return;
+                      }
+
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: RenderItemType.tool,
+                        renderItems: renderItems,
+                        currentIndex: 0,
+                        branchIndex: 3,
+                        backDestination: '/tools',
+                        backExtra: {'toolbag': toolbag},
+                        detailRoute: DetailRoute.branch,
+                        direction: SlideDirection.right,
+                        transitionType: TransitionType.slide,
+                        mobKey: mobKey,
+                        settingsKey: settingsKey,
+                        searchKey: searchKey,
+                        titleKey: titleKey,
+                        replace: false,
                       );
                     },
                   ),

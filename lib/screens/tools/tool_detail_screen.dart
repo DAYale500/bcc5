@@ -18,6 +18,7 @@ import 'package:bcc5/utils/transition_manager.dart';
 
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:go_router/go_router.dart';
 
 class ToolDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -77,6 +78,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
           settingsKey: widget.settingsKey,
           searchKey: widget.searchKey,
           titleKey: widget.titleKey,
+          replace: true, // ✅ ensures redirect doesn’t stack
         );
       });
     }
@@ -98,23 +100,35 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
       backDestination: widget.backDestination,
       backExtra: {
         ...?widget.backExtra,
+        'toolbag': widget.backExtra?['toolbag'],
+        'cameFromMob': widget.backExtra?['cameFromMob'] == true,
         'transitionKey': UniqueKey().toString(),
         'slideFrom': SlideDirection.none,
         'transitionType': TransitionType.fadeScale,
       },
+
+      // backExtra: {
+      //   ...?widget.backExtra,
+      //   'transitionKey': UniqueKey().toString(),
+      //   'slideFrom': SlideDirection.none,
+      //   'transitionType': TransitionType.fadeScale,
+      // },
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale,
-      mobKey: widget.mobKey,
-      settingsKey: widget.settingsKey,
-      searchKey: widget.searchKey,
-      titleKey: widget.titleKey,
+      mobKey: GlobalKey(debugLabel: 'MOBKey'),
+      settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
+      searchKey: GlobalKey(debugLabel: 'SearchKey'),
+      titleKey: GlobalKey(debugLabel: 'TitleKey'),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final item = widget.renderItems[currentIndex];
+    logger.i(
+      'ToolDetailScreen GlobalKeys → mob: ${widget.mobKey}, settings: ${widget.settingsKey}, search: ${widget.searchKey}, title: ${widget.titleKey}',
+    );
 
     if (item.type != RenderItemType.tool) {
       return const Scaffold(body: SizedBox());
@@ -165,7 +179,13 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                 titleKey: widget.titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
-                  Navigator.of(context).pop();
+
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  } else {
+                    logger.w('⚠️ No pages left to pop. Redirecting manually.');
+                    context.go(widget.backDestination, extra: widget.backExtra);
+                  }
                 },
               ),
               if (widget.detailRoute == DetailRoute.path)
@@ -220,17 +240,16 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                         backDestination: '/tools/items',
                         backExtra: {
                           'toolbag': selectedToolbagId,
-                          'branchIndex': widget.branchIndex,
                           'cameFromMob':
                               widget.backExtra?['cameFromMob'] == true,
                         },
-
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
                         mobKey: GlobalKey(debugLabel: 'MOBKey'),
                         settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
                         searchKey: GlobalKey(debugLabel: 'SearchKey'),
                         titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                        replace: true,
                       );
                     },
                   ),
@@ -276,7 +295,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                               '⏭️ Next Chapter tapped on ToolDetailScreen',
                             );
                             // When in branch mode and on the last tool in the current
-                            //toolbag, tapping “Next Chapter” navigates to the next
+                            //toolbag, tapping “Next Chapter Branch Mode” navigates to the next
                             //toolbag (if one exists) and renders its items.
                             if (widget.detailRoute == DetailRoute.branch) {
                               final currentToolbag =
@@ -337,7 +356,6 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 backDestination: '/tools/items',
                                 backExtra: {
                                   'toolbag': nextToolbag,
-                                  'branchIndex': widget.branchIndex,
                                   'cameFromMob':
                                       widget.backExtra?['cameFromMob'] == true,
                                 },
@@ -350,10 +368,11 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 ),
                                 searchKey: GlobalKey(debugLabel: 'SearchKey'),
                                 titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                                replace: true,
                               );
 
                               // If in path mode, and the current tool is the last in
-                              // the chapter, the “Next Chapter” button navigates to
+                              // the chapter, the “Next Chapter Path Mode” button navigates to
                               // the next chapter using PathRepositoryIndex.getNextChapter.
                             } else if (widget.detailRoute == DetailRoute.path) {
                               final currentChapterId =
@@ -437,6 +456,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 ),
                                 searchKey: GlobalKey(debugLabel: 'SearchKey'),
                                 titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                                replace: true,
                               );
                             }
                           },

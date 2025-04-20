@@ -2,6 +2,7 @@ import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -89,29 +90,27 @@ class PartItemScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final part = filteredParts[index];
-                final timestamp = DateTime.now().millisecondsSinceEpoch;
 
                 return ItemButton(
                   label: part.title,
                   onTap: () {
                     logger.i('🟥 Tapped part: ${part.id}');
-                    context.push(
-                      '/parts/detail',
-                      extra: {
-                        'renderItems': renderItems,
-                        'currentIndex': index,
-                        'branchIndex': 1,
-                        'backDestination': '/parts/items',
-                        'backExtra': {'zone': zone},
-                        'mobKey': GlobalKey(debugLabel: 'MOBKey'),
-                        'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
-                        'searchKey': GlobalKey(debugLabel: 'SearchKey'),
-                        'titleKey': GlobalKey(debugLabel: 'TitleKey'),
-                        'transitionKey': 'part_${part.id}_$timestamp',
-                        'detailRoute': DetailRoute.branch,
-                        'transitionType': TransitionType.slide,
-                        'slideFrom': SlideDirection.right,
-                      },
+                    TransitionManager.goToDetailScreen(
+                      context: context,
+                      screenType: renderItems[index].type,
+                      renderItems: renderItems,
+                      currentIndex: index,
+                      branchIndex: 1,
+                      backDestination: '/parts/items',
+                      backExtra: {'zone': zone},
+                      detailRoute: DetailRoute.branch,
+                      direction: SlideDirection.right,
+                      transitionType: TransitionType.slide,
+                      mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                      settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
+                      searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                      titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                      replace: false,
                     );
                   },
                 );

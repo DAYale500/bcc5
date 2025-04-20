@@ -79,6 +79,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
           settingsKey: widget.settingsKey,
           searchKey: widget.searchKey,
           titleKey: widget.titleKey,
+          replace: true,
         );
       });
     }
@@ -231,6 +232,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                         settingsKey: widget.settingsKey,
                         searchKey: widget.searchKey,
                         titleKey: widget.titleKey,
+                        replace: true,
                       );
                     },
                   ),
@@ -347,6 +349,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                 settingsKey: widget.settingsKey,
                                 searchKey: widget.searchKey,
                                 titleKey: widget.titleKey,
+                                replace: true,
                               );
                             } else if (widget.detailRoute == DetailRoute.path) {
                               final currentChapterId =
@@ -429,6 +432,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                 settingsKey: widget.settingsKey,
                                 searchKey: widget.searchKey,
                                 titleKey: widget.titleKey,
+                                replace: true,
                               );
                             }
                           },

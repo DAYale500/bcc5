@@ -1,5 +1,6 @@
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -87,40 +88,28 @@ class LessonItemScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final lesson = lessons[index];
-                final timestamp = DateTime.now().millisecondsSinceEpoch;
 
                 return ItemButton(
                   label: lesson.title,
                   onTap: () {
                     logger.i('📘 Tapped lesson: ${lesson.id}');
-                    final transitionKey = 'lesson_${lesson.id}_$timestamp';
 
-                    context.push(
-                      '/lessons/detail',
-                      extra: {
-                        'renderItems': renderItems,
-                        'currentIndex': index,
-                        'branchIndex': 1,
-                        'detailRoute': DetailRoute.branch,
-                        'backDestination': '/lessons/items',
-                        'backExtra': {
-                          'module': module,
-                          'branchIndex': 1,
-                          'mobKey': mobKey,
-                          'settingsKey': settingsKey,
-                          'searchKey': searchKey,
-                          'titleKey': titleKey,
-                          'transitionKey':
-                              transitionKey, // ✅ Ensures LessonItemScreen can be matched on return
-                        },
-                        'transitionKey': transitionKey,
-                        'transitionType': TransitionType.slide,
-                        'slideFrom': SlideDirection.right,
-                        'mobKey': GlobalKey(debugLabel: 'MOBKey'),
-                        'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
-                        'searchKey': GlobalKey(debugLabel: 'SearchKey'),
-                        'titleKey': GlobalKey(debugLabel: 'TitleKey'),
-                      },
+                    TransitionManager.goToDetailScreen(
+                      context: context,
+                      screenType: renderItems[index].type,
+                      renderItems: renderItems,
+                      currentIndex: index,
+                      branchIndex: 1,
+                      backDestination: '/lessons/items',
+                      backExtra: {'module': module, 'branchIndex': 1},
+                      detailRoute: DetailRoute.branch,
+                      direction: SlideDirection.right,
+                      transitionType: TransitionType.slide,
+                      mobKey: GlobalKey(debugLabel: 'MOBKey'),
+                      settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
+                      searchKey: GlobalKey(debugLabel: 'SearchKey'),
+                      titleKey: GlobalKey(debugLabel: 'TitleKey'),
+                      replace: false,
                     );
                   },
                 );
