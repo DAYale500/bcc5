@@ -125,6 +125,7 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
                       backExtra: {
                         'toolbag': widget.toolbag,
                         'cameFromMob': widget.cameFromMob,
+                        'fromNext': true, // 👈 explicit
                       },
                       detailRoute: DetailRoute.branch,
                       direction: SlideDirection.right,

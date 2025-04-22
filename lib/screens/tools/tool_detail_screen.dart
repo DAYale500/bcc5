@@ -101,6 +101,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale,
+      replace: true, // ✅ this is the missing piece
     );
   }
 
@@ -166,7 +167,20 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                     Navigator.of(context).pop();
                   } else {
                     logger.w('⚠️ No pages left to pop. Redirecting manually.');
-                    context.go(widget.backDestination, extra: widget.backExtra);
+
+                    final fromNextButton =
+                        widget.backExtra?['fromNext'] == true;
+                    if (fromNextButton) {
+                      logger.i(
+                        '🧼 Popping back from next-button stack → clearing to /tools',
+                      );
+                      context.go('/tools'); // Hard reset to top
+                    } else {
+                      context.go(
+                        widget.backDestination,
+                        extra: widget.backExtra,
+                      );
+                    }
                   }
                 },
               ),
@@ -218,7 +232,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                       );
 
                       // ✅ Step 1: Push to ToolItemScreen
-                      context.push(
+                      context.go(
                         '/tools/items',
                         extra: {
                           'toolbag': selectedToolbagId,
