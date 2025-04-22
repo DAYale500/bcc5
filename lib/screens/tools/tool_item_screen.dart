@@ -13,37 +13,35 @@ import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 
-class ToolItemScreen extends StatelessWidget {
+class ToolItemScreen extends StatefulWidget {
   final String toolbag;
   final bool cameFromMob;
 
   const ToolItemScreen({
     super.key,
     required this.toolbag,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
     this.cameFromMob = false,
   });
 
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
+  @override
+  State<ToolItemScreen> createState() => _ToolItemScreenState();
+}
+
+class _ToolItemScreenState extends State<ToolItemScreen> {
+  final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
+  final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+  final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
+  final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey');
 
   @override
   Widget build(BuildContext context) {
-    logger.i('🛠️ ToolItemScreen loaded for toolbag: $toolbag');
-
-    final content = _buildContent(context);
+    logger.i('🛠️ ToolItemScreen loaded for toolbag: ${widget.toolbag}');
 
     return PopScope(
       canPop: true,
-      onPopInvokedWithResult: (bool didPop, Object? result) {
+      onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
-
-        if (cameFromMob) {
+        if (widget.cameFromMob) {
           logger.i('🔙 System back → MOBEmergencyScreen');
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
@@ -55,15 +53,15 @@ class ToolItemScreen extends StatelessWidget {
           logger.w('⚠️ Back ignored — nothing to pop and no override');
         }
       },
-      child: content,
+      child: _buildContent(context),
     );
   }
 
   Widget _buildContent(BuildContext context) {
-    final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+    final tools = ToolRepositoryIndex.getToolsForBag(widget.toolbag);
     final toolIds = tools.map((t) => t.id).toList();
     final renderItems = buildRenderItems(ids: toolIds);
-    final toolbagTitle = toolbag.toTitleCase();
+    final toolbagTitle = widget.toolbag.toTitleCase();
 
     return Column(
       children: [
@@ -77,7 +75,7 @@ class ToolItemScreen extends StatelessWidget {
           searchKey: searchKey,
           titleKey: titleKey,
           onBack: () {
-            if (cameFromMob) {
+            if (widget.cameFromMob) {
               logger.i('🔙 Back to MOBEmergencyScreen (cameFromMob = true)');
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
@@ -86,7 +84,6 @@ class ToolItemScreen extends StatelessWidget {
                 ),
               );
             } else if (Navigator.of(context).canPop()) {
-              // ✅ Check before popping
               logger.i('🔙 Back to previous screen via Navigator');
               Navigator.of(context).pop();
             } else {
@@ -96,7 +93,7 @@ class ToolItemScreen extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          '$toolbagTitle:\nWhich ${toolbagTitle.replaceFirst(RegExp(r's\$'), '')} would you like?',
+          '$toolbagTitle:\nWhich ${toolbagTitle.replaceFirst(RegExp(r's$'), '')} would you like?',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),
@@ -114,7 +111,6 @@ class ToolItemScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final tool = tools[index];
-
                 return ItemButton(
                   label: tool.title,
                   onTap: () {
@@ -127,17 +123,13 @@ class ToolItemScreen extends StatelessWidget {
                       branchIndex: 3,
                       backDestination: '/tools/items',
                       backExtra: {
-                        'toolbag': toolbag,
-                        'cameFromMob': cameFromMob,
+                        'toolbag': widget.toolbag,
+                        'cameFromMob': widget.cameFromMob,
                       },
                       detailRoute: DetailRoute.branch,
                       direction: SlideDirection.right,
                       transitionType: TransitionType.slide,
-                      mobKey: GlobalKey(debugLabel: 'MOBKey'),
-                      settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
-                      searchKey: GlobalKey(debugLabel: 'SearchKey'),
-                      titleKey: GlobalKey(debugLabel: 'TitleKey'),
-                      replace: false, // 🛠️ Critical: preserve the stack
+                      replace: false,
                     );
                   },
                 );

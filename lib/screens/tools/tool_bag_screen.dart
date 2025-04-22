@@ -13,18 +13,12 @@ import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 
 class ToolBagScreen extends StatelessWidget {
-  const ToolBagScreen({
-    super.key,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
-  });
+  ToolBagScreen({super.key});
 
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
+  final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
+  final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+  final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
+  final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey');
 
   static const double appBarOffset = 80.0;
 
@@ -36,15 +30,6 @@ class ToolBagScreen extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
-        // Background (optional: can add if needed)
-        // Opacity(
-        //   opacity: 0.2,
-        //   child: Image.asset(
-        //     'assets/images/some_background.png',
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
-
         // AppBar
         Positioned(
           top: 0,
@@ -128,11 +113,6 @@ class ToolBagScreen extends StatelessWidget {
                         detailRoute: DetailRoute.branch,
                         direction: SlideDirection.right,
                         transitionType: TransitionType.slide,
-                        mobKey: mobKey,
-                        settingsKey: settingsKey,
-                        searchKey: searchKey,
-                        titleKey: titleKey,
-                        replace: false,
                       );
                     },
                   ),

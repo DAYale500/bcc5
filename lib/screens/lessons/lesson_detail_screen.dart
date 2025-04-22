@@ -16,7 +16,6 @@ import 'package:bcc5/widgets/content_block_renderer.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/transition_manager.dart';
-import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/widgets/group_picker_dropdown.dart';
 
 class LessonDetailScreen extends StatefulWidget {
@@ -37,16 +36,7 @@ class LessonDetailScreen extends StatefulWidget {
     required this.backExtra,
     required this.detailRoute,
     required this.transitionKey,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
   });
-
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
 
   @override
   State<LessonDetailScreen> createState() => _LessonDetailScreenState();
@@ -54,6 +44,13 @@ class LessonDetailScreen extends StatefulWidget {
 
 class _LessonDetailScreenState extends State<LessonDetailScreen> {
   late int currentIndex;
+
+  // 🔐 Local GlobalKeys preserved for onboarding tour targeting
+  // Avoid relying on internal AppBar key generation in this screen
+  final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
+  final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+  final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
+  final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey');
 
   @override
   void initState() {
@@ -76,10 +73,6 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
           backExtra: widget.backExtra,
           detailRoute: widget.detailRoute,
           direction: SlideDirection.none,
-          mobKey: widget.mobKey,
-          settingsKey: widget.settingsKey,
-          searchKey: widget.searchKey,
-          titleKey: widget.titleKey,
           replace: true,
         );
       });
@@ -103,11 +96,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
       backExtra: widget.backExtra,
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
-      transitionType: TransitionType.fadeScale, // ✅ NEW
-      mobKey: widget.mobKey,
-      settingsKey: widget.settingsKey,
-      searchKey: widget.searchKey,
-      titleKey: widget.titleKey,
+      transitionType: TransitionType.fadeScale,
     );
   }
 
@@ -118,8 +107,8 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     if (item.type != RenderItemType.lesson) {
       return const Scaffold(body: SizedBox());
     }
-    const moduleTitle = 'Courses';
 
+    const moduleTitle = 'Courses';
     final lessonTitle = item.title;
 
     logger.i('📘 LessonDetailScreen: $lessonTitle');
@@ -133,13 +122,102 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     );
   }
 
+  Widget _buildNextModuleButton() {
+    final currentModuleId = widget.backExtra?['module'] as String?;
+    if (currentModuleId == null) {
+      logger.w('⚠️ No module ID found in backExtra');
+      return const SizedBox.shrink();
+    }
+
+    final nextModuleId = LessonRepositoryIndex.getNextModule(currentModuleId);
+
+    return ElevatedButton(
+      onPressed: () {
+        logger.i('⏭️ Next Module tapped on LessonDetailScreen');
+
+        if (nextModuleId == null) {
+          logger.i('⛔ No more modules after $currentModuleId');
+          showModalBottomSheet(
+            context: context,
+            showDragHandle: true,
+            builder:
+                (_) => Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        '🎉 You’ve completed all modules!',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 12),
+                      const Text(
+                        'Great job making it through the entire course. You can review modules, switch to another branch, or return to the main course list.',
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          context.go('/lessons');
+                        },
+                        style: AppTheme.navigationButton,
+                        child: const Text('Back to Courses'),
+                      ),
+                    ],
+                  ),
+                ),
+          );
+          return;
+        }
+
+        final lessonItems = LessonRepositoryIndex.getLessonsForModule(
+          nextModuleId,
+        );
+        final renderItems = buildRenderItems(
+          ids: lessonItems.map((l) => l.id).toList(),
+        );
+
+        if (renderItems.isEmpty) {
+          logger.w('⚠️ Next module has no renderable items');
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Next module has no items.')),
+          );
+          return;
+        }
+
+        TransitionManager.goToDetailScreen(
+          context: context,
+          screenType: RenderItemType.lesson,
+          renderItems: renderItems,
+          currentIndex: 0,
+          branchIndex: widget.branchIndex,
+          backDestination: '/lessons/items',
+          backExtra: {
+            'module': nextModuleId,
+            'branchIndex': widget.branchIndex,
+          },
+          detailRoute: widget.detailRoute,
+          direction: SlideDirection.right,
+        );
+      },
+      style: AppTheme.navigationButton,
+      child: const Text('Next Module'),
+    );
+  }
+
   Widget _buildScaffold(
     RenderItem item,
     String moduleTitle,
     String lessonTitle,
   ) {
-    final subtitleText = lessonTitle;
-
     return Scaffold(
       key: ValueKey(widget.transitionKey),
       body: Stack(
@@ -159,10 +237,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
-                mobKey: widget.mobKey,
-                settingsKey: widget.settingsKey,
-                searchKey: widget.searchKey,
-                titleKey: widget.titleKey,
+                mobKey: mobKey,
+                settingsKey: settingsKey,
+                searchKey: searchKey,
+                titleKey: titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(
@@ -176,6 +254,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   );
                 },
               ),
+
               if (widget.detailRoute == DetailRoute.path)
                 LearningPathProgressBar(
                   pathName: widget.backExtra?['pathName'] ?? '',
@@ -205,12 +284,11 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                         '🔄 Module switched via dropdown → $selectedModuleId',
                       );
 
-                      final lessons = LessonRepositoryIndex.getLessonsForModule(
-                        selectedModuleId,
-                      );
-
                       final renderItems = buildRenderItems(
-                        ids: lessons.map((l) => l.id).toList(),
+                        ids:
+                            LessonRepositoryIndex.getLessonsForModule(
+                              selectedModuleId,
+                            ).map((l) => l.id).toList(),
                       );
 
                       if (renderItems.isEmpty) {
@@ -236,21 +314,16 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                         },
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
-                        mobKey: widget.mobKey,
-                        settingsKey: widget.settingsKey,
-                        searchKey: widget.searchKey,
-                        titleKey: widget.titleKey,
                         replace: true,
                       );
                     },
                   ),
                 ),
 
-              // Then REPLACE the existing `Padding(...Text(...))` block with this:
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(
-                  subtitleText,
+                  lessonTitle,
                   style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
                     color: AppTheme.primaryBlue,
                   ),
@@ -267,204 +340,24 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  NavigationButtons(
-                    isPreviousEnabled: currentIndex > 0,
-                    isNextEnabled: currentIndex < widget.renderItems.length - 1,
-                    onPrevious: () {
-                      logger.i('⬅️ Previous tapped on LessonDetailScreen');
-                      _navigateTo(currentIndex - 1);
-                    },
-                    onNext: () {
-                      if (currentIndex < widget.renderItems.length - 1) {
-                        logger.i('➡️ Next tapped on LessonDetailScreen');
-                        _navigateTo(currentIndex + 1);
-                      }
-                    },
-                    customNextButton:
-                        (currentIndex == widget.renderItems.length - 1)
-                            ? ElevatedButton(
-                              onPressed: () {
-                                logger.i(
-                                  '⏭️ Next Chapter tapped on LessonDetailScreen',
-                                );
 
-                                if (widget.detailRoute == DetailRoute.branch) {
-                                  final currentModuleId =
-                                      widget.backExtra?['module'] as String?;
-                                  if (currentModuleId == null) {
-                                    logger.w(
-                                      '⚠️ No module ID found in backExtra',
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Cannot find next module.',
-                                        ),
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  final nextModuleId =
-                                      LessonRepositoryIndex.getNextModule(
-                                        currentModuleId,
-                                      );
-
-                                  if (nextModuleId == null) {
-                                    logger.i(
-                                      '⛔ No more modules after $currentModuleId',
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'You’ve reached the final module.',
-                                        ),
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  final renderItems = buildRenderItems(
-                                    ids:
-                                        LessonRepositoryIndex.getLessonsForModule(
-                                          nextModuleId,
-                                        ).map((l) => l.id).toList(),
-                                  );
-
-                                  if (renderItems.isEmpty) {
-                                    logger.w(
-                                      '⚠️ Next module has no renderable items',
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Next module has no items.',
-                                        ),
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  TransitionManager.goToDetailScreen(
-                                    context: context,
-                                    screenType: renderItems.first.type,
-                                    renderItems: renderItems,
-                                    currentIndex: 0,
-                                    branchIndex: widget.branchIndex,
-                                    backDestination: '/lessons/items',
-                                    backExtra: {
-                                      'module': nextModuleId,
-                                      'branchIndex': widget.branchIndex,
-                                      'mobKey': widget.mobKey,
-                                      'settingsKey': widget.settingsKey,
-                                      'searchKey': widget.searchKey,
-                                      'titleKey': widget.titleKey,
-                                    },
-                                    detailRoute: widget.detailRoute,
-                                    direction: SlideDirection.right,
-                                    mobKey: widget.mobKey,
-                                    settingsKey: widget.settingsKey,
-                                    searchKey: widget.searchKey,
-                                    titleKey: widget.titleKey,
-                                    replace: true,
-                                  );
-                                } else if (widget.detailRoute ==
-                                    DetailRoute.path) {
-                                  final currentChapterId =
-                                      widget.backExtra?['chapterId'] as String?;
-                                  final pathName =
-                                      widget.backExtra?['pathName'] as String?;
-
-                                  if (currentChapterId == null ||
-                                      pathName == null) {
-                                    logger.w(
-                                      '⚠️ Missing path context in backExtra',
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('No path context found.'),
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  final nextChapter =
-                                      PathRepositoryIndex.getNextChapter(
-                                        pathName,
-                                        currentChapterId,
-                                      );
-
-                                  if (nextChapter == null) {
-                                    logger.i(
-                                      '⛔ No next chapter in $pathName after $currentChapterId',
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'You’ve reached the final chapter.',
-                                        ),
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  final renderItems = buildRenderItems(
-                                    ids:
-                                        nextChapter.items
-                                            .map((item) => item.pathItemId)
-                                            .toList(),
-                                  );
-
-                                  if (renderItems.isEmpty) {
-                                    logger.w(
-                                      '⚠️ Next chapter has no renderable items',
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                          'Next chapter has no items.',
-                                        ),
-                                      ),
-                                    );
-                                    return;
-                                  }
-
-                                  TransitionManager.goToDetailScreen(
-                                    context: context,
-                                    screenType: renderItems.first.type,
-                                    renderItems: renderItems,
-                                    currentIndex: 0,
-                                    branchIndex: widget.branchIndex,
-                                    backDestination:
-                                        '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                                    backExtra: {
-                                      'chapterId': nextChapter.id,
-                                      'pathName': pathName,
-                                      'branchIndex': widget.branchIndex,
-                                      'mobKey': widget.mobKey,
-                                      'settingsKey': widget.settingsKey,
-                                      'searchKey': widget.searchKey,
-                                      'titleKey': widget.titleKey,
-                                    },
-                                    detailRoute: widget.detailRoute,
-                                    direction: SlideDirection.right,
-                                    mobKey: widget.mobKey,
-                                    settingsKey: widget.settingsKey,
-                                    searchKey: widget.searchKey,
-                                    titleKey: widget.titleKey,
-                                    replace: true,
-                                  );
-                                }
-                              },
-
-                              style: AppTheme.navigationButton,
-                              child: const Text('Next Chapter'),
-                            )
-                            : null,
-                  ),
-                ],
+              NavigationButtons(
+                isPreviousEnabled: currentIndex > 0,
+                isNextEnabled: currentIndex < widget.renderItems.length - 1,
+                onPrevious: () {
+                  logger.i('⬅️ Previous tapped on LessonDetailScreen');
+                  _navigateTo(currentIndex - 1);
+                },
+                onNext: () {
+                  if (currentIndex < widget.renderItems.length - 1) {
+                    logger.i('➡️ Next tapped on LessonDetailScreen');
+                    _navigateTo(currentIndex + 1);
+                  }
+                },
+                customNextButton:
+                    (currentIndex == widget.renderItems.length - 1)
+                        ? _buildNextModuleButton()
+                        : null,
               ),
             ],
           ),

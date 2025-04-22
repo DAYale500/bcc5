@@ -8,18 +8,13 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
 class PartZoneScreen extends StatelessWidget {
-  const PartZoneScreen({
-    super.key,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
-  });
+  PartZoneScreen({super.key});
 
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
+  // ✅ Internal GlobalKeys (no longer passed via constructor)
+  final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
+  final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+  final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
+  final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey');
 
   final List<String> zones = const [
     'Sails',
@@ -82,7 +77,7 @@ class PartZoneScreen extends StatelessWidget {
           ),
         ),
 
-        // 🧭 Screen Instruction: "Choose a Zone" with background box
+        // 🧭 Screen Instruction
         Positioned(
           top: appBarOffset + 32,
           left: 32,
@@ -106,7 +101,7 @@ class PartZoneScreen extends StatelessWidget {
 
         // 🧾 Zone Legend Box
         Positioned(
-          top: appBarOffset + 120, // spacing under title
+          top: appBarOffset + 120,
           left: 32,
           right: 32,
           child: Container(
@@ -116,17 +111,14 @@ class PartZoneScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.center, // 👈 changed from start to center
+              crossAxisAlignment: CrossAxisAlignment.center,
               children:
                   zones.map((zone) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(vertical: 2),
                       child: Text(
                         zoneDescriptions[zone]!,
-                        textAlign:
-                            TextAlign
-                                .center, // 👈 ensures multiline wraps stay centered
+                        textAlign: TextAlign.center,
                         style: AppTheme.textTheme.bodyLarge?.copyWith(
                           fontStyle: FontStyle.italic,
                         ),
@@ -137,7 +129,7 @@ class PartZoneScreen extends StatelessWidget {
           ),
         ),
 
-        // 📍 Positioned Buttons
+        // 📍 Positioned Zone Buttons
         ...zones.map((zone) {
           final offset = zonePositions[zone]!;
           final left = offset.dx * screenSize.width;
@@ -162,6 +154,7 @@ class PartZoneScreen extends StatelessWidget {
               onPressed: () {
                 logger.i('🟦 Tapped zone: $zone');
                 final timestamp = DateTime.now().millisecondsSinceEpoch;
+
                 context.push(
                   '/parts/items',
                   extra: {
@@ -171,14 +164,10 @@ class PartZoneScreen extends StatelessWidget {
                     'slideFrom': SlideDirection.right,
                     'transitionType': TransitionType.slide,
                     'detailRoute': DetailRoute.branch,
-                    'mobKey': mobKey,
-                    'settingsKey': settingsKey,
-                    'searchKey': searchKey,
-                    'titleKey': titleKey,
+                    // 🚫 No GlobalKeys passed anymore
                   },
                 );
               },
-
               child: Text(zone, style: const TextStyle(fontSize: 15)),
             ),
           );

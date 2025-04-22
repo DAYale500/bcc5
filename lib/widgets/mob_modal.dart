@@ -3,7 +3,6 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:bcc5/utils/location_helper.dart';
-// import 'package:bcc5/screens/emergency/mob_emergency_screen.dart';
 
 Future<void> showMOBModal(BuildContext context) async {
   final localContext = context;
@@ -21,6 +20,8 @@ Future<void> showMOBModal(BuildContext context) async {
   // ✅ SAFELY use context after await
   if (!localContext.mounted) return;
 
+  // ⚠️ Navigates away from the modal — do not pop the dialog
+  // Back button will return here; ensure app stack is preserved.
   Navigator.of(context).push(
     MaterialPageRoute(
       fullscreenDialog: true,

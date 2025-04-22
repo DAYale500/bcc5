@@ -11,18 +11,7 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
 class FlashcardCategoryScreen extends StatelessWidget {
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
-
-  const FlashcardCategoryScreen({
-    super.key,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
-  });
+  const FlashcardCategoryScreen({super.key});
 
   static const double appBarOffset = 80.0;
 
@@ -37,9 +26,16 @@ class FlashcardCategoryScreen extends StatelessWidget {
     ];
     logger.i('📇 Sorted flashcard categories: $sorted');
 
+    // 🔑 Internally managed GlobalKeys
+    final mobKey = GlobalKey(debugLabel: 'MOBKey');
+    final settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+    final searchKey = GlobalKey(debugLabel: 'SearchKey');
+    final titleKey = GlobalKey(debugLabel: 'TitleKey');
+
     return Stack(
       fit: StackFit.expand,
       children: [
+        // AppBar
         Positioned(
           top: 0,
           left: 0,
@@ -55,6 +51,8 @@ class FlashcardCategoryScreen extends StatelessWidget {
             titleKey: titleKey,
           ),
         ),
+
+        // Instruction text
         Positioned(
           top: appBarOffset + 32,
           left: 32,
@@ -75,6 +73,8 @@ class FlashcardCategoryScreen extends StatelessWidget {
             ),
           ),
         ),
+
+        // Category buttons
         Positioned.fill(
           top: appBarOffset + 100,
           child: SingleChildScrollView(
@@ -105,8 +105,7 @@ class FlashcardCategoryScreen extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {
                             logger.i('🟥 Tapped flashcard category: $category');
-                            final timestamp =
-                                DateTime.now().millisecondsSinceEpoch;
+
                             final flashcards = getFlashcardsForCategory(
                               category,
                             );
@@ -126,9 +125,7 @@ class FlashcardCategoryScreen extends StatelessWidget {
 
                             final renderItems =
                                 flashcards
-                                    .map(
-                                      (card) => RenderItem.fromFlashcard(card),
-                                    )
+                                    .map(RenderItem.fromFlashcard)
                                     .toList();
 
                             context.push(
@@ -143,14 +140,13 @@ class FlashcardCategoryScreen extends StatelessWidget {
                                   'branchIndex': 4,
                                 },
                                 'transitionKey':
-                                    'flashcards_detail_${category}_$timestamp',
+                                    'flashcards_detail_${category}_${DateTime.now().millisecondsSinceEpoch}',
                                 'slideFrom': SlideDirection.right,
                                 'transitionType': TransitionType.slide,
                                 'detailRoute': DetailRoute.branch,
                               },
                             );
                           },
-
                           style: style,
                           child: Text(
                             category.toTitleCase(),

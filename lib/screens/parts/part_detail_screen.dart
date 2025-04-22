@@ -39,15 +39,7 @@ class PartDetailScreen extends StatefulWidget {
     required this.backExtra,
     required this.detailRoute,
     required this.transitionKey,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
   });
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
 
   @override
   State<PartDetailScreen> createState() => _PartDetailScreenState();
@@ -55,6 +47,11 @@ class PartDetailScreen extends StatefulWidget {
 
 class _PartDetailScreenState extends State<PartDetailScreen> {
   late int currentIndex;
+
+  final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
+  final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+  final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
+  final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey');
 
   @override
   void initState() {
@@ -75,10 +72,6 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
           backExtra: widget.backExtra,
           detailRoute: widget.detailRoute,
           direction: SlideDirection.none,
-          mobKey: widget.mobKey,
-          settingsKey: widget.settingsKey,
-          searchKey: widget.searchKey,
-          titleKey: widget.titleKey,
           replace: true,
         );
       });
@@ -103,10 +96,6 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale, // ✅ NEW LINE
-      mobKey: widget.mobKey,
-      settingsKey: widget.settingsKey,
-      searchKey: widget.searchKey,
-      titleKey: widget.titleKey,
     );
   }
 
@@ -155,10 +144,11 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
-                mobKey: widget.mobKey,
-                settingsKey: widget.settingsKey,
-                searchKey: widget.searchKey,
-                titleKey: widget.titleKey,
+                mobKey: mobKey,
+                settingsKey: settingsKey,
+                searchKey: searchKey,
+                titleKey: titleKey,
+
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(
@@ -221,17 +211,9 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                         backExtra: {
                           'zone': selectedZoneId,
                           'branchIndex': widget.branchIndex,
-                          'mobKey': widget.mobKey,
-                          'settingsKey': widget.settingsKey,
-                          'searchKey': widget.searchKey,
-                          'titleKey': widget.titleKey,
                         },
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
-                        mobKey: widget.mobKey,
-                        settingsKey: widget.settingsKey,
-                        searchKey: widget.searchKey,
-                        titleKey: widget.titleKey,
                         replace: true,
                       );
                     },
@@ -338,17 +320,9 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                 backExtra: {
                                   'zone': nextZoneId,
                                   'branchIndex': widget.branchIndex,
-                                  'mobKey': widget.mobKey,
-                                  'settingsKey': widget.settingsKey,
-                                  'searchKey': widget.searchKey,
-                                  'titleKey': widget.titleKey,
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
-                                mobKey: widget.mobKey,
-                                settingsKey: widget.settingsKey,
-                                searchKey: widget.searchKey,
-                                titleKey: widget.titleKey,
                                 replace: true,
                               );
                             } else if (widget.detailRoute == DetailRoute.path) {
@@ -421,17 +395,9 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                   'chapterId': nextChapter.id,
                                   'pathName': pathName,
                                   'branchIndex': widget.branchIndex,
-                                  'mobKey': widget.mobKey,
-                                  'settingsKey': widget.settingsKey,
-                                  'searchKey': widget.searchKey,
-                                  'titleKey': widget.titleKey,
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
-                                mobKey: widget.mobKey,
-                                settingsKey: widget.settingsKey,
-                                searchKey: widget.searchKey,
-                                titleKey: widget.titleKey,
                                 replace: true,
                               );
                             }

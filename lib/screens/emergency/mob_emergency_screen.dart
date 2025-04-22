@@ -347,10 +347,6 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
                             branchIndex: 3,
                             child: ToolItemScreen(
                               toolbag: 'procedures',
-                              mobKey: GlobalKey(debugLabel: 'MOBKey'),
-                              settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
-                              searchKey: GlobalKey(debugLabel: 'SearchKey'),
-                              titleKey: GlobalKey(debugLabel: 'TitleKey'),
                               cameFromMob:
                                   true, // 🌟 ADDED — signals ToolItemScreen to return to MOB
                             ),
@@ -359,24 +355,6 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
                   );
                 });
               },
-
-              // context.go(
-              //   '/tools/items',
-              //   extra: {
-              //     'toolbag': 'emergencies',
-              //     'renderItems': renderItems,
-              //     'mobKey': GlobalKey(debugLabel: 'MOBKey'),
-              //     'settingsKey': GlobalKey(debugLabel: 'SettingsKey'),
-              //     'searchKey': GlobalKey(debugLabel: 'SearchKey'),
-              //     'titleKey': GlobalKey(debugLabel: 'TitleKey'),
-              //     'transitionKey':
-              //         'emergencies_${DateTime.now().millisecondsSinceEpoch}',
-              //     'transitionType': TransitionType.slide,
-              //     'slideFrom': SlideDirection.left,
-              //   },
-              // );
-              //   });
-              // },
               child: const Text(
                 'Other Emergencies',
                 style: TextStyle(

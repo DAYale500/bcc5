@@ -1,3 +1,4 @@
+import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
@@ -10,19 +11,21 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase
 
-class LessonModuleScreen extends StatelessWidget {
-  const LessonModuleScreen({
-    super.key,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
-  });
+class LessonModuleScreen extends StatefulWidget {
+  // ✅ Converted to StatefulWidget
+  const LessonModuleScreen({super.key});
 
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
+  @override
+  State<LessonModuleScreen> createState() => _LessonModuleScreenState(); // ✅
+}
+
+class _LessonModuleScreenState extends State<LessonModuleScreen> {
+  // ✅
+  // ✅ These keys now belong to LessonModuleScreen
+  final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey'); // ✅
+  final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey'); // ✅
+  final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey'); // ✅
+  final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey'); // ✅
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +53,6 @@ class LessonModuleScreen extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-
           const SizedBox(height: 16),
           Expanded(
             child: ListView.separated(
@@ -66,6 +68,7 @@ class LessonModuleScreen extends StatelessWidget {
                   onTap: () {
                     logger.i('📘 Tapped Module: $moduleName');
                     final timestamp = DateTime.now().millisecondsSinceEpoch;
+
                     context.push(
                       '/lessons/items',
                       extra: {
@@ -73,10 +76,12 @@ class LessonModuleScreen extends StatelessWidget {
                         'transitionKey': 'lesson_items_${index}_$timestamp',
                         'transitionType': TransitionType.slide,
                         'slideFrom': SlideDirection.right,
-                        'mobKey': mobKey,
-                        'settingsKey': settingsKey,
-                        'searchKey': searchKey,
-                        'titleKey': titleKey,
+                        'detailRoute': DetailRoute.branch,
+                        // ❌ REMOVED: no more GlobalKeys passed in
+                        // 'mobKey': GlobalKey(debugLabel: 'MOBKey'), // ❌
+                        // 'settingsKey': GlobalKey(debugLabel: 'SettingsKey'), // ❌
+                        // 'searchKey': GlobalKey(debugLabel: 'SearchKey'), // ❌
+                        // 'titleKey': GlobalKey(debugLabel: 'TitleKey'), // ❌
                       },
                     );
                   },

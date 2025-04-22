@@ -21,10 +21,6 @@ class TransitionManager {
     required DetailRoute detailRoute,
     SlideDirection direction = SlideDirection.none,
     TransitionType transitionType = TransitionType.slide,
-    required GlobalKey mobKey,
-    required GlobalKey settingsKey,
-    required GlobalKey searchKey,
-    required GlobalKey titleKey,
     bool replace = false, // ✅ new optional flag
   }) {
     // ✅ Save resume point if navigating within path
@@ -45,7 +41,10 @@ class TransitionManager {
 
     final route = _getRouteForScreenType(screenType);
     final transitionKey = UniqueKey().toString();
-
+    final sanitizedBackExtra = {
+      ...?_stripGlobalKeys(backExtra),
+      'detailRoute': detailRoute,
+    };
     logger.i(
       '[TransitionManager] goToDetailScreen → '
       'type: $screenType | route: $route | index: $currentIndex\n'
@@ -58,15 +57,11 @@ class TransitionManager {
       'currentIndex': currentIndex,
       'branchIndex': branchIndex,
       'backDestination': backDestination,
-      'backExtra': backExtra,
+      'backExtra': sanitizedBackExtra,
       'detailRoute': detailRoute,
       'transitionKey': transitionKey,
       'slideFrom': direction,
       'transitionType': transitionType,
-      'mobKey': mobKey,
-      'settingsKey': settingsKey,
-      'searchKey': searchKey,
-      'titleKey': titleKey,
     };
 
     if (replace) {
@@ -74,6 +69,13 @@ class TransitionManager {
     } else {
       context.push(route, extra: extra);
     }
+  }
+
+  static Map<String, dynamic>? _stripGlobalKeys(Map<String, dynamic>? input) {
+    if (input == null) return null;
+    final copy = Map.of(input);
+    copy.removeWhere((key, value) => value is GlobalKey);
+    return copy;
   }
 
   static String _getRouteForScreenType(RenderItemType type) {
@@ -137,8 +139,6 @@ class TransitionManager {
       '[TransitionManager] buildCustomTransition → '
       'detailRoute: $detailRoute | transitionType: $effectiveTransitionType | slideFrom: $effectiveSlideFrom',
     );
-
-    // ✅ Add these additional transitions into your transitionsBuilder
 
     // ✅ Add these additional transitions into your transitionsBuilder
 

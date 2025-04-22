@@ -15,27 +15,16 @@ import 'package:bcc5/navigation/detail_route.dart';
 class LessonItemScreen extends StatelessWidget {
   final String module;
 
-  const LessonItemScreen({
-    super.key,
-    required this.module,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
-  });
-
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
+  const LessonItemScreen({super.key, required this.module});
 
   @override
   Widget build(BuildContext context) {
     logger.i('📘 LessonItemScreen loaded for module: $module');
-    final lessons = LessonRepositoryIndex.getLessonsForModule(module);
-    final lessonIds = lessons.map((l) => l.id).toList();
-    final renderItems = buildRenderItems(ids: lessonIds);
 
+    final lessons = LessonRepositoryIndex.getLessonsForModule(module);
+    final renderItems = buildRenderItems(
+      ids: lessons.map((l) => l.id).toList(),
+    );
     final moduleTitle = module.toTitleCase();
 
     return Column(
@@ -45,10 +34,6 @@ class LessonItemScreen extends StatelessWidget {
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
-          mobKey: mobKey,
-          settingsKey: settingsKey,
-          searchKey: searchKey,
-          titleKey: titleKey,
           onBack: () {
             logger.i('🔙 Back tapped → /lessons');
             context.go(
@@ -58,15 +43,10 @@ class LessonItemScreen extends StatelessWidget {
                     'return_from_items_${DateTime.now().millisecondsSinceEpoch}',
                 'slideFrom': SlideDirection.left,
                 'transitionType': TransitionType.slide,
-                'mobKey': mobKey,
-                'settingsKey': settingsKey,
-                'searchKey': searchKey,
-                'titleKey': titleKey,
               },
             );
           },
         ),
-
         const SizedBox(height: 16),
         Text(
           '$moduleTitle:\nDive in to any course below.',
@@ -88,12 +68,10 @@ class LessonItemScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final lesson = lessons[index];
-
                 return ItemButton(
                   label: lesson.title,
                   onTap: () {
                     logger.i('📘 Tapped lesson: ${lesson.id}');
-
                     TransitionManager.goToDetailScreen(
                       context: context,
                       screenType: renderItems[index].type,
@@ -101,14 +79,14 @@ class LessonItemScreen extends StatelessWidget {
                       currentIndex: index,
                       branchIndex: 1,
                       backDestination: '/lessons/items',
-                      backExtra: {'module': module, 'branchIndex': 1},
+                      backExtra: {
+                        'module': module,
+                        'branchIndex': 1,
+                        'detailRoute': DetailRoute.branch,
+                      },
                       detailRoute: DetailRoute.branch,
                       direction: SlideDirection.right,
                       transitionType: TransitionType.slide,
-                      mobKey: GlobalKey(debugLabel: 'MOBKey'),
-                      settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
-                      searchKey: GlobalKey(debugLabel: 'SearchKey'),
-                      titleKey: GlobalKey(debugLabel: 'TitleKey'),
                       replace: false,
                     );
                   },

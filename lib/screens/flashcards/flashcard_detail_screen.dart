@@ -37,16 +37,7 @@ class FlashcardDetailScreen extends StatefulWidget {
     required this.backExtra,
     required this.detailRoute,
     required this.transitionKey,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
   });
-
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
 
   @override
   State<FlashcardDetailScreen> createState() => _FlashcardDetailScreenState();
@@ -58,6 +49,11 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
   late AnimationController _controller;
   late Animation<double> _flipAnimation;
   bool showFront = true;
+
+  final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
+  final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+  final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
+  final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey');
 
   @override
   void initState() {
@@ -94,10 +90,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
             backExtra: widget.backExtra,
             detailRoute: widget.detailRoute,
             direction: SlideDirection.none,
-            mobKey: widget.mobKey,
-            settingsKey: widget.settingsKey,
-            searchKey: widget.searchKey,
-            titleKey: widget.titleKey,
             replace: true,
           );
         });
@@ -149,10 +141,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale,
-      mobKey: widget.mobKey,
-      settingsKey: widget.settingsKey,
-      searchKey: widget.searchKey,
-      titleKey: widget.titleKey,
     );
   }
 
@@ -204,10 +192,10 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
-                mobKey: widget.mobKey,
-                settingsKey: widget.settingsKey,
-                searchKey: widget.searchKey,
-                titleKey: widget.titleKey,
+                mobKey: mobKey,
+                settingsKey: settingsKey,
+                searchKey: searchKey,
+                titleKey: titleKey,
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(
@@ -276,10 +264,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                         },
                         detailRoute: widget.detailRoute,
                         direction: SlideDirection.right,
-                        mobKey: widget.mobKey,
-                        settingsKey: widget.settingsKey,
-                        searchKey: widget.searchKey,
-                        titleKey: widget.titleKey,
                         replace: true,
                       );
                     },
@@ -438,10 +422,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
-                                mobKey: widget.mobKey,
-                                settingsKey: widget.settingsKey,
-                                searchKey: widget.searchKey,
-                                titleKey: widget.titleKey,
                                 replace: true,
                               );
                             } else if (widget.detailRoute == DetailRoute.path) {
@@ -516,10 +496,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                 },
                                 detailRoute: widget.detailRoute,
                                 direction: SlideDirection.right,
-                                mobKey: widget.mobKey,
-                                settingsKey: widget.settingsKey,
-                                searchKey: widget.searchKey,
-                                titleKey: widget.titleKey,
                                 replace: true,
                               );
                             }

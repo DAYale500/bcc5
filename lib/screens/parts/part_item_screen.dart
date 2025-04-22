@@ -12,24 +12,12 @@ import 'package:bcc5/data/models/part_model.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/navigation/detail_route.dart'; // <-- required for DetailRoute
+import 'package:bcc5/navigation/detail_route.dart';
 
 class PartItemScreen extends StatelessWidget {
   final String zone;
 
-  const PartItemScreen({
-    super.key,
-    required this.zone,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
-  });
-
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
+  const PartItemScreen({super.key, required this.zone});
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +29,12 @@ class PartItemScreen extends StatelessWidget {
     final List<RenderItem> renderItems = buildRenderItems(ids: sequenceIds);
 
     logger.i('🟦 Displaying PartItemScreen (Zone: $zone)');
+
+    // 🔑 Local ownership of GlobalKeys
+    final mobKey = GlobalKey(debugLabel: 'MOBKey');
+    final settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+    final searchKey = GlobalKey(debugLabel: 'SearchKey');
+    final titleKey = GlobalKey(debugLabel: 'TitleKey');
 
     return Column(
       children: [
@@ -106,10 +100,6 @@ class PartItemScreen extends StatelessWidget {
                       detailRoute: DetailRoute.branch,
                       direction: SlideDirection.right,
                       transitionType: TransitionType.slide,
-                      mobKey: GlobalKey(debugLabel: 'MOBKey'),
-                      settingsKey: GlobalKey(debugLabel: 'SettingsKey'),
-                      searchKey: GlobalKey(debugLabel: 'SearchKey'),
-                      titleKey: GlobalKey(debugLabel: 'TitleKey'),
                       replace: false,
                     );
                   },

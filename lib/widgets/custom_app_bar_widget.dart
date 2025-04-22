@@ -17,7 +17,12 @@ class CustomAppBarWidget extends StatelessWidget
   final VoidCallback? onSearchTap;
   final VoidCallback? onSettingsTap;
 
-  const CustomAppBarWidget({
+  final GlobalKey mobKey;
+  final GlobalKey settingsKey;
+  final GlobalKey searchKey;
+  final GlobalKey titleKey;
+
+  CustomAppBarWidget({
     super.key,
     required this.title,
     this.showBackButton = false,
@@ -26,16 +31,28 @@ class CustomAppBarWidget extends StatelessWidget
     this.onBack,
     this.onSearchTap,
     this.onSettingsTap,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
-  });
+    GlobalKey? mobKey,
+    GlobalKey? settingsKey,
+    GlobalKey? searchKey,
+    GlobalKey? titleKey,
+  }) : mobKey = mobKey ?? GlobalKey(debugLabel: 'MOBKey'),
+       settingsKey = settingsKey ?? GlobalKey(debugLabel: 'SettingsKey'),
+       searchKey = searchKey ?? GlobalKey(debugLabel: 'SearchKey'),
+       titleKey = titleKey ?? GlobalKey(debugLabel: 'TitleKey');
 
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
+  /// MOB Icon opens a modal via `showDialog(...)`.
+  /// ⚠️ Do not replace with `Navigator.push(...)`
+  /// unless you explicitly track and restore navigation state.
+  ///
+  /// The current design allows users to:
+  /// - Tap the MOB icon
+  /// - Navigate deeper (e.g. to procedures screen)
+  /// - Tap back → returns to MOB modal
+  /// - Close modal → returns to originating screen
+  ///
+  /// If you change this behavior, test for:
+  /// 🔁 Stack restoration
+  /// 🔙 Correct screen on modal close
 
   @override
   Widget build(BuildContext context) {

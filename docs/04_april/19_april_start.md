@@ -271,7 +271,7 @@ logger.i('[ENTER] PartItemScreen for zone: $zone');
 logger.i('[ENTER] ToolDetailScreen → currentIndex: $currentIndex | backDest: ${widget.backDestination}');
 logger.i('[ENTER] LessonDetailScreen → currentIndex: $currentIndex | backDest: ${widget.backDestination}');
 logger.i('[ENTER] PartDetailScreen → currentIndex: $currentIndex | backDest: ${widget.backDestination}');
-logger.i('[ENTER] FlashcardDetailScreen → currentIndex: $currentIndex | backDest: ${widget.backDestination}');
+logger.i('[ENTER] FlashRcardDetailScreen → currentIndex: $currentIndex | backDest: ${widget.backDestination}');
 ```
 
 Include:
