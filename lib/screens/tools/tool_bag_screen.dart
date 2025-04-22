@@ -1,16 +1,15 @@
-import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/utils/string_extensions.dart';
-import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:go_router/go_router.dart';
 
 class ToolBagScreen extends StatelessWidget {
   ToolBagScreen({super.key});
@@ -102,17 +101,17 @@ class ToolBagScreen extends StatelessWidget {
                         return;
                       }
 
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: RenderItemType.tool,
-                        renderItems: renderItems,
-                        currentIndex: 0,
-                        branchIndex: 3,
-                        backDestination: '/tools',
-                        backExtra: {'toolbag': toolbag},
-                        detailRoute: DetailRoute.branch,
-                        direction: SlideDirection.right,
-                        transitionType: TransitionType.slide,
+                      // ✅ This is the fix: navigate to ToolItemScreen
+                      context.push(
+                        '/tools/items',
+                        extra: {
+                          'toolbag': toolbag,
+                          'transitionKey':
+                              'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
+                          'slideFrom': SlideDirection.right,
+                          'transitionType': TransitionType.slide,
+                          'detailRoute': DetailRoute.branch,
+                        },
                       );
                     },
                   ),

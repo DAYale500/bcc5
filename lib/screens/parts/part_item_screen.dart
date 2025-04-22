@@ -94,7 +94,7 @@ class PartItemScreen extends StatelessWidget {
                       screenType: renderItems[index].type,
                       renderItems: renderItems,
                       currentIndex: index,
-                      branchIndex: 1,
+                      branchIndex: 2,
                       backDestination: '/parts/items',
                       backExtra: {'zone': zone},
                       detailRoute: DetailRoute.branch,

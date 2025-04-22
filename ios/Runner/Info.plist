@@ -45,5 +45,12 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to assist with emergency rescue.</string>
+
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We use location to help with man overboard and emergency safety features.</string>
+
 </dict>
 </plist>

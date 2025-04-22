@@ -213,22 +213,44 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                         return;
                       }
 
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: renderItems.first.type,
-                        renderItems: renderItems,
-                        currentIndex: 0,
-                        branchIndex: widget.branchIndex,
-                        backDestination: '/tools/items',
-                        backExtra: {
+                      logger.i(
+                        '🛠️ Navigating to ToolItemScreen for new toolbag: $selectedToolbagId',
+                      );
+
+                      // ✅ Step 1: Push to ToolItemScreen
+                      context.push(
+                        '/tools/items',
+                        extra: {
                           'toolbag': selectedToolbagId,
+                          'transitionKey':
+                              'tool_items_${selectedToolbagId}_${DateTime.now().millisecondsSinceEpoch}',
+                          'slideFrom': SlideDirection.right,
+                          'transitionType': TransitionType.slide,
+                          'detailRoute': DetailRoute.branch,
                           'cameFromMob':
                               widget.backExtra?['cameFromMob'] == true,
                         },
-                        detailRoute: widget.detailRoute,
-                        direction: SlideDirection.right,
-                        replace: true,
                       );
+
+                      // ✅ Step 2: After frame, navigate to new tool detail
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        TransitionManager.goToDetailScreen(
+                          context: context,
+                          screenType: renderItems.first.type,
+                          renderItems: renderItems,
+                          currentIndex: 0,
+                          branchIndex: widget.branchIndex,
+                          backDestination: '/tools/items',
+                          backExtra: {
+                            'toolbag': selectedToolbagId,
+                            'cameFromMob':
+                                widget.backExtra?['cameFromMob'] == true,
+                          },
+                          detailRoute: widget.detailRoute,
+                          direction: SlideDirection.right,
+                          replace: true,
+                        );
+                      });
                     },
                   ),
                 ),
