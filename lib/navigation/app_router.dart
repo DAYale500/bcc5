@@ -32,7 +32,7 @@ final appRouter = GoRouter(
       path: '/',
       name: 'landing',
       pageBuilder: (context, state) {
-        logger.i('🏁 Entering LandingScreen');
+        logger.d('[Router] Navigated to /landing');
 
         final showReminder =
             (state.extra as Map<String, dynamic>?)?['showReminder'] as bool? ??
@@ -344,7 +344,7 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
-        logger.i('🛠️ Entering ToolsScreen');
+        logger.d('[Router] Navigated to /tools');
 
         return TransitionManager.buildCustomTransition(
           context: context,

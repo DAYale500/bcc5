@@ -82,7 +82,7 @@ class ToolBagScreen extends StatelessWidget {
                   child: GroupButton(
                     label: toolbag.toTitleCase(),
                     onTap: () {
-                      logger.i('🛠️ Selected toolbag: $toolbag');
+                      logger.d('🛠️ Selected toolbag: $toolbag');
 
                       final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
                       final renderItems = buildRenderItems(

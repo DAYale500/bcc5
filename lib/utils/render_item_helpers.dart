@@ -6,8 +6,9 @@ import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
 
 List<RenderItem> buildRenderItems({required List<String> ids}) {
-  logger.i('🛠️ buildRenderItems → ids: $ids');
-
+  if (ids.length > 2) {
+    logger.d('[Render] ${ids.length} item IDs: $ids');
+  }
   final items = <RenderItem>[];
   final invalidIds = <String>[];
 
@@ -21,12 +22,6 @@ List<RenderItem> buildRenderItems({required List<String> ids}) {
       invalidIds.add(id);
     }
   }
-
-  logger.d(
-    '📦 buildRenderItems summary:\n'
-    '  • valid: ${items.length}\n'
-    '  • invalid: ${invalidIds.length}',
-  );
 
   if (invalidIds.isNotEmpty) {
     logger.w('⚠️ Invalid RenderItem IDs: $invalidIds');
