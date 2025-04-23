@@ -29,6 +29,34 @@ class AppTheme {
       borderRadius: BorderRadius.circular(buttonCornerRadius),
     ),
   );
+  static final ButtonStyle whiteTextButton = ElevatedButton.styleFrom(
+    backgroundColor: primaryRed,
+    foregroundColor: Colors.white,
+    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+    textStyle: buttonTextStyle.copyWith(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: Colors.white,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+
+  static final ButtonStyle largeRedButton = ElevatedButton.styleFrom(
+    backgroundColor: primaryRed,
+    foregroundColor: Colors.white,
+    padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 32),
+    textStyle: const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+  static ButtonStyle get landingPrimaryButton => largeRedButton;
 
   static const TextStyle subheadingStyle = TextStyle(
     fontSize: 18,

@@ -17,4 +17,8 @@ I'd like to create a table of the transitions in each branch and what they're su
 
 
 
-please write up a TODO for future modularization of the lastGroupButton feature for my records.
+take picker off detail screens
+
+
+change next chapter to the lastGroupButton style, but have two buttons: back to chapter list and next chapter (name)
+
