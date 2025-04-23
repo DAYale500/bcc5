@@ -74,7 +74,6 @@ lib
 │   └── tools
 │       ├── tool_bag_screen.dart
 │       ├── tool_detail_screen.dart
-│       ├── tool_detail_screen_old.dart
 │       └── tool_item_screen.dart
 ├── theme
 │   ├── app_theme.dart
@@ -105,4 +104,4 @@ lib
     ├── search_modal.dart
     └── settings_modal.dart
 
-21 directories, 85 files
+21 directories, 84 files

@@ -6,9 +6,9 @@ import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
 
 List<RenderItem> buildRenderItems({required List<String> ids}) {
-  if (ids.length > 2) {
-    logger.d('[Render] ${ids.length} item IDs: $ids');
-  }
+  // if (ids.length > 2) {
+  //   logger.d('[Render] ${ids.length} item IDs: $ids');
+  // }
   final items = <RenderItem>[];
   final invalidIds = <String>[];
 

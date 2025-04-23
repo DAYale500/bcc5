@@ -32,7 +32,7 @@ final appRouter = GoRouter(
       path: '/',
       name: 'landing',
       pageBuilder: (context, state) {
-        logger.d('[Router] Navigated to /landing');
+        // logger.d('[Router] Navigated to /landing');
 
         final showReminder =
             (state.extra as Map<String, dynamic>?)?['showReminder'] as bool? ??
@@ -255,7 +255,7 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
-        logger.i('🧩 Entering PartZoneScreen');
+        // logger.i('🧩 Entering PartZoneScreen');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -344,7 +344,7 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
-        logger.d('[Router] Navigated to /tools');
+        // logger.d('[Router] Navigated to /tools');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -371,19 +371,6 @@ final appRouter = GoRouter(
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
 
-        // final mobKey =
-        //     extras['mobKey'] as GlobalKey? ??
-        //     GlobalKey(debugLabel: 'MOBKey'); // ✅
-        // final settingsKey =
-        //     extras['settingsKey'] as GlobalKey? ??
-        //     GlobalKey(debugLabel: 'SettingsKey'); // ✅
-        // final searchKey =
-        //     extras['searchKey'] as GlobalKey? ??
-        //     GlobalKey(debugLabel: 'SearchKey'); // ✅
-        // final titleKey =
-        //     extras['titleKey'] as GlobalKey? ??
-        //     GlobalKey(debugLabel: 'TitleKey'); // ✅
-
         logger.i(
           '🛠️ Navigating to ToolItemScreen for toolbag: $toolbag | detailRoute: $detailRoute',
         );
@@ -396,13 +383,7 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 3,
-            child: ToolItemScreen(
-              toolbag: toolbag,
-              // mobKey: mobKey, // ✅
-              // settingsKey: settingsKey, // ✅
-              // searchKey: searchKey, // ✅
-              // titleKey: titleKey, // ✅
-            ),
+            child: ToolItemScreen(toolbag: toolbag),
           ),
         );
       },
@@ -446,7 +427,7 @@ final appRouter = GoRouter(
       path: '/flashcards',
       name: 'flashcards',
       pageBuilder: (context, state) {
-        logger.i('📇 Entering FlashcardCategoryScreen');
+        // logger.i('📇 Entering FlashcardCategoryScreen');
 
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final slideFrom =
@@ -514,7 +495,7 @@ final appRouter = GoRouter(
         final detailRoute = extras['detailRoute'] as DetailRoute;
         final transitionKey = extras['transitionKey'] as String;
 
-        logger.i('🃏 Entering FlashcardDetailScreen with extra: $extras');
+        // logger.i('🃏 Entering FlashcardDetailScreen with extra: $extras');
 
         return TransitionManager.buildCustomTransition(
           context: context,

@@ -56,9 +56,9 @@ class CustomAppBarWidget extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    logger.d(
-      '[AppBar] title: "$title" | back: $showBackButton | search: $showSearchIcon | settings: $showSettingsIcon',
-    );
+    // logger.d(
+    //   '[AppBar] title: "$title" | back: $showBackButton | search: $showSearchIcon | settings: $showSettingsIcon',
+    // );
 
     return AppBar(
       backgroundColor: AppTheme.primaryBlue,

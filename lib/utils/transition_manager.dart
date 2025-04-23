@@ -45,12 +45,12 @@ class TransitionManager {
       ...?_stripGlobalKeys(backExtra),
       'detailRoute': detailRoute,
     };
-    logger.i(
-      '[TransitionManager] goToDetailScreen → '
-      'type: $screenType | route: $route | index: $currentIndex\n'
-      '→ detailRoute: $detailRoute | direction: $direction\n'
-      '→ backDestination: $backDestination | transitionKey: $transitionKey',
-    );
+    // logger.i(
+    //   '[TransitionManager] goToDetailScreen → '
+    //   'type: $screenType | route: $route | index: $currentIndex\n'
+    //   '→ detailRoute: $detailRoute | direction: $direction\n'
+    //   '→ backDestination: $backDestination | transitionKey: $transitionKey',
+    // );
 
     final extra = {
       'renderItems': renderItems,
@@ -102,18 +102,18 @@ class TransitionManager {
   }) {
     final extras = state.extra as Map<String, dynamic>? ?? {};
 
-    logger.i(
-      '🧪 [TransitionManager] buildCustomTransition EXTRAS DUMP\n'
-      ' ├─ route: ${state.uri.toString()}\n'
-      ' ├─ transitionKey: $transitionKey\n'
-      ' ├─ detailRoute: ${extras['detailRoute']}\n'
-      ' ├─ slideFrom: ${extras['slideFrom']}\n'
-      ' ├─ transitionType: ${extras['transitionType']}\n'
-      ' ├─ mobKey: ${_safeKey(extras['mobKey'])}\n'
-      ' ├─ settingsKey: ${_safeKey(extras['settingsKey'])}\n'
-      ' ├─ searchKey: ${_safeKey(extras['searchKey'])}\n'
-      ' └─ titleKey: ${_safeKey(extras['titleKey'])}',
-    );
+    // logger.i(
+    //   '🧪 [TransitionManager] buildCustomTransition EXTRAS DUMP\n'
+    //   ' ├─ route: ${state.uri.toString()}\n'
+    //   ' ├─ transitionKey: $transitionKey\n'
+    //   ' ├─ detailRoute: ${extras['detailRoute']}\n'
+    //   ' ├─ slideFrom: ${extras['slideFrom']}\n'
+    //   ' ├─ transitionType: ${extras['transitionType']}\n'
+    //   ' ├─ mobKey: ${_safeKey(extras['mobKey'])}\n'
+    //   ' ├─ settingsKey: ${_safeKey(extras['settingsKey'])}\n'
+    //   ' ├─ searchKey: ${_safeKey(extras['searchKey'])}\n'
+    //   ' └─ titleKey: ${_safeKey(extras['titleKey'])}',
+    // );
 
     final detailRoute =
         extras['detailRoute'] is DetailRoute
@@ -224,13 +224,14 @@ class TransitionManager {
     );
   }
 
-  static String _safeKey(Object? key) {
-    if (key is GlobalKey<State<StatefulWidget>>) {
-      final label = key.toString();
-      return label.contains("'") ? label.split("'")[1] : label;
-    }
-    return key?.toString() ?? 'null';
-  }
+  // this if for the big extra logger dump that's commented out above
+  // static String _safeKey(Object? key) {
+  //   if (key is GlobalKey<State<StatefulWidget>>) {
+  //     final label = key.toString();
+  //     return label.contains("'") ? label.split("'")[1] : label;
+  //   }
+  //   return key?.toString() ?? 'null';
+  // }
 }
 
 /// Used for in-group transitions (Next/Previous)

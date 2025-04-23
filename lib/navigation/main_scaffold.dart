@@ -38,7 +38,7 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[Scaffold] tab index: $branchIndex');
+    // logger.d('[Scaffold] tab index: $branchIndex');
 
     return Scaffold(
       appBar: appBar,

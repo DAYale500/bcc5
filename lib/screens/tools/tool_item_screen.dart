@@ -12,6 +12,7 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/navigation/detail_route.dart';
+import 'package:go_router/go_router.dart';
 
 class ToolItemScreen extends StatefulWidget {
   final String toolbag;
@@ -87,7 +88,16 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
               logger.i('🔙 Back to previous screen via Navigator');
               Navigator.of(context).pop();
             } else {
-              logger.w('⚠️ Back tap ignored — nothing to pop!');
+              logger.i('🔙 Back to ToolBagScreen (fallback)');
+              context.go(
+                '/tools',
+                extra: {
+                  'transitionKey': UniqueKey().toString(),
+                  'slideFrom': SlideDirection.left,
+                  'transitionType': TransitionType.slide,
+                  'detailRoute': DetailRoute.branch,
+                },
+              );
             }
           },
         ),

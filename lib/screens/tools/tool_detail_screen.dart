@@ -83,6 +83,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
     }
 
     final targetItem = widget.renderItems[newIndex];
+
     TransitionManager.goToDetailScreen(
       context: context,
       screenType: targetItem.type,
@@ -90,18 +91,11 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
       currentIndex: newIndex,
       branchIndex: widget.branchIndex,
       backDestination: widget.backDestination,
-      backExtra: {
-        ...?widget.backExtra,
-        'toolbag': widget.backExtra?['toolbag'],
-        'cameFromMob': widget.backExtra?['cameFromMob'] == true,
-        'transitionKey': UniqueKey().toString(),
-        'slideFrom': SlideDirection.none,
-        'transitionType': TransitionType.fadeScale,
-      },
+      backExtra: widget.backExtra, // ✅ Unchanged, clean
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale,
-      replace: true, // ✅ this is the missing piece
+      replace: true, // ✅ Still correct
     );
   }
 
@@ -164,20 +158,15 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                     Navigator.of(context).pop();
                   } else {
                     logger.w('⚠️ No pages left to pop. Redirecting manually.');
-
-                    final fromNextButton =
-                        widget.backExtra?['fromNext'] == true;
-                    if (fromNextButton) {
-                      logger.i(
-                        '🧼 Popping back from next-button stack → clearing to /tools',
-                      );
-                      context.go('/tools'); // Hard reset to top
-                    } else {
-                      context.go(
-                        widget.backDestination,
-                        extra: widget.backExtra,
-                      );
-                    }
+                    context.go(
+                      widget.backDestination,
+                      extra: {
+                        ...?widget.backExtra,
+                        'transitionKey': UniqueKey().toString(),
+                        'slideFrom': SlideDirection.left,
+                        'transitionType': TransitionType.slide,
+                      },
+                    );
                   }
                 },
               ),
