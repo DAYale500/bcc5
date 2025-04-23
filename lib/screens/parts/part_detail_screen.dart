@@ -248,166 +248,166 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                   _navigateTo(currentIndex - 1);
                 },
                 onNext: () {
-                  logger.i('➡️ Next tapped on PartDetailScreen');
-                  _navigateTo(currentIndex + 1);
+                  if (currentIndex < widget.renderItems.length - 1) {
+                    logger.i('➡️ Next tapped on PartDetailScreen');
+                    _navigateTo(currentIndex + 1);
+                  }
                 },
                 customNextButton:
                     (currentIndex == widget.renderItems.length - 1)
-                        ? ElevatedButton(
-                          onPressed: () {
-                            logger.i(
-                              '⏭️ Next Chapter tapped on PartDetailScreen',
-                            );
-
-                            if (widget.detailRoute == DetailRoute.branch) {
-                              final currentZoneId =
-                                  widget.backExtra?['zone'] as String?;
-                              if (currentZoneId == null) {
-                                logger.w('⚠️ No zone ID found in backExtra');
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Cannot find next zone.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final nextZoneId =
-                                  PartRepositoryIndex.getNextZone(
-                                    currentZoneId,
-                                  );
-                              if (nextZoneId == null) {
-                                logger.i(
-                                  '⛔ No more zones after $currentZoneId',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'You’ve reached the final zone.',
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final partItems =
-                                  PartRepositoryIndex.getPartsForZone(
-                                    nextZoneId,
-                                  );
-                              final renderItems = buildRenderItems(
-                                ids: partItems.map((p) => p.id).toList(),
-                              );
-
-                              if (renderItems.isEmpty) {
-                                logger.w(
-                                  '⚠️ Next zone has no renderable items',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Next zone has no items.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: renderItems.first.type,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination: '/parts/items',
-                                backExtra: {
-                                  'zone': nextZoneId,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            } else if (widget.detailRoute == DetailRoute.path) {
-                              final currentChapterId =
-                                  widget.backExtra?['chapterId'] as String?;
-                              final pathName =
-                                  widget.backExtra?['pathName'] as String?;
-
-                              if (currentChapterId == null ||
-                                  pathName == null) {
-                                logger.w(
-                                  '⚠️ Missing path context in backExtra',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('No path context found.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final nextChapter =
-                                  PathRepositoryIndex.getNextChapter(
-                                    pathName,
-                                    currentChapterId,
-                                  );
-
-                              if (nextChapter == null) {
-                                logger.i(
-                                  '⛔ No next chapter in $pathName after $currentChapterId',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'You’ve reached the final chapter.',
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final renderItems = buildRenderItems(
-                                ids:
-                                    nextChapter.items
-                                        .map((item) => item.pathItemId)
-                                        .toList(),
-                              );
-
-                              if (renderItems.isEmpty) {
-                                logger.w(
-                                  '⚠️ Next chapter has no renderable items',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Next chapter has no items.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: renderItems.first.type,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination:
-                                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                                backExtra: {
-                                  'chapterId': nextChapter.id,
-                                  'pathName': pathName,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            }
-                          },
-                          style: AppTheme.navigationButton,
-                          child: const Text('Next Chapter'),
-                        )
+                        ? _buildLastGroupButton()
                         : null,
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLastGroupButton() {
+    if (widget.detailRoute == DetailRoute.branch) {
+      final currentZoneId = widget.backExtra?['zone'] as String?;
+      if (currentZoneId == null) return const SizedBox.shrink();
+
+      final nextZoneId = PartRepositoryIndex.getNextZone(currentZoneId);
+      return ElevatedButton(
+        onPressed: () {
+          logger.i('⏭️ Next Zone tapped on PartDetailScreen');
+
+          if (nextZoneId == null) {
+            logger.i('⛔ No more zones after $currentZoneId');
+            showModalBottomSheet(
+              context: context,
+              showDragHandle: true,
+              builder: (_) => _buildEndOfGroupModal('zone', '/parts'),
+            );
+            return;
+          }
+
+          final nextParts = PartRepositoryIndex.getPartsForZone(nextZoneId);
+          final renderItems = buildRenderItems(
+            ids: nextParts.map((p) => p.id).toList(),
+          );
+
+          if (renderItems.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Next zone has no items.')),
+            );
+            return;
+          }
+
+          TransitionManager.goToDetailScreen(
+            context: context,
+            screenType: RenderItemType.part,
+            renderItems: renderItems,
+            currentIndex: 0,
+            branchIndex: widget.branchIndex,
+            backDestination: '/parts/items',
+            backExtra: {'zone': nextZoneId, 'branchIndex': widget.branchIndex},
+            detailRoute: widget.detailRoute,
+            direction: SlideDirection.right,
+            replace: true,
+          );
+        },
+        style: AppTheme.navigationButton,
+        child: const Text('Next Zone'),
+      );
+    }
+
+    if (widget.detailRoute == DetailRoute.path) {
+      final pathName = widget.backExtra?['pathName'] as String?;
+      final currentChapterId = widget.backExtra?['chapterId'] as String?;
+
+      if (pathName == null || currentChapterId == null) {
+        logger.w('⚠️ Missing path context in backExtra');
+        return const SizedBox.shrink();
+      }
+
+      final nextChapter = PathRepositoryIndex.getNextChapter(
+        pathName,
+        currentChapterId,
+      );
+
+      return ElevatedButton(
+        onPressed: () {
+          logger.i('⏭️ Next Chapter tapped on PartDetailScreen');
+
+          if (nextChapter == null) {
+            logger.i('⛔ No more chapters in $pathName');
+            showModalBottomSheet(
+              context: context,
+              showDragHandle: true,
+              builder:
+                  (_) => _buildEndOfGroupModal('chapter', '/learning-paths'),
+            );
+            return;
+          }
+
+          final renderItems = buildRenderItems(
+            ids: nextChapter.items.map((item) => item.pathItemId).toList(),
+          );
+
+          if (renderItems.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Next chapter has no items.')),
+            );
+            return;
+          }
+
+          final route =
+              '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items';
+
+          TransitionManager.goToDetailScreen(
+            context: context,
+            screenType: RenderItemType.part,
+            renderItems: renderItems,
+            currentIndex: 0,
+            branchIndex: widget.branchIndex,
+            backDestination: route,
+            backExtra: {
+              'chapterId': nextChapter.id,
+              'pathName': pathName,
+              'branchIndex': widget.branchIndex,
+            },
+            detailRoute: widget.detailRoute,
+            direction: SlideDirection.right,
+            replace: true,
+          );
+        },
+        style: AppTheme.navigationButton,
+        child: const Text('Next Chapter'),
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildEndOfGroupModal(String label, String backRoute) {
+    final labelCapitalized = label.toTitleCase();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '🎉 You’ve reached the final $label!',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Great job making it through this $label. You can review or return to the full list of ${labelCapitalized}s.',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              context.go(backRoute);
+            },
+            style: AppTheme.navigationButton,
+            child: Text('Back to ${labelCapitalized}s'),
           ),
         ],
       ),
