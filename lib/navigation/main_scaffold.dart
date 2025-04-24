@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../utils/logger.dart';
+// import '../utils/logger.dart';
 import '../navigation/detail_route.dart';
 import '../theme/slide_direction.dart';
 
@@ -21,7 +21,7 @@ class MainScaffold extends StatelessWidget {
   void _onItemTapped(BuildContext context, int index) {
     if (index == branchIndex) return;
 
-    logger.i('🧭 BNB tapped tab $index — switching via GoRouter');
+    // logger.i('🧭 BNB tapped tab $index — switching via GoRouter');
 
     final routes = ['/', '/lessons', '/parts', '/tools', '/flashcards'];
     final destination = routes[index];

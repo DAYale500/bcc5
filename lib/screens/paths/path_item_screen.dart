@@ -109,10 +109,10 @@ class _PathItemScreenState extends State<PathItemScreen> {
               ),
               itemBuilder: (context, index) {
                 final renderItem = renderItems[index];
-                final id = renderItem.id;
+                // final id = renderItem.id;
                 final title = renderItem.title;
 
-                logger.i('📦 Rendering button: $id → "$title" (index $index)');
+                // logger.i('📦 Rendering button: $id → "$title" (index $index)');
 
                 return ItemButton(
                   label: title,

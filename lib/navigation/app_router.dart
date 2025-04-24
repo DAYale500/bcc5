@@ -150,7 +150,7 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
-        logger.i('📘 Entering LessonModuleScreen');
+        // logger.i('📘 Entering LessonModuleScreen');
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,

@@ -29,7 +29,7 @@ class _LessonModuleScreenState extends State<LessonModuleScreen> {
   @override
   Widget build(BuildContext context) {
     final moduleNames = LessonRepositoryIndex.getModuleNames();
-    logger.i('🟦 Entered LessonModuleScreen');
+    // logger.i('🟦 Entered LessonModuleScreen');
 
     return Scaffold(
       appBar: CustomAppBarWidget(

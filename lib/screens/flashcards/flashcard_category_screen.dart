@@ -24,7 +24,7 @@ class FlashcardCategoryScreen extends StatelessWidget {
       ...categories.where((c) => c == 'all' || c == 'random'),
       ...categories.where((c) => c != 'all' && c != 'random'),
     ];
-    logger.i('📇 Sorted flashcard categories: $sorted');
+    // logger.i('📇 Sorted flashcard categories: $sorted');
 
     // 🔑 Internally managed GlobalKeys
     final mobKey = GlobalKey(debugLabel: 'MOBKey');

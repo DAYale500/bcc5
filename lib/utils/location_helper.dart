@@ -26,7 +26,7 @@ Future<Position?> getCurrentLocation() async {
   }
 
   final position = await Geolocator.getCurrentPosition();
-  logger.i('📍 Got location: ${position.latitude}, ${position.longitude}');
+  // logger.i('📍 Got location: ${position.latitude}, ${position.longitude}');
   return position;
 }
 

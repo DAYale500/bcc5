@@ -1,4 +1,4 @@
-import 'package:bcc5/utils/logger.dart';
+// import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
@@ -12,7 +12,7 @@ class LearningPathProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     if (pathName.isEmpty) return const SizedBox.shrink();
 
-    logger.i('🧭 LearningPathProgressBar: $pathName');
+    // logger.i('🧭 LearningPathProgressBar: $pathName');
 
     return Container(
       width: double.infinity,

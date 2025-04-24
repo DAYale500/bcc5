@@ -19,7 +19,7 @@ class LessonItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.i('📘 LessonItemScreen loaded for module: $module');
+    // logger.i('📘 LessonItemScreen loaded for module: $module');
 
     final lessons = LessonRepositoryIndex.getLessonsForModule(module);
     final renderItems = buildRenderItems(

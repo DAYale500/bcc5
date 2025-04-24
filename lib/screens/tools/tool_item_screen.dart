@@ -34,24 +34,41 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
   final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
   final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey');
 
+  void _handleBack() {
+    if (widget.cameFromMob) {
+      logger.i('🔙 Back to MOBEmergencyScreen (cameFromMob = true)');
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          fullscreenDialog: true,
+          builder: (_) => const MOBEmergencyScreen(),
+        ),
+      );
+    } else if (Navigator.of(context).canPop()) {
+      logger.i('🔙 Back to previous screen via Navigator');
+      Navigator.of(context).pop();
+    } else {
+      logger.i('🔙 Back to ToolBagScreen (fallback)');
+      context.go(
+        '/tools',
+        extra: {
+          'transitionKey': UniqueKey().toString(),
+          'slideFrom': SlideDirection.left,
+          'transitionType': TransitionType.slide,
+          'detailRoute': DetailRoute.branch,
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    logger.i('🛠️ ToolItemScreen loaded for toolbag: ${widget.toolbag}');
+    // logger.i('🛠️ ToolItemScreen loaded for toolbag: ${widget.toolbag}');
 
     return PopScope(
-      canPop: true,
+      canPop: !widget.cameFromMob,
       onPopInvokedWithResult: (didPop, _) {
-        if (didPop) return;
-        if (widget.cameFromMob) {
-          logger.i('🔙 System back → MOBEmergencyScreen');
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              fullscreenDialog: true,
-              builder: (_) => const MOBEmergencyScreen(),
-            ),
-          );
-        } else {
-          logger.w('⚠️ Back ignored — nothing to pop and no override');
+        if (!didPop || widget.cameFromMob) {
+          _handleBack(); // ⬅️ force fallback logic
         }
       },
       child: _buildContent(context),
@@ -75,31 +92,7 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
           settingsKey: settingsKey,
           searchKey: searchKey,
           titleKey: titleKey,
-          onBack: () {
-            if (widget.cameFromMob) {
-              logger.i('🔙 Back to MOBEmergencyScreen (cameFromMob = true)');
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (_) => const MOBEmergencyScreen(),
-                ),
-              );
-            } else if (Navigator.of(context).canPop()) {
-              logger.i('🔙 Back to previous screen via Navigator');
-              Navigator.of(context).pop();
-            } else {
-              logger.i('🔙 Back to ToolBagScreen (fallback)');
-              context.go(
-                '/tools',
-                extra: {
-                  'transitionKey': UniqueKey().toString(),
-                  'slideFrom': SlideDirection.left,
-                  'transitionType': TransitionType.slide,
-                  'detailRoute': DetailRoute.branch,
-                },
-              );
-            }
-          },
+          onBack: _handleBack,
         ),
         const SizedBox(height: 16),
         Padding(
@@ -132,7 +125,6 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),
-
         const SizedBox(height: 16),
         Expanded(
           child: Padding(
@@ -161,7 +153,7 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
                       backExtra: {
                         'toolbag': widget.toolbag,
                         'cameFromMob': widget.cameFromMob,
-                        'fromNext': true, // 👈 explicit
+                        'fromNext': true,
                       },
                       detailRoute: DetailRoute.branch,
                       direction: SlideDirection.right,

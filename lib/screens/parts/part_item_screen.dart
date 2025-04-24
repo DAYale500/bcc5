@@ -28,7 +28,7 @@ class PartItemScreen extends StatelessWidget {
     final List<String> sequenceIds = filteredParts.map((p) => p.id).toList();
     final List<RenderItem> renderItems = buildRenderItems(ids: sequenceIds);
 
-    logger.i('🟦 Displaying PartItemScreen (Zone: $zone)');
+    // logger.i('🟦 Displaying PartItemScreen (Zone: $zone)');
 
     // 🔑 Local ownership of GlobalKeys
     final mobKey = GlobalKey(debugLabel: 'MOBKey');

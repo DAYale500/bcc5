@@ -167,12 +167,12 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     const categoryTitle = 'Drills';
     // final categoryId = widget.backExtra?['category'] as String?;
 
-    logger.i(
-      '🖼️ Rendering Flashcard:\n'
-      '  ├─ title: $title\n'
-      '  ├─ sideA: ${sideA.length} blocks\n'
-      '  └─ sideB: ${sideB.length} blocks',
-    );
+    // logger.i(
+    //   '🖼️ Rendering Flashcard:\n'
+    //   '  ├─ title: $title\n'
+    //   '  ├─ sideA: ${sideA.length} blocks\n'
+    //   '  └─ sideB: ${sideB.length} blocks',
+    // );
 
     return Scaffold(
       key: ValueKey(widget.transitionKey),

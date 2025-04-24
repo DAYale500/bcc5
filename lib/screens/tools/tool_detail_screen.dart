@@ -103,7 +103,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final item = widget.renderItems[currentIndex];
-    logger.d('[ToolDetail] AppBar keys assigned.');
+    // logger.d('[ToolDetail] AppBar keys assigned.');
 
     if (item.type != RenderItemType.tool) {
       return const Scaffold(body: SizedBox());
@@ -113,7 +113,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
     final toolTitle = item.title;
     // final toolbagId = widget.backExtra?['toolbag'] as String?;
 
-    logger.d('[ToolDetail] Content blocks: ${item.content.length}');
+    // logger.d('[ToolDetail] Content blocks: ${item.content.length}');
 
     return PageTransitionSwitcher(
       duration: const Duration(milliseconds: 250),

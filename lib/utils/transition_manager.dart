@@ -115,15 +115,10 @@ class TransitionManager {
     //   ' └─ titleKey: ${_safeKey(extras['titleKey'])}',
     // );
 
-    final detailRoute =
-        extras['detailRoute'] is DetailRoute
-            ? extras['detailRoute'] as DetailRoute
-            : (() {
-              logger.w(
-                '[TransitionManager] ❗ Missing detailRoute in .extras — defaulting to DetailRoute.branch',
-              );
-              return DetailRoute.branch;
-            })();
+    // final detailRoute =
+    //     extras['detailRoute'] is DetailRoute
+    //         ? extras['detailRoute'] as DetailRoute
+    //         : DetailRoute.branch;
 
     final effectiveSlideFrom =
         extras['slideFrom'] is SlideDirection
@@ -135,10 +130,10 @@ class TransitionManager {
             ? extras['transitionType'] as TransitionType
             : transitionType;
 
-    logger.i(
-      '[TransitionManager] buildCustomTransition → '
-      'detailRoute: $detailRoute | transitionType: $effectiveTransitionType | slideFrom: $effectiveSlideFrom',
-    );
+    // logger.i(
+    //   '[TransitionManager] buildCustomTransition → '
+    //   'detailRoute: $detailRoute | transitionType: $effectiveTransitionType | slideFrom: $effectiveSlideFrom',
+    // );
 
     // ✅ Add these additional transitions into your transitionsBuilder
 
