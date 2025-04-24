@@ -4,8 +4,6 @@ import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
-import 'package:bcc5/utils/string_extensions.dart';
-import 'package:bcc5/widgets/group_picker_dropdown.dart';
 import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -166,7 +164,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
     const categoryTitle = 'Drills';
-    final categoryId = widget.backExtra?['category'] as String?;
+    // final categoryId = widget.backExtra?['category'] as String?;
 
     logger.i(
       '🖼️ Rendering Flashcard:\n'
@@ -214,62 +212,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
               if (widget.detailRoute == DetailRoute.path)
                 LearningPathProgressBar(
                   pathName: widget.backExtra?['pathName'] ?? '',
-                ),
-
-              if (widget.detailRoute == DetailRoute.branch)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: GroupPickerDropdown(
-                    label: 'Category',
-                    selectedId: categoryId ?? '',
-                    ids: getAllCategories(),
-                    idToTitle: {
-                      for (final id in getAllCategories()) id: id.toTitleCase(),
-                    },
-
-                    onChanged: (selectedCategoryId) {
-                      if (selectedCategoryId == categoryId) {
-                        logger.i('🟡 Same category selected → no action');
-                        return;
-                      }
-
-                      final flashcards = getFlashcardsForCategory(
-                        selectedCategoryId,
-                      );
-                      if (flashcards.isEmpty) {
-                        logger.w('⚠️ Selected category has no flashcards');
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Selected category has no flashcards.',
-                            ),
-                          ),
-                        );
-                        return;
-                      }
-
-                      final renderItems =
-                          flashcards
-                              .map((card) => RenderItem.fromFlashcard(card))
-                              .toList();
-
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: RenderItemType.flashcard,
-                        renderItems: renderItems,
-                        currentIndex: 0,
-                        branchIndex: widget.branchIndex,
-                        backDestination: '/flashcards/items',
-                        backExtra: {
-                          'category': selectedCategoryId,
-                          'branchIndex': widget.branchIndex,
-                        },
-                        detailRoute: widget.detailRoute,
-                        direction: SlideDirection.right,
-                        replace: true,
-                      );
-                    },
-                  ),
                 ),
 
               const SizedBox(height: 16),

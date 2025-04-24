@@ -2,7 +2,6 @@ import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
-import 'package:bcc5/widgets/group_picker_dropdown.dart';
 import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
@@ -12,7 +11,6 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
-import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/transition_manager.dart';
 
@@ -175,86 +173,6 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
               if (widget.detailRoute == DetailRoute.path)
                 LearningPathProgressBar(
                   pathName: widget.backExtra?['pathName'] ?? '',
-                ),
-
-              // This section renders the GroupPickerDropdown used for switching between
-              //toolbags in branch mode. When the user selects a different toolbag,
-              //it rebuilds renderItems and navigates to the new tool.
-              //
-              if (widget.detailRoute == DetailRoute.branch)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: GroupPickerDropdown(
-                    label: 'Toolbag',
-                    selectedId: widget.backExtra?['toolbag'] ?? '',
-                    ids: ToolRepositoryIndex.getToolbagNames(),
-                    idToTitle: {
-                      for (final id in ToolRepositoryIndex.getToolbagNames())
-                        id: id.toTitleCase(),
-                    },
-                    onChanged: (selectedToolbagId) {
-                      if (selectedToolbagId == widget.backExtra?['toolbag']) {
-                        logger.i('🟡 Same toolbag selected → no action');
-                        return;
-                      }
-
-                      final tools = ToolRepositoryIndex.getToolsForBag(
-                        selectedToolbagId,
-                      );
-                      final renderItems = buildRenderItems(
-                        ids: tools.map((tool) => tool.id).toList(),
-                      );
-
-                      if (renderItems.isEmpty) {
-                        logger.w('⚠️ Selected toolbag has no renderable items');
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Selected toolbag has no items.'),
-                          ),
-                        );
-                        return;
-                      }
-
-                      logger.i(
-                        '🛠️ Navigating to ToolItemScreen for new toolbag: $selectedToolbagId',
-                      );
-
-                      // ✅ Step 1: Push to ToolItemScreen
-                      context.go(
-                        '/tools/items',
-                        extra: {
-                          'toolbag': selectedToolbagId,
-                          'transitionKey':
-                              'tool_items_${selectedToolbagId}_${DateTime.now().millisecondsSinceEpoch}',
-                          'slideFrom': SlideDirection.right,
-                          'transitionType': TransitionType.slide,
-                          'detailRoute': DetailRoute.branch,
-                          'cameFromMob':
-                              widget.backExtra?['cameFromMob'] == true,
-                        },
-                      );
-
-                      // ✅ Step 2: After frame, navigate to new tool detail
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        TransitionManager.goToDetailScreen(
-                          context: context,
-                          screenType: renderItems.first.type,
-                          renderItems: renderItems,
-                          currentIndex: 0,
-                          branchIndex: widget.branchIndex,
-                          backDestination: '/tools/items',
-                          backExtra: {
-                            'toolbag': selectedToolbagId,
-                            'cameFromMob':
-                                widget.backExtra?['cameFromMob'] == true,
-                          },
-                          detailRoute: widget.detailRoute,
-                          direction: SlideDirection.right,
-                          replace: true,
-                        );
-                      });
-                    },
-                  ),
                 ),
 
               /// the bottom of insert area

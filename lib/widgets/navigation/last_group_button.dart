@@ -78,7 +78,7 @@ class _LastGroupButtonState extends State<LastGroupButton> {
         isPath
             ? (nextChapter != null
                 ? '/learning-paths/${pathName!.toLowerCase().replaceAll(' ', '-')}'
-                : '/landing')
+                : '/')
             : widget.backDestination;
 
     final backLabel =

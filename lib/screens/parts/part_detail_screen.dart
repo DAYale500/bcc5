@@ -15,14 +15,12 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
-import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/transition_manager.dart';
 
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
-import 'package:bcc5/widgets/group_picker_dropdown.dart';
 
 // import 'package:bcc5/widgets/end_of_group_modal.dart';
 
@@ -119,7 +117,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
   }
 
   Widget _buildScaffold(RenderItem item, String partTitle, String zoneTitle) {
-    final zoneId = widget.backExtra?['zone'] as String?;
+    // final zoneId = widget.backExtra?['zone'] as String?;
 
     return Scaffold(
       key: ValueKey(widget.transitionKey),
@@ -160,44 +158,6 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
               if (widget.detailRoute == DetailRoute.path)
                 LearningPathProgressBar(
                   pathName: widget.backExtra?['pathName'] ?? '',
-                ),
-              if (widget.detailRoute == DetailRoute.branch)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: GroupPickerDropdown(
-                    label: 'Zone',
-                    selectedId: zoneId?.toLowerCase() ?? '',
-                    ids: PartRepositoryIndex.getZoneNames(),
-                    idToTitle: {
-                      for (final id in PartRepositoryIndex.getZoneNames())
-                        id: id.toTitleCase(),
-                    },
-                    onChanged: (selectedZoneId) {
-                      if (selectedZoneId == zoneId) return;
-                      final renderItems = buildRenderItems(
-                        ids:
-                            PartRepositoryIndex.getPartsForZone(
-                              selectedZoneId,
-                            ).map((p) => p.id).toList(),
-                      );
-                      if (renderItems.isEmpty) return;
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: renderItems.first.type,
-                        renderItems: renderItems,
-                        currentIndex: 0,
-                        branchIndex: widget.branchIndex,
-                        backDestination: '/parts/items',
-                        backExtra: {
-                          'zone': selectedZoneId,
-                          'branchIndex': widget.branchIndex,
-                        },
-                        detailRoute: widget.detailRoute,
-                        direction: SlideDirection.right,
-                        replace: true,
-                      );
-                    },
-                  ),
                 ),
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
