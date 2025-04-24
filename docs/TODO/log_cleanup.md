@@ -11,14 +11,28 @@ Tag	File	Line / Info
 
 
 
-I'd like to create a table of the transitions in each branch and what they're supposed to be. Then, I can manually verify if that's the way it's working.
 
 
-
-
-
-take picker off detail screens
-
+My focus group determined that the groupPicker on the detail screens was more of a distraction than a benefit. Let's disable it and in it's place, just list the GroupName above the ItemName (effectively a breadcrumb). We'll just do that in lessonDetailScreen for now.
 
 change next chapter to the lastGroupButton style, but have two buttons: back to chapter list and next chapter (name)
 
+
+
+
+
+
+
+
+
+Label | Description | Suggestion
+💡 🧪 [TransitionManager] buildCustomTransition EXTRAS DUMP | Dumps every key from .extra, spans 10+ lines, repeated every transition. | Demote to logger.v(...), or gate behind kDebugMode && verboseLogging.
+💡 [TransitionManager] buildCustomTransition → detailRoute: ... | Summary line repeated every route | Keep if useful, or demote to .d or conditional.
+💡 🛠️ Navigating to ToolItemScreen for toolbag: ... | In app_router.dart, happens for every navigation | Demote to .d.
+🐛 [ToolDetail] AppBar keys assigned. | Logs on every rebuild | Either remove or guard with kDebugMode.
+🐛 [ToolDetail] Content blocks: N | Logs item count but adds little in runtime | Demote or remove unless debugging item construction.
+💡 ToolItemScreen loaded for toolbag: ... | Logs repeatedly when switching tools | Could be useful in dev, demote to .d otherwise.
+💡 🟦 Displaying ToolsScreen | Appears every time ToolBagScreen is rebuilt | Remove or demote.
+⚠️ No pages left to pop. Redirecting manually. | Valid warning, but occurs often | Keep, but consider .w instead of .i if noisy.
+⚠️ Back tap ignored — nothing to pop! | Same as above, common in edge back cases | Same suggestion as above.
+💡 🚀 App Launch / 🌕 APP LAUNCH | Huge emoji spam repeated at startup | Replace with a one-liner banner or concise emoji if you want flair without noise.

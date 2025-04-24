@@ -19,6 +19,8 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/utils/transition_manager.dart';
 import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 
+import 'package:bcc5/widgets/navigation/last_group_button.dart';
+
 class FlashcardDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
   final int currentIndex;
@@ -351,318 +353,175 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                 onNext: () => _navigateTo(currentIndex + 1),
                 customNextButton:
                     currentIndex == widget.renderItems.length - 1
-                        ? _buildLastGroupButton()
+                        ? LastGroupButton(
+                          type: RenderItemType.flashcard,
+                          detailRoute: widget.detailRoute,
+                          backExtra: widget.backExtra,
+                          branchIndex: widget.branchIndex,
+                          backDestination:
+                              widget.detailRoute == DetailRoute.path
+                                  ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
+                                  : '/flashcards/items',
+                          label:
+                              widget.detailRoute == DetailRoute.path
+                                  ? 'chapter'
+                                  : 'category',
+                          getNextRenderItems: () async {
+                            if (widget.detailRoute == DetailRoute.path) {
+                              final pathName =
+                                  widget.backExtra?['pathName'] as String?;
+                              final chapterId =
+                                  widget.backExtra?['chapterId'] as String?;
+                              if (pathName == null || chapterId == null) {
+                                return null;
+                              }
+
+                              final nextChapter =
+                                  PathRepositoryIndex.getNextChapter(
+                                    pathName,
+                                    chapterId,
+                                  );
+                              if (nextChapter == null) return null;
+
+                              return buildRenderItems(
+                                ids:
+                                    nextChapter.items
+                                        .map((e) => e.pathItemId)
+                                        .toList(),
+                              );
+                            } else {
+                              final currentCategory =
+                                  widget.backExtra?['category'] as String?;
+                              if (currentCategory == null) return null;
+
+                              final nextCategory = getNextCategory(
+                                currentCategory,
+                              );
+                              if (nextCategory == null) return null;
+
+                              final nextFlashcards = getFlashcardsForCategory(
+                                nextCategory,
+                              );
+                              if (nextFlashcards.isEmpty) return [];
+
+                              return nextFlashcards
+                                  .map(RenderItem.fromFlashcard)
+                                  .toList();
+                            }
+                          },
+                          onNavigateToNextGroup: (renderItems) {
+                            if (renderItems.isEmpty) return;
+
+                            final isPath =
+                                widget.detailRoute == DetailRoute.path;
+                            final route =
+                                isPath
+                                    ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
+                                    : '/flashcards/items';
+
+                            final backExtra = {
+                              if (isPath)
+                                'chapterId':
+                                    PathRepositoryIndex.getNextChapter(
+                                      widget.backExtra?['pathName'],
+                                      widget.backExtra?['chapterId'],
+                                    )?.id,
+                              if (isPath)
+                                'pathName': widget.backExtra?['pathName'],
+                              if (!isPath)
+                                'category': getNextCategory(
+                                  widget.backExtra?['category'],
+                                ),
+                              'branchIndex': widget.branchIndex,
+                            };
+
+                            TransitionManager.goToDetailScreen(
+                              context: context,
+                              screenType: RenderItemType.flashcard,
+                              renderItems: renderItems,
+                              currentIndex: 0,
+                              branchIndex: widget.branchIndex,
+                              backDestination: route,
+                              backExtra: backExtra,
+                              detailRoute: widget.detailRoute,
+                              direction: SlideDirection.right,
+                              replace: true,
+                            );
+                          },
+                          onRestartAtFirstGroup: () {
+                            if (widget.detailRoute == DetailRoute.path) {
+                              final pathName =
+                                  widget.backExtra?['pathName'] as String?;
+                              final firstChapter =
+                                  pathName == null
+                                      ? null
+                                      : PathRepositoryIndex.getChaptersForPath(
+                                        pathName,
+                                      ).first;
+
+                              if (pathName == null || firstChapter == null) {
+                                return;
+                              }
+
+                              final renderItems = buildRenderItems(
+                                ids:
+                                    firstChapter.items
+                                        .map((e) => e.pathItemId)
+                                        .toList(),
+                              );
+
+                              if (renderItems.isEmpty) return;
+
+                              TransitionManager.goToDetailScreen(
+                                context: context,
+                                screenType: RenderItemType.flashcard,
+                                renderItems: renderItems,
+                                currentIndex: 0,
+                                branchIndex: widget.branchIndex,
+                                backDestination:
+                                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                                backExtra: {
+                                  'chapterId': firstChapter.id,
+                                  'pathName': pathName,
+                                  'branchIndex': widget.branchIndex,
+                                },
+                                detailRoute: widget.detailRoute,
+                                direction: SlideDirection.right,
+                                replace: true,
+                              );
+                            } else {
+                              final firstCategory = getAllCategories().first;
+                              final firstFlashcards = getFlashcardsForCategory(
+                                firstCategory,
+                              );
+                              final renderItems =
+                                  firstFlashcards
+                                      .map((f) => RenderItem.fromFlashcard(f))
+                                      .toList();
+
+                              if (renderItems.isEmpty) return;
+
+                              TransitionManager.goToDetailScreen(
+                                context: context,
+                                screenType: RenderItemType.flashcard,
+                                renderItems: renderItems,
+                                currentIndex: 0,
+                                branchIndex: widget.branchIndex,
+                                backDestination: '/flashcards/items',
+                                backExtra: {
+                                  'category': firstCategory,
+                                  'branchIndex': widget.branchIndex,
+                                },
+                                detailRoute: widget.detailRoute,
+                                direction: SlideDirection.right,
+                                replace: true,
+                              );
+                            }
+                          },
+                        )
                         : null,
-
-                // customNextButton:
-                //     currentIndex == widget.renderItems.length - 1
-                //         ? ElevatedButton(
-                //           onPressed: () {
-                //             logger.i(
-                //               '⏭️ Next Chapter tapped on FlashcardDetailScreen',
-                //             );
-
-                //             if (widget.detailRoute == DetailRoute.branch) {
-                //               final currentCategory =
-                //                   widget.backExtra?['category'] as String?;
-                //               if (currentCategory == null) {
-                //                 logger.w('⚠️ Missing category in backExtra');
-                //                 ScaffoldMessenger.of(context).showSnackBar(
-                //                   const SnackBar(
-                //                     content: Text('No category context found.'),
-                //                   ),
-                //                 );
-                //                 return;
-                //               }
-
-                //               final nextCategory = getNextCategory(
-                //                 currentCategory,
-                //               );
-                //               if (nextCategory == null) {
-                //                 logger.i(
-                //                   '⛔ No next category after $currentCategory',
-                //                 );
-                //                 ScaffoldMessenger.of(context).showSnackBar(
-                //                   const SnackBar(
-                //                     content: Text(
-                //                       'You’ve reached the final category.',
-                //                     ),
-                //                   ),
-                //                 );
-                //                 return;
-                //               }
-
-                //               final nextFlashcards = getFlashcardsForCategory(
-                //                 nextCategory,
-                //               );
-                //               if (nextFlashcards.isEmpty) {
-                //                 logger.w(
-                //                   '⚠️ Next category has no flashcards: $nextCategory',
-                //                 );
-                //                 ScaffoldMessenger.of(context).showSnackBar(
-                //                   const SnackBar(
-                //                     content: Text(
-                //                       'Next category has no flashcards.',
-                //                     ),
-                //                   ),
-                //                 );
-                //                 return;
-                //               }
-
-                //               final renderItems =
-                //                   nextFlashcards
-                //                       .map((f) => RenderItem.fromFlashcard(f))
-                //                       .toList();
-
-                //               TransitionManager.goToDetailScreen(
-                //                 context: context,
-                //                 screenType: RenderItemType.flashcard,
-                //                 renderItems: renderItems,
-                //                 currentIndex: 0,
-                //                 branchIndex: widget.branchIndex,
-                //                 backDestination: '/flashcards/items',
-                //                 backExtra: {
-                //                   'category': nextCategory,
-                //                   'branchIndex': widget.branchIndex,
-                //                 },
-                //                 detailRoute: widget.detailRoute,
-                //                 direction: SlideDirection.right,
-                //                 replace: true,
-                //               );
-                //             } else if (widget.detailRoute == DetailRoute.path) {
-                //               final currentChapterId =
-                //                   widget.backExtra?['chapterId'] as String?;
-                //               final pathName =
-                //                   widget.backExtra?['pathName'] as String?;
-
-                //               if (currentChapterId == null ||
-                //                   pathName == null) {
-                //                 logger.w(
-                //                   '⚠️ Missing path context in backExtra',
-                //                 );
-                //                 ScaffoldMessenger.of(context).showSnackBar(
-                //                   const SnackBar(
-                //                     content: Text('No path context found.'),
-                //                   ),
-                //                 );
-                //                 return;
-                //               }
-
-                //               final nextChapter =
-                //                   PathRepositoryIndex.getNextChapter(
-                //                     pathName,
-                //                     currentChapterId,
-                //                   );
-                //               if (nextChapter == null) {
-                //                 logger.i(
-                //                   '⛔ No next chapter in $pathName after $currentChapterId',
-                //                 );
-                //                 ScaffoldMessenger.of(context).showSnackBar(
-                //                   const SnackBar(
-                //                     content: Text(
-                //                       'You’ve reached the final chapter.',
-                //                     ),
-                //                   ),
-                //                 );
-                //                 return;
-                //               }
-
-                //               final renderItems = buildRenderItems(
-                //                 ids:
-                //                     nextChapter.items
-                //                         .map((item) => item.pathItemId)
-                //                         .toList(),
-                //               );
-
-                //               if (renderItems.isEmpty) {
-                //                 logger.w(
-                //                   '⚠️ Next chapter has no renderable items',
-                //                 );
-                //                 ScaffoldMessenger.of(context).showSnackBar(
-                //                   const SnackBar(
-                //                     content: Text('Next chapter has no items.'),
-                //                   ),
-                //                 );
-                //                 return;
-                //               }
-
-                //               TransitionManager.goToDetailScreen(
-                //                 context: context,
-                //                 screenType: renderItems.first.type,
-                //                 renderItems: renderItems,
-                //                 currentIndex: 0,
-                //                 branchIndex: widget.branchIndex,
-                //                 backDestination:
-                //                     '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                //                 backExtra: {
-                //                   'chapterId': nextChapter.id,
-                //                   'pathName': pathName,
-                //                   'branchIndex': widget.branchIndex,
-                //                 },
-                //                 detailRoute: widget.detailRoute,
-                //                 direction: SlideDirection.right,
-                //                 replace: true,
-                //               );
-                //             }
-                //           },
-                //           style: AppTheme.navigationButton,
-                //           child: const Text('Next Chapter'),
-                //         )
-                //         : null,
               ),
             ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLastGroupButton() {
-    if (widget.detailRoute == DetailRoute.branch) {
-      final currentCategory = widget.backExtra?['category'] as String?;
-      if (currentCategory == null) return const SizedBox.shrink();
-
-      final nextCategory = getNextCategory(currentCategory);
-      return ElevatedButton(
-        onPressed: () {
-          logger.i('⏭️ Next Category tapped on FlashcardDetailScreen');
-
-          if (nextCategory == null) {
-            logger.i('⛔ No more categories after $currentCategory');
-            showModalBottomSheet(
-              context: context,
-              showDragHandle: true,
-              builder: (_) => _buildEndOfGroupModal('category', '/flashcards'),
-            );
-            return;
-          }
-
-          final nextFlashcards = getFlashcardsForCategory(nextCategory);
-          if (nextFlashcards.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Next category has no flashcards.')),
-            );
-            return;
-          }
-
-          final renderItems =
-              nextFlashcards.map((f) => RenderItem.fromFlashcard(f)).toList();
-
-          TransitionManager.goToDetailScreen(
-            context: context,
-            screenType: RenderItemType.flashcard,
-            renderItems: renderItems,
-            currentIndex: 0,
-            branchIndex: widget.branchIndex,
-            backDestination: '/flashcards/items',
-            backExtra: {
-              'category': nextCategory,
-              'branchIndex': widget.branchIndex,
-            },
-            detailRoute: widget.detailRoute,
-            direction: SlideDirection.right,
-            replace: true,
-          );
-        },
-        style: AppTheme.navigationButton,
-        child: const Text('Next Category'),
-      );
-    }
-
-    if (widget.detailRoute == DetailRoute.path) {
-      final currentChapterId = widget.backExtra?['chapterId'] as String?;
-      final pathName = widget.backExtra?['pathName'] as String?;
-
-      if (pathName == null || currentChapterId == null) {
-        logger.w('⚠️ Missing path context in backExtra');
-        return const SizedBox.shrink();
-      }
-
-      final nextChapter = PathRepositoryIndex.getNextChapter(
-        pathName,
-        currentChapterId,
-      );
-
-      return ElevatedButton(
-        onPressed: () {
-          logger.i('⏭️ Next Chapter tapped on FlashcardDetailScreen');
-
-          if (nextChapter == null) {
-            logger.i('⛔ No more chapters in $pathName');
-            showModalBottomSheet(
-              context: context,
-              showDragHandle: true,
-              builder:
-                  (_) => _buildEndOfGroupModal(
-                    'chapter',
-                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}',
-                  ),
-            );
-            return;
-          }
-
-          final renderItems = buildRenderItems(
-            ids: nextChapter.items.map((item) => item.pathItemId).toList(),
-          );
-
-          if (renderItems.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Next chapter has no items.')),
-            );
-            return;
-          }
-
-          TransitionManager.goToDetailScreen(
-            context: context,
-            screenType: renderItems.first.type,
-            renderItems: renderItems,
-            currentIndex: 0,
-            branchIndex: widget.branchIndex,
-            backDestination:
-                '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-            backExtra: {
-              'chapterId': nextChapter.id,
-              'pathName': pathName,
-              'branchIndex': widget.branchIndex,
-            },
-            detailRoute: widget.detailRoute,
-            direction: SlideDirection.right,
-            replace: true,
-          );
-        },
-        style: AppTheme.navigationButton,
-        child: const Text('Next Chapter'),
-      );
-    }
-
-    return const SizedBox.shrink();
-  }
-
-  Widget _buildEndOfGroupModal(String label, String backRoute) {
-    final labelCapitalized = label.toTitleCase();
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            '🎉 You’ve reached the final $label!',
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 12),
-          Text(
-            'Great job making it through this $label. You can review or return to the full list of ${labelCapitalized}s.',
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              context.go(backRoute);
-            },
-            style: AppTheme.navigationButton,
-            child: Text('Back to ${labelCapitalized}s'),
           ),
         ],
       ),

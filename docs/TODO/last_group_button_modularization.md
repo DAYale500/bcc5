@@ -199,3 +199,62 @@ customNextButton: currentIndex == renderItems.length - 1
 ```
 
 Let me know when you're ready for full integration instructions for one of the screens, or want to add optional helper methods or unit tests.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perfect summary — this is super clean and should get any new dev up to speed fast. Here’s a quick version of how to onboard them smoothly based on your structure:
+
+---
+
+## 👋 Onboarding Summary for New Developer
+
+### 🔧 Your Immediate Focus
+You’re joining mid-refactor of the BCC5 app's `DetailScreen` UX. Your first mission is to **standardize the “Next Chapter/Group” behavior** across all content types:
+
+- **Goal:** Replace ad-hoc “Next” buttons with a shared `LastGroupButton` widget and show an `EndOfGroupModal` when the user reaches the end of a group or branch.
+- **Screens Done:** `LessonDetailScreen`, `PartDetailScreen`
+- **Screens To Do:** `ToolDetailScreen`, `FlashcardDetailScreen`
+
+---
+
+### 📦 Key Files
+- `lib/widgets/navigation/last_group_button.dart` – shared button widget
+- `lib/widgets/end_of_group_modal.dart` – reusable bottom modal
+- Each `DetailScreen` will drop in `LastGroupButton` using:
+  - `getNextRenderItems` → function to look up the next group
+  - `onNavigateToNextGroup` → calls `TransitionManager.goToDetailScreen(...)`
+
+---
+
+### 📌 Patterns to Copy
+Look at the `LessonDetailScreen` integration:
+- `customNextButton: currentIndex == renderItems.length - 1 ? LastGroupButton(...) : null`
+- Use `backExtra` for current module/zone/toolbag
+- `getNextRenderItems()` uses correct RepositoryIndex
+- `onNavigateToNextGroup(...)` does the actual `TransitionManager` navigation
+
+---
+
+### 🛠 Dev Notes
+- Use `TransitionManager` for **all** navigation between detail items
+- Use `backDestination` and `backExtra` for consistent back behavior
+- Stick to the app’s defined `DetailRoute.branch` vs `DetailRoute.path` logic
+- Stick to existing `AppTheme` and transition types
+
+---
+
+Let me know when you're ready to refactor the next file (ToolDetailScreen or FlashcardDetailScreen) — I can walk through it line by line and convert it to use `LastGroupButton` cleanly.

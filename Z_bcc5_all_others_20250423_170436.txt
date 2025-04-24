@@ -49,7 +49,7 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logger.d('[Scaffold] tab index: $branchIndex');
+    // logger.d('[Scaffold] tab index: $branchIndex');
 
     return Scaffold(
       appBar: appBar,
@@ -127,7 +127,7 @@ final appRouter = GoRouter(
       path: '/',
       name: 'landing',
       pageBuilder: (context, state) {
-        logger.d('[Router] Navigated to /landing');
+        // logger.d('[Router] Navigated to /landing');
 
         final showReminder =
             (state.extra as Map<String, dynamic>?)?['showReminder'] as bool? ??
@@ -350,7 +350,7 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
-        logger.i('🧩 Entering PartZoneScreen');
+        // logger.i('🧩 Entering PartZoneScreen');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -439,7 +439,7 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
-        logger.d('[Router] Navigated to /tools');
+        // logger.d('[Router] Navigated to /tools');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -466,19 +466,6 @@ final appRouter = GoRouter(
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
 
-        // final mobKey =
-        //     extras['mobKey'] as GlobalKey? ??
-        //     GlobalKey(debugLabel: 'MOBKey'); // ✅
-        // final settingsKey =
-        //     extras['settingsKey'] as GlobalKey? ??
-        //     GlobalKey(debugLabel: 'SettingsKey'); // ✅
-        // final searchKey =
-        //     extras['searchKey'] as GlobalKey? ??
-        //     GlobalKey(debugLabel: 'SearchKey'); // ✅
-        // final titleKey =
-        //     extras['titleKey'] as GlobalKey? ??
-        //     GlobalKey(debugLabel: 'TitleKey'); // ✅
-
         logger.i(
           '🛠️ Navigating to ToolItemScreen for toolbag: $toolbag | detailRoute: $detailRoute',
         );
@@ -491,13 +478,7 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 3,
-            child: ToolItemScreen(
-              toolbag: toolbag,
-              // mobKey: mobKey, // ✅
-              // settingsKey: settingsKey, // ✅
-              // searchKey: searchKey, // ✅
-              // titleKey: titleKey, // ✅
-            ),
+            child: ToolItemScreen(toolbag: toolbag),
           ),
         );
       },
@@ -541,7 +522,7 @@ final appRouter = GoRouter(
       path: '/flashcards',
       name: 'flashcards',
       pageBuilder: (context, state) {
-        logger.i('📇 Entering FlashcardCategoryScreen');
+        // logger.i('📇 Entering FlashcardCategoryScreen');
 
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final slideFrom =
@@ -609,7 +590,7 @@ final appRouter = GoRouter(
         final detailRoute = extras['detailRoute'] as DetailRoute;
         final transitionKey = extras['transitionKey'] as String;
 
-        logger.i('🃏 Entering FlashcardDetailScreen with extra: $extras');
+        // logger.i('🃏 Entering FlashcardDetailScreen with extra: $extras');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -1095,12 +1076,12 @@ class TransitionManager {
       ...?_stripGlobalKeys(backExtra),
       'detailRoute': detailRoute,
     };
-    logger.i(
-      '[TransitionManager] goToDetailScreen → '
-      'type: $screenType | route: $route | index: $currentIndex\n'
-      '→ detailRoute: $detailRoute | direction: $direction\n'
-      '→ backDestination: $backDestination | transitionKey: $transitionKey',
-    );
+    // logger.i(
+    //   '[TransitionManager] goToDetailScreen → '
+    //   'type: $screenType | route: $route | index: $currentIndex\n'
+    //   '→ detailRoute: $detailRoute | direction: $direction\n'
+    //   '→ backDestination: $backDestination | transitionKey: $transitionKey',
+    // );
 
     final extra = {
       'renderItems': renderItems,
@@ -1152,18 +1133,18 @@ class TransitionManager {
   }) {
     final extras = state.extra as Map<String, dynamic>? ?? {};
 
-    logger.i(
-      '🧪 [TransitionManager] buildCustomTransition EXTRAS DUMP\n'
-      ' ├─ route: ${state.uri.toString()}\n'
-      ' ├─ transitionKey: $transitionKey\n'
-      ' ├─ detailRoute: ${extras['detailRoute']}\n'
-      ' ├─ slideFrom: ${extras['slideFrom']}\n'
-      ' ├─ transitionType: ${extras['transitionType']}\n'
-      ' ├─ mobKey: ${_safeKey(extras['mobKey'])}\n'
-      ' ├─ settingsKey: ${_safeKey(extras['settingsKey'])}\n'
-      ' ├─ searchKey: ${_safeKey(extras['searchKey'])}\n'
-      ' └─ titleKey: ${_safeKey(extras['titleKey'])}',
-    );
+    // logger.i(
+    //   '🧪 [TransitionManager] buildCustomTransition EXTRAS DUMP\n'
+    //   ' ├─ route: ${state.uri.toString()}\n'
+    //   ' ├─ transitionKey: $transitionKey\n'
+    //   ' ├─ detailRoute: ${extras['detailRoute']}\n'
+    //   ' ├─ slideFrom: ${extras['slideFrom']}\n'
+    //   ' ├─ transitionType: ${extras['transitionType']}\n'
+    //   ' ├─ mobKey: ${_safeKey(extras['mobKey'])}\n'
+    //   ' ├─ settingsKey: ${_safeKey(extras['settingsKey'])}\n'
+    //   ' ├─ searchKey: ${_safeKey(extras['searchKey'])}\n'
+    //   ' └─ titleKey: ${_safeKey(extras['titleKey'])}',
+    // );
 
     final detailRoute =
         extras['detailRoute'] is DetailRoute
@@ -1274,13 +1255,14 @@ class TransitionManager {
     );
   }
 
-  static String _safeKey(Object? key) {
-    if (key is GlobalKey<State<StatefulWidget>>) {
-      final label = key.toString();
-      return label.contains("'") ? label.split("'")[1] : label;
-    }
-    return key?.toString() ?? 'null';
-  }
+  // this if for the big extra logger dump that's commented out above
+  // static String _safeKey(Object? key) {
+  //   if (key is GlobalKey<State<StatefulWidget>>) {
+  //     final label = key.toString();
+  //     return label.contains("'") ? label.split("'")[1] : label;
+  //   }
+  //   return key?.toString() ?? 'null';
+  // }
 }
 
 /// Used for in-group transitions (Next/Previous)
@@ -1635,9 +1617,9 @@ import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
 
 List<RenderItem> buildRenderItems({required List<String> ids}) {
-  if (ids.length > 2) {
-    logger.d('[Render] ${ids.length} item IDs: $ids');
-  }
+  // if (ids.length > 2) {
+  //   logger.d('[Render] ${ids.length} item IDs: $ids');
+  // }
   final items = <RenderItem>[];
   final invalidIds = <String>[];
 
@@ -1904,6 +1886,7 @@ import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/navigation/detail_route.dart';
+import 'package:go_router/go_router.dart';
 
 class ToolItemScreen extends StatefulWidget {
   final String toolbag;
@@ -1979,7 +1962,16 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
               logger.i('🔙 Back to previous screen via Navigator');
               Navigator.of(context).pop();
             } else {
-              logger.w('⚠️ Back tap ignored — nothing to pop!');
+              logger.i('🔙 Back to ToolBagScreen (fallback)');
+              context.go(
+                '/tools',
+                extra: {
+                  'transitionKey': UniqueKey().toString(),
+                  'slideFrom': SlideDirection.left,
+                  'transitionType': TransitionType.slide,
+                  'detailRoute': DetailRoute.branch,
+                },
+              );
             }
           },
         ),
@@ -2130,6 +2122,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
     }
 
     final targetItem = widget.renderItems[newIndex];
+
     TransitionManager.goToDetailScreen(
       context: context,
       screenType: targetItem.type,
@@ -2137,18 +2130,11 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
       currentIndex: newIndex,
       branchIndex: widget.branchIndex,
       backDestination: widget.backDestination,
-      backExtra: {
-        ...?widget.backExtra,
-        'toolbag': widget.backExtra?['toolbag'],
-        'cameFromMob': widget.backExtra?['cameFromMob'] == true,
-        'transitionKey': UniqueKey().toString(),
-        'slideFrom': SlideDirection.none,
-        'transitionType': TransitionType.fadeScale,
-      },
+      backExtra: widget.backExtra, // ✅ Unchanged, clean
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale,
-      replace: true, // ✅ this is the missing piece
+      replace: true, // ✅ Still correct
     );
   }
 
@@ -2211,20 +2197,15 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                     Navigator.of(context).pop();
                   } else {
                     logger.w('⚠️ No pages left to pop. Redirecting manually.');
-
-                    final fromNextButton =
-                        widget.backExtra?['fromNext'] == true;
-                    if (fromNextButton) {
-                      logger.i(
-                        '🧼 Popping back from next-button stack → clearing to /tools',
-                      );
-                      context.go('/tools'); // Hard reset to top
-                    } else {
-                      context.go(
-                        widget.backDestination,
-                        extra: widget.backExtra,
-                      );
-                    }
+                    context.go(
+                      widget.backDestination,
+                      extra: {
+                        ...?widget.backExtra,
+                        'transitionKey': UniqueKey().toString(),
+                        'slideFrom': SlideDirection.left,
+                        'transitionType': TransitionType.slide,
+                      },
+                    );
                   }
                 },
               ),
@@ -2347,167 +2328,323 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                 },
                 customNextButton:
                     currentIndex == widget.renderItems.length - 1
-                        ? ElevatedButton(
-                          onPressed: () {
-                            logger.i(
-                              '⏭️ Next Chapter tapped on ToolDetailScreen',
-                            );
-                            // When in branch mode and on the last tool in the current
-                            //toolbag, tapping “Next Chapter Branch Mode” navigates to the next
-                            //toolbag (if one exists) and renders its items.
-                            if (widget.detailRoute == DetailRoute.branch) {
-                              final currentToolbag =
-                                  widget.backExtra?['toolbag'] as String?;
-                              if (currentToolbag == null) {
-                                logger.w('⚠️ No toolbag ID found in backExtra');
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Cannot find next toolbag.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final nextToolbag =
-                                  ToolRepositoryIndex.getNextToolbag(
-                                    currentToolbag,
-                                  );
-                              if (nextToolbag == null) {
-                                logger.i(
-                                  '⛔ No more toolbags after $currentToolbag',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'You’ve reached the final toolbag.',
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final tools = ToolRepositoryIndex.getToolsForBag(
-                                nextToolbag,
-                              );
-                              final renderItems = buildRenderItems(
-                                ids: tools.map((tool) => tool.id).toList(),
-                              );
-
-                              if (renderItems.isEmpty) {
-                                logger.w(
-                                  '⚠️ Next toolbag has no renderable items',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Next toolbag has no items.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: renderItems.first.type,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination: '/tools/items',
-                                backExtra: {
-                                  'toolbag': nextToolbag,
-                                  'cameFromMob':
-                                      widget.backExtra?['cameFromMob'] == true,
-                                },
-
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-
-                              // If in path mode, and the current tool is the last in
-                              // the chapter, the “Next Chapter Path Mode” button navigates to
-                              // the next chapter using PathRepositoryIndex.getNextChapter.
-                            } else if (widget.detailRoute == DetailRoute.path) {
-                              final currentChapterId =
-                                  widget.backExtra?['chapterId'] as String?;
-                              final pathName =
-                                  widget.backExtra?['pathName'] as String?;
-
-                              if (currentChapterId == null ||
-                                  pathName == null) {
-                                logger.w(
-                                  '⚠️ Missing path context in backExtra',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('No path context found.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final nextChapter =
-                                  PathRepositoryIndex.getNextChapter(
-                                    pathName,
-                                    currentChapterId,
-                                  );
-                              if (nextChapter == null) {
-                                logger.i(
-                                  '⛔ No next chapter in $pathName after $currentChapterId',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'You’ve reached the final chapter.',
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final renderItems = buildRenderItems(
-                                ids:
-                                    nextChapter.items
-                                        .map((item) => item.pathItemId)
-                                        .toList(),
-                              );
-
-                              if (renderItems.isEmpty) {
-                                logger.w(
-                                  '⚠️ Next chapter has no renderable items',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Next chapter has no items.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: renderItems.first.type,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination:
-                                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                                backExtra: {
-                                  'chapterId': nextChapter.id,
-                                  'pathName': pathName,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            }
-                          },
-                          style: AppTheme.navigationButton,
-                          child: const Text('Next Chapter'),
-                        )
+                        ? _buildLastGroupButton()
                         : null,
+
+                // customNextButton:
+                //     currentIndex == widget.renderItems.length - 1
+                //         ? ElevatedButton(
+                //           onPressed: () {
+                //             logger.i(
+                //               '⏭️ Next Chapter tapped on ToolDetailScreen',
+                //             );
+                //             // When in branch mode and on the last tool in the current
+                //             //toolbag, tapping “Next Chapter Branch Mode” navigates to the next
+                //             //toolbag (if one exists) and renders its items.
+                //             if (widget.detailRoute == DetailRoute.branch) {
+                //               final currentToolbag =
+                //                   widget.backExtra?['toolbag'] as String?;
+                //               if (currentToolbag == null) {
+                //                 logger.w('⚠️ No toolbag ID found in backExtra');
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text('Cannot find next toolbag.'),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               final nextToolbag =
+                //                   ToolRepositoryIndex.getNextToolbag(
+                //                     currentToolbag,
+                //                   );
+                //               if (nextToolbag == null) {
+                //                 logger.i(
+                //                   '⛔ No more toolbags after $currentToolbag',
+                //                 );
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text(
+                //                       'You’ve reached the final toolbag.',
+                //                     ),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               final tools = ToolRepositoryIndex.getToolsForBag(
+                //                 nextToolbag,
+                //               );
+                //               final renderItems = buildRenderItems(
+                //                 ids: tools.map((tool) => tool.id).toList(),
+                //               );
+
+                //               if (renderItems.isEmpty) {
+                //                 logger.w(
+                //                   '⚠️ Next toolbag has no renderable items',
+                //                 );
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text('Next toolbag has no items.'),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               TransitionManager.goToDetailScreen(
+                //                 context: context,
+                //                 screenType: renderItems.first.type,
+                //                 renderItems: renderItems,
+                //                 currentIndex: 0,
+                //                 branchIndex: widget.branchIndex,
+                //                 backDestination: '/tools/items',
+                //                 backExtra: {
+                //                   'toolbag': nextToolbag,
+                //                   'cameFromMob':
+                //                       widget.backExtra?['cameFromMob'] == true,
+                //                 },
+
+                //                 detailRoute: widget.detailRoute,
+                //                 direction: SlideDirection.right,
+                //                 replace: true,
+                //               );
+
+                //               // If in path mode, and the current tool is the last in
+                //               // the chapter, the “Next Chapter Path Mode” button navigates to
+                //               // the next chapter using PathRepositoryIndex.getNextChapter.
+                //             } else if (widget.detailRoute == DetailRoute.path) {
+                //               final currentChapterId =
+                //                   widget.backExtra?['chapterId'] as String?;
+                //               final pathName =
+                //                   widget.backExtra?['pathName'] as String?;
+
+                //               if (currentChapterId == null ||
+                //                   pathName == null) {
+                //                 logger.w(
+                //                   '⚠️ Missing path context in backExtra',
+                //                 );
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text('No path context found.'),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               final nextChapter =
+                //                   PathRepositoryIndex.getNextChapter(
+                //                     pathName,
+                //                     currentChapterId,
+                //                   );
+                //               if (nextChapter == null) {
+                //                 logger.i(
+                //                   '⛔ No next chapter in $pathName after $currentChapterId',
+                //                 );
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text(
+                //                       'You’ve reached the final chapter.',
+                //                     ),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               final renderItems = buildRenderItems(
+                //                 ids:
+                //                     nextChapter.items
+                //                         .map((item) => item.pathItemId)
+                //                         .toList(),
+                //               );
+
+                //               if (renderItems.isEmpty) {
+                //                 logger.w(
+                //                   '⚠️ Next chapter has no renderable items',
+                //                 );
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text('Next chapter has no items.'),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               TransitionManager.goToDetailScreen(
+                //                 context: context,
+                //                 screenType: renderItems.first.type,
+                //                 renderItems: renderItems,
+                //                 currentIndex: 0,
+                //                 branchIndex: widget.branchIndex,
+                //                 backDestination:
+                //                     '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                //                 backExtra: {
+                //                   'chapterId': nextChapter.id,
+                //                   'pathName': pathName,
+                //                   'branchIndex': widget.branchIndex,
+                //                 },
+                //                 detailRoute: widget.detailRoute,
+                //                 direction: SlideDirection.right,
+                //                 replace: true,
+                //               );
+                //             }
+                //           },
+                //           style: AppTheme.navigationButton,
+                //           child: const Text('Next Chapter'),
+                //         )
+                //         : null,
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLastGroupButton() {
+    if (widget.detailRoute == DetailRoute.branch) {
+      final currentToolbag = widget.backExtra?['toolbag'] as String?;
+      if (currentToolbag == null) return const SizedBox.shrink();
+
+      final nextToolbag = ToolRepositoryIndex.getNextToolbag(currentToolbag);
+
+      return ElevatedButton(
+        onPressed: () {
+          logger.i('⏭️ Next Toolbag tapped on ToolDetailScreen');
+
+          if (nextToolbag == null) {
+            logger.i('⛔ No more toolbags after $currentToolbag');
+            showModalBottomSheet(
+              context: context,
+              showDragHandle: true,
+              builder: (_) => _buildEndOfGroupModal('toolbag', '/tools'),
+            );
+            return;
+          }
+
+          final tools = ToolRepositoryIndex.getToolsForBag(nextToolbag);
+          final renderItems = buildRenderItems(
+            ids: tools.map((tool) => tool.id).toList(),
+          );
+
+          if (renderItems.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Next toolbag has no items.')),
+            );
+            return;
+          }
+
+          TransitionManager.goToDetailScreen(
+            context: context,
+            screenType: RenderItemType.tool,
+            renderItems: renderItems,
+            currentIndex: 0,
+            branchIndex: widget.branchIndex,
+            backDestination: '/tools/items',
+            backExtra: {
+              'toolbag': nextToolbag,
+              'cameFromMob': widget.backExtra?['cameFromMob'] == true,
+            },
+            detailRoute: widget.detailRoute,
+            direction: SlideDirection.right,
+            replace: true,
+          );
+        },
+        style: AppTheme.navigationButton,
+        child: const Text('Next Toolbag'),
+      );
+    }
+
+    if (widget.detailRoute == DetailRoute.path) {
+      final pathName = widget.backExtra?['pathName'] as String?;
+      final currentChapterId = widget.backExtra?['chapterId'] as String?;
+      if (pathName == null || currentChapterId == null) {
+        return const SizedBox.shrink();
+      }
+
+      final nextChapter = PathRepositoryIndex.getNextChapter(
+        pathName,
+        currentChapterId,
+      );
+
+      return ElevatedButton(
+        onPressed: () {
+          logger.i('⏭️ Next Chapter tapped on ToolDetailScreen');
+
+          if (nextChapter == null) {
+            logger.i('⛔ No more chapters in $pathName');
+            showModalBottomSheet(
+              context: context,
+              showDragHandle: true,
+              builder:
+                  (_) => _buildEndOfGroupModal('chapter', '/learning-paths'),
+            );
+            return;
+          }
+
+          final renderItems = buildRenderItems(
+            ids: nextChapter.items.map((item) => item.pathItemId).toList(),
+          );
+
+          if (renderItems.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Next chapter has no items.')),
+            );
+            return;
+          }
+
+          final route =
+              '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items';
+
+          TransitionManager.goToDetailScreen(
+            context: context,
+            screenType: RenderItemType.tool,
+            renderItems: renderItems,
+            currentIndex: 0,
+            branchIndex: widget.branchIndex,
+            backDestination: route,
+            backExtra: {
+              'chapterId': nextChapter.id,
+              'pathName': pathName,
+              'branchIndex': widget.branchIndex,
+            },
+            detailRoute: widget.detailRoute,
+            direction: SlideDirection.right,
+            replace: true,
+          );
+        },
+        style: AppTheme.navigationButton,
+        child: const Text('Next Chapter'),
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildEndOfGroupModal(String label, String backRoute) {
+    final labelCapitalized = label.toTitleCase();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '🎉 You’ve reached the final $label!',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Great job making it through this $label. You can review or return to the full list of ${labelCapitalized}s.',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              context.go(backRoute);
+            },
+            style: AppTheme.navigationButton,
+            child: Text('Back to ${labelCapitalized}s'),
           ),
         ],
       ),
@@ -2878,161 +3015,318 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                 onNext: () => _navigateTo(currentIndex + 1),
                 customNextButton:
                     currentIndex == widget.renderItems.length - 1
-                        ? ElevatedButton(
-                          onPressed: () {
-                            logger.i(
-                              '⏭️ Next Chapter tapped on FlashcardDetailScreen',
-                            );
-
-                            if (widget.detailRoute == DetailRoute.branch) {
-                              final currentCategory =
-                                  widget.backExtra?['category'] as String?;
-                              if (currentCategory == null) {
-                                logger.w('⚠️ Missing category in backExtra');
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('No category context found.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final nextCategory = getNextCategory(
-                                currentCategory,
-                              );
-                              if (nextCategory == null) {
-                                logger.i(
-                                  '⛔ No next category after $currentCategory',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'You’ve reached the final category.',
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final nextFlashcards = getFlashcardsForCategory(
-                                nextCategory,
-                              );
-                              if (nextFlashcards.isEmpty) {
-                                logger.w(
-                                  '⚠️ Next category has no flashcards: $nextCategory',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Next category has no flashcards.',
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final renderItems =
-                                  nextFlashcards
-                                      .map((f) => RenderItem.fromFlashcard(f))
-                                      .toList();
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: RenderItemType.flashcard,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination: '/flashcards/items',
-                                backExtra: {
-                                  'category': nextCategory,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            } else if (widget.detailRoute == DetailRoute.path) {
-                              final currentChapterId =
-                                  widget.backExtra?['chapterId'] as String?;
-                              final pathName =
-                                  widget.backExtra?['pathName'] as String?;
-
-                              if (currentChapterId == null ||
-                                  pathName == null) {
-                                logger.w(
-                                  '⚠️ Missing path context in backExtra',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('No path context found.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final nextChapter =
-                                  PathRepositoryIndex.getNextChapter(
-                                    pathName,
-                                    currentChapterId,
-                                  );
-                              if (nextChapter == null) {
-                                logger.i(
-                                  '⛔ No next chapter in $pathName after $currentChapterId',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'You’ve reached the final chapter.',
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final renderItems = buildRenderItems(
-                                ids:
-                                    nextChapter.items
-                                        .map((item) => item.pathItemId)
-                                        .toList(),
-                              );
-
-                              if (renderItems.isEmpty) {
-                                logger.w(
-                                  '⚠️ Next chapter has no renderable items',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Next chapter has no items.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: renderItems.first.type,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination:
-                                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                                backExtra: {
-                                  'chapterId': nextChapter.id,
-                                  'pathName': pathName,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            }
-                          },
-                          style: AppTheme.navigationButton,
-                          child: const Text('Next Chapter'),
-                        )
+                        ? _buildLastGroupButton()
                         : null,
+
+                // customNextButton:
+                //     currentIndex == widget.renderItems.length - 1
+                //         ? ElevatedButton(
+                //           onPressed: () {
+                //             logger.i(
+                //               '⏭️ Next Chapter tapped on FlashcardDetailScreen',
+                //             );
+
+                //             if (widget.detailRoute == DetailRoute.branch) {
+                //               final currentCategory =
+                //                   widget.backExtra?['category'] as String?;
+                //               if (currentCategory == null) {
+                //                 logger.w('⚠️ Missing category in backExtra');
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text('No category context found.'),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               final nextCategory = getNextCategory(
+                //                 currentCategory,
+                //               );
+                //               if (nextCategory == null) {
+                //                 logger.i(
+                //                   '⛔ No next category after $currentCategory',
+                //                 );
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text(
+                //                       'You’ve reached the final category.',
+                //                     ),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               final nextFlashcards = getFlashcardsForCategory(
+                //                 nextCategory,
+                //               );
+                //               if (nextFlashcards.isEmpty) {
+                //                 logger.w(
+                //                   '⚠️ Next category has no flashcards: $nextCategory',
+                //                 );
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text(
+                //                       'Next category has no flashcards.',
+                //                     ),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               final renderItems =
+                //                   nextFlashcards
+                //                       .map((f) => RenderItem.fromFlashcard(f))
+                //                       .toList();
+
+                //               TransitionManager.goToDetailScreen(
+                //                 context: context,
+                //                 screenType: RenderItemType.flashcard,
+                //                 renderItems: renderItems,
+                //                 currentIndex: 0,
+                //                 branchIndex: widget.branchIndex,
+                //                 backDestination: '/flashcards/items',
+                //                 backExtra: {
+                //                   'category': nextCategory,
+                //                   'branchIndex': widget.branchIndex,
+                //                 },
+                //                 detailRoute: widget.detailRoute,
+                //                 direction: SlideDirection.right,
+                //                 replace: true,
+                //               );
+                //             } else if (widget.detailRoute == DetailRoute.path) {
+                //               final currentChapterId =
+                //                   widget.backExtra?['chapterId'] as String?;
+                //               final pathName =
+                //                   widget.backExtra?['pathName'] as String?;
+
+                //               if (currentChapterId == null ||
+                //                   pathName == null) {
+                //                 logger.w(
+                //                   '⚠️ Missing path context in backExtra',
+                //                 );
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text('No path context found.'),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               final nextChapter =
+                //                   PathRepositoryIndex.getNextChapter(
+                //                     pathName,
+                //                     currentChapterId,
+                //                   );
+                //               if (nextChapter == null) {
+                //                 logger.i(
+                //                   '⛔ No next chapter in $pathName after $currentChapterId',
+                //                 );
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text(
+                //                       'You’ve reached the final chapter.',
+                //                     ),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               final renderItems = buildRenderItems(
+                //                 ids:
+                //                     nextChapter.items
+                //                         .map((item) => item.pathItemId)
+                //                         .toList(),
+                //               );
+
+                //               if (renderItems.isEmpty) {
+                //                 logger.w(
+                //                   '⚠️ Next chapter has no renderable items',
+                //                 );
+                //                 ScaffoldMessenger.of(context).showSnackBar(
+                //                   const SnackBar(
+                //                     content: Text('Next chapter has no items.'),
+                //                   ),
+                //                 );
+                //                 return;
+                //               }
+
+                //               TransitionManager.goToDetailScreen(
+                //                 context: context,
+                //                 screenType: renderItems.first.type,
+                //                 renderItems: renderItems,
+                //                 currentIndex: 0,
+                //                 branchIndex: widget.branchIndex,
+                //                 backDestination:
+                //                     '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                //                 backExtra: {
+                //                   'chapterId': nextChapter.id,
+                //                   'pathName': pathName,
+                //                   'branchIndex': widget.branchIndex,
+                //                 },
+                //                 detailRoute: widget.detailRoute,
+                //                 direction: SlideDirection.right,
+                //                 replace: true,
+                //               );
+                //             }
+                //           },
+                //           style: AppTheme.navigationButton,
+                //           child: const Text('Next Chapter'),
+                //         )
+                //         : null,
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLastGroupButton() {
+    if (widget.detailRoute == DetailRoute.branch) {
+      final currentCategory = widget.backExtra?['category'] as String?;
+      if (currentCategory == null) return const SizedBox.shrink();
+
+      final nextCategory = getNextCategory(currentCategory);
+      return ElevatedButton(
+        onPressed: () {
+          logger.i('⏭️ Next Category tapped on FlashcardDetailScreen');
+
+          if (nextCategory == null) {
+            logger.i('⛔ No more categories after $currentCategory');
+            showModalBottomSheet(
+              context: context,
+              showDragHandle: true,
+              builder: (_) => _buildEndOfGroupModal('category', '/flashcards'),
+            );
+            return;
+          }
+
+          final nextFlashcards = getFlashcardsForCategory(nextCategory);
+          if (nextFlashcards.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Next category has no flashcards.')),
+            );
+            return;
+          }
+
+          final renderItems =
+              nextFlashcards.map((f) => RenderItem.fromFlashcard(f)).toList();
+
+          TransitionManager.goToDetailScreen(
+            context: context,
+            screenType: RenderItemType.flashcard,
+            renderItems: renderItems,
+            currentIndex: 0,
+            branchIndex: widget.branchIndex,
+            backDestination: '/flashcards/items',
+            backExtra: {
+              'category': nextCategory,
+              'branchIndex': widget.branchIndex,
+            },
+            detailRoute: widget.detailRoute,
+            direction: SlideDirection.right,
+            replace: true,
+          );
+        },
+        style: AppTheme.navigationButton,
+        child: const Text('Next Category'),
+      );
+    }
+
+    if (widget.detailRoute == DetailRoute.path) {
+      final currentChapterId = widget.backExtra?['chapterId'] as String?;
+      final pathName = widget.backExtra?['pathName'] as String?;
+
+      if (pathName == null || currentChapterId == null) {
+        logger.w('⚠️ Missing path context in backExtra');
+        return const SizedBox.shrink();
+      }
+
+      final nextChapter = PathRepositoryIndex.getNextChapter(
+        pathName,
+        currentChapterId,
+      );
+
+      return ElevatedButton(
+        onPressed: () {
+          logger.i('⏭️ Next Chapter tapped on FlashcardDetailScreen');
+
+          if (nextChapter == null) {
+            logger.i('⛔ No more chapters in $pathName');
+            showModalBottomSheet(
+              context: context,
+              showDragHandle: true,
+              builder:
+                  (_) => _buildEndOfGroupModal(
+                    'chapter',
+                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}',
+                  ),
+            );
+            return;
+          }
+
+          final renderItems = buildRenderItems(
+            ids: nextChapter.items.map((item) => item.pathItemId).toList(),
+          );
+
+          if (renderItems.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Next chapter has no items.')),
+            );
+            return;
+          }
+
+          TransitionManager.goToDetailScreen(
+            context: context,
+            screenType: renderItems.first.type,
+            renderItems: renderItems,
+            currentIndex: 0,
+            branchIndex: widget.branchIndex,
+            backDestination:
+                '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+            backExtra: {
+              'chapterId': nextChapter.id,
+              'pathName': pathName,
+              'branchIndex': widget.branchIndex,
+            },
+            detailRoute: widget.detailRoute,
+            direction: SlideDirection.right,
+            replace: true,
+          );
+        },
+        style: AppTheme.navigationButton,
+        child: const Text('Next Chapter'),
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildEndOfGroupModal(String label, String backRoute) {
+    final labelCapitalized = label.toTitleCase();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            '🎉 You’ve reached the final $label!',
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'Great job making it through this $label. You can review or return to the full list of ${labelCapitalized}s.',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              context.go(backRoute);
+            },
+            style: AppTheme.navigationButton,
+            child: Text('Back to ${labelCapitalized}s'),
           ),
         ],
       ),
@@ -4312,10 +4606,11 @@ class LandingScreen extends StatelessWidget {
         );
       });
     }
+
     return Column(
       children: [
         CustomAppBarWidget(
-          title: 'Welcome Aboard',
+          title: 'Welcome!',
           mobKey: _keyMOBButton,
           settingsKey: _keySettingsIcon,
           searchKey: _keySearchIcon,
@@ -4327,31 +4622,37 @@ class LandingScreen extends StatelessWidget {
 
         Expanded(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(
-              vertical: 24,
-              horizontal: AppTheme.screenPadding,
+            padding: const EdgeInsets.only(
+              top: 24,
+              left: AppTheme.screenPadding,
+              right: AppTheme.screenPadding,
+              bottom: 80,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // 📝 General Intro Text
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    "Let's make this the Tour button?",
-                    style: AppTheme.subheadingStyle.copyWith(
-                      color: AppTheme.primaryBlue,
-                    ),
-                    textAlign: TextAlign.center,
+                // 🚀 App Tour
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      logger.i('🚩 Tour Start button tapped');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Tour not yet implemented.'),
+                        ),
+                      );
+                    },
+                    style: AppTheme.whiteTextButton,
+                    child: const Text('App Tour'),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
 
-                // 📘 Competent Crew Intro Text
+                // 📘 Welcome Message
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    "Competent Crew: New crew start here to learn how to be safe, helpful, and enjoy.",
+                    "Welcome Aboard! Tap below to learn how to be safe, helpful, and enjoy your boating!",
                     style: AppTheme.subheadingStyle.copyWith(
                       color: AppTheme.primaryBlue,
                       fontStyle: FontStyle.italic,
@@ -4359,14 +4660,11 @@ class LandingScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                const SizedBox(height: 28),
+                const SizedBox(height: 20),
 
-                // 🚀 Path Buttons
-                _buildPathButton(
-                  context,
-                  'Competent Crew',
-                  _groupButtonStyle(), // 🔴 match the picker button style
-                  () {
+                // 🧭 New Crewmembers Button
+                ElevatedButton(
+                  onPressed: () {
                     logger.i('📘 Navigating to Competent Crew Path');
                     context.go(
                       '/learning-paths/competent-crew',
@@ -4381,13 +4679,15 @@ class LandingScreen extends StatelessWidget {
                       },
                     );
                   },
+                  style: AppTheme.landingPrimaryButton,
+                  child: const Text('New Crewmembers'),
                 ),
 
-                const SizedBox(height: 28),
+                const SizedBox(height: 36),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    "Sea-legs shaky? Knock the rust off with these!",
+                    "More experienced and returning sailors might find some useful guided lessons in one of these advanced paths",
                     style: AppTheme.subheadingStyle.copyWith(
                       color: AppTheme.primaryBlue,
                       fontStyle: FontStyle.italic,
@@ -4397,94 +4697,77 @@ class LandingScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
 
-                // 🧭 Knock the Rust Off Picker
-                // Knock the Rust Off Picker
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Text(
-                      //   'Knock the Rust Off Paths',
-                      //   style: AppTheme.subheadingStyle.copyWith(
-                      //     color: AppTheme.primaryBlue,
-                      //   ),
-                      //   textAlign: TextAlign.center,
-                      // ),
-                      const SizedBox(height: 8),
-                      Center(
-                        child: PopupMenuButton<String>(
-                          onSelected: (value) {
-                            logger.i('📘 Navigating to $value');
-                            context.go(
-                              '/learning-paths/$value',
-                              extra: {
-                                'slideFrom': SlideDirection.right,
-                                'transitionType': TransitionType.slide,
-                                'detailRoute': DetailRoute.path,
-                                'mobKey': mobKey,
-                                'settingsKey': settingsKey,
-                                'searchKey': searchKey,
-                                'titleKey': titleKey,
-                              },
-                            );
-                          },
-
-                          itemBuilder:
-                              (context) => [
-                                const PopupMenuItem(
-                                  value: 'knock-the-rust-off',
-                                  child: Text('Knock the Rust Off'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'docking',
-                                  child: Text('Docking'),
-                                ),
-                                const PopupMenuItem(
-                                  value: 'transition-demo',
-                                  child: Text('Anchoring'),
-                                ),
-                              ],
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 14,
-                              horizontal: 24,
-                            ),
-                            decoration: BoxDecoration(
-                              color:
-                                  AppTheme.primaryRed, // 🔴 Your desired color
-                              borderRadius: BorderRadius.circular(
-                                AppTheme.buttonCornerRadius,
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Text(
-                                  'Knock the Rust Off',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                SizedBox(width: 8),
-                                Icon(
-                                  Icons.arrow_drop_down,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
+                // 🎯 Advanced Refresher Dropdown
+                Center(
+                  child: PopupMenuButton<String>(
+                    onSelected: (value) {
+                      logger.i('📘 Navigating to $value');
+                      context.go(
+                        '/learning-paths/$value',
+                        extra: {
+                          'slideFrom': SlideDirection.right,
+                          'transitionType': TransitionType.slide,
+                          'detailRoute': DetailRoute.path,
+                          'mobKey': mobKey,
+                          'settingsKey': settingsKey,
+                          'searchKey': searchKey,
+                          'titleKey': titleKey,
+                        },
+                      );
+                    },
+                    itemBuilder:
+                        (context) => const [
+                          PopupMenuItem(
+                            value: 'knock-the-rust-off',
+                            child: Text('Knock the Rust Off'),
                           ),
+                          PopupMenuItem(
+                            value: 'docking',
+                            child: Text('Docking'),
+                          ),
+                          PopupMenuItem(
+                            value: 'transition-demo',
+                            child: Text('Anchoring'),
+                          ),
+                        ],
+                    child: Container(
+                      constraints: const BoxConstraints(minWidth: 280),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 18,
+                        horizontal: 32,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryRed,
+                        borderRadius: BorderRadius.circular(
+                          AppTheme.buttonCornerRadius,
                         ),
                       ),
-                    ],
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Text(
+                            'Advanced Refreshers',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Icon(Icons.arrow_drop_down, color: Colors.white),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
 
                 const SizedBox(height: 36),
 
-                // 📍 BNB-related Hint
+                // 📍 Footer Hint
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    'Self-guided expeditions begin below.',
+                    'Use the icons below to navigate to Self-Guided expeditions: Sailing Courses, Boat Parts, Guidance Tools, and Flashcard Drills.',
                     style: AppTheme.subheadingStyle.copyWith(
                       color: AppTheme.primaryBlue,
                     ),
@@ -4496,30 +4779,6 @@ class LandingScreen extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildPathButton(
-    BuildContext context,
-    String label,
-    ButtonStyle style,
-    VoidCallback onTap,
-  ) {
-    return ElevatedButton(
-      onPressed: onTap,
-      style: style,
-      child: Text(label, style: AppTheme.buttonTextStyle),
-    );
-  }
-
-  ButtonStyle _groupButtonStyle() {
-    return ElevatedButton.styleFrom(
-      backgroundColor:
-          AppTheme.primaryRed, // 🔴 changed from groupButtonSelected
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(AppTheme.buttonCornerRadius),
-      ),
     );
   }
 }
@@ -4801,6 +5060,9 @@ class PartItemScreen extends StatelessWidget {
 
 
 File: lib/screens/parts/part_detail_screen.dart
+// PartDetailScreen.dart
+
+// ✅ No import changes needed
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -4821,8 +5083,9 @@ import 'package:bcc5/utils/transition_manager.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
-
 import 'package:bcc5/widgets/group_picker_dropdown.dart';
+
+// import 'package:bcc5/widgets/end_of_group_modal.dart';
 
 class PartDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -4898,35 +5161,26 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
       backExtra: widget.backExtra,
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
-      transitionType: TransitionType.fadeScale, // ✅ NEW LINE
+      transitionType: TransitionType.fadeScale,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final item = widget.renderItems[currentIndex];
-
     if (item.type != RenderItemType.part) {
       return const Scaffold(body: SizedBox());
     }
 
-    final partTitle = item.title;
-    // final zoneId = widget.backExtra?['zone'] as String?;
-    const zoneTitle = 'Parts';
-
-    logger.i('🧩 PartDetailScreen: $partTitle');
-    logger.i('📄 Content blocks: ${item.content.length}');
-
     return PageTransitionSwitcher(
       duration: const Duration(milliseconds: 250),
       transitionBuilder: buildScaleFadeTransition,
-      child: _buildScaffold(item, partTitle, zoneTitle),
+      child: _buildScaffold(item, item.title, 'Parts'),
     );
   }
 
   Widget _buildScaffold(RenderItem item, String partTitle, String zoneTitle) {
     final zoneId = widget.backExtra?['zone'] as String?;
-    final subtitleText = item.title;
 
     return Scaffold(
       key: ValueKey(widget.transitionKey),
@@ -4951,7 +5205,6 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                 settingsKey: settingsKey,
                 searchKey: searchKey,
                 titleKey: titleKey,
-
                 onBack: () {
                   logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(
@@ -4960,7 +5213,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                       ...?widget.backExtra,
                       'transitionKey': UniqueKey().toString(),
                       'slideFrom': SlideDirection.left,
-                      'transitionType': TransitionType.slide, // ✅ Add this line
+                      'transitionType': TransitionType.slide,
                     },
                   );
                 },
@@ -4969,7 +5222,6 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                 LearningPathProgressBar(
                   pathName: widget.backExtra?['pathName'] ?? '',
                 ),
-
               if (widget.detailRoute == DetailRoute.branch)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
@@ -4982,28 +5234,14 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                         id: id.toTitleCase(),
                     },
                     onChanged: (selectedZoneId) {
-                      if (selectedZoneId == zoneId) {
-                        logger.i('🟡 Same zone selected → no action');
-                        return;
-                      }
-
-                      final parts = PartRepositoryIndex.getPartsForZone(
-                        selectedZoneId,
-                      );
+                      if (selectedZoneId == zoneId) return;
                       final renderItems = buildRenderItems(
-                        ids: parts.map((p) => p.id).toList(),
+                        ids:
+                            PartRepositoryIndex.getPartsForZone(
+                              selectedZoneId,
+                            ).map((p) => p.id).toList(),
                       );
-
-                      if (renderItems.isEmpty) {
-                        logger.w('⚠️ Selected zone has no renderable items');
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Selected zone has no items.'),
-                          ),
-                        );
-                        return;
-                      }
-
+                      if (renderItems.isEmpty) return;
                       TransitionManager.goToDetailScreen(
                         context: context,
                         screenType: renderItems.first.type,
@@ -5022,18 +5260,16 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                     },
                   ),
                 ),
-
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(
-                  subtitleText,
+                  partTitle,
                   style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
                     color: AppTheme.primaryBlue,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
-
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -5046,167 +5282,102 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
               NavigationButtons(
                 isPreviousEnabled: currentIndex > 0,
                 isNextEnabled: currentIndex < widget.renderItems.length - 1,
-                onPrevious: () {
-                  logger.i('⬅️ Previous tapped on PartDetailScreen');
-                  _navigateTo(currentIndex - 1);
-                },
-                onNext: () {
-                  logger.i('➡️ Next tapped on PartDetailScreen');
-                  _navigateTo(currentIndex + 1);
-                },
+                onPrevious: () => _navigateTo(currentIndex - 1),
+                onNext: () => _navigateTo(currentIndex + 1),
                 customNextButton:
                     (currentIndex == widget.renderItems.length - 1)
-                        ? ElevatedButton(
-                          onPressed: () {
-                            logger.i(
-                              '⏭️ Next Chapter tapped on PartDetailScreen',
-                            );
-
-                            if (widget.detailRoute == DetailRoute.branch) {
-                              final currentZoneId =
-                                  widget.backExtra?['zone'] as String?;
-                              if (currentZoneId == null) {
-                                logger.w('⚠️ No zone ID found in backExtra');
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Cannot find next zone.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final nextZoneId =
-                                  PartRepositoryIndex.getNextZone(
-                                    currentZoneId,
-                                  );
-                              if (nextZoneId == null) {
-                                logger.i(
-                                  '⛔ No more zones after $currentZoneId',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'You’ve reached the final zone.',
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final partItems =
-                                  PartRepositoryIndex.getPartsForZone(
-                                    nextZoneId,
-                                  );
-                              final renderItems = buildRenderItems(
-                                ids: partItems.map((p) => p.id).toList(),
-                              );
-
-                              if (renderItems.isEmpty) {
-                                logger.w(
-                                  '⚠️ Next zone has no renderable items',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Next zone has no items.'),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: renderItems.first.type,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination: '/parts/items',
-                                backExtra: {
-                                  'zone': nextZoneId,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            } else if (widget.detailRoute == DetailRoute.path) {
-                              final currentChapterId =
-                                  widget.backExtra?['chapterId'] as String?;
+                        ? LastGroupButton(
+                          type: RenderItemType.part,
+                          detailRoute: widget.detailRoute,
+                          backExtra: widget.backExtra,
+                          branchIndex: widget.branchIndex,
+                          backDestination:
+                              widget.detailRoute == DetailRoute.path
+                                  ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
+                                  : '/parts/items',
+                          label:
+                              widget.detailRoute == DetailRoute.path
+                                  ? 'chapter'
+                                  : 'zone',
+                          getNextRenderItems: () async {
+                            if (widget.detailRoute == DetailRoute.path) {
                               final pathName =
                                   widget.backExtra?['pathName'] as String?;
-
-                              if (currentChapterId == null ||
-                                  pathName == null) {
-                                logger.w(
-                                  '⚠️ Missing path context in backExtra',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('No path context found.'),
-                                  ),
-                                );
-                                return;
+                              final chapterId =
+                                  widget.backExtra?['chapterId'] as String?;
+                              if (pathName == null || chapterId == null) {
+                                return null;
                               }
 
                               final nextChapter =
                                   PathRepositoryIndex.getNextChapter(
                                     pathName,
-                                    currentChapterId,
+                                    chapterId,
                                   );
+                              if (nextChapter == null) return null;
 
-                              if (nextChapter == null) {
-                                logger.i(
-                                  '⛔ No next chapter in $pathName after $currentChapterId',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'You’ve reached the final chapter.',
-                                    ),
-                                  ),
-                                );
-                                return;
-                              }
-
-                              final renderItems = buildRenderItems(
+                              return buildRenderItems(
                                 ids:
                                     nextChapter.items
-                                        .map((item) => item.pathItemId)
+                                        .map((e) => e.pathItemId)
                                         .toList(),
                               );
+                            } else {
+                              final currentZoneId =
+                                  widget.backExtra?['zone'] as String?;
+                              if (currentZoneId == null) return null;
 
-                              if (renderItems.isEmpty) {
-                                logger.w(
-                                  '⚠️ Next chapter has no renderable items',
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Next chapter has no items.'),
-                                  ),
-                                );
-                                return;
-                              }
+                              final nextZoneId =
+                                  PartRepositoryIndex.getNextZone(
+                                    currentZoneId,
+                                  );
+                              if (nextZoneId == null) return null;
 
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: renderItems.first.type,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination:
-                                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                                backExtra: {
-                                  'chapterId': nextChapter.id,
-                                  'pathName': pathName,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
+                              return buildRenderItems(
+                                ids:
+                                    PartRepositoryIndex.getPartsForZone(
+                                      nextZoneId,
+                                    ).map((e) => e.id).toList(),
                               );
                             }
                           },
-                          style: AppTheme.navigationButton,
-                          child: const Text('Next Chapter'),
+                          onNavigateToNextGroup: (renderItems) {
+                            if (renderItems.isEmpty) return;
+
+                            final nextBackExtra = {
+                              if (widget.detailRoute == DetailRoute.path)
+                                'chapterId':
+                                    PathRepositoryIndex.getNextChapter(
+                                      widget.backExtra?['pathName'],
+                                      widget.backExtra?['chapterId'],
+                                    )?.id,
+                              if (widget.detailRoute == DetailRoute.path)
+                                'pathName': widget.backExtra?['pathName'],
+                              if (widget.detailRoute == DetailRoute.branch)
+                                'zone': PartRepositoryIndex.getNextZone(
+                                  widget.backExtra?['zone'],
+                                ),
+                              'branchIndex': widget.branchIndex,
+                            };
+
+                            final route =
+                                widget.detailRoute == DetailRoute.path
+                                    ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
+                                    : '/parts/items';
+
+                            TransitionManager.goToDetailScreen(
+                              context: context,
+                              screenType: RenderItemType.part,
+                              renderItems: renderItems,
+                              currentIndex: 0,
+                              branchIndex: widget.branchIndex,
+                              backDestination: route,
+                              backExtra: nextBackExtra,
+                              detailRoute: widget.detailRoute,
+                              direction: SlideDirection.right,
+                              replace: true,
+                            );
+                          },
                         )
                         : null,
               ),
@@ -5216,6 +5387,167 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
       ),
     );
   }
+
+  // Widget _buildNextButton(BuildContext context) {
+  //   final isBranch = widget.detailRoute == DetailRoute.branch;
+  //   final isPath = widget.detailRoute == DetailRoute.path;
+
+  //   if (isBranch) {
+  //     final currentZoneId = widget.backExtra?['zone'] as String?;
+  //     if (currentZoneId == null) return const SizedBox.shrink();
+
+  //     final nextZoneId = PartRepositoryIndex.getNextZone(currentZoneId);
+  //     if (nextZoneId == null) {
+  //       return _buildEndOfBranchModalLauncher(
+  //         label: 'zone',
+  //         backRoute: '/parts',
+  //         restartLabel: PartRepositoryIndex.getZoneNames().first,
+  //       );
+  //     }
+
+  //     final nextRenderItems = buildRenderItems(
+  //       ids:
+  //           PartRepositoryIndex.getPartsForZone(
+  //             nextZoneId,
+  //           ).map((p) => p.id).toList(),
+  //     );
+
+  //     if (nextRenderItems.isEmpty) return const SizedBox.shrink();
+
+  //     return ElevatedButton(
+  //       onPressed: () {
+  //         TransitionManager.goToDetailScreen(
+  //           context: context,
+  //           screenType: RenderItemType.part,
+  //           renderItems: nextRenderItems,
+  //           currentIndex: 0,
+  //           branchIndex: widget.branchIndex,
+  //           backDestination: '/parts/items',
+  //           backExtra: {'zone': nextZoneId, 'branchIndex': widget.branchIndex},
+  //           detailRoute: widget.detailRoute,
+  //           direction: SlideDirection.right,
+  //           replace: true,
+  //         );
+  //       },
+  //       style: AppTheme.navigationButton,
+  //       child: const Text('Next Zone'),
+  //     );
+  //   }
+
+  //   if (isPath) {
+  //     final pathName = widget.backExtra?['pathName'] as String?;
+  //     final currentChapterId = widget.backExtra?['chapterId'] as String?;
+  //     if (pathName == null || currentChapterId == null) {
+  //       return const SizedBox.shrink();
+  //     }
+
+  //     final nextChapter = PathRepositoryIndex.getNextChapter(
+  //       pathName,
+  //       currentChapterId,
+  //     );
+  //     if (nextChapter == null) {
+  //       return _buildEndOfBranchModalLauncher(
+  //         label: 'chapter',
+  //         backRoute: '/learning-paths',
+  //         restartLabel:
+  //             PathRepositoryIndex.getChaptersForPath(pathName).first.id,
+  //       );
+  //     }
+
+  //     final nextRenderItems = buildRenderItems(
+  //       ids: nextChapter.items.map((i) => i.pathItemId).toList(),
+  //     );
+  //     if (nextRenderItems.isEmpty) return const SizedBox.shrink();
+
+  //     final route =
+  //         '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items';
+
+  //     return ElevatedButton(
+  //       onPressed: () {
+  //         TransitionManager.goToDetailScreen(
+  //           context: context,
+  //           screenType: RenderItemType.part,
+  //           renderItems: nextRenderItems,
+  //           currentIndex: 0,
+  //           branchIndex: widget.branchIndex,
+  //           backDestination: route,
+  //           backExtra: {
+  //             'chapterId': nextChapter.id,
+  //             'pathName': pathName,
+  //             'branchIndex': widget.branchIndex,
+  //           },
+  //           detailRoute: widget.detailRoute,
+  //           direction: SlideDirection.right,
+  //           replace: true,
+  //         );
+  //       },
+  //       style: AppTheme.navigationButton,
+  //       child: const Text('Next Chapter'),
+  //     );
+  //   }
+
+  //   return const SizedBox.shrink();
+  // }
+
+  // Widget _buildEndOfBranchModalLauncher({
+  //   required String label,
+  //   required String backRoute,
+  //   required String restartLabel,
+  // }) {
+  //   return ElevatedButton(
+  //     onPressed: () {
+  //       showModalBottomSheet(
+  //         context: context,
+  //         showDragHandle: true,
+  //         builder:
+  //             (_) => Padding(
+  //               padding: const EdgeInsets.symmetric(
+  //                 horizontal: 24,
+  //                 vertical: 16,
+  //               ),
+  //               child: Column(
+  //                 mainAxisSize: MainAxisSize.min,
+  //                 children: [
+  //                   Text(
+  //                     '🎉 You’ve reached the final $label!',
+  //                     style: const TextStyle(
+  //                       fontWeight: FontWeight.bold,
+  //                       fontSize: 18,
+  //                     ),
+  //                     textAlign: TextAlign.center,
+  //                   ),
+  //                   const SizedBox(height: 12),
+  //                   Text(
+  //                     'Great job finishing this $label. You can review or return to the full list of ${label.toTitleCase()}s.',
+  //                     textAlign: TextAlign.center,
+  //                   ),
+  //                   const SizedBox(height: 20),
+  //                   ElevatedButton(
+  //                     onPressed: () {
+  //                       Navigator.of(context).pop();
+  //                       context.go(backRoute);
+  //                     },
+  //                     style: AppTheme.navigationButton,
+  //                     child: Text('Back to ${label.toTitleCase()}s'),
+  //                   ),
+  //                   const SizedBox(height: 12),
+  //                   ElevatedButton(
+  //                     onPressed: () {
+  //                       Navigator.of(context).pop();
+  //                       context.go(backRoute); // restart at top group
+  //                     },
+  //                     style: AppTheme.navigationButton,
+  //                     child: Text('Start Over at $restartLabel'),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //       );
+  //     },
+  //     style: AppTheme.navigationButton,
+  //     child: const Text('Next'),
+  //   );
+  // }
 }
 
 
@@ -5422,6 +5754,7 @@ import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/widgets/end_of_group_modal.dart';
 import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -5560,38 +5893,41 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
             context: context,
             showDragHandle: true,
             builder:
-                (_) => Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        '🎉 You’ve completed all modules!',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        'Great job making it through the entire course. You can review modules, switch to another branch, or return to the main course list.',
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          context.go('/lessons');
+                (_) => EndOfGroupModal(
+                  title: '🎉 You’ve completed all modules!',
+                  message:
+                      'Great job finishing the course. You can return to the main list or restart from the beginning.',
+                  backButtonLabel: 'Back to Courses',
+                  backRoute: '/lessons',
+                  forwardButtonLabel: 'Restart Beginning',
+                  onNextGroup: () {
+                    final firstModuleId =
+                        LessonRepositoryIndex.getModuleNames().first;
+                    final firstItems =
+                        LessonRepositoryIndex.getLessonsForModule(
+                          firstModuleId,
+                        );
+                    final renderItems = buildRenderItems(
+                      ids: firstItems.map((l) => l.id).toList(),
+                    );
+
+                    if (renderItems.isNotEmpty) {
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: RenderItemType.lesson,
+                        renderItems: renderItems,
+                        currentIndex: 0,
+                        branchIndex: widget.branchIndex,
+                        backDestination: '/lessons/items',
+                        backExtra: {
+                          'module': firstModuleId,
+                          'branchIndex': widget.branchIndex,
                         },
-                        style: AppTheme.navigationButton,
-                        child: const Text('Back to Courses'),
-                      ),
-                    ],
-                  ),
+                        detailRoute: widget.detailRoute,
+                        direction: SlideDirection.right,
+                      );
+                    }
+                  },
                 ),
           );
           return;
@@ -5605,31 +5941,126 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
         );
 
         if (renderItems.isEmpty) {
-          logger.w('⚠️ Next module has no renderable items');
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Next module has no items.')),
           );
           return;
         }
 
-        TransitionManager.goToDetailScreen(
+        showModalBottomSheet(
           context: context,
-          screenType: RenderItemType.lesson,
-          renderItems: renderItems,
-          currentIndex: 0,
-          branchIndex: widget.branchIndex,
-          backDestination: '/lessons/items',
-          backExtra: {
-            'module': nextModuleId,
-            'branchIndex': widget.branchIndex,
-          },
-          detailRoute: widget.detailRoute,
-          direction: SlideDirection.right,
+          showDragHandle: true,
+          builder:
+              (_) => EndOfGroupModal(
+                title: '📘 End of this module',
+                message:
+                    'Nice job! Would you like to return to the course list or begin the next module?',
+                backButtonLabel: 'Back to Courses',
+                backRoute: '/lessons',
+                forwardButtonLabel: 'Next Module',
+                onNextGroup: () {
+                  TransitionManager.goToDetailScreen(
+                    context: context,
+                    screenType: RenderItemType.lesson,
+                    renderItems: renderItems,
+                    currentIndex: 0,
+                    branchIndex: widget.branchIndex,
+                    backDestination: '/lessons/items',
+                    backExtra: {
+                      'module': nextModuleId,
+                      'branchIndex': widget.branchIndex,
+                    },
+                    detailRoute: widget.detailRoute,
+                    direction: SlideDirection.right,
+                  );
+                },
+              ),
         );
       },
       style: AppTheme.navigationButton,
       child: const Text('Next Module'),
     );
+
+    // return ElevatedButton(
+    //   onPressed: () {
+    //     logger.i('⏭️ Next Module tapped on LessonDetailScreen');
+
+    //     if (nextModuleId == null) {
+    //       logger.i('⛔ No more modules after $currentModuleId');
+    //       showModalBottomSheet(
+    //         context: context,
+    //         showDragHandle: true,
+    //         builder:
+    //             (_) => Padding(
+    //               padding: const EdgeInsets.symmetric(
+    //                 horizontal: 24,
+    //                 vertical: 16,
+    //               ),
+    //               child: Column(
+    //                 mainAxisSize: MainAxisSize.min,
+    //                 children: [
+    //                   const Text(
+    //                     '🎉 You’ve completed all modules!',
+    //                     style: TextStyle(
+    //                       fontWeight: FontWeight.bold,
+    //                       fontSize: 18,
+    //                     ),
+    //                     textAlign: TextAlign.center,
+    //                   ),
+    //                   const SizedBox(height: 12),
+    //                   const Text(
+    //                     'Great job making it through the entire course. You can review modules, switch to another branch, or return to the main course list.',
+    //                     textAlign: TextAlign.center,
+    //                   ),
+    //                   const SizedBox(height: 20),
+    //                   ElevatedButton(
+    //                     onPressed: () {
+    //                       Navigator.of(context).pop();
+    //                       context.go('/lessons');
+    //                     },
+    //                     style: AppTheme.navigationButton,
+    //                     child: const Text('Back to Courses'),
+    //                   ),
+    //                 ],
+    //               ),
+    //             ),
+    //       );
+    //       return;
+    //     }
+
+    //     final lessonItems = LessonRepositoryIndex.getLessonsForModule(
+    //       nextModuleId,
+    //     );
+    //     final renderItems = buildRenderItems(
+    //       ids: lessonItems.map((l) => l.id).toList(),
+    //     );
+
+    //     if (renderItems.isEmpty) {
+    //       logger.w('⚠️ Next module has no renderable items');
+    //       ScaffoldMessenger.of(context).showSnackBar(
+    //         const SnackBar(content: Text('Next module has no items.')),
+    //       );
+    //       return;
+    //     }
+
+    //     TransitionManager.goToDetailScreen(
+    //       context: context,
+    //       screenType: RenderItemType.lesson,
+    //       renderItems: renderItems,
+    //       currentIndex: 0,
+    //       branchIndex: widget.branchIndex,
+    //       backDestination: '/lessons/items',
+    //       backExtra: {
+    //         'module': nextModuleId,
+    //         'branchIndex': widget.branchIndex,
+    //       },
+    //       detailRoute: widget.detailRoute,
+    //       direction: SlideDirection.right,
+    //     );
+    //   },
+    //   style: AppTheme.navigationButton,
+    //   child: const Text('Next Module'),
+    // );
   }
 
   Widget _buildScaffold(
@@ -6150,6 +6581,34 @@ class AppTheme {
       borderRadius: BorderRadius.circular(buttonCornerRadius),
     ),
   );
+  static final ButtonStyle whiteTextButton = ElevatedButton.styleFrom(
+    backgroundColor: primaryRed,
+    foregroundColor: Colors.white,
+    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+    textStyle: buttonTextStyle.copyWith(
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      color: Colors.white,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+
+  static final ButtonStyle largeRedButton = ElevatedButton.styleFrom(
+    backgroundColor: primaryRed,
+    foregroundColor: Colors.white,
+    padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 32),
+    textStyle: const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+  static ButtonStyle get landingPrimaryButton => largeRedButton;
 
   static const TextStyle subheadingStyle = TextStyle(
     fontSize: 18,
@@ -6570,6 +7029,79 @@ class RenderItem {
       title: flashcard.title,
       content: flashcard.sideA, // or empty list if irrelevant
       flashcards: [flashcard],
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/end_of_group_modal.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+class EndOfGroupModal extends StatelessWidget {
+  final String title;
+  final String message;
+  final String backButtonLabel;
+  final String backRoute;
+  final String? forwardButtonLabel;
+  final VoidCallback? onNextGroup;
+
+  const EndOfGroupModal({
+    super.key,
+    required this.title,
+    required this.message,
+    required this.backButtonLabel,
+    required this.backRoute,
+    this.forwardButtonLabel,
+    this.onNextGroup,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 12),
+          Text(message, textAlign: TextAlign.center),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              context.go(backRoute);
+            },
+            style: AppTheme.navigationButton,
+            child: Text(backButtonLabel),
+          ),
+          if (onNextGroup != null && forwardButtonLabel != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  onNextGroup?.call();
+                },
+                style: AppTheme.navigationButton,
+                child: Text(forwardButtonLabel!),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -7025,9 +7557,9 @@ class CustomAppBarWidget extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    logger.d(
-      '[AppBar] title: "$title" | back: $showBackButton | search: $showSearchIcon | settings: $showSettingsIcon',
-    );
+    // logger.d(
+    //   '[AppBar] title: "$title" | back: $showBackButton | search: $showSearchIcon | settings: $showSettingsIcon',
+    // );
 
     return AppBar(
       backgroundColor: AppTheme.primaryBlue,

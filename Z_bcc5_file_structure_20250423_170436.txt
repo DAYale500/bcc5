@@ -94,6 +94,7 @@ lib
     ├── content_block_renderer.dart
     ├── custom_app_bar_widget.dart
     ├── disabled_item_button.dart
+    ├── end_of_group_modal.dart
     ├── flip_card_widget.dart
     ├── group_button.dart
     ├── group_picker_dropdown.dart
@@ -104,4 +105,4 @@ lib
     ├── search_modal.dart
     └── settings_modal.dart
 
-21 directories, 84 files
+21 directories, 85 files

@@ -18,6 +18,8 @@ import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/transition_manager.dart';
 import 'package:bcc5/widgets/group_picker_dropdown.dart';
 
+import 'package:bcc5/widgets/navigation/last_group_button.dart';
+
 class LessonDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
   final int currentIndex;
@@ -119,97 +121,6 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
       duration: const Duration(milliseconds: 250),
       transitionBuilder: buildScaleFadeTransition,
       child: _buildScaffold(item, moduleTitle, lessonTitle),
-    );
-  }
-
-  Widget _buildNextModuleButton() {
-    final currentModuleId = widget.backExtra?['module'] as String?;
-    if (currentModuleId == null) {
-      logger.w('⚠️ No module ID found in backExtra');
-      return const SizedBox.shrink();
-    }
-
-    final nextModuleId = LessonRepositoryIndex.getNextModule(currentModuleId);
-
-    return ElevatedButton(
-      onPressed: () {
-        logger.i('⏭️ Next Module tapped on LessonDetailScreen');
-
-        if (nextModuleId == null) {
-          logger.i('⛔ No more modules after $currentModuleId');
-          showModalBottomSheet(
-            context: context,
-            showDragHandle: true,
-            builder:
-                (_) => Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        '🎉 You’ve completed all modules!',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        'Great job making it through the entire course. You can review modules, switch to another branch, or return to the main course list.',
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          context.go('/lessons');
-                        },
-                        style: AppTheme.navigationButton,
-                        child: const Text('Back to Courses'),
-                      ),
-                    ],
-                  ),
-                ),
-          );
-          return;
-        }
-
-        final lessonItems = LessonRepositoryIndex.getLessonsForModule(
-          nextModuleId,
-        );
-        final renderItems = buildRenderItems(
-          ids: lessonItems.map((l) => l.id).toList(),
-        );
-
-        if (renderItems.isEmpty) {
-          logger.w('⚠️ Next module has no renderable items');
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Next module has no items.')),
-          );
-          return;
-        }
-
-        TransitionManager.goToDetailScreen(
-          context: context,
-          screenType: RenderItemType.lesson,
-          renderItems: renderItems,
-          currentIndex: 0,
-          branchIndex: widget.branchIndex,
-          backDestination: '/lessons/items',
-          backExtra: {
-            'module': nextModuleId,
-            'branchIndex': widget.branchIndex,
-          },
-          detailRoute: widget.detailRoute,
-          direction: SlideDirection.right,
-        );
-      },
-      style: AppTheme.navigationButton,
-      child: const Text('Next Module'),
     );
   }
 
@@ -356,7 +267,87 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                 },
                 customNextButton:
                     (currentIndex == widget.renderItems.length - 1)
-                        ? _buildNextModuleButton()
+                        ? LastGroupButton(
+                          type: RenderItemType.lesson,
+                          detailRoute: widget.detailRoute,
+                          backExtra: widget.backExtra,
+                          branchIndex: widget.branchIndex,
+                          backDestination: '/lessons/items',
+                          label: 'module',
+                          getNextRenderItems: () async {
+                            final currentModuleId =
+                                widget.backExtra?['module'] as String?;
+                            if (currentModuleId == null) return null;
+
+                            final nextModuleId =
+                                LessonRepositoryIndex.getNextModule(
+                                  currentModuleId,
+                                );
+                            if (nextModuleId == null) return null;
+
+                            final nextLessons =
+                                LessonRepositoryIndex.getLessonsForModule(
+                                  nextModuleId,
+                                );
+                            return buildRenderItems(
+                              ids: nextLessons.map((l) => l.id).toList(),
+                            );
+                          },
+                          onNavigateToNextGroup: (renderItems) {
+                            final nextModuleId =
+                                LessonRepositoryIndex.getNextModule(
+                                  widget.backExtra?['module'],
+                                );
+                            if (nextModuleId == null || renderItems.isEmpty) {
+                              return;
+                            }
+
+                            TransitionManager.goToDetailScreen(
+                              context: context,
+                              screenType: RenderItemType.lesson,
+                              renderItems: renderItems,
+                              currentIndex: 0,
+                              branchIndex: widget.branchIndex,
+                              backDestination: '/lessons/items',
+                              backExtra: {
+                                'module': nextModuleId,
+                                'branchIndex': widget.branchIndex,
+                              },
+                              detailRoute: widget.detailRoute,
+                              direction: SlideDirection.right,
+                              replace: true,
+                            );
+                          },
+                          onRestartAtFirstGroup: () {
+                            final firstModuleId =
+                                LessonRepositoryIndex.getModuleNames().first;
+                            final firstLessons =
+                                LessonRepositoryIndex.getLessonsForModule(
+                                  firstModuleId,
+                                );
+                            final renderItems = buildRenderItems(
+                              ids: firstLessons.map((l) => l.id).toList(),
+                            );
+
+                            if (renderItems.isEmpty) return;
+
+                            TransitionManager.goToDetailScreen(
+                              context: context,
+                              screenType: RenderItemType.lesson,
+                              renderItems: renderItems,
+                              currentIndex: 0,
+                              branchIndex: widget.branchIndex,
+                              backDestination: '/lessons/items',
+                              backExtra: {
+                                'module': firstModuleId,
+                                'branchIndex': widget.branchIndex,
+                              },
+                              detailRoute: widget.detailRoute,
+                              direction: SlideDirection.right,
+                              replace: true,
+                            );
+                          },
+                        )
                         : null,
               ),
             ],
