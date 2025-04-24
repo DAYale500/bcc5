@@ -183,16 +183,42 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      '${(widget.backExtra?['toolbag']?.toString().toTitleCase() ?? '')} →',
-                      style: AppTheme.scaledTextTheme.bodyMedium?.copyWith(
-                        fontStyle: FontStyle.italic,
-                        color: Colors.black87,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text:
+                                widget.detailRoute == DetailRoute.path
+                                    ? (widget.backExtra?['pathName'] as String?)
+                                            ?.toTitleCase() ??
+                                        ''
+                                    : 'Tools',
+                            style: AppTheme.branchBreadcrumbStyle,
+                          ),
+                          const TextSpan(
+                            text: ' / ',
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                          TextSpan(
+                            text:
+                                widget.detailRoute == DetailRoute.path
+                                    ? PathRepositoryIndex.getChapterTitleForPath(
+                                          widget.backExtra?['pathName'] ?? '',
+                                          widget.backExtra?['chapterId'] ?? '',
+                                        )?.toTitleCase() ??
+                                        ''
+                                    : (widget.backExtra?['toolbag'] as String?)
+                                            ?.toTitleCase() ??
+                                        '',
+                            style: AppTheme.groupBreadcrumbStyle,
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(

@@ -179,20 +179,42 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                 ),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
-                    widget.detailRoute == DetailRoute.path
-                        ? (widget.backExtra?['chapterId']
-                                ?.toString()
-                                .toTitleCase() ??
-                            '')
-                        : '${widget.backExtra?['module']?.toString().toTitleCase() ?? ''} →',
-                    style: AppTheme.scaledTextTheme.bodySmall?.copyWith(
-                      fontStyle: FontStyle.italic,
-                      color: Colors.black54,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                              widget.detailRoute == DetailRoute.path
+                                  ? (widget.backExtra?['pathName'] as String?)
+                                          ?.toTitleCase() ??
+                                      ''
+                                  : 'Lessons',
+                          style: AppTheme.branchBreadcrumbStyle,
+                        ),
+                        const TextSpan(
+                          text: ' / ',
+                          style: TextStyle(color: Colors.black87),
+                        ),
+                        TextSpan(
+                          text:
+                              widget.detailRoute == DetailRoute.path
+                                  ? PathRepositoryIndex.getChapterTitleForPath(
+                                        widget.backExtra?['pathName'] ?? '',
+                                        widget.backExtra?['chapterId'] ?? '',
+                                      )?.toTitleCase() ??
+                                      ''
+                                  : (widget.backExtra?['module'] as String?)
+                                          ?.toTitleCase() ??
+                                      '',
+
+                          style: AppTheme.groupBreadcrumbStyle,
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(

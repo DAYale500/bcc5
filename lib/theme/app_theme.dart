@@ -81,6 +81,24 @@ class AppTheme {
     color: Colors.grey,
   );
 
+  static const TextStyle branchBreadcrumbStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Colors.black87,
+  );
+
+  static const TextStyle groupBreadcrumbStyle = TextStyle(
+    fontSize: 16,
+    fontStyle: FontStyle.italic,
+    color: Colors.black87,
+  );
+
+  static const TextStyle detailTitleStyle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: primaryBlue,
+  );
+
   static const TextTheme textTheme = TextTheme(
     headlineLarge: headingStyle,
     headlineMedium: subheadingStyle,

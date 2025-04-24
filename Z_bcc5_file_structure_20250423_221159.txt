@@ -32,7 +32,6 @@ lib
 │       │   └── part_sails_repository.dart
 │       ├── paths
 │       │   ├── competent_crew_repository.dart
-│       │   ├── competent_crew_repository_unused.dart
 │       │   └── path_repository_index.dart
 │       └── tools
 │           ├── tool_checklists_repository.dart
@@ -101,8 +100,10 @@ lib
     ├── item_button.dart
     ├── learning_path_progress_bar.dart
     ├── mob_modal.dart
+    ├── navigation
+    │   └── last_group_button.dart
     ├── navigation_buttons.dart
     ├── search_modal.dart
     └── settings_modal.dart
 
-21 directories, 85 files
+22 directories, 85 files

@@ -166,16 +166,42 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      '${(widget.backExtra?['zone']?.toString().toTitleCase() ?? '')} →',
-                      style: AppTheme.scaledTextTheme.bodyMedium?.copyWith(
-                        fontStyle: FontStyle.italic,
-                        color: Colors.black87,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text:
+                                widget.detailRoute == DetailRoute.path
+                                    ? (widget.backExtra?['pathName'] as String?)
+                                            ?.toTitleCase() ??
+                                        ''
+                                    : 'Parts',
+                            style: AppTheme.branchBreadcrumbStyle,
+                          ),
+                          const TextSpan(
+                            text: ' / ',
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                          TextSpan(
+                            text:
+                                widget.detailRoute == DetailRoute.path
+                                    ? PathRepositoryIndex.getChapterTitleForPath(
+                                          widget.backExtra?['pathName'] ?? '',
+                                          widget.backExtra?['chapterId'] ?? '',
+                                        )?.toTitleCase() ??
+                                        ''
+                                    : (widget.backExtra?['zone'] as String?)
+                                            ?.toTitleCase() ??
+                                        '',
+                            style: AppTheme.groupBreadcrumbStyle,
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(
@@ -333,165 +359,4 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
       ),
     );
   }
-
-  // Widget _buildNextButton(BuildContext context) {
-  //   final isBranch = widget.detailRoute == DetailRoute.branch;
-  //   final isPath = widget.detailRoute == DetailRoute.path;
-
-  //   if (isBranch) {
-  //     final currentZoneId = widget.backExtra?['zone'] as String?;
-  //     if (currentZoneId == null) return const SizedBox.shrink();
-
-  //     final nextZoneId = PartRepositoryIndex.getNextZone(currentZoneId);
-  //     if (nextZoneId == null) {
-  //       return _buildEndOfBranchModalLauncher(
-  //         label: 'zone',
-  //         backRoute: '/parts',
-  //         restartLabel: PartRepositoryIndex.getZoneNames().first,
-  //       );
-  //     }
-
-  //     final nextRenderItems = buildRenderItems(
-  //       ids:
-  //           PartRepositoryIndex.getPartsForZone(
-  //             nextZoneId,
-  //           ).map((p) => p.id).toList(),
-  //     );
-
-  //     if (nextRenderItems.isEmpty) return const SizedBox.shrink();
-
-  //     return ElevatedButton(
-  //       onPressed: () {
-  //         TransitionManager.goToDetailScreen(
-  //           context: context,
-  //           screenType: RenderItemType.part,
-  //           renderItems: nextRenderItems,
-  //           currentIndex: 0,
-  //           branchIndex: widget.branchIndex,
-  //           backDestination: '/parts/items',
-  //           backExtra: {'zone': nextZoneId, 'branchIndex': widget.branchIndex},
-  //           detailRoute: widget.detailRoute,
-  //           direction: SlideDirection.right,
-  //           replace: true,
-  //         );
-  //       },
-  //       style: AppTheme.navigationButton,
-  //       child: const Text('Next Zone'),
-  //     );
-  //   }
-
-  //   if (isPath) {
-  //     final pathName = widget.backExtra?['pathName'] as String?;
-  //     final currentChapterId = widget.backExtra?['chapterId'] as String?;
-  //     if (pathName == null || currentChapterId == null) {
-  //       return const SizedBox.shrink();
-  //     }
-
-  //     final nextChapter = PathRepositoryIndex.getNextChapter(
-  //       pathName,
-  //       currentChapterId,
-  //     );
-  //     if (nextChapter == null) {
-  //       return _buildEndOfBranchModalLauncher(
-  //         label: 'chapter',
-  //         backRoute: '/learning-paths',
-  //         restartLabel:
-  //             PathRepositoryIndex.getChaptersForPath(pathName).first.id,
-  //       );
-  //     }
-
-  //     final nextRenderItems = buildRenderItems(
-  //       ids: nextChapter.items.map((i) => i.pathItemId).toList(),
-  //     );
-  //     if (nextRenderItems.isEmpty) return const SizedBox.shrink();
-
-  //     final route =
-  //         '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items';
-
-  //     return ElevatedButton(
-  //       onPressed: () {
-  //         TransitionManager.goToDetailScreen(
-  //           context: context,
-  //           screenType: RenderItemType.part,
-  //           renderItems: nextRenderItems,
-  //           currentIndex: 0,
-  //           branchIndex: widget.branchIndex,
-  //           backDestination: route,
-  //           backExtra: {
-  //             'chapterId': nextChapter.id,
-  //             'pathName': pathName,
-  //             'branchIndex': widget.branchIndex,
-  //           },
-  //           detailRoute: widget.detailRoute,
-  //           direction: SlideDirection.right,
-  //           replace: true,
-  //         );
-  //       },
-  //       style: AppTheme.navigationButton,
-  //       child: const Text('Next Chapter'),
-  //     );
-  //   }
-
-  //   return const SizedBox.shrink();
-  // }
-
-  // Widget _buildEndOfBranchModalLauncher({
-  //   required String label,
-  //   required String backRoute,
-  //   required String restartLabel,
-  // }) {
-  //   return ElevatedButton(
-  //     onPressed: () {
-  //       showModalBottomSheet(
-  //         context: context,
-  //         showDragHandle: true,
-  //         builder:
-  //             (_) => Padding(
-  //               padding: const EdgeInsets.symmetric(
-  //                 horizontal: 24,
-  //                 vertical: 16,
-  //               ),
-  //               child: Column(
-  //                 mainAxisSize: MainAxisSize.min,
-  //                 children: [
-  //                   Text(
-  //                     '🎉 You’ve reached the final $label!',
-  //                     style: const TextStyle(
-  //                       fontWeight: FontWeight.bold,
-  //                       fontSize: 18,
-  //                     ),
-  //                     textAlign: TextAlign.center,
-  //                   ),
-  //                   const SizedBox(height: 12),
-  //                   Text(
-  //                     'Great job finishing this $label. You can review or return to the full list of ${label.toTitleCase()}s.',
-  //                     textAlign: TextAlign.center,
-  //                   ),
-  //                   const SizedBox(height: 20),
-  //                   ElevatedButton(
-  //                     onPressed: () {
-  //                       Navigator.of(context).pop();
-  //                       context.go(backRoute);
-  //                     },
-  //                     style: AppTheme.navigationButton,
-  //                     child: Text('Back to ${label.toTitleCase()}s'),
-  //                   ),
-  //                   const SizedBox(height: 12),
-  //                   ElevatedButton(
-  //                     onPressed: () {
-  //                       Navigator.of(context).pop();
-  //                       context.go(backRoute); // restart at top group
-  //                     },
-  //                     style: AppTheme.navigationButton,
-  //                     child: Text('Start Over at $restartLabel'),
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //       );
-  //     },
-  //     style: AppTheme.navigationButton,
-  //     child: const Text('Next'),
-  //   );
-  // }
 }

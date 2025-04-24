@@ -220,15 +220,41 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    '${(widget.backExtra?['category']?.toString().toTitleCase() ?? '')} →',
-                    style: AppTheme.scaledTextTheme.bodyMedium?.copyWith(
-                      fontStyle: FontStyle.italic,
-                      color: Colors.black87,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                              widget.detailRoute == DetailRoute.path
+                                  ? (widget.backExtra?['pathName'] as String?)
+                                          ?.toTitleCase() ??
+                                      ''
+                                  : 'Drills',
+                          style: AppTheme.branchBreadcrumbStyle,
+                        ),
+                        const TextSpan(
+                          text: ' / ',
+                          style: TextStyle(color: Colors.black87),
+                        ),
+                        TextSpan(
+                          text:
+                              widget.detailRoute == DetailRoute.path
+                                  ? PathRepositoryIndex.getChapterTitleForPath(
+                                        widget.backExtra?['pathName'] ?? '',
+                                        widget.backExtra?['chapterId'] ?? '',
+                                      )?.toTitleCase() ??
+                                      ''
+                                  : (widget.backExtra?['category'] as String?)
+                                          ?.toTitleCase() ??
+                                      '',
+                          style: AppTheme.groupBreadcrumbStyle,
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
+
               const SizedBox(height: 4),
               Text(
                 title,
