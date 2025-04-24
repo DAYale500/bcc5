@@ -1,4 +1,5 @@
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
+import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -272,51 +273,116 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                           detailRoute: widget.detailRoute,
                           backExtra: widget.backExtra,
                           branchIndex: widget.branchIndex,
-                          backDestination: '/lessons/items',
-                          label: 'module',
+                          backDestination:
+                              widget.detailRoute == DetailRoute.path
+                                  ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}'
+                                  : '/lessons',
+                          label:
+                              widget.detailRoute == DetailRoute.path
+                                  ? 'chapter'
+                                  : 'module',
                           getNextRenderItems: () async {
-                            final currentModuleId =
-                                widget.backExtra?['module'] as String?;
-                            if (currentModuleId == null) return null;
+                            if (widget.detailRoute == DetailRoute.path) {
+                              final pathName =
+                                  widget.backExtra?['pathName'] as String?;
+                              final chapterId =
+                                  widget.backExtra?['chapterId'] as String?;
+                              if (pathName == null || chapterId == null) {
+                                return null;
+                              }
 
-                            final nextModuleId =
-                                LessonRepositoryIndex.getNextModule(
-                                  currentModuleId,
-                                );
-                            if (nextModuleId == null) return null;
+                              final nextChapter =
+                                  PathRepositoryIndex.getNextChapter(
+                                    pathName,
+                                    chapterId,
+                                  );
+                              if (nextChapter == null) return null;
 
-                            final nextLessons =
-                                LessonRepositoryIndex.getLessonsForModule(
-                                  nextModuleId,
-                                );
-                            return buildRenderItems(
-                              ids: nextLessons.map((l) => l.id).toList(),
-                            );
+                              return buildRenderItems(
+                                ids:
+                                    nextChapter.items
+                                        .map((e) => e.pathItemId)
+                                        .toList(),
+                              );
+                            } else {
+                              final currentModuleId =
+                                  widget.backExtra?['module'] as String?;
+                              if (currentModuleId == null) return null;
+
+                              final nextModuleId =
+                                  LessonRepositoryIndex.getNextModule(
+                                    currentModuleId,
+                                  );
+                              if (nextModuleId == null) return null;
+
+                              final nextLessons =
+                                  LessonRepositoryIndex.getLessonsForModule(
+                                    nextModuleId,
+                                  );
+                              return buildRenderItems(
+                                ids: nextLessons.map((l) => l.id).toList(),
+                              );
+                            }
                           },
                           onNavigateToNextGroup: (renderItems) {
-                            final nextModuleId =
-                                LessonRepositoryIndex.getNextModule(
-                                  widget.backExtra?['module'],
-                                );
-                            if (nextModuleId == null || renderItems.isEmpty) {
-                              return;
-                            }
+                            if (renderItems.isEmpty) return;
 
-                            TransitionManager.goToDetailScreen(
-                              context: context,
-                              screenType: RenderItemType.lesson,
-                              renderItems: renderItems,
-                              currentIndex: 0,
-                              branchIndex: widget.branchIndex,
-                              backDestination: '/lessons/items',
-                              backExtra: {
-                                'module': nextModuleId,
-                                'branchIndex': widget.branchIndex,
-                              },
-                              detailRoute: widget.detailRoute,
-                              direction: SlideDirection.right,
-                              replace: true,
-                            );
+                            if (widget.detailRoute == DetailRoute.path) {
+                              final pathName =
+                                  widget.backExtra?['pathName'] as String?;
+                              final chapterId =
+                                  widget.backExtra?['chapterId'] as String?;
+                              if (pathName == null || chapterId == null) return;
+
+                              final nextChapter =
+                                  PathRepositoryIndex.getNextChapter(
+                                    pathName,
+                                    chapterId,
+                                  );
+                              if (nextChapter == null) return;
+
+                              final route =
+                                  '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items';
+
+                              TransitionManager.goToDetailScreen(
+                                context: context,
+                                screenType: RenderItemType.lesson,
+                                renderItems: renderItems,
+                                currentIndex: 0,
+                                branchIndex: widget.branchIndex,
+                                backDestination: route,
+                                backExtra: {
+                                  'pathName': pathName,
+                                  'chapterId': nextChapter.id,
+                                  'branchIndex': widget.branchIndex,
+                                },
+                                detailRoute: widget.detailRoute,
+                                direction: SlideDirection.right,
+                                replace: true,
+                              );
+                            } else {
+                              final nextModuleId =
+                                  LessonRepositoryIndex.getNextModule(
+                                    widget.backExtra?['module'],
+                                  );
+                              if (nextModuleId == null) return;
+
+                              TransitionManager.goToDetailScreen(
+                                context: context,
+                                screenType: RenderItemType.lesson,
+                                renderItems: renderItems,
+                                currentIndex: 0,
+                                branchIndex: widget.branchIndex,
+                                backDestination: '/lessons/items',
+                                backExtra: {
+                                  'module': nextModuleId,
+                                  'branchIndex': widget.branchIndex,
+                                },
+                                detailRoute: widget.detailRoute,
+                                direction: SlideDirection.right,
+                                replace: true,
+                              );
+                            }
                           },
                           onRestartAtFirstGroup: () {
                             final firstModuleId =

@@ -27,7 +27,7 @@ class CompetentCrewRepository {
         PathItem(pathItemId: 'flashcard_lesson_dock_1.00'),
         PathItem(pathItemId: 'flashcard_lesson_dock_2.00'),
         PathItem(pathItemId: 'flashcard_lesson_dock_3.00'),
-        PathItem(pathItemId: 'flashcard_lesson_dock_4.00'),
+        PathItem(pathItemId: 'part_deck_1.00'),
       ],
     ),
     LearningPathChapter(
@@ -49,7 +49,7 @@ class CompetentCrewRepository {
         PathItem(pathItemId: 'lesson_knot_4.00'),
         PathItem(pathItemId: 'lesson_knot_5.00'),
         PathItem(pathItemId: 'flashcard_lesson_knot_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_knot_2.00'),
+        PathItem(pathItemId: 'tool_colregs_1.00'),
       ],
     ),
     LearningPathChapter(

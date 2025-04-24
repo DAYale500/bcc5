@@ -1,5 +1,8 @@
 // lib/widgets/navigation/last_group_button.dart
 
+import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
@@ -60,12 +63,50 @@ class _LastGroupButtonState extends State<LastGroupButton> {
     BuildContext context,
     List<RenderItem> renderItems,
   ) {
-    final labelCapitalized = widget.label.toTitleCase();
-    final labelPlural = _pluralize(labelCapitalized);
+    final isPath = widget.detailRoute == DetailRoute.path;
+    final pathName = widget.backExtra?['pathName'] as String?;
+    final chapterId = widget.backExtra?['chapterId'] as String?;
+
+    final nextChapter =
+        (isPath && pathName != null && chapterId != null)
+            ? PathRepositoryIndex.getNextChapter(pathName, chapterId)
+            : null;
+
     final hasNextGroup = renderItems.isNotEmpty;
 
-    final nextGroupLabel =
-        hasNextGroup ? 'Next $labelCapitalized' : 'Start Over at Beginning';
+    final backRoute =
+        isPath
+            ? (nextChapter != null
+                ? '/learning-paths/${pathName!.toLowerCase().replaceAll(' ', '-')}'
+                : '/landing')
+            : widget.backDestination;
+
+    final backLabel =
+        isPath
+            ? (nextChapter != null
+                ? 'Back to ${pathName!.toTitleCase()} Chapters'
+                : '🎉 Congrats! Return to Home')
+            : 'Back to ${_pluralize(widget.label.toTitleCase())}';
+
+    final forwardLabel =
+        isPath
+            ? (nextChapter != null
+                ? 'Next ${pathName!.toTitleCase()} Chapter'
+                : 'Restart ${pathName!.toTitleCase()}')
+            : (hasNextGroup
+                ? 'Next ${widget.label.toTitleCase()}'
+                : 'Start Over at Beginning');
+
+    final backExtra = {
+      if (isPath && pathName != null) 'pathName': pathName,
+      if (isPath && nextChapter != null) 'chapterId': chapterId,
+      if (!isPath && widget.backExtra != null) ...widget.backExtra!,
+      'branchIndex': widget.branchIndex,
+      'transitionKey': UniqueKey().toString(),
+      'slideFrom': SlideDirection.left,
+      'transitionType': TransitionType.slide,
+      'detailRoute': widget.detailRoute,
+    };
 
     showModalBottomSheet(
       context: context,
@@ -73,27 +114,36 @@ class _LastGroupButtonState extends State<LastGroupButton> {
       builder:
           (_) => EndOfGroupModal(
             title:
-                hasNextGroup
+                nextChapter != null || hasNextGroup
                     ? '📘 End of this ${widget.label}'
-                    : '🎉 You’ve completed all $labelPlural!',
+                    : '🎉 You’ve completed all ${_pluralize(widget.label)}!',
             message:
-                hasNextGroup
+                nextChapter != null || hasNextGroup
                     ? 'Nice job! Would you like to return to the main list or begin the next ${widget.label}?'
-                    : 'Great job finishing this ${widget.label}. You can return to the main list or start over from the beginning.',
-            backButtonLabel: 'Back to $labelPlural',
-            backRoute: widget.backDestination,
-            forwardButtonLabel: nextGroupLabel,
-            onNextGroup: () {
-              if (hasNextGroup && widget.onNavigateToNextGroup != null) {
-                widget.onNavigateToNextGroup!(renderItems);
-              } else if (!hasNextGroup &&
-                  widget.onRestartAtFirstGroup != null) {
-                widget.onRestartAtFirstGroup!();
-              }
-            },
+                    : 'You’ve completed the full path! Return to home or restart the first ${widget.label}.',
+            backButtonLabel: backLabel,
+            backRoute: backRoute,
+            forwardButtonLabel: forwardLabel,
+            onNextGroup:
+                (nextChapter != null || hasNextGroup)
+                    ? () => widget.onNavigateToNextGroup?.call(renderItems)
+                    : widget.onRestartAtFirstGroup,
+            backExtra: backExtra,
+            branchIndex: widget.branchIndex,
+            detailRoute: widget.detailRoute,
           ),
     );
   }
+
+  // String _normalizeToTopLevelRoute(String route) {
+  //   if (route.startsWith('/learning-paths') && route.contains('/items')) {
+  //     return route.replaceAll('/items', '');
+  //   }
+  //   if (route.endsWith('/items')) {
+  //     return route.replaceAll('/items', '');
+  //   }
+  //   return route;
+  // }
 
   String _pluralize(String word) => word.endsWith('s') ? word : '${word}s';
 }
