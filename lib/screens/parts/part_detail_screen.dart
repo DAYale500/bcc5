@@ -4,6 +4,7 @@
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:bcc5/widgets/navigation/last_group_button.dart';
 import 'package:flutter/material.dart';
@@ -160,6 +161,22 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                   pathName: widget.backExtra?['pathName'] ?? '',
                 ),
               Padding(
+                padding: const EdgeInsets.only(top: 12.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      '${(widget.backExtra?['zone']?.toString().toTitleCase() ?? '')} →',
+                      style: AppTheme.scaledTextTheme.bodyMedium?.copyWith(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
                 padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(
                   partTitle,
@@ -169,6 +186,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),

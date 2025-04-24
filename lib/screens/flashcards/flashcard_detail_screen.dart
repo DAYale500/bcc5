@@ -4,6 +4,7 @@ import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -214,7 +215,21 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                   pathName: widget.backExtra?['pathName'] ?? '',
                 ),
 
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    '${(widget.backExtra?['category']?.toString().toTitleCase() ?? '')} →',
+                    style: AppTheme.scaledTextTheme.bodyMedium?.copyWith(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 4),
               Text(
                 title,
                 style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
@@ -222,6 +237,8 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                 ),
                 textAlign: TextAlign.center,
               ),
+              const SizedBox(height: 12),
+
               const SizedBox(height: 12),
               Expanded(
                 child: Center(

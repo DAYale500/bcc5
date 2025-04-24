@@ -4,6 +4,7 @@ import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -170,6 +171,28 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                   pathName: widget.backExtra?['pathName'] ?? '',
                 ),
 
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 8.0,
+                  left: 16.0,
+                  right: 16.0,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    widget.detailRoute == DetailRoute.path
+                        ? (widget.backExtra?['chapterId']
+                                ?.toString()
+                                .toTitleCase() ??
+                            '')
+                        : '${widget.backExtra?['module']?.toString().toTitleCase() ?? ''} →',
+                    style: AppTheme.scaledTextTheme.bodySmall?.copyWith(
+                      fontStyle: FontStyle.italic,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
                 child: Text(

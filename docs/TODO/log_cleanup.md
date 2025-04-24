@@ -13,18 +13,6 @@ Tag	File	Line / Info
 
 
 
-My focus group determined that the groupPicker on the detail screens was more of a distraction than a benefit. Let's disable it and in it's place, just list the GroupName above the ItemName (effectively a breadcrumb). We'll just do that in lessonDetailScreen for now.
-
-change next chapter to the lastGroupButton style, but have two buttons: back to chapter list and next chapter (name)
-
-
-
-
-
-
-
-
-
 Label | Description | Suggestion
 💡 🧪 [TransitionManager] buildCustomTransition EXTRAS DUMP | Dumps every key from .extra, spans 10+ lines, repeated every transition. | Demote to logger.v(...), or gate behind kDebugMode && verboseLogging.
 💡 [TransitionManager] buildCustomTransition → detailRoute: ... | Summary line repeated every route | Keep if useful, or demote to .d or conditional.
