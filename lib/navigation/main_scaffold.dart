@@ -9,6 +9,10 @@ class MainScaffold extends StatelessWidget {
   final Widget child;
   final PreferredSizeWidget? appBar;
   final GlobalKey? harborKey;
+  final GlobalKey? bnbLessonsKey;
+  final GlobalKey? bnbPartsKey;
+  final GlobalKey? bnbToolsKey;
+  final GlobalKey? bnbFlashcardsKey;
 
   const MainScaffold({
     super.key,
@@ -16,6 +20,10 @@ class MainScaffold extends StatelessWidget {
     required this.child,
     this.appBar,
     this.harborKey,
+    this.bnbLessonsKey, // ✅
+    this.bnbPartsKey, // ✅
+    this.bnbToolsKey, // ✅
+    this.bnbFlashcardsKey, // ✅
   });
 
   void _onItemTapped(BuildContext context, int index) {
@@ -36,6 +44,21 @@ class MainScaffold extends StatelessWidget {
     );
   }
 
+  GlobalKey? _getBNBKey(int index) {
+    switch (index) {
+      case 1:
+        return bnbLessonsKey; // ✅
+      case 2:
+        return bnbPartsKey; // ✅
+      case 3:
+        return bnbToolsKey; // ✅
+      case 4:
+        return bnbFlashcardsKey; // ✅
+      default:
+        return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // logger.d('[Scaffold] tab index: $branchIndex');
@@ -52,18 +75,20 @@ class MainScaffold extends StatelessWidget {
             icon: Icon(Icons.anchor_outlined, key: harborKey),
             label: 'Harbor',
           ),
-
           BottomNavigationBarItem(
-            icon: Icon(Icons.public_outlined),
+            icon: Icon(Icons.public_outlined, key: _getBNBKey(1)), // ✅
             label: 'Courses',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.sailing_outlined),
+            icon: Icon(Icons.sailing_outlined, key: _getBNBKey(2)), // ✅
             label: 'Parts',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.build), label: 'Tools'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.quiz_outlined),
+            icon: Icon(Icons.build, key: _getBNBKey(3)), // ✅
+            label: 'Tools',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.quiz_outlined, key: _getBNBKey(4)), // ✅
             label: 'Drills',
           ),
         ],
