@@ -45,10 +45,20 @@ class ToolBagScreen extends StatelessWidget {
             titleKey: titleKey,
           ),
         ),
+        Positioned(
+          top: appBarOffset + 26,
+          left: 16,
+          right: 16,
+          child: Text(
+            'Tool Bags',
+            style: AppTheme.branchBreadcrumbStyle,
+            textAlign: TextAlign.left,
+          ),
+        ),
 
         // "Choose a Toolbag" title
         Positioned(
-          top: appBarOffset + 24,
+          top: appBarOffset + 48,
           left: 32,
           right: 32,
           child: Container(

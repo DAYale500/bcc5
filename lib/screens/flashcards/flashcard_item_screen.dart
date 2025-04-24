@@ -78,13 +78,39 @@ class FlashcardItemScreen extends StatelessWidget {
         children: [
           appBar,
           const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Drills',
+                      style: AppTheme.branchBreadcrumbStyle,
+                    ),
+                    const TextSpan(
+                      text: ' / ',
+                      style: TextStyle(color: Colors.black87),
+                    ),
+                    TextSpan(
+                      text: categoryTitle,
+                      style: AppTheme.groupBreadcrumbStyle,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
           Text(
-            '$categoryTitle:\nDive into a challenge.',
+            'Dive into a challenge.',
             style: AppTheme.subheadingStyle.copyWith(
               color: AppTheme.primaryBlue,
             ),
             textAlign: TextAlign.center,
           ),
+
           const SizedBox(height: 16),
           Expanded(
             child: Padding(

@@ -60,11 +60,31 @@ class PartItemScreen extends StatelessWidget {
           },
         ),
         const SizedBox(height: 16),
-        Text(
-          zone.toTitleCase(),
-          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
-          textAlign: TextAlign.center,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Parts',
+                    style: AppTheme.branchBreadcrumbStyle,
+                  ),
+                  const TextSpan(
+                    text: ' / ',
+                    style: TextStyle(color: Colors.black87),
+                  ),
+                  TextSpan(
+                    text: zone.toTitleCase(),
+                    style: AppTheme.groupBreadcrumbStyle,
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
+
         const SizedBox(height: 12),
         Text(
           'Choose a Part',

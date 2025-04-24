@@ -52,13 +52,25 @@ class FlashcardCategoryScreen extends StatelessWidget {
           ),
         ),
 
+        // 🔽 Breadcrumb: Insert right here
+        const Positioned(
+          top: appBarOffset + 30,
+          left: 16,
+          right: 16,
+          child: Text(
+            'Drills',
+            style: AppTheme.branchBreadcrumbStyle,
+            textAlign: TextAlign.left,
+          ),
+        ),
+
         // Instruction text
         Positioned(
           top: appBarOffset + 32,
-          left: 32,
-          right: 32,
+          left: 62,
+          right: 62,
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
             decoration: BoxDecoration(
               color: Colors.white.withAlpha(217),
               borderRadius: BorderRadius.circular(12),

@@ -76,10 +76,16 @@ class PartZoneScreen extends StatelessWidget {
             titleKey: titleKey,
           ),
         ),
+        Positioned(
+          top: appBarOffset + 32,
+          left: 16,
+          right: 16,
+          child: Text('Parts', style: AppTheme.branchBreadcrumbStyle),
+        ),
 
         // 🧭 Screen Instruction
         Positioned(
-          top: appBarOffset + 32,
+          top: appBarOffset + 52,
           left: 32,
           right: 32,
           child: Container(
@@ -90,7 +96,7 @@ class PartZoneScreen extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                'Where would you like to explore?',
+                'Where would you like to explore? Choose a zone that you are interested in to learn more about the parts of a boat.',
                 style: AppTheme.subheadingStyle.copyWith(
                   color: AppTheme.primaryBlue,
                 ),
@@ -101,7 +107,7 @@ class PartZoneScreen extends StatelessWidget {
 
         // 🧾 Zone Legend Box
         Positioned(
-          top: appBarOffset + 120,
+          top: appBarOffset + 170,
           left: 32,
           right: 32,
           child: Container(

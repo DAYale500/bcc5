@@ -188,7 +188,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                   ? (widget.backExtra?['pathName'] as String?)
                                           ?.toTitleCase() ??
                                       ''
-                                  : 'Lessons',
+                                  : 'Courses',
                           style: AppTheme.branchBreadcrumbStyle,
                         ),
                         const TextSpan(

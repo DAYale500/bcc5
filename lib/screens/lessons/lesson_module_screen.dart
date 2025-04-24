@@ -20,7 +20,6 @@ class LessonModuleScreen extends StatefulWidget {
 }
 
 class _LessonModuleScreenState extends State<LessonModuleScreen> {
-  // ✅
   // ✅ These keys now belong to LessonModuleScreen
   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey'); // ✅
   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey'); // ✅
@@ -45,6 +44,14 @@ class _LessonModuleScreenState extends State<LessonModuleScreen> {
       ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Courses', style: AppTheme.branchBreadcrumbStyle),
+            ),
+          ),
+
           const SizedBox(height: 16),
           Text(
             'Select a course to embark upon:',
@@ -77,11 +84,6 @@ class _LessonModuleScreenState extends State<LessonModuleScreen> {
                         'transitionType': TransitionType.slide,
                         'slideFrom': SlideDirection.right,
                         'detailRoute': DetailRoute.branch,
-                        // ❌ REMOVED: no more GlobalKeys passed in
-                        // 'mobKey': GlobalKey(debugLabel: 'MOBKey'), // ❌
-                        // 'settingsKey': GlobalKey(debugLabel: 'SettingsKey'), // ❌
-                        // 'searchKey': GlobalKey(debugLabel: 'SearchKey'), // ❌
-                        // 'titleKey': GlobalKey(debugLabel: 'TitleKey'), // ❌
                       },
                     );
                   },

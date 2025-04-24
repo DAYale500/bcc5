@@ -102,11 +102,37 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
           },
         ),
         const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Tools',
+                    style: AppTheme.branchBreadcrumbStyle,
+                  ),
+                  const TextSpan(
+                    text: ' / ',
+                    style: TextStyle(color: Colors.black87),
+                  ),
+                  TextSpan(
+                    text: toolbagTitle,
+                    style: AppTheme.groupBreadcrumbStyle,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
         Text(
-          '$toolbagTitle:\nWhich ${toolbagTitle.replaceFirst(RegExp(r's$'), '')} would you like?',
+          'Which ${toolbagTitle.replaceFirst(RegExp(r's$'), '')} would you like?',
           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
           textAlign: TextAlign.center,
         ),
+
         const SizedBox(height: 16),
         Expanded(
           child: Padding(

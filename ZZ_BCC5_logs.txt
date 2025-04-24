@@ -6207,4 +6207,806 @@ Restarted application in 263ms.
 │ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
 │ 💡 🧭 LearningPathProgressBar: competent crew<…>
 │ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
-│ 💡 📘 LessonDetailScreen
+│ 💡 📘 LessonDetailScreen: Basic First Aid for Minor Injuries<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:243:26)<…>
+│ 💡 ⬅️ Previous tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_3.00 / lesson_emer_1.00<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.none<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.fadeScale | slideFrom: SlideDirection.none<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.fadeScale | slideFrom: SlideDirection.none<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.fadeScale | slideFrom: SlideDirection.none<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.fadeScale | slideFrom: SlideDirection.none<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.fadeScale | slideFrom: SlideDirection.none<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.fadeScale | slideFrom: SlideDirection.none<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Man Overboard Basics<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Man Overboard Basics<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Man Overboard Procedure<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Basic First Aid for Minor Injuries<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Safety Equipment<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Basic First Aid for Minor Injuries<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Man Overboard Procedure<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 1 — switching via GoRouter<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:153:16)<…>
+│ 💡 📘 Entering LessonModuleScreen<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   _LessonModuleScreenState.build (package:bcc5/screens/lessons/lesson_module_screen.dart:33:12)<…>
+│ 💡 🟦 Entered LessonModuleScreen<…>
+
+Performing hot restart...                                       
+s.
+│ #0   main (package:bcc5/main.dart:15:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:122:22)<…>
+│ ⚠️ [TransitionManager] ❗ Missing detailRoute in .extras — defaulting to DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 1 — switching via GoRouter<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:153:16)<…>
+│ 💡 📘 Entering LessonModuleScreen<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   _LessonModuleScreenState.build (package:bcc5/screens/lessons/lesson_module_screen.dart:32:12)<…>
+│ 💡 🟦 Entered LessonModuleScreen<…>
+
+Performing hot reload...                                        
+│ #0   _LessonModuleScreenState.build (package:bcc5/screens/lessons/lesson_module_screen.dart:32:12)<…>
+│ 💡 🟦 Entered LessonModuleScreen<…>
+Reloaded 1 of 1033 libraries in 164ms (compile: 13 ms, reload: 78 ms, reassemble: 57 ms).
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 2 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+
+Performing hot restart...                                       
+s.
+│ #0   main (package:bcc5/main.dart:15:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:122:22)<…>
+│ ⚠️ [TransitionManager] ❗ Missing detailRoute in .extras — defaulting to DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 2 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+
+Performing hot restart...                                       
+s.
+│ #0   main (package:bcc5/main.dart:15:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:122:22)<…>
+│ ⚠️ [TransitionManager] ❗ Missing detailRoute in .extras — defaulting to DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 2 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:46:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with robust SafeArea layout<…>
+│ #0   PartZoneScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/parts/part_zone_screen.dart:157:26)<…>
+│ 💡 🟦 Tapped zone: Rigging<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:285:16)<…>
+│ 💡 🧩 Navigating to PartItemScreen for zone: Rigging | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   PartItemScreen.build (package:bcc5/screens/parts/part_item_screen.dart:31:12)<…>
+│ 💡 🟦 Displaying PartItemScreen (Zone: Rigging)<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:46:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with robust SafeArea layout<…>
+│ #0   PartItemScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/parts/part_item_screen.dart:91:28)<…>
+│ 💡 🟥 Tapped part: part_rigging_2.00<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:285:16)<…>
+│ 💡 🧩 Navigating to PartItemScreen for zone: Rigging | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:46:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with robust SafeArea layout<…>
+│ #0   PartItemScreen.build (package:bcc5/screens/parts/part_item_screen.dart:31:12)<…>
+│ 💡 🟦 Displaying PartItemScreen (Zone: Rigging)<…>
+│ #0   _PartDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/parts/part_detail_screen.dart:147:26)<…>
+│ 💡 🔙 Back tapped → /parts/items<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:285:16)<…>
+│ 💡 🧩 Navigating to PartItemScreen for zone: Rigging | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.left<…>
+│ #0   PartItemScreen.build (package:bcc5/screens/parts/part_item_screen.dart:31:12)<…>
+│ 💡 🟦 Displaying PartItemScreen (Zone: Rigging)<…>
+│ #0   PartItemScreen.build.<anonymous closure> (package:bcc5/screens/parts/part_item_screen.dart:51:20)<…>
+│ 💡 🔙 AppBar back from PartItemScreen<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.left<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:46:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with robust SafeArea layout<…>
+│ #0   CustomAppBarWidget.build.<anonymous closure>.<anonymous closure> (package:bcc5/widgets/custom_app_bar_widget.dart:133:28)<…>
+│ 💡 🆘 MOB button tapped<…>
+│ #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+│ 💡 📍 Got location: 37.785834, -122.406417<…>
+│ #0   showMOBModal.<anonymous closure> (package:bcc5/widgets/mob_modal.dart:18:12)<…>
+│ 💡 🚨 MOB Modal triggered at 2025-04-23 23:51:16 with coords: 37.785834, -122.406417<…>
+│ #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:135:12)<…>
+│ 💡 🚨 MOB Emergency Screen opened<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:46:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with robust SafeArea layout<…>
+│ #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:135:12)<…>
+│ 💡 🚨 MOB Emergency Screen opened<…>
+│ #0   getCurrentLocation (package:bcc5/utils/location_helper.dart:29:10)<…>
+│ 💡 📍 Got location: 37.785834, -122.406417<…>
+│ #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:135:12)<…>
+│ 💡 🚨 MOB Emergency Screen opened<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 0 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:46:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with robust SafeArea layout<…>
+│ #0   LandingScreen.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:123:28)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:37:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:56:12)<…>
+│ 💡 🟩 Found chapter "1: Prepare in Advance" with 3 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: part_deck_2.00 → "Winches" (index 0)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_1.00 → "L1: Handling Dock Lines" (index 1)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_3.00 → "Basics of Side Ties" (index 2)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:120:28)<…>
+│ 💡 🟦 Tapped PathItem → Winches<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / part_deck_2.00<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:37:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:56:12)<…>
+│ 💡 🟩 Found chapter "1: Prepare in Advance" with 3 items<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: part_deck_2.00 → "Winches" (index 0)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_1.00 → "L1: Handling Dock Lines" (index 1)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_3.00 → "Basics of Side Ties" (index 2)<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / lesson_dock_1.00<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.fadeScale | slideFrom: SlideDirection.none<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: L1: Handling Dock Lines<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:37:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:56:12)<…>
+│ 💡 🟩 Found chapter "1: Prepare in Advance" with 3 items<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: part_deck_2.00 → "Winches" (index 0)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_1.00 → "L1: Handling Dock Lines" (index 1)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_3.00 → "Basics of Side Ties" (index 2)<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:243:26)<…>
+│ 💡 ⬅️ Previous tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / part_deck_2.00<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.fadeScale | slideFrom: SlideDirection.none<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.fadeScale | slideFrom: SlideDirection.none<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:37:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:56:12)<…>
+│ 💡 🟩 Found chapter "1: Prepare in Advance" with 3 items<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: part_deck_2.00 → "Winches" (index 0)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_1.00 → "L1: Handling Dock Lines" (index 1)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_3.00 → "Basics of Side Ties" (index 2)<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: L1: Handling Dock Lines<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 2 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:46:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with robust SafeArea layout<…>
+
+Performing hot reload...                                        
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+Reloaded 4 of 1033 libraries in 220ms (compile: 18 ms, reload: 135 ms, reassemble: 51 ms).
+
+Performing hot reload...                                        
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+Reloaded 1 of 1033 libraries in 159ms (compile: 12 ms, reload: 88 ms, reassemble: 43 ms).
+
+Performing hot reload...                                        
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+Reloaded 1 of 1033 libraries in 159ms (compile: 12 ms, reload: 89 ms, reassemble: 42 ms).
+
+Performing hot reload...                                        
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+Reloaded 1 of 1033 libraries in 157ms (compile: 14 ms, reload: 88 ms, reassemble: 42 ms).
+
+Performing hot reload...                                        
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+Reloaded 1 of 1033 libraries in 154ms (compile: 12 ms, reload: 85 ms, reassemble: 43 ms).
+
+Performing hot reload...                                        
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+Reloaded 1 of 1033 libraries in 155ms (compile: 13 ms, reload: 86 ms, reassemble: 42 ms).
+
+Performing hot reload...                                        
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+Reloaded 1 of 1033 libraries in 157ms (compile: 12 ms, reload: 87 ms, reassemble: 43 ms).
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 3 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 2 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 3 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+
+Performing hot reload...                                        
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+Reloaded 1 of 1033 libraries in 167ms (compile: 13 ms, reload: 95 ms, reassemble: 45 ms).
+
+Performing hot reload...                                        
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+Reloaded 1 of 1033 libraries in 141ms (compile: 7 ms, reload: 77 ms, reassemble: 50 ms).
+
+Performing hot reload...                                        
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+Reloaded 1 of 1033 libraries in 160ms (compile: 12 ms, reload: 87 ms, reassemble: 47 ms).
+
+Performing hot reload...                                        
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+Reloaded 1 of 1033 libraries in 161ms (compile: 13 ms, reload: 88 ms, reassemble: 46 ms).
+
+Performing hot reload...                                        
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+Reloaded 1 of 1033 libraries in 159ms (compile: 12 ms, reload: 89 ms, reassemble: 46 ms).
+
+Taking screenshot for iPhone 13...                              
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+s
+Screenshot written to flutter_01.png (166kB).
+
+Performing hot reload...                                        
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+s (compile: 12 ms, reload: 93 ms, reassemble: 46 ms).
+
+Performing hot reload...                                        
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+Reloaded 1 of 1033 libraries in 149ms (compile: 9 ms, reload: 85 ms, reassemble: 44 ms).
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 4 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.none<…>
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:20:12)<…>
+│ 💡 🟦 Entered FlashcardCategoryScreen<…>
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:27:12)<…>
+│ 💡 📇 Sorted flashcard categories: [all, random, docking, emergencies, knots, navigation, safety, seamanship, systems, teamwork, terminology, deck, hull, interior, rigging, sails, checklists, procedures, references, colregs]<…>
+
+Performing hot reload...                                        
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:20:12)<…>
+│ 💡 🟦 Entered FlashcardCategoryScreen<…>
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:27:12)<…>
+│ 💡 📇 Sorted flashcard categories: [all, random, docking, emergencies, knots, navigation, safety, seamanship, systems, teamwork, terminology, deck, hull, interior, rigging, sails, checklists, procedures, references, colregs]<…>
+Reloaded 1 of 1033 libraries in 183ms (compile: 13 ms, reload: 96 ms, reassemble: 60 ms).
+
+Performing hot reload...                                        
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:20:12)<…>
+│ 💡 🟦 Entered FlashcardCategoryScreen<…>
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:27:12)<…>
+│ 💡 📇 Sorted flashcard categories: [all, random, docking, emergencies, knots, navigation, safety, seamanship, systems, teamwork, terminology, deck, hull, interior, rigging, sails, checklists, procedures, references, colregs]<…>
+s (compile: 13 ms, reload: 90 ms, reassemble: 62 ms).
+│ #0   FlashcardCategoryScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/flashcards/flashcard_category_screen.dart:119:36)<…>
+│ 💡 🟥 Tapped flashcard category: sails<…>
+│ #0   FlashcardCategoryScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/flashcards/flashcard_category_screen.dart:125:38)<…>
+│ ⚠️ ⚠️ No flashcards found in category: sails<…>
+│ #0   FlashcardCategoryScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/flashcards/flashcard_category_screen.dart:119:36)<…>
+│ 💡 🟥 Tapped flashcard category: interior<…>
+│ #0   FlashcardCategoryScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/flashcards/flashcard_category_screen.dart:125:38)<…>
+│ ⚠️ ⚠️ No flashcards found in category: interior<…>
+│ #0   FlashcardCategoryScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/flashcards/flashcard_category_screen.dart:119:36)<…>
+│ 💡 🟥 Tapped flashcard category: interior<…>
+│ #0   FlashcardCategoryScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/flashcards/flashcard_category_screen.dart:125:38)<…>
+│ ⚠️ ⚠️ No flashcards found in category: interior<…>
+│ #0   FlashcardCategoryScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/flashcards/flashcard_category_screen.dart:119:36)<…>
+│ 💡 🟥 Tapped flashcard category: teamwork<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.none<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   _FlashcardDetailScreenState.initState (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:68:14)<…>
+│ 💡 🟩 FlashcardDetailScreen Loaded:<…>
+│ 💡   ├─ index: 0<…>
+│ 💡   ├─ id: flashcard_lesson_team_1.00<…>
+│ 💡   ├─ type: RenderItemType.flashcard<…>
+│ 💡   ├─ renderItems.length: 5<…>
+│ 💡   ├─ branchIndex: 4<…>
+│ 💡   ├─ backDestination: /flashcards<…>
+│ 💡   └─ backExtra: {category: teamwork, branchIndex: 4}<…>
+│ #0   _FlashcardDetailScreenState.build (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:170:12)<…>
+│ 💡 🖼️ Rendering Flashcard:<…>
+│ 💡   ├─ title: FC: Boarding Etiquette<…>
+│ 💡   ├─ sideA: 1 blocks<…>
+│ 💡   └─ sideB: 1 blocks<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 3 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 4 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.none<…>
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:20:12)<…>
+│ 💡 🟦 Entered FlashcardCategoryScreen<…>
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:27:12)<…>
+│ 💡 📇 Sorted flashcard categories: [all, random, docking, emergencies, knots, navigation, safety, seamanship, systems, teamwork, terminology, deck, hull, interior, rigging, sails, checklists, procedures, references, colregs]<…>
+
+Performing hot reload...                                        
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:20:12)<…>
+│ 💡 🟦 Entered FlashcardCategoryScreen<…>
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:27:12)<…>
+│ 💡 📇 Sorted flashcard categories: [all, random, docking, emergencies, knots, navigation, safety, seamanship, systems, teamwork, terminology, deck, hull, interior, rigging, sails, checklists, procedures, references, colregs]<…>
+s (compile: 12 ms, reload: 93 ms, reassemble: 59 ms).
+
+Performing hot reload...                                        
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:20:12)<…>
+│ 💡 🟦 Entered FlashcardCategoryScreen<…>
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:27:12)<…>
+│ 💡 📇 Sorted flashcard categories: [all, random, docking, emergencies, knots, navigation, safety, seamanship, systems, teamwork, terminology, deck, hull, interior, rigging, sails, checklists, procedures, references, colregs]<…>
+Reloaded 1 of 1033 libraries in 161ms (compile: 7 ms, reload: 86 ms, reassemble: 61 ms).
+
+Performing hot reload...                                        
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:20:12)<…>
+│ 💡 🟦 Entered FlashcardCategoryScreen<…>
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:27:12)<…>
+│ 💡 📇 Sorted flashcard categories: [all, random, docking, emergencies, knots, navigation, safety, seamanship, systems, teamwork, terminology, deck, hull, interior, rigging, sails, checklists, procedures, references, colregs]<…>
+Reloaded 1 of 1033 libraries in 179ms (compile: 13 ms, reload: 91 ms, reassemble: 60 ms).
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 1 — switching via GoRouter<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:153:16)<…>
+│ 💡 📘 Entering LessonModuleScreen<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   _LessonModuleScreenState.build (package:bcc5/screens/lessons/lesson_module_screen.dart:32:12)<…>
+│ 💡 🟦 Entered LessonModuleScreen<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 2 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 3 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+
+Performing hot reload...                                        
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+Reloaded 1 of 1033 libraries in 166ms (compile: 13 ms, reload: 95 ms, reassemble: 44 ms).
+
+Performing hot reload...                                        
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+Reloaded 1 of 1033 libraries in 155ms (compile: 12 ms, reload: 86 ms, reassemble: 44 ms).
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 1 — switching via GoRouter<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:153:16)<…>
+│ 💡 📘 Entering LessonModuleScreen<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   _LessonModuleScreenState.build (package:bcc5/screens/lessons/lesson_module_screen.dart:32:12)<…>
+│ 💡 🟦 Entered LessonModuleScreen<…>
+│ #0   _LessonModuleScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_module_screen.dart:76:28)<…>
+│ 💡 📘 Tapped Module: docking<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:153:16)<…>
+│ 💡 📘 Entering LessonModuleScreen<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:196:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: docking | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   LessonItemScreen.build (package:bcc5/screens/lessons/lesson_item_screen.dart:22:12)<…>
+│ 💡 📘 LessonItemScreen loaded for module: docking<…>
+│ #0   _LessonModuleScreenState.build (package:bcc5/screens/lessons/lesson_module_screen.dart:32:12)<…>
+│ 💡 🟦 Entered LessonModuleScreen<…>
+│ #0   LessonItemScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_item_screen.dart:101:28)<…>
+│ 💡 📘 Tapped lesson: lesson_dock_2.00<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:153:16)<…>
+│ 💡 📘 Entering LessonModuleScreen<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:196:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: docking | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: L2: Anchoring - Setting Up<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonModuleScreenState.build (package:bcc5/screens/lessons/lesson_module_screen.dart:32:12)<…>
+│ 💡 🟦 Entered LessonModuleScreen<…>
+│ #0   LessonItemScreen.build (package:bcc5/screens/lessons/lesson_item_screen.dart:22:12)<…>
+│ 💡 📘 LessonItemScreen loaded for module: docking<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:156:26)<…>
+│ 💡 🔙 Back tapped → /lessons/items<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:196:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: docking | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.left<…>
+│ #0   LessonItemScreen.build (package:bcc5/screens/lessons/lesson_item_screen.dart:22:12)<…>
+│ 💡 📘 LessonItemScreen loaded for module: docking<…>
+│ #0   LessonItemScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_item_screen.dart:101:28)<…>
+│ 💡 📘 Tapped lesson: lesson_dock_2.00<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:196:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: docking | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.left<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: L2: Anchoring - Setting Up<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LessonItemScreen.build (package:bcc5/screens/lessons/lesson_item_screen.dart:22:12)<…>
+│ 💡 📘 LessonItemScreen loaded for module: docking<…>
+
+Performing hot reload...                                        
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: L2: Anchoring - Setting Up<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LessonItemScreen.build (package:bcc5/screens/lessons/lesson_item_screen.dart:22:12)<…>
+│ 💡 📘 LessonItemScreen loaded for module: docking<…>
+Reloaded 1 of 1033 libraries in 167ms (compile: 9 ms, reload: 77 ms, reassemble: 74 ms).
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 0 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   LandingScreen.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:123:28)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:37:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:56:12)<…>
+│ 💡 🟩 Found chapter "1: Prepare in Advance" with 3 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: part_deck_2.00 → "Winches" (index 0)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_1.00 → "L1: Handling Dock Lines" (index 1)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_3.00 → "Basics of Side Ties" (index 2)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:120:28)<…>
+│ 💡 🟦 Tapped PathItem → L1: Handling Dock Lines<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / lesson_dock_1.00<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.path | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: L1: Handling Dock Lines<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LearningPathProgressBar.build (package:bcc5/widgets/learning_path_progress_bar.dart:15:12)<…>
+│ 💡 🧭 LearningPathProgressBar: competent crew<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:37:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:56:12)<…>
+│ 💡 🟩 Found chapter "1: Prepare in Advance" with 3 items<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: part_deck_2.00 → "Winches" (index 0)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_1.00 → "L1: Handling Dock Lines" (index 1)<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:115:24)<…>
+│ 💡 📦 Rendering button: lesson_dock_3.00 → "Basics of Side Ties" (index 2)<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 1 — switching via GoRouter<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:153:16)<…>
+│ 💡 📘 Entering LessonModuleScreen<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   _LessonModuleScreenState.build (package:bcc5/screens/lessons/lesson_module_screen.dart:32:12)<…>
+│ 💡 🟦 Entered LessonModuleScreen<…>
+│ #0   _LessonModuleScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_module_screen.dart:76:28)<…>
+│ 💡 📘 Tapped Module: emergencies<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:153:16)<…>
+│ 💡 📘 Entering LessonModuleScreen<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:196:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: emergencies | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   LessonItemScreen.build (package:bcc5/screens/lessons/lesson_item_screen.dart:22:12)<…>
+│ 💡 📘 LessonItemScreen loaded for module: emergencies<…>
+│ #0   _LessonModuleScreenState.build (package:bcc5/screens/lessons/lesson_module_screen.dart:32:12)<…>
+│ 💡 🟦 Entered LessonModuleScreen<…>
+│ #0   LessonItemScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_item_screen.dart:101:28)<…>
+│ 💡 📘 Tapped lesson: lesson_emer_2.00<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:153:16)<…>
+│ 💡 📘 Entering LessonModuleScreen<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:196:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: emergencies | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Man Overboard Procedure<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonModuleScreenState.build (package:bcc5/screens/lessons/lesson_module_screen.dart:32:12)<…>
+│ 💡 🟦 Entered LessonModuleScreen<…>
+│ #0   LessonItemScreen.build (package:bcc5/screens/lessons/lesson_item_screen.dart:22:12)<…>
+│ 💡 📘 LessonItemScreen loaded for module: emergencies<…>
+
+Performing hot restart...                                       
+Restarted application in 253ms.
+│ #0   main (package:bcc5/main.dart:15:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   TransitionManager.buildCustomTransition.<anonymous closure> (package:bcc5/utils/transition_manager.dart:122:22)<…>
+│ ⚠️ [TransitionManager] ❗ Missing detailRoute in .extras — defaulting to DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 2 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+│ #0   PartZoneScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/parts/part_zone_screen.dart:161:24)<…>
+│ 💡 🟦 Tapped zone: Sails<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:285:16)<…>
+│ 💡 🧩 Navigating to PartItemScreen for zone: Sails | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   PartItemScreen.build (package:bcc5/screens/parts/part_item_screen.dart:31:12)<…>
+│ 💡 🟦 Displaying PartItemScreen (Zone: Sails)<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+│ #0   PartItemScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/parts/part_item_screen.dart:111:28)<…>
+│ 💡 🟥 Tapped part: part_sails_4.00<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:285:16)<…>
+│ 💡 🧩 Navigating to PartItemScreen for zone: Sails | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.slide | slideFrom: SlideDirection.right<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+│ #0   PartItemScreen.build (package:bcc5/screens/parts/part_item_screen.dart:31:12)<…>
+│ 💡 🟦 Displaying PartItemScreen (Zone: Sails)<…>
+│ #0   MainScaffold._onItemTapped (package:bcc5/navigation/main_scaffold.dart:24:12)<…>
+│ 💡 🧭 BNB tapped tab 3 — switching via GoRouter<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+│ #0   ToolBagScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/tools/tool_bag_screen.dart:95:30)
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+│ 🐛 🛠️ Selected toolbag: checklists
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] buildCustomTransition → detailRoute: DetailRoute.branch | transitionType: TransitionType.instant | slideFrom: SlideDirection.none<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:374:16)<…>
+│ 💡 🛠️ Navigating to ToolItemScreen for toolbag: checklists | detailRoute: DetailRoute.branch<…>
+│ #0   TransitionManager.buildCustomTransition (package:bcc5/utils/transition_manager.dart:138:12)<…>
+│ 💡 [TransitionManager] b

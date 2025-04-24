@@ -47,6 +47,33 @@ class LessonItemScreen extends StatelessWidget {
             );
           },
         ),
+
+        // 🧭 Breadcrumb below AppBar
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Courses',
+                    style: AppTheme.branchBreadcrumbStyle,
+                  ),
+                  const TextSpan(
+                    text: ' / ',
+                    style: TextStyle(color: Colors.black87),
+                  ),
+                  TextSpan(
+                    text: moduleTitle,
+                    style: AppTheme.groupBreadcrumbStyle,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+
         const SizedBox(height: 16),
         Text(
           '$moduleTitle:\nDive in to any course below.',
