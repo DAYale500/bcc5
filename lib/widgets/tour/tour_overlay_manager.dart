@@ -1,9 +1,8 @@
-// lib/widgets/tour/tour_overlay_manager.dart
-
-import 'package:bcc5/utils/logger.dart';
 import 'package:flutter/material.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/widgets/tour/tour_overlay_footer.dart';
 
-class TourOverlayManager extends StatelessWidget {
+class TourOverlayManager extends StatefulWidget {
   final GlobalKey? highlightKey;
   final VoidCallback onNext;
   final VoidCallback onEnd;
@@ -18,54 +17,111 @@ class TourOverlayManager extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    logger.i('🟡 TourOverlayManager build | highlightKey: $highlightKey');
+  State<TourOverlayManager> createState() => _TourOverlayManagerState();
+}
 
-    final renderBox =
-        highlightKey?.currentContext?.findRenderObject() as RenderBox?;
-    final position = renderBox?.localToGlobal(Offset.zero);
-    final size = renderBox?.size;
+class _TourOverlayManagerState extends State<TourOverlayManager> {
+  Offset? position;
+  Size? size;
+
+  @override
+  void initState() {
+    super.initState();
+    _resolveHighlightPosition();
+  }
+
+  @override
+  void didUpdateWidget(TourOverlayManager oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _resolveHighlightPosition();
+  }
+
+  void _resolveHighlightPosition() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      final context = widget.highlightKey?.currentContext;
+      if (context == null) {
+        logger.w('❌ Highlight key context is null — skipping.');
+        return;
+      }
+
+      final renderBox = context.findRenderObject() as RenderBox?;
+      if (renderBox == null) {
+        logger.w('❌ RenderBox is null — retrying...');
+        Future.delayed(
+          const Duration(milliseconds: 50),
+          _resolveHighlightPosition,
+        );
+        return;
+      }
+
+      final newPosition = renderBox.localToGlobal(Offset.zero);
+      final newSize = renderBox.size;
+
+      if (newSize == Size.zero) {
+        logger.w('❌ Size is zero — retrying...');
+        Future.delayed(
+          const Duration(milliseconds: 50),
+          _resolveHighlightPosition,
+        );
+        return;
+      }
+
+      logger.i('📐 Resolved position=$newPosition size=$newSize');
+
+      setState(() {
+        position = newPosition;
+        size = newSize;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i(
+      '🟡 TourOverlayManager build | highlightKey: ${widget.highlightKey}',
+    );
 
     return Stack(
       children: [
-        child, // ✅ Always render the main UI
-
-        if (renderBox != null && position != null && size != null) ...[
-          // Dark overlay background
+        widget.child,
+        if (position != null && size != null) ...[
+          // Background overlay
           Positioned.fill(
             child: GestureDetector(
-              onTap: onNext,
+              onTap: widget.onNext,
               child: Container(color: Colors.black54),
             ),
           ),
-
           // Highlight box
           Positioned(
-            left: position.dx - 8,
-            top: position.dy - 8,
-            width: size.width + 16,
-            height: size.height + 16,
+            left: position!.dx - 8,
+            top: position!.dy - 8,
+            width: size!.width + 16,
+            height: size!.height + 16,
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.yellowAccent, width: 3),
                 borderRadius: BorderRadius.circular(8),
-                color: Colors.transparent,
               ),
             ),
           ),
-
-          // Next/End buttons
+          // Tour controls (Next, End, Footer)
           Positioned(
-            top: position.dy + size.height + 24,
-            left: position.dx,
-            child: Row(
+            top: position!.dy + size!.height + 24,
+            left: position!.dx,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ElevatedButton(onPressed: onNext, child: const Text('Next')),
-                const SizedBox(width: 8),
-                TextButton(onPressed: onEnd, child: const Text('End Tour')),
+                ElevatedButton(
+                  onPressed: widget.onNext,
+                  child: const Text('Next'),
+                ),
               ],
             ),
           ),
+          const TourOverlayFooter(), // ✅ New footer widget
         ],
       ],
     );

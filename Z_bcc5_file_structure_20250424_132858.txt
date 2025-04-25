@@ -57,7 +57,8 @@ lib
 │   │   ├── flashcard_detail_screen.dart
 │   │   └── flashcard_item_screen.dart
 │   ├── landing_screen
-│   │   └── landing_screen.dart
+│   │   ├── landing_screen.dart
+│   │   └── landing_screen_tour_wrapper.dart
 │   ├── lessons
 │   │   ├── lesson_detail_screen.dart
 │   │   ├── lesson_item_screen.dart
@@ -104,6 +105,9 @@ lib
     │   └── last_group_button.dart
     ├── navigation_buttons.dart
     ├── search_modal.dart
-    └── settings_modal.dart
+    ├── settings_modal.dart
+    └── tour
+        ├── tour_controller.dart
+        └── tour_overlay_manager.dart
 
-22 directories, 85 files
+23 directories, 88 files

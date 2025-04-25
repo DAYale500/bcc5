@@ -1,10 +1,12 @@
 // lib/widgets/settings_modal.dart
 
+import 'package:bcc5/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/resume_manager.dart'; // ✅ Needed for reset
 import 'package:bcc5/utils/settings_manager.dart';
 import 'package:bcc5/utils/radio_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void showSettingsModal(BuildContext context) {
   showDialog(
@@ -272,6 +274,19 @@ void showSettingsModal(BuildContext context) {
                               );
                             },
                             child: const Text('Reset Resume Point'),
+                          ),
+
+                          ListTile(
+                            title: const Text('Reset App Tour'),
+                            trailing: ElevatedButton(
+                              onPressed: () async {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setBool('hasSeenTour', false);
+                                logger.i('🔁 Tour reset via settings');
+                              },
+                              child: const Text('Reset'),
+                            ),
                           ),
 
                           const SizedBox(height: 12),

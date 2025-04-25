@@ -1,3 +1,5 @@
+// lib/screens/landing_screen/landing_screen.dart
+
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -9,32 +11,21 @@ import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LandingScreen extends StatelessWidget {
+class LandingScreen extends StatefulWidget {
   final bool showReminder;
   final GlobalKey harborKey;
   final GlobalKey mobKey;
   final GlobalKey settingsKey;
   final GlobalKey searchKey;
   final GlobalKey titleKey;
-  // 🚩 Add this to hold the controller
-  final TourController _tourController = TourController(steps: []);
+  final GlobalKey bnbLessonsKey;
+  final GlobalKey bnbPartsKey;
+  final GlobalKey bnbToolsKey;
+  final GlobalKey bnbFlashcardsKey;
 
-  // 🚩 GlobalKeys for onboarding tour steps
-  final GlobalKey _keyAppBarTitle = GlobalKey();
-  final GlobalKey _keyMOBButton = GlobalKey();
-  final GlobalKey _keySettingsIcon = GlobalKey();
-  final GlobalKey _keySearchIcon = GlobalKey();
-  final GlobalKey _keyBNBLessons = GlobalKey(); // ✅
-  final GlobalKey _keyBNBParts = GlobalKey(); // ✅
-  final GlobalKey _keyBNBTools = GlobalKey(); // ✅
-  final GlobalKey _keyBNBFlashcards = GlobalKey(); // ✅
-  final GlobalKey bnbLessonsKey; // ✅
-  final GlobalKey bnbPartsKey; // ✅
-  final GlobalKey bnbToolsKey; // ✅
-  final GlobalKey bnbFlashcardsKey; // ✅
-
-  LandingScreen({
+  const LandingScreen({
     super.key,
     required this.showReminder,
     required this.harborKey,
@@ -46,15 +37,47 @@ class LandingScreen extends StatelessWidget {
     required this.bnbPartsKey,
     required this.bnbToolsKey,
     required this.bnbFlashcardsKey,
-  }) {
-    logger.i('📘 [LandingScreen] Constructor called'); // ✅
+  });
+
+  @override
+  State<LandingScreen> createState() => _LandingScreenState();
+}
+
+class _LandingScreenState extends State<LandingScreen> {
+  final TourController _tourController = TourController(steps: []);
+  final GlobalKey _keyAppBarTitle = GlobalKey();
+  final GlobalKey _keyMOBButton = GlobalKey();
+  final GlobalKey _keySettingsIcon = GlobalKey();
+  final GlobalKey _keySearchIcon = GlobalKey();
+  final GlobalKey _keyBNBLessons = GlobalKey();
+  final GlobalKey _keyBNBParts = GlobalKey();
+  final GlobalKey _keyBNBTools = GlobalKey();
+  final GlobalKey _keyBNBFlashcards = GlobalKey();
+  final GlobalKey _appTourButtonKey = GlobalKey(debugLabel: 'AppTourButton');
+
+  bool _autoRunTriggered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final prefs = await SharedPreferences.getInstance();
+      final hasSeenTour = prefs.getBool('hasSeenTour') ?? false;
+
+      if (!hasSeenTour && !_autoRunTriggered) {
+        _autoRunTriggered = true;
+        Future.delayed(const Duration(milliseconds: 600), () {
+          _tourController.reset();
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    logger.i('📘 [LandingScreen] build() triggered'); // ✅
+    logger.i('📘 [LandingScreen] build() triggered');
 
-    if (showReminder) {
+    if (widget.showReminder) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
           context: context,
@@ -81,69 +104,64 @@ class LandingScreen extends StatelessWidget {
         );
       });
     }
-    // ✅ Tour steps in desired order
+
     _tourController.steps.clear();
     _tourController.steps.addAll([
       _keyAppBarTitle,
       _keyMOBButton,
       _keySettingsIcon,
       _keySearchIcon,
-      _keyBNBLessons, // ✅
-      _keyBNBParts, // ✅
-      _keyBNBTools, // ✅
-      _keyBNBFlashcards, // ✅
+      _keyBNBLessons,
+      _keyBNBParts,
+      _keyBNBTools,
+      _keyBNBFlashcards,
     ]);
     _tourController.addStep(
       id: 'newCrew',
       key: _tourController.getKeyForStep('newCrew'),
       description: 'Start your training here as a new crewmember.',
-    ); // ✅
-
+    );
     _tourController.addStep(
       id: 'search',
       key: _keySearchIcon,
       description: 'Tap here to search lessons, tools, or flashcards.',
-    ); // ✅
-
+    );
     _tourController.addStep(
       id: 'settings',
       key: _keySettingsIcon,
       description: 'Tap here to adjust your preferences and profile.',
-    ); // ✅
-
+    );
     _tourController.addStep(
       id: 'mob',
       key: _keyMOBButton,
       description: 'In case of emergency, tap here to trigger the MOB alert.',
-    ); // ✅
-
+    );
     _tourController.addStep(
       id: 'bnbLessons',
       key: _tourController.getKeyForStep('bnbLessons'),
       description: 'Tap here to explore safety lessons and core skills.',
-    ); // ✅
+    );
     _tourController.addStep(
       id: 'bnbParts',
       key: _tourController.getKeyForStep('bnbParts'),
       description: 'Learn about the different parts of your boat.',
-    ); // ✅
+    );
     _tourController.addStep(
       id: 'bnbTools',
       key: _tourController.getKeyForStep('bnbTools'),
       description: 'Find tools to help in common onboard situations.',
-    ); // ✅
+    );
     _tourController.addStep(
       id: 'bnbFlashcards',
       key: _tourController.getKeyForStep('bnbFlashcards'),
       description: 'Drill important terms and concepts with flashcards.',
-    ); // ✅
+    );
 
     return TourOverlayManager(
-      highlightKey: _tourController.currentKey, // ✅
-      onNext: _tourController.nextStep, // ✅
-      onEnd: _tourController.endTour, // ✅
+      highlightKey: _tourController.currentKey,
+      onNext: _tourController.nextStep,
+      onEnd: _tourController.endTour,
       child: Column(
-        // ✅
         children: [
           CustomAppBarWidget(
             title: 'Welcome!',
@@ -166,23 +184,20 @@ class LandingScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // (Tour button, welcome message, etc. remain unchanged)
-
-                  // 🚀 App Tour
                   Center(
                     child: ElevatedButton(
+                      key: _appTourButtonKey,
                       onPressed: () {
                         logger.i('🚩 Tour Start button tapped');
-                        _tourController
-                            .reset(); // ✅ This alone will trigger rebuild via notifyListeners()
+                        Future.delayed(const Duration(milliseconds: 300), () {
+                          _tourController.reset();
+                        });
                       },
                       style: AppTheme.whiteTextButton,
                       child: const Text('App Tour'),
                     ),
                   ),
                   const SizedBox(height: 10),
-
-                  // 📘 Welcome Message
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
@@ -195,11 +210,8 @@ class LandingScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // 🧭 New Crewmembers Button
                   ElevatedButton(
-                    key: _tourController.getKeyForStep('newCrew'), // ✅
-
+                    key: _tourController.getKeyForStep('newCrew'),
                     onPressed: () {
                       logger.i('📘 Navigating to Competent Crew Path');
                       context.go(
@@ -208,17 +220,16 @@ class LandingScreen extends StatelessWidget {
                           'slideFrom': SlideDirection.right,
                           'transitionType': TransitionType.slide,
                           'detailRoute': DetailRoute.path,
-                          'mobKey': mobKey,
-                          'settingsKey': settingsKey,
-                          'searchKey': searchKey,
-                          'titleKey': titleKey,
+                          'mobKey': widget.mobKey,
+                          'settingsKey': widget.settingsKey,
+                          'searchKey': widget.searchKey,
+                          'titleKey': widget.titleKey,
                         },
                       );
                     },
                     style: AppTheme.landingPrimaryButton,
                     child: const Text('New Crewmembers'),
                   ),
-
                   const SizedBox(height: 36),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -232,8 +243,6 @@ class LandingScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-
-                  // 🎯 Advanced Refresher Dropdown
                   Center(
                     child: PopupMenuButton<String>(
                       onSelected: (value) {
@@ -244,10 +253,10 @@ class LandingScreen extends StatelessWidget {
                             'slideFrom': SlideDirection.right,
                             'transitionType': TransitionType.slide,
                             'detailRoute': DetailRoute.path,
-                            'mobKey': mobKey,
-                            'settingsKey': settingsKey,
-                            'searchKey': searchKey,
-                            'titleKey': titleKey,
+                            'mobKey': widget.mobKey,
+                            'settingsKey': widget.settingsKey,
+                            'searchKey': widget.searchKey,
+                            'titleKey': widget.titleKey,
                           },
                         );
                       },
@@ -296,10 +305,7 @@ class LandingScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 36),
-
-                  // 📍 Footer Hint
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
@@ -316,6 +322,6 @@ class LandingScreen extends StatelessWidget {
           ),
         ],
       ),
-    ); // ✅
+    );
   }
 }
