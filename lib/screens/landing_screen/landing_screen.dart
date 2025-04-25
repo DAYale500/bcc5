@@ -1,5 +1,3 @@
-// lib/screens/landing_screen/landing_screen.dart
-
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -66,8 +64,13 @@ class _LandingScreenState extends State<LandingScreen> {
 
       if (!hasSeenTour && !_autoRunTriggered) {
         _autoRunTriggered = true;
-        Future.delayed(const Duration(milliseconds: 600), () {
-          _tourController.reset();
+        logger.i('⛳ Auto-starting tour (first app launch)');
+
+        // Delay just enough to let `build()` complete and add steps
+        Future.delayed(const Duration(milliseconds: 800), () {
+          if (mounted) {
+            _tourController.reset(); // ✅ Now steps will be populated
+          }
         });
       }
     });
@@ -107,221 +110,257 @@ class _LandingScreenState extends State<LandingScreen> {
 
     _tourController.steps.clear();
     _tourController.steps.addAll([
-      _keyAppBarTitle,
+      _appTourButtonKey,
       _keyMOBButton,
       _keySettingsIcon,
       _keySearchIcon,
+      _tourController.getKeyForStep('newCrew'),
       _keyBNBLessons,
       _keyBNBParts,
       _keyBNBTools,
       _keyBNBFlashcards,
     ]);
+
+    _tourController.steps.clear();
+
     _tourController.addStep(
-      id: 'newCrew',
-      key: _tourController.getKeyForStep('newCrew'),
-      description: 'Start your training here as a new crewmember.',
+      id: 'appTour',
+      key: _appTourButtonKey,
+      description:
+          'Tap here to chart a quick course through the app. You can pause, resume, or drop anchor anytime. Ready to set sail again? Reset the tour here or from Settings.',
     );
-    _tourController.addStep(
-      id: 'search',
-      key: _keySearchIcon,
-      description: 'Tap here to search lessons, tools, or flashcards.',
-    );
-    _tourController.addStep(
-      id: 'settings',
-      key: _keySettingsIcon,
-      description: 'Tap here to adjust your preferences and profile.',
-    );
+
     _tourController.addStep(
       id: 'mob',
       key: _keyMOBButton,
-      description: 'In case of emergency, tap here to trigger the MOB alert.',
-    );
-    _tourController.addStep(
-      id: 'bnbLessons',
-      key: _tourController.getKeyForStep('bnbLessons'),
-      description: 'Tap here to explore safety lessons and core skills.',
-    );
-    _tourController.addStep(
-      id: 'bnbParts',
-      key: _tourController.getKeyForStep('bnbParts'),
-      description: 'Learn about the different parts of your boat.',
-    );
-    _tourController.addStep(
-      id: 'bnbTools',
-      key: _tourController.getKeyForStep('bnbTools'),
-      description: 'Find tools to help in common onboard situations.',
-    );
-    _tourController.addStep(
-      id: 'bnbFlashcards',
-      key: _tourController.getKeyForStep('bnbFlashcards'),
-      description: 'Drill important terms and concepts with flashcards.',
+      description:
+          'Tap here in case of a Man Overboard emergency. This is the most urgent action in the app.',
     );
 
-    return TourOverlayManager(
-      highlightKey: _tourController.currentKey,
-      onNext: _tourController.nextStep,
-      onEnd: _tourController.endTour,
-      child: Column(
-        children: [
-          CustomAppBarWidget(
-            title: 'Welcome!',
-            mobKey: _keyMOBButton,
-            settingsKey: _keySettingsIcon,
-            searchKey: _keySearchIcon,
-            titleKey: _keyAppBarTitle,
-            showBackButton: false,
-            showSearchIcon: true,
-            showSettingsIcon: true,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.only(
-                top: 24,
-                left: AppTheme.screenPadding,
-                right: AppTheme.screenPadding,
-                bottom: 80,
+    _tourController.addStep(
+      id: 'settings',
+      key: _keySettingsIcon,
+      description:
+          'Tap here to access your profile and customize your app preferences.',
+    );
+
+    _tourController.addStep(
+      id: 'search',
+      key: _keySearchIcon,
+      description:
+          'Use the search icon to quickly find any lesson, tool, or flashcard.',
+    );
+
+    _tourController.addStep(
+      id: 'newCrew',
+      key: _tourController.getKeyForStep('newCrew'),
+      description:
+          'This button launches the training path for new crewmembers — a great place to start.',
+    );
+
+    _tourController.addStep(
+      id: 'bnbLessons',
+      key: _keyBNBLessons,
+      description:
+          'This icon leads to your learning path — start with Lessons.',
+    );
+
+    _tourController.addStep(
+      id: 'bnbParts',
+      key: _keyBNBParts,
+      description: 'Tap here to explore the boat’s Parts and their function.',
+    );
+
+    _tourController.addStep(
+      id: 'bnbTools',
+      key: _keyBNBTools,
+      description: 'Find practical Tools for real-world problems on board.',
+    );
+
+    _tourController.addStep(
+      id: 'bnbFlashcards',
+      key: _keyBNBFlashcards,
+      description: 'Drill essential concepts and vocabulary with flashcards.',
+    );
+
+    return AnimatedBuilder(
+      animation: _tourController,
+      builder: (context, _) {
+        return TourOverlayManager(
+          highlightKey: _tourController.currentKey,
+          description: _tourController.currentDescription,
+          onNext: _tourController.nextStep,
+          onEnd: _tourController.endTour,
+          onReset: _tourController.reset,
+          child: Column(
+            children: [
+              CustomAppBarWidget(
+                title: 'Welcome!',
+                mobKey: _keyMOBButton,
+                settingsKey: _keySettingsIcon,
+                searchKey: _keySearchIcon,
+                titleKey: _keyAppBarTitle,
+                showBackButton: false,
+                showSearchIcon: true,
+                showSettingsIcon: true,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Center(
-                    child: ElevatedButton(
-                      key: _appTourButtonKey,
-                      onPressed: () {
-                        logger.i('🚩 Tour Start button tapped');
-                        Future.delayed(const Duration(milliseconds: 300), () {
-                          _tourController.reset();
-                        });
-                      },
-                      style: AppTheme.whiteTextButton,
-                      child: const Text('App Tour'),
-                    ),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    left: AppTheme.screenPadding,
+                    right: AppTheme.screenPadding,
+                    bottom: 80,
                   ),
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      "Welcome Aboard! Tap below to learn how to be safe, helpful, and enjoy your boating!",
-                      style: AppTheme.subheadingStyle.copyWith(
-                        color: AppTheme.primaryBlue,
-                        fontStyle: FontStyle.italic,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    key: _tourController.getKeyForStep('newCrew'),
-                    onPressed: () {
-                      logger.i('📘 Navigating to Competent Crew Path');
-                      context.go(
-                        '/learning-paths/competent-crew',
-                        extra: {
-                          'slideFrom': SlideDirection.right,
-                          'transitionType': TransitionType.slide,
-                          'detailRoute': DetailRoute.path,
-                          'mobKey': widget.mobKey,
-                          'settingsKey': widget.settingsKey,
-                          'searchKey': widget.searchKey,
-                          'titleKey': widget.titleKey,
-                        },
-                      );
-                    },
-                    style: AppTheme.landingPrimaryButton,
-                    child: const Text('New Crewmembers'),
-                  ),
-                  const SizedBox(height: 36),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      "More experienced and returning sailors might find some useful guided lessons in one of these advanced paths",
-                      style: AppTheme.subheadingStyle.copyWith(
-                        color: AppTheme.primaryBlue,
-                        fontStyle: FontStyle.italic,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Center(
-                    child: PopupMenuButton<String>(
-                      onSelected: (value) {
-                        logger.i('📘 Navigating to $value');
-                        context.go(
-                          '/learning-paths/$value',
-                          extra: {
-                            'slideFrom': SlideDirection.right,
-                            'transitionType': TransitionType.slide,
-                            'detailRoute': DetailRoute.path,
-                            'mobKey': widget.mobKey,
-                            'settingsKey': widget.settingsKey,
-                            'searchKey': widget.searchKey,
-                            'titleKey': widget.titleKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Center(
+                        child: ElevatedButton(
+                          key: _appTourButtonKey,
+                          onPressed: () {
+                            logger.i('🚩 Tour Start button tapped');
+                            Future.delayed(
+                              const Duration(milliseconds: 300),
+                              () {
+                                _tourController.reset();
+                              },
+                            );
                           },
-                        );
-                      },
-                      itemBuilder:
-                          (context) => const [
-                            PopupMenuItem(
-                              value: 'knock-the-rust-off',
-                              child: Text('Knock the Rust Off'),
-                            ),
-                            PopupMenuItem(
-                              value: 'docking',
-                              child: Text('Docking'),
-                            ),
-                            PopupMenuItem(
-                              value: 'transition-demo',
-                              child: Text('Anchoring'),
-                            ),
-                          ],
-                      child: Container(
-                        constraints: const BoxConstraints(minWidth: 280),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 18,
-                          horizontal: 32,
+                          style: AppTheme.whiteTextButton,
+                          child: const Text('App Tour'),
                         ),
-                        decoration: BoxDecoration(
-                          color: AppTheme.primaryRed,
-                          borderRadius: BorderRadius.circular(
-                            AppTheme.buttonCornerRadius,
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          "Welcome Aboard! Tap below to learn how to be safe, helpful, and enjoy your boating!",
+                          style: AppTheme.subheadingStyle.copyWith(
+                            color: AppTheme.primaryBlue,
+                            fontStyle: FontStyle.italic,
                           ),
+                          textAlign: TextAlign.center,
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text(
-                              'Advanced Refreshers',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        key: _tourController.getKeyForStep('newCrew'),
+                        onPressed: () {
+                          logger.i('📘 Navigating to Competent Crew Path');
+                          context.go(
+                            '/learning-paths/competent-crew',
+                            extra: {
+                              'slideFrom': SlideDirection.right,
+                              'transitionType': TransitionType.slide,
+                              'detailRoute': DetailRoute.path,
+                              'mobKey': widget.mobKey,
+                              'settingsKey': widget.settingsKey,
+                              'searchKey': widget.searchKey,
+                              'titleKey': widget.titleKey,
+                            },
+                          );
+                        },
+                        style: AppTheme.landingPrimaryButton,
+                        child: const Text('New Crewmembers'),
+                      ),
+                      const SizedBox(height: 36),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          "More experienced and returning sailors might find some useful guided lessons in one of these advanced paths",
+                          style: AppTheme.subheadingStyle.copyWith(
+                            color: AppTheme.primaryBlue,
+                            fontStyle: FontStyle.italic,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Center(
+                        child: PopupMenuButton<String>(
+                          onSelected: (value) {
+                            logger.i('📘 Navigating to $value');
+                            context.go(
+                              '/learning-paths/$value',
+                              extra: {
+                                'slideFrom': SlideDirection.right,
+                                'transitionType': TransitionType.slide,
+                                'detailRoute': DetailRoute.path,
+                                'mobKey': widget.mobKey,
+                                'settingsKey': widget.settingsKey,
+                                'searchKey': widget.searchKey,
+                                'titleKey': widget.titleKey,
+                              },
+                            );
+                          },
+                          itemBuilder:
+                              (context) => const [
+                                PopupMenuItem(
+                                  value: 'knock-the-rust-off',
+                                  child: Text('Knock the Rust Off'),
+                                ),
+                                PopupMenuItem(
+                                  value: 'docking',
+                                  child: Text('Docking'),
+                                ),
+                                PopupMenuItem(
+                                  value: 'transition-demo',
+                                  child: Text('Anchoring'),
+                                ),
+                              ],
+                          child: Container(
+                            constraints: const BoxConstraints(minWidth: 280),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 18,
+                              horizontal: 32,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryRed,
+                              borderRadius: BorderRadius.circular(
+                                AppTheme.buttonCornerRadius,
                               ),
                             ),
-                            SizedBox(width: 8),
-                            Icon(Icons.arrow_drop_down, color: Colors.white),
-                          ],
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Text(
+                                  'Advanced Refreshers',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 36),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      'Use the icons below to navigate to Self-Guided expeditions: Sailing Courses, Boat Parts, Guidance Tools, and Flashcard Drills.',
-                      style: AppTheme.subheadingStyle.copyWith(
-                        color: AppTheme.primaryBlue,
+                      const SizedBox(height: 36),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          'Use the icons below to navigate to Self-Guided expeditions: Sailing Courses, Boat Parts, Guidance Tools, and Flashcard Drills.',
+                          style: AppTheme.subheadingStyle.copyWith(
+                            color: AppTheme.primaryBlue,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

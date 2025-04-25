@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class TourOverlayFooter extends StatefulWidget {
+class TourOverlayFooter extends StatelessWidget {
   final VoidCallback onEnd;
+  final VoidCallback onReset;
 
-  const TourOverlayFooter({super.key, required this.onEnd});
-
-  @override
-  State<TourOverlayFooter> createState() => _TourOverlayFooterState();
-}
-
-class _TourOverlayFooterState extends State<TourOverlayFooter> {
-  bool _dontShowAgain = false;
-
-  Future<void> _setPreference(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('hasSeenTour', value);
-  }
+  const TourOverlayFooter({
+    super.key,
+    required this.onEnd,
+    required this.onReset,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,37 +27,18 @@ class _TourOverlayFooterState extends State<TourOverlayFooter> {
           children: [
             Center(
               child: ElevatedButton(
-                onPressed: widget.onEnd, // This calls _tourController.endTour()
+                onPressed: onEnd,
                 child: const Text('Close Tour'),
               ),
             ),
             const SizedBox(height: 12),
-            Row(
-              children: [
-                Checkbox(
-                  value: _dontShowAgain,
-                  onChanged: (value) {
-                    if (value != null) {
-                      setState(() {
-                        _dontShowAgain = value;
-                      });
-                      _setPreference(value);
-                    }
-                  },
+            Center(
+              child: TextButton(
+                onPressed: onReset,
+                child: const Text(
+                  'Start tour from beginning',
+                  style: TextStyle(color: Colors.white),
                 ),
-                const Expanded(
-                  child: Text(
-                    "Don't show tour again",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-            const Padding(
-              padding: EdgeInsets.only(left: 12.0),
-              child: Text(
-                "You can change this later in Settings",
-                style: TextStyle(color: Colors.white70, fontSize: 12),
               ),
             ),
           ],

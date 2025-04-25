@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 
 class TourController extends ChangeNotifier {
   final List<GlobalKey> steps;
-  final Map<String, GlobalKey> _stepKeys = {}; // ✅
+  final Map<String, GlobalKey> _stepKeys = {};
+  final Map<GlobalKey, String> _descriptions = {}; // ✅
 
   int _currentStep = 0;
 
   TourController({required this.steps});
 
   int get currentStep => _currentStep;
+
   GlobalKey? get currentKey {
     final key = (_currentStep < steps.length) ? steps[_currentStep] : null;
     logger.i('🎯 currentKey for step $_currentStep is $key');
@@ -28,7 +30,7 @@ class TourController extends ChangeNotifier {
     required String description,
   }) {
     _stepKeys[id] = key;
-    // You can later store description or metadata if needed
+    _descriptions[key] = description; // ✅ store the description
   }
 
   void nextStep() {
@@ -37,6 +39,8 @@ class TourController extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  String? get currentDescription => _descriptions[currentKey];
 
   void endTour() {
     logger.i('🛑 TourController.endTour() called');
