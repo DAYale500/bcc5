@@ -37,6 +37,12 @@ class TourController extends ChangeNotifier {
     return desc;
   }
 
+  String? get currentStepId {
+    final id = (_currentStep < _steps.length) ? _steps[_currentStep].id : null;
+    logger.i('🔖 currentStepId for step $_currentStep is $id');
+    return id;
+  }
+
   bool get isTourActive => _currentStep < _steps.length;
 
   GlobalKey getKeyForStep(String id) {

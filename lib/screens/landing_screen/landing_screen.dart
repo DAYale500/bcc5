@@ -57,10 +57,13 @@ class _LandingScreenState extends State<LandingScreen> {
       final prefs = await SharedPreferences.getInstance();
       final hasSeenTour = prefs.getBool('hasSeenTour') ?? false;
 
+      if (!mounted) return; // ✅ added mounted check for async safety
+
       if (!hasSeenTour && !_autoRunTriggered) {
         _autoRunTriggered = true;
         logger.i('⛳ Auto-starting tour (first app launch)');
         Future.delayed(const Duration(milliseconds: 600), () {
+          if (!mounted) return; // ✅ also double check here
           _tourController.reset();
         });
       }
@@ -144,6 +147,12 @@ class _LandingScreenState extends State<LandingScreen> {
     );
 
     _tourController.addStep(
+      id: 'advancedRefreshers',
+      key: _tourController.getKeyForStep('advancedRefreshers'),
+      description: 'Browse advanced paths for docking, anchoring, and more.',
+    );
+
+    _tourController.addStep(
       id: 'bnbLessons',
       key: widget.bnbLessonsKey,
       description: 'Tap here to explore safety lessons and core skills.',
@@ -173,6 +182,8 @@ class _LandingScreenState extends State<LandingScreen> {
         return TourOverlayManager(
           highlightKey: _tourController.currentKey,
           description: _tourController.currentDescription,
+          currentStepId: _tourController.currentStepId, // ✅ Add this
+
           onNext: _tourController.nextStep,
           onEnd: _tourController.endTour,
           onReset: _tourController.reset,
@@ -267,6 +278,10 @@ class _LandingScreenState extends State<LandingScreen> {
                       const SizedBox(height: 16),
                       Center(
                         child: PopupMenuButton<String>(
+                          key: _tourController.getKeyForStep(
+                            'advancedRefreshers',
+                          ), // ✅ Added this line
+
                           onSelected: (value) {
                             context.go(
                               '/learning-paths/$value',
