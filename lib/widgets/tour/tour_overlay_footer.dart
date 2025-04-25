@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TourOverlayFooter extends StatefulWidget {
-  const TourOverlayFooter({super.key});
+  final VoidCallback onEnd;
+
+  const TourOverlayFooter({super.key, required this.onEnd});
 
   @override
   State<TourOverlayFooter> createState() => _TourOverlayFooterState();
@@ -33,9 +35,7 @@ class _TourOverlayFooterState extends State<TourOverlayFooter> {
           children: [
             Center(
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Ends tour overlay
-                },
+                onPressed: widget.onEnd, // This calls _tourController.endTour()
                 child: const Text('Close Tour'),
               ),
             ),

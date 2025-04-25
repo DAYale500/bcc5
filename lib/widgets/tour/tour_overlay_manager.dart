@@ -83,11 +83,16 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
       '🟡 TourOverlayManager build | highlightKey: ${widget.highlightKey}',
     );
 
+    if (widget.highlightKey == null) {
+      logger.i('🛑 TourOverlayManager skipped — highlightKey is null');
+      return widget.child;
+    }
+
     return Stack(
       children: [
         widget.child,
         if (position != null && size != null) ...[
-          // Background overlay
+          // Dimmed background
           Positioned.fill(
             child: GestureDetector(
               onTap: widget.onNext,
@@ -107,21 +112,26 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
               ),
             ),
           ),
-          // Tour controls (Next, End, Footer)
+          // "Next" button
           Positioned(
             top: position!.dy + size!.height + 24,
             left: position!.dx,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ElevatedButton(
-                  onPressed: widget.onNext,
-                  child: const Text('Next'),
-                ),
-              ],
+            child: ElevatedButton(
+              onPressed: widget.onNext,
+              child: const Text('Next'),
             ),
           ),
-          const TourOverlayFooter(), // ✅ New footer widget
+          // Footer with "Don't show again" and "Close Tour"
+          TourOverlayFooter(
+            onEnd: () {
+              logger.i('🛑 TourOverlayManager received close request');
+              widget.onEnd(); // Triggers tourController.endTour
+              setState(() {
+                position = null;
+                size = null;
+              });
+            },
+          ),
         ],
       ],
     );

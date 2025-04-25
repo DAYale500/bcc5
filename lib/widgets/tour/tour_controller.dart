@@ -39,6 +39,7 @@ class TourController extends ChangeNotifier {
   }
 
   void endTour() {
+    logger.i('🛑 TourController.endTour() called');
     _currentStep = steps.length;
     notifyListeners();
   }
