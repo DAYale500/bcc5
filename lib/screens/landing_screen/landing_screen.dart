@@ -11,6 +11,8 @@ import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Imports remain unchanged...
+
 class LandingScreen extends StatefulWidget {
   final bool showReminder;
   final GlobalKey harborKey;
@@ -42,22 +44,15 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-  final TourController _tourController = TourController(steps: []);
-  final GlobalKey _keyAppBarTitle = GlobalKey();
-  final GlobalKey _keyMOBButton = GlobalKey();
-  final GlobalKey _keySettingsIcon = GlobalKey();
-  final GlobalKey _keySearchIcon = GlobalKey();
-  final GlobalKey _keyBNBLessons = GlobalKey();
-  final GlobalKey _keyBNBParts = GlobalKey();
-  final GlobalKey _keyBNBTools = GlobalKey();
-  final GlobalKey _keyBNBFlashcards = GlobalKey();
-  final GlobalKey _appTourButtonKey = GlobalKey(debugLabel: 'AppTourButton');
+  final TourController _tourController = TourController();
+  final GlobalKey _keyAppTourButton = GlobalKey(debugLabel: 'AppTourButton');
 
   bool _autoRunTriggered = false;
 
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final prefs = await SharedPreferences.getInstance();
       final hasSeenTour = prefs.getBool('hasSeenTour') ?? false;
@@ -65,12 +60,8 @@ class _LandingScreenState extends State<LandingScreen> {
       if (!hasSeenTour && !_autoRunTriggered) {
         _autoRunTriggered = true;
         logger.i('⛳ Auto-starting tour (first app launch)');
-
-        // Delay just enough to let `build()` complete and add steps
-        Future.delayed(const Duration(milliseconds: 800), () {
-          if (mounted) {
-            _tourController.reset(); // ✅ Now steps will be populated
-          }
+        Future.delayed(const Duration(milliseconds: 600), () {
+          _tourController.reset();
         });
       }
     });
@@ -108,78 +99,67 @@ class _LandingScreenState extends State<LandingScreen> {
       });
     }
 
-    _tourController.steps.clear();
-    _tourController.steps.addAll([
-      _appTourButtonKey,
-      _keyMOBButton,
-      _keySettingsIcon,
-      _keySearchIcon,
-      _tourController.getKeyForStep('newCrew'),
-      _keyBNBLessons,
-      _keyBNBParts,
-      _keyBNBTools,
-      _keyBNBFlashcards,
-    ]);
-
-    _tourController.steps.clear();
-
+    // _tourController.steps.clear();
+    // _tourController.steps.addAll([
+    //   _keyAppTourButton,
+    //   widget.mobKey,
+    //   widget.settingsKey,
+    //   widget.searchKey,
+    //   widget.bnbLessonsKey,
+    //   widget.bnbPartsKey,
+    //   widget.bnbToolsKey,
+    //   widget.bnbFlashcardsKey,
+    // ]);
     _tourController.addStep(
       id: 'appTour',
-      key: _appTourButtonKey,
+      key: _keyAppTourButton,
       description:
-          'Tap here to chart a quick course through the app. You can pause, resume, or drop anchor anytime. Ready to set sail again? Reset the tour here or from Settings.',
+          'Tap here to chart a quick course through the app. You can pause, resume, or drop anchor anytime.',
     );
 
     _tourController.addStep(
       id: 'mob',
-      key: _keyMOBButton,
+      key: widget.mobKey,
       description:
           'Tap here in case of a Man Overboard emergency. This is the most urgent action in the app.',
     );
 
     _tourController.addStep(
       id: 'settings',
-      key: _keySettingsIcon,
+      key: widget.settingsKey,
       description:
           'Tap here to access your profile and customize your app preferences.',
     );
 
     _tourController.addStep(
       id: 'search',
-      key: _keySearchIcon,
+      key: widget.searchKey,
       description:
           'Use the search icon to quickly find any lesson, tool, or flashcard.',
     );
 
     _tourController.addStep(
-      id: 'newCrew',
-      key: _tourController.getKeyForStep('newCrew'),
-      description:
-          'This button launches the training path for new crewmembers — a great place to start.',
-    );
-
-    _tourController.addStep(
       id: 'bnbLessons',
-      key: _keyBNBLessons,
+      key: widget.bnbLessonsKey,
       description:
           'This icon leads to your learning path — start with Lessons.',
     );
 
     _tourController.addStep(
       id: 'bnbParts',
-      key: _keyBNBParts,
+      key: widget.bnbPartsKey,
       description: 'Tap here to explore the boat’s Parts and their function.',
     );
 
     _tourController.addStep(
       id: 'bnbTools',
-      key: _keyBNBTools,
+      key: widget.bnbToolsKey,
       description: 'Find practical Tools for real-world problems on board.',
     );
 
     _tourController.addStep(
       id: 'bnbFlashcards',
-      key: _keyBNBFlashcards,
+      key: widget.bnbFlashcardsKey,
       description: 'Drill essential concepts and vocabulary with flashcards.',
     );
 
@@ -193,13 +173,18 @@ class _LandingScreenState extends State<LandingScreen> {
           onEnd: _tourController.endTour,
           onReset: _tourController.reset,
           child: Column(
+            // return TourOverlayManager(
+            //   highlightKey: _tourController.currentKey,
+            //   onNext: _tourController.nextStep,
+            //   onEnd: _tourController.endTour,
+            //   child: Column(
             children: [
               CustomAppBarWidget(
                 title: 'Welcome!',
-                mobKey: _keyMOBButton,
-                settingsKey: _keySettingsIcon,
-                searchKey: _keySearchIcon,
-                titleKey: _keyAppBarTitle,
+                mobKey: widget.mobKey,
+                settingsKey: widget.settingsKey,
+                searchKey: widget.searchKey,
+                titleKey: widget.titleKey,
                 showBackButton: false,
                 showSearchIcon: true,
                 showSettingsIcon: true,
@@ -217,7 +202,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     children: [
                       Center(
                         child: ElevatedButton(
-                          key: _appTourButtonKey,
+                          key: _keyAppTourButton,
                           onPressed: () {
                             logger.i('🚩 Tour Start button tapped');
                             Future.delayed(
@@ -247,7 +232,6 @@ class _LandingScreenState extends State<LandingScreen> {
                       ElevatedButton(
                         key: _tourController.getKeyForStep('newCrew'),
                         onPressed: () {
-                          logger.i('📘 Navigating to Competent Crew Path');
                           context.go(
                             '/learning-paths/competent-crew',
                             extra: {
@@ -280,7 +264,6 @@ class _LandingScreenState extends State<LandingScreen> {
                       Center(
                         child: PopupMenuButton<String>(
                           onSelected: (value) {
-                            logger.i('📘 Navigating to $value');
                             context.go(
                               '/learning-paths/$value',
                               extra: {

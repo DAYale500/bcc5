@@ -1,27 +1,46 @@
 import 'package:bcc5/utils/logger.dart';
 import 'package:flutter/material.dart';
 
+class TourStepData {
+  final String id;
+  final GlobalKey key;
+  final String description;
+
+  TourStepData({
+    required this.id,
+    required this.key,
+    required this.description,
+  });
+}
+
 class TourController extends ChangeNotifier {
-  final List<GlobalKey> steps;
+  final List<TourStepData> _steps = [];
   final Map<String, GlobalKey> _stepKeys = {};
-  final Map<GlobalKey, String> _descriptions = {}; // ✅
 
   int _currentStep = 0;
-
-  TourController({required this.steps});
 
   int get currentStep => _currentStep;
 
   GlobalKey? get currentKey {
-    final key = (_currentStep < steps.length) ? steps[_currentStep] : null;
+    final key =
+        (_currentStep < _steps.length) ? _steps[_currentStep].key : null;
     logger.i('🎯 currentKey for step $_currentStep is $key');
     return key;
   }
 
-  bool get isTourActive => _currentStep < steps.length;
+  String? get currentDescription {
+    final desc =
+        (_currentStep < _steps.length)
+            ? _steps[_currentStep].description
+            : null;
+    logger.i('📝 currentDescription for step $_currentStep is $desc');
+    return desc;
+  }
+
+  bool get isTourActive => _currentStep < _steps.length;
 
   GlobalKey getKeyForStep(String id) {
-    return _stepKeys.putIfAbsent(id, () => GlobalKey());
+    return _stepKeys.putIfAbsent(id, () => GlobalKey(debugLabel: id));
   }
 
   void addStep({
@@ -30,25 +49,24 @@ class TourController extends ChangeNotifier {
     required String description,
   }) {
     _stepKeys[id] = key;
-    _descriptions[key] = description; // ✅ store the description
+    _steps.add(TourStepData(id: id, key: key, description: description));
   }
 
   void nextStep() {
-    if (_currentStep < steps.length - 1) {
+    if (_currentStep < _steps.length - 1) {
       _currentStep++;
       notifyListeners();
     }
   }
 
-  String? get currentDescription => _descriptions[currentKey];
-
   void endTour() {
     logger.i('🛑 TourController.endTour() called');
-    _currentStep = steps.length;
+    _currentStep = _steps.length;
     notifyListeners();
   }
 
   void reset() {
+    logger.i('🔁 TourController.reset() triggered');
     _currentStep = 0;
     notifyListeners();
   }
