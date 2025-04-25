@@ -137,12 +137,16 @@ class _LandingScreenState extends State<LandingScreen> {
       description:
           'Use the search icon to quickly find any lesson, tool, or flashcard.',
     );
+    _tourController.addStep(
+      id: 'newCrew',
+      key: _tourController.getKeyForStep('newCrew'),
+      description: 'Start your training here as a new crewmember.',
+    );
 
     _tourController.addStep(
       id: 'bnbLessons',
       key: widget.bnbLessonsKey,
-      description:
-          'This icon leads to your learning path — start with Lessons.',
+      description: 'Tap here to explore safety lessons and core skills.',
     );
 
     _tourController.addStep(
