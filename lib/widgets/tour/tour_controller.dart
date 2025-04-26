@@ -45,6 +45,8 @@ class TourController extends ChangeNotifier {
 
   bool get isTourActive => _currentStep < _steps.length;
 
+  bool get isLastStep => _currentStep >= _steps.length - 1;
+
   GlobalKey getKeyForStep(String id) {
     return _stepKeys.putIfAbsent(id, () => GlobalKey(debugLabel: id));
   }

@@ -13,6 +13,7 @@ class TourOverlayManager extends StatefulWidget {
   final VoidCallback onReset;
   final Widget child;
   final String? currentStepId;
+  final bool isLastStep;
 
   const TourOverlayManager({
     super.key,
@@ -23,6 +24,7 @@ class TourOverlayManager extends StatefulWidget {
     required this.onReset,
     required this.child,
     required this.currentStepId,
+    required this.isLastStep,
   });
 
   @override
@@ -159,7 +161,13 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
                     children: [
                       ElevatedButton(
                         style: AppTheme.tourNextButtonSmall, // ✅
-                        onPressed: widget.onNext,
+                        onPressed: () {
+                          if (widget.isLastStep) {
+                            widget.onEnd();
+                          } else {
+                            widget.onNext();
+                          }
+                        },
                         child: const Text('Next'),
                       ),
                       ElevatedButton(

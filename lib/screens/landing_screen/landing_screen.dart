@@ -182,10 +182,12 @@ class _LandingScreenState extends State<LandingScreen> {
         return TourOverlayManager(
           highlightKey: _tourController.currentKey,
           description: _tourController.currentDescription,
-          currentStepId: _tourController.currentStepId, // ✅ Add this line
+          currentStepId: _tourController.currentStepId,
           onNext: _tourController.nextStep,
           onEnd: _tourController.endTour,
           onReset: _tourController.reset,
+          isLastStep: _tourController.isLastStep,
+
           child: Column(
             children: [
               CustomAppBarWidget(
