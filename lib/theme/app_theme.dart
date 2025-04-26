@@ -83,6 +83,35 @@ class AppTheme {
     ),
   );
 
+  // 🆕 Corrected Tour "Next" button (small, white with primaryBlue border)
+  static final ButtonStyle tourNextButtonSmall = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white, // ✅ White background
+    foregroundColor: primaryBlue, // ✅ Blue text
+    side: const BorderSide(
+      color: primaryBlue,
+      width: 3,
+    ), // ✅ Thicker blue border
+    minimumSize: const Size(70, 44), // ✅ Matched size to Exit
+    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+
+  // 🆕 Corrected Tour "Exit" button (small, white with red border)
+  static final ButtonStyle tourExitButtonSmall = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: primaryRed,
+    side: const BorderSide(color: primaryRed, width: 3), // ✅ Thicker red border
+    minimumSize: const Size(70, 44), // ✅ Same size as Next
+    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+
   static const TextStyle subheadingStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,

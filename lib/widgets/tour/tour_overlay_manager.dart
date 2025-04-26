@@ -1,7 +1,8 @@
 // lib/widgets/tour/tour_overlay_manager.dart
 
+import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/widgets/tour/tour_overlay_controls.dart'; // ✅ updated import
+// import 'package:bcc5/widgets/tour/tour_overlay_controls.dart';
 import 'package:flutter/material.dart';
 
 class TourOverlayManager extends StatefulWidget {
@@ -108,12 +109,12 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
 
     final mediaHeight = MediaQuery.of(context).size.height;
 
-    bool showBubbleAbove = false;
+    bool showAbove = false;
     if (position != null && size != null) {
-      final bubbleHeightEstimate = 140.0;
+      final bubbleHeightEstimate = 180.0;
       final availableSpaceBelow = mediaHeight - (position!.dy + size!.height);
 
-      showBubbleAbove =
+      showAbove =
           availableSpaceBelow < bubbleHeightEstimate ||
           _isAdvancedRefreshersStep();
     }
@@ -122,14 +123,12 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
       children: [
         widget.child,
         if (position != null && size != null) ...[
-          // Dimmed background
           Positioned.fill(
             child: GestureDetector(
               onTap: widget.onNext,
               child: Container(color: Colors.black54),
             ),
           ),
-          // Highlight box
           Positioned(
             left: position!.dx - 8,
             top: position!.dy - 8,
@@ -142,32 +141,51 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
               ),
             ),
           ),
-          // Description bubble + controls
           Positioned(
-            left: 24,
-            right: 24,
             top:
-                showBubbleAbove
+                showAbove
                     ? position!.dy - 220
                     : position!.dy + size!.height + 24,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+            left: 24,
+            right: 24,
+            child: IntrinsicHeight(
+              // ✅ NEW
+              child: Row(
+                crossAxisAlignment:
+                    CrossAxisAlignment.stretch, // ✅ Stretch for full vertical
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // ✅ NEW
+                    children: [
+                      ElevatedButton(
+                        style: AppTheme.tourNextButtonSmall, // ✅
+                        onPressed: widget.onNext,
+                        child: const Text('Next'),
+                      ),
+                      ElevatedButton(
+                        style: AppTheme.tourExitButtonSmall, // ✅
+                        onPressed: widget.onEnd,
+                        child: const Text('Exit'),
+                      ),
+                    ],
                   ),
-                  child: Text(
-                    widget.description ?? '',
-                    style: const TextStyle(fontSize: 16),
-                    textAlign: TextAlign.center,
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        widget.description ?? '',
+                        style: const TextStyle(fontSize: 16),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                TourOverlayControls(onNext: widget.onNext, onEnd: widget.onEnd),
-              ],
+                ],
+              ),
             ),
           ),
         ],
