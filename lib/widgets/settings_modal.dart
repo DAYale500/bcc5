@@ -277,16 +277,43 @@ void showSettingsModal(BuildContext context) {
                           ),
 
                           ListTile(
-                            title: const Text('Reset App Tour'),
+                            title: const Text('Reset App Tour Progress'),
                             trailing: ElevatedButton(
                               onPressed: () async {
                                 final prefs =
                                     await SharedPreferences.getInstance();
                                 await prefs.setBool('hasSeenTour', false);
                                 logger.i('🔁 Tour reset via settings');
+                                if (!context.mounted) return;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('✅ Tour progress reset'),
+                                  ),
+                                );
                               },
                               child: const Text('Reset'),
                             ),
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          ElevatedButton(
+                            style: AppTheme.navigationButton,
+                            onPressed: () {
+                              Navigator.of(
+                                context,
+                              ).pop(); // Close Settings Modal first
+                              Future.delayed(
+                                const Duration(milliseconds: 300),
+                                () {
+                                  logger.i(
+                                    '🚩 Manual tour start from settings',
+                                  );
+                                  ResumeManager.manualStartTour(); // (We'll define this next)
+                                },
+                              );
+                            },
+                            child: const Text('Start App Tour'),
                           ),
 
                           const SizedBox(height: 12),

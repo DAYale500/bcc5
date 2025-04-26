@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:bcc5/navigation/app_router.dart'; // ✅ Add if not already imported
 import 'package:bcc5/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -69,5 +71,45 @@ class ResumeManager {
     }
 
     return {'pathName': pathName, 'chapterId': chapterId, 'itemId': itemId};
+  }
+
+  static Future<void> resume() async {
+    final prefs = await SharedPreferences.getInstance();
+    final resumePath = prefs.getString('resumePath');
+    final resumeExtra = prefs.getString('resumeExtra');
+
+    if (resumePath == null) {
+      logger.i('⛔ No resume path found. Skipping resume.');
+      return;
+    }
+
+    logger.i('🔁 Resuming app at: $resumePath');
+
+    if (navigatorKey.currentState == null) {
+      logger.e('❌ navigatorKey.currentState is null — cannot resume.');
+      return;
+    }
+
+    navigatorKey.currentState!.pushNamed(
+      resumePath,
+      arguments: resumeExtra, // ✅ FIX: use "arguments" instead of "extra"
+    );
+  }
+
+  static Future<void> manualStartTour() async {
+    logger.i('🎯 Manual tour triggering reset');
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hasSeenTour', false);
+
+    // Also immediately navigate user back to landing screen
+    if (navigatorKey.currentContext == null) {
+      logger.e('❌ navigatorKey.currentContext is null — cannot navigate back.');
+      return;
+    }
+
+    Navigator.of(
+      navigatorKey.currentContext!,
+    ).popUntil((route) => route.isFirst);
   }
 }

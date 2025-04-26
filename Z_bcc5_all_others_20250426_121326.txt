@@ -1561,6 +1561,8 @@ class SettingsManager {
 
 
 File: lib/utils/resume_manager.dart
+import 'package:flutter/material.dart';
+
 import 'package:bcc5/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -1632,6 +1634,20 @@ class ResumeManager {
     }
 
     return {'pathName': pathName, 'chapterId': chapterId, 'itemId': itemId};
+  }
+
+  static void manualStartTour() {
+    logger.i('🎯 Manual tour triggering reset');
+    // Navigate back to LandingScreen if not already there
+    final context = navigatorKey.currentContext;
+    if (context == null) return;
+
+    Navigator.of(context).popUntil((route) => route.isFirst);
+
+    Future.delayed(const Duration(milliseconds: 300), () async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('hasSeenTour', false);
+    });
   }
 }
 
@@ -4363,6 +4379,8 @@ class LandingScreenTourWrapper extends StatelessWidget {
 
 
 File: lib/screens/landing_screen/landing_screen.dart
+// lib/screens/landing_screen/landing_screen.dart
+
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -4374,32 +4392,21 @@ import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LandingScreen extends StatelessWidget {
+class LandingScreen extends StatefulWidget {
   final bool showReminder;
   final GlobalKey harborKey;
   final GlobalKey mobKey;
   final GlobalKey settingsKey;
   final GlobalKey searchKey;
   final GlobalKey titleKey;
-  // 🚩 Add this to hold the controller
-  final TourController _tourController = TourController(steps: []);
+  final GlobalKey bnbLessonsKey;
+  final GlobalKey bnbPartsKey;
+  final GlobalKey bnbToolsKey;
+  final GlobalKey bnbFlashcardsKey;
 
-  // 🚩 GlobalKeys for onboarding tour steps
-  final GlobalKey _keyAppBarTitle = GlobalKey();
-  final GlobalKey _keyMOBButton = GlobalKey();
-  final GlobalKey _keySettingsIcon = GlobalKey();
-  final GlobalKey _keySearchIcon = GlobalKey();
-  final GlobalKey _keyBNBLessons = GlobalKey(); // ✅
-  final GlobalKey _keyBNBParts = GlobalKey(); // ✅
-  final GlobalKey _keyBNBTools = GlobalKey(); // ✅
-  final GlobalKey _keyBNBFlashcards = GlobalKey(); // ✅
-  final GlobalKey bnbLessonsKey; // ✅
-  final GlobalKey bnbPartsKey; // ✅
-  final GlobalKey bnbToolsKey; // ✅
-  final GlobalKey bnbFlashcardsKey; // ✅
-
-  LandingScreen({
+  const LandingScreen({
     super.key,
     required this.showReminder,
     required this.harborKey,
@@ -4411,15 +4418,41 @@ class LandingScreen extends StatelessWidget {
     required this.bnbPartsKey,
     required this.bnbToolsKey,
     required this.bnbFlashcardsKey,
-  }) {
-    logger.i('📘 [LandingScreen] Constructor called'); // ✅
+  });
+
+  @override
+  State<LandingScreen> createState() => _LandingScreenState();
+}
+
+class _LandingScreenState extends State<LandingScreen> {
+  final TourController _tourController = TourController();
+
+  bool _autoRunTriggered = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final prefs = await SharedPreferences.getInstance();
+      final hasSeenTour = prefs.getBool('hasSeenTour') ?? false;
+
+      if (!hasSeenTour && !_autoRunTriggered) {
+        _autoRunTriggered = true;
+        logger.i('⛳ Auto-starting tour (first app launch)');
+        _tourController.reset();
+
+        // Immediately mark tour as seen
+        await prefs.setBool('hasSeenTour', true);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    logger.i('📘 [LandingScreen] build() triggered'); // ✅
+    logger.i('📘 [LandingScreen] build() triggered');
 
-    if (showReminder) {
+    if (widget.showReminder) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
           context: context,
@@ -4446,244 +4479,563 @@ class LandingScreen extends StatelessWidget {
         );
       });
     }
-    // ✅ Tour steps in desired order
-    _tourController.steps.clear();
-    _tourController.steps.addAll([
-      _keyAppBarTitle,
-      _keyMOBButton,
-      _keySettingsIcon,
-      _keySearchIcon,
-      _keyBNBLessons, // ✅
-      _keyBNBParts, // ✅
-      _keyBNBTools, // ✅
-      _keyBNBFlashcards, // ✅
-    ]);
+
+    _tourController.addStep(
+      id: 'mob',
+      key: widget.mobKey,
+      description:
+          'Tap here in case of a Man Overboard emergency. This is the most urgent action in the app.',
+    );
+    _tourController.addStep(
+      id: 'settings',
+      key: widget.settingsKey,
+      description:
+          'Tap here to access your profile and customize your app preferences.',
+    );
+    _tourController.addStep(
+      id: 'search',
+      key: widget.searchKey,
+      description:
+          'Use the search icon to quickly find any lesson, tool, or flashcard.',
+    );
     _tourController.addStep(
       id: 'newCrew',
       key: _tourController.getKeyForStep('newCrew'),
       description: 'Start your training here as a new crewmember.',
-    ); // ✅
+    );
+    _tourController.addStep(
+      id: 'advancedRefreshers',
+      key: _tourController.getKeyForStep('advancedRefreshers'),
+      description:
+          'Explore advanced refresher lessons for experienced sailors.',
+    );
 
-    _tourController.addStep(
-      id: 'search',
-      key: _keySearchIcon,
-      description: 'Tap here to search lessons, tools, or flashcards.',
-    ); // ✅
+    return AnimatedBuilder(
+      animation: _tourController,
+      builder: (context, _) {
+        return TourOverlayManager(
+          highlightKey: _tourController.currentKey,
+          description: _tourController.currentDescription,
+          onNext: _tourController.nextStep,
+          onEnd: _tourController.endTour,
+          onReset: _tourController.reset,
+          currentStepId: _tourController.currentStepId,
+          isLastStep: _tourController.isLastStep,
 
-    _tourController.addStep(
-      id: 'settings',
-      key: _keySettingsIcon,
-      description: 'Tap here to adjust your preferences and profile.',
-    ); // ✅
-
-    _tourController.addStep(
-      id: 'mob',
-      key: _keyMOBButton,
-      description: 'In case of emergency, tap here to trigger the MOB alert.',
-    ); // ✅
-
-    _tourController.addStep(
-      id: 'bnbLessons',
-      key: _tourController.getKeyForStep('bnbLessons'),
-      description: 'Tap here to explore safety lessons and core skills.',
-    ); // ✅
-    _tourController.addStep(
-      id: 'bnbParts',
-      key: _tourController.getKeyForStep('bnbParts'),
-      description: 'Learn about the different parts of your boat.',
-    ); // ✅
-    _tourController.addStep(
-      id: 'bnbTools',
-      key: _tourController.getKeyForStep('bnbTools'),
-      description: 'Find tools to help in common onboard situations.',
-    ); // ✅
-    _tourController.addStep(
-      id: 'bnbFlashcards',
-      key: _tourController.getKeyForStep('bnbFlashcards'),
-      description: 'Drill important terms and concepts with flashcards.',
-    ); // ✅
-
-    return TourOverlayManager(
-      highlightKey: _tourController.currentKey, // ✅
-      onNext: _tourController.nextStep, // ✅
-      onEnd: _tourController.endTour, // ✅
-      child: Column(
-        // ✅
-        children: [
-          CustomAppBarWidget(
-            title: 'Welcome!',
-            mobKey: _keyMOBButton,
-            settingsKey: _keySettingsIcon,
-            searchKey: _keySearchIcon,
-            titleKey: _keyAppBarTitle,
-            showBackButton: false,
-            showSearchIcon: true,
-            showSettingsIcon: true,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.only(
-                top: 24,
-                left: AppTheme.screenPadding,
-                right: AppTheme.screenPadding,
-                bottom: 80,
+          child: Column(
+            children: [
+              CustomAppBarWidget(
+                title: 'Welcome!',
+                mobKey: widget.mobKey,
+                settingsKey: widget.settingsKey,
+                searchKey: widget.searchKey,
+                titleKey: widget.titleKey,
+                showBackButton: false,
+                showSearchIcon: true,
+                showSettingsIcon: true,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // (Tour button, welcome message, etc. remain unchanged)
-
-                  // 🚀 App Tour
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        logger.i('🚩 Tour Start button tapped');
-                        _tourController
-                            .reset(); // ✅ This alone will trigger rebuild via notifyListeners()
-                      },
-                      style: AppTheme.whiteTextButton,
-                      child: const Text('App Tour'),
-                    ),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    left: AppTheme.screenPadding,
+                    right: AppTheme.screenPadding,
+                    bottom: 80,
                   ),
-                  const SizedBox(height: 10),
-
-                  // 📘 Welcome Message
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      "Welcome Aboard! Tap below to learn how to be safe, helpful, and enjoy your boating!",
-                      style: AppTheme.subheadingStyle.copyWith(
-                        color: AppTheme.primaryBlue,
-                        fontStyle: FontStyle.italic,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // 🧭 New Crewmembers Button
-                  ElevatedButton(
-                    key: _tourController.getKeyForStep('newCrew'), // ✅
-
-                    onPressed: () {
-                      logger.i('📘 Navigating to Competent Crew Path');
-                      context.go(
-                        '/learning-paths/competent-crew',
-                        extra: {
-                          'slideFrom': SlideDirection.right,
-                          'transitionType': TransitionType.slide,
-                          'detailRoute': DetailRoute.path,
-                          'mobKey': mobKey,
-                          'settingsKey': settingsKey,
-                          'searchKey': searchKey,
-                          'titleKey': titleKey,
-                        },
-                      );
-                    },
-                    style: AppTheme.landingPrimaryButton,
-                    child: const Text('New Crewmembers'),
-                  ),
-
-                  const SizedBox(height: 36),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      "More experienced and returning sailors might find some useful guided lessons in one of these advanced paths",
-                      style: AppTheme.subheadingStyle.copyWith(
-                        color: AppTheme.primaryBlue,
-                        fontStyle: FontStyle.italic,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // 🎯 Advanced Refresher Dropdown
-                  Center(
-                    child: PopupMenuButton<String>(
-                      onSelected: (value) {
-                        logger.i('📘 Navigating to $value');
-                        context.go(
-                          '/learning-paths/$value',
-                          extra: {
-                            'slideFrom': SlideDirection.right,
-                            'transitionType': TransitionType.slide,
-                            'detailRoute': DetailRoute.path,
-                            'mobKey': mobKey,
-                            'settingsKey': settingsKey,
-                            'searchKey': searchKey,
-                            'titleKey': titleKey,
-                          },
-                        );
-                      },
-                      itemBuilder:
-                          (context) => const [
-                            PopupMenuItem(
-                              value: 'knock-the-rust-off',
-                              child: Text('Knock the Rust Off'),
-                            ),
-                            PopupMenuItem(
-                              value: 'docking',
-                              child: Text('Docking'),
-                            ),
-                            PopupMenuItem(
-                              value: 'transition-demo',
-                              child: Text('Anchoring'),
-                            ),
-                          ],
-                      child: Container(
-                        constraints: const BoxConstraints(minWidth: 280),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 18,
-                          horizontal: 32,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppTheme.primaryRed,
-                          borderRadius: BorderRadius.circular(
-                            AppTheme.buttonCornerRadius,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          "Welcome Aboard! Tap below to learn how to be safe, helpful, and enjoy your boating!",
+                          style: AppTheme.subheadingStyle.copyWith(
+                            color: AppTheme.primaryBlue,
+                            fontStyle: FontStyle.italic,
                           ),
+                          textAlign: TextAlign.center,
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text(
-                              'Advanced Refreshers',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        key: _tourController.getKeyForStep('newCrew'),
+                        onPressed: () {
+                          context.go(
+                            '/learning-paths/competent-crew',
+                            extra: {
+                              'slideFrom': SlideDirection.right,
+                              'transitionType': TransitionType.slide,
+                              'detailRoute': DetailRoute.path,
+                              'mobKey': widget.mobKey,
+                              'settingsKey': widget.settingsKey,
+                              'searchKey': widget.searchKey,
+                              'titleKey': widget.titleKey,
+                            },
+                          );
+                        },
+                        style: AppTheme.landingPrimaryButton,
+                        child: const Text('New Crewmembers'),
+                      ),
+                      const SizedBox(height: 36),
+                      Center(
+                        child: PopupMenuButton<String>(
+                          key: _tourController.getKeyForStep(
+                            'advancedRefreshers',
+                          ),
+                          onSelected: (value) {
+                            context.go(
+                              '/learning-paths/$value',
+                              extra: {
+                                'slideFrom': SlideDirection.right,
+                                'transitionType': TransitionType.slide,
+                                'detailRoute': DetailRoute.path,
+                                'mobKey': widget.mobKey,
+                                'settingsKey': widget.settingsKey,
+                                'searchKey': widget.searchKey,
+                                'titleKey': widget.titleKey,
+                              },
+                            );
+                          },
+                          itemBuilder:
+                              (context) => const [
+                                PopupMenuItem(
+                                  value: 'knock-the-rust-off',
+                                  child: Text('Knock the Rust Off'),
+                                ),
+                                PopupMenuItem(
+                                  value: 'docking',
+                                  child: Text('Docking'),
+                                ),
+                                PopupMenuItem(
+                                  value: 'transition-demo',
+                                  child: Text('Anchoring'),
+                                ),
+                              ],
+                          child: Container(
+                            constraints: const BoxConstraints(minWidth: 280),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 18,
+                              horizontal: 32,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppTheme.primaryRed,
+                              borderRadius: BorderRadius.circular(
+                                AppTheme.buttonCornerRadius,
                               ),
                             ),
-                            SizedBox(width: 8),
-                            Icon(Icons.arrow_drop_down, color: Colors.white),
-                          ],
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: const [
+                                Text(
+                                  'Advanced Refreshers',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(width: 8),
+                                Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 36),
-
-                  // 📍 Footer Hint
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      'Use the icons below to navigate to Self-Guided expeditions: Sailing Courses, Boat Parts, Guidance Tools, and Flashcard Drills.',
-                      style: AppTheme.subheadingStyle.copyWith(
-                        color: AppTheme.primaryBlue,
+                      const SizedBox(height: 36),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          'Use the icons below to navigate to Self-Guided expeditions: Sailing Courses, Boat Parts, Guidance Tools, and Flashcard Drills.',
+                          style: AppTheme.subheadingStyle.copyWith(
+                            color: AppTheme.primaryBlue,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    ); // ✅
+        );
+      },
+    );
   }
 }
+
+// import 'package:bcc5/navigation/detail_route.dart';
+// import 'package:bcc5/theme/slide_direction.dart';
+// import 'package:bcc5/theme/transition_type.dart';
+// import 'package:bcc5/widgets/settings_modal.dart';
+// import 'package:bcc5/widgets/tour/tour_controller.dart';
+// import 'package:bcc5/widgets/tour/tour_overlay_manager.dart';
+// import 'package:flutter/material.dart';
+// import 'package:go_router/go_router.dart';
+// import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+// import 'package:bcc5/theme/app_theme.dart';
+// import 'package:bcc5/utils/logger.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+
+// // Imports remain unchanged...
+
+// class LandingScreen extends StatefulWidget {
+//   final bool showReminder;
+//   final GlobalKey harborKey;
+//   final GlobalKey mobKey;
+//   final GlobalKey settingsKey;
+//   final GlobalKey searchKey;
+//   final GlobalKey titleKey;
+//   final GlobalKey bnbLessonsKey;
+//   final GlobalKey bnbPartsKey;
+//   final GlobalKey bnbToolsKey;
+//   final GlobalKey bnbFlashcardsKey;
+
+//   const LandingScreen({
+//     super.key,
+//     required this.showReminder,
+//     required this.harborKey,
+//     required this.mobKey,
+//     required this.settingsKey,
+//     required this.searchKey,
+//     required this.titleKey,
+//     required this.bnbLessonsKey,
+//     required this.bnbPartsKey,
+//     required this.bnbToolsKey,
+//     required this.bnbFlashcardsKey,
+//   });
+
+//   @override
+//   State<LandingScreen> createState() => _LandingScreenState();
+// }
+
+// class _LandingScreenState extends State<LandingScreen> {
+//   final TourController _tourController = TourController();
+//   final GlobalKey _keyAppTourButton = GlobalKey(debugLabel: 'AppTourButton');
+
+//   bool _autoRunTriggered = false;
+
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     WidgetsBinding.instance.addPostFrameCallback((_) async {
+//       final prefs = await SharedPreferences.getInstance();
+//       final hasSeenTour = prefs.getBool('hasSeenTour') ?? false;
+
+//       if (!mounted) return; // ✅ added mounted check for async safety
+
+//       if (!hasSeenTour && !_autoRunTriggered) {
+//         _autoRunTriggered = true;
+//         logger.i('⛳ Auto-starting tour (first app launch)');
+//         Future.delayed(const Duration(milliseconds: 600), () {
+//           if (!mounted) return; // ✅ also double check here
+//           _tourController.reset();
+//         });
+//       }
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     logger.i('📘 [LandingScreen] build() triggered');
+
+//     if (widget.showReminder) {
+//       WidgetsBinding.instance.addPostFrameCallback((_) {
+//         showDialog(
+//           context: context,
+//           builder:
+//               (_) => AlertDialog(
+//                 title: const Text('Update Vessel Info'),
+//                 content: const Text(
+//                   'Review your vessel info to ensure emergency details are up to date.',
+//                 ),
+//                 actions: [
+//                   TextButton(
+//                     onPressed: () => Navigator.pop(context),
+//                     child: const Text("Info is accurate"),
+//                   ),
+//                   TextButton(
+//                     onPressed: () {
+//                       Navigator.pop(context);
+//                       showSettingsModal(context);
+//                     },
+//                     child: const Text("Update Now"),
+//                   ),
+//                 ],
+//               ),
+//         );
+//       });
+//     }
+
+//     // _tourController.steps.clear();
+//     // _tourController.steps.addAll([
+//     //   _keyAppTourButton,
+//     //   widget.mobKey,
+//     //   widget.settingsKey,
+//     //   widget.searchKey,
+//     //   widget.bnbLessonsKey,
+//     //   widget.bnbPartsKey,
+//     //   widget.bnbToolsKey,
+//     //   widget.bnbFlashcardsKey,
+//     // ]);
+//     _tourController.addStep(
+//       id: 'appTour',
+//       key: _keyAppTourButton,
+//       description:
+//           'Tap here to chart a quick course through the app. You can pause, resume, or drop anchor anytime.',
+//     );
+
+//     _tourController.addStep(
+//       id: 'mob',
+//       key: widget.mobKey,
+//       description:
+//           'Tap here in case of a Man Overboard emergency. This is the most urgent action in the app.',
+//     );
+
+//     _tourController.addStep(
+//       id: 'settings',
+//       key: widget.settingsKey,
+//       description:
+//           'Tap here to access your profile and customize your app preferences.',
+//     );
+
+//     _tourController.addStep(
+//       id: 'search',
+//       key: widget.searchKey,
+//       description:
+//           'Use the search icon to quickly find any lesson, tool, or flashcard.',
+//     );
+//     _tourController.addStep(
+//       id: 'newCrew',
+//       key: _tourController.getKeyForStep('newCrew'),
+//       description: 'Start your training here as a new crewmember.',
+//     );
+
+//     _tourController.addStep(
+//       id: 'advancedRefreshers',
+//       key: _tourController.getKeyForStep('advancedRefreshers'),
+//       description: 'Browse advanced paths for docking, anchoring, and more.',
+//     );
+
+//     // DO NOT DELETE THESE STEPS
+//     // They are currently commented out but may be used in the future.
+//     // Keep these commented out for now, as they are not currently used
+//     // _tourController.addStep(
+//     //   id: 'bnbLessons',
+//     //   key: widget.bnbLessonsKey,
+//     //   description: 'Tap here to explore safety lessons and core skills.',
+//     // );
+
+//     // _tourController.addStep(
+//     //   id: 'bnbParts',
+//     //   key: widget.bnbPartsKey,
+//     //   description: 'Tap here to explore the boat’s Parts and their function.',
+//     // );
+
+//     // _tourController.addStep(
+//     //   id: 'bnbTools',
+//     //   key: widget.bnbToolsKey,
+//     //   description: 'Find practical Tools for real-world problems on board.',
+//     // );
+
+//     // _tourController.addStep(
+//     //   id: 'bnbFlashcards',
+//     //   key: widget.bnbFlashcardsKey,
+//     //   description: 'Drill essential concepts and vocabulary with flashcards.',
+//     // );
+
+//     return AnimatedBuilder(
+//       animation: _tourController,
+//       builder: (context, _) {
+//         return TourOverlayManager(
+//           highlightKey: _tourController.currentKey,
+//           description: _tourController.currentDescription,
+//           currentStepId: _tourController.currentStepId,
+//           onNext: _tourController.nextStep,
+//           onEnd: _tourController.endTour,
+//           onReset: _tourController.reset,
+//           isLastStep: _tourController.isLastStep,
+
+//           child: Column(
+//             children: [
+//               CustomAppBarWidget(
+//                 title: 'Welcome!',
+//                 mobKey: widget.mobKey,
+//                 settingsKey: widget.settingsKey,
+//                 searchKey: widget.searchKey,
+//                 titleKey: widget.titleKey,
+//                 showBackButton: false,
+//                 showSearchIcon: true,
+//                 showSettingsIcon: true,
+//               ),
+
+//               Expanded(
+//                 child: SingleChildScrollView(
+//                   padding: const EdgeInsets.only(
+//                     top: 24,
+//                     left: AppTheme.screenPadding,
+//                     right: AppTheme.screenPadding,
+//                     bottom: 80,
+//                   ),
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.stretch,
+//                     children: [
+//                       Center(
+//                         child: ElevatedButton(
+//                           key: _keyAppTourButton,
+//                           onPressed: () {
+//                             logger.i('🚩 Tour Start button tapped');
+//                             Future.delayed(
+//                               const Duration(milliseconds: 300),
+//                               () {
+//                                 _tourController.reset();
+//                               },
+//                             );
+//                           },
+//                           style: AppTheme.whiteTextButton,
+//                           child: const Text('App Tour'),
+//                         ),
+//                       ),
+//                       const SizedBox(height: 10),
+//                       Padding(
+//                         padding: const EdgeInsets.symmetric(horizontal: 16),
+//                         child: Text(
+//                           "Welcome Aboard! Tap below to learn how to be safe, helpful, and enjoy your boating!",
+//                           style: AppTheme.subheadingStyle.copyWith(
+//                             color: AppTheme.primaryBlue,
+//                             fontStyle: FontStyle.italic,
+//                           ),
+//                           textAlign: TextAlign.center,
+//                         ),
+//                       ),
+//                       const SizedBox(height: 20),
+//                       ElevatedButton(
+//                         key: _tourController.getKeyForStep('newCrew'),
+//                         onPressed: () {
+//                           context.go(
+//                             '/learning-paths/competent-crew',
+//                             extra: {
+//                               'slideFrom': SlideDirection.right,
+//                               'transitionType': TransitionType.slide,
+//                               'detailRoute': DetailRoute.path,
+//                               'mobKey': widget.mobKey,
+//                               'settingsKey': widget.settingsKey,
+//                               'searchKey': widget.searchKey,
+//                               'titleKey': widget.titleKey,
+//                             },
+//                           );
+//                         },
+//                         style: AppTheme.landingPrimaryButton,
+//                         child: const Text('New Crewmembers'),
+//                       ),
+//                       const SizedBox(height: 36),
+//                       Padding(
+//                         padding: const EdgeInsets.symmetric(horizontal: 16),
+//                         child: Text(
+//                           "More experienced and returning sailors might find some useful guided lessons in one of these advanced paths",
+//                           style: AppTheme.subheadingStyle.copyWith(
+//                             color: AppTheme.primaryBlue,
+//                             fontStyle: FontStyle.italic,
+//                           ),
+//                           textAlign: TextAlign.center,
+//                         ),
+//                       ),
+//                       const SizedBox(height: 16),
+//                       Center(
+//                         child: PopupMenuButton<String>(
+//                           key: _tourController.getKeyForStep(
+//                             'advancedRefreshers',
+//                           ), // ✅ Added this line
+
+//                           onSelected: (value) {
+//                             context.go(
+//                               '/learning-paths/$value',
+//                               extra: {
+//                                 'slideFrom': SlideDirection.right,
+//                                 'transitionType': TransitionType.slide,
+//                                 'detailRoute': DetailRoute.path,
+//                                 'mobKey': widget.mobKey,
+//                                 'settingsKey': widget.settingsKey,
+//                                 'searchKey': widget.searchKey,
+//                                 'titleKey': widget.titleKey,
+//                               },
+//                             );
+//                           },
+//                           itemBuilder:
+//                               (context) => const [
+//                                 PopupMenuItem(
+//                                   value: 'knock-the-rust-off',
+//                                   child: Text('Knock the Rust Off'),
+//                                 ),
+//                                 PopupMenuItem(
+//                                   value: 'docking',
+//                                   child: Text('Docking'),
+//                                 ),
+//                                 PopupMenuItem(
+//                                   value: 'transition-demo',
+//                                   child: Text('Anchoring'),
+//                                 ),
+//                               ],
+//                           child: Container(
+//                             constraints: const BoxConstraints(minWidth: 280),
+//                             padding: const EdgeInsets.symmetric(
+//                               vertical: 18,
+//                               horizontal: 32,
+//                             ),
+//                             decoration: BoxDecoration(
+//                               color: AppTheme.primaryRed,
+//                               borderRadius: BorderRadius.circular(
+//                                 AppTheme.buttonCornerRadius,
+//                               ),
+//                             ),
+//                             child: Row(
+//                               mainAxisSize: MainAxisSize.min,
+//                               children: const [
+//                                 Text(
+//                                   'Advanced Refreshers',
+//                                   style: TextStyle(
+//                                     color: Colors.white,
+//                                     fontSize: 20,
+//                                     fontWeight: FontWeight.bold,
+//                                   ),
+//                                 ),
+//                                 SizedBox(width: 8),
+//                                 Icon(
+//                                   Icons.arrow_drop_down,
+//                                   color: Colors.white,
+//                                 ),
+//                               ],
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                       const SizedBox(height: 36),
+//                       Padding(
+//                         padding: const EdgeInsets.symmetric(horizontal: 16),
+//                         child: Text(
+//                           'Use the icons below to navigate to Self-Guided expeditions: Sailing Courses, Boat Parts, Guidance Tools, and Flashcard Drills.',
+//                           style: AppTheme.subheadingStyle.copyWith(
+//                             color: AppTheme.primaryBlue,
+//                           ),
+//                           textAlign: TextAlign.center,
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 
 
@@ -6381,6 +6733,60 @@ class AppTheme {
   );
   static ButtonStyle get landingPrimaryButton => largeRedButton;
 
+  // For the "Next" button (already good enough but tighten if you want)
+  static final ButtonStyle tourNextButton = ElevatedButton.styleFrom(
+    backgroundColor: primaryBlue,
+    foregroundColor: Colors.white,
+    minimumSize: const Size(160, 48),
+    textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+
+  // For the "Exit" button (needs fix)
+  static final ButtonStyle tourExitButton = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: primaryRed, // 🔥 Change from primaryBlue ➔ primaryRed
+    side: const BorderSide(color: primaryRed, width: 2), // 🔥 Also border red
+    minimumSize: const Size(160, 48),
+    textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+
+  // 🆕 Corrected Tour "Next" button (small, white with primaryBlue border)
+  static final ButtonStyle tourNextButtonSmall = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white, // ✅ White background
+    foregroundColor: primaryBlue, // ✅ Blue text
+    side: const BorderSide(
+      color: primaryBlue,
+      width: 3,
+    ), // ✅ Thicker blue border
+    minimumSize: const Size(70, 44), // ✅ Matched size to Exit
+    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+
+  // 🆕 Corrected Tour "Exit" button (small, white with red border)
+  static final ButtonStyle tourExitButtonSmall = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: primaryRed,
+    side: const BorderSide(color: primaryRed, width: 3), // ✅ Thicker red border
+    minimumSize: const Size(70, 44), // ✅ Same size as Next
+    textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+
   static const TextStyle subheadingStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,
@@ -7831,11 +8237,13 @@ class GroupButton extends StatelessWidget {
 File: lib/widgets/settings_modal.dart
 // lib/widgets/settings_modal.dart
 
+import 'package:bcc5/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/resume_manager.dart'; // ✅ Needed for reset
 import 'package:bcc5/utils/settings_manager.dart';
 import 'package:bcc5/utils/radio_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void showSettingsModal(BuildContext context) {
   showDialog(
@@ -8105,6 +8513,19 @@ void showSettingsModal(BuildContext context) {
                             child: const Text('Reset Resume Point'),
                           ),
 
+                          ListTile(
+                            title: const Text('Reset App Tour'),
+                            trailing: ElevatedButton(
+                              onPressed: () async {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setBool('hasSeenTour', false);
+                                logger.i('🔁 Tour reset via settings');
+                              },
+                              child: const Text('Reset'),
+                            ),
+                          ),
+
                           const SizedBox(height: 12),
                           ElevatedButton(
                             style: AppTheme.navigationButton,
@@ -8292,25 +8713,54 @@ File: lib/widgets/tour/tour_controller.dart
 import 'package:bcc5/utils/logger.dart';
 import 'package:flutter/material.dart';
 
+class TourStepData {
+  final String id;
+  final GlobalKey key;
+  final String description;
+
+  TourStepData({
+    required this.id,
+    required this.key,
+    required this.description,
+  });
+}
+
 class TourController extends ChangeNotifier {
-  final List<GlobalKey> steps;
-  final Map<String, GlobalKey> _stepKeys = {}; // ✅
+  final List<TourStepData> _steps = [];
+  final Map<String, GlobalKey> _stepKeys = {};
 
   int _currentStep = 0;
 
-  TourController({required this.steps});
-
   int get currentStep => _currentStep;
+
   GlobalKey? get currentKey {
-    final key = (_currentStep < steps.length) ? steps[_currentStep] : null;
+    final key =
+        (_currentStep < _steps.length) ? _steps[_currentStep].key : null;
     logger.i('🎯 currentKey for step $_currentStep is $key');
     return key;
   }
 
-  bool get isTourActive => _currentStep < steps.length;
+  String? get currentDescription {
+    final desc =
+        (_currentStep < _steps.length)
+            ? _steps[_currentStep].description
+            : null;
+    logger.i('📝 currentDescription for step $_currentStep is $desc');
+    return desc;
+  }
+
+  String? get currentStepId {
+    final id = (_currentStep < _steps.length) ? _steps[_currentStep].id : null;
+    logger.i('🔖 currentStepId for step $_currentStep is $id');
+    return id;
+  }
+
+  bool get isTourActive => _currentStep < _steps.length;
+
+  bool get isLastStep => _currentStep >= _steps.length - 1;
 
   GlobalKey getKeyForStep(String id) {
-    return _stepKeys.putIfAbsent(id, () => GlobalKey());
+    return _stepKeys.putIfAbsent(id, () => GlobalKey(debugLabel: id));
   }
 
   void addStep({
@@ -8319,22 +8769,24 @@ class TourController extends ChangeNotifier {
     required String description,
   }) {
     _stepKeys[id] = key;
-    // You can later store description or metadata if needed
+    _steps.add(TourStepData(id: id, key: key, description: description));
   }
 
   void nextStep() {
-    if (_currentStep < steps.length - 1) {
+    if (_currentStep < _steps.length - 1) {
       _currentStep++;
       notifyListeners();
     }
   }
 
   void endTour() {
-    _currentStep = steps.length;
+    logger.i('🛑 TourController.endTour() called');
+    _currentStep = _steps.length;
     notifyListeners();
   }
 
   void reset() {
+    logger.i('🔁 TourController.reset() triggered');
     _currentStep = 0;
     notifyListeners();
   }
@@ -8349,73 +8801,297 @@ class TourController extends ChangeNotifier {
 
 
 
+File: lib/widgets/tour/tour_overlay_controls.dart
+// import 'package:bcc5/theme/app_theme.dart';
+// import 'package:flutter/material.dart';
+
+// class TourOverlayControls extends StatelessWidget {
+//   final VoidCallback onNext;
+//   final VoidCallback onEnd;
+
+//   const TourOverlayControls({
+//     super.key,
+//     required this.onNext,
+//     required this.onEnd,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return IntrinsicHeight(
+//       child: Row(
+//         crossAxisAlignment: CrossAxisAlignment.stretch,
+//         children: [
+//           // LEFT: Buttons stacked vertically
+//           Column(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               ElevatedButton(
+//                 style: AppTheme.tourNextButton,
+//                 onPressed: onNext,
+//                 child: const Text('Next'),
+//               ),
+//               ElevatedButton(
+//                 style: AppTheme.tourExitButton,
+//                 onPressed: onEnd,
+//                 child: const Text('Exit'),
+//               ),
+//             ],
+//           ),
+//           const SizedBox(width: 12),
+
+//           // RIGHT: Description box
+//           Expanded(
+//             child: Container(
+//               padding: const EdgeInsets.all(16),
+//               decoration: BoxDecoration(
+//                 color: Colors.white,
+//                 borderRadius: BorderRadius.circular(12),
+//               ),
+//               child: Text(
+//                 'No description provided.',
+//                 style: const TextStyle(fontSize: 16),
+//                 textAlign: TextAlign.center,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
 File: lib/widgets/tour/tour_overlay_manager.dart
 // lib/widgets/tour/tour_overlay_manager.dart
 
+import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/widgets/tour/tour_overlay_controls.dart';
 import 'package:flutter/material.dart';
 
-class TourOverlayManager extends StatelessWidget {
+class TourOverlayManager extends StatefulWidget {
   final GlobalKey? highlightKey;
+  final String? description;
   final VoidCallback onNext;
   final VoidCallback onEnd;
+  final VoidCallback onReset;
   final Widget child;
+  final String? currentStepId;
 
   const TourOverlayManager({
     super.key,
     required this.highlightKey,
+    required this.description,
     required this.onNext,
     required this.onEnd,
+    required this.onReset,
     required this.child,
+    required this.currentStepId,
   });
 
   @override
-  Widget build(BuildContext context) {
-    logger.i('🟡 TourOverlayManager build | highlightKey: $highlightKey');
+  State<TourOverlayManager> createState() => _TourOverlayManagerState();
+}
 
-    final renderBox =
-        highlightKey?.currentContext?.findRenderObject() as RenderBox?;
-    final position = renderBox?.localToGlobal(Offset.zero);
-    final size = renderBox?.size;
+class _TourOverlayManagerState extends State<TourOverlayManager> {
+  Offset? position;
+  Size? size;
+
+  @override
+  void initState() {
+    super.initState();
+    _resolveHighlightPosition();
+  }
+
+  @override
+  void didUpdateWidget(TourOverlayManager oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _resolveHighlightPosition();
+  }
+
+  void _resolveHighlightPosition() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final highlightContext = widget.highlightKey?.currentContext;
+      if (highlightContext == null) {
+        logger.w('❌ Highlight key context is null — skipping.');
+        return;
+      }
+
+      final renderBox = highlightContext.findRenderObject() as RenderBox?;
+      if (renderBox == null) {
+        logger.w('❌ RenderBox is null — retrying...');
+        Future.delayed(
+          const Duration(milliseconds: 50),
+          _resolveHighlightPosition,
+        );
+        return;
+      }
+
+      final newPosition = renderBox.localToGlobal(Offset.zero);
+      final newSize = renderBox.size;
+
+      if (newSize == Size.zero) {
+        logger.w('❌ Size is zero — retrying...');
+        Future.delayed(
+          const Duration(milliseconds: 50),
+          _resolveHighlightPosition,
+        );
+        return;
+      }
+
+      logger.i('📐 Resolved position=$newPosition size=$newSize');
+
+      setState(() {
+        position = newPosition;
+        size = newSize;
+      });
+    });
+  }
+
+  bool _isAdvancedRefreshersStep() =>
+      widget.currentStepId == 'advancedRefreshers';
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i(
+      '🟡 TourOverlayManager build | highlightKey: ${widget.highlightKey}',
+    );
+
+    if (widget.highlightKey == null) {
+      logger.i('🛑 TourOverlayManager skipped — highlightKey is null');
+
+      if (position != null || size != null) {
+        setState(() {
+          position = null;
+          size = null;
+        });
+      }
+
+      return widget.child;
+    }
+
+    final mediaHeight = MediaQuery.of(context).size.height;
+
+    bool showBubbleAbove = false;
+    if (position != null && size != null) {
+      final bubbleHeightEstimate = 200.0;
+      final availableSpaceBelow = mediaHeight - (position!.dy + size!.height);
+
+      showBubbleAbove =
+          availableSpaceBelow < bubbleHeightEstimate ||
+          _isAdvancedRefreshersStep();
+    }
 
     return Stack(
       children: [
-        child, // ✅ Always render the main UI
-
-        if (renderBox != null && position != null && size != null) ...[
-          // Dark overlay background
+        widget.child,
+        if (position != null && size != null) ...[
+          // Dimmed background
+          // 🆕 Smarter dimming — not inside yellow box
           Positioned.fill(
-            child: GestureDetector(
-              onTap: onNext,
-              child: Container(color: Colors.black54),
+            child: Stack(
+              children: [
+                Container(color: Colors.black54),
+                if (position != null && size != null)
+                  Positioned(
+                    left: position!.dx - 8,
+                    top: position!.dy - 8,
+                    width: size!.width + 16,
+                    height: size!.height + 16,
+                    child: IgnorePointer(
+                      child: Container(color: Colors.transparent),
+                    ),
+                  ),
+              ],
             ),
           ),
 
+          // Positioned.fill(
+          //   child: Container(color: Colors.black54),
+          // ),
           // Highlight box
+          // 🆕 Nicer yellow border
           Positioned(
-            left: position.dx - 8,
-            top: position.dy - 8,
-            width: size.width + 16,
-            height: size.height + 16,
+            left: position!.dx - 6,
+            top: position!.dy - 6,
+            width: size!.width + 12,
+            height: size!.height + 12,
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.yellowAccent, width: 3),
-                borderRadius: BorderRadius.circular(8),
-                color: Colors.transparent,
+                border: Border.all(
+                  color: Colors.yellowAccent.shade700,
+                  width: 4,
+                ),
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
           ),
 
-          // Next/End buttons
+          // Positioned(
+          //   left: position!.dx - 8,
+          //   top: position!.dy - 8,
+          //   width: size!.width + 16,
+          //   height: size!.height + 16,
+          //   child: Container(
+          //     decoration: BoxDecoration(
+          //       border: Border.all(color: Colors.yellowAccent, width: 3),
+          //       borderRadius: BorderRadius.circular(8),
+          //     ),
+          //   ),
+          // ),
+          // Controls and Description
           Positioned(
-            top: position.dy + size.height + 24,
-            left: position.dx,
-            child: Row(
-              children: [
-                ElevatedButton(onPressed: onNext, child: const Text('Next')),
-                const SizedBox(width: 8),
-                TextButton(onPressed: onEnd, child: const Text('End Tour')),
-              ],
+            left: 24,
+            right: 24,
+            top:
+                showBubbleAbove
+                    ? position!.dy - 220
+                    : position!.dy + size!.height + 24,
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        style: AppTheme.tourNextButtonSmall,
+                        onPressed: widget.onNext,
+                        child: const Text('Next'),
+                      ),
+                      ElevatedButton(
+                        style: AppTheme.tourExitButtonSmall,
+                        onPressed: widget.onEnd,
+                        child: const Text('Exit'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        widget.description ?? '',
+                        style: const TextStyle(fontSize: 16),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -8423,6 +9099,210 @@ class TourOverlayManager extends StatelessWidget {
     );
   }
 }
+
+// // lib/widgets/tour/tour_overlay_manager.dart
+
+// import 'package:bcc5/theme/app_theme.dart';
+// import 'package:bcc5/utils/logger.dart';
+// // import 'package:bcc5/widgets/tour/tour_overlay_controls.dart';
+// import 'package:flutter/material.dart';
+
+// class TourOverlayManager extends StatefulWidget {
+//   final GlobalKey? highlightKey;
+//   final String? description;
+//   final VoidCallback onNext;
+//   final VoidCallback onEnd;
+//   final VoidCallback onReset;
+//   final Widget child;
+//   final String? currentStepId;
+//   final bool isLastStep;
+
+//   const TourOverlayManager({
+//     super.key,
+//     required this.highlightKey,
+//     required this.description,
+//     required this.onNext,
+//     required this.onEnd,
+//     required this.onReset,
+//     required this.child,
+//     required this.currentStepId,
+//     required this.isLastStep,
+//   });
+
+//   @override
+//   State<TourOverlayManager> createState() => _TourOverlayManagerState();
+// }
+
+// class _TourOverlayManagerState extends State<TourOverlayManager> {
+//   Offset? position;
+//   Size? size;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _resolveHighlightPosition();
+//   }
+
+//   @override
+//   void didUpdateWidget(TourOverlayManager oldWidget) {
+//     super.didUpdateWidget(oldWidget);
+//     _resolveHighlightPosition();
+//   }
+
+//   void _resolveHighlightPosition() {
+//     WidgetsBinding.instance.addPostFrameCallback((_) {
+//       if (!mounted) return;
+//       final highlightContext = widget.highlightKey?.currentContext;
+//       if (highlightContext == null) {
+//         logger.w('❌ Highlight key context is null — skipping.');
+//         return;
+//       }
+
+//       final renderBox = highlightContext.findRenderObject() as RenderBox?;
+//       if (renderBox == null) {
+//         logger.w('❌ RenderBox is null — retrying...');
+//         Future.delayed(
+//           const Duration(milliseconds: 50),
+//           _resolveHighlightPosition,
+//         );
+//         return;
+//       }
+
+//       final newPosition = renderBox.localToGlobal(Offset.zero);
+//       final newSize = renderBox.size;
+
+//       if (newSize == Size.zero) {
+//         logger.w('❌ Size is zero — retrying...');
+//         Future.delayed(
+//           const Duration(milliseconds: 50),
+//           _resolveHighlightPosition,
+//         );
+//         return;
+//       }
+
+//       logger.i('📐 Resolved position=$newPosition size=$newSize');
+
+//       setState(() {
+//         position = newPosition;
+//         size = newSize;
+//       });
+//     });
+//   }
+
+//   bool _isAdvancedRefreshersStep() =>
+//       widget.currentStepId == 'advancedRefreshers';
+
+//   @override
+//   Widget build(BuildContext context) {
+//     logger.i(
+//       '🟡 TourOverlayManager build | highlightKey: ${widget.highlightKey}',
+//     );
+
+//     if (widget.highlightKey == null) {
+//       logger.i('🛑 TourOverlayManager skipped — highlightKey is null');
+
+//       if (position != null || size != null) {
+//         setState(() {
+//           position = null;
+//           size = null;
+//         });
+//       }
+
+//       return widget.child;
+//     }
+
+//     final mediaHeight = MediaQuery.of(context).size.height;
+
+//     bool showAbove = false;
+//     if (position != null && size != null) {
+//       final bubbleHeightEstimate = 180.0;
+//       final availableSpaceBelow = mediaHeight - (position!.dy + size!.height);
+
+//       showAbove =
+//           availableSpaceBelow < bubbleHeightEstimate ||
+//           _isAdvancedRefreshersStep();
+//     }
+
+//     return Stack(
+//       children: [
+//         widget.child,
+//         if (position != null && size != null) ...[
+//           Positioned.fill(
+//             child: GestureDetector(
+//               onTap: widget.onNext,
+//               child: Container(color: Colors.black54),
+//             ),
+//           ),
+//           Positioned(
+//             left: position!.dx - 8,
+//             top: position!.dy - 8,
+//             width: size!.width + 16,
+//             height: size!.height + 16,
+//             child: Container(
+//               decoration: BoxDecoration(
+//                 border: Border.all(color: Colors.yellowAccent, width: 3),
+//                 borderRadius: BorderRadius.circular(8),
+//               ),
+//             ),
+//           ),
+//           Positioned(
+//             top:
+//                 showAbove
+//                     ? position!.dy - 220
+//                     : position!.dy + size!.height + 24,
+//             left: 24,
+//             right: 24,
+//             child: IntrinsicHeight(
+//               // ✅ NEW
+//               child: Row(
+//                 crossAxisAlignment:
+//                     CrossAxisAlignment.stretch, // ✅ Stretch for full vertical
+//                 children: [
+//                   Column(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween, // ✅ NEW
+//                     children: [
+//                       ElevatedButton(
+//                         style: AppTheme.tourNextButtonSmall, // ✅
+//                         onPressed: () {
+//                           if (widget.isLastStep) {
+//                             widget.onEnd();
+//                           } else {
+//                             widget.onNext();
+//                           }
+//                         },
+//                         child: const Text('Next'),
+//                       ),
+//                       ElevatedButton(
+//                         style: AppTheme.tourExitButtonSmall, // ✅
+//                         onPressed: widget.onEnd,
+//                         child: const Text('Exit'),
+//                       ),
+//                     ],
+//                   ),
+//                   const SizedBox(width: 16),
+//                   Expanded(
+//                     child: Container(
+//                       padding: const EdgeInsets.all(16),
+//                       decoration: BoxDecoration(
+//                         color: Colors.white,
+//                         borderRadius: BorderRadius.circular(12),
+//                       ),
+//                       child: Text(
+//                         widget.description ?? '',
+//                         style: const TextStyle(fontSize: 16),
+//                         textAlign: TextAlign.left,
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ],
+//       ],
+//     );
+//   }
+// }
 
 
 
