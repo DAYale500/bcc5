@@ -151,30 +151,30 @@ class _LandingScreenState extends State<LandingScreen> {
       key: _tourController.getKeyForStep('advancedRefreshers'),
       description: 'Browse advanced paths for docking, anchoring, and more.',
     );
+    // Keep these commented out for now, as they are not currently used
+    // _tourController.addStep(
+    //   id: 'bnbLessons',
+    //   key: widget.bnbLessonsKey,
+    //   description: 'Tap here to explore safety lessons and core skills.',
+    // );
 
-    _tourController.addStep(
-      id: 'bnbLessons',
-      key: widget.bnbLessonsKey,
-      description: 'Tap here to explore safety lessons and core skills.',
-    );
+    // _tourController.addStep(
+    //   id: 'bnbParts',
+    //   key: widget.bnbPartsKey,
+    //   description: 'Tap here to explore the boat’s Parts and their function.',
+    // );
 
-    _tourController.addStep(
-      id: 'bnbParts',
-      key: widget.bnbPartsKey,
-      description: 'Tap here to explore the boat’s Parts and their function.',
-    );
+    // _tourController.addStep(
+    //   id: 'bnbTools',
+    //   key: widget.bnbToolsKey,
+    //   description: 'Find practical Tools for real-world problems on board.',
+    // );
 
-    _tourController.addStep(
-      id: 'bnbTools',
-      key: widget.bnbToolsKey,
-      description: 'Find practical Tools for real-world problems on board.',
-    );
-
-    _tourController.addStep(
-      id: 'bnbFlashcards',
-      key: widget.bnbFlashcardsKey,
-      description: 'Drill essential concepts and vocabulary with flashcards.',
-    );
+    // _tourController.addStep(
+    //   id: 'bnbFlashcards',
+    //   key: widget.bnbFlashcardsKey,
+    //   description: 'Drill essential concepts and vocabulary with flashcards.',
+    // );
 
     return AnimatedBuilder(
       animation: _tourController,
@@ -198,34 +198,7 @@ class _LandingScreenState extends State<LandingScreen> {
                 showSearchIcon: true,
                 showSettingsIcon: true,
               ),
-              // return AnimatedBuilder(
-              //   animation: _tourController,
-              //   builder: (context, _) {
-              //     return TourOverlayManager(
-              //       highlightKey: _tourController.currentKey,
-              //       description: _tourController.currentDescription,
-              //       currentStepId: _tourController.currentStepId, // ✅ Add this
 
-              //       onNext: _tourController.nextStep,
-              //       onEnd: _tourController.endTour,
-              //       onReset: _tourController.reset,
-              //       child: Column(
-              //         // return TourOverlayManager(
-              //         //   highlightKey: _tourController.currentKey,
-              //         //   onNext: _tourController.nextStep,
-              //         //   onEnd: _tourController.endTour,
-              //         //   child: Column(
-              //         children: [
-              //           CustomAppBarWidget(
-              //             title: 'Welcome!',
-              //             mobKey: widget.mobKey,
-              //             settingsKey: widget.settingsKey,
-              //             searchKey: widget.searchKey,
-              //             titleKey: widget.titleKey,
-              //             showBackButton: false,
-              //             showSearchIcon: true,
-              //             showSettingsIcon: true,
-              //           ),
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(
