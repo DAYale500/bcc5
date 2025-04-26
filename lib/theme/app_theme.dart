@@ -58,6 +58,31 @@ class AppTheme {
   );
   static ButtonStyle get landingPrimaryButton => largeRedButton;
 
+  // For the "Next" button (already good enough but tighten if you want)
+  static final ButtonStyle tourNextButton = ElevatedButton.styleFrom(
+    backgroundColor: primaryBlue,
+    foregroundColor: Colors.white,
+    minimumSize: const Size(160, 48),
+    textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+
+  // For the "Exit" button (needs fix)
+  static final ButtonStyle tourExitButton = ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    foregroundColor: primaryRed, // 🔥 Change from primaryBlue ➔ primaryRed
+    side: const BorderSide(color: primaryRed, width: 2), // 🔥 Also border red
+    minimumSize: const Size(160, 48),
+    textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+
   static const TextStyle subheadingStyle = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w600,

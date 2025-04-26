@@ -1,7 +1,7 @@
 // lib/widgets/tour/tour_overlay_manager.dart
 
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/widgets/tour/tour_overlay_footer.dart';
+import 'package:bcc5/widgets/tour/tour_overlay_controls.dart'; // ✅ updated import
 import 'package:flutter/material.dart';
 
 class TourOverlayManager extends StatefulWidget {
@@ -11,7 +11,7 @@ class TourOverlayManager extends StatefulWidget {
   final VoidCallback onEnd;
   final VoidCallback onReset;
   final Widget child;
-  final String? currentStepId; // ✅ Add this line
+  final String? currentStepId;
 
   const TourOverlayManager({
     super.key,
@@ -21,7 +21,7 @@ class TourOverlayManager extends StatefulWidget {
     required this.onEnd,
     required this.onReset,
     required this.child,
-    required this.currentStepId, // ✅ Add this
+    required this.currentStepId,
   });
 
   @override
@@ -46,7 +46,7 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
 
   void _resolveHighlightPosition() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return; // ✅ Guard async context usage
+      if (!mounted) return;
       final highlightContext = widget.highlightKey?.currentContext;
       if (highlightContext == null) {
         logger.w('❌ Highlight key context is null — skipping.');
@@ -84,7 +84,7 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
     });
   }
 
-  bool isAdvancedRefreshersStep() =>
+  bool _isAdvancedRefreshersStep() =>
       widget.currentStepId == 'advancedRefreshers';
 
   @override
@@ -110,12 +110,12 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
 
     bool showBubbleAbove = false;
     if (position != null && size != null) {
-      final bubbleHeightEstimate = 140.0; // (dialogue box + next button)
+      final bubbleHeightEstimate = 140.0;
       final availableSpaceBelow = mediaHeight - (position!.dy + size!.height);
 
       showBubbleAbove =
           availableSpaceBelow < bubbleHeightEstimate ||
-          isAdvancedRefreshersStep();
+          _isAdvancedRefreshersStep();
     }
 
     return Stack(
@@ -142,15 +142,16 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
               ),
             ),
           ),
-          // Description bubble
+          // Description bubble + controls
           Positioned(
             left: 24,
             right: 24,
             top:
                 showBubbleAbove
-                    ? position!.dy - 160
+                    ? position!.dy - 220
                     : position!.dy + size!.height + 24,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   padding: const EdgeInsets.all(16),
@@ -165,15 +166,10 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                ElevatedButton(
-                  onPressed: widget.onNext,
-                  child: const Text('Next'),
-                ),
+                TourOverlayControls(onNext: widget.onNext, onEnd: widget.onEnd),
               ],
             ),
           ),
-          // Footer with close and restart
-          TourOverlayFooter(onEnd: widget.onEnd, onReset: widget.onReset),
         ],
       ],
     );

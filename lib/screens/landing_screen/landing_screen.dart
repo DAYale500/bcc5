@@ -182,17 +182,11 @@ class _LandingScreenState extends State<LandingScreen> {
         return TourOverlayManager(
           highlightKey: _tourController.currentKey,
           description: _tourController.currentDescription,
-          currentStepId: _tourController.currentStepId, // ✅ Add this
-
+          currentStepId: _tourController.currentStepId, // ✅ Add this line
           onNext: _tourController.nextStep,
           onEnd: _tourController.endTour,
           onReset: _tourController.reset,
           child: Column(
-            // return TourOverlayManager(
-            //   highlightKey: _tourController.currentKey,
-            //   onNext: _tourController.nextStep,
-            //   onEnd: _tourController.endTour,
-            //   child: Column(
             children: [
               CustomAppBarWidget(
                 title: 'Welcome!',
@@ -204,6 +198,34 @@ class _LandingScreenState extends State<LandingScreen> {
                 showSearchIcon: true,
                 showSettingsIcon: true,
               ),
+              // return AnimatedBuilder(
+              //   animation: _tourController,
+              //   builder: (context, _) {
+              //     return TourOverlayManager(
+              //       highlightKey: _tourController.currentKey,
+              //       description: _tourController.currentDescription,
+              //       currentStepId: _tourController.currentStepId, // ✅ Add this
+
+              //       onNext: _tourController.nextStep,
+              //       onEnd: _tourController.endTour,
+              //       onReset: _tourController.reset,
+              //       child: Column(
+              //         // return TourOverlayManager(
+              //         //   highlightKey: _tourController.currentKey,
+              //         //   onNext: _tourController.nextStep,
+              //         //   onEnd: _tourController.endTour,
+              //         //   child: Column(
+              //         children: [
+              //           CustomAppBarWidget(
+              //             title: 'Welcome!',
+              //             mobKey: widget.mobKey,
+              //             settingsKey: widget.settingsKey,
+              //             searchKey: widget.searchKey,
+              //             titleKey: widget.titleKey,
+              //             showBackButton: false,
+              //             showSearchIcon: true,
+              //             showSettingsIcon: true,
+              //           ),
               Expanded(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(
