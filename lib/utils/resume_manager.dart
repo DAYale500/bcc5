@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:bcc5/navigation/app_router.dart'; // ✅ Add if not already imported
 import 'package:bcc5/utils/logger.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ResumeManager {
@@ -8,6 +8,7 @@ class ResumeManager {
   static const String _keyPathName = 'resume_path_name';
   static const String _keyChapterId = 'resume_chapter_id';
   static const String _keyItemId = 'resume_item_id';
+  static bool shouldRestartTour = false;
 
   static Future<void> saveProgress({
     required String pathName,
@@ -96,20 +97,46 @@ class ResumeManager {
     );
   }
 
-  static Future<void> manualStartTour() async {
+  // resume_manager.dart
+  static void manualStartTour() async {
     logger.i('🎯 Manual tour triggering reset');
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('hasSeenTour', false);
-
-    // Also immediately navigate user back to landing screen
-    if (navigatorKey.currentContext == null) {
-      logger.e('❌ navigatorKey.currentContext is null — cannot navigate back.');
+    final context = navigatorKey.currentContext;
+    if (context == null) {
+      logger.e('❌ No navigatorKey context found — cannot start tour');
       return;
     }
 
-    Navigator.of(
-      navigatorKey.currentContext!,
-    ).popUntil((route) => route.isFirst);
+    final goRouter = GoRouter.of(context);
+
+    // 🚩 Check if already on LandingScreen
+    if (goRouter.routerDelegate.currentConfiguration.fullPath == '/') {
+      logger.i('🏁 Already on LandingScreen — setting shouldRestartTour');
+      ResumeManager.shouldRestartTour = true;
+    } else {
+      logger.i('🔀 Navigating to LandingScreen to restart tour');
+      ResumeManager.shouldRestartTour = true;
+      appRouter.goNamed('landing');
+    }
+    // if (goRouter.routerDelegate.currentConfiguration.fullPath == '/') {
+    //   logger.i('🏠 Already on LandingScreen — restarting tour immediately');
+    //   LandingScreen.restartTourGlobal();
+    // } else {
+    //   logger.i('🔀 Navigating to LandingScreen first');
+    //   // Close modals or extra screens
+    //   navigatorKey.currentState!.popUntil((route) => route.isFirst);
+
+    //   // Go home
+    //   goRouter.go('/');
+
+    //   // Wait for LandingScreen to rebuild
+    //   await Future.delayed(const Duration(milliseconds: 300));
+
+    //   LandingScreen.restartTourGlobal();
+    // }
+
+    // Optional: reset any tour prefs
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hasSeenTour', false);
   }
 }

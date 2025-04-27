@@ -3,6 +3,7 @@
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/resume_manager.dart';
 import 'package:bcc5/widgets/settings_modal.dart';
 import 'package:bcc5/widgets/tour/tour_controller.dart';
 import 'package:bcc5/widgets/tour/tour_overlay_manager.dart';
@@ -39,14 +40,37 @@ class LandingScreen extends StatefulWidget {
     required this.bnbFlashcardsKey,
   });
 
+  static void restartTourGlobal() {
+    if (landingScreenContext == null) {
+      logger.e('❌ landingScreenContext is null — cannot restart tour');
+      return;
+    }
+
+    final _LandingScreenState? landingState =
+        landingScreenContext!.findAncestorStateOfType<_LandingScreenState>();
+
+    if (landingState != null) {
+      logger.i('🎯 Restarting LandingScreen Tour');
+      landingState.restartTourFromSettings();
+    } else {
+      logger.e('❌ Could not find LandingScreenState to restart tour');
+    }
+  }
+
+  static BuildContext? landingScreenContext;
+
   @override
   State<LandingScreen> createState() => _LandingScreenState();
 }
 
 class _LandingScreenState extends State<LandingScreen> {
   final TourController _tourController = TourController();
-
   bool _autoRunTriggered = false;
+
+  void restartTourFromSettings() {
+    logger.i('🎯 Restarting Tour from Settings');
+    _tourController.reset();
+  }
 
   @override
   void initState() {
@@ -68,9 +92,22 @@ class _LandingScreenState extends State<LandingScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (ResumeManager.shouldRestartTour) {
+      logger.i('🏁 Detected shouldRestartTour — restarting tour now!');
+      ResumeManager.shouldRestartTour = false;
+      restartTourFromSettings();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     logger.i('📘 [LandingScreen] build() triggered');
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      LandingScreen.landingScreenContext = context;
+    });
     if (widget.showReminder) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
