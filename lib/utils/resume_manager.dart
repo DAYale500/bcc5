@@ -1,5 +1,7 @@
 import 'package:bcc5/navigation/app_router.dart'; // ✅ Add if not already imported
+import 'package:bcc5/screens/landing_screen/landing_screen.dart';
 import 'package:bcc5/utils/logger.dart';
+// import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -109,34 +111,72 @@ class ResumeManager {
 
     final goRouter = GoRouter.of(context);
 
-    // 🚩 Check if already on LandingScreen
     if (goRouter.routerDelegate.currentConfiguration.fullPath == '/') {
       logger.i('🏁 Already on LandingScreen — setting shouldRestartTour');
       ResumeManager.shouldRestartTour = true;
+      LandingScreen.markAutoRunTriggered();
+
+      // 🚀 Smart retry logic
+      _tryRestartTourSafely();
     } else {
       logger.i('🔀 Navigating to LandingScreen to restart tour');
       ResumeManager.shouldRestartTour = true;
       appRouter.goNamed('landing');
     }
-    // if (goRouter.routerDelegate.currentConfiguration.fullPath == '/') {
-    //   logger.i('🏠 Already on LandingScreen — restarting tour immediately');
-    //   LandingScreen.restartTourGlobal();
-    // } else {
-    //   logger.i('🔀 Navigating to LandingScreen first');
-    //   // Close modals or extra screens
-    //   navigatorKey.currentState!.popUntil((route) => route.isFirst);
 
-    //   // Go home
-    //   goRouter.go('/');
-
-    //   // Wait for LandingScreen to rebuild
-    //   await Future.delayed(const Duration(milliseconds: 300));
-
-    //   LandingScreen.restartTourGlobal();
-    // }
-
-    // Optional: reset any tour prefs
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('hasSeenTour', false);
   }
+
+  static void _tryRestartTourSafely({int attempt = 0}) {
+    if (attempt > 10) {
+      logger.e('❌ Failed to restart tour after 10 attempts.');
+      return;
+    }
+
+    Future.delayed(const Duration(milliseconds: 50), () {
+      final state = LandingScreen.landingScreenState;
+      if (state != null && state.mounted) {
+        logger.i(
+          '✅ LandingScreen state is valid and mounted on attempt $attempt — restarting tour.',
+        );
+        LandingScreen.restartTourFromSettingsGlobal();
+      } else {
+        logger.w(
+          '⚠️ LandingScreen state not yet valid or unmounted (attempt $attempt) — retrying...',
+        );
+        _tryRestartTourSafely(attempt: attempt + 1);
+      }
+    });
+  }
+
+  // static void manualStartTour() async {
+  //   logger.i('🎯 Manual tour triggering reset');
+
+  //   final context = navigatorKey.currentContext;
+  //   if (context == null) {
+  //     logger.e('❌ No navigatorKey context found — cannot start tour');
+  //     return;
+  //   }
+
+  //   final goRouter = GoRouter.of(context);
+
+  //   if (goRouter.routerDelegate.currentConfiguration.fullPath == '/') {
+  //     logger.i('🏁 Already on LandingScreen — setting shouldRestartTour');
+  //     ResumeManager.shouldRestartTour = true;
+  //     LandingScreen.markAutoRunTriggered();
+  //     Future.microtask(() {
+  //       Future.delayed(const Duration(milliseconds: 50), () {
+  //         LandingScreen.restartTourFromSettingsGlobal();
+  //       });
+  //     });
+  //   } else {
+  //     logger.i('🔀 Navigating to LandingScreen to restart tour');
+  //     ResumeManager.shouldRestartTour = true;
+  //     appRouter.goNamed('landing');
+  //   }
+
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.setBool('hasSeenTour', false);
+  // }
 }

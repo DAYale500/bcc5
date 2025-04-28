@@ -1,8 +1,8 @@
 Launching lib/main.dart on iPhone 13 in debug mode...
-Running pod install...                                             584ms
 Running Xcode build...                                          
- └─Compiling, linking and signing...                         4.6s
-Xcode build done.                                           15.7s
+s
+Xcode build done.                                            9.7s
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
 │ #0   main (package:bcc5/main.dart:15:10)<…>
 │ 💡 🚀 App Launch | Emergency Reminder: true<…>
 │ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
@@ -11,15 +11,9 @@ Xcode build done.                                           15.7s
 │ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
 │ 💡 <…>
 Syncing files to device iPhone 13...                            
-│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:51:16)<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:53:16)<…>
 │ 💡 📘 [GoRouter] Building LandingScreen with onboarding keys<…>
-│ #0   _LandingScreenState.build (package:bcc5/screens/landing_screen/landing_screen.dart:76:12)<…>
-│ 💡 📘 [LandingScreen] build() triggered<…>
-│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:17:12)<…>
-│ 💡 🎯 currentKey for step 0 is [GlobalKey#fceb4 AppTourButton]<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:85:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#fceb4 AppTourButton]<…>
-s
+Syncing files to device iPhone 13...                                21ms
 
 Flutter run key commands.
 r Hot reload. 🔥🔥🔥
@@ -29,69 +23,112 @@ d Detach (terminate "flutter run" but leave application running).
 c Clear the screen
 q Quit (terminate the application on the device).
 
-A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:63976/57KLRwAXpNI=/
-│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:74:14)<…>
-│ 💡 📐 Resolved position=Offset(135.5, 127.0) size=Size(119.0, 48.0)<…>
-The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:63976/57KLRwAXpNI=/
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:85:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#fceb4 AppTourButton]<…>
-│ #0   TourController.endTour (package:bcc5/widgets/tour/tour_controller.dart:46:12)<…>
-│ 💡 🛑 TourController.endTour() called<…>
-│ #0   TourController.endTour (package:bcc5/widgets/tour/tour_controller.dart:46:12)<…>
-│ 💡 🛑 TourController.endTour() called<…>
-
-Performing hot restart...                                       
-Restarted application in 297ms.
-│ #0   main (package:bcc5/main.dart:15:10)<…>
-│ 💡 🚀 App Launch | Emergency Reminder: true<…>
-│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 <…>
-│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:51:16)<…>
-│ 💡 📘 [GoRouter] Building LandingScreen with onboarding keys<…>
-│ #0   _LandingScreenState.build (package:bcc5/screens/landing_screen/landing_screen.dart:76:12)<…>
+A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:49998/6Hct1ta970o=/
+│ #0   LandingScreenState.build (package:bcc5/screens/landing_screen/landing_screen.dart:124:12)<…>
 │ 💡 📘 [LandingScreen] build() triggered<…>
-│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:17:12)<…>
-│ 💡 🎯 currentKey for step 0 is [GlobalKey#bac55 AppTourButton]<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:85:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#bac55 AppTourButton]<…>
-│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:74:14)<…>
-│ 💡 📐 Resolved position=Offset(135.5, 127.0) size=Size(119.0, 48.0)<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:85:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#bac55 AppTourButton]<…>
-│ #0   TourController.endTour (package:bcc5/widgets/tour/tour_controller.dart:46:12)<…>
+│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:27:12)<…>
+│ 💡 🎯 currentKey for step 0 is [GlobalKey#a842a MOBKey]<…>
+│ #0   TourController.currentDescription (package:bcc5/widgets/tour/tour_controller.dart:36:12)<…>
+│ 💡 📝 currentDescription for step 0 is Tap here in case of a Man Overboard emergency. This is the most urgent action in the app.<…>
+│ #0   TourController.currentStepId (package:bcc5/widgets/tour/tour_controller.dart:42:12)<…>
+│ 💡 🔖 currentStepId for step 0 is mob<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:92:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#a842a MOBKey]<…>
+│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:78:14)<…>
+│ 💡 📐 Resolved position=Offset(318.0, 47.0) size=Size(56.0, 56.0)<…>
+The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:49998/6Hct1ta970o=/
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:92:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#a842a MOBKey]<…>
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
+│ #0   TourController.endTour (package:bcc5/widgets/tour/tour_controller.dart:71:12)<…>
 │ 💡 🛑 TourController.endTour() called<…>
-│ #0   TourController.endTour (package:bcc5/widgets/tour/tour_controller.dart:46:12)<…>
+│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:27:12)<…>
+│ 💡 🎯 currentKey for step 5 is null<…>
+│ #0   TourController.currentDescription (package:bcc5/widgets/tour/tour_controller.dart:36:12)<…>
+│ 💡 📝 currentDescription for step 5 is null<…>
+│ #0   TourController.currentStepId (package:bcc5/widgets/tour/tour_controller.dart:42:12)<…>
+│ 💡 🔖 currentStepId for step 5 is null<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:92:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: null<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:14)<…>
+│ 💡 🛑 TourOverlayManager skipped — highlightKey is null<…>
+│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:52:16)<…>
+│ ⚠️ ❌ Highlight key context is null — skipping.<…>
+│ #0   showSettingsModal.<anonymous closure>.<anonymous closure>.<anonymous closure>.<anonymous closure> (package:bcc5/widgets/settings_modal.dart:75:42)<…>
+│ 💡 🚩 Manual tour start from settings<…>
+│ #0   ResumeManager.manualStartTour (package:bcc5/utils/resume_manager.dart:104:12)<…>
+│ 💡 🎯 Manual tour triggering reset<…>
+│ #0   ResumeManager.manualStartTour (package:bcc5/utils/resume_manager.dart:115:14)<…>
+│ 💡 🏁 Already on LandingScreen — setting shouldRestartTour<…>
+│ #0   ResumeManager._tryRestartTourSafely.<anonymous closure> (package:bcc5/utils/resume_manager.dart:140:16)<…>
+│ 💡 ✅ LandingScreen state is valid and mounted on attempt 0 — restarting tour.<…>
+│ #0   LandingScreenState.restartTourFromSettings (package:bcc5/screens/landing_screen/landing_screen.dart:79:12)<…>
+│ 💡 🎯 Restarting Tour from Settings<…>
+│ #0   TourController.reset (package:bcc5/widgets/tour/tour_controller.dart:77:12)<…>
+│ 💡 🔁 TourController.reset() triggered<…>
+│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:27:12)<…>
+│ 💡 🎯 currentKey for step 0 is [GlobalKey#a842a MOBKey]<…>
+│ #0   TourController.currentDescription (package:bcc5/widgets/tour/tour_controller.dart:36:12)<…>
+│ 💡 📝 currentDescription for step 0 is Tap here in case of a Man Overboard emergency. This is the most urgent action in the app.<…>
+│ #0   TourController.currentStepId (package:bcc5/widgets/tour/tour_controller.dart:42:12)<…>
+│ 💡 🔖 currentStepId for step 0 is mob<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:92:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#a842a MOBKey]<…>
+│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:78:14)<…>
+│ 💡 📐 Resolved position=Offset(318.0, 47.0) size=Size(56.0, 56.0)<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:92:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#a842a MOBKey]<…>
+│ #0   TourController.endTour (package:bcc5/widgets/tour/tour_controller.dart:71:12)<…>
 │ 💡 🛑 TourController.endTour() called<…>
-│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
-│ 💡 🟦 Displaying ToolsScreen<…>
-
-Performing hot restart...                                       
-Restarted application in 264ms.
-│ #0   main (package:bcc5/main.dart:15:10)<…>
-│ 💡 🚀 App Launch | Emergency Reminder: true<…>
-│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 <…>
-│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:51:16)<…>
-│ 💡 📘 [GoRouter] Building LandingScreen with onboarding keys<…>
-│ #0   _LandingScreenState.build (package:bcc5/screens/landing_screen/landing_screen.dart:76:12)<…>
-│ 💡 📘 [LandingScreen] build() triggered<…>
-│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:17:12)<…>
-│ 💡 🎯 currentKey for step 0 is [GlobalKey#6b17d AppTourButton]<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:85:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#6b17d AppTourButton]<…>
-│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:74:14)<…>
-│ 💡 📐 Resolved position=Offset(135.5, 127.0) size=Size(119.0, 48.0)<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:85:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#6b17d AppTourButton]<…>
-│ #0   TourController.endTour (package:bcc5/widgets/tour/tour_controller.dart:46:12)<…>
+│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:27:12)<…>
+│ 💡 🎯 currentKey for step 5 is null<…>
+│ #0   TourController.currentDescription (package:bcc5/widgets/tour/tour_controller.dart:36:12)<…>
+│ 💡 📝 currentDescription for step 5 is null<…>
+│ #0   TourController.currentStepId (package:bcc5/widgets/tour/tour_controller.dart:42:12)<…>
+│ 💡 🔖 currentStepId for step 5 is null<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:92:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: null<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:14)<…>
+│ 💡 🛑 TourOverlayManager skipped — highlightKey is null<…>
+│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:52:16)<…>
+│ ⚠️ ❌ Highlight key context is null — skipping.<…>
+│ #0   showSettingsModal.<anonymous closure>.<anonymous closure>.<anonymous closure>.<anonymous closure> (package:bcc5/widgets/settings_modal.dart:75:42)<…>
+│ 💡 🚩 Manual tour start from settings<…>
+│ #0   ResumeManager.manualStartTour (package:bcc5/utils/resume_manager.dart:104:12)<…>
+│ 💡 🎯 Manual tour triggering reset<…>
+│ #0   ResumeManager.manualStartTour (package:bcc5/utils/resume_manager.dart:115:14)<…>
+│ 💡 🏁 Already on LandingScreen — setting shouldRestartTour<…>
+│ #0   ResumeManager._tryRestartTourSafely.<anonymous closure> (package:bcc5/utils/resume_manager.dart:140:16)<…>
+│ 💡 ✅ LandingScreen state is valid and mounted on attempt 0 — restarting tour.<…>
+│ #0   LandingScreenState.restartTourFromSettings (package:bcc5/screens/landing_screen/landing_screen.dart:79:12)<…>
+│ 💡 🎯 Restarting Tour from Settings<…>
+│ #0   TourController.reset (package:bcc5/widgets/tour/tour_controller.dart:77:12)<…>
+│ 💡 🔁 TourController.reset() triggered<…>
+│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:27:12)<…>
+│ 💡 🎯 currentKey for step 0 is [GlobalKey#a842a MOBKey]<…>
+│ #0   TourController.currentDescription (package:bcc5/widgets/tour/tour_controller.dart:36:12)<…>
+│ 💡 📝 currentDescription for step 0 is Tap here in case of a Man Overboard emergency. This is the most urgent action in the app.<…>
+│ #0   TourController.currentStepId (package:bcc5/widgets/tour/tour_controller.dart:42:12)<…>
+│ 💡 🔖 currentStepId for step 0 is mob<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:92:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#a842a MOBKey]<…>
+│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:78:14)<…>
+│ 💡 📐 Resolved position=Offset(318.0, 47.0) size=Size(56.0, 56.0)<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:92:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#a842a MOBKey]<…>
+│ #0   TourController.endTour (package:bcc5/widgets/tour/tour_controller.dart:71:12)<…>
 │ 💡 🛑 TourController.endTour() called<…>
-│ #0   TourController.endTour (package:bcc5/widgets/tour/tour_controller.dart:46:12)<…>
-│ 💡 🛑 TourController.endTour() called<…>
+│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:27:12)<…>
+│ 💡 🎯 currentKey for step 5 is null<…>
+│ #0   TourController.currentDescription (package:bcc5/widgets/tour/tour_controller.dart:36:12)<…>
+│ 💡 📝 currentDescription for step 5 is null<…>
+│ #0   TourController.currentStepId (package:bcc5/widgets/tour/tour_controller.dart:42:12)<…>
+│ 💡 🔖 currentStepId for step 5 is null<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:92:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: null<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:14)<…>
+│ 💡 🛑 TourOverlayManager skipped — highlightKey is null<…>
+│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:52:16)<…>
+│ ⚠️ ❌ Highlight key context is null — skipping.<…>
 
 Application finished.
