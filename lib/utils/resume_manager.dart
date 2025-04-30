@@ -1,5 +1,3 @@
-// lib/utils/resume_manager.dart
-
 import 'package:bcc5/navigation/app_router.dart';
 import 'package:bcc5/screens/landing_screen/landing_screen.dart';
 import 'package:bcc5/utils/logger.dart';
@@ -11,6 +9,7 @@ class ResumeManager {
   static const String _keyPathName = 'resume_path_name';
   static const String _keyChapterId = 'resume_chapter_id';
   static const String _keyItemId = 'resume_item_id';
+
   static bool shouldRestartTour = false;
 
   static Future<void> saveProgress({
@@ -106,15 +105,14 @@ class ResumeManager {
     }
 
     final goRouter = GoRouter.of(context);
-
     if (goRouter.routerDelegate.currentConfiguration.fullPath == '/') {
       logger.i('🏁 Already on LandingScreen — setting shouldRestartTour');
-      ResumeManager.shouldRestartTour = true;
+      shouldRestartTour = true;
       LandingScreen.markAutoRunTriggered();
       _tryRestartTourSafely();
     } else {
       logger.i('🔀 Navigating to LandingScreen to restart tour');
-      ResumeManager.shouldRestartTour = true;
+      shouldRestartTour = true;
       appRouter.goNamed('landing');
     }
 
@@ -129,8 +127,8 @@ class ResumeManager {
     }
 
     Future.delayed(const Duration(milliseconds: 50), () {
-      final state = LandingScreen.landingScreenState;
-      if (state != null && state.mounted) {
+      final state = LandingScreen.getStateIfMounted();
+      if (state != null) {
         logger.i(
           '✅ LandingScreen state is valid and mounted on attempt $attempt — restarting tour.',
         );

@@ -1,17 +1,15 @@
-// lib/screens/landing_screen/landing_screen.dart
-
 import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/resume_manager.dart';
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/settings_modal.dart';
 import 'package:bcc5/widgets/tour/tour_controller.dart';
 import 'package:bcc5/widgets/tour/tour_overlay_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:bcc5/widgets/custom_app_bar_widget.dart';
-import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/utils/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LandingScreen extends StatefulWidget {
@@ -40,27 +38,19 @@ class LandingScreen extends StatefulWidget {
     required this.bnbFlashcardsKey,
   });
 
-  static BuildContext? landingScreenContext;
-  static LandingScreenState? landingScreenState;
+  static LandingScreenState? _state;
 
-  static void markAutoRunTriggered() {
-    landingScreenState?._markAutoRunTriggered();
+  static LandingScreenState? getStateIfMounted() {
+    final state = _state;
+    return (state != null && state.mounted) ? state : null;
   }
 
-  static void restartTourGlobal() {
-    if (landingScreenState == null) {
-      logger.e('❌ landingScreenState is null — cannot restart tour');
-      return;
-    }
-    landingScreenState!.restartTourFromSettings();
+  static void markAutoRunTriggered() {
+    getStateIfMounted()?._markAutoRunTriggered();
   }
 
   static void restartTourFromSettingsGlobal() {
-    if (landingScreenState == null) {
-      logger.e('❌ landingScreenState is null — cannot restart tour');
-      return;
-    }
-    landingScreenState!.restartTourFromSettings();
+    getStateIfMounted()?.restartTourFromSettings();
   }
 
   @override
@@ -83,8 +73,7 @@ class LandingScreenState extends State<LandingScreen> {
   @override
   void initState() {
     super.initState();
-
-    LandingScreen.landingScreenState = this; // ✅ Save this instance directly
+    LandingScreen._state = this;
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final prefs = await SharedPreferences.getInstance();
@@ -191,6 +180,7 @@ class LandingScreenState extends State<LandingScreen> {
           onEnd: _tourController.endTour,
           onReset: _tourController.reset,
           currentStepId: _tourController.currentStepId,
+          isLastStep: _tourController.isLastStep,
           child: Column(
             children: [
               CustomAppBarWidget(
