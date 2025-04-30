@@ -1,7 +1,8 @@
-import 'package:bcc5/navigation/app_router.dart'; // ✅ Add if not already imported
+// lib/utils/resume_manager.dart
+
+import 'package:bcc5/navigation/app_router.dart';
 import 'package:bcc5/screens/landing_screen/landing_screen.dart';
 import 'package:bcc5/utils/logger.dart';
-// import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,7 +35,7 @@ class ResumeManager {
     final parts = value.split('|');
     if (parts.length != 2) return null;
 
-    return (parts[0], parts[1]); // chapterId, itemId
+    return (parts[0], parts[1]);
   }
 
   static Future<void> clearProgress(String pathName) async {
@@ -64,7 +65,6 @@ class ResumeManager {
 
   static Future<Map<String, String>?> getResumePoint() async {
     final prefs = await SharedPreferences.getInstance();
-
     final pathName = prefs.getString(_keyPathName);
     final chapterId = prefs.getString(_keyChapterId);
     final itemId = prefs.getString(_keyItemId);
@@ -93,13 +93,9 @@ class ResumeManager {
       return;
     }
 
-    navigatorKey.currentState!.pushNamed(
-      resumePath,
-      arguments: resumeExtra, // ✅ FIX: use "arguments" instead of "extra"
-    );
+    navigatorKey.currentState!.pushNamed(resumePath, arguments: resumeExtra);
   }
 
-  // resume_manager.dart
   static void manualStartTour() async {
     logger.i('🎯 Manual tour triggering reset');
 
@@ -115,8 +111,6 @@ class ResumeManager {
       logger.i('🏁 Already on LandingScreen — setting shouldRestartTour');
       ResumeManager.shouldRestartTour = true;
       LandingScreen.markAutoRunTriggered();
-
-      // 🚀 Smart retry logic
       _tryRestartTourSafely();
     } else {
       logger.i('🔀 Navigating to LandingScreen to restart tour');
@@ -149,34 +143,4 @@ class ResumeManager {
       }
     });
   }
-
-  // static void manualStartTour() async {
-  //   logger.i('🎯 Manual tour triggering reset');
-
-  //   final context = navigatorKey.currentContext;
-  //   if (context == null) {
-  //     logger.e('❌ No navigatorKey context found — cannot start tour');
-  //     return;
-  //   }
-
-  //   final goRouter = GoRouter.of(context);
-
-  //   if (goRouter.routerDelegate.currentConfiguration.fullPath == '/') {
-  //     logger.i('🏁 Already on LandingScreen — setting shouldRestartTour');
-  //     ResumeManager.shouldRestartTour = true;
-  //     LandingScreen.markAutoRunTriggered();
-  //     Future.microtask(() {
-  //       Future.delayed(const Duration(milliseconds: 50), () {
-  //         LandingScreen.restartTourFromSettingsGlobal();
-  //       });
-  //     });
-  //   } else {
-  //     logger.i('🔀 Navigating to LandingScreen to restart tour');
-  //     ResumeManager.shouldRestartTour = true;
-  //     appRouter.goNamed('landing');
-  //   }
-
-  //   final prefs = await SharedPreferences.getInstance();
-  //   await prefs.setBool('hasSeenTour', false);
-  // }
 }
