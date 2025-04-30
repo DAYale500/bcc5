@@ -89,8 +89,9 @@ class _TourOverlayManagerState extends State<TourOverlayManager> {
   bool _isAdvancedRefreshersStep() =>
       widget.currentStepId == 'advancedRefreshers';
 
-  bool _isLastStep() =>
-      widget.highlightKey != null && widget.description == null;
+  // bool _isLastStep() =>
+  //     widget.highlightKey != null && widget.description == null;
+  bool _isLastStep() => widget.isLastStep;
 
   @override
   Widget build(BuildContext context) {

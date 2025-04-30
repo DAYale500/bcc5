@@ -1,9 +1,8 @@
 Launching lib/main.dart on iPhone 13 in debug mode...
 Running Xcode build...                                          
-s
-Xcode build done.                                            9.2s
+ └─Compiling, linking and signing...                      2,034ms
+Xcode build done.                                           11.3s
 [ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
-Syncing files to device iPhone 13...                            
 │ #0   main (package:bcc5/main.dart:15:10)<…>
 │ 💡 🚀 App Launch | Emergency Reminder: true<…>
 │ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
@@ -11,8 +10,10 @@ Syncing files to device iPhone 13...
 │ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
 │ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
 │ 💡 <…>
-[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
-Syncing files to device iPhone 13...                                14ms
+Syncing files to device iPhone 13...                            
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:53:16)<…>
+│ 💡 📘 [GoRouter] Building LandingScreen with onboarding keys<…>
+Syncing files to device iPhone 13...                                20ms
 
 Flutter run key commands.
 r Hot reload. 🔥🔥🔥
@@ -22,71 +23,28 @@ d Detach (terminate "flutter run" but leave application running).
 c Clear the screen
 q Quit (terminate the application on the device).
 
-A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:55206/Bu4gNRD855E=/
-│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:53:16)<…>
-│ 💡 📘 [GoRouter] Building LandingScreen with onboarding keys<…>
+A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:55732/Nt5MSww9H_g=/
 │ #0   LandingScreenState.build (package:bcc5/screens/landing_screen/landing_screen.dart:113:12)<…>
 │ 💡 📘 [LandingScreen] build() triggered<…>
 │ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:27:12)<…>
-│ 💡 🎯 currentKey for step 0 is [GlobalKey#eeefd MOBKey]<…>
+│ 💡 🎯 currentKey for step 0 is [GlobalKey#6482b MOBKey]<…>
 │ #0   TourController.currentDescription (package:bcc5/widgets/tour/tour_controller.dart:36:12)<…>
 │ 💡 📝 currentDescription for step 0 is Tap here in case of a Man Overboard emergency. This is the most urgent action in the app.<…>
 │ #0   TourController.currentStepId (package:bcc5/widgets/tour/tour_controller.dart:42:12)<…>
 │ 💡 🔖 currentStepId for step 0 is mob<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#eeefd MOBKey]<…>
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:98:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#6482b MOBKey]<…>
 │ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:80:14)<…>
 │ 💡 📐 Resolved position=Offset(318.0, 47.0) size=Size(56.0, 56.0)<…>
-The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:55206/Bu4gNRD855E=/
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#eeefd MOBKey]<…>
+The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:55732/Nt5MSww9H_g=/
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:98:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#6482b MOBKey]<…>
 │ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:27:12)<…>
-│ 💡 🎯 currentKey for step 1 is [GlobalKey#0651d SettingsKey]<…>
+│ 💡 🎯 currentKey for step 1 is [GlobalKey#32b3d SettingsKey]<…>
 │ #0   TourController.currentDescription (package:bcc5/widgets/tour/tour_controller.dart:36:12)<…>
 │ 💡 📝 currentDescription for step 1 is Tap here to access your profile and customize your app preferences.<…>
 │ #0   TourController.currentStepId (package:bcc5/widgets/tour/tour_controller.dart:42:12)<…>
 │ 💡 🔖 currentStepId for step 1 is settings<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#0651d SettingsKey]<…>
-│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:80:14)<…>
-│ 💡 📐 Resolved position=Offset(64.0, 51.0) size=Size(48.0, 48.0)<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#0651d SettingsKey]<…>
-│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:27:12)<…>
-│ 💡 🎯 currentKey for step 2 is [GlobalKey#ca866 SearchKey]<…>
-│ #0   TourController.currentDescription (package:bcc5/widgets/tour/tour_controller.dart:36:12)<…>
-│ 💡 📝 currentDescription for step 2 is Use the search icon to quickly find any lesson, tool, or flashcard.<…>
-│ #0   TourController.currentStepId (package:bcc5/widgets/tour/tour_controller.dart:42:12)<…>
-│ 💡 🔖 currentStepId for step 2 is search<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#ca866 SearchKey]<…>
-│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:80:14)<…>
-│ 💡 📐 Resolved position=Offset(16.0, 51.0) size=Size(48.0, 48.0)<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#ca866 SearchKey]<…>
-│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:27:12)<…>
-│ 💡 🎯 currentKey for step 3 is [GlobalKey#f41b4 newCrew]<…>
-│ #0   TourController.currentDescription (package:bcc5/widgets/tour/tour_controller.dart:36:12)<…>
-│ 💡 📝 currentDescription for step 3 is Start your training here as a new crewmember.<…>
-│ #0   TourController.currentStepId (package:bcc5/widgets/tour/tour_controller.dart:42:12)<…>
-│ 💡 🔖 currentStepId for step 3 is newCrew<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#f41b4 newCrew]<…>
-│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:80:14)<…>
-│ 💡 📐 Resolved position=Offset(16.0, 235.0) size=Size(358.0, 60.0)<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#f41b4 newCrew]<…>
-│ #0   TourController.currentKey (package:bcc5/widgets/tour/tour_controller.dart:27:12)<…>
-│ 💡 🎯 currentKey for step 4 is [GlobalKey#dcf19 advancedRefreshers]<…>
-│ #0   TourController.currentDescription (package:bcc5/widgets/tour/tour_controller.dart:36:12)<…>
-│ 💡 📝 currentDescription for step 4 is Explore advanced refresher lessons for experienced sailors.<…>
-│ #0   TourController.currentStepId (package:bcc5/widgets/tour/tour_controller.dart:42:12)<…>
-│ 💡 🔖 currentStepId for step 4 is advancedRefreshers<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#dcf19 advancedRefreshers]<…>
-│ #0   _TourOverlayManagerState._resolveHighlightPosition.<anonymous closure> (package:bcc5/widgets/tour/tour_overlay_manager.dart:80:14)<…>
-│ 💡 📐 Resolved position=Offset(37.3, 445.0) size=Size(315.4, 65.0)<…>
-│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:97:12)<…>
-│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#dcf19 advancedRefreshers]<…>
-
-Application finished.
+│ #0   _TourOverlayManagerState.build (package:bcc5/widgets/tour/tour_overlay_manager.dart:98:12)<…>
+│ 💡 🟡 TourOverlayManager build | highlightKey: [GlobalKey#32b3d SettingsKey]<�
