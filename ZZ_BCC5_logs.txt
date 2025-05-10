@@ -1,8 +1,8 @@
 Launching lib/main.dart on iPhone 13 in debug mode...
-Running pod install...                                             513ms
+Running pod install...                                             501ms
 Running Xcode build...                                          
- └─Compiling, linking and signing...                         5.4s
-Xcode build done.                                           15.3s
+ └─Compiling, linking and signing...                         4.7s
+Xcode build done.                                           14.3s
 [ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
 │ #0   main (package:bcc5/main.dart:15:10)<…>
 │ 💡 🚀 App Launch | Emergency Reminder: true<…>
@@ -11,7 +11,7 @@ Xcode build done.                                           15.3s
 │ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
 │ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
 │ 💡 <…>
-Syncing files to device iPhone 13...                                27ms
+Syncing files to device iPhone 13...                                29ms
 
 Flutter run key commands.
 r Hot reload. 🔥🔥🔥
@@ -21,22 +21,22 @@ d Detach (terminate "flutter run" but leave application running).
 c Clear the screen
 q Quit (terminate the application on the device).
 
-A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:61451/aaYF3lZwqe0=/
+A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:62700/9Q1203HgoFQ=/
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:29:12)<…>
 │ 💡 🎯 Starting Landing Tour...<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:30:12)<…>
-│ 💡 🧪 mobKey = IconButton-[GlobalKey#f6130](tooltip: Man Overboard, disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#d62db]])<…>
+│ 💡 🧪 mobKey = IconButton-[GlobalKey#f9edf](tooltip: Man Overboard, disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#f5f53]])<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:31:12)<…>
-│ 💡 🧪 settingsKey = IconButton-[GlobalKey#74c31](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#d62db]])<…>
+│ 💡 🧪 settingsKey = IconButton-[GlobalKey#9bcc4](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#f5f53]])<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:32:12)<…>
-│ 💡 🧪 titleKey = Text-[GlobalKey#f0836]("Welcome!", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), size: 22.0, weight: 700, textAlign: center, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery])<…>
+│ 💡 🧪 titleKey = Text-[GlobalKey#13c95]("Welcome!", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), size: 22.0, weight: 700, textAlign: center, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery])<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:33:12)<…>
-│ 💡 🧪 searchKey = IconButton-[GlobalKey#2d1a8](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#d62db]])<…>
+│ 💡 🧪 searchKey = IconButton-[GlobalKey#3d7a3](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#f5f53]])<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:34:12)<…>
-│ 💡 🧪 newCrewKey = KeyedSubtree-[GlobalKey#f6772 NewCrewKey]<…>
+│ 💡 🧪 newCrewKey = KeyedSubtree-[GlobalKey#ae7dd NewCrewKey]<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:35:12)<…>
-│ 💡 🧪 advancedRefreshersKey = KeyedSubtree-[GlobalKey#11a73 AdvancedRefreshersKey]<…>
-The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:61451/aaYF3lZwqe0=/
+│ 💡 🧪 advancedRefreshersKey = KeyedSubtree-[GlobalKey#a5b77 AdvancedRefreshersKey]<…>
+The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:62700/9Q1203HgoFQ=/
 [ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
 │ #0   LandingScreenTour.start.<anonymous closure> (package:bcc5/widgets/tour/landing_screen_tour.dart:119:30)<…>
 │ 💡 ✅ Tour finished<…>
@@ -44,19 +44,4 @@ The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://
 │ 💡 🔄 Tour state reset (Landing)<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:29:12)<…>
 │ 💡 🎯 Starting Landing Tour...<…>
-│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:30:12)<…>
-│ 💡 🧪 mobKey = IconButton-[GlobalKey#f6130](tooltip: Man Overboard, disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#d62db]])<…>
-│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:31:12)<…>
-│ 💡 🧪 settingsKey = IconButton-[GlobalKey#74c31](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#d62db]])<…>
-│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:32:12)<…>
-│ 💡 🧪 titleKey = Text-[GlobalKey#f0836]("Welcome!", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), size: 22.0, weight: 700, textAlign: center, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery])<…>
-│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:33:12)<…>
-│ 💡 🧪 searchKey = IconButton-[GlobalKey#2d1a8](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#d62db]])<…>
-│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:34:12)<…>
-│ 💡 🧪 newCrewKey = KeyedSubtree-[GlobalKey#f6772 NewCrewKey]<…>
-│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:35:12)<…>
-│ 💡 🧪 advancedRefreshersKey = KeyedSubtree-[GlobalKey#11a73 AdvancedRefreshersKey]<…>
-│ #0   LandingScreenTour.start.<anonymous closure> (package:bcc5/widgets/tour/landing_screen_tour.dart:119:30)<…>
-│ 💡 ✅ Tour finished<…>
-
-Application finished.
+│ #0   LandingScreenTour.start (packa

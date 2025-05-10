@@ -70,9 +70,9 @@ void showSettingsModal(BuildContext context) {
                               state.widget.advancedRefreshersKey,
                         );
 
-                        messenger.showSnackBar(
-                          const SnackBar(content: Text('🚀 Tour restarted!')),
-                        );
+                        // messenger.showSnackBar(
+                        //   const SnackBar(content: Text('🚀 Tour restarted!')),
+                        // );
                       });
                     },
                     child: const Text('Start App Tour Now'),
