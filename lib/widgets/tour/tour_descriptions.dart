@@ -8,4 +8,9 @@ class TourDescriptions {
   static const search = 'Search for lessons, tools, or flashcards.';
   static const newCrew = 'Start your training here as a new crewmember.';
   static const advanced = 'Explore advanced lessons for returning sailors.';
+  static const bnbHarbor = 'Tap here to return to the main harbor screen.';
+  static const bnbCourses = 'Access structured sailing lessons.';
+  static const bnbParts = 'Explore parts of the boat.';
+  static const bnbTools = 'Use helpful guides and checklists.';
+  static const bnbDrills = 'Test yourself with flashcard drills.';
 }

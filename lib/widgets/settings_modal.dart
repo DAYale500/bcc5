@@ -65,6 +65,11 @@ void showSettingsModal(BuildContext context) {
                           settingsKey: state.settingsKey,
                           titleKey: state.titleKey,
                           searchKey: state.searchKey,
+                          harborKey: state.widget.harborKey,
+                          coursesKey: state.widget.coursesKey,
+                          partsKey: state.widget.partsKey,
+                          toolsKey: state.widget.toolsKey,
+                          drillsKey: state.widget.drillsKey,
                           newCrewKey: state.widget.newCrewKey,
                           advancedRefreshersKey:
                               state.widget.advancedRefreshersKey,

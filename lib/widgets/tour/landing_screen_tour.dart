@@ -25,6 +25,11 @@ class LandingScreenTour {
     required GlobalKey searchKey,
     required GlobalKey newCrewKey,
     required GlobalKey advancedRefreshersKey,
+    required GlobalKey harborKey,
+    required GlobalKey coursesKey,
+    required GlobalKey partsKey,
+    required GlobalKey toolsKey,
+    required GlobalKey drillsKey,
   }) async {
     logger.i('🎯 Starting Landing Tour...');
     logger.i('🧪 mobKey = ${mobKey.currentContext}');
@@ -35,6 +40,7 @@ class LandingScreenTour {
     logger.i(
       '🧪 advancedRefreshersKey = ${advancedRefreshersKey.currentContext}',
     );
+
     final tutorial = TutorialCoachMark(
       targets: [
         TargetFocus(
@@ -43,9 +49,9 @@ class LandingScreenTour {
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
-              child: const Text(
+              child: Text(
                 TourDescriptions.mob,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ],
@@ -56,9 +62,9 @@ class LandingScreenTour {
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
-              child: const Text(
+              child: Text(
                 TourDescriptions.settings,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ],
@@ -69,9 +75,9 @@ class LandingScreenTour {
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
-              child: const Text(
+              child: Text(
                 TourDescriptions.title,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ],
@@ -82,9 +88,74 @@ class LandingScreenTour {
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
-              child: const Text(
+              child: Text(
                 TourDescriptions.search,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+        TargetFocus(
+          identify: 'bnbHarbor',
+          keyTarget: harborKey,
+          contents: [
+            TargetContent(
+              align: ContentAlign.top,
+              child: Text(
+                TourDescriptions.bnbHarbor,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+        TargetFocus(
+          identify: 'bnbCourses',
+          keyTarget: coursesKey,
+          contents: [
+            TargetContent(
+              align: ContentAlign.top,
+              child: Text(
+                TourDescriptions.bnbCourses,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+        TargetFocus(
+          identify: 'bnbParts',
+          keyTarget: partsKey,
+          contents: [
+            TargetContent(
+              align: ContentAlign.top,
+              child: Text(
+                TourDescriptions.bnbParts,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+        TargetFocus(
+          identify: 'bnbTools',
+          keyTarget: toolsKey,
+          contents: [
+            TargetContent(
+              align: ContentAlign.top,
+              child: Text(
+                TourDescriptions.bnbTools,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+        TargetFocus(
+          identify: 'bnbDrills',
+          keyTarget: drillsKey,
+          contents: [
+            TargetContent(
+              align: ContentAlign.top,
+              child: Text(
+                TourDescriptions.bnbDrills,
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ],
@@ -95,9 +166,9 @@ class LandingScreenTour {
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
-              child: const Text(
+              child: Text(
                 TourDescriptions.newCrew,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ],
@@ -108,9 +179,9 @@ class LandingScreenTour {
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
-              child: const Text(
+              child: Text(
                 TourDescriptions.advanced,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ],
@@ -134,7 +205,6 @@ class LandingScreenTour {
     logger.i('🔄 Tour state reset (Landing)');
   }
 
-  /// Forces the tour to restart immediately after reset.
   static Future<void> restartNow({
     required State landingScreenState,
     required GlobalKey mobKey,
@@ -143,13 +213,15 @@ class LandingScreenTour {
     required GlobalKey searchKey,
     required GlobalKey newCrewKey,
     required GlobalKey advancedRefreshersKey,
+    required GlobalKey harborKey,
+    required GlobalKey coursesKey,
+    required GlobalKey partsKey,
+    required GlobalKey toolsKey,
+    required GlobalKey drillsKey,
   }) async {
     await reset();
     if (!landingScreenState.mounted) return;
-
-    // Slight delay to ensure layout settles
     await Future.delayed(const Duration(milliseconds: 200));
-
     start(
       state: landingScreenState,
       mobKey: mobKey,
@@ -158,6 +230,11 @@ class LandingScreenTour {
       searchKey: searchKey,
       newCrewKey: newCrewKey,
       advancedRefreshersKey: advancedRefreshersKey,
+      harborKey: harborKey,
+      coursesKey: coursesKey,
+      partsKey: partsKey,
+      toolsKey: toolsKey,
+      drillsKey: drillsKey,
     );
   }
 }

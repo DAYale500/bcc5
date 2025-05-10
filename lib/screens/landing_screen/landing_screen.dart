@@ -11,11 +11,16 @@ import 'package:bcc5/widgets/tour/landing_screen_tour.dart';
 
 class LandingScreen extends StatefulWidget {
   final bool showReminder;
-  final GlobalKey harborKey;
   final GlobalKey mobKey;
   final GlobalKey settingsKey;
   final GlobalKey searchKey;
   final GlobalKey titleKey;
+  final GlobalKey harborKey;
+  final GlobalKey coursesKey;
+  final GlobalKey partsKey;
+  final GlobalKey toolsKey;
+  final GlobalKey drillsKey;
+
   final GlobalKey newCrewKey;
   final GlobalKey advancedRefreshersKey;
 
@@ -23,6 +28,10 @@ class LandingScreen extends StatefulWidget {
     super.key,
     required this.showReminder,
     required this.harborKey,
+    required this.coursesKey,
+    required this.partsKey,
+    required this.toolsKey,
+    required this.drillsKey,
     required this.mobKey,
     required this.settingsKey,
     required this.searchKey,
@@ -64,6 +73,11 @@ class LandingScreenState extends State<LandingScreen> {
           settingsKey: _keySettingsIcon,
           titleKey: _keyAppBarTitle,
           searchKey: _keySearchIcon,
+          harborKey: widget.harborKey,
+          coursesKey: widget.coursesKey,
+          partsKey: widget.partsKey,
+          toolsKey: widget.toolsKey,
+          drillsKey: widget.drillsKey,
           newCrewKey: widget.newCrewKey,
           advancedRefreshersKey: widget.advancedRefreshersKey,
         );

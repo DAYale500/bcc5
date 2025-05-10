@@ -32,18 +32,20 @@ final appRouter = GoRouter(
       path: '/',
       name: 'landing',
       pageBuilder: (context, state) {
-        // logger.d('[Router] Navigated to /landing');
-
         final showReminder =
             (state.extra as Map<String, dynamic>?)?['showReminder'] as bool? ??
             false;
 
-        // ✅ Onboarding GlobalKeys (created once in this route scope)
+        // ✅ Onboarding + BNB GlobalKeys (created once here)
         final mobKey = GlobalKey(debugLabel: 'MOBKey');
         final settingsKey = GlobalKey(debugLabel: 'SettingsKey');
         final searchKey = GlobalKey(debugLabel: 'SearchKey');
         final titleKey = GlobalKey(debugLabel: 'TitleKey');
         final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'CoursesIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
         final newCrewKey = GlobalKey(debugLabel: 'NewCrewKey');
         final advancedRefreshersKey = GlobalKey(
           debugLabel: 'AdvancedRefreshersKey',
@@ -53,17 +55,20 @@ final appRouter = GoRouter(
           context: context,
           state: state,
           transitionKey: ValueKey(state.pageKey.toString()),
-
           child: MainScaffold(
             branchIndex: 0,
             harborKey: harborKey,
-            coursesKey: GlobalKey(debugLabel: 'coursesKey'),
-            partsKey: GlobalKey(debugLabel: 'PartsKey'),
-            toolsKey: GlobalKey(debugLabel: 'ToolsKey'),
-            drillsKey: GlobalKey(debugLabel: 'DrillsKey'),
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
             child: LandingScreen(
               showReminder: showReminder,
               harborKey: harborKey,
+              coursesKey: coursesKey,
+              partsKey: partsKey,
+              toolsKey: toolsKey,
+              drillsKey: drillsKey,
               mobKey: mobKey,
               settingsKey: settingsKey,
               searchKey: searchKey,
