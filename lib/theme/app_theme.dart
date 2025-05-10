@@ -124,6 +124,12 @@ class AppTheme {
       fontSize: captionStyle.fontSize! * textScaleMultiplier,
     ),
   );
+  static const tourDescriptionStyle = TextStyle(
+    color: Colors.white,
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    height: 1.4,
+  );
 
   static ThemeData get lightTheme => ThemeData(
     useMaterial3: true,

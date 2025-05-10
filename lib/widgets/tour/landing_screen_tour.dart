@@ -1,3 +1,4 @@
+import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/widgets/tour/tour_descriptions.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,12 +47,14 @@ class LandingScreenTour {
         TargetFocus(
           identify: 'mob',
           keyTarget: mobKey,
+          enableOverlayTab: true,
+
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
               child: Text(
                 TourDescriptions.mob,
-                style: const TextStyle(color: Colors.white),
+                style: AppTheme.tourDescriptionStyle,
               ),
             ),
           ],
@@ -59,51 +62,49 @@ class LandingScreenTour {
         TargetFocus(
           identify: 'settings',
           keyTarget: settingsKey,
+          enableOverlayTab: true,
+
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
               child: Text(
                 TourDescriptions.settings,
-                style: const TextStyle(color: Colors.white),
+                style: AppTheme.tourDescriptionStyle,
               ),
             ),
           ],
         ),
-        TargetFocus(
-          identify: 'title',
-          keyTarget: titleKey,
-          contents: [
-            TargetContent(
-              align: ContentAlign.bottom,
-              child: Text(
-                TourDescriptions.title,
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
-        ),
+
         TargetFocus(
           identify: 'search',
           keyTarget: searchKey,
+          enableOverlayTab: true,
+
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
               child: Text(
                 TourDescriptions.search,
-                style: const TextStyle(color: Colors.white),
+                style: AppTheme.tourDescriptionStyle,
               ),
             ),
           ],
         ),
+
         TargetFocus(
           identify: 'newCrew',
           keyTarget: newCrewKey,
+          enableOverlayTab: true,
+
+          shape: ShapeLightFocus.RRect,
+          radius: 40, // 👈 shrink the circle size
+          paddingFocus: 6, // 👈 tighter highlight
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
               child: Text(
                 TourDescriptions.newCrew,
-                style: const TextStyle(color: Colors.white),
+                style: AppTheme.tourDescriptionStyle,
               ),
             ),
           ],
@@ -111,12 +112,17 @@ class LandingScreenTour {
         TargetFocus(
           identify: 'advanced',
           keyTarget: advancedRefreshersKey,
+          enableOverlayTab: true,
+
+          shape: ShapeLightFocus.RRect,
+          radius: 40, // 👈 shrink the circle size
+          paddingFocus: 6, // 👈 tighter highlight
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
               child: Text(
                 TourDescriptions.advanced,
-                style: const TextStyle(color: Colors.white),
+                style: AppTheme.tourDescriptionStyle,
               ),
             ),
           ],
@@ -124,12 +130,14 @@ class LandingScreenTour {
         TargetFocus(
           identify: 'bnbHarbor',
           keyTarget: harborKey,
+          enableOverlayTab: true,
+
           contents: [
             TargetContent(
               align: ContentAlign.top,
               child: Text(
                 TourDescriptions.bnbHarbor,
-                style: const TextStyle(color: Colors.white),
+                style: AppTheme.tourDescriptionStyle,
               ),
             ),
           ],
@@ -137,12 +145,14 @@ class LandingScreenTour {
         TargetFocus(
           identify: 'bnbCourses',
           keyTarget: coursesKey,
+          enableOverlayTab: true,
+
           contents: [
             TargetContent(
               align: ContentAlign.top,
               child: Text(
                 TourDescriptions.bnbCourses,
-                style: const TextStyle(color: Colors.white),
+                style: AppTheme.tourDescriptionStyle,
               ),
             ),
           ],
@@ -150,12 +160,14 @@ class LandingScreenTour {
         TargetFocus(
           identify: 'bnbParts',
           keyTarget: partsKey,
+          enableOverlayTab: true,
+
           contents: [
             TargetContent(
               align: ContentAlign.top,
               child: Text(
                 TourDescriptions.bnbParts,
-                style: const TextStyle(color: Colors.white),
+                style: AppTheme.tourDescriptionStyle,
               ),
             ),
           ],
@@ -163,12 +175,14 @@ class LandingScreenTour {
         TargetFocus(
           identify: 'bnbTools',
           keyTarget: toolsKey,
+          enableOverlayTab: true,
+
           contents: [
             TargetContent(
               align: ContentAlign.top,
               child: Text(
                 TourDescriptions.bnbTools,
-                style: const TextStyle(color: Colors.white),
+                style: AppTheme.tourDescriptionStyle,
               ),
             ),
           ],
@@ -176,17 +190,26 @@ class LandingScreenTour {
         TargetFocus(
           identify: 'bnbDrills',
           keyTarget: drillsKey,
+          enableOverlayTab: true,
+
           contents: [
             TargetContent(
               align: ContentAlign.top,
               child: Text(
                 TourDescriptions.bnbDrills,
-                style: const TextStyle(color: Colors.white),
+                style: AppTheme.tourDescriptionStyle,
               ),
             ),
           ],
         ),
       ],
+
+      // tutorial customizations
+      focusAnimationDuration: Duration.zero,
+      unFocusAnimationDuration: Duration.zero,
+
+      pulseEnable: true, // 👈 disables pulsing circle effect
+
       onFinish: () => logger.i('✅ Tour finished'),
       onSkip: () {
         logger.i('⏭ Tour skipped');

@@ -1,0 +1,18 @@
+Launching lib/main.dart on DY iPhone13 in debug mode...
+Automatically signing iOS for device deployment using specified development team in Xcode project: 5V43A7DF33
+Running Xcode build...                                          
+Xcode build done.                                            2.8s
+Failed to build iOS app
+Could not build the precompiled application for the device.
+Error (Xcode): No profiles for 'com.example.bcc5' were found: Xcode couldn't find any iOS App Development provisioning profiles matching 'com.example.bcc5'. Automatic signing is disabled and unable to generate a profile. To enable automatic signing, pass -allowProvisioningUpdates to xcodebuild.
+/Users/david/Desktop/0_SailingAppDev/FlutterAttempts/BCC5/bcc5/ios/Runner.xcodeproj
+
+
+It appears that there was a problem signing your application prior to installation on the device.
+
+Verify that the Bundle Identifier in your project is your signing id in Xcode
+  open ios/Runner.xcworkspace
+
+Also try selecting 'Product > Build' to fix the problem.
+
+Error launching application on DY iPhone13.
