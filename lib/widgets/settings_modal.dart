@@ -1,5 +1,6 @@
 // lib/widgets/settings_modal.dart
 
+import 'package:bcc5/widgets/tour/landing_screen_tour.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/resume_manager.dart'; // ✅ Needed for reset
@@ -33,6 +34,41 @@ void showSettingsModal(BuildContext context) {
                       ],
                     ),
                   ),
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: () {
+                      final messenger = ScaffoldMessenger.of(
+                        context,
+                      ); // ✅ capture early
+                      Navigator.of(context).pop();
+
+                      Future.delayed(const Duration(milliseconds: 300), () {
+                        LandingScreenTour.reset();
+                        messenger.showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Tour reset! Restart the app to see it again.',
+                            ),
+                          ),
+                        );
+                      });
+                    },
+                    child: const Text('Reset App Tour'),
+                  ),
+
+                  // TextButton(
+                  //   onPressed: () {
+                  //     LandingScreenTour.reset(); // fire-and-forget
+                  //     ScaffoldMessenger.of(context).showSnackBar(
+                  //       const SnackBar(
+                  //         content: Text(
+                  //           'Tour reset! Restart the app to see it again.',
+                  //         ),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: const Text('Reset App Tour'),
+                  // ),
                   const SizedBox(height: 8),
                   Expanded(
                     child: Padding(

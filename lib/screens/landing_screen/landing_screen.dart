@@ -7,24 +7,19 @@ import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/widgets/tour/landing_screen_tour.dart'; // ✅
 
-class LandingScreen extends StatelessWidget {
+class LandingScreen extends StatefulWidget {
   final bool showReminder;
   final GlobalKey harborKey;
   final GlobalKey mobKey;
   final GlobalKey settingsKey;
   final GlobalKey searchKey;
   final GlobalKey titleKey;
-
-  // 🚩 GlobalKeys for onboarding tour steps
-  final GlobalKey _keyAppBarTitle = GlobalKey();
-  final GlobalKey _keyMOBButton = GlobalKey();
-  final GlobalKey _keySettingsIcon = GlobalKey();
-  final GlobalKey _keySearchIcon = GlobalKey();
   final GlobalKey newCrewKey;
   final GlobalKey advancedRefreshersKey;
 
-  LandingScreen({
+  const LandingScreen({
     super.key,
     required this.showReminder,
     required this.harborKey,
@@ -37,8 +32,35 @@ class LandingScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    if (showReminder) {
+  State<LandingScreen> createState() => _LandingScreenState();
+}
+
+class _LandingScreenState extends State<LandingScreen> {
+  final GlobalKey _keyAppBarTitle = GlobalKey();
+  final GlobalKey _keyMOBButton = GlobalKey();
+  final GlobalKey _keySettingsIcon = GlobalKey();
+  final GlobalKey _keySearchIcon = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (await LandingScreenTour.shouldStart()) {
+        if (!mounted) return; // ✅ prevent context use after unmount
+        LandingScreenTour.start(
+          state: this,
+          mobKey: _keyMOBButton,
+          settingsKey: _keySettingsIcon,
+          titleKey: _keyAppBarTitle,
+          searchKey: _keySearchIcon,
+          newCrewKey: widget.newCrewKey,
+          advancedRefreshersKey: widget.advancedRefreshersKey,
+        );
+      }
+    });
+
+    if (widget.showReminder) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
           context: context,
@@ -65,7 +87,10 @@ class LandingScreen extends StatelessWidget {
         );
       });
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         CustomAppBarWidget(
@@ -78,7 +103,6 @@ class LandingScreen extends StatelessWidget {
           showSearchIcon: true,
           showSettingsIcon: true,
         ),
-
         Expanded(
           child: SingleChildScrollView(
             padding: const EdgeInsets.only(
@@ -90,24 +114,7 @@ class LandingScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // 🚀 App Tour
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      logger.i('🚩 Tour Start button tapped');
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Tour not yet implemented.'),
-                        ),
-                      );
-                    },
-                    style: AppTheme.whiteTextButton,
-                    child: const Text('App Tour'),
-                  ),
-                ),
                 const SizedBox(height: 10),
-
-                // 📘 Welcome Message
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
@@ -120,28 +127,48 @@ class LandingScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-
-                // 🧭 New Crewmembers Button
-                ElevatedButton(
-                  onPressed: () {
-                    logger.i('📘 Navigating to Competent Crew Path');
-                    context.go(
-                      '/learning-paths/competent-crew',
-                      extra: {
-                        'slideFrom': SlideDirection.right,
-                        'transitionType': TransitionType.slide,
-                        'detailRoute': DetailRoute.path,
-                        'mobKey': mobKey,
-                        'settingsKey': settingsKey,
-                        'searchKey': searchKey,
-                        'titleKey': titleKey,
-                      },
-                    );
-                  },
-                  style: AppTheme.landingPrimaryButton,
-                  child: const Text('New Crewmembers'),
+                KeyedSubtree(
+                  key: widget.newCrewKey,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      logger.i('📘 Navigating to Competent Crew Path');
+                      context.go(
+                        '/learning-paths/competent-crew',
+                        extra: {
+                          'slideFrom': SlideDirection.right,
+                          'transitionType': TransitionType.slide,
+                          'detailRoute': DetailRoute.path,
+                          'mobKey': widget.mobKey,
+                          'settingsKey': widget.settingsKey,
+                          'searchKey': widget.searchKey,
+                          'titleKey': widget.titleKey,
+                        },
+                      );
+                    },
+                    style: AppTheme.landingPrimaryButton,
+                    child: const Text('New Crewmembers'),
+                  ),
                 ),
 
+                // ElevatedButton(
+                //   onPressed: () {
+                //     logger.i('📘 Navigating to Competent Crew Path');
+                //     context.go(
+                //       '/learning-paths/competent-crew',
+                //       extra: {
+                //         'slideFrom': SlideDirection.right,
+                //         'transitionType': TransitionType.slide,
+                //         'detailRoute': DetailRoute.path,
+                //         'mobKey': widget.mobKey,
+                //         'settingsKey': widget.settingsKey,
+                //         'searchKey': widget.searchKey,
+                //         'titleKey': widget.titleKey,
+                //       },
+                //     );
+                //   },
+                //   style: AppTheme.landingPrimaryButton,
+                //   child: const Text('New Crewmembers'),
+                // ),
                 const SizedBox(height: 36),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -155,74 +182,135 @@ class LandingScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-
-                // 🎯 Advanced Refresher Dropdown
                 Center(
-                  child: PopupMenuButton<String>(
-                    onSelected: (value) {
-                      logger.i('📘 Navigating to $value');
-                      context.go(
-                        '/learning-paths/$value',
-                        extra: {
-                          'slideFrom': SlideDirection.right,
-                          'transitionType': TransitionType.slide,
-                          'detailRoute': DetailRoute.path,
-                          'mobKey': mobKey,
-                          'settingsKey': settingsKey,
-                          'searchKey': searchKey,
-                          'titleKey': titleKey,
-                        },
-                      );
-                    },
-                    itemBuilder:
-                        (context) => const [
-                          PopupMenuItem(
-                            value: 'knock-the-rust-off',
-                            child: Text('Knock the Rust Off'),
-                          ),
-                          PopupMenuItem(
-                            value: 'docking',
-                            child: Text('Docking'),
-                          ),
-                          PopupMenuItem(
-                            value: 'transition-demo',
-                            child: Text('Anchoring'),
-                          ),
-                        ],
-                    child: Container(
-                      constraints: const BoxConstraints(minWidth: 280),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 18,
-                        horizontal: 32,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppTheme.primaryRed,
-                        borderRadius: BorderRadius.circular(
-                          AppTheme.buttonCornerRadius,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: const [
-                          Text(
-                            'Advanced Refreshers',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                  child: KeyedSubtree(
+                    key: widget.advancedRefreshersKey,
+                    child: PopupMenuButton<String>(
+                      onSelected: (value) {
+                        logger.i('📘 Navigating to $value');
+                        context.go(
+                          '/learning-paths/$value',
+                          extra: {
+                            'slideFrom': SlideDirection.right,
+                            'transitionType': TransitionType.slide,
+                            'detailRoute': DetailRoute.path,
+                            'mobKey': widget.mobKey,
+                            'settingsKey': widget.settingsKey,
+                            'searchKey': widget.searchKey,
+                            'titleKey': widget.titleKey,
+                          },
+                        );
+                      },
+                      itemBuilder:
+                          (context) => const [
+                            PopupMenuItem(
+                              value: 'knock-the-rust-off',
+                              child: Text('Knock the Rust Off'),
                             ),
+                            PopupMenuItem(
+                              value: 'docking',
+                              child: Text('Docking'),
+                            ),
+                            PopupMenuItem(
+                              value: 'transition-demo',
+                              child: Text('Anchoring'),
+                            ),
+                          ],
+                      child: Container(
+                        constraints: const BoxConstraints(minWidth: 280),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 18,
+                          horizontal: 32,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primaryRed,
+                          borderRadius: BorderRadius.circular(
+                            AppTheme.buttonCornerRadius,
                           ),
-                          SizedBox(width: 8),
-                          Icon(Icons.arrow_drop_down, color: Colors.white),
-                        ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Text(
+                              'Advanced Refreshers',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(width: 8),
+                            Icon(Icons.arrow_drop_down, color: Colors.white),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
 
+                // Center(
+                //   child: PopupMenuButton<String>(
+                //     onSelected: (value) {
+                //       logger.i('📘 Navigating to $value');
+                //       context.go(
+                //         '/learning-paths/$value',
+                //         extra: {
+                //           'slideFrom': SlideDirection.right,
+                //           'transitionType': TransitionType.slide,
+                //           'detailRoute': DetailRoute.path,
+                //           'mobKey': widget.mobKey,
+                //           'settingsKey': widget.settingsKey,
+                //           'searchKey': widget.searchKey,
+                //           'titleKey': widget.titleKey,
+                //         },
+                //       );
+                //     },
+                //     itemBuilder:
+                //         (context) => const [
+                //           PopupMenuItem(
+                //             value: 'knock-the-rust-off',
+                //             child: Text('Knock the Rust Off'),
+                //           ),
+                //           PopupMenuItem(
+                //             value: 'docking',
+                //             child: Text('Docking'),
+                //           ),
+                //           PopupMenuItem(
+                //             value: 'transition-demo',
+                //             child: Text('Anchoring'),
+                //           ),
+                //         ],
+                //     child: Container(
+                //       constraints: const BoxConstraints(minWidth: 280),
+                //       padding: const EdgeInsets.symmetric(
+                //         vertical: 18,
+                //         horizontal: 32,
+                //       ),
+                //       decoration: BoxDecoration(
+                //         color: AppTheme.primaryRed,
+                //         borderRadius: BorderRadius.circular(
+                //           AppTheme.buttonCornerRadius,
+                //         ),
+                //       ),
+                //       child: Row(
+                //         mainAxisSize: MainAxisSize.min,
+                //         children: const [
+                //           Text(
+                //             'Advanced Refreshers',
+                //             style: TextStyle(
+                //               color: Colors.white,
+                //               fontSize: 20,
+                //               fontWeight: FontWeight.bold,
+                //             ),
+                //           ),
+                //           SizedBox(width: 8),
+                //           Icon(Icons.arrow_drop_down, color: Colors.white),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(height: 36),
-
-                // 📍 Footer Hint
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
