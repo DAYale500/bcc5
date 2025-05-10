@@ -1,14 +1,16 @@
 // lib/widgets/settings_modal.dart
 
 import 'package:bcc5/screens/landing_screen/landing_screen.dart';
+import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/tour/landing_screen_tour.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/resume_manager.dart'; // ✅ Needed for reset
 import 'package:bcc5/utils/settings_manager.dart';
 import 'package:bcc5/utils/radio_helper.dart';
+import 'package:go_router/go_router.dart';
 
-void showSettingsModal(BuildContext context) {
+void showSettingsModal(BuildContext context, String currentRouteName) {
   showDialog(
     context: context,
     barrierDismissible: true,
@@ -40,44 +42,52 @@ void showSettingsModal(BuildContext context) {
                   // this button closes the settingsModal and restarts the tour
                   TextButton(
                     onPressed: () {
-                      final messenger = ScaffoldMessenger.of(
-                        context,
-                      ); // capture early
-                      final navigator = Navigator.of(context);
+                      logger.i(
+                        '🧭 SettingsModal tapped — route = $currentRouteName',
+                      );
 
                       // Close modal first
-                      navigator.pop();
+                      Navigator.of(context).pop();
 
-                      Future.delayed(const Duration(milliseconds: 300), () {
-                        final state = LandingScreen.getState();
-                        if (state == null || !state.mounted) {
-                          messenger.showSnackBar(
-                            const SnackBar(
-                              content: Text('⚠️ Tour could not start.'),
-                            ),
+                      // Schedule logic after modal disappears
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        logger.i('📦 Modal closed, post-frame triggered');
+
+                        if (currentRouteName == '/' ||
+                            currentRouteName == '/landing') {
+                          logger.i(
+                            '✅ Already on landing — restarting tour directly',
                           );
-                          return;
+
+                          final state = LandingScreen.getState();
+                          if (state != null && state.mounted) {
+                            logger.i('🔁 Restarting tour...');
+                            LandingScreenTour.restartNow(
+                              landingScreenState: state,
+                              mobKey: state.mobKey,
+                              settingsKey: state.settingsKey,
+                              titleKey: state.titleKey,
+                              searchKey: state.searchKey,
+                              harborKey: state.widget.harborKey,
+                              coursesKey: state.widget.coursesKey,
+                              partsKey: state.widget.partsKey,
+                              toolsKey: state.widget.toolsKey,
+                              drillsKey: state.widget.drillsKey,
+                              newCrewKey: state.widget.newCrewKey,
+                              advancedRefreshersKey:
+                                  state.widget.advancedRefreshersKey,
+                            );
+                          } else {
+                            logger.w(
+                              '⚠️ LandingScreen not mounted — cannot restart tour',
+                            );
+                          }
+                        } else {
+                          logger.i('➡️ Navigating to landing to trigger tour');
+                          GoRouter.of(
+                            context,
+                          ).go('/', extra: {'startTour': true});
                         }
-
-                        LandingScreenTour.restartNow(
-                          landingScreenState: state,
-                          mobKey: state.mobKey,
-                          settingsKey: state.settingsKey,
-                          titleKey: state.titleKey,
-                          searchKey: state.searchKey,
-                          harborKey: state.widget.harborKey,
-                          coursesKey: state.widget.coursesKey,
-                          partsKey: state.widget.partsKey,
-                          toolsKey: state.widget.toolsKey,
-                          drillsKey: state.widget.drillsKey,
-                          newCrewKey: state.widget.newCrewKey,
-                          advancedRefreshersKey:
-                              state.widget.advancedRefreshersKey,
-                        );
-
-                        // messenger.showSnackBar(
-                        //   const SnackBar(content: Text('🚀 Tour restarted!')),
-                        // );
                       });
                     },
                     child: const Text('Start App Tour Now'),

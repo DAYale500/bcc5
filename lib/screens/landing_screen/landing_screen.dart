@@ -20,9 +20,9 @@ class LandingScreen extends StatefulWidget {
   final GlobalKey partsKey;
   final GlobalKey toolsKey;
   final GlobalKey drillsKey;
-
   final GlobalKey newCrewKey;
   final GlobalKey advancedRefreshersKey;
+  final bool startTour;
 
   const LandingScreen({
     super.key,
@@ -38,6 +38,7 @@ class LandingScreen extends StatefulWidget {
     required this.titleKey,
     required this.newCrewKey,
     required this.advancedRefreshersKey,
+    required this.startTour,
   });
 
   static LandingScreenState? _state;
@@ -65,7 +66,7 @@ class LandingScreenState extends State<LandingScreen> {
     LandingScreen._state = this;
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (await LandingScreenTour.shouldStart()) {
+      if (widget.startTour || await LandingScreenTour.shouldStart()) {
         if (!mounted) return;
         LandingScreenTour.start(
           state: this,
@@ -102,7 +103,11 @@ class LandingScreenState extends State<LandingScreen> {
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      showSettingsModal(context);
+                      final routeName =
+                          GoRouter.of(
+                            context,
+                          ).routeInformationProvider.value.uri.path;
+                      showSettingsModal(context, routeName);
                     },
                     child: const Text("Update Now"),
                   ),

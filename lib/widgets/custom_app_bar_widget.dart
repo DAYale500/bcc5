@@ -107,7 +107,11 @@ class CustomAppBarWidget extends StatelessWidget
                     onPressed:
                         onSettingsTap ??
                         () {
-                          showSettingsModal(innerContext);
+                          final routeName =
+                              GoRouter.of(
+                                context,
+                              ).routeInformationProvider.value.uri.path;
+                          showSettingsModal(context, routeName);
                         },
                   ),
             ),

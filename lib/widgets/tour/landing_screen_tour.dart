@@ -131,7 +131,9 @@ class LandingScreenTour {
           identify: 'bnbHarbor',
           keyTarget: harborKey,
           enableOverlayTab: true,
-
+          shape: ShapeLightFocus.Circle,
+          radius: 50,
+          paddingFocus: 25,
           contents: [
             TargetContent(
               align: ContentAlign.top,
@@ -146,7 +148,9 @@ class LandingScreenTour {
           identify: 'bnbCourses',
           keyTarget: coursesKey,
           enableOverlayTab: true,
-
+          shape: ShapeLightFocus.Circle,
+          radius: 50,
+          paddingFocus: 25,
           contents: [
             TargetContent(
               align: ContentAlign.top,
@@ -161,7 +165,9 @@ class LandingScreenTour {
           identify: 'bnbParts',
           keyTarget: partsKey,
           enableOverlayTab: true,
-
+          shape: ShapeLightFocus.Circle,
+          radius: 50,
+          paddingFocus: 20,
           contents: [
             TargetContent(
               align: ContentAlign.top,
@@ -176,7 +182,9 @@ class LandingScreenTour {
           identify: 'bnbTools',
           keyTarget: toolsKey,
           enableOverlayTab: true,
-
+          shape: ShapeLightFocus.Circle,
+          radius: 50,
+          paddingFocus: 20,
           contents: [
             TargetContent(
               align: ContentAlign.top,
@@ -191,7 +199,9 @@ class LandingScreenTour {
           identify: 'bnbDrills',
           keyTarget: drillsKey,
           enableOverlayTab: true,
-
+          shape: ShapeLightFocus.Circle,
+          radius: 50,
+          paddingFocus: 20,
           contents: [
             TargetContent(
               align: ContentAlign.top,
@@ -205,6 +215,9 @@ class LandingScreenTour {
       ],
 
       // tutorial customizations
+      alignSkip: Alignment.centerRight, // 🔄 Positions the skip button
+      textSkip: "Skip\nTour",
+      textStyleSkip: const TextStyle(color: Colors.white),
       focusAnimationDuration: Duration.zero,
       unFocusAnimationDuration: Duration.zero,
 

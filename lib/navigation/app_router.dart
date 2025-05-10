@@ -32,9 +32,9 @@ final appRouter = GoRouter(
       path: '/',
       name: 'landing',
       pageBuilder: (context, state) {
-        final showReminder =
-            (state.extra as Map<String, dynamic>?)?['showReminder'] as bool? ??
-            false;
+        final extras = state.extra as Map<String, dynamic>? ?? {};
+        final showReminder = extras['showReminder'] as bool? ?? false;
+        final startTour = extras['startTour'] as bool? ?? false;
 
         // ✅ Onboarding + BNB GlobalKeys (created once here)
         final mobKey = GlobalKey(debugLabel: 'MOBKey');
@@ -64,6 +64,8 @@ final appRouter = GoRouter(
             drillsKey: drillsKey,
             child: LandingScreen(
               showReminder: showReminder,
+              startTour: startTour,
+
               harborKey: harborKey,
               coursesKey: coursesKey,
               partsKey: partsKey,
