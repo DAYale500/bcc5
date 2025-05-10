@@ -1,0 +1,181 @@
+Launching lib/main.dart on iPhone 13 in debug mode...
+s
+Running Xcode build...                                          
+ └─Compiling, linking and signing...                         5.4s
+Xcode build done.                                           15.4s
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
+│ #0   main (package:bcc5/main.dart:15:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+s
+
+Flutter run key commands.
+r Hot reload. 🔥🔥🔥
+R Hot restart.
+h List all available interactive commands.
+d Detach (terminate "flutter run" but leave application running).
+c Clear the screen
+q Quit (terminate the application on the device).
+
+A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:49659/jjDYQ1cPnIk=/
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:29:12)<…>
+│ 💡 🎯 Starting Landing Tour...<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:30:12)<…>
+│ 💡 🧪 mobKey = IconButton-[GlobalKey#af4b0](tooltip: Man Overboard, disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#01d0e]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:31:12)<…>
+│ 💡 🧪 settingsKey = IconButton-[GlobalKey#68075](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#01d0e]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:32:12)<…>
+│ 💡 🧪 titleKey = Text-[GlobalKey#f9976]("Welcome!", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), size: 22.0, weight: 700, textAlign: center, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:33:12)<…>
+│ 💡 🧪 searchKey = IconButton-[GlobalKey#14760](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#01d0e]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:34:12)<…>
+│ 💡 🧪 newCrewKey = KeyedSubtree-[GlobalKey#e80c2 NewCrewKey]<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:35:12)<…>
+│ 💡 🧪 advancedRefreshersKey = KeyedSubtree-[GlobalKey#19373 AdvancedRefreshersKey]<…>
+The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:49659/jjDYQ1cPnIk=/
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
+│ #0   LandingScreenTour.start.<anonymous closure> (package:bcc5/widgets/tour/landing_screen_tour.dart:119:30)<…>
+│ 💡 ✅ Tour finished<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:20:12)<…>
+│ 💡 🟦 Entered FlashcardCategoryScreen<…>
+│ #0   CustomAppBarWidget.build.<anonymous closure>.<anonymous closure> (package:bcc5/widgets/custom_app_bar_widget.dart:133:28)<…>
+│ 💡 🆘 MOB button tapped<…>
+│ #0   showMOBModal.<anonymous closure> (package:bcc5/widgets/mob_modal.dart:18:12)<…>
+│ 💡 🚨 MOB Modal triggered at 2025-05-10 12:09:22 with coords: 37.785834, -122.406417<…>
+│ #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:135:12)<…>
+│ 💡 🚨 MOB Emergency Screen opened<…>
+│ #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:135:12)<…>
+│ 💡 🚨 MOB Emergency Screen opened<…>
+│ #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:135:12)<…>
+│ 💡 🚨 MOB Emergency Screen opened<…>
+│ #0   _MOBEmergencyScreenState.build.<anonymous closure> (package:bcc5/screens/emergency/mob_emergency_screen.dart:339:24)<…>
+│ 💡 🆘 Other Emergencies button tapped<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+│ #0   CustomAppBarWidget.build.<anonymous closure>.<anonymous closure> (package:bcc5/widgets/custom_app_bar_widget.dart:133:28)<…>
+│ 💡 🆘 MOB button tapped<…>
+│ #0   showMOBModal.<anonymous closure> (package:bcc5/widgets/mob_modal.dart:18:12)<…>
+│ 💡 🚨 MOB Modal triggered at 2025-05-10 12:09:33 with coords: 37.785834, -122.406417<…>
+│ #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:135:12)<…>
+│ 💡 🚨 MOB Emergency Screen opened<…>
+│ #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:135:12)<…>
+│ 💡 🚨 MOB Emergency Screen opened<…>
+│ #0   _MOBEmergencyScreenState.build (package:bcc5/screens/emergency/mob_emergency_screen.dart:135:12)<…>
+│ 💡 🚨 MOB Emergency Screen opened<…>
+│ #0   FlashcardCategoryScreen.build (package:bcc5/screens/flashcards/flashcard_category_screen.dart:20:12)<…>
+│ 💡 🟦 Entered FlashcardCategoryScreen<…>
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+│ #0   ToolBagScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/tools/tool_bag_screen.dart:95:30)
+├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+│ 🐛 🛠️ Selected toolbag: checklists
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:484:16)<…>
+│ 💡 🛠️ Navigating to ToolItemScreen for toolbag: checklists | detailRoute: DetailRoute.branch<…>
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+│ #0   _ToolItemScreenState._buildContent.<anonymous closure>.<anonymous closure> (package:bcc5/screens/tools/tool_item_screen.dart:145:28)<…>
+│ 💡 🛠️ Tapped tool: tool_checklists_2.00<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:484:16)<…>
+│ 💡 🛠️ Navigating to ToolItemScreen for toolbag: checklists | detailRoute: DetailRoute.branch<…>
+│ #0   ToolBagScreen.build (package:bcc5/screens/tools/tool_bag_screen.dart:27:12)<…>
+│ 💡 🟦 Displaying ToolsScreen<…>
+│ #0   _LessonModuleScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_module_screen.dart:76:28)<…>
+│ 💡 📘 Tapped Module: docking<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:238:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: docking | detailRoute: DetailRoute.branch<…>
+│ #0   LessonItemScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_item_screen.dart:101:28)<…>
+│ 💡 📘 Tapped lesson: lesson_dock_2.00<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:238:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: docking | detailRoute: DetailRoute.branch<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: L2: Anchoring - Setting Up<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:238:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: docking | detailRoute: DetailRoute.branch<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Basics of Side Ties<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: L2: Anchoring - Setting Up<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:238:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: docking | detailRoute: DetailRoute.branch<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Returning to Dock - Docking Procedure<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: L2: Anchoring - Setting Up<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Basics of Side Ties<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:238:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: docking | detailRoute: DetailRoute.branch<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Basic Deck Safety and Boom Awareness<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: L2: Anchoring - Setting Up<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Basics of Side Ties<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Returning to Dock - Docking Procedure<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   LandingScreenState.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:180:32)<…>
+│ 💡 📘 Navigating to knock-the-rust-off<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "knock the rust off" with 0 chapters<…>
+│ #0   _PathChapterScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_chapter_screen.dart:53:20)<…>
+│ 💡 🔙 Back tapped from PathChapterScreen<…>
+
+Application finished.
