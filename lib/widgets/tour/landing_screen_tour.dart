@@ -96,6 +96,32 @@ class LandingScreenTour {
           ],
         ),
         TargetFocus(
+          identify: 'newCrew',
+          keyTarget: newCrewKey,
+          contents: [
+            TargetContent(
+              align: ContentAlign.bottom,
+              child: Text(
+                TourDescriptions.newCrew,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+        TargetFocus(
+          identify: 'advanced',
+          keyTarget: advancedRefreshersKey,
+          contents: [
+            TargetContent(
+              align: ContentAlign.bottom,
+              child: Text(
+                TourDescriptions.advanced,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+        TargetFocus(
           identify: 'bnbHarbor',
           keyTarget: harborKey,
           contents: [
@@ -155,32 +181,6 @@ class LandingScreenTour {
               align: ContentAlign.top,
               child: Text(
                 TourDescriptions.bnbDrills,
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-        TargetFocus(
-          identify: 'newCrew',
-          keyTarget: newCrewKey,
-          contents: [
-            TargetContent(
-              align: ContentAlign.bottom,
-              child: Text(
-                TourDescriptions.newCrew,
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
-          ],
-        ),
-        TargetFocus(
-          identify: 'advanced',
-          keyTarget: advancedRefreshersKey,
-          contents: [
-            TargetContent(
-              align: ContentAlign.bottom,
-              child: Text(
-                TourDescriptions.advanced,
                 style: const TextStyle(color: Colors.white),
               ),
             ),
