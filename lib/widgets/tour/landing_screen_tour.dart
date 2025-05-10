@@ -133,4 +133,31 @@ class LandingScreenTour {
     await prefs.remove(_seenKey);
     logger.i('🔄 Tour state reset (Landing)');
   }
+
+  /// Forces the tour to restart immediately after reset.
+  static Future<void> restartNow({
+    required State landingScreenState,
+    required GlobalKey mobKey,
+    required GlobalKey settingsKey,
+    required GlobalKey titleKey,
+    required GlobalKey searchKey,
+    required GlobalKey newCrewKey,
+    required GlobalKey advancedRefreshersKey,
+  }) async {
+    await reset();
+    if (!landingScreenState.mounted) return;
+
+    // Slight delay to ensure layout settles
+    await Future.delayed(const Duration(milliseconds: 200));
+
+    start(
+      state: landingScreenState,
+      mobKey: mobKey,
+      settingsKey: settingsKey,
+      titleKey: titleKey,
+      searchKey: searchKey,
+      newCrewKey: newCrewKey,
+      advancedRefreshersKey: advancedRefreshersKey,
+    );
+  }
 }

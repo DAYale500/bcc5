@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/widgets/tour/landing_screen_tour.dart'; // ✅
+import 'package:bcc5/widgets/tour/landing_screen_tour.dart';
 
 class LandingScreen extends StatefulWidget {
   final bool showReminder;
@@ -31,23 +31,33 @@ class LandingScreen extends StatefulWidget {
     required this.advancedRefreshersKey,
   });
 
+  static LandingScreenState? _state;
+
+  static LandingScreenState? getState() => _state;
+
   @override
-  State<LandingScreen> createState() => _LandingScreenState();
+  State<LandingScreen> createState() => LandingScreenState();
 }
 
-class _LandingScreenState extends State<LandingScreen> {
+class LandingScreenState extends State<LandingScreen> {
   final GlobalKey _keyAppBarTitle = GlobalKey();
   final GlobalKey _keyMOBButton = GlobalKey();
   final GlobalKey _keySettingsIcon = GlobalKey();
   final GlobalKey _keySearchIcon = GlobalKey();
+  // 👇 PUBLIC GETTERS (for access in settingsModal)
+  GlobalKey get mobKey => _keyMOBButton;
+  GlobalKey get settingsKey => _keySettingsIcon;
+  GlobalKey get titleKey => _keyAppBarTitle;
+  GlobalKey get searchKey => _keySearchIcon;
 
   @override
   void initState() {
     super.initState();
+    LandingScreen._state = this;
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (await LandingScreenTour.shouldStart()) {
-        if (!mounted) return; // ✅ prevent context use after unmount
+        if (!mounted) return;
         LandingScreenTour.start(
           state: this,
           mobKey: _keyMOBButton,
@@ -149,26 +159,6 @@ class _LandingScreenState extends State<LandingScreen> {
                     child: const Text('New Crewmembers'),
                   ),
                 ),
-
-                // ElevatedButton(
-                //   onPressed: () {
-                //     logger.i('📘 Navigating to Competent Crew Path');
-                //     context.go(
-                //       '/learning-paths/competent-crew',
-                //       extra: {
-                //         'slideFrom': SlideDirection.right,
-                //         'transitionType': TransitionType.slide,
-                //         'detailRoute': DetailRoute.path,
-                //         'mobKey': widget.mobKey,
-                //         'settingsKey': widget.settingsKey,
-                //         'searchKey': widget.searchKey,
-                //         'titleKey': widget.titleKey,
-                //       },
-                //     );
-                //   },
-                //   style: AppTheme.landingPrimaryButton,
-                //   child: const Text('New Crewmembers'),
-                // ),
                 const SizedBox(height: 36),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -247,69 +237,6 @@ class _LandingScreenState extends State<LandingScreen> {
                     ),
                   ),
                 ),
-
-                // Center(
-                //   child: PopupMenuButton<String>(
-                //     onSelected: (value) {
-                //       logger.i('📘 Navigating to $value');
-                //       context.go(
-                //         '/learning-paths/$value',
-                //         extra: {
-                //           'slideFrom': SlideDirection.right,
-                //           'transitionType': TransitionType.slide,
-                //           'detailRoute': DetailRoute.path,
-                //           'mobKey': widget.mobKey,
-                //           'settingsKey': widget.settingsKey,
-                //           'searchKey': widget.searchKey,
-                //           'titleKey': widget.titleKey,
-                //         },
-                //       );
-                //     },
-                //     itemBuilder:
-                //         (context) => const [
-                //           PopupMenuItem(
-                //             value: 'knock-the-rust-off',
-                //             child: Text('Knock the Rust Off'),
-                //           ),
-                //           PopupMenuItem(
-                //             value: 'docking',
-                //             child: Text('Docking'),
-                //           ),
-                //           PopupMenuItem(
-                //             value: 'transition-demo',
-                //             child: Text('Anchoring'),
-                //           ),
-                //         ],
-                //     child: Container(
-                //       constraints: const BoxConstraints(minWidth: 280),
-                //       padding: const EdgeInsets.symmetric(
-                //         vertical: 18,
-                //         horizontal: 32,
-                //       ),
-                //       decoration: BoxDecoration(
-                //         color: AppTheme.primaryRed,
-                //         borderRadius: BorderRadius.circular(
-                //           AppTheme.buttonCornerRadius,
-                //         ),
-                //       ),
-                //       child: Row(
-                //         mainAxisSize: MainAxisSize.min,
-                //         children: const [
-                //           Text(
-                //             'Advanced Refreshers',
-                //             style: TextStyle(
-                //               color: Colors.white,
-                //               fontSize: 20,
-                //               fontWeight: FontWeight.bold,
-                //             ),
-                //           ),
-                //           SizedBox(width: 8),
-                //           Icon(Icons.arrow_drop_down, color: Colors.white),
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 const SizedBox(height: 36),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),

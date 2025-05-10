@@ -1,5 +1,6 @@
 // lib/widgets/settings_modal.dart
 
+import 'package:bcc5/screens/landing_screen/landing_screen.dart';
 import 'package:bcc5/widgets/tour/landing_screen_tour.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
@@ -35,40 +36,48 @@ void showSettingsModal(BuildContext context) {
                     ),
                   ),
                   const SizedBox(height: 8),
+
+                  // this button closes the settingsModal and restarts the tour
                   TextButton(
                     onPressed: () {
                       final messenger = ScaffoldMessenger.of(
                         context,
-                      ); // ✅ capture early
-                      Navigator.of(context).pop();
+                      ); // capture early
+                      final navigator = Navigator.of(context);
+
+                      // Close modal first
+                      navigator.pop();
 
                       Future.delayed(const Duration(milliseconds: 300), () {
-                        LandingScreenTour.reset();
-                        messenger.showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Tour reset! Restart the app to see it again.',
+                        final state = LandingScreen.getState();
+                        if (state == null || !state.mounted) {
+                          messenger.showSnackBar(
+                            const SnackBar(
+                              content: Text('⚠️ Tour could not start.'),
                             ),
-                          ),
+                          );
+                          return;
+                        }
+
+                        LandingScreenTour.restartNow(
+                          landingScreenState: state,
+                          mobKey: state.mobKey,
+                          settingsKey: state.settingsKey,
+                          titleKey: state.titleKey,
+                          searchKey: state.searchKey,
+                          newCrewKey: state.widget.newCrewKey,
+                          advancedRefreshersKey:
+                              state.widget.advancedRefreshersKey,
+                        );
+
+                        messenger.showSnackBar(
+                          const SnackBar(content: Text('🚀 Tour restarted!')),
                         );
                       });
                     },
-                    child: const Text('Reset App Tour'),
+                    child: const Text('Start App Tour Now'),
                   ),
 
-                  // TextButton(
-                  //   onPressed: () {
-                  //     LandingScreenTour.reset(); // fire-and-forget
-                  //     ScaffoldMessenger.of(context).showSnackBar(
-                  //       const SnackBar(
-                  //         content: Text(
-                  //           'Tour reset! Restart the app to see it again.',
-                  //         ),
-                  //       ),
-                  //     );
-                  //   },
-                  //   child: const Text('Reset App Tour'),
-                  // ),
                   const SizedBox(height: 8),
                   Expanded(
                     child: Padding(
