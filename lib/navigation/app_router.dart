@@ -44,6 +44,10 @@ final appRouter = GoRouter(
         final searchKey = GlobalKey(debugLabel: 'SearchKey');
         final titleKey = GlobalKey(debugLabel: 'TitleKey');
         final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final newCrewKey = GlobalKey(debugLabel: 'NewCrewKey');
+        final advancedRefreshersKey = GlobalKey(
+          debugLabel: 'AdvancedRefreshersKey',
+        );
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -60,6 +64,8 @@ final appRouter = GoRouter(
               settingsKey: settingsKey,
               searchKey: searchKey,
               titleKey: titleKey,
+              newCrewKey: newCrewKey,
+              advancedRefreshersKey: advancedRefreshersKey,
             ),
           ),
         );

@@ -21,6 +21,8 @@ class LandingScreen extends StatelessWidget {
   final GlobalKey _keyMOBButton = GlobalKey();
   final GlobalKey _keySettingsIcon = GlobalKey();
   final GlobalKey _keySearchIcon = GlobalKey();
+  final GlobalKey newCrewKey;
+  final GlobalKey advancedRefreshersKey;
 
   LandingScreen({
     super.key,
@@ -30,6 +32,8 @@ class LandingScreen extends StatelessWidget {
     required this.settingsKey,
     required this.searchKey,
     required this.titleKey,
+    required this.newCrewKey,
+    required this.advancedRefreshersKey,
   });
 
   @override
