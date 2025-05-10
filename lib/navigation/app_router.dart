@@ -57,6 +57,10 @@ final appRouter = GoRouter(
           child: MainScaffold(
             branchIndex: 0,
             harborKey: harborKey,
+            coursesKey: GlobalKey(debugLabel: 'coursesKey'),
+            partsKey: GlobalKey(debugLabel: 'PartsKey'),
+            toolsKey: GlobalKey(debugLabel: 'ToolsKey'),
+            drillsKey: GlobalKey(debugLabel: 'DrillsKey'),
             child: LandingScreen(
               showReminder: showReminder,
               harborKey: harborKey,
@@ -86,6 +90,13 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
+        // ⛵️ Provide fresh GlobalKeys for all BNB items
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -94,6 +105,11 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 0,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
             child: PathChapterScreen(pathName: pathName),
           ),
         );
@@ -111,18 +127,12 @@ final appRouter = GoRouter(
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
 
-        // // ✅ Fix: Fallback GlobalKeys
-        // final mobKey =
-        //     extras['mobKey'] as GlobalKey? ?? GlobalKey(debugLabel: 'MOBKey');
-        // final settingsKey =
-        //     extras['settingsKey'] as GlobalKey? ??
-        //     GlobalKey(debugLabel: 'SettingsKey');
-        // final searchKey =
-        //     extras['searchKey'] as GlobalKey? ??
-        //     GlobalKey(debugLabel: 'SearchKey');
-        // final titleKey =
-        //     extras['titleKey'] as GlobalKey? ??
-        //     GlobalKey(debugLabel: 'TitleKey');
+        // ⛵️ Provide fresh GlobalKeys for all BNB items
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -131,13 +141,14 @@ final appRouter = GoRouter(
           slideFrom: slideFrom,
           child: MainScaffold(
             branchIndex: 0,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
             child: PathItemScreen(
               pathName: pathName,
               chapterId: chapterId ?? '',
-              // mobKey: mobKey,
-              // settingsKey: settingsKey,
-              // searchKey: searchKey,
-              // titleKey: titleKey,
             ),
           ),
         );
@@ -156,14 +167,28 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
-        // logger.i('📘 Entering LessonModuleScreen');
+        // 🔑 Provide GlobalKeys for all BNB icons
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: ValueKey(state.pageKey.toString()),
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: MainScaffold(branchIndex: 1, child: LessonModuleScreen()),
+          child: MainScaffold(
+            branchIndex: 1,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
+            child: LessonModuleScreen(),
+          ),
         );
       },
     ),
@@ -173,7 +198,7 @@ final appRouter = GoRouter(
       path: '/lessons/items',
       name: 'lesson-items',
       pageBuilder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
+        final extras = state.extra as Map<String, dynamic>? ?? {};
         final module = extras['module'] as String?;
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
@@ -182,6 +207,13 @@ final appRouter = GoRouter(
             TransitionType.instant;
         final detailRoute =
             extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+        // 🔑 GlobalKeys for BNB
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
 
         if (module == null) {
           logger.e('❌ Missing module parameter for LessonItemScreen');
@@ -193,8 +225,12 @@ final appRouter = GoRouter(
             transitionType: transitionType,
             child: MainScaffold(
               branchIndex: 1,
-              child:
-                  const LessonModuleScreen(), // ✅ Refactored: no keys passed in
+              harborKey: harborKey,
+              coursesKey: coursesKey,
+              partsKey: partsKey,
+              toolsKey: toolsKey,
+              drillsKey: drillsKey,
+              child: const LessonModuleScreen(),
             ),
           );
         }
@@ -211,12 +247,18 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 1,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
             child: LessonItemScreen(module: module),
           ),
         );
       },
     ),
 
+    // Lesson Detail
     GoRoute(
       path: '/lessons/detail',
       pageBuilder: (context, state) {
@@ -229,12 +271,24 @@ final appRouter = GoRouter(
         final detailRoute = extras['detailRoute'] as DetailRoute;
         final transitionKey = extras['transitionKey'] as String;
 
+        // 🔑 GlobalKeys for BNB
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: ValueKey(transitionKey),
           child: MainScaffold(
             branchIndex: branchIndex,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
             child: LessonDetailScreen(
               renderItems: renderItems,
               currentIndex: currentIndex,
@@ -261,7 +315,12 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
-        // logger.i('🧩 Entering PartZoneScreen');
+        // 🔑 GlobalKeys for BNB
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -269,7 +328,15 @@ final appRouter = GoRouter(
           transitionKey: state.pageKey,
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: MainScaffold(branchIndex: 2, child: PartZoneScreen()),
+          child: MainScaffold(
+            branchIndex: 2,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
+            child: PartZoneScreen(),
+          ),
         );
       },
     ),
@@ -278,7 +345,7 @@ final appRouter = GoRouter(
       path: '/parts/items',
       name: 'part-items',
       pageBuilder: (context, state) {
-        final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
+        final extras = state.extra as Map<String, dynamic>? ?? {};
         final zone = extras['zone'] as String? ?? '';
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
@@ -292,6 +359,13 @@ final appRouter = GoRouter(
           '🧩 Navigating to PartItemScreen for zone: $zone | detailRoute: $detailRoute',
         );
 
+        // 🔑 GlobalKeys for BNB
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -300,6 +374,11 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 2,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
             child: PartItemScreen(zone: zone),
           ),
         );
@@ -318,12 +397,24 @@ final appRouter = GoRouter(
         final detailRoute = extras['detailRoute'] as DetailRoute;
         final transitionKey = extras['transitionKey'] as String;
 
+        // 🔑 GlobalKeys for BNB
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: ValueKey(transitionKey),
           child: MainScaffold(
             branchIndex: branchIndex,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
             child: PartDetailScreen(
               renderItems: renderItems,
               currentIndex: currentIndex,
@@ -350,7 +441,12 @@ final appRouter = GoRouter(
             extras['transitionType'] as TransitionType? ??
             TransitionType.instant;
 
-        // logger.d('[Router] Navigated to /tools');
+        // 🔑 GlobalKeys for BNB
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -358,7 +454,15 @@ final appRouter = GoRouter(
           transitionKey: state.pageKey,
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: MainScaffold(branchIndex: 3, child: ToolBagScreen()),
+          child: MainScaffold(
+            branchIndex: 3,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
+            child: ToolBagScreen(),
+          ),
         );
       },
     ),
@@ -381,6 +485,13 @@ final appRouter = GoRouter(
           '🛠️ Navigating to ToolItemScreen for toolbag: $toolbag | detailRoute: $detailRoute',
         );
 
+        // 🔑 GlobalKeys for BNB
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -389,6 +500,11 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 3,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
             child: ToolItemScreen(toolbag: toolbag),
           ),
         );
@@ -407,12 +523,24 @@ final appRouter = GoRouter(
         final detailRoute = extras['detailRoute'] as DetailRoute;
         final transitionKey = extras['transitionKey'] as String;
 
+        // 🔑 GlobalKeys for BNB
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
           transitionKey: ValueKey(transitionKey),
           child: MainScaffold(
             branchIndex: branchIndex,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
             child: ToolDetailScreen(
               renderItems: renderItems,
               currentIndex: currentIndex,
@@ -428,18 +556,22 @@ final appRouter = GoRouter(
     ),
 
     // 🃏 Flashcards
-    // 🃏 Flashcards
     GoRoute(
       path: '/flashcards',
       name: 'flashcards',
       pageBuilder: (context, state) {
-        // logger.i('📇 Entering FlashcardCategoryScreen');
-
         final extras = state.extra as Map<String, dynamic>? ?? {};
         final slideFrom =
             extras['slideFrom'] as SlideDirection? ?? SlideDirection.left;
         final transitionType =
             extras['transitionType'] as TransitionType? ?? TransitionType.slide;
+
+        // 🔑 GlobalKeys for BNB
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -447,9 +579,14 @@ final appRouter = GoRouter(
           transitionKey: state.pageKey,
           slideFrom: slideFrom,
           transitionType: transitionType,
-          child: const MainScaffold(
+          child: MainScaffold(
             branchIndex: 4,
-            child: FlashcardCategoryScreen(),
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
+            child: const FlashcardCategoryScreen(),
           ),
         );
       },
@@ -473,6 +610,13 @@ final appRouter = GoRouter(
           '📇 Navigating to FlashcardItemScreen for category: $category | detailRoute: $detailRoute',
         );
 
+        // 🔑 GlobalKeys for BNB
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
+
         return TransitionManager.buildCustomTransition(
           context: context,
           state: state,
@@ -481,7 +625,19 @@ final appRouter = GoRouter(
           transitionType: transitionType,
           child: MainScaffold(
             branchIndex: 4,
-            child: FlashcardItemScreen(category: category),
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
+            child: FlashcardItemScreen(
+              category: category,
+              harborKey: harborKey,
+              coursesKey: coursesKey,
+              partsKey: partsKey,
+              toolsKey: toolsKey,
+              drillsKey: drillsKey,
+            ),
           ),
         );
       },
@@ -501,7 +657,12 @@ final appRouter = GoRouter(
         final detailRoute = extras['detailRoute'] as DetailRoute;
         final transitionKey = extras['transitionKey'] as String;
 
-        // logger.i('🃏 Entering FlashcardDetailScreen with extra: $extras');
+        // 🔑 GlobalKeys for BNB
+        final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+        final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+        final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
 
         return TransitionManager.buildCustomTransition(
           context: context,
@@ -509,6 +670,11 @@ final appRouter = GoRouter(
           transitionKey: ValueKey(transitionKey),
           child: MainScaffold(
             branchIndex: branchIndex,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
             child: FlashcardDetailScreen(
               key: ValueKey(currentIndex),
               renderItems: renderItems,

@@ -16,8 +16,21 @@ import 'package:go_router/go_router.dart';
 
 class FlashcardItemScreen extends StatelessWidget {
   final String category;
+  final GlobalKey harborKey;
+  final GlobalKey coursesKey;
+  final GlobalKey partsKey;
+  final GlobalKey toolsKey;
+  final GlobalKey drillsKey;
 
-  const FlashcardItemScreen({super.key, required this.category});
+  const FlashcardItemScreen({
+    super.key,
+    required this.category,
+    required this.harborKey,
+    required this.coursesKey,
+    required this.partsKey,
+    required this.toolsKey,
+    required this.drillsKey,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +72,11 @@ class FlashcardItemScreen extends StatelessWidget {
     if (flashcards.isEmpty) {
       return MainScaffold(
         branchIndex: 4,
+        harborKey: harborKey,
+        coursesKey: coursesKey,
+        partsKey: partsKey,
+        toolsKey: toolsKey,
+        drillsKey: drillsKey,
         child: Column(
           children: [
             appBar,
@@ -74,6 +92,11 @@ class FlashcardItemScreen extends StatelessWidget {
 
     return MainScaffold(
       branchIndex: 4,
+      harborKey: harborKey,
+      coursesKey: coursesKey,
+      partsKey: partsKey,
+      toolsKey: toolsKey,
+      drillsKey: drillsKey,
       child: Column(
         children: [
           appBar,

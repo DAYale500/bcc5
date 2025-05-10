@@ -342,15 +342,32 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder:
-                          (_) => MainScaffold(
-                            branchIndex: 3,
-                            child: ToolItemScreen(
-                              toolbag: 'procedures',
-                              cameFromMob:
-                                  true, // 🌟 ADDED — signals ToolItemScreen to return to MOB
-                            ),
+                      builder: (_) {
+                        final harborKey = GlobalKey(
+                          debugLabel: 'HarborIconKey',
+                        );
+                        final coursesKey = GlobalKey(
+                          debugLabel: 'LessonsIconKey',
+                        );
+                        final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+                        final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+                        final drillsKey = GlobalKey(
+                          debugLabel: 'DrillsIconKey',
+                        );
+
+                        return MainScaffold(
+                          branchIndex: 3,
+                          harborKey: harborKey,
+                          coursesKey: coursesKey,
+                          partsKey: partsKey,
+                          toolsKey: toolsKey,
+                          drillsKey: drillsKey,
+                          child: ToolItemScreen(
+                            toolbag: 'procedures',
+                            cameFromMob: true,
                           ),
+                        );
+                      },
                     ),
                   );
                 });
