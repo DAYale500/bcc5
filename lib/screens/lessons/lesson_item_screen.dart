@@ -84,39 +84,35 @@ class LessonItemScreen extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(12),
-            child: GridView.builder(
+            child: ListView.builder(
               itemCount: lessons.length,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 4,
-                childAspectRatio: 2.8,
-              ),
               itemBuilder: (context, index) {
                 final lesson = lessons[index];
-                return ItemButton(
-                  label: lesson.title,
-                  onTap: () {
-                    logger.i('📘 Tapped lesson: ${lesson.id}');
-                    TransitionManager.goToDetailScreen(
-                      context: context,
-                      screenType: renderItems[index].type,
-                      renderItems: renderItems,
-                      currentIndex: index,
-                      branchIndex: 1,
-                      backDestination: '/lessons/items',
-                      backExtra: {
-                        'module': module,
-                        'branchIndex': 1,
-                        'detailRoute': DetailRoute.branch,
-                      },
-                      detailRoute: DetailRoute.branch,
-                      direction: SlideDirection.right,
-                      transitionType: TransitionType.slide,
-                      replace: false,
-                    );
-                  },
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: ItemButton(
+                    label: lesson.title,
+                    onTap: () {
+                      logger.i('📘 Tapped lesson: ${lesson.id}');
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: renderItems[index].type,
+                        renderItems: renderItems,
+                        currentIndex: index,
+                        branchIndex: 1,
+                        backDestination: '/lessons/items',
+                        backExtra: {
+                          'module': module,
+                          'branchIndex': 1,
+                          'detailRoute': DetailRoute.branch,
+                        },
+                        detailRoute: DetailRoute.branch,
+                        direction: SlideDirection.right,
+                        transitionType: TransitionType.slide,
+                        replace: false,
+                      );
+                    },
+                  ),
                 );
               },
             ),

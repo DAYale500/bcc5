@@ -192,4 +192,145 @@ Restarted application in 525ms.
 │ #0   _LessonModuleScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_module_screen.dart:76:28)<…>
 │ 💡 📘 Tapped Module: safety<…>
 │ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:245:16)<…>
-│ 💡 📘 Navigating to LessonItemScreen for mo
+│ 💡 📘 Navigating to LessonItemScreen for module: safety | detailRoute: DetailRoute.branch<…>
+
+Performing hot restart...                                       
+Restarted application in 367ms.
+│ #0   main (package:bcc5/main.dart:15:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   _LessonModuleScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_module_screen.dart:76:28)<…>
+│ 💡 📘 Tapped Module: safety<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:245:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: safety | detailRoute: DetailRoute.branch<…>
+│ #0   LessonItemScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_item_screen.dart:101:28)<…>
+│ 💡 📘 Tapped lesson: lesson_safe_1.10<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:245:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: safety | detailRoute: DetailRoute.branch<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: David Understanding Motion Sickness and Prevention<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 2<…>
+│ #0   LandingScreenState.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:163:30)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:37:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:56:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 1 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+
+Performing hot restart...                                       
+s.
+│ #0   main (package:bcc5/main.dart:15:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:163:30)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:37:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:56:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 1 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _LessonModuleScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_module_screen.dart:76:28)<…>
+│ 💡 📘 Tapped Module: emergencies<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:245:16)<…>
+│ 💡 📘 Navigating to LessonItemScreen for module: emergencies | detailRoute: DetailRoute.branch<…>
+│ #0   LandingScreenState.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:163:30)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:37:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_3.00"<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:55:12)<…>
+│ 💡 🔍 Scanning lessons for flashcard id: flashcard_lesson_emer_1.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:60:18)<…>
+│ 💡 ✅ Match found in lesson for flashcard_lesson_emer_1.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:55:12)<…>
+│ 💡 🔍 Scanning lessons for flashcard id: flashcard_lesson_emer_2.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:60:18)<…>
+│ 💡 ✅ Match found in lesson for flashcard_lesson_emer_2.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:55:12)<…>
+│ 💡 🔍 Scanning lessons for flashcard id: flashcard_lesson_emer_3.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:60:18)<…>
+│ 💡 ✅ Match found in lesson for flashcard_lesson_emer_3.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:55:12)<…>
+│ 💡 🔍 Scanning lessons for flashcard id: flashcard_lesson_knot_1.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:60:18)<…>
+│ 💡 ✅ Match found in lesson for flashcard_lesson_knot_1.00<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:56:12)<…>
+│ 💡 🟩 Found chapter "3: Get Settled Onboard" with 16 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:72:20)<…>
+│ 💡 🔙 Returning to PathChapterScreen<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:37:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:55:12)<…>
+│ 💡 🔍 Scanning lessons for flashcard id: flashcard_lesson_dock_1.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:60:18)<…>
+│ 💡 ✅ Match found in lesson for flashcard_lesson_dock_1.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:55:12)<…>
+│ 💡 🔍 Scanning lessons for flashcard id: flashcard_lesson_dock_2.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:60:18)<…>
+│ 💡 ✅ Match found in lesson for flashcard_lesson_dock_2.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:55:12)<…>
+│ 💡 🔍 Scanning lessons for flashcard id: flashcard_lesson_dock_3.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:60:18)<…>
+│ 💡 ✅ Match found in lesson for flashcard_lesson_dock_3.00<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:56:12)<…>
+│ 💡 🟩 Found chapter "2: Arrive at the Marina" with 11 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+
+Performing hot restart...                                       
+Restarted application in 333ms.
+│ #0   main (package:bcc5/main.dart:15:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:163:30)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:37:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:55:12)<…>
+│ 💡 🔍 Scanning lessons for flashcard id: flashcard_lesson_dock_1.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:60:18)<…>
+│ 💡 ✅ Match found in lesson for flashcard_lesson_dock_1.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:55:12)<…>
+│ 💡 🔍 Scanning lessons for flashcard id: flashcard_lesson_dock_2.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:60:18)<…>
+│ 💡 ✅ Match found in lesson for flashcard_lesson_dock_2.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:55:12)<…>
+│ 💡 🔍 Scanning lessons for flashcard id: flashcard_lesson_dock_3.00<…>
+│ #0   LessonRepositoryIndex.getFlashcardById (package:bcc5/data/repositories/lessons/lesson_repository_index.dart:60:18)<…>
+│ 💡 ✅ Match found in lesson for flashcard_lesson_dock_3.00<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:56:12)<…>
+│ 💡 🟩 Found chapter "2: Arrive at the Marina" with 11 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _LessonModuleScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/lessons/lesson_module_screen.dart:76:28)<…>
+│ 💡 📘 Tapped Module: emergencies<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dar

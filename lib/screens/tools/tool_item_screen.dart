@@ -129,38 +129,35 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: GridView.builder(
+            child: ListView.builder(
               itemCount: tools.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 4,
-                childAspectRatio: 2.8,
-              ),
               itemBuilder: (context, index) {
                 final tool = tools[index];
-                return ItemButton(
-                  label: tool.title,
-                  onTap: () {
-                    logger.i('🛠️ Tapped tool: ${tool.id}');
-                    TransitionManager.goToDetailScreen(
-                      context: context,
-                      screenType: RenderItemType.tool,
-                      renderItems: renderItems,
-                      currentIndex: index,
-                      branchIndex: 3,
-                      backDestination: '/tools/items',
-                      backExtra: {
-                        'toolbag': widget.toolbag,
-                        'cameFromMob': widget.cameFromMob,
-                        'fromNext': true,
-                      },
-                      detailRoute: DetailRoute.branch,
-                      direction: SlideDirection.right,
-                      transitionType: TransitionType.slide,
-                      replace: false,
-                    );
-                  },
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: ItemButton(
+                    label: tool.title,
+                    onTap: () {
+                      logger.i('🛠️ Tapped tool: ${tool.id}');
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: RenderItemType.tool,
+                        renderItems: renderItems,
+                        currentIndex: index,
+                        branchIndex: 3,
+                        backDestination: '/tools/items',
+                        backExtra: {
+                          'toolbag': widget.toolbag,
+                          'cameFromMob': widget.cameFromMob,
+                          'fromNext': true,
+                        },
+                        detailRoute: DetailRoute.branch,
+                        direction: SlideDirection.right,
+                        transitionType: TransitionType.slide,
+                        replace: false,
+                      );
+                    },
+                  ),
                 );
               },
             ),

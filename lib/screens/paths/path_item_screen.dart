@@ -99,43 +99,37 @@ class _PathItemScreenState extends State<PathItemScreen> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: GridView.builder(
+            child: ListView.builder(
               itemCount: renderItems.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
-                childAspectRatio: 2.8,
-              ),
               itemBuilder: (context, index) {
                 final renderItem = renderItems[index];
-                // final id = renderItem.id;
                 final title = renderItem.title;
 
-                // logger.i('📦 Rendering button: $id → "$title" (index $index)');
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: ItemButton(
+                    label: title,
+                    onTap: () {
+                      logger.i('🟦 Tapped PathItem → $title');
 
-                return ItemButton(
-                  label: title,
-                  onTap: () {
-                    logger.i('🟦 Tapped PathItem → $title');
-
-                    TransitionManager.goToDetailScreen(
-                      context: context,
-                      screenType: renderItem.type,
-                      renderItems: renderItems,
-                      currentIndex: index,
-                      branchIndex: 0,
-                      backDestination:
-                          '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                      backExtra: {
-                        'pathName': widget.pathName,
-                        'chapterId': widget.chapterId,
-                      },
-                      detailRoute: DetailRoute.path,
-                      direction: SlideDirection.right,
-                      transitionType: TransitionType.slide,
-                    );
-                  },
+                      TransitionManager.goToDetailScreen(
+                        context: context,
+                        screenType: renderItem.type,
+                        renderItems: renderItems,
+                        currentIndex: index,
+                        branchIndex: 0,
+                        backDestination:
+                            '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                        backExtra: {
+                          'pathName': widget.pathName,
+                          'chapterId': widget.chapterId,
+                        },
+                        detailRoute: DetailRoute.path,
+                        direction: SlideDirection.right,
+                        transitionType: TransitionType.slide,
+                      );
+                    },
+                  ),
                 );
               },
             ),
