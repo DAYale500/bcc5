@@ -35,8 +35,8 @@ lib
 │       │   └── path_repository_index.dart
 │       └── tools
 │           ├── tool_checklists_repository.dart
-│           ├── tool_colregs_repository.dart
 │           ├── tool_colregs_repository_expanded.json
+│           ├── tool_colregs_repository.dart
 │           ├── tool_ditchbag_repository.dart.bak
 │           ├── tool_grabbag_repository.dart.bak
 │           ├── tool_procedures_repository.dart
@@ -92,6 +92,7 @@ lib
 └── widgets
     ├── content_block_renderer.dart
     ├── custom_app_bar_widget.dart
+    ├── custom_bottom_nav_bar.dart
     ├── disabled_item_button.dart
     ├── end_of_group_modal.dart
     ├── flip_card_widget.dart
@@ -104,6 +105,9 @@ lib
     │   └── last_group_button.dart
     ├── navigation_buttons.dart
     ├── search_modal.dart
-    └── settings_modal.dart
+    ├── settings_modal.dart
+    └── tour
+        ├── landing_screen_tour.dart
+        └── tour_descriptions.dart
 
-22 directories, 85 files
+23 directories, 88 files

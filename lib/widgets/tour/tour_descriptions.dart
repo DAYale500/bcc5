@@ -13,8 +13,9 @@ class TourDescriptions {
   static const advanced =
       'Returning sailors can find curated lesson sequences to knock the rust off .';
   static const bnbHarbor =
-      'Tap here to return to the main harbor screen (where you are now).';
-  static const bnbCourses = 'Access structured sailing lessons directly.';
+      'Tap here to return to the main harbor screen (where you are now, see how it\'s red?).';
+  static const bnbCourses =
+      'Access structured sailing lessons directly. (It\'s grey since you\'re not here.)';
   static const bnbParts =
       'Explore parts of the boat based on where the part is located.';
   static const bnbTools = 'Access helpful guides, calculators, and checklists.';

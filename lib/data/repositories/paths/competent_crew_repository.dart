@@ -6,12 +6,8 @@ class CompetentCrewRepository {
   static final List<LearningPathChapter> _chapters = [
     LearningPathChapter(
       id: 'path_competentCrew_1.00',
-      title: '1: Prepare in Advance',
-      items: [
-        PathItem(pathItemId: 'part_deck_2.00'),
-        PathItem(pathItemId: 'lesson_dock_1.00'),
-        PathItem(pathItemId: 'lesson_dock_3.00'),
-      ],
+      title: 'Before You Board',
+      items: [PathItem(pathItemId: 'lesson_safe_1.10')],
     ),
     LearningPathChapter(
       id: 'path_competentCrew_2.00',

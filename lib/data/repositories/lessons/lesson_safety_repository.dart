@@ -36,6 +36,50 @@ class SafetyLessonRepository {
       ],
     ),
     Lesson(
+      id: "lesson_safe_1.10",
+      title: "Understanding Motion Sickness and Prevention",
+      content: [
+        ContentBlock.text(
+          "Learn the causes of motion sickness, how it affects your body while sailing, and practical steps to prevent and manage symptoms.",
+        ),
+      ],
+      keywords: ["motion sickness", "nausea", "prevention", "sea legs"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_safe_1.01",
+          title: "FC: Motion Sickness and Prevention",
+          sideA: [
+            ContentBlock.text("What causes motion sickness while sailing?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "A mismatch between what your eyes see and what your inner ear senses, often triggered by boat motion.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+        Flashcard(
+          id: "flashcard_lesson_safe_1.01_b",
+          title: "FC: Motion Sickness Prevention",
+          sideA: [
+            ContentBlock.text(
+              "How can you prevent or reduce motion sickness while sailing?",
+            ),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "Stay above deck with eyes on the horizon, avoid greasy foods, stay hydrated, and consider remedies like ginger, wristbands, or medication.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+
+    Lesson(
       id: "lesson_safe_2.00",
       title: "Safety Briefing",
       content: [

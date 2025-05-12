@@ -1670,6 +1670,13 @@ class PathRepositoryIndex {
     }
   }
 
+  static String? getChapterTitleForPath(String pathName, String chapterId) {
+    final chapters = getChaptersForPath(pathName);
+    final matching = chapters.where((c) => c.id == chapterId);
+    if (matching.isEmpty) return null;
+    return matching.first.title;
+  }
+
   static List<String> getPathNames() => _pathMap.keys.toList();
 
   static List<PathItem> getAllPathItems(String pathName) =>
