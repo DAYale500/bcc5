@@ -19,7 +19,7 @@ class KnotsLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_knot_1.00",
-          title: "FC: Introductory Knots",
+          title: "Introductory Knots",
           sideA: [ContentBlock.text("What is a figure-eight knot used for?")],
           sideB: [
             ContentBlock.text(
@@ -44,7 +44,7 @@ class KnotsLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_knot_2.00",
-          title: "FC: Essential Knots",
+          title: "Essential Knots",
           sideA: [
             ContentBlock.text(
               "Which knot is best for creating a secure loop that won’t slip?",
@@ -69,7 +69,7 @@ class KnotsLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_knot_3.00",
-          title: "FC: Knots for Sailing",
+          title: "Knots for Sailing",
           sideA: [
             ContentBlock.text("Why is the cleat hitch important in sailing?"),
           ],
@@ -96,7 +96,7 @@ class KnotsLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_knot_4.00",
-          title: "FC: Coiling and Storing Lines",
+          title: "Coiling and Storing Lines",
           sideA: [
             ContentBlock.text(
               "What is the benefit of properly coiling a line?",
@@ -123,7 +123,7 @@ class KnotsLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_knot_5.00",
-          title: "FC: Advanced Knots",
+          title: "Advanced Knots",
           sideA: [ContentBlock.text("What is a sheet bend used for?")],
           sideB: [ContentBlock.text("Joining two ropes of different sizes.")],
           isPaid: false,

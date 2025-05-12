@@ -27,7 +27,7 @@ class EmergenciesLessonRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_lesson_emer_1.00',
-          title: 'FC: Man Overboard Basics',
+          title: 'Man Overboard Basics',
           sideA: [
             ContentBlock.text(
               'What is the first action to take in a man overboard situation?',
@@ -64,7 +64,7 @@ class EmergenciesLessonRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_lesson_emer_2.00',
-          title: 'FC: Man Overboard Procedure',
+          title: 'Man Overboard Procedure',
           sideA: [
             ContentBlock.text(
               'What should the crew do immediately in a man overboard situation?',
@@ -101,7 +101,7 @@ class EmergenciesLessonRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_lesson_emer_3.00',
-          title: 'FC: Basic First Aid',
+          title: 'Basic First Aid',
           sideA: [
             ContentBlock.text('What are common minor injuries on a sailboat?'),
           ],
@@ -134,7 +134,7 @@ class EmergenciesLessonRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_lesson_emer_4.00',
-          title: 'FC: Safety Equipment',
+          title: 'Safety Equipment',
           sideA: [
             ContentBlock.text(
               'What are essential pieces of safety equipment on a sailboat?',
@@ -171,7 +171,7 @@ class EmergenciesLessonRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_lesson_emer_5.00',
-          title: 'FC: Advanced Safety',
+          title: 'Advanced Safety',
           sideA: [
             ContentBlock.text(
               'What are advanced safety measures every sailor should know?',
@@ -208,7 +208,7 @@ class EmergenciesLessonRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_lesson_emer_6.00',
-          title: 'FC: Advanced Emergency Procedures',
+          title: 'Advanced Emergency Procedures',
           sideA: [
             ContentBlock.text(
               'What are the steps to follow during a boat emergency?',

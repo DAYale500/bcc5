@@ -20,7 +20,7 @@ class SeamanshipLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_seam_1.00",
-          title: "FC: Raising the Sails",
+          title: "Raising the Sails",
           sideA: [
             ContentBlock.text("What is the primary function of halyards?"),
           ],
@@ -46,7 +46,7 @@ class SeamanshipLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_seam_2.00",
-          title: "FC: Sailing Along - Trimming Sails",
+          title: "Sailing Along - Trimming Sails",
           sideA: [ContentBlock.text("What does proper sail trimming achieve?")],
           sideB: [
             ContentBlock.text(
@@ -72,7 +72,7 @@ class SeamanshipLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_seam_3.00",
-          title: "FC: Understanding Wind and Sail Interaction",
+          title: "Understanding Wind and Sail Interaction",
           sideA: [
             ContentBlock.text(
               "How does wind generate propulsion on a sailboat?",
@@ -102,7 +102,7 @@ class SeamanshipLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_seam_4.00",
-          title: "FC: Heaving-To: How to Stop a Sailboat",
+          title: "Heaving-To: How to Stop a Sailboat",
           sideA: [ContentBlock.text("What is heaving-to?")],
           sideB: [
             ContentBlock.text(

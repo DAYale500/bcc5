@@ -19,7 +19,7 @@ class NavigationLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_navi_1.00",
-          title: "FC: Being a Good Lookout",
+          title: "Being a Good Lookout",
           sideA: [
             ContentBlock.text("What is a key responsibility of a lookout?"),
           ],
@@ -46,7 +46,7 @@ class NavigationLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_navi_2.00",
-          title: "FC: Weather Awareness Basics",
+          title: "Weather Awareness Basics",
           sideA: [
             ContentBlock.text("Why is recognizing cloud patterns important?"),
           ],
@@ -73,7 +73,7 @@ class NavigationLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_navi_3.00",
-          title: "FC: Understanding Weather on the Water",
+          title: "Understanding Weather on the Water",
           sideA: [
             ContentBlock.text("What weather conditions can impact sailing?"),
           ],
@@ -100,7 +100,7 @@ class NavigationLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_navi_4.00",
-          title: "FC: Reading Wind Direction",
+          title: "Reading Wind Direction",
           sideA: [
             ContentBlock.text("Why is wind direction important in sailing?"),
           ],
@@ -127,7 +127,7 @@ class NavigationLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_navi_5.00",
-          title: "FC: Advanced Weather Forecasting",
+          title: "Advanced Weather Forecasting",
           sideA: [ContentBlock.text("What is a GRIB file used for?")],
           sideB: [
             ContentBlock.text(
@@ -152,7 +152,7 @@ class NavigationLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_navi_6.00",
-          title: "FC: Weather Awareness",
+          title: "Weather Awareness",
           sideA: [ContentBlock.text("What are signs of an approaching storm?")],
           sideB: [
             ContentBlock.text(

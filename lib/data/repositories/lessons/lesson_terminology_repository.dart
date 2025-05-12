@@ -15,7 +15,7 @@ class TerminologyLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_term_1.00",
-          title: "FC: Essential Terms",
+          title: "Essential Terms",
           sideA: [
             ContentBlock.text(
               "What are some essential sailing terms every crew member should know?",
@@ -44,7 +44,7 @@ class TerminologyLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_term_2.00",
-          title: "FC: Common Nautical Terms",
+          title: "Common Nautical Terms",
           sideA: [ContentBlock.text("What does 'port' and 'starboard' mean?")],
           sideB: [
             ContentBlock.text(
@@ -69,7 +69,7 @@ class TerminologyLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_term_3.00",
-          title: "FC: Basic Parts of the Boat",
+          title: "Basic Parts of the Boat",
           sideA: [ContentBlock.text("What are the key parts of a sailboat?")],
           sideB: [
             ContentBlock.text(
@@ -94,7 +94,7 @@ class TerminologyLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_term_4.00",
-          title: "FC: Types of Sails",
+          title: "Types of Sails",
           sideA: [ContentBlock.text("What are the common types of sails?")],
           sideB: [
             ContentBlock.text(
@@ -119,7 +119,7 @@ class TerminologyLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_term_5.00",
-          title: "FC: Points of Sail",
+          title: "Points of Sail",
           sideA: [ContentBlock.text("What are the main points of sail?")],
           sideB: [
             ContentBlock.text(

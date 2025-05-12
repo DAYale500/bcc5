@@ -21,7 +21,7 @@ class DeckPartRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_part_deck_1.00',
-          title: 'FC: Cleat Use',
+          title: 'Cleat Use',
           sideA: [ContentBlock.text('What is the purpose of a deck cleat?')],
           sideB: [
             ContentBlock.text('To secure lines like dock lines or fenders.'),
@@ -46,7 +46,7 @@ class DeckPartRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_part_deck_2.00',
-          title: 'FC: Winch Function',
+          title: 'Winch Function',
           sideA: [
             ContentBlock.text('Why are winches important on a sailboat?'),
           ],
@@ -73,7 +73,7 @@ class DeckPartRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_part_deck_3.00',
-          title: 'FC: Lifeline Role',
+          title: 'Lifeline Role',
           sideA: [ContentBlock.text('What is the function of lifelines?')],
           sideB: [ContentBlock.text('To provide a safety barrier on deck.')],
           isPaid: false,
@@ -98,7 +98,7 @@ class DeckPartRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_part_deck_4.00',
-          title: 'FC: Stanchion Function',
+          title: 'Stanchion Function',
           sideA: [ContentBlock.text('What are stanchions used for?')],
           sideB: [ContentBlock.text('To support and anchor lifelines.')],
           isPaid: false,
@@ -123,7 +123,7 @@ class DeckPartRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_part_deck_5.00',
-          title: 'FC: Hatch Use',
+          title: 'Hatch Use',
           sideA: [ContentBlock.text('Why are deck hatches important?')],
           sideB: [ContentBlock.text('They provide light, air, and access.')],
           isPaid: false,

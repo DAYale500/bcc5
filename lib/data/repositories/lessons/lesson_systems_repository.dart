@@ -19,7 +19,7 @@ class SystemsLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_syst_1.00",
-          title: "FC: Get Oriented with the Boat",
+          title: "Get Oriented with the Boat",
           sideA: [ContentBlock.text("What are the key areas of a sailboat?")],
           sideB: [
             ContentBlock.text(
@@ -42,7 +42,7 @@ class SystemsLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_syst_2.00",
-          title: "FC: Essential Boat Equipment",
+          title: "Essential Boat Equipment",
           sideA: [
             ContentBlock.text("What are examples of essential boat equipment?"),
           ],
@@ -69,7 +69,7 @@ class SystemsLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_syst_3.00",
-          title: "FC: Winches",
+          title: "Winches",
           sideA: [ContentBlock.text("What is a winch used for on a boat?")],
           sideB: [
             ContentBlock.text(
@@ -94,7 +94,7 @@ class SystemsLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_syst_4.00",
-          title: "FC: Use of the Head (Toilet)",
+          title: "Use of the Head (Toilet)",
           sideA: [
             ContentBlock.text("How do you properly use a marine toilet?"),
           ],
@@ -121,7 +121,7 @@ class SystemsLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_syst_5.00",
-          title: "FC: Introduction to Boat Equipment",
+          title: "Introduction to Boat Equipment",
           sideA: [
             ContentBlock.text("Why is it important to know boat equipment?"),
           ],
@@ -148,7 +148,7 @@ class SystemsLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_syst_6.00",
-          title: "FC: Parts of the Boat",
+          title: "Parts of the Boat",
           sideA: [
             ContentBlock.text("What are the key directional terms on a boat?"),
           ],

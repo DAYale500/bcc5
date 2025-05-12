@@ -19,7 +19,7 @@ class HullPartRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_part_hull_1.00',
-          title: 'FC: Keel Function',
+          title: 'Keel Function',
           sideA: [ContentBlock.text('What does the keel do?')],
           sideB: [ContentBlock.text('It adds stability and reduces leeway.')],
           isPaid: false,
@@ -40,7 +40,7 @@ class HullPartRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_part_hull_2.00',
-          title: 'FC: Rudder Role',
+          title: 'Rudder Role',
           sideA: [ContentBlock.text('What is the rudder for?')],
           sideB: [ContentBlock.text('To steer the boat.')],
           isPaid: false,
@@ -61,7 +61,7 @@ class HullPartRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_part_hull_3.00',
-          title: 'FC: Hull Skin',
+          title: 'Hull Skin',
           sideA: [ContentBlock.text('What is the hull skin?')],
           sideB: [ContentBlock.text('The watertight shell of the boat.')],
           isPaid: false,
@@ -86,7 +86,7 @@ class HullPartRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_part_hull_4.00',
-          title: 'FC: Through-Hulls',
+          title: 'Through-Hulls',
           sideA: [ContentBlock.text('What are through-hulls used for?')],
           sideB: [ContentBlock.text('For plumbing in and out of the hull.')],
           isPaid: false,
@@ -111,7 +111,7 @@ class HullPartRepository {
       flashcards: [
         Flashcard(
           id: 'flashcard_part_hull_5.00',
-          title: 'FC: Bilge Purpose',
+          title: 'Bilge Purpose',
           sideA: [ContentBlock.text('What is the bilge?')],
           sideB: [
             ContentBlock.text(

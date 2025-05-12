@@ -19,7 +19,7 @@ class TeamworkLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_team_1.00",
-          title: "FC: Boarding Etiquette",
+          title: "Boarding Etiquette",
           sideA: [
             ContentBlock.text("What is the proper way to board a sailboat?"),
           ],
@@ -44,7 +44,7 @@ class TeamworkLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_team_2.00",
-          title: "FC: Basic Boat Etiquette",
+          title: "Basic Boat Etiquette",
           sideA: [ContentBlock.text("Why is boat etiquette important?")],
           sideB: [
             ContentBlock.text(
@@ -65,7 +65,7 @@ class TeamworkLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_team_3.00",
-          title: "FC: Basic Crew Responsibilities",
+          title: "Basic Crew Responsibilities",
           sideA: [
             ContentBlock.text(
               "What are the primary responsibilities of a crew member?",
@@ -94,7 +94,7 @@ class TeamworkLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_team_4.00",
-          title: "FC: Crew Roles and Communication",
+          title: "Crew Roles and Communication",
           sideA: [
             ContentBlock.text(
               "Why is communication essential among crew members?",
@@ -121,7 +121,7 @@ class TeamworkLessonRepository {
       flashcards: [
         Flashcard(
           id: "flashcard_lesson_team_5.00",
-          title: "FC: Assist in Docking and Anchoring",
+          title: "Assist in Docking and Anchoring",
           sideA: [
             ContentBlock.text(
               "What is a crew member's role in docking and anchoring?",
