@@ -8,7 +8,7 @@ class TerminologyLessonRepository {
   static final lessons = <Lesson>[
     Lesson(
       id: "lesson_term_1.00",
-      title: "Free: Essential Terms",
+      title: "Essential Terms",
       content: [ContentBlock.text("Introduction to essential sailing terms.")],
       keywords: ["essential terms", "sailing basics", "orientation"],
       isPaid: false,
@@ -33,7 +33,7 @@ class TerminologyLessonRepository {
     ),
     Lesson(
       id: "lesson_term_2.00",
-      title: "Free: Common Nautical Terms",
+      title: "Common Nautical Terms",
       content: [
         ContentBlock.text(
           "Learn basic terms like “port” (left), “starboard” (right).",

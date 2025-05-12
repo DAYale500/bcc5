@@ -35,7 +35,7 @@ class TeamworkLessonRepository {
     ),
     Lesson(
       id: "lesson_team_2.00",
-      title: "Free: Welcome Aboard: Expectations and Basic Boat Etiquette",
+      title: "Welcome Aboard: Expectations and Basic Boat Etiquette",
       content: [
         ContentBlock.text("Brief introduction to crew roles and expectations."),
       ],
@@ -58,7 +58,7 @@ class TeamworkLessonRepository {
     ),
     Lesson(
       id: "lesson_team_3.00",
-      title: "Free: Basic Crew Responsibilities",
+      title: "Basic Crew Responsibilities",
       content: [ContentBlock.text("Understand the roles of each crew member.")],
       keywords: ["crew", "roles", "responsibilities"],
       isPaid: false,

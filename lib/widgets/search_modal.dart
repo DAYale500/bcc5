@@ -1,5 +1,6 @@
 // 📄 lib/widgets/search_modal.dart
 
+import 'package:bcc5/navigation/detail_route.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/data/models/render_item.dart';
@@ -11,10 +12,16 @@ import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 
 class SearchResult {
   final String id;
-  final String title;
+  final String keyword;
+  final String displayTitle;
   final RenderItemType type;
 
-  SearchResult({required this.id, required this.title, required this.type});
+  SearchResult({
+    required this.id,
+    required this.keyword,
+    required this.displayTitle,
+    required this.type,
+  });
 }
 
 class SearchModal extends StatefulWidget {
@@ -44,7 +51,8 @@ class _SearchModalState extends State<SearchModal> {
         results.add(
           SearchResult(
             id: lesson.id,
-            title: keyword,
+            keyword: keyword,
+            displayTitle: lesson.title,
             type: RenderItemType.lesson,
           ),
         );
@@ -54,31 +62,64 @@ class _SearchModalState extends State<SearchModal> {
     for (final part in PartRepositoryIndex.getAllParts()) {
       for (final keyword in part.keywords) {
         results.add(
-          SearchResult(id: part.id, title: keyword, type: RenderItemType.part),
+          SearchResult(
+            id: part.id,
+            keyword: keyword,
+            displayTitle: part.title,
+            type: RenderItemType.part,
+          ),
         );
       }
     }
 
-    // 🚧 Flashcard keywords not yet available in model
-    // Future-proof logic:
-    // for (final flashcard in FlashcardRepository.getAllFlashcards()) {
-    //   for (final keyword in flashcard.keywords ?? []) {
-    //     results.add(SearchResult(
-    //       id: flashcard.id,
-    //       title: keyword,
-    //       type: RenderItemType.flashcard,
-    //     ));
-    //   }
-    // }
-
     return results;
   }
+
+  // List<SearchResult> _buildSearchIndex() {
+  //   final results = <SearchResult>[];
+
+  //   for (final lesson in LessonRepositoryIndex.getAllLessons()) {
+  //     for (final keyword in lesson.keywords) {
+  //       results.add(
+  //         SearchResult(
+  //           id: lesson.id,
+  //           title: keyword,
+  //           type: RenderItemType.lesson,
+  //         ),
+  //       );
+  //     }
+  //   }
+
+  //   for (final part in PartRepositoryIndex.getAllParts()) {
+  //     for (final keyword in part.keywords) {
+  //       results.add(
+  //         SearchResult(id: part.id, title: keyword, type: RenderItemType.part),
+  //       );
+  //     }
+  //   }
+
+  //   // 🚧 Flashcard keywords not yet available in model
+  //   // Future-proof logic:
+  //   // for (final flashcard in FlashcardRepository.getAllFlashcards()) {
+  //   //   for (final keyword in flashcard.keywords ?? []) {
+  //   //     results.add(SearchResult(
+  //   //       id: flashcard.id,
+  //   //       title: keyword,
+  //   //       type: RenderItemType.flashcard,
+  //   //     ));
+  //   //   }
+  //   // }
+
+  //   return results;
+  // }
 
   void _onSearchChanged(String query) {
     setState(() {
       _filteredResults =
           _allResults
-              .where((r) => r.title.toLowerCase().contains(query.toLowerCase()))
+              .where(
+                (r) => r.keyword.toLowerCase().contains(query.toLowerCase()),
+              )
               .toList();
     });
   }
@@ -86,12 +127,21 @@ class _SearchModalState extends State<SearchModal> {
   void _navigateToResult(SearchResult result) {
     final renderItems = buildRenderItems(ids: [result.id]);
     final timestamp = DateTime.now().millisecondsSinceEpoch;
+
+    final detailRoute = switch (result.type) {
+      RenderItemType.lesson => DetailRoute.branch,
+      RenderItemType.part => DetailRoute.branch,
+      RenderItemType.tool => DetailRoute.branch,
+      RenderItemType.flashcard => DetailRoute.branch,
+    };
+
     final extra = {
       'renderItems': renderItems,
       'currentIndex': 0,
       'branchIndex': 0,
       'backDestination': '/',
       'transitionKey': 'search_${result.id}_$timestamp',
+      'detailRoute': detailRoute, // ✅ Now safe for all routes
     };
 
     switch (result.type) {
@@ -134,7 +184,7 @@ class _SearchModalState extends State<SearchModal> {
               itemBuilder: (context, index) {
                 final result = _filteredResults[index];
                 return ListTile(
-                  title: Text(result.title),
+                  title: Text(result.displayTitle),
                   subtitle: Text(result.type.name),
                   onTap: () => _navigateToResult(result),
                 );

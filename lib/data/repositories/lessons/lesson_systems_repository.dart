@@ -33,7 +33,7 @@ class SystemsLessonRepository {
     ),
     Lesson(
       id: "lesson_syst_2.00",
-      title: "Free: Essential Boat Equipment",
+      title: "Essential Boat Equipment",
       content: [
         ContentBlock.text("Understand the essential equipment on a boat."),
       ],
@@ -58,7 +58,7 @@ class SystemsLessonRepository {
     ),
     Lesson(
       id: "lesson_syst_3.00",
-      title: "Free: Winches",
+      title: "Winches",
       content: [
         ContentBlock.text(
           "Overview of a winch’s purpose and safe handling techniques.",
@@ -137,7 +137,7 @@ class SystemsLessonRepository {
     ),
     Lesson(
       id: "lesson_syst_6.00",
-      title: "Free: Parts of the Boat",
+      title: "Parts of the Boat",
       content: [
         ContentBlock.text(
           "Familiarize yourself with key parts of the boat: bow, stern, port, starboard, and boom.",
