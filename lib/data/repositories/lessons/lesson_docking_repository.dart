@@ -41,6 +41,41 @@ class DockingLessonRepository {
         ),
       ],
     ),
+
+    Lesson(
+      id: "lesson_docking_1.10",
+      title: "Departing the Dock – What to Expect",
+      content: [
+        ContentBlock.text(
+          "As the boat prepares to leave the dock, your role may vary depending on experience and instruction. Understand what to expect and how to remain helpful and safe.",
+        ),
+        ContentBlock.text(
+          "• Departure may involve engine use, sailing off a mooring, or pushing off from a slip.\n"
+          "• Crew may be assigned tasks like line handling, fender duty, or lookout.\n"
+          "• If you're not given a job, stay alert and out of the way.\n"
+          "• Once the boat is ‘clear of the dock,’ lines and fenders are stowed and we’re underway.",
+        ),
+      ],
+      keywords: ["departure", "dock", "crew roles", "underway"],
+      isPaid: false,
+      flashcards: [
+        Flashcard(
+          id: "flashcard_lesson_docking_1.10",
+          title: "FC: What to Expect During Departure",
+          sideA: [
+            ContentBlock.text("What are common ways a boat departs the dock?"),
+          ],
+          sideB: [
+            ContentBlock.text(
+              "By motoring, sailing off a mooring, or being pushed off from a slip.",
+            ),
+          ],
+          isPaid: false,
+          showAFirst: true,
+        ),
+      ],
+    ),
+
     Lesson(
       id: 'lesson_dock_2.00',
       title: 'L2: Anchoring - Setting Up',

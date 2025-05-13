@@ -1,4 +1,4 @@
-// 📄 lib/data/repositories/learning_paths/competent_crew_repository.dart
+// lib/data/repositories/learning_paths/competent_crew_repository.dart
 
 import 'package:bcc5/data/models/path_model.dart';
 
