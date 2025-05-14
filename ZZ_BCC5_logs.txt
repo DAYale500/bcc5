@@ -1,0 +1,59 @@
+Launching lib/main.dart on iPhone 13 in debug mode...
+Running Xcode build...                                          
+s
+Xcode build done.                                           12.2s
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
+│ #0   main (package:bcc5/main.dart:15:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+Syncing files to device iPhone 13...                            
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+Syncing files to device iPhone 13...                                47ms
+
+Flutter run key commands.
+r Hot reload. 🔥🔥🔥
+R Hot restart.
+h List all available interactive commands.
+d Detach (terminate "flutter run" but leave application running).
+c Clear the screen
+q Quit (terminate the application on the device).
+
+A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:58034/q26HZCtERRo=/
+The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:58034/q26HZCtERRo=/
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+Lost connection to device.

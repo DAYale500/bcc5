@@ -15,7 +15,7 @@ class Bcc5App extends StatelessWidget {
       title: 'BCC5 Sailing App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      routerConfig: appRouter, // You may need to inject showReminder into this
+      routerConfig: appRouter(showReminder),
     );
   }
 }

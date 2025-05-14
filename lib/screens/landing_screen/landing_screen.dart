@@ -1,7 +1,7 @@
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
-import 'package:bcc5/widgets/settings_modal.dart';
+import 'package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
@@ -65,6 +65,9 @@ class LandingScreenState extends State<LandingScreen> {
     super.initState();
     LandingScreen._state = this;
 
+    logger.i('🧭 LandingScreenState.initState() called');
+    logger.i('🧭 showReminder = ${widget.showReminder}');
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (widget.startTour || await LandingScreenTour.shouldStart()) {
         if (!mounted) return;
@@ -86,36 +89,51 @@ class LandingScreenState extends State<LandingScreen> {
     });
 
     if (widget.showReminder) {
+      logger.i('🧭 Scheduling 2s delayed dialog...');
+
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        showDialog(
-          context: context,
-          builder:
-              (_) => AlertDialog(
-                title: const Text('Update Vessel Info'),
-                content: const Text(
-                  'Review your vessel info to ensure emergency details are up to date.',
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text("Info is accurate"),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      final routeName =
-                          GoRouter.of(
-                            context,
-                          ).routeInformationProvider.value.uri.path;
-                      showSettingsModal(context, routeName);
-                    },
-                    child: const Text("Update Now"),
-                  ),
-                ],
-              ),
-        );
+        Future.delayed(const Duration(seconds: 2), () {
+          if (mounted) {
+            logger.i('🧭 Triggering showEmergencyReminderDialog()');
+            showEmergencyReminderDialog(context);
+          } else {
+            logger.w('⚠️ Not mounted when dialog should show');
+          }
+        });
       });
     }
+
+    // if (widget.showReminder) {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     showDialog(
+    //       context: context,
+    //       builder:
+    //           (_) => AlertDialog(
+    //             title: const Text('Update Vessel Info'),
+    //             content: const Text(
+    //               'Review your vessel info to ensure emergency details are up to date.',
+    //             ),
+    //             actions: [
+    //               TextButton(
+    //                 onPressed: () => Navigator.pop(context),
+    //                 child: const Text("Info is accurate"),
+    //               ),
+    //               TextButton(
+    //                 onPressed: () {
+    //                   Navigator.pop(context);
+    //                   final routeName =
+    //                       GoRouter.of(
+    //                         context,
+    //                       ).routeInformationProvider.value.uri.path;
+    //                   showSettingsModal(context, routeName);
+    //                 },
+    //                 child: const Text("Update Now"),
+    //               ),
+    //             ],
+    //           ),
+    //     );
+    //   });
+    // }
   }
 
   @override
