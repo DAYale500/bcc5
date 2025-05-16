@@ -6,6 +6,7 @@ import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/widgets/search_modal.dart'; // 🔍 Search Modal
 import 'package:bcc5/widgets/settings_modal.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart'; // ⚙️ Settings Modal
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
@@ -125,6 +126,12 @@ class CustomAppBarWidget extends StatelessWidget
               textAlign: TextAlign.center,
             ),
           ),
+          // 🧪 TEMP: Bug icon for debug panel
+          IconButton(
+            icon: const Icon(Icons.bug_report),
+            tooltip: 'Debug Panel',
+            onPressed: () => showDebugPanel(context),
+          ),
 
           // RIGHT: Life Ring (MOB)
           Builder(
@@ -146,4 +153,47 @@ class CustomAppBarWidget extends StatelessWidget
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+// added debug panel
+
+void showDebugPanel(BuildContext context) {
+  showDialog(
+    context: context,
+    builder:
+        (_) => AlertDialog(
+          title: const Text('🧪 Debug Panel'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Use this to reset local app state (SharedPreferences).',
+              ),
+              const SizedBox(height: 12),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.delete_forever),
+                label: const Text('Clear Shared Preferences'),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.clear();
+
+                  if (context.mounted) Navigator.of(context).pop();
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("✅ Preferences cleared")),
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        ),
+  );
 }

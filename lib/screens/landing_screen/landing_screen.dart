@@ -95,6 +95,9 @@ class LandingScreenState extends State<LandingScreen> {
         Future.delayed(const Duration(seconds: 2), () {
           if (mounted) {
             logger.i('🧭 Triggering showEmergencyReminderDialog()');
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text("Reminder is ON")));
             showEmergencyReminderDialog(context);
           } else {
             logger.w('⚠️ Not mounted when dialog should show');

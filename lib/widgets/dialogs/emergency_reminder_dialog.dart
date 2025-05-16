@@ -41,8 +41,29 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
       context: context,
       builder: (_) {
         logger.i('📦 AlertDialog builder executed');
+
         return AlertDialog(
-          title: const Text('Review Vessel & Safety Info'),
+          insetPadding: const EdgeInsets.all(24),
+          titlePadding: EdgeInsets.zero,
+          title: Stack(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text('Review Vessel & Safety Info'),
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: IconButton(
+                  icon: const Icon(Icons.close),
+                  tooltip: 'Close',
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,15 +80,15 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                SettingsManager.setEmergencyInfoReviewedNow(); // ✅ this is your actual method name
+              onPressed: () async {
+                await SettingsManager.setEmergencyInfoReviewedNow();
+                if (context.mounted) Navigator.of(context).pop();
               },
               child: const Text('Looks Good'),
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
                 final routeName =
                     GoRouter.of(
                       context,
@@ -82,3 +103,12 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
     );
   }
 }
+
+
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //     SettingsManager.setEmergencyInfoReviewedNow(); // ✅ this is your actual method name
+            //   },
+            //   child: const Text('Looks Good'),
+            // ),
