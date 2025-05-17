@@ -1,6 +1,8 @@
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/theme/app_theme.dart';
@@ -15,6 +17,7 @@ class EndOfGroupModal extends StatelessWidget {
   final DetailRoute detailRoute;
   final String? forwardButtonLabel;
   final VoidCallback? onNextGroup;
+  final List<RenderItem> curatedFlashcards;
 
   const EndOfGroupModal({
     super.key,
@@ -27,6 +30,7 @@ class EndOfGroupModal extends StatelessWidget {
     required this.detailRoute,
     this.forwardButtonLabel,
     this.onNextGroup,
+    required this.curatedFlashcards, // ✅ NEW
   });
 
   @override
@@ -57,6 +61,28 @@ class EndOfGroupModal extends StatelessWidget {
                 child: Text(forwardButtonLabel!),
               ),
             ),
+          const SizedBox(height: 4),
+
+          if (curatedFlashcards.isNotEmpty)
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // close modal
+                TransitionManager.goToDetailScreen(
+                  context: context,
+                  screenType: RenderItemType.flashcard,
+                  renderItems: curatedFlashcards,
+                  currentIndex: 0,
+                  branchIndex: branchIndex,
+                  backDestination: backRoute,
+                  backExtra: backExtra,
+                  detailRoute: detailRoute,
+                  direction: SlideDirection.right,
+                );
+              },
+              style: AppTheme.navigationButton, // ✅ match other buttons
+              child: const Text('Test Yourself with Flashcards'),
+            ),
+          const SizedBox(height: 12),
 
           ElevatedButton(
             // Back to List (BOTTOM button)

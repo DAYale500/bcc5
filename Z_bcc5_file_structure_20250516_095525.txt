@@ -93,6 +93,8 @@ lib
     ├── content_block_renderer.dart
     ├── custom_app_bar_widget.dart
     ├── custom_bottom_nav_bar.dart
+    ├── dialogs
+    │   └── emergency_reminder_dialog.dart
     ├── disabled_item_button.dart
     ├── end_of_group_modal.dart
     ├── flip_card_widget.dart
@@ -110,4 +112,4 @@ lib
         ├── landing_screen_tour.dart
         └── tour_descriptions.dart
 
-23 directories, 88 files
+24 directories, 89 files

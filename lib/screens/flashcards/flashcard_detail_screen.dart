@@ -164,7 +164,24 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final title = flashcard.title;
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
-    const categoryTitle = 'Drills';
+    // 📛 Customize breadcrumb title for flashcards from learning paths
+    final isFromPath = widget.detailRoute == DetailRoute.path;
+    final pathName = widget.backExtra?['pathName'] ?? '';
+    final chapterId = widget.backExtra?['chapterId'] ?? '';
+
+    final breadcrumbTitle =
+        isFromPath
+            ? '${pathName.toString().toTitleCase()} Review' // future-proof for paths like "Advanced Crew"
+            : 'Drills';
+
+    final chapterTitle =
+        isFromPath
+            ? PathRepositoryIndex.getChapterTitleForPath(
+                  pathName,
+                  chapterId,
+                )?.toTitleCase() ??
+                ''
+            : (widget.backExtra?['category'] as String?)?.toTitleCase() ?? '';
     // final categoryId = widget.backExtra?['category'] as String?;
 
     // logger.i(
@@ -189,7 +206,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
           Column(
             children: [
               CustomAppBarWidget(
-                title: categoryTitle,
+                title: breadcrumbTitle,
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
@@ -224,12 +241,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text:
-                              widget.detailRoute == DetailRoute.path
-                                  ? (widget.backExtra?['pathName'] as String?)
-                                          ?.toTitleCase() ??
-                                      ''
-                                  : 'Drills',
+                          text: breadcrumbTitle,
                           style: AppTheme.branchBreadcrumbStyle,
                         ),
                         const TextSpan(
@@ -237,16 +249,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                           style: TextStyle(color: Colors.black87),
                         ),
                         TextSpan(
-                          text:
-                              widget.detailRoute == DetailRoute.path
-                                  ? PathRepositoryIndex.getChapterTitleForPath(
-                                        widget.backExtra?['pathName'] ?? '',
-                                        widget.backExtra?['chapterId'] ?? '',
-                                      )?.toTitleCase() ??
-                                      ''
-                                  : (widget.backExtra?['category'] as String?)
-                                          ?.toTitleCase() ??
-                                      '',
+                          text: chapterTitle,
                           style: AppTheme.groupBreadcrumbStyle,
                         ),
                       ],

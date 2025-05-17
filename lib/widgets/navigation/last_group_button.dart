@@ -1,5 +1,7 @@
 // lib/widgets/navigation/last_group_button.dart
 
+import 'package:bcc5/data/repositories/flashcards/competent_crew_flashards.dart';
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -44,6 +46,9 @@ class _LastGroupButtonState extends State<LastGroupButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
+        final isPath = widget.detailRoute == DetailRoute.path;
+        final pathName = widget.backExtra?['pathName'] as String?;
+        final chapterId = widget.backExtra?['chapterId'] as String?;
         logger.i('⏭️ LastGroupButton tapped (${widget.label})');
 
         final renderItems = await widget.getNextRenderItems();
@@ -51,7 +56,28 @@ class _LastGroupButtonState extends State<LastGroupButton> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!mounted) return;
 
-          _showEndOfGroupModal(context, renderItems ?? []);
+          final curatedFlashcards = <RenderItem>[];
+          if (isPath && pathName != null && chapterId != null) {
+            final curatedIds = curatedChapterFlashcards[chapterId];
+            if (curatedIds != null && curatedIds.isNotEmpty) {
+              curatedFlashcards.addAll(
+                curatedIds
+                    .map(
+                      (id) => getAllFlashcards().firstWhere((f) => f.id == id),
+                    )
+                    .map(RenderItem.fromFlashcard),
+              );
+            }
+          }
+
+          _showEndOfGroupModal(
+            context,
+            renderItems ?? [],
+            curatedFlashcards,
+            isPath,
+            pathName,
+            chapterId,
+          );
         });
       },
       style: AppTheme.navigationButton,
@@ -62,11 +88,11 @@ class _LastGroupButtonState extends State<LastGroupButton> {
   void _showEndOfGroupModal(
     BuildContext context,
     List<RenderItem> renderItems,
+    List<RenderItem> curatedFlashcards,
+    bool isPath,
+    String? pathName,
+    String? chapterId,
   ) {
-    final isPath = widget.detailRoute == DetailRoute.path;
-    final pathName = widget.backExtra?['pathName'] as String?;
-    final chapterId = widget.backExtra?['chapterId'] as String?;
-
     final nextChapter =
         (isPath && pathName != null && chapterId != null)
             ? PathRepositoryIndex.getNextChapter(pathName, chapterId)
@@ -131,6 +157,7 @@ class _LastGroupButtonState extends State<LastGroupButton> {
             backExtra: backExtra,
             branchIndex: widget.branchIndex,
             detailRoute: widget.detailRoute,
+            curatedFlashcards: curatedFlashcards, // ✅ add this correctly here
           ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:bcc5/data/models/render_item.dart';
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:bcc5/theme/slide_direction.dart';
@@ -696,6 +697,34 @@ GoRouter appRouter(bool showReminder) {
                 detailRoute: detailRoute,
                 transitionKey: transitionKey,
               ),
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/flashcards/custom',
+        pageBuilder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>;
+          final ids = extras['flashcardIds'] as List<String>;
+
+          final renderItems =
+              ids
+                  .map((id) => getAllFlashcards().firstWhere((c) => c.id == id))
+                  .map(RenderItem.fromFlashcard)
+                  .toList();
+
+          return MaterialPage(
+            child: FlashcardDetailScreen(
+              renderItems: renderItems,
+              currentIndex: 0,
+              branchIndex: 0,
+              backDestination: '/learning-paths',
+              backExtra: {
+                'pathName': extras['pathName'] ?? 'competent crew',
+                'chapterId': extras['chapterId'],
+              },
+              detailRoute: DetailRoute.path,
+              transitionKey: UniqueKey().toString(),
             ),
           );
         },

@@ -1,3 +1,5 @@
+// 📄 lib/screens/paths/path_item_screen.dart
+
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/utils/transition_manager.dart';
 import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/navigation/path_ending_actions.dart'; // NEW
 
 class PathItemScreen extends StatefulWidget {
   final String pathName;
@@ -135,7 +138,28 @@ class _PathItemScreenState extends State<PathItemScreen> {
             ),
           ),
         ),
+        if (chapter.showFlashcardEnding &&
+            _isLastChapter(widget.chapterId, widget.pathName))
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: PathEndingActions(
+              pathName: widget.pathName,
+              chapterId: widget.chapterId,
+            ),
+          ),
       ],
     );
   }
+
+  bool _isLastChapter(String chapterId, String pathName) {
+    final chapters = PathRepositoryIndex.getChaptersForPath(pathName);
+    return chapters.isNotEmpty && chapters.last.id == chapterId;
+  }
+
+  // String? _getNextPathName(String currentPath) {
+  //   final allPaths = PathRepositoryIndex.getPathNames();
+  //   final currentIndex = allPaths.indexOf(currentPath.toLowerCase());
+  //   if (currentIndex == -1 || currentIndex + 1 >= allPaths.length) return null;
+  //   return allPaths[currentIndex + 1];
+  // }
 }

@@ -7,13 +7,15 @@ class PathItem {
 }
 
 class LearningPathChapter {
-  final String id; // e.g., "path_competentCrew_1.00"
+  final String id;
   final String title;
   final List<PathItem> items;
+  final bool showFlashcardEnding; // NEW
 
-  const LearningPathChapter({
+  LearningPathChapter({
     required this.id,
     required this.title,
     required this.items,
+    this.showFlashcardEnding = true, // NEW
   });
 }

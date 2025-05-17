@@ -1,12 +1,11 @@
 Launching lib/main.dart on iPhone 13 in debug mode...
-s
 Running Xcode build...                                          
- └─Compiling, linking and signing...                        12.8s
-Xcode build done.                                           27.7s
+ └─Compiling, linking and signing...                      2,464ms
+Xcode build done.                                           10.4s
 [ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
 │ #0   main (package:bcc5/main.dart:19:12)<…>
 │ 💡 🧪 DEBUG STARTUP INFO:<…>
-│ 💡 - reviewedAt: null<…>
+│ 💡 - reviewedAt: 2025-05-16T19:48:05.257488<…>
 │ 💡 - boatName: <…>
 │ 💡 - shouldStartTour: false<…>
 │ 💡 <…>
@@ -24,8 +23,7 @@ Syncing files to device iPhone 13...
 │ 💡 🧭 showReminder = true<…>
 │ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
 │ 💡 🧭 Scheduling 2s delayed dialog...<…>
-[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
-Syncing files to device iPhone 13...                               584ms
+Syncing files to device iPhone 13...                                75ms
 
 Flutter run key commands.
 r Hot reload. 🔥🔥🔥
@@ -35,8 +33,870 @@ d Detach (terminate "flutter run" but leave application running).
 c Clear the screen
 q Quit (terminate the application on the device).
 
-A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:61241/pTBLWQMSqgg=/
-The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:61241/pTBLWQMSqgg=/
+A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:49564/f8Xk1i_4NhQ=/
+The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:49564/f8Xk1i_4NhQ=/
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+│ #0   LandingScreenState.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:184:30)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:116:30)<…>
+│ 💡 🟦 Tapped PathItem → Morning Routine Before Sailing<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / lesson_safe_1.14<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Morning Routine Before Sailing<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / lesson_safe_1.15<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Understanding Motion Sickness and Prevention<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 2<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Morning Routine Before Sailing<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LastGroupButtonState.build.<anonymous closure> (package:bcc5/widgets/navigation/last_group_button.dart:47:16)<…>
+│ 💡 ⏭️ LastGroupButton tapped (chapter)<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.11<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Find and Approach the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.12<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Introduce Yourself and Ask to Board<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Find and Approach the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.13<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Stow Your Gear<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Find and Approach the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Introduce Yourself and Ask to Board<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.14<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Use the Facilities Early<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Find and Approach the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Introduce Yourself and Ask to Board<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Stow Your Gear<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.15<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Get Oriented to the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Find and Approach the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Introduce Yourself and Ask to Board<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Stow Your Gear<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Use the Facilities Early<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.16<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Safety Briefing and Expectations<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Find and Approach the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Introduce Yourself and Ask to Board<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Stow Your Gear<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Use the Facilities Early<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Get Oriented to the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.17<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Find and Approach the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Introduce Yourself and Ask to Board<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Stow Your Gear<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Use the Facilities Early<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Get Oriented to the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Safety Briefing and Expectations<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.18<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Find and Approach the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Introduce Yourself and Ask to Board<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Stow Your Gear<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Use the Facilities Early<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Get Oriented to the Boat<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Safety Briefing and Expectations<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LastGroupButtonState.build.<anonymous closure> (package:bcc5/widgets/navigation/last_group_button.dart:47:16)<…>
+│ 💡 ⏭️ LastGroupButton tapped (chapter)<…>
+
+Performing hot restart...                                       
+s.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: 2025-05-16T20:10:11.663550<…>
+│ 💡 - boatName: <…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+│ #0   LandingScreenState.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:184:30)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:116:30)<…>
+│ 💡 🟦 Tapped PathItem → Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.17<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.18<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LastGroupButtonState.build.<anonymous closure> (package:bcc5/widgets/navigation/last_group_button.dart:52:16)<…>
+│ 💡 ⏭️ LastGroupButton tapped (chapter)<…>
+│ #0   _FlashcardDetailScreenState.initState (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:68:14)<…>
+│ 💡 🟩 FlashcardDetailScreen Loaded:<…>
+│ 💡   ├─ index: 0<…>
+│ 💡   ├─ id: flashcard_lesson_safe_2.11<…>
+│ 💡   ├─ type: RenderItemType.flashcard<…>
+│ 💡   ├─ renderItems.length: 8<…>
+│ 💡   ├─ branchIndex: 0<…>
+│ 💡   ├─ backDestination: /learning-paths/competent-crew<…>
+│ 💡   └─ backExtra: {pathName: competent crew, chapterId: path_competentCrew_2.00, branchIndex: 0, transitionKey: [#fa103], slideFrom: SlideDirection.left, transitionType: TransitionType.slide, detailRoute: DetailRoute.path}<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / flashcard_lesson_safe_2.11<…>
+│ #0   _FlashcardDetailScreenState.flipCard (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:118:12)<…>
+│ 💡 🔃 Flipping to back<…>
+│ #0   _FlashcardDetailScreenState.flipCard (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:118:12)<…>
+│ 💡 🔃 Flipping to front<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / flashcard_lesson_safe_2.12<…>
+│ #0   _FlashcardDetailScreenState.initState (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:68:14)<…>
+│ 💡 🟩 FlashcardDetailScreen Loaded:<…>
+│ 💡   ├─ index: 1<…>
+│ 💡   ├─ id: flashcard_lesson_safe_2.12<…>
+│ 💡   ├─ type: RenderItemType.flashcard<…>
+│ 💡   ├─ renderItems.length: 8<…>
+│ 💡   ├─ branchIndex: 0<…>
+│ 💡   ├─ backDestination: /learning-paths/competent-crew<…>
+│ 💡   └─ backExtra: {pathName: competent crew, chapterId: path_competentCrew_2.00, branchIndex: 0, transitionKey: [#fa103], slideFrom: SlideDirection.left, transitionType: TransitionType.slide, detailRoute: DetailRoute.path}<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / flashcard_lesson_safe_2.13<…>
+│ #0   _FlashcardDetailScreenState.initState (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:68:14)<…>
+│ 💡 🟩 FlashcardDetailScreen Loaded:<…>
+│ 💡   ├─ index: 2<…>
+│ 💡   ├─ id: flashcard_lesson_safe_2.13<…>
+│ 💡   ├─ type: RenderItemType.flashcard<…>
+│ 💡   ├─ renderItems.length: 8<…>
+│ 💡   ├─ branchIndex: 0<…>
+│ 💡   ├─ backDestination: /learning-paths/competent-crew<…>
+│ 💡   └─ backExtra: {pathName: competent crew, chapterId: path_competentCrew_2.00, branchIndex: 0, transitionKey: [#fa103], slideFrom: SlideDirection.left, transitionType: TransitionType.slide, detailRoute: DetailRoute.path}<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _FlashcardDetailScreenState.initState (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:68:14)<…>
+│ 💡 🟩 FlashcardDetailScreen Loaded:<…>
+│ 💡   ├─ index: 3<…>
+│ 💡   ├─ id: flashcard_lesson_safe_2.14<…>
+│ 💡   ├─ type: RenderItemType.flashcard<…>
+│ 💡   ├─ renderItems.length: 8<…>
+│ 💡   ├─ branchIndex: 0<…>
+│ 💡   ├─ backDestination: /learning-paths/competent-crew<…>
+│ 💡   └─ backExtra: {pathName: competent crew, chapterId: path_competentCrew_2.00, branchIndex: 0, transitionKey: [#fa103], slideFrom: SlideDirection.left, transitionType: TransitionType.slide, detailRoute: DetailRoute.path}<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / flashcard_lesson_safe_2.14<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / flashcard_lesson_safe_2.15<…>
+│ #0   _FlashcardDetailScreenState.initState (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:68:14)<…>
+│ 💡 🟩 FlashcardDetailScreen Loaded:<…>
+│ 💡   ├─ index: 4<…>
+│ 💡   ├─ id: flashcard_lesson_safe_2.15<…>
+│ 💡   ├─ type: RenderItemType.flashcard<…>
+│ 💡   ├─ renderItems.length: 8<…>
+│ 💡   ├─ branchIndex: 0<…>
+│ 💡   ├─ backDestination: /learning-paths/competent-crew<…>
+│ 💡   └─ backExtra: {pathName: competent crew, chapterId: path_competentCrew_2.00, branchIndex: 0, transitionKey: [#fa103], slideFrom: SlideDirection.left, transitionType: TransitionType.slide, detailRoute: DetailRoute.path}<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / flashcard_lesson_safe_2.16<…>
+│ #0   _FlashcardDetailScreenState.initState (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:68:14)<…>
+│ 💡 🟩 FlashcardDetailScreen Loaded:<…>
+│ 💡   ├─ index: 5<…>
+│ 💡   ├─ id: flashcard_lesson_safe_2.16<…>
+│ 💡   ├─ type: RenderItemType.flashcard<…>
+│ 💡   ├─ renderItems.length: 8<…>
+│ 💡   ├─ branchIndex: 0<…>
+│ 💡   ├─ backDestination: /learning-paths/competent-crew<…>
+│ 💡   └─ backExtra: {pathName: competent crew, chapterId: path_competentCrew_2.00, branchIndex: 0, transitionKey: [#fa103], slideFrom: SlideDirection.left, transitionType: TransitionType.slide, detailRoute: DetailRoute.path}<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / flashcard_lesson_safe_2.17<…>
+│ #0   _FlashcardDetailScreenState.initState (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:68:14)<…>
+│ 💡 🟩 FlashcardDetailScreen Loaded:<…>
+│ 💡   ├─ index: 6<…>
+│ 💡   ├─ id: flashcard_lesson_safe_2.17<…>
+│ 💡   ├─ type: RenderItemType.flashcard<…>
+│ 💡   ├─ renderItems.length: 8<…>
+│ 💡   ├─ branchIndex: 0<…>
+│ 💡   ├─ backDestination: /learning-paths/competent-crew<…>
+│ 💡   └─ backExtra: {pathName: competent crew, chapterId: path_competentCrew_2.00, branchIndex: 0, transitionKey: [#fa103], slideFrom: SlideDirection.left, transitionType: TransitionType.slide, detailRoute: DetailRoute.path}<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / flashcard_lesson_safe_2.18<…>
+│ #0   _FlashcardDetailScreenState.initState (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:68:14)<…>
+│ 💡 🟩 FlashcardDetailScreen Loaded:<…>
+│ 💡   ├─ index: 7<…>
+│ 💡   ├─ id: flashcard_lesson_safe_2.18<…>
+│ 💡   ├─ type: RenderItemType.flashcard<…>
+│ 💡   ├─ renderItems.length: 8<…>
+│ 💡   ├─ branchIndex: 0<…>
+│ 💡   ├─ backDestination: /learning-paths/competent-crew<…>
+│ 💡   └─ backExtra: {pathName: competent crew, chapterId: path_competentCrew_2.00, branchIndex: 0, transitionKey: [#fa103], slideFrom: SlideDirection.left, transitionType: TransitionType.slide, detailRoute: DetailRoute.path}<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LastGroupButtonState.build.<anonymous closure> (package:bcc5/widgets/navigation/last_group_button.dart:52:16)<…>
+│ 💡 ⏭️ LastGroupButton tapped (chapter)<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_3.00 / lesson_emer_1.00<…>
+│ #0   _FlashcardDetailScreenState.initState (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:68:14)<…>
+│ 💡 🟩 FlashcardDetailScreen Loaded:<…>
+│ 💡   ├─ index: 0<…>
+│ 💡   ├─ id: lesson_emer_1.00<…>
+│ 💡   ├─ type: RenderItemType.lesson<…>
+│ 💡   ├─ renderItems.length: 12<…>
+│ 💡   ├─ branchIndex: 0<…>
+│ 💡   ├─ backDestination: /learning-paths/competent-crew/items<…>
+│ 💡   └─ backExtra: {chapterId: path_competentCrew_3.00, pathName: competent crew, branchIndex: 0, detailRoute: DetailRoute.path}<…>
+│ #0   _FlashcardDetailScreenState.initState (package:bcc5/screens/flashcards/flashcard_detail_screen.dart:80:16)<…>
+│ ⚠️ ⚠️ Redirecting from non-flashcard type: lesson_emer_1.00 (RenderItemType.lesson)<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_3.00 / lesson_emer_1.00<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Man Overboard Basics<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 5<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:156:26)<…>
+│ 💡 🔙 Back tapped → /learning-paths/competent-crew/items<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_3.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "3: Get Settled Onboard" with 12 items<…>
+│ #0   _PathItemScreenState.build.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:75:20)<…>
+│ 💡 🔙 Returning to PathChapterScreen<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:116:30)<…>
+│ 💡 🟦 Tapped PathItem → Morning Routine Before Sailing<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / lesson_safe_1.14<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Morning Routine Before Sailing<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / lesson_safe_1.15<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Understanding Motion Sickness and Prevention<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 2<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Morning Routine Before Sailing<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LastGroupButtonState.build.<anonymous closure> (package:bcc5/widgets/navigation/last_group_button.dart:52:16)<…>
+│ 💡 ⏭️ LastGroupButton tapped (chapter)<…>
+
+Performing hot restart...                                       
+s.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: 2025-05-16T21:26:18.896073<…>
+│ 💡 - boatName: <…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+│ #0   LandingScreenState.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:184:30)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:116:30)<…>
+│ 💡 🟦 Tapped PathItem → Assist with Final Prep<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.17<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.18<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LastGroupButtonState.build.<anonymous closure> (package:bcc5/widgets/navigation/last_group_button.dart:52:16)<…>
+│ 💡 ⏭️ LastGroupButton tapped (chapter)<…>
+
+Performing hot restart...                                       
+Restarted application in 294ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: 2025-05-16T21:42:06.447364<…>
+│ 💡 - boatName: <…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:184:30)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
 │ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
 │ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
 │ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
@@ -64,16 +924,94 @@ The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://
 │ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
 │ 💡 📦 AlertDialog builder executed<…>
 
+══╡ EXCEPTION CAUGHT BY GESTURE ╞═══════════════════════════════════════════════════════════════════
+The following _TypeError was thrown while handling a gesture:
+Null check operator used on a null value
+
+When the exception was thrown, this was the stack:
+#0      StatefulElement.state (package:flutter/src/widgets/framework.dart:5848:44)
+#1      Navigator.of (package:flutter/src/widgets/navigator.dart:2875:38)
+#2      showEmergencyReminderDialog.<anonymous closure>.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:61:31)
+#3      _InkResponseState.handleTap (package:flutter/src/material/ink_well.dart:1185:21)
+#4      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:357:24)
+#5      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:653:11)
+#6      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:307:5)
+#7      BaseTapGestureRecognizer.acceptGesture (package:flutter/src/gestures/tap.dart:277:7)
+#8      GestureArenaManager.sweep (package:flutter/src/gestures/arena.dart:173:27)
+#9      GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:534:20)
+#10     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:499:22)
+#11     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:460:11)
+#12     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#13     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#14     GestureBinding._flushPointerEventQueue (package:flutter/src/gestures/binding.dart:341:7)
+#15     GestureBinding._handlePointerDataPacket (package:flutter/src/gestures/binding.dart:308:9)
+#16     _invoke1 (dart:ui/hooks.dart:332:13)
+#17     PlatformDispatcher._dispatchPointerDataPacket (dart:ui/platform_dispatcher.dart:451:7)
+#18     _dispatchPointerDataPacket (dart:ui/hooks.dart:267:31)
+
+Handler: "onTap"
+Recognizer:
+  TapGestureRecognizer#3a88d
+════════════════════════════════════════════════════════════════════════════════════════════════════
+
+Another exception was thrown: Null check operator used on a null value
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:116:30)<…>
+│ 💡 🟦 Tapped PathItem → Morning Routine Before Sailing<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / lesson_safe_1.14<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Morning Routine Before Sailing<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / lesson_safe_1.15<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Understanding Motion Sickness and Prevention<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 2<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Morning Routine Before Sailing<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LastGroupButtonState.build.<anonymous closure> (package:bcc5/widgets/navigation/last_group_button.dart:52:16)<…>
+│ 💡 ⏭️ LastGroupButton tapped (chapter)<…>
+
 Performing hot restart...                                       
-s.
+Restarted application in 280ms.
 │ #0   main (package:bcc5/main.dart:19:12)<…>
 │ 💡 🧪 DEBUG STARTUP INFO:<…>
-│ 💡 - reviewedAt: 2025-05-15T09:57:24.355228<…>
+│ 💡 - reviewedAt: 2025-05-16T21:44:11.815031<…>
 │ 💡 - boatName: <…>
 │ 💡 - shouldStartTour: false<…>
 │ 💡 <…>
 │ #0   main (package:bcc5/main.dart:29:10)<…>
-│ 💡 🚀 App Launch | Emergency Reminder: false<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
 │ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
 │ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
 │ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
@@ -82,5 +1020,163 @@ s.
 │ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
 │ 💡 🧭 LandingScreenState.initState() called<…>
 │ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
-│ 💡 🧭 showReminder = false<…>
-Lost connection to device.
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:184:30)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:103:20)<…>
+│ ⚠️ ⚠️ Not mounted when dialog should show<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:116:30)<…>
+│ 💡 🟦 Tapped PathItem → Morning Routine Before Sailing<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Morning Routine Before Sailing<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / lesson_safe_1.14<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_1.00 / lesson_safe_1.15<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Understanding Motion Sickness and Prevention<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 2<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_1.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Before You Board" with 5 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Morning Routine Before Sailing<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 1<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LastGroupButtonState.build.<anonymous closure> (package:bcc5/widgets/navigation/last_group_button.dart:52:16)<…>
+│ 💡 ⏭️ LastGroupButton tapped (chapter)<…>
+
+Performing hot restart...                                       
+Restarted application in 255ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: 2025-05-16T21:44:11.815031<…>
+│ 💡 - boatName: <…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+│ #0   LandingScreenState.build.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:184:30)<…>
+│ 💡 📘 Navigating to Competent Crew Path<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/paths/path_item_screen.dart:116:30)<…>
+│ 💡 🟦 Tapped PathItem → Assist with Final Prep<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.17<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState._buildScaffold.<anonymous closure> (package:bcc5/screens/lessons/lesson_detail_screen.dart:248:28)<…>
+│ 💡 ➡️ Next tapped on LessonDetailScreen<…>
+│ #0   ResumeManager.saveResumePoint (package:bcc5/utils/resume_manager.dart:57:12)<…>
+│ 💡 💾 Saved resume point → competent crew / path_competentCrew_2.00 / lesson_safe_2.18<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Practice Good Communication<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _PathChapterScreenState.build (package:bcc5/screens/paths/path_chapter_screen.dart:37:12)<…>
+│ 💡 🟢 Entered PathChapterScreen for "competent crew" with 6 chapters<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:40:12)<…>
+│ 💡 📘 Building PathItemScreen for path "competent crew", chapter "path_competentCrew_2.00"<…>
+│ #0   _PathItemScreenState.build (package:bcc5/screens/paths/path_item_screen.dart:59:12)<…>
+│ 💡 🟩 Found chapter "Dockside: Board and Prepare " with 8 items<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:116:12)<…>
+│ 💡 📘 LessonDetailScreen: Assist with Final Prep<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:117:12)<…>
+│ 💡 🧩 Content blocks: 2<…>
+│ #0   _LessonDetailScreenState.build (package:bcc5/screens/lessons/lesson_detail_screen.dart:118:12)<…>
+│ 💡 🧠 Flashcards: 1<…>
+│ #0   _LastGroupButtonState.build.<anonymous closure> (package:bcc5/widgets/navigation/last_group_button.dart:52:16)<…>
+│ 💡 ⏭️ LastGroupButton tapped (chapter)<…>
+
+Performing hot reload...                                        
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initS
