@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/resume_manager.dart'; // ✅ Needed for reset
 import 'package:bcc5/utils/settings_manager.dart';
-import 'package:bcc5/utils/radio_helper.dart';
+// import 'package:bcc5/utils/radio_helper.dart';
 import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/emergency_info_modal.dart';
 
 void showSettingsModal(BuildContext context, String currentRouteName) {
   showDialog(
@@ -99,60 +100,87 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: ListView(
                         children: [
-                          _settingSwitch('Dark Mode', false),
-
                           // 📜 Boat Name w/ Phonetic Preview
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Boat Name',
-                                  style: AppTheme.textTheme.bodyLarge,
-                                ),
-                                const SizedBox(height: 4),
+                                Text('Boat Name', style: AppTheme.sectionTitle),
+
+                                // Show boat name
                                 FutureBuilder<String>(
                                   future: SettingsManager.getBoatName(),
                                   builder: (context, snapshot) {
-                                    final controller = TextEditingController(
-                                      text: snapshot.data ?? '',
-                                    );
-                                    return StatefulBuilder(
-                                      builder: (context, setModalState) {
-                                        return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            TextField(
-                                              controller: controller,
-                                              decoration: const InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                hintText: 'Enter boat name...',
-                                              ),
-                                              onChanged: (value) async {
-                                                await SettingsManager.setBoatName(
-                                                  value,
-                                                );
-                                                setModalState(() {});
-                                              },
-                                            ),
-                                            const SizedBox(height: 6),
-                                            Text(
-                                              'Phonetic: ${formatPhonetic(controller.text)}',
-                                              style: AppTheme
-                                                  .textTheme
-                                                  .bodySmall!
-                                                  .copyWith(
-                                                    color: Colors.grey[700],
-                                                  ),
-                                            ),
-                                          ],
-                                        );
-                                      },
+                                    final boatName = snapshot.data ?? '—';
+                                    return ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      title: Text(
+                                        boatName,
+                                        style: AppTheme.textTheme.bodyLarge,
+                                      ),
+                                      subtitle: Text(
+                                        'Tap to update in Emergency Info',
+                                        style: AppTheme.textTheme.bodySmall
+                                            ?.copyWith(color: Colors.grey[600]),
+                                      ),
+                                      trailing: const Icon(Icons.chevron_right),
+                                      onTap:
+                                          () => showEmergencyInfoModal(context),
                                     );
                                   },
                                 ),
+
+                                const SizedBox(height: 4),
+                                _settingButtonWithAction(
+                                  context,
+                                  'View/Edit Emergency Info',
+                                  () {
+                                    showEmergencyInfoModal(context);
+                                  },
+                                ),
+
+                                // FutureBuilder<String>(
+                                //   future: SettingsManager.getBoatName(),
+                                //   builder: (context, snapshot) {
+                                //     final controller = TextEditingController(
+                                //       text: snapshot.data ?? '',
+                                //     );
+                                //     return StatefulBuilder(
+                                //       builder: (context, setModalState) {
+                                //         return Column(
+                                //           crossAxisAlignment:
+                                //               CrossAxisAlignment.start,
+                                //           children: [
+                                //             TextField(
+                                //               controller: controller,
+                                //               decoration: const InputDecoration(
+                                //                 border: OutlineInputBorder(),
+                                //                 hintText: 'Enter boat name...',
+                                //               ),
+                                //               onChanged: (value) async {
+                                //                 await SettingsManager.setBoatName(
+                                //                   value,
+                                //                 );
+                                //                 setModalState(() {});
+                                //               },
+                                //             ),
+                                //             const SizedBox(height: 6),
+                                //             Text(
+                                //               'Phonetic: ${formatPhonetic(controller.text)}',
+                                //               style: AppTheme
+                                //                   .textTheme
+                                //                   .bodySmall!
+                                //                   .copyWith(
+                                //                     color: Colors.grey[700],
+                                //                   ),
+                                //             ),
+                                //           ],
+                                //         );
+                                //       },
+                                //     );
+                                //   },
+                                // ),
                               ],
                             ),
                           ),
@@ -202,122 +230,124 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
 
                           const Divider(height: 24),
                           const SizedBox(height: 8),
-                          Text(
-                            '🚨 Emergency Info',
-                            style: AppTheme.textTheme.titleMedium,
-                          ),
-                          const SizedBox(height: 4),
 
-                          FutureBuilder<String>(
-                            future: SettingsManager.getVesselType(),
-                            builder: (context, snapshot) {
-                              final current = snapshot.data ?? '';
-                              final controller = TextEditingController(
-                                text: current,
-                              );
-                              final options = [
-                                'Sailing Vessel',
-                                'Motor Vessel',
-                                'Catamaran',
-                                'Other',
-                              ];
+                          // Text(
+                          //   '🚨 Emergency Info',
+                          //   style: AppTheme.textTheme.titleMedium,
+                          // ),
+                          // const SizedBox(height: 4),
+                          // FutureBuilder<String>(
+                          //   future: SettingsManager.getVesselType(),
+                          //   builder: (context, snapshot) {
+                          //     final current = snapshot.data ?? '';
+                          //     final controller = TextEditingController(
+                          //       text: current,
+                          //     );
+                          //     final options = [
+                          //       'Sailing Vessel',
+                          //       'Motor Vessel',
+                          //       'Catamaran',
+                          //       'Other',
+                          //     ];
 
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 4,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text('Vessel Type'),
-                                    const SizedBox(height: 4),
-                                    DropdownButtonFormField<String>(
-                                      value:
-                                          options.contains(current)
-                                              ? current
-                                              : 'Other',
-                                      items:
-                                          options
-                                              .map(
-                                                (type) => DropdownMenuItem(
-                                                  value: type,
-                                                  child: Text(type),
-                                                ),
-                                              )
-                                              .toList(),
-                                      onChanged: (value) {
-                                        if (value == 'Other') {
-                                          controller.text = '';
-                                        } else {
-                                          controller.text = value!;
-                                          SettingsManager.setVesselType(value);
-                                        }
-                                      },
-                                    ),
-                                    const SizedBox(height: 6),
-                                    if (controller.text.isEmpty ||
-                                        controller.text == 'Other')
-                                      TextField(
-                                        controller: controller,
-                                        decoration: const InputDecoration(
-                                          hintText: 'Enter vessel type',
-                                          border: OutlineInputBorder(),
-                                        ),
-                                        onChanged:
-                                            (value) =>
-                                                SettingsManager.setVesselType(
-                                                  value,
-                                                ),
-                                      ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
+                          //     return Padding(
+                          //       padding: const EdgeInsets.symmetric(
+                          //         vertical: 4,
+                          //       ),
+                          //       child: Column(
+                          //         crossAxisAlignment: CrossAxisAlignment.start,
+                          //         children: [
+                          //           const Text('Vessel Type'),
+                          //           const SizedBox(height: 4),
+                          //           DropdownButtonFormField<String>(
+                          //             value:
+                          //                 options.contains(current)
+                          //                     ? current
+                          //                     : 'Other',
+                          //             items:
+                          //                 options
+                          //                     .map(
+                          //                       (type) => DropdownMenuItem(
+                          //                         value: type,
+                          //                         child: Text(type),
+                          //                       ),
+                          //                     )
+                          //                     .toList(),
+                          //             onChanged: (value) {
+                          //               if (value == 'Other') {
+                          //                 controller.text = '';
+                          //               } else {
+                          //                 controller.text = value!;
+                          //                 SettingsManager.setVesselType(value);
+                          //               }
+                          //             },
+                          //           ),
+                          //           const SizedBox(height: 6),
+                          //           if (controller.text.isEmpty ||
+                          //               controller.text == 'Other')
+                          //             TextField(
+                          //               controller: controller,
+                          //               decoration: const InputDecoration(
+                          //                 hintText: 'Enter vessel type',
+                          //                 border: OutlineInputBorder(),
+                          //               ),
+                          //               onChanged:
+                          //                   (value) =>
+                          //                       SettingsManager.setVesselType(
+                          //                         value,
+                          //                       ),
+                          //             ),
+                          //         ],
+                          //       ),
+                          //     );
+                          //   },
+                          // ),
 
-                          _settingTextField(
-                            label: 'Vessel Length',
-                            initialValueFuture:
-                                SettingsManager.getVesselLength(),
-                            onChanged: SettingsManager.setVesselLength,
-                          ),
-                          _settingTextField(
-                            label:
-                                'Vessel Description (e.g., “sail number 56788”)',
-                            initialValueFuture:
-                                SettingsManager.getVesselDescription(),
-                            onChanged: SettingsManager.setVesselDescription,
-                          ),
-                          _settingIntField(
-                            label: 'Souls Onboard (Adults)',
-                            initialValueFuture:
-                                SettingsManager.getSoulsAdults(),
-                            onChanged: SettingsManager.setSoulsAdults,
-                          ),
-                          _settingIntField(
-                            label: 'Souls Onboard (Children)',
-                            initialValueFuture:
-                                SettingsManager.getSoulsChildren(),
-                            onChanged: SettingsManager.setSoulsChildren,
-                          ),
-                          _settingTextField(
-                            label: 'MMSI (optional)',
-                            initialValueFuture: SettingsManager.getMMSI(),
-                            onChanged: SettingsManager.setMMSI,
-                          ),
-                          _settingTextField(
-                            label: 'Emergency Contact Phone',
-                            initialValueFuture:
-                                SettingsManager.getEmergencyContact(),
-                            onChanged: SettingsManager.setEmergencyContact,
-                          ),
-                          _settingTextField(
-                            label: "Captain's Phone",
-                            initialValueFuture:
-                                SettingsManager.getCaptainPhone(),
-                            onChanged: SettingsManager.setCaptainPhone,
-                          ),
+                          // _settingTextField(
+                          //   label: 'Vessel Length',
+                          //   initialValueFuture:
+                          //       SettingsManager.getVesselLength(),
+                          //   onChanged: SettingsManager.setVesselLength,
+                          // ),
+                          // _settingTextField(
+                          //   label:
+                          //       'Vessel Description (e.g., “sail number 56788”)',
+                          //   initialValueFuture:
+                          //       SettingsManager.getVesselDescription(),
+                          //   onChanged: SettingsManager.setVesselDescription,
+                          // ),
+                          // _settingIntField(
+                          //   label: 'Souls Onboard (Adults)',
+                          //   initialValueFuture:
+                          //       SettingsManager.getSoulsAdults(),
+                          //   onChanged: SettingsManager.setSoulsAdults,
+                          // ),
+                          // _settingIntField(
+                          //   label: 'Souls Onboard (Children)',
+                          //   initialValueFuture:
+                          //       SettingsManager.getSoulsChildren(),
+                          //   onChanged: SettingsManager.setSoulsChildren,
+                          // ),
+                          // _settingTextField(
+                          //   label: 'MMSI (optional)',
+                          //   initialValueFuture: SettingsManager.getMMSI(),
+                          //   onChanged: SettingsManager.setMMSI,
+                          // ),
+                          // _settingTextField(
+                          //   label: 'Emergency Contact Phone',
+                          //   initialValueFuture:
+                          //       SettingsManager.getEmergencyContact(),
+                          //   onChanged: SettingsManager.setEmergencyContact,
+                          // ),
+                          // _settingTextField(
+                          //   label: "Captain's Phone",
+                          //   initialValueFuture:
+                          //       SettingsManager.getCaptainPhone(),
+                          //   onChanged: SettingsManager.setCaptainPhone,
+                          // ),
                           const SizedBox(height: 12),
+
+                          _settingSwitch('Dark Mode', false),
 
                           // 🧪 DEV Reset Resume Point
                           ElevatedButton(
@@ -385,6 +415,19 @@ Widget _settingDropdown(String label, List<String> options, String selected) {
   );
 }
 
+// 🆕 Button that accepts a custom action (used for Emergency Info)
+Widget _settingButtonWithAction(
+  BuildContext context,
+  String label,
+  VoidCallback onTap,
+) {
+  return ListTile(
+    title: Text(label, style: AppTheme.textTheme.bodyLarge),
+    trailing: const Icon(Icons.chevron_right),
+    onTap: onTap,
+  );
+}
+
 // 🧭 Dynamic Enum Dropdown
 Widget _settingEnumDropdown<T>(
   String label,
@@ -446,7 +489,7 @@ Widget _settingButton(BuildContext context, String label) {
                       onPressed: () => Navigator.of(context).pop(),
                       child: const Text(
                         'Close',
-                        style: TextStyle(fontSize: 16),
+                        style: AppTheme.dialogButtonText,
                       ),
                     ),
                   ),
@@ -459,51 +502,51 @@ Widget _settingButton(BuildContext context, String label) {
 }
 
 // 🔤 Text field with Future initial value
-Widget _settingTextField({
-  required String label,
-  required Future<String> initialValueFuture,
-  required void Function(String) onChanged,
-}) {
-  return FutureBuilder<String>(
-    future: initialValueFuture,
-    builder: (context, snapshot) {
-      final controller = TextEditingController(text: snapshot.data ?? '');
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: TextField(
-          controller: controller,
-          decoration: InputDecoration(labelText: label),
-          onChanged: onChanged,
-        ),
-      );
-    },
-  );
-}
+// Widget _settingTextField({
+//   required String label,
+//   required Future<String> initialValueFuture,
+//   required void Function(String) onChanged,
+// }) {
+//   return FutureBuilder<String>(
+//     future: initialValueFuture,
+//     builder: (context, snapshot) {
+//       final controller = TextEditingController(text: snapshot.data ?? '');
+//       return Padding(
+//         padding: const EdgeInsets.symmetric(vertical: 4),
+//         child: TextField(
+//           controller: controller,
+//           decoration: InputDecoration(labelText: label),
+//           onChanged: onChanged,
+//         ),
+//       );
+//     },
+//   );
+// }
 
 // 🔢 Integer-only input field
-Widget _settingIntField({
-  required String label,
-  required Future<int> initialValueFuture,
-  required void Function(int) onChanged,
-}) {
-  return FutureBuilder<int>(
-    future: initialValueFuture,
-    builder: (context, snapshot) {
-      final controller = TextEditingController(
-        text: (snapshot.data ?? 0).toString(),
-      );
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: TextField(
-          controller: controller,
-          decoration: InputDecoration(labelText: label),
-          keyboardType: TextInputType.number,
-          onChanged: (value) {
-            final parsed = int.tryParse(value);
-            if (parsed != null) onChanged(parsed);
-          },
-        ),
-      );
-    },
-  );
-}
+// Widget _settingIntField({
+//   required String label,
+//   required Future<int> initialValueFuture,
+//   required void Function(int) onChanged,
+// }) {
+//   return FutureBuilder<int>(
+//     future: initialValueFuture,
+//     builder: (context, snapshot) {
+//       final controller = TextEditingController(
+//         text: (snapshot.data ?? 0).toString(),
+//       );
+//       return Padding(
+//         padding: const EdgeInsets.symmetric(vertical: 4),
+//         child: TextField(
+//           controller: controller,
+//           decoration: InputDecoration(labelText: label),
+//           keyboardType: TextInputType.number,
+//           onChanged: (value) {
+//             final parsed = int.tryParse(value);
+//             if (parsed != null) onChanged(parsed);
+//           },
+//         ),
+//       );
+//     },
+//   );
+// }

@@ -260,7 +260,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                           backDestination:
                               widget.detailRoute == DetailRoute.path
                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
-                                  : '/tools/items',
+                                  : '/tools',
                           label:
                               widget.detailRoute == DetailRoute.path
                                   ? 'chapter'

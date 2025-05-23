@@ -237,7 +237,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                           backDestination:
                               widget.detailRoute == DetailRoute.path
                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
-                                  : '/parts/items',
+                                  : '/parts',
                           label:
                               widget.detailRoute == DetailRoute.path
                                   ? 'chapter'

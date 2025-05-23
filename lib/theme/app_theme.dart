@@ -107,6 +107,36 @@ class AppTheme {
     bodySmall: captionStyle,
   );
 
+  /// 🧭 Used for emergencyReminderDialog title:
+  /// `Text('Review Vessel & Safety Info', style: AppTheme.modalTitle)`
+  static const TextStyle modalTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+  );
+
+  /// 📞 Used for phonetic spelling preview in emergency_info_modal.dart:
+  /// `style: AppTheme.phoneticStyle`
+  static final TextStyle phoneticStyle = textTheme.bodySmall!.copyWith(
+    color: Colors.grey[600],
+  );
+
+  /// 📦 Used for red "Close" button in both modals:
+  /// `child: const Text('Close', style: AppTheme.dialogButtonText)`
+  static const TextStyle dialogButtonText = TextStyle(
+    fontSize: 16,
+    color: Colors.white,
+  );
+
+  /// 📘 Suggested: used for all settings section headers like "Boat Name", "Emergency Info", etc.
+  /// Replace: `style: AppTheme.textTheme.bodyLarge` with:
+  /// `style: AppTheme.sectionTitle`
+  static const TextStyle sectionTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
+
   static final TextTheme scaledTextTheme = TextTheme(
     headlineLarge: headingStyle.copyWith(
       fontSize: headingStyle.fontSize! * textScaleMultiplier,

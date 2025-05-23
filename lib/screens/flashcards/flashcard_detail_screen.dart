@@ -349,7 +349,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                           backDestination:
                               widget.detailRoute == DetailRoute.path
                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
-                                  : '/flashcards/items',
+                                  : '/flashcards',
                           label:
                               widget.detailRoute == DetailRoute.path
                                   ? 'chapter'

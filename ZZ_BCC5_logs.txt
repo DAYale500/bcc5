@@ -1,7 +1,9 @@
 Launching lib/main.dart on iPhone 13 in debug mode...
+Running pod install...                                             491ms
 Running Xcode build...                                          
-s
-Xcode build done.                                           11.4s
+ └─Compiling, linking and signing...                         3.1s
+Xcode build done.                                           12.8s
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
 │ #0   main (package:bcc5/main.dart:19:12)<…>
 │ 💡 🧪 DEBUG STARTUP INFO:<…>
 │ 💡 - reviewedAt: null<…>
@@ -15,26 +17,34 @@ Xcode build done.                                           11.4s
 │ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
 │ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
 │ 💡 <…>
-[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
+Syncing files to device iPhone 13...                                37ms
+
+Flutter run key commands.
+r Hot reload. 🔥🔥🔥
+R Hot restart.
+h List all available interactive commands.
+d Detach (terminate "flutter run" but leave application running).
+c Clear the screen
+q Quit (terminate the application on the device).
+
+A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:51112/9l1ARcYp0oA=/
 │ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
 │ 💡 🧭 LandingScreenState.initState() called<…>
 │ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
 │ 💡 🧭 showReminder = false<…>
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:35:12)<…>
 │ 💡 🎯 Starting Landing Tour...<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:36:12)<…>
-│ 💡 🧪 mobKey = IconButton-[GlobalKey#8824a](tooltip: Man Overboard, disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#89639]])<…>
+│ 💡 🧪 mobKey = IconButton-[GlobalKey#c48f0](tooltip: Man Overboard, disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#7c427]])<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:37:12)<…>
-│ 💡 🧪 settingsKey = IconButton-[GlobalKey#a8adb](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#89639]])<…>
+│ 💡 🧪 settingsKey = IconButton-[GlobalKey#d45ff](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#7c427]])<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:38:12)<…>
-│ 💡 🧪 titleKey = Text-[GlobalKey#4f94d]("Welcome!", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), size: 22.0, weight: 700, textAlign: center, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery])<…>
+│ 💡 🧪 titleKey = Text-[GlobalKey#616af]("Welcome!", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), size: 22.0, weight: 700, textAlign: center, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery])<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:39:12)<…>
-│ 💡 🧪 searchKey = IconButton-[GlobalKey#da69c](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#89639]])<…>
+│ 💡 🧪 searchKey = IconButton-[GlobalKey#c5ff1](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#7c427]])<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:40:12)<…>
-│ 💡 🧪 newCrewKey = KeyedSubtree-[GlobalKey#cc34b NewCrewKey]<…>
+│ 💡 🧪 newCrewKey = KeyedSubtree-[GlobalKey#1f5e3 NewCrewKey]<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:41:12)<…>
-│ 💡 🧪 advancedRefreshersKey = KeyedSubtree-[GlobalKey#9c738 AdvancedRefreshersKey]<…>
-[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
-/Users/david/Desktop/0_SailingAppDev/FlutterAttempts/BCC5/bcc5/.dart_tool/package_config.json does not exist.
-Did you run this command from the same directory as your pubspec.yaml file?
-
+│ 💡 🧪 advancedRefreshersKey = KeyedSubtree-[GlobalKey#361e9 AdvancedRefreshersKey]<…>
+The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?u

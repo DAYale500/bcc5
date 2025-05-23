@@ -1,8 +1,8 @@
+import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/widgets/emergency_info_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/utils/settings_manager.dart';
-import 'package:bcc5/widgets/settings_modal.dart';
-import 'package:go_router/go_router.dart';
 
 Future<void> showEmergencyReminderDialog(BuildContext context) async {
   logger.i('📦 Entered showEmergencyReminderDialog()');
@@ -49,7 +49,10 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
             children: [
               const Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Text('Review Vessel & Safety Info'),
+                child: Text(
+                  'Review Vessel & Safety Info',
+                  style: AppTheme.modalTitle,
+                ),
               ),
               Positioned(
                 top: 0,
@@ -89,13 +92,9 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                final routeName =
-                    GoRouter.of(
-                      context,
-                    ).routeInformationProvider.value.uri.path;
-                showSettingsModal(context, routeName);
+                showEmergencyInfoModal(context);
               },
-              child: const Text('Edit Settings'),
+              child: const Text('Edit Emergency Info'),
             ),
           ],
         );

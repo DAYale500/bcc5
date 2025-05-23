@@ -99,7 +99,7 @@ String _speakMarineCoord(
     final parts = minutesDecimal.toStringAsFixed(3).split('.');
     final spokenMinutesWhole = _speakDigits(parts[0]);
     final spokenMinutesDecimal = _speakDigits(parts[1]);
-    return '$spokenDegrees degrees decimal $spokenMinutesWhole decimal $spokenMinutesDecimal minutes $direction';
+    return '$spokenDegrees degrees, $spokenMinutesWhole decimal $spokenMinutesDecimal minutes $direction';
   }
 }
 
