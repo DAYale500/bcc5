@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/widgets/tour/tour_descriptions.dart';
 import 'package:flutter/material.dart';
@@ -212,6 +214,8 @@ class LandingScreenTour {
       focusAnimationDuration: Duration.zero,
       unFocusAnimationDuration: Duration.zero,
       pulseEnable: true,
+      opacityShadow: AppTheme.tourOverlayAlpha / 255.0,
+      imageFilter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
       onFinish: () => logger.i('✅ Tour finished'),
       onSkip: () {
         logger.i('⏭ Tour skipped');
