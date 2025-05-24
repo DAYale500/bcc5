@@ -37,11 +37,12 @@ String formatPhonetic(String name) {
       .toLowerCase()
       .split('')
       .map((char) {
+        if (char == ' ') return 'Space';
         if (nato.containsKey(char)) return nato[char]!;
         if (RegExp(r'[0-9]').hasMatch(char)) return char; // numbers stay as-is
         return char.toUpperCase(); // fallback for symbols
       })
-      .join(' ');
+      .join('-');
 }
 
 String formatSoulsOnboard(int adults, int children) {
