@@ -1478,4 +1478,118 @@ Restarted application in 253ms.
 │ 💡 🧪 titleKey = Text-[GlobalKey#43a90]("Welcome!", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), size: 22.0, weight: 700, textAlign: center, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery])<…>
 │ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:41:12)<…>
 │ 💡 🧪 searchKey = IconButton-[GlobalKey#8a2ff](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#b6857]])<…>
-│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:42:
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:42:12)<…>
+│ 💡 🧪 newCrewKey = KeyedSubtree-[GlobalKey#b0ca7 NewCrewKey]<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:43:12)<…>
+│ 💡 🧪 advancedRefreshersKey = KeyedSubtree-[GlobalKey#31f67 AdvancedRefreshersKey]<…>
+│ #0   LandingScreenTour.start.<anonymous closure> (package:bcc5/widgets/tour/landing_screen_tour.dart:219:30)<…>
+│ 💡 ✅ Tour finished<…>
+
+Performing hot restart...                                       
+Restarted application in 247ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: Hello Kittens<…>
+│ 💡 - shouldStartTour: true<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: false<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = false<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:37:12)<…>
+│ 💡 🎯 Starting Landing Tour...<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:38:12)<…>
+│ 💡 🧪 mobKey = IconButton-[GlobalKey#df07c](tooltip: Man Overboard, disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#25a7b]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:39:12)<…>
+│ 💡 🧪 settingsKey = IconButton-[GlobalKey#b622e](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#25a7b]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:40:12)<…>
+│ 💡 🧪 titleKey = Text-[GlobalKey#ff3fd]("Welcome!", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), size: 22.0, weight: 700, textAlign: center, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:41:12)<…>
+│ 💡 🧪 searchKey = IconButton-[GlobalKey#78455](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#25a7b]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:42:12)<…>
+│ 💡 🧪 newCrewKey = KeyedSubtree-[GlobalKey#478a0 NewCrewKey]<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:43:12)<…>
+│ 💡 🧪 advancedRefreshersKey = KeyedSubtree-[GlobalKey#8ca35 AdvancedRefreshersKey]<…>
+│ #0   LandingScreenTour.start.<anonymous closure> (package:bcc5/widgets/tour/landing_screen_tour.dart:219:30)<…>
+│ 💡 ✅ Tour finished<…>
+
+Performing hot restart...                                       
+Restarted application in 241ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: Hello Kittens<…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = Hello Kittens<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = 36’<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = asdf<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 2<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = 23452345<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = 23452345<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = 23452345<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+
+Performing hot restart...                                       
+Restarted application in 340ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: <…>
+│ 💡 - shouldStartTour: true<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: false<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = false<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:37:12)<…>
+│ 💡 🎯 Starting Landing Tour...<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:38:12)<…>
+│ 💡 🧪 mobKey = IconButton-[GlobalKey#f59c5](tooltip: Man Overboard, disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#d2579]])<…>
+│ #0   LandingScre

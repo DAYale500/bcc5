@@ -47,20 +47,6 @@ class LandingScreenTour {
     final tutorial = TutorialCoachMark(
       targets: [
         TargetFocus(
-          identify: 'mob',
-          keyTarget: mobKey,
-          enableOverlayTab: true,
-          contents: [
-            TargetContent(
-              align: ContentAlign.bottom,
-              child: Text(
-                TourDescriptions.mob,
-                style: AppTheme.tourDescriptionStyle,
-              ),
-            ),
-          ],
-        ),
-        TargetFocus(
           identify: 'search',
           keyTarget: searchKey,
           enableOverlayTab: true,
@@ -83,6 +69,21 @@ class LandingScreenTour {
               align: ContentAlign.bottom,
               child: Text(
                 TourDescriptions.settings,
+                style: AppTheme.tourDescriptionStyle,
+              ),
+            ),
+          ],
+        ),
+
+        TargetFocus(
+          identify: 'mob',
+          keyTarget: mobKey,
+          enableOverlayTab: true,
+          contents: [
+            TargetContent(
+              align: ContentAlign.bottom,
+              child: Text(
+                TourDescriptions.mob,
                 style: AppTheme.tourDescriptionStyle,
               ),
             ),

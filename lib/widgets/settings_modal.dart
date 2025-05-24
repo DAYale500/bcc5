@@ -8,9 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/resume_manager.dart'; // ✅ Needed for reset
 import 'package:bcc5/utils/settings_manager.dart';
-// import 'package:bcc5/utils/radio_helper.dart';
 import 'package:go_router/go_router.dart';
-// import 'package:bcc5/widgets/emergency_info_modal.dart';
 
 void showSettingsModal(BuildContext context, String currentRouteName) {
   showDialog(
@@ -90,59 +88,6 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                     ),
                   ),
 
-                  // // this button closes the settingsModal and restarts the tour
-                  // TextButton(
-                  //   onPressed: () {
-                  //     logger.i(
-                  //       '🧭 SettingsModal tapped — route = $currentRouteName',
-                  //     );
-
-                  //     // Close modal first
-                  //     Navigator.of(context).pop();
-
-                  //     // Schedule logic after modal disappears
-                  //     WidgetsBinding.instance.addPostFrameCallback((_) {
-                  //       logger.i('📦 Modal closed, post-frame triggered');
-
-                  //       if (currentRouteName == '/' ||
-                  //           currentRouteName == '/landing') {
-                  //         logger.i(
-                  //           '✅ Already on landing — restarting tour directly',
-                  //         );
-
-                  //         final state = LandingScreen.getState();
-                  //         if (state != null && state.mounted) {
-                  //           logger.i('🔁 Restarting tour...');
-                  //           LandingScreenTour.restartNow(
-                  //             landingScreenState: state,
-                  //             mobKey: state.mobKey,
-                  //             settingsKey: state.settingsKey,
-                  //             titleKey: state.titleKey,
-                  //             searchKey: state.searchKey,
-                  //             harborKey: state.widget.harborKey,
-                  //             coursesKey: state.widget.coursesKey,
-                  //             partsKey: state.widget.partsKey,
-                  //             toolsKey: state.widget.toolsKey,
-                  //             drillsKey: state.widget.drillsKey,
-                  //             newCrewKey: state.widget.newCrewKey,
-                  //             advancedRefreshersKey:
-                  //                 state.widget.advancedRefreshersKey,
-                  //           );
-                  //         } else {
-                  //           logger.w(
-                  //             '⚠️ LandingScreen not mounted — cannot restart tour',
-                  //           );
-                  //         }
-                  //       } else {
-                  //         logger.i('➡️ Navigating to landing to trigger tour');
-                  //         GoRouter.of(
-                  //           context,
-                  //         ).go('/', extra: {'startTour': true});
-                  //       }
-                  //     });
-                  //   },
-                  //   child: const Text('Start App Tour Now'),
-                  // ),
                   const SizedBox(height: 8),
                   Expanded(
                     child: Padding(
@@ -194,185 +139,6 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                             },
                           ),
 
-                          // StatefulBuilder(
-                          //   builder: (context, setState) {
-                          //     return FutureBuilder<List<String>>(
-                          //       future: Future.wait([
-                          //         SettingsManager.getBoatName(),
-                          //         SettingsManager.getVesselType(),
-                          //       ]),
-                          //       builder: (context, snapshot) {
-                          //         final name = snapshot.data?[0].trim() ?? '';
-                          //         final type = snapshot.data?[1].trim().isEmpty ?? true ? 'Sailing' : snapshot.data![1].trim();
-                          //         final prefix = (type == 'Sailing') ? 'S/V' : (type == 'Motor') ? 'M/V' : type;
-
-                          //         final displayName = name.isEmpty ? 'Boat Information' : '$prefix $name';
-
-                          //         return ListTile(
-                          //           contentPadding: EdgeInsets.zero,
-                          //           title: Text(displayName, style: AppTheme.textTheme.bodyLarge),
-                          //           trailing: const Icon(Icons.chevron_right),
-                          //           onTap: () {
-                          //             showEmergencyInfoModal(context).then((_) => setState(() {}));
-                          //           },
-                          //         );
-                          //       },
-                          //     );
-                          //   },
-                          // ),
-                          // // 🚢 Vessel Name display button
-                          // StatefulBuilder(
-                          //   builder: (context, setState) {
-                          //     return FutureBuilder<String>(
-                          //       future: Future.wait([
-                          //         SettingsManager.getBoatName(),
-                          //         SettingsManager.getVesselType(),
-                          //       ]).then((values) async {
-                          //         final name = values[0].trim();
-                          //         final type =
-                          //             values[1].trim().isEmpty
-                          //                 ? 'Sailing'
-                          //                 : values[1].trim();
-                          //         final prefix =
-                          //             (type == 'Sailing')
-                          //                 ? 'S/V'
-                          //                 : (type == 'Motor')
-                          //                 ? 'M/V'
-                          //                 : type;
-                          //         if (name.isEmpty) return 'Boat Information';
-                          //         return '$prefix $name';
-                          //       }),
-                          //       builder: (context, snapshot) {
-                          //         final displayName =
-                          //             snapshot.data ?? 'Boat Information';
-                          //         return ListTile(
-                          //           contentPadding: EdgeInsets.zero,
-                          //           title: Text(
-                          //             displayName,
-                          //             style: AppTheme.textTheme.bodyLarge,
-                          //           ),
-                          //           trailing: const Icon(Icons.chevron_right),
-                          //           // onTap: () async {
-                          //           //   await showEmergencyInfoModal(context);
-                          //           //   setState(() {}); // 🔄 Refresh display name after modal closes
-                          //           // },
-                          //         );
-                          //       },
-                          //     );
-                          //   },
-                          // ),
-
-                          // // 🚢 Vessel Name display button
-                          // FutureBuilder<String>(
-                          //   future: Future.wait([
-                          //     SettingsManager.getBoatName(),
-                          //     SettingsManager.getVesselType(),
-                          //   ]).then((values) async {
-                          //     final name = values[0].trim();
-                          //     final type =
-                          //         values[1].trim().isEmpty
-                          //             ? 'Sailing'
-                          //             : values[1].trim();
-                          //     final prefix =
-                          //         (type == 'Sailing')
-                          //             ? 'S/V'
-                          //             : (type == 'Motor')
-                          //             ? 'M/V'
-                          //             : type;
-
-                          //     if (name.isEmpty) return 'Boat Information';
-                          //     return '$prefix $name';
-                          //   }),
-                          //   builder: (context, snapshot) {
-                          //     final displayName =
-                          //         snapshot.data ?? 'Boat Information';
-                          //     return ListTile(
-                          //       contentPadding: EdgeInsets.zero,
-                          //       title: Text(
-                          //         displayName,
-                          //         style: AppTheme.textTheme.bodyLarge,
-                          //       ),
-                          //       trailing: const Icon(Icons.chevron_right),
-                          //       onTap: () => showEmergencyInfoModal(context),
-                          //     );
-                          //   },
-                          // ),
-
-                          // // 🚢 Vessel Name display button
-                          // FutureBuilder<String>(
-                          //   future: Future.wait([
-                          //     SettingsManager.getBoatName(),
-                          //     SettingsManager.getVesselType(),
-                          //   ]).then((values) async {
-                          //     final name = values[0].trim();
-                          //     final type =
-                          //         values[1].trim().isEmpty
-                          //             ? 'Sailing'
-                          //             : values[1].trim();
-                          //     final prefix =
-                          //         (type == 'Sailing')
-                          //             ? 'S/V'
-                          //             : (type == 'Motor')
-                          //             ? 'M/V'
-                          //             : type;
-                          //     return '$prefix $name';
-                          //   }),
-                          //   builder: (context, snapshot) {
-                          //     final displayName = snapshot.data ?? 'Boat Info';
-                          //     return ListTile(
-                          //       contentPadding: EdgeInsets.zero,
-                          //       title: Text(
-                          //         displayName,
-                          //         style: AppTheme.textTheme.bodyLarge,
-                          //       ),
-                          //       trailing: const Icon(Icons.chevron_right),
-                          //       onTap: () => showEmergencyInfoModal(context),
-                          //     );
-                          //   },
-                          // ),
-
-                          // // 📜 Boat Name w/ Phonetic Preview
-                          // Padding(
-                          //   padding: const EdgeInsets.symmetric(vertical: 12),
-                          //   child: Column(
-                          //     crossAxisAlignment: CrossAxisAlignment.start,
-                          //     children: [
-                          //       Text('Boat Name', style: AppTheme.sectionTitle),
-
-                          //       // Show boat name
-                          //       FutureBuilder<String>(
-                          //         future: SettingsManager.getBoatName(),
-                          //         builder: (context, snapshot) {
-                          //           final boatName = snapshot.data ?? '—';
-                          //           return ListTile(
-                          //             contentPadding: EdgeInsets.zero,
-                          //             title: Text(
-                          //               boatName,
-                          //               style: AppTheme.textTheme.bodyLarge,
-                          //             ),
-                          //             subtitle: Text(
-                          //               'Tap to update in Emergency Info',
-                          //               style: AppTheme.textTheme.bodySmall
-                          //                   ?.copyWith(color: Colors.grey[600]),
-                          //             ),
-                          //             trailing: const Icon(Icons.chevron_right),
-                          //             onTap:
-                          //                 () => showEmergencyInfoModal(context),
-                          //           );
-                          //         },
-                          //       ),
-
-                          //       const SizedBox(height: 4),
-                          //       _settingButtonWithAction(
-                          //         context,
-                          //         'View/Edit Emergency Info',
-                          //         () {
-                          //           showEmergencyInfoModal(context);
-                          //         },
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
                           _settingButton(context, 'Legal & Privacy Docs'),
                           _settingDropdown('Units', ['Meters', 'Feet'], 'Feet'),
                           _settingDropdown('Wave Height', [
@@ -486,19 +252,6 @@ Widget _settingDropdown(String label, List<String> options, String selected) {
   );
 }
 
-// // 🆕 Button that accepts a custom action (used for Emergency Info)
-// Widget _settingButtonWithAction(
-//   BuildContext context,
-//   String label,
-//   VoidCallback onTap,
-// ) {
-//   return ListTile(
-//     title: Text(label, style: AppTheme.textTheme.bodyLarge),
-//     trailing: const Icon(Icons.chevron_right),
-//     onTap: onTap,
-//   );
-// }
-
 // 🧭 Dynamic Enum Dropdown
 Widget _settingEnumDropdown<T>(
   String label,
@@ -571,53 +324,3 @@ Widget _settingButton(BuildContext context, String label) {
     },
   );
 }
-
-// 🔤 Text field with Future initial value
-// Widget _settingTextField({
-//   required String label,
-//   required Future<String> initialValueFuture,
-//   required void Function(String) onChanged,
-// }) {
-//   return FutureBuilder<String>(
-//     future: initialValueFuture,
-//     builder: (context, snapshot) {
-//       final controller = TextEditingController(text: snapshot.data ?? '');
-//       return Padding(
-//         padding: const EdgeInsets.symmetric(vertical: 4),
-//         child: TextField(
-//           controller: controller,
-//           decoration: InputDecoration(labelText: label),
-//           onChanged: onChanged,
-//         ),
-//       );
-//     },
-//   );
-// }
-
-// 🔢 Integer-only input field
-// Widget _settingIntField({
-//   required String label,
-//   required Future<int> initialValueFuture,
-//   required void Function(int) onChanged,
-// }) {
-//   return FutureBuilder<int>(
-//     future: initialValueFuture,
-//     builder: (context, snapshot) {
-//       final controller = TextEditingController(
-//         text: (snapshot.data ?? 0).toString(),
-//       );
-//       return Padding(
-//         padding: const EdgeInsets.symmetric(vertical: 4),
-//         child: TextField(
-//           controller: controller,
-//           decoration: InputDecoration(labelText: label),
-//           keyboardType: TextInputType.number,
-//           onChanged: (value) {
-//             final parsed = int.tryParse(value);
-//             if (parsed != null) onChanged(parsed);
-//           },
-//         ),
-//       );
-//     },
-//   );
-// }
