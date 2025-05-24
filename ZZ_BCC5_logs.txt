@@ -1126,4 +1126,356 @@ Restarted application in 243ms.
 │ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
 │ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
 │ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LA
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+
+Performing hot restart...                                       
+Restarted application in 256ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: <…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+
+Performing hot restart...                                       
+Restarted application in 240ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: Top Gun<…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = Top Gun<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = Sailing<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = 36’<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 2<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = 2345367854<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = 23456743<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = 1234567565<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+
+Performing hot restart...                                       
+Restarted application in 294ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: Top Gun<…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = Top Gun<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = Sailing<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = 36’<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 2<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = 2345367854<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = 23456743<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = 1234567565<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+
+Performing hot restart...                                       
+s.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: <…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = Sailing<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = 36’<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 2<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = 2345367854<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = 23456743<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = 1234567565<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+
+Performing hot restart...                                       
+Restarted application in 254ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: Hello Kitty<…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = Hello Kitty<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = Sailing<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = 36’<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 2<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = 2345367854<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = 23456743<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = 1234567565<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+
+Performing hot restart...                                       
+Restarted application in 291ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: Hello Kitty<…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
+│ 💡 🧭 Scheduling 2s delayed dialog...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
+│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:8:10)<…>
+│ 💡 📦 Entered showEmergencyReminderDialog()<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:11:10)<…>
+│ 💡 📦 boatName = Hello Kitty<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:14:10)<…>
+│ 💡 📦 vesselType = Sailing<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:17:10)<…>
+│ 💡 📦 vesselLength = 36’<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:20:10)<…>
+│ 💡 📦 vesselDescription = <…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:23:10)<…>
+│ 💡 📦 adults = 2<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:26:10)<…>
+│ 💡 📦 children = 0<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:29:10)<…>
+│ 💡 📦 mmsi = 2345367854<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:32:10)<…>
+│ 💡 📦 emergencyPhone = 23456743<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:35:10)<…>
+│ 💡 📦 captainPhone = 1234567565<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:38:12)<…>
+│ 💡 📦 Showing AlertDialog...<…>
+│ #0   showEmergencyReminderDialog.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:43:16)<…>
+│ 💡 📦 AlertDialog builder executed<…>
+
+Performing hot restart...                                       
+Restarted application in 253ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: <…>
+│ 💡 - shouldStartTour: true<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:29:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: false<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
+│ 💡 🧭 showReminder = false<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:37:12)<…>
+│ 💡 🎯 Starting Landing Tour...<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:38:12)<…>
+│ 💡 🧪 mobKey = IconButton-[GlobalKey#4aa97](tooltip: Man Overboard, disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#b6857]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:39:12)<…>
+│ 💡 🧪 settingsKey = IconButton-[GlobalKey#724ba](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#b6857]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:40:12)<…>
+│ 💡 🧪 titleKey = Text-[GlobalKey#43a90]("Welcome!", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), size: 22.0, weight: 700, textAlign: center, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:41:12)<…>
+│ 💡 🧪 searchKey = IconButton-[GlobalKey#8a2ff](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#b6857]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:42:
