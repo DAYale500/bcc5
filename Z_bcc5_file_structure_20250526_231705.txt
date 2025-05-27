@@ -11,6 +11,7 @@ lib
 │   │   └── tool_model.dart
 │   └── repositories
 │       ├── flashcards
+│       │   ├── competent_crew_flashards.dart
 │       │   └── flashcard_repository_index.dart
 │       ├── lessons
 │       │   ├── lesson_docking_repository.dart
@@ -88,7 +89,8 @@ lib
 │   ├── settings_manager.dart
 │   ├── string_extensions.dart
 │   ├── tour_manager.dart
-│   └── transition_manager.dart
+│   ├── transition_manager.dart
+│   └── vessel_formatting.dart
 └── widgets
     ├── content_block_renderer.dart
     ├── custom_app_bar_widget.dart
@@ -96,6 +98,7 @@ lib
     ├── dialogs
     │   └── emergency_reminder_dialog.dart
     ├── disabled_item_button.dart
+    ├── emergency_info_modal.dart
     ├── end_of_group_modal.dart
     ├── flip_card_widget.dart
     ├── group_button.dart
@@ -104,12 +107,17 @@ lib
     ├── learning_path_progress_bar.dart
     ├── mob_modal.dart
     ├── navigation
-    │   └── last_group_button.dart
+    │   ├── last_group_button.dart
+    │   └── path_ending_actions.dart
     ├── navigation_buttons.dart
     ├── search_modal.dart
+    ├── setting_depth_picker.dart
+    ├── setting_input_fields.dart
+    ├── setting_int_picker.dart
+    ├── setting_unit_picker.dart
     ├── settings_modal.dart
     └── tour
         ├── landing_screen_tour.dart
         └── tour_descriptions.dart
 
-24 directories, 89 files
+24 directories, 97 files

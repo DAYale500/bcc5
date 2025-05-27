@@ -47,3 +47,37 @@ Widget settingIntField({
     },
   );
 }
+
+// Widget settingIntPickerField({
+//   required String label,
+//   required int minValue,
+//   required int maxValue,
+//   required Future<int> initialValueFuture,
+//   required ValueChanged<int> onChanged,
+// }) {
+//   return FutureBuilder<int>(
+//     future: initialValueFuture,
+//     builder: (context, snapshot) {
+//       int value = snapshot.data ?? minValue;
+//       return Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(label),
+//           DropdownButton<int>(
+//             value: value,
+//             items: List.generate(
+//               maxValue - minValue + 1,
+//               (i) => DropdownMenuItem(
+//                 value: minValue + i,
+//                 child: Text('${minValue + i}'),
+//               ),
+//             ),
+//             onChanged: (newValue) {
+//               if (newValue != null) onChanged(newValue);
+//             },
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }

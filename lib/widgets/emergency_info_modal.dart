@@ -1,8 +1,11 @@
-import 'package:bcc5/utils/radio_helper.dart';
+import 'package:bcc5/utils/vessel_formatting.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/settings_manager.dart';
 import 'package:bcc5/widgets/setting_input_fields.dart';
+import 'package:bcc5/widgets/setting_unit_picker.dart';
+import 'package:bcc5/widgets/setting_int_picker.dart';
+import 'package:bcc5/widgets/setting_depth_picker.dart';
 
 void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
   showDialog(
@@ -16,7 +19,6 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 🔤 Boat Name Field (now first)
                   settingTextField(
                     label: 'Boat Name',
                     initialValueFuture: SettingsManager.getBoatName(),
@@ -25,8 +27,6 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
                       if (onChanged != null) onChanged();
                     },
                   ),
-
-                  // 🔡 Phonetic preview (below name field)
                   FutureBuilder<String>(
                     future: SettingsManager.getBoatName(),
                     builder: (context, snapshot) {
@@ -40,8 +40,6 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
                       );
                     },
                   ),
-
-                  // 🚢 Vessel Type Dropdown
                   FutureBuilder<String>(
                     future: SettingsManager.getVesselType(),
                     builder: (context, snapshot) {
@@ -109,59 +107,70 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
                       );
                     },
                   ),
-
-                  // 📏 Vessel Length
-                  settingTextField(
+                  settingTextFieldWithUnitPicker(
                     label: 'Vessel Length',
                     initialValueFuture: SettingsManager.getVesselLength(),
+                    unitOptions: ['feet', 'meters'],
+                    defaultUnit: 'feet',
+                    getUnitFuture: SettingsManager.getLengthUnit,
+                    setUnit: SettingsManager.setLengthUnit,
                     onChanged: (value) async {
                       await SettingsManager.setVesselLength(value);
                       if (onChanged != null) onChanged();
                     },
                   ),
+                  settingDepthPickerField(
+                    label: 'Minimum Depth / Boat Draft',
+                    initialValueFuture: SettingsManager.getMinimumDepth(),
+                    getUnitFuture: SettingsManager.getLengthUnit,
+                    onChanged: (value) async {
+                      await SettingsManager.setMinimumDepth(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
 
-                  // 📋 Description
+                  // settingDepthPickerField(
+                  //   label: 'Minimum Depth / Boat Draft',
+                  //   initialValueFuture: SettingsManager.getMinimumDepth(),
+                  //   getUnitFuture: SettingsManager.getLengthUnit,
+                  //   onChanged: (value) async {
+                  //     await SettingsManager.setMinimumDepth(value);
+                  //     if (onChanged != null) onChanged();
+                  //   },
+                  // ),
                   settingTextField(
-                    label: 'Vessel Description (e.g., “sail number 56788”)',
+                    label: 'Vessel Description',
                     initialValueFuture: SettingsManager.getVesselDescription(),
                     onChanged: (value) async {
                       await SettingsManager.setVesselDescription(value);
                       if (onChanged != null) onChanged();
                     },
                   ),
-
-                  // 🧍 Adults & Children
-                  settingIntField(
+                  settingIntPickerField(
                     label: 'Souls Onboard (Adults)',
+                    minValue: 0,
+                    maxValue: 10,
                     initialValueFuture: SettingsManager.getSoulsAdults(),
                     onChanged: (value) async {
                       await SettingsManager.setSoulsAdults(value);
                       if (onChanged != null) onChanged();
                     },
                   ),
-                  settingIntField(
+                  settingIntPickerField(
                     label: 'Souls Onboard (Children)',
+                    minValue: 0,
+                    maxValue: 10,
                     initialValueFuture: SettingsManager.getSoulsChildren(),
                     onChanged: (value) async {
                       await SettingsManager.setSoulsChildren(value);
                       if (onChanged != null) onChanged();
                     },
                   ),
-
-                  // 📞 Contacts
                   settingTextField(
                     label: 'MMSI (optional)',
                     initialValueFuture: SettingsManager.getMMSI(),
                     onChanged: (value) async {
                       await SettingsManager.setMMSI(value);
-                      if (onChanged != null) onChanged();
-                    },
-                  ),
-                  settingTextField(
-                    label: 'Emergency Contact Phone',
-                    initialValueFuture: SettingsManager.getEmergencyContact(),
-                    onChanged: (value) async {
-                      await SettingsManager.setEmergencyContact(value);
                       if (onChanged != null) onChanged();
                     },
                   ),
@@ -173,7 +182,31 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
                       if (onChanged != null) onChanged();
                     },
                   ),
-
+                  settingTextField(
+                    label: 'Coast Guard Emergency Number',
+                    initialValueFuture: SettingsManager.getCoastGuardPhone(),
+                    onChanged: (value) async {
+                      await SettingsManager.setCoastGuardPhone(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingTextField(
+                    label: 'Emergency Contact Name',
+                    initialValueFuture:
+                        SettingsManager.getEmergencyContactName(),
+                    onChanged: (value) async {
+                      await SettingsManager.setEmergencyContactName(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingTextField(
+                    label: 'Emergency Contact Phone',
+                    initialValueFuture: SettingsManager.getEmergencyContact(),
+                    onChanged: (value) async {
+                      await SettingsManager.setEmergencyContact(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
                   const SizedBox(height: 16),
                 ],
               ),
@@ -206,6 +239,9 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
 
 
 
+
+
+
 // import 'package:bcc5/utils/radio_helper.dart';
 // import 'package:flutter/material.dart';
 // import 'package:bcc5/theme/app_theme.dart';
@@ -216,190 +252,228 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
 //   showDialog(
 //     context: context,
 //     builder: (_) => AlertDialog(
-//           title: const Text('🚨 Emergency Info'),
-//           content: SizedBox(
-//             width: double.maxFinite,
-//             child: SingleChildScrollView(
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   // 🔤 Boat Name Field (now first)
-//                   settingTextField(
-//                     label: 'Boat Name',
-//                     initialValueFuture: SettingsManager.getBoatName(),
-//                     onChanged: (value) async {
-//                       await SettingsManager.setBoatName(value);
-//                       if (onChanged != null) onChanged();
-//                     },
-//                   ),
-
-//                   // 🔡 Phonetic preview (below name field)
-//                   FutureBuilder<String>(
-//                     future: SettingsManager.getBoatName(),
-//                     builder: (context, snapshot) {
-//                       final name = snapshot.data ?? '';
-//                       return Padding(
-//                         padding: const EdgeInsets.only(bottom: 8),
-//                         child: Text(
-//                           'Phonetic: ${formatPhonetic(name)}',
-//                           style: AppTheme.phoneticStyle,
-//                         ),
-//                       );
-//                     },
-//                   ),
-
-//                   // 🚢 Vessel Type Dropdown
-//                   FutureBuilder<String>(
-//                     future: SettingsManager.getVesselType(),
-//                     builder: (context, snapshot) {
-//                       final raw = snapshot.data;
-//                       final current = (raw == null || raw.isEmpty || raw == 'Other') ? 'Sailing' : raw;
-//                       final controller = TextEditingController(text: current);
-//                       final options = [
-//                         'Sailing',
-//                         'Motor',
-//                         'Catamaran',
-//                         'Other',
-//                       ];
-//                       return StatefulBuilder(
-//                         builder: (context, setState) {
-//                           return Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               const Text('Vessel Type'),
-//                               const SizedBox(height: 4),
-//                               DropdownButtonFormField<String>(
-//                                 value: options.contains(current) ? current : 'Other',
-//                                 items: options
-//                                     .map((type) => DropdownMenuItem(
-//                                           value: type,
-//                                           child: Text(type),
-//                                         ))
-//                                     .toList(),
-//                                 onChanged: (value) {
-//                                   if (value == 'Other') {
-//                                     controller.text = '';
-//                                   } else {
-//                                     controller.text = value!;
-//                                     SettingsManager.setVesselType(value);
-//                                     if (onChanged != null) onChanged();
-//                                   }
-//                                   setState(() {});
-//                                 },
-//                               ),
-//                               const SizedBox(height: 6),
-//                               if (controller.text.isEmpty || controller.text == 'Other')
-//                                 TextField(
-//                                   controller: controller,
-//                                   decoration: const InputDecoration(
-//                                     hintText: 'Enter vessel type',
-//                                     border: OutlineInputBorder(),
-//                                   ),
-//                                   onChanged: (value) async {
-//                                     await SettingsManager.setVesselType(value);
-//                                     if (onChanged != null) onChanged();
-//                                   },
-//                                 ),
-//                             ],
-//                           );
-//                         },
-//                       );
-//                     },
-//                   ),
-
-//                   // 📏 Vessel Length
-//                   settingTextField(
-//                     label: 'Vessel Length',
-//                     initialValueFuture: SettingsManager.getVesselLength(),
-//                     onChanged: (value) async {
-//                       await SettingsManager.setVesselLength(value);
-//                       if (onChanged != null) onChanged();
-//                     },
-//                   ),
-
-//                   // 📋 Description
-//                   settingTextField(
-//                     label: 'Vessel Description (e.g., “sail number 56788”)',
-//                     initialValueFuture: SettingsManager.getVesselDescription(),
-//                     onChanged: (value) async {
-//                       await SettingsManager.setVesselDescription(value);
-//                       if (onChanged != null) onChanged();
-//                     },
-//                   ),
-
-//                   // 🧍 Adults & Children
-//                   settingIntField(
-//                     label: 'Souls Onboard (Adults)',
-//                     initialValueFuture: SettingsManager.getSoulsAdults(),
-//                     onChanged: (value) async {
-//                       await SettingsManager.setSoulsAdults(value);
-//                       if (onChanged != null) onChanged();
-//                     },
-//                   ),
-//                   settingIntField(
-//                     label: 'Souls Onboard (Children)',
-//                     initialValueFuture: SettingsManager.getSoulsChildren(),
-//                     onChanged: (value) async {
-//                       await SettingsManager.setSoulsChildren(value);
-//                       if (onChanged != null) onChanged();
-//                     },
-//                   ),
-
-//                   // 📞 Contacts
-//                   settingTextField(
-//                     label: 'MMSI (optional)',
-//                     initialValueFuture: SettingsManager.getMMSI(),
-//                     onChanged: (value) async {
-//                       await SettingsManager.setMMSI(value);
-//                       if (onChanged != null) onChanged();
-//                     },
-//                   ),
-//                   settingTextField(
-//                     label: 'Emergency Contact Phone',
-//                     initialValueFuture: SettingsManager.getEmergencyContact(),
-//                     onChanged: (value) async {
-//                       await SettingsManager.setEmergencyContact(value);
-//                       if (onChanged != null) onChanged();
-//                     },
-//                   ),
-//                   settingTextField(
-//                     label: "Captain's Phone",
-//                     initialValueFuture: SettingsManager.getCaptainPhone(),
-//                     onChanged: (value) async {
-//                       await SettingsManager.setCaptainPhone(value);
-//                       if (onChanged != null) onChanged();
-//                     },
-//                   ),
-
-//                   const SizedBox(height: 16),
-//                 ],
+//       title: const Text('🚨 Emergency Info'),
+//       content: SizedBox(
+//         width: double.maxFinite,
+//         child: SingleChildScrollView(
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               // 🔤 Boat Name Field
+//               settingTextField(
+//                 label: 'Boat Name',
+//                 initialValueFuture: SettingsManager.getBoatName(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setBoatName(value);
+//                   if (onChanged != null) onChanged();
+//                 },
 //               ),
-//             ),
-//           ),
-//           actions: [
-//             Padding(
-//               padding: EdgeInsets.zero,
-//               child: SizedBox(
-//                 height: 44,
-//                 width: double.infinity,
-//                 child: TextButton(
-//                   style: TextButton.styleFrom(
-//                     backgroundColor: AppTheme.primaryRed,
-//                     foregroundColor: Colors.white,
-//                     padding: EdgeInsets.zero,
-//                     shape: const RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.zero,
+
+//               // 🔡 Phonetic preview
+//               FutureBuilder<String>(
+//                 future: SettingsManager.getBoatName(),
+//                 builder: (context, snapshot) {
+//                   final name = snapshot.data ?? '';
+//                   return Padding(
+//                     padding: const EdgeInsets.only(bottom: 8),
+//                     child: Text(
+//                       'Phonetic: ${formatPhonetic(name)}',
+//                       style: AppTheme.phoneticStyle,
 //                     ),
-//                   ),
-//                   onPressed: () => Navigator.of(context).pop(),
-//                   child: const Text('Close', style: AppTheme.dialogButtonText),
+//                   );
+//                 },
+//               ),
+
+//               // 🚢 Vessel Type Dropdown
+//               FutureBuilder<String>(
+//                 future: SettingsManager.getVesselType(),
+//                 builder: (context, snapshot) {
+//                   final raw = snapshot.data;
+//                   final current = (raw == null || raw.isEmpty || raw == 'Other') ? 'Sailing' : raw;
+//                   final controller = TextEditingController(text: current);
+//                   final options = ['Sailing', 'Motor', 'Catamaran', 'Other'];
+//                   return StatefulBuilder(
+//                     builder: (context, setState) {
+//                       return Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           const Text('Vessel Type'),
+//                           const SizedBox(height: 4),
+//                           DropdownButtonFormField<String>(
+//                             value: options.contains(current) ? current : 'Other',
+//                             items: options.map((type) => DropdownMenuItem(
+//                               value: type,
+//                               child: Text(type),
+//                             )).toList(),
+//                             onChanged: (value) {
+//                               if (value == 'Other') {
+//                                 controller.text = '';
+//                               } else {
+//                                 controller.text = value!;
+//                                 SettingsManager.setVesselType(value);
+//                                 if (onChanged != null) onChanged();
+//                               }
+//                               setState(() {});
+//                             },
+//                           ),
+//                           const SizedBox(height: 6),
+//                           if (controller.text.isEmpty || controller.text == 'Other')
+//                             TextField(
+//                               controller: controller,
+//                               decoration: const InputDecoration(
+//                                 hintText: 'Enter vessel type',
+//                                 border: OutlineInputBorder(),
+//                               ),
+//                               onChanged: (value) async {
+//                                 await SettingsManager.setVesselType(value);
+//                                 if (onChanged != null) onChanged();
+//                               },
+//                             ),
+//                         ],
+//                       );
+//                     },
+//                   );
+//                 },
+//               ),
+
+//               // 📏 Vessel Length with units
+//               settingTextFieldWithUnitPicker(
+//                 label: 'Vessel Length',
+//                 initialValueFuture: SettingsManager.getVesselLength(),
+//                 unitOptions: ['feet', 'meters'],
+//                 defaultUnit: 'feet',
+//                 getUnitFuture: SettingsManager.getLengthUnit,
+//                 setUnit: SettingsManager.setLengthUnit,
+//                 onChanged: (value) async {
+//                   await SettingsManager.setVesselLength(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 🪣 Minimum Depth
+//               settingTextField(
+//                 label: 'Minimum Depth (e.g., keel clearance)',
+//                 initialValueFuture: SettingsManager.getMinimumDepth(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setMinimumDepth(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 📋 Description
+//               settingTextField(
+//                 label: 'Vessel Description',
+//                 initialValueFuture: SettingsManager.getVesselDescription(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setVesselDescription(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 🧍 Souls Onboard
+//               settingIntPickerField(
+//                 label: 'Souls Onboard (Adults)',
+//                 minValue: 0,
+//                 maxValue: 10,
+//                 initialValueFuture: SettingsManager.getSoulsAdults(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setSoulsAdults(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+//               settingIntPickerField(
+//                 label: 'Souls Onboard (Children)',
+//                 minValue: 0,
+//                 maxValue: 10,
+//                 initialValueFuture: SettingsManager.getSoulsChildren(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setSoulsChildren(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 📞 MMSI
+//               settingTextField(
+//                 label: 'MMSI (optional)',
+//                 initialValueFuture: SettingsManager.getMMSI(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setMMSI(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // ☎️ Captain’s Phone
+//               settingTextField(
+//                 label: "Captain's Phone",
+//                 initialValueFuture: SettingsManager.getCaptainPhone(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setCaptainPhone(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 🚨 Coast Guard Emergency Number
+//               settingTextField(
+//                 label: 'Coast Guard Emergency Number',
+//                 initialValueFuture: SettingsManager.getCoastGuardPhone(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setCoastGuardPhone(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 📞 Emergency Contact
+//               settingTextField(
+//                 label: 'Emergency Contact Name',
+//                 initialValueFuture: SettingsManager.getEmergencyContactName(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setEmergencyContactName(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+//               settingTextField(
+//                 label: 'Emergency Contact Phone',
+//                 initialValueFuture: SettingsManager.getEmergencyContact(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setEmergencyContact(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               const SizedBox(height: 16),
+//             ],
+//           ),
+//         ),
+//       ),
+//       actions: [
+//         Padding(
+//           padding: EdgeInsets.zero,
+//           child: SizedBox(
+//             height: 44,
+//             width: double.infinity,
+//             child: TextButton(
+//               style: TextButton.styleFrom(
+//                 backgroundColor: AppTheme.primaryRed,
+//                 foregroundColor: Colors.white,
+//                 padding: EdgeInsets.zero,
+//                 shape: const RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.zero,
 //                 ),
 //               ),
+//               onPressed: () => Navigator.of(context).pop(),
+//               child: const Text('Close', style: AppTheme.dialogButtonText),
 //             ),
-//           ],
+//           ),
 //         ),
+//       ],
+//     ),
 //   );
 // }
+
+
+
+
+
 
 
 
@@ -409,7 +483,7 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
 // // import 'package:bcc5/utils/settings_manager.dart';
 // // import 'package:bcc5/widgets/setting_input_fields.dart';
 
-// // void showEmergencyInfoModal(BuildContext context) {
+// // void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
 // //   showDialog(
 // //     context: context,
 // //     builder:
@@ -425,7 +499,10 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
 // //                   settingTextField(
 // //                     label: 'Boat Name',
 // //                     initialValueFuture: SettingsManager.getBoatName(),
-// //                     onChanged: SettingsManager.setBoatName,
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setBoatName(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
 // //                   ),
 
 // //                   // 🔡 Phonetic preview (below name field)
@@ -486,6 +563,7 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
 // //                                   } else {
 // //                                     controller.text = value!;
 // //                                     SettingsManager.setVesselType(value);
+// //                                     if (onChanged != null) onChanged();
 // //                                   }
 // //                                   setState(() {});
 // //                                 },
@@ -499,9 +577,10 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
 // //                                     hintText: 'Enter vessel type',
 // //                                     border: OutlineInputBorder(),
 // //                                   ),
-// //                                   onChanged:
-// //                                       (value) =>
-// //                                           SettingsManager.setVesselType(value),
+// //                                   onChanged: (value) async {
+// //                                     await SettingsManager.setVesselType(value);
+// //                                     if (onChanged != null) onChanged();
+// //                                   },
 // //                                 ),
 // //                             ],
 // //                           );
@@ -514,43 +593,64 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
 // //                   settingTextField(
 // //                     label: 'Vessel Length',
 // //                     initialValueFuture: SettingsManager.getVesselLength(),
-// //                     onChanged: SettingsManager.setVesselLength,
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setVesselLength(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
 // //                   ),
 
 // //                   // 📋 Description
 // //                   settingTextField(
 // //                     label: 'Vessel Description (e.g., “sail number 56788”)',
 // //                     initialValueFuture: SettingsManager.getVesselDescription(),
-// //                     onChanged: SettingsManager.setVesselDescription,
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setVesselDescription(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
 // //                   ),
 
 // //                   // 🧍 Adults & Children
 // //                   settingIntField(
 // //                     label: 'Souls Onboard (Adults)',
 // //                     initialValueFuture: SettingsManager.getSoulsAdults(),
-// //                     onChanged: SettingsManager.setSoulsAdults,
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setSoulsAdults(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
 // //                   ),
 // //                   settingIntField(
 // //                     label: 'Souls Onboard (Children)',
 // //                     initialValueFuture: SettingsManager.getSoulsChildren(),
-// //                     onChanged: SettingsManager.setSoulsChildren,
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setSoulsChildren(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
 // //                   ),
 
 // //                   // 📞 Contacts
 // //                   settingTextField(
 // //                     label: 'MMSI (optional)',
 // //                     initialValueFuture: SettingsManager.getMMSI(),
-// //                     onChanged: SettingsManager.setMMSI,
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setMMSI(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
 // //                   ),
 // //                   settingTextField(
 // //                     label: 'Emergency Contact Phone',
 // //                     initialValueFuture: SettingsManager.getEmergencyContact(),
-// //                     onChanged: SettingsManager.setEmergencyContact,
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setEmergencyContact(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
 // //                   ),
 // //                   settingTextField(
 // //                     label: "Captain's Phone",
 // //                     initialValueFuture: SettingsManager.getCaptainPhone(),
-// //                     onChanged: SettingsManager.setCaptainPhone,
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setCaptainPhone(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
 // //                   ),
 
 // //                   const SizedBox(height: 16),
@@ -582,651 +682,3 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
 // //         ),
 // //   );
 // // }
-
-// // // import 'package:bcc5/utils/radio_helper.dart';
-// // // import 'package:flutter/material.dart';
-// // // import 'package:bcc5/theme/app_theme.dart';
-// // // import 'package:bcc5/utils/settings_manager.dart';
-// // // import 'package:bcc5/widgets/setting_input_fields.dart';
-
-// // // void showEmergencyInfoModal(BuildContext context) {
-// // //   showDialog(
-// // //     context: context,
-// // //     builder:
-// // //         (_) => AlertDialog(
-// // //           title: const Text('🚨 Emergency Info'),
-// // //           content: SizedBox(
-// // //             width: double.maxFinite,
-// // //             child: SingleChildScrollView(
-// // //               child: Column(
-// // //                 crossAxisAlignment: CrossAxisAlignment.start,
-// // //                 children: [
-// // //                   // 🔤 Boat Name Field (now first)
-// // //                   settingTextField(
-// // //                     label: 'Boat Name',
-// // //                     initialValueFuture: SettingsManager.getBoatName(),
-// // //                     onChanged: SettingsManager.setBoatName,
-// // //                   ),
-
-// // //                   // 🔡 Phonetic preview (below name field)
-// // //                   FutureBuilder<String>(
-// // //                     future: SettingsManager.getBoatName(),
-// // //                     builder: (context, snapshot) {
-// // //                       final name = snapshot.data ?? '';
-// // //                       return Padding(
-// // //                         padding: const EdgeInsets.only(bottom: 8),
-// // //                         child: Text(
-// // //                           'Phonetic: ${formatPhonetic(name)}',
-// // //                           style: AppTheme.phoneticStyle,
-// // //                         ),
-// // //                       );
-// // //                     },
-// // //                   ),
-
-// // //                   // 🚢 Vessel Type Dropdown
-// // //                   FutureBuilder<String>(
-// // //                     future: SettingsManager.getVesselType(),
-// // //                     builder: (context, snapshot) {
-// // //                       final raw = snapshot.data;
-// // //                       final current =
-// // //                           (raw == null || raw == 'Other') ? 'Sailing' : raw;
-// // //                       final controller = TextEditingController(text: current);
-// // //                       final options = [
-// // //                         'Sailing',
-// // //                         'Motor',
-// // //                         'Catamaran',
-// // //                         'Other',
-// // //                       ];
-// // //                       return StatefulBuilder(
-// // //                         builder: (context, setState) {
-// // //                           return Column(
-// // //                             crossAxisAlignment: CrossAxisAlignment.start,
-// // //                             children: [
-// // //                               const Text('Vessel Type'),
-// // //                               const SizedBox(height: 4),
-// // //                               DropdownButtonFormField<String>(
-// // //                                 value:
-// // //                                     options.contains(current)
-// // //                                         ? current
-// // //                                         : 'Other',
-// // //                                 items:
-// // //                                     options
-// // //                                         .map(
-// // //                                           (type) => DropdownMenuItem(
-// // //                                             value: type,
-// // //                                             child: Text(type),
-// // //                                           ),
-// // //                                         )
-// // //                                         .toList(),
-// // //                                 onChanged: (value) {
-// // //                                   if (value == 'Other') {
-// // //                                     controller.text = '';
-// // //                                   } else {
-// // //                                     controller.text = value!;
-// // //                                     SettingsManager.setVesselType(value);
-// // //                                   }
-// // //                                   setState(() {});
-// // //                                 },
-// // //                               ),
-// // //                               const SizedBox(height: 6),
-// // //                               if (controller.text.isEmpty ||
-// // //                                   controller.text == 'Other')
-// // //                                 TextField(
-// // //                                   controller: controller,
-// // //                                   decoration: const InputDecoration(
-// // //                                     hintText: 'Enter vessel type',
-// // //                                     border: OutlineInputBorder(),
-// // //                                   ),
-// // //                                   onChanged:
-// // //                                       (value) =>
-// // //                                           SettingsManager.setVesselType(value),
-// // //                                 ),
-// // //                             ],
-// // //                           );
-// // //                         },
-// // //                       );
-// // //                     },
-// // //                   ),
-
-// // //                   // 📏 Vessel Length
-// // //                   settingTextField(
-// // //                     label: 'Vessel Length',
-// // //                     initialValueFuture: SettingsManager.getVesselLength(),
-// // //                     onChanged: SettingsManager.setVesselLength,
-// // //                   ),
-
-// // //                   // 📋 Description
-// // //                   settingTextField(
-// // //                     label: 'Vessel Description (e.g., “sail number 56788”)',
-// // //                     initialValueFuture: SettingsManager.getVesselDescription(),
-// // //                     onChanged: SettingsManager.setVesselDescription,
-// // //                   ),
-
-// // //                   // 🧍 Adults & Children
-// // //                   settingIntField(
-// // //                     label: 'Souls Onboard (Adults)',
-// // //                     initialValueFuture: SettingsManager.getSoulsAdults(),
-// // //                     onChanged: SettingsManager.setSoulsAdults,
-// // //                   ),
-// // //                   settingIntField(
-// // //                     label: 'Souls Onboard (Children)',
-// // //                     initialValueFuture: SettingsManager.getSoulsChildren(),
-// // //                     onChanged: SettingsManager.setSoulsChildren,
-// // //                   ),
-
-// // //                   // 📞 Contacts
-// // //                   settingTextField(
-// // //                     label: 'MMSI (optional)',
-// // //                     initialValueFuture: SettingsManager.getMMSI(),
-// // //                     onChanged: SettingsManager.setMMSI,
-// // //                   ),
-// // //                   settingTextField(
-// // //                     label: 'Emergency Contact Phone',
-// // //                     initialValueFuture: SettingsManager.getEmergencyContact(),
-// // //                     onChanged: SettingsManager.setEmergencyContact,
-// // //                   ),
-// // //                   settingTextField(
-// // //                     label: "Captain's Phone",
-// // //                     initialValueFuture: SettingsManager.getCaptainPhone(),
-// // //                     onChanged: SettingsManager.setCaptainPhone,
-// // //                   ),
-
-// // //                   const SizedBox(height: 16),
-// // //                 ],
-// // //               ),
-// // //             ),
-// // //           ),
-// // //           actions: [
-// // //             Padding(
-// // //               padding: EdgeInsets.zero,
-// // //               child: SizedBox(
-// // //                 height: 44,
-// // //                 width: double.infinity,
-// // //                 child: TextButton(
-// // //                   style: TextButton.styleFrom(
-// // //                     backgroundColor: AppTheme.primaryRed,
-// // //                     foregroundColor: Colors.white,
-// // //                     padding: EdgeInsets.zero,
-// // //                     shape: const RoundedRectangleBorder(
-// // //                       borderRadius: BorderRadius.zero,
-// // //                     ),
-// // //                   ),
-// // //                   onPressed: () => Navigator.of(context).pop(),
-// // //                   child: const Text('Close', style: AppTheme.dialogButtonText),
-// // //                 ),
-// // //               ),
-// // //             ),
-// // //           ],
-// // //         ),
-// // //   );
-// // // }
-
-// // // // import 'package:bcc5/utils/radio_helper.dart';
-// // // // import 'package:flutter/material.dart';
-// // // // import 'package:bcc5/theme/app_theme.dart';
-// // // // import 'package:bcc5/utils/settings_manager.dart';
-// // // // import 'package:bcc5/widgets/setting_input_fields.dart';
-
-// // // // void showEmergencyInfoModal(BuildContext context) {
-// // // //   showDialog(
-// // // //     context: context,
-// // // //     builder:
-// // // //         (_) => AlertDialog(
-// // // //           title: const Text('🚨 Emergency Info'),
-// // // //           content: SizedBox(
-// // // //             width: double.maxFinite,
-// // // //             child: SingleChildScrollView(
-// // // //               child: Column(
-// // // //                 crossAxisAlignment: CrossAxisAlignment.start,
-// // // //                 children: [
-// // // //                   // 🚤 Combined Boat Name + Type with phonetic preview
-// // // //                   FutureBuilder<String>(
-// // // //                     future: SettingsManager.getBoatName(),
-// // // //                     builder: (context, boatSnap) {
-// // // //                       final boatName = boatSnap.data ?? '';
-// // // //                       return FutureBuilder<String>(
-// // // //                         future: SettingsManager.getVesselType(),
-// // // //                         builder: (context, typeSnap) {
-// // // //                           final vesselType = typeSnap.data ?? 'Sailing';
-// // // //                           final prefix =
-// // // //                               vesselType == 'Motor'
-// // // //                                   ? 'M/V'
-// // // //                                   : vesselType == 'Sailing'
-// // // //                                   ? 'S/V'
-// // // //                                   : '';
-// // // //                           final display =
-// // // //                               prefix.isNotEmpty
-// // // //                                   ? '$prefix $boatName'
-// // // //                                   : boatName;
-// // // //                           return Column(
-// // // //                             crossAxisAlignment: CrossAxisAlignment.start,
-// // // //                             children: [
-// // // //                               Text(
-// // // //                                 'Boat Name + Type',
-// // // //                                 style: AppTheme.sectionTitle,
-// // // //                               ),
-// // // //                               Padding(
-// // // //                                 padding: const EdgeInsets.only(bottom: 8),
-// // // //                                 child: Text(
-// // // //                                   display,
-// // // //                                   style: AppTheme.textTheme.bodyLarge,
-// // // //                                 ),
-// // // //                               ),
-// // // //                               Padding(
-// // // //                                 padding: const EdgeInsets.only(bottom: 8),
-// // // //                                 child: Text(
-// // // //                                   'Phonetic: ${formatPhonetic(display)}',
-// // // //                                   style: AppTheme.phoneticStyle,
-// // // //                                 ),
-// // // //                               ),
-// // // //                             ],
-// // // //                           );
-// // // //                         },
-// // // //                       );
-// // // //                     },
-// // // //                   ),
-
-// // // //                   settingTextField(
-// // // //                     label: 'Boat Name',
-// // // //                     initialValueFuture: SettingsManager.getBoatName(),
-// // // //                     onChanged: SettingsManager.setBoatName,
-// // // //                   ),
-
-// // // //                   // ⛵ Vessel Type Picker with "Other" option
-// // // //                   FutureBuilder<String>(
-// // // //                     future: SettingsManager.getVesselType(),
-// // // //                     builder: (context, snapshot) {
-// // // //                       final raw = snapshot.data;
-// // // //                       final current =
-// // // //                           (raw == null || raw == 'Other') ? 'Sailing' : raw;
-// // // //                       final controller = TextEditingController(text: current);
-// // // //                       final options = [
-// // // //                         'Sailing',
-// // // //                         'Motor',
-// // // //                         'Catamaran',
-// // // //                         'Other',
-// // // //                       ];
-// // // //                       return StatefulBuilder(
-// // // //                         builder: (context, setState) {
-// // // //                           return Column(
-// // // //                             crossAxisAlignment: CrossAxisAlignment.start,
-// // // //                             children: [
-// // // //                               const Text('Vessel Type'),
-// // // //                               const SizedBox(height: 4),
-// // // //                               DropdownButtonFormField<String>(
-// // // //                                 value:
-// // // //                                     options.contains(current)
-// // // //                                         ? current
-// // // //                                         : 'Other',
-// // // //                                 items:
-// // // //                                     options
-// // // //                                         .map(
-// // // //                                           (type) => DropdownMenuItem(
-// // // //                                             value: type,
-// // // //                                             child: Text(type),
-// // // //                                           ),
-// // // //                                         )
-// // // //                                         .toList(),
-// // // //                                 onChanged: (value) {
-// // // //                                   if (value == 'Other') {
-// // // //                                     controller.text = '';
-// // // //                                   } else {
-// // // //                                     controller.text = value!;
-// // // //                                     SettingsManager.setVesselType(value);
-// // // //                                   }
-// // // //                                   setState(() {});
-// // // //                                 },
-// // // //                               ),
-// // // //                               const SizedBox(height: 6),
-// // // //                               if (controller.text.isEmpty ||
-// // // //                                   controller.text == 'Other')
-// // // //                                 TextField(
-// // // //                                   controller: controller,
-// // // //                                   decoration: const InputDecoration(
-// // // //                                     hintText: 'Enter vessel type',
-// // // //                                     border: OutlineInputBorder(),
-// // // //                                   ),
-// // // //                                   onChanged:
-// // // //                                       (value) =>
-// // // //                                           SettingsManager.setVesselType(value),
-// // // //                                 ),
-// // // //                             ],
-// // // //                           );
-// // // //                         },
-// // // //                       );
-// // // //                     },
-// // // //                   ),
-
-// // // //                   settingTextField(
-// // // //                     label: 'Vessel Length',
-// // // //                     initialValueFuture: SettingsManager.getVesselLength(),
-// // // //                     onChanged: SettingsManager.setVesselLength,
-// // // //                   ),
-// // // //                   settingTextField(
-// // // //                     label: 'Vessel Description (e.g., “sail number 56788”)',
-// // // //                     initialValueFuture: SettingsManager.getVesselDescription(),
-// // // //                     onChanged: SettingsManager.setVesselDescription,
-// // // //                   ),
-// // // //                   settingIntField(
-// // // //                     label: 'Souls Onboard (Adults)',
-// // // //                     initialValueFuture: SettingsManager.getSoulsAdults(),
-// // // //                     onChanged: SettingsManager.setSoulsAdults,
-// // // //                   ),
-// // // //                   settingIntField(
-// // // //                     label: 'Souls Onboard (Children)',
-// // // //                     initialValueFuture: SettingsManager.getSoulsChildren(),
-// // // //                     onChanged: SettingsManager.setSoulsChildren,
-// // // //                   ),
-// // // //                   settingTextField(
-// // // //                     label: 'MMSI (optional)',
-// // // //                     initialValueFuture: SettingsManager.getMMSI(),
-// // // //                     onChanged: SettingsManager.setMMSI,
-// // // //                   ),
-// // // //                   settingTextField(
-// // // //                     label: 'Emergency Contact Phone',
-// // // //                     initialValueFuture: SettingsManager.getEmergencyContact(),
-// // // //                     onChanged: SettingsManager.setEmergencyContact,
-// // // //                   ),
-// // // //                   settingTextField(
-// // // //                     label: "Captain's Phone",
-// // // //                     initialValueFuture: SettingsManager.getCaptainPhone(),
-// // // //                     onChanged: SettingsManager.setCaptainPhone,
-// // // //                   ),
-// // // //                   const SizedBox(height: 16),
-// // // //                 ],
-// // // //               ),
-// // // //             ),
-// // // //           ),
-// // // //           actions: [
-// // // //             Padding(
-// // // //               padding: EdgeInsets.zero,
-// // // //               child: SizedBox(
-// // // //                 height: 44,
-// // // //                 width: double.infinity,
-// // // //                 child: TextButton(
-// // // //                   style: TextButton.styleFrom(
-// // // //                     backgroundColor: AppTheme.primaryRed,
-// // // //                     foregroundColor: Colors.white,
-// // // //                     padding: EdgeInsets.zero,
-// // // //                     shape: const RoundedRectangleBorder(
-// // // //                       borderRadius: BorderRadius.zero,
-// // // //                     ),
-// // // //                   ),
-// // // //                   onPressed: () => Navigator.of(context).pop(),
-// // // //                   child: const Text('Close', style: AppTheme.dialogButtonText),
-// // // //                 ),
-// // // //               ),
-// // // //             ),
-// // // //           ],
-// // // //         ),
-// // // //   );
-// // // // }
-
-// // // // // import 'package:bcc5/utils/radio_helper.dart';
-// // // // // import 'package:flutter/material.dart';
-// // // // // import 'package:bcc5/theme/app_theme.dart';
-// // // // // import 'package:bcc5/utils/settings_manager.dart';
-// // // // // import 'package:bcc5/widgets/setting_input_fields.dart';
-
-// // // // // void showEmergencyInfoModal(BuildContext context) {
-// // // // //   showDialog(
-// // // // //     context: context,
-// // // // //     builder:
-// // // // //         (_) => AlertDialog(
-// // // // //           title: const Text('🚨 Emergency Info'),
-// // // // //           content: SizedBox(
-// // // // //             width: double.maxFinite,
-// // // // //             child: SingleChildScrollView(
-// // // // //               child: Column(
-// // // // //                 crossAxisAlignment: CrossAxisAlignment.start,
-// // // // //                 children: [
-// // // // //                   settingTextField(
-// // // // //                     label: 'Boat Name',
-// // // // //                     initialValueFuture: SettingsManager.getBoatName(),
-// // // // //                     onChanged: SettingsManager.setBoatName,
-// // // // //                   ),
-// // // // //                   FutureBuilder<String>(
-// // // // //                     future: SettingsManager.getBoatName(),
-// // // // //                     builder: (context, snapshot) {
-// // // // //                       final name = snapshot.data ?? '';
-// // // // //                       return Padding(
-// // // // //                         padding: const EdgeInsets.only(bottom: 8),
-// // // // //                         child: Text(
-// // // // //                           'Phonetic: ${formatPhonetic(name)}',
-// // // // //                           style: AppTheme.phoneticStyle,
-// // // // //                         ),
-// // // // //                       );
-// // // // //                     },
-// // // // //                   ),
-// // // // //                   FutureBuilder<String>(
-// // // // //                     future: SettingsManager.getVesselType(),
-// // // // //                     builder: (context, snapshot) {
-// // // // //                       final current = snapshot.data ?? 'Sailing';
-// // // // //                       final controller = TextEditingController(text: current);
-// // // // //                       final options = [
-// // // // //                         'Sailing',
-// // // // //                         'Motor',
-// // // // //                         'Catamaran',
-// // // // //                         'Other',
-// // // // //                       ];
-// // // // //                       return StatefulBuilder(
-// // // // //                         builder: (context, setState) {
-// // // // //                           return Column(
-// // // // //                             crossAxisAlignment: CrossAxisAlignment.start,
-// // // // //                             children: [
-// // // // //                               const Text('Vessel Type'),
-// // // // //                               const SizedBox(height: 4),
-// // // // //                               DropdownButtonFormField<String>(
-// // // // //                                 value:
-// // // // //                                     options.contains(current)
-// // // // //                                         ? current
-// // // // //                                         : 'Other',
-// // // // //                                 items:
-// // // // //                                     options
-// // // // //                                         .map(
-// // // // //                                           (type) => DropdownMenuItem(
-// // // // //                                             value: type,
-// // // // //                                             child: Text(type),
-// // // // //                                           ),
-// // // // //                                         )
-// // // // //                                         .toList(),
-// // // // //                                 onChanged: (value) {
-// // // // //                                   if (value == 'Other') {
-// // // // //                                     controller.text = '';
-// // // // //                                   } else {
-// // // // //                                     controller.text = value!;
-// // // // //                                     SettingsManager.setVesselType(value);
-// // // // //                                   }
-// // // // //                                   setState(() {});
-// // // // //                                 },
-// // // // //                               ),
-// // // // //                               const SizedBox(height: 6),
-// // // // //                               if (controller.text.isEmpty ||
-// // // // //                                   controller.text == 'Other')
-// // // // //                                 TextField(
-// // // // //                                   controller: controller,
-// // // // //                                   decoration: const InputDecoration(
-// // // // //                                     hintText: 'Enter vessel type',
-// // // // //                                     border: OutlineInputBorder(),
-// // // // //                                   ),
-// // // // //                                   onChanged:
-// // // // //                                       (value) =>
-// // // // //                                           SettingsManager.setVesselType(value),
-// // // // //                                 ),
-// // // // //                             ],
-// // // // //                           );
-// // // // //                         },
-// // // // //                       );
-// // // // //                     },
-// // // // //                   ),
-// // // // //                   settingTextField(
-// // // // //                     label: 'Vessel Length',
-// // // // //                     initialValueFuture: SettingsManager.getVesselLength(),
-// // // // //                     onChanged: SettingsManager.setVesselLength,
-// // // // //                   ),
-// // // // //                   settingTextField(
-// // // // //                     label: 'Vessel Description (e.g., “sail number 56788”)',
-// // // // //                     initialValueFuture: SettingsManager.getVesselDescription(),
-// // // // //                     onChanged: SettingsManager.setVesselDescription,
-// // // // //                   ),
-// // // // //                   settingIntField(
-// // // // //                     label: 'Souls Onboard (Adults)',
-// // // // //                     initialValueFuture: SettingsManager.getSoulsAdults(),
-// // // // //                     onChanged: SettingsManager.setSoulsAdults,
-// // // // //                   ),
-// // // // //                   settingIntField(
-// // // // //                     label: 'Souls Onboard (Children)',
-// // // // //                     initialValueFuture: SettingsManager.getSoulsChildren(),
-// // // // //                     onChanged: SettingsManager.setSoulsChildren,
-// // // // //                   ),
-// // // // //                   settingTextField(
-// // // // //                     label: 'MMSI (optional)',
-// // // // //                     initialValueFuture: SettingsManager.getMMSI(),
-// // // // //                     onChanged: SettingsManager.setMMSI,
-// // // // //                   ),
-// // // // //                   settingTextField(
-// // // // //                     label: 'Emergency Contact Phone',
-// // // // //                     initialValueFuture: SettingsManager.getEmergencyContact(),
-// // // // //                     onChanged: SettingsManager.setEmergencyContact,
-// // // // //                   ),
-// // // // //                   settingTextField(
-// // // // //                     label: "Captain's Phone",
-// // // // //                     initialValueFuture: SettingsManager.getCaptainPhone(),
-// // // // //                     onChanged: SettingsManager.setCaptainPhone,
-// // // // //                   ),
-// // // // //                   const SizedBox(height: 16),
-// // // // //                 ],
-// // // // //               ),
-// // // // //             ),
-// // // // //           ),
-// // // // //           actions: [
-// // // // //             Padding(
-// // // // //               padding: EdgeInsets.zero,
-// // // // //               child: SizedBox(
-// // // // //                 height: 44,
-// // // // //                 width: double.infinity,
-// // // // //                 child: TextButton(
-// // // // //                   style: TextButton.styleFrom(
-// // // // //                     backgroundColor: AppTheme.primaryRed,
-// // // // //                     foregroundColor: Colors.white,
-// // // // //                     padding: EdgeInsets.zero,
-// // // // //                     shape: const RoundedRectangleBorder(
-// // // // //                       borderRadius: BorderRadius.zero,
-// // // // //                     ),
-// // // // //                   ),
-// // // // //                   onPressed: () => Navigator.of(context).pop(),
-// // // // //                   child: const Text('Close', style: AppTheme.dialogButtonText),
-// // // // //                 ),
-// // // // //               ),
-// // // // //             ),
-// // // // //           ],
-// // // // //         ),
-// // // // //   );
-// // // // // }
-
-// // // // // // import 'package:bcc5/utils/radio_helper.dart';
-// // // // // // import 'package:flutter/material.dart';
-// // // // // // import 'package:bcc5/theme/app_theme.dart';
-// // // // // // import 'package:bcc5/utils/settings_manager.dart';
-// // // // // // import 'package:bcc5/widgets/setting_input_fields.dart';
-
-// // // // // // void showEmergencyInfoModal(BuildContext context) {
-// // // // // //   showDialog(
-// // // // // //     context: context,
-// // // // // //     builder:
-// // // // // //         (_) => AlertDialog(
-// // // // // //           title: const Text('🚨 Emergency Info'),
-// // // // // //           content: SizedBox(
-// // // // // //             width: double.maxFinite,
-// // // // // //             child: SingleChildScrollView(
-// // // // // //               child: Column(
-// // // // // //                 crossAxisAlignment: CrossAxisAlignment.start,
-// // // // // //                 children: [
-// // // // // //                   settingTextField(
-// // // // // //                     label: 'Boat Name',
-// // // // // //                     initialValueFuture: SettingsManager.getBoatName(),
-// // // // // //                     onChanged: SettingsManager.setBoatName,
-// // // // // //                   ),
-// // // // // //                   FutureBuilder<String>(
-// // // // // //                     future: SettingsManager.getBoatName(),
-// // // // // //                     builder: (context, snapshot) {
-// // // // // //                       final name = snapshot.data ?? '';
-// // // // // //                       return Padding(
-// // // // // //                         padding: const EdgeInsets.only(bottom: 8),
-// // // // // //                         child: Text(
-// // // // // //                           'Phonetic: ${formatPhonetic(name)}',
-// // // // // //                           style: AppTheme.phoneticStyle,
-// // // // // //                         ),
-// // // // // //                       );
-// // // // // //                     },
-// // // // // //                   ),
-
-// // // // // //                   settingTextField(
-// // // // // //                     label: 'Vessel Type',
-// // // // // //                     initialValueFuture: SettingsManager.getVesselType(),
-// // // // // //                     onChanged: SettingsManager.setVesselType,
-// // // // // //                   ),
-// // // // // //                   settingTextField(
-// // // // // //                     label: 'Vessel Length',
-// // // // // //                     initialValueFuture: SettingsManager.getVesselLength(),
-// // // // // //                     onChanged: SettingsManager.setVesselLength,
-// // // // // //                   ),
-// // // // // //                   settingTextField(
-// // // // // //                     label: 'Vessel Description (e.g., “sail number 56788”)',
-// // // // // //                     initialValueFuture: SettingsManager.getVesselDescription(),
-// // // // // //                     onChanged: SettingsManager.setVesselDescription,
-// // // // // //                   ),
-// // // // // //                   settingIntField(
-// // // // // //                     label: 'Souls Onboard (Adults)',
-// // // // // //                     initialValueFuture: SettingsManager.getSoulsAdults(),
-// // // // // //                     onChanged: SettingsManager.setSoulsAdults,
-// // // // // //                   ),
-// // // // // //                   settingIntField(
-// // // // // //                     label: 'Souls Onboard (Children)',
-// // // // // //                     initialValueFuture: SettingsManager.getSoulsChildren(),
-// // // // // //                     onChanged: SettingsManager.setSoulsChildren,
-// // // // // //                   ),
-// // // // // //                   settingTextField(
-// // // // // //                     label: 'MMSI (optional)',
-// // // // // //                     initialValueFuture: SettingsManager.getMMSI(),
-// // // // // //                     onChanged: SettingsManager.setMMSI,
-// // // // // //                   ),
-// // // // // //                   settingTextField(
-// // // // // //                     label: 'Emergency Contact Phone',
-// // // // // //                     initialValueFuture: SettingsManager.getEmergencyContact(),
-// // // // // //                     onChanged: SettingsManager.setEmergencyContact,
-// // // // // //                   ),
-// // // // // //                   settingTextField(
-// // // // // //                     label: "Captain's Phone",
-// // // // // //                     initialValueFuture: SettingsManager.getCaptainPhone(),
-// // // // // //                     onChanged: SettingsManager.setCaptainPhone,
-// // // // // //                   ),
-// // // // // //                   const SizedBox(height: 16),
-// // // // // //                 ],
-// // // // // //               ),
-// // // // // //             ),
-// // // // // //           ),
-// // // // // //           actions: [
-// // // // // //             Padding(
-// // // // // //               padding: EdgeInsets.zero,
-// // // // // //               child: SizedBox(
-// // // // // //                 height: 44,
-// // // // // //                 width: double.infinity,
-// // // // // //                 child: TextButton(
-// // // // // //                   style: TextButton.styleFrom(
-// // // // // //                     backgroundColor: AppTheme.primaryRed,
-// // // // // //                     foregroundColor: Colors.white,
-// // // // // //                     padding: EdgeInsets.zero,
-// // // // // //                     shape: const RoundedRectangleBorder(
-// // // // // //                       borderRadius: BorderRadius.zero,
-// // // // // //                     ),
-// // // // // //                   ),
-// // // // // //                   onPressed: () => Navigator.of(context).pop(),
-// // // // // //                   child: const Text('Close', style: AppTheme.dialogButtonText),
-// // // // // //                 ),
-// // // // // //               ),
-// // // // // //             ),
-// // // // // //           ],
-// // // // // //         ),
-// // // // // //   );
-// // // // // // }

@@ -1,3 +1,5 @@
+// lib/screens/emergency/mob_emergency_screen.dart
+
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/screens/emergency/mob_radio_script_modal.dart';
 import 'package:bcc5/screens/tools/tool_item_screen.dart';
@@ -54,7 +56,8 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
     final lon = position?.longitude ?? 0;
 
     final gpsSpoken = formatGPSForRadio(lat, lon, _format);
-    final intro = await buildPhoneticVesselIntro();
+    final boatName = await SettingsManager.getBoatName(); // ✅ new
+    final vesselType = await SettingsManager.getVesselType(); // ✅ new
     final description = await buildSpokenVesselDescription();
     final mmsi = await SettingsManager.getMMSI();
 
@@ -65,7 +68,8 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
         context: context,
         builder:
             (_) => MOBRadioScriptModal(
-              intro: intro,
+              boatName: boatName,
+              vesselType: vesselType,
               gpsSpoken: gpsSpoken,
               description: description,
               mmsi: mmsi,

@@ -157,4 +157,49 @@ class SettingsManager {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('unitPreference') ?? 'feet'; // default to feet
   }
+
+  static const _lengthUnitKey = 'lengthUnit';
+  static const _minimumDepthKey = 'minimumDepth';
+  static const _coastGuardPhoneKey = 'coastGuardPhone';
+  static const _emergencyContactNameKey = 'emergencyContactName';
+
+  static Future<String> getLengthUnit() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_lengthUnitKey) ?? 'feet';
+  }
+
+  static Future<void> setLengthUnit(String unit) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_lengthUnitKey, unit);
+  }
+
+  static Future<String> getMinimumDepth() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_minimumDepthKey) ?? '';
+  }
+
+  static Future<void> setMinimumDepth(String depth) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_minimumDepthKey, depth);
+  }
+
+  static Future<String> getCoastGuardPhone() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_coastGuardPhoneKey) ?? '';
+  }
+
+  static Future<void> setCoastGuardPhone(String phone) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_coastGuardPhoneKey, phone);
+  }
+
+  static Future<String> getEmergencyContactName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_emergencyContactNameKey) ?? '';
+  }
+
+  static Future<void> setEmergencyContactName(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_emergencyContactNameKey, name);
+  }
 }

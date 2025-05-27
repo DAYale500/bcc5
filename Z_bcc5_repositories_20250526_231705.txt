@@ -1640,6 +1640,67 @@ List<Flashcard> getAllFlashcards() {
 
 
 
+File: lib/data/repositories/flashcards/competent_crew_flashards.dart
+// lib/data/repositories/flashcards/competent_crew_flashards.dart
+
+final Map<String, List<String>> curatedChapterFlashcards = {
+  'path_competentCrew_1.00': [
+    'flashcard_lesson_safe_1.11',
+    'flashcard_lesson_safe_1.12',
+    'flashcard_lesson_safe_1.13',
+    'flashcard_lesson_safe_1.14',
+    'flashcard_lesson_safe_1.15',
+    'flashcard_lesson_safe_1.15_b',
+    'flashcard_lesson_safe_1.16',
+  ],
+  'path_competentCrew_2.00': [
+    'flashcard_lesson_safe_2.11',
+    'flashcard_lesson_safe_2.12',
+    'flashcard_lesson_safe_2.13',
+    'flashcard_lesson_safe_2.14',
+    'flashcard_lesson_safe_2.15',
+    'flashcard_lesson_safe_2.16',
+    'flashcard_lesson_safe_2.17',
+    'flashcard_lesson_safe_2.18',
+  ],
+  'path_competentCrew_3.00': [
+    'flashcard_lesson_emer_1.00',
+    'flashcard_lesson_emer_2.00',
+    'flashcard_lesson_emer_3.00',
+    'flashcard_lesson_knot_1.00',
+  ],
+
+  'path_competentCrew_4.00': [
+    'flashcard_lesson_navi_1.00',
+    'flashcard_lesson_navi_2.00',
+    'flashcard_lesson_safe_1.00',
+    'flashcard_lesson_safe_2.00',
+  ],
+  'path_competentCrew_5.00': [
+    'flashcard_lesson_emer_1.00',
+    'flashcard_lesson_emer_2.00',
+    'flashcard_lesson_emer_3.00',
+    'flashcard_lesson_knot_1.00',
+    'flashcard_lesson_knot_2.00',
+  ],
+  'path_competentCrew_6.00': [
+    'flashcard_lesson_emer_1.00',
+    'flashcard_lesson_emer_2.00',
+    'flashcard_lesson_emer_3.00',
+    'flashcard_lesson_knot_1.00',
+    'flashcard_lesson_knot_2.00',
+  ],
+};
+
+
+
+
+
+
+
+
+
+
 File: lib/data/repositories/paths/path_repository_index.dart
 import 'package:bcc5/data/models/path_model.dart';
 import 'package:bcc5/data/repositories/paths/competent_crew_repository.dart';
@@ -1719,20 +1780,22 @@ class CompetentCrewRepository {
     LearningPathChapter(
       id: 'path_competentCrew_1.00',
       title: 'Before You Board',
+      showFlashcardEnding: true, // NEW
+
       items: [
         PathItem(pathItemId: 'lesson_safe_1.11'),
         PathItem(pathItemId: 'lesson_safe_1.12'),
         PathItem(pathItemId: 'lesson_safe_1.13'),
         PathItem(pathItemId: 'lesson_safe_1.14'),
         PathItem(pathItemId: 'lesson_safe_1.15'),
-        PathItem(pathItemId: 'lesson_safe_1.16'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_1.11'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_1.12'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_1.13'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_1.14'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_1.15'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_1.15_b'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_1.16'),
+        // PathItem(pathItemId: 'lesson_safe_1.16'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_1.11'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_1.12'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_1.13'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_1.14'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_1.15'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_1.15_b'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_1.16'),
       ],
     ),
     LearningPathChapter(
@@ -1747,14 +1810,14 @@ class CompetentCrewRepository {
         PathItem(pathItemId: 'lesson_safe_2.16'),
         PathItem(pathItemId: 'lesson_safe_2.17'),
         PathItem(pathItemId: 'lesson_safe_2.18'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_2.11'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_2.12'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_2.13'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_2.14'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_2.15'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_2.16'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_2.17'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_2.18'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_2.11'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_2.12'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_2.13'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_2.14'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_2.15'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_2.16'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_2.17'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_2.18'),
       ],
     ),
     LearningPathChapter(
@@ -1767,15 +1830,13 @@ class CompetentCrewRepository {
         PathItem(pathItemId: 'lesson_emer_4.00'),
         PathItem(pathItemId: 'lesson_emer_5.00'),
         PathItem(pathItemId: 'lesson_emer_6.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_2.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_3.00'),
+
         PathItem(pathItemId: 'lesson_knot_1.00'),
         PathItem(pathItemId: 'lesson_knot_2.00'),
         PathItem(pathItemId: 'lesson_knot_3.00'),
         PathItem(pathItemId: 'lesson_knot_4.00'),
         PathItem(pathItemId: 'lesson_knot_5.00'),
-        PathItem(pathItemId: 'flashcard_lesson_knot_1.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_knot_1.00'),
         PathItem(pathItemId: 'tool_colregs_1.00'),
       ],
     ),
@@ -1789,8 +1850,8 @@ class CompetentCrewRepository {
         PathItem(pathItemId: 'lesson_navi_4.00'),
         PathItem(pathItemId: 'lesson_navi_5.00'),
         PathItem(pathItemId: 'lesson_navi_6.00'),
-        PathItem(pathItemId: 'flashcard_lesson_navi_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_navi_2.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_navi_1.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_navi_2.00'),
         PathItem(pathItemId: 'lesson_safe_1.00'),
         PathItem(pathItemId: 'lesson_safe_2.00'),
         PathItem(pathItemId: 'lesson_safe_3.00'),
@@ -1798,8 +1859,8 @@ class CompetentCrewRepository {
         PathItem(pathItemId: 'lesson_safe_5.00'),
         PathItem(pathItemId: 'lesson_safe_6.00'),
         PathItem(pathItemId: 'lesson_safe_7.00'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_safe_2.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_1.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_safe_2.00'),
       ],
     ),
     LearningPathChapter(
@@ -1812,16 +1873,16 @@ class CompetentCrewRepository {
         PathItem(pathItemId: 'lesson_emer_4.00'),
         PathItem(pathItemId: 'lesson_emer_5.00'),
         PathItem(pathItemId: 'lesson_emer_6.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_2.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_3.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_emer_1.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_emer_2.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_emer_3.00'),
         PathItem(pathItemId: 'lesson_knot_1.00'),
         PathItem(pathItemId: 'lesson_knot_2.00'),
         PathItem(pathItemId: 'lesson_knot_3.00'),
         PathItem(pathItemId: 'lesson_knot_4.00'),
         PathItem(pathItemId: 'lesson_knot_5.00'),
-        PathItem(pathItemId: 'flashcard_lesson_knot_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_knot_2.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_knot_1.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_knot_2.00'),
       ],
     ),
     LearningPathChapter(
@@ -1834,9 +1895,9 @@ class CompetentCrewRepository {
         PathItem(pathItemId: 'lesson_emer_4.00'),
         PathItem(pathItemId: 'lesson_emer_5.00'),
         PathItem(pathItemId: 'lesson_emer_6.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_1.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_2.00'),
-        PathItem(pathItemId: 'flashcard_lesson_emer_3.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_emer_1.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_emer_2.00'),
+        // PathItem(pathItemId: 'flashcard_lesson_emer_3.00'),
         PathItem(pathItemId: 'lesson_knot_1.00'),
         PathItem(pathItemId: 'lesson_knot_2.00'),
         PathItem(pathItemId: 'lesson_knot_3.00'),

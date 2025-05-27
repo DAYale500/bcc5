@@ -158,6 +158,7 @@ class MainScaffold extends StatelessWidget {
 
 File: lib/navigation/app_router.dart
 import 'package:bcc5/data/models/render_item.dart';
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:bcc5/theme/slide_direction.dart';
@@ -859,6 +860,34 @@ GoRouter appRouter(bool showReminder) {
           );
         },
       ),
+      GoRoute(
+        path: '/flashcards/custom',
+        pageBuilder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>;
+          final ids = extras['flashcardIds'] as List<String>;
+
+          final renderItems =
+              ids
+                  .map((id) => getAllFlashcards().firstWhere((c) => c.id == id))
+                  .map(RenderItem.fromFlashcard)
+                  .toList();
+
+          return MaterialPage(
+            child: FlashcardDetailScreen(
+              renderItems: renderItems,
+              currentIndex: 0,
+              branchIndex: 0,
+              backDestination: '/learning-paths',
+              backExtra: {
+                'pathName': extras['pathName'] ?? 'competent crew',
+                'chapterId': extras['chapterId'],
+              },
+              detailRoute: DetailRoute.path,
+              transitionKey: UniqueKey().toString(),
+            ),
+          );
+        },
+      ),
     ],
   );
 }
@@ -1111,11 +1140,12 @@ String formatPhonetic(String name) {
       .toLowerCase()
       .split('')
       .map((char) {
+        if (char == ' ') return 'Space';
         if (nato.containsKey(char)) return nato[char]!;
         if (RegExp(r'[0-9]').hasMatch(char)) return char; // numbers stay as-is
         return char.toUpperCase(); // fallback for symbols
       })
-      .join(' ');
+      .join('-');
 }
 
 String formatSoulsOnboard(int adults, int children) {
@@ -1173,7 +1203,7 @@ String _speakMarineCoord(
     final parts = minutesDecimal.toStringAsFixed(3).split('.');
     final spokenMinutesWhole = _speakDigits(parts[0]);
     final spokenMinutesDecimal = _speakDigits(parts[1]);
-    return '$spokenDegrees degrees decimal $spokenMinutesWhole decimal $spokenMinutesDecimal minutes $direction';
+    return '$spokenDegrees degrees, $spokenMinutesWhole decimal $spokenMinutesDecimal minutes $direction';
   }
 }
 
@@ -1764,6 +1794,51 @@ class SettingsManager {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('unitPreference') ?? 'feet'; // default to feet
   }
+
+  static const _lengthUnitKey = 'lengthUnit';
+  static const _minimumDepthKey = 'minimumDepth';
+  static const _coastGuardPhoneKey = 'coastGuardPhone';
+  static const _emergencyContactNameKey = 'emergencyContactName';
+
+  static Future<String> getLengthUnit() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_lengthUnitKey) ?? 'feet';
+  }
+
+  static Future<void> setLengthUnit(String unit) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_lengthUnitKey, unit);
+  }
+
+  static Future<String> getMinimumDepth() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_minimumDepthKey) ?? '';
+  }
+
+  static Future<void> setMinimumDepth(String depth) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_minimumDepthKey, depth);
+  }
+
+  static Future<String> getCoastGuardPhone() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_coastGuardPhoneKey) ?? '';
+  }
+
+  static Future<void> setCoastGuardPhone(String phone) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_coastGuardPhoneKey, phone);
+  }
+
+  static Future<String> getEmergencyContactName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_emergencyContactNameKey) ?? '';
+  }
+
+  static Future<void> setEmergencyContactName(String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_emergencyContactNameKey, name);
+  }
 }
 
 
@@ -1848,6 +1923,68 @@ class ResumeManager {
 
     return {'pathName': pathName, 'chapterId': chapterId, 'itemId': itemId};
   }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/utils/vessel_formatting.dart
+// lib/utils/vessel_formatting.dart
+
+String getVesselPrefix(String vesselType) {
+  switch (vesselType.toLowerCase()) {
+    case 'sailing':
+      return 'S/V';
+    case 'motor':
+      return 'M/V';
+    case 'catamaran':
+      return 'C/V'; // Or keep 'S/V' if sail-based
+    default:
+      return 'Vessel';
+  }
+}
+
+String formatPhonetic(String text) {
+  const phoneticMap = {
+    'A': 'Alpha',
+    'B': 'Bravo',
+    'C': 'Charlie',
+    'D': 'Delta',
+    'E': 'Echo',
+    'F': 'Foxtrot',
+    'G': 'Golf',
+    'H': 'Hotel',
+    'I': 'India',
+    'J': 'Juliett',
+    'K': 'Kilo',
+    'L': 'Lima',
+    'M': 'Mike',
+    'N': 'November',
+    'O': 'Oscar',
+    'P': 'Papa',
+    'Q': 'Quebec',
+    'R': 'Romeo',
+    'S': 'Sierra',
+    'T': 'Tango',
+    'U': 'Uniform',
+    'V': 'Victor',
+    'W': 'Whiskey',
+    'X': 'X-ray',
+    'Y': 'Yankee',
+    'Z': 'Zulu',
+  };
+  return text
+      .toUpperCase()
+      .split('')
+      .where((c) => phoneticMap.containsKey(c))
+      .map((c) => phoneticMap[c]!)
+      .join(' ');
 }
 
 
@@ -2575,7 +2712,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                           backDestination:
                               widget.detailRoute == DetailRoute.path
                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
-                                  : '/tools/items',
+                                  : '/tools',
                           label:
                               widget.detailRoute == DetailRoute.path
                                   ? 'chapter'
@@ -2925,7 +3062,24 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final title = flashcard.title;
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
-    const categoryTitle = 'Drills';
+    // 📛 Customize breadcrumb title for flashcards from learning paths
+    final isFromPath = widget.detailRoute == DetailRoute.path;
+    final pathName = widget.backExtra?['pathName'] ?? '';
+    final chapterId = widget.backExtra?['chapterId'] ?? '';
+
+    final breadcrumbTitle =
+        isFromPath
+            ? '${pathName.toString().toTitleCase()} Review' // future-proof for paths like "Advanced Crew"
+            : 'Drills';
+
+    final chapterTitle =
+        isFromPath
+            ? PathRepositoryIndex.getChapterTitleForPath(
+                  pathName,
+                  chapterId,
+                )?.toTitleCase() ??
+                ''
+            : (widget.backExtra?['category'] as String?)?.toTitleCase() ?? '';
     // final categoryId = widget.backExtra?['category'] as String?;
 
     // logger.i(
@@ -2950,7 +3104,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
           Column(
             children: [
               CustomAppBarWidget(
-                title: categoryTitle,
+                title: breadcrumbTitle,
                 showBackButton: true,
                 showSearchIcon: true,
                 showSettingsIcon: true,
@@ -2985,12 +3139,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text:
-                              widget.detailRoute == DetailRoute.path
-                                  ? (widget.backExtra?['pathName'] as String?)
-                                          ?.toTitleCase() ??
-                                      ''
-                                  : 'Drills',
+                          text: breadcrumbTitle,
                           style: AppTheme.branchBreadcrumbStyle,
                         ),
                         const TextSpan(
@@ -2998,16 +3147,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                           style: TextStyle(color: Colors.black87),
                         ),
                         TextSpan(
-                          text:
-                              widget.detailRoute == DetailRoute.path
-                                  ? PathRepositoryIndex.getChapterTitleForPath(
-                                        widget.backExtra?['pathName'] ?? '',
-                                        widget.backExtra?['chapterId'] ?? '',
-                                      )?.toTitleCase() ??
-                                      ''
-                                  : (widget.backExtra?['category'] as String?)
-                                          ?.toTitleCase() ??
-                                      '',
+                          text: chapterTitle,
                           style: AppTheme.groupBreadcrumbStyle,
                         ),
                       ],
@@ -3107,7 +3247,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                           backDestination:
                               widget.detailRoute == DetailRoute.path
                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
-                                  : '/flashcards/items',
+                                  : '/flashcards',
                           label:
                               widget.detailRoute == DetailRoute.path
                                   ? 'chapter'
@@ -3665,6 +3805,8 @@ class FlashcardItemScreen extends StatelessWidget {
 
 
 File: lib/screens/paths/path_item_screen.dart
+// 📄 lib/screens/paths/path_item_screen.dart
+
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
@@ -3678,6 +3820,7 @@ import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/utils/transition_manager.dart';
 import 'package:go_router/go_router.dart';
+import 'package:bcc5/widgets/navigation/path_ending_actions.dart'; // NEW
 
 class PathItemScreen extends StatefulWidget {
   final String pathName;
@@ -3802,9 +3945,30 @@ class _PathItemScreenState extends State<PathItemScreen> {
             ),
           ),
         ),
+        if (chapter.showFlashcardEnding &&
+            _isLastChapter(widget.chapterId, widget.pathName))
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: PathEndingActions(
+              pathName: widget.pathName,
+              chapterId: widget.chapterId,
+            ),
+          ),
       ],
     );
   }
+
+  bool _isLastChapter(String chapterId, String pathName) {
+    final chapters = PathRepositoryIndex.getChaptersForPath(pathName);
+    return chapters.isNotEmpty && chapters.last.id == chapterId;
+  }
+
+  // String? _getNextPathName(String currentPath) {
+  //   final allPaths = PathRepositoryIndex.getPathNames();
+  //   final currentIndex = allPaths.indexOf(currentPath.toLowerCase());
+  //   if (currentIndex == -1 || currentIndex + 1 >= allPaths.length) return null;
+  //   return allPaths[currentIndex + 1];
+  // }
 }
 
 
@@ -5388,7 +5552,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                           backDestination:
                               widget.detailRoute == DetailRoute.path
                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
-                                  : '/parts/items',
+                                  : '/parts',
                           label:
                               widget.detailRoute == DetailRoute.path
                                   ? 'chapter'
@@ -6573,6 +6737,9 @@ File: lib/theme/app_theme.dart
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  // ────────────────────────────────────────────────────────────
+  // 🎨 Color Palette
+  // ────────────────────────────────────────────────────────────
   static const Color primaryBlue = Color(0xFF163FE8);
   static const Color primaryRed = Color.fromARGB(255, 255, 0, 0);
   static const Color backgroundColor = Colors.white;
@@ -6584,13 +6751,152 @@ class AppTheme {
   static const Color warningColor = Colors.orange;
   static const Color disabledGray = Colors.grey;
 
-  static const double textScaleMultiplier = 1.5;
+  // ────────────────────────────────────────────────────────────
+  // 🔠 Text Styles
+  // ────────────────────────────────────────────────────────────
 
+  /// Used in AppBar titles
   static const TextStyle headingStyle = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.bold,
     color: Colors.white,
   );
+
+  /// Used in section headers throughout modals/settings
+  static const TextStyle subheadingStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+
+  /// Default large body text
+  static const TextStyle bodyTextStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: Colors.black87,
+  );
+
+  /// Default button label text
+  static const TextStyle buttonTextStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+  );
+
+  /// Subtext or hints
+  static const TextStyle captionStyle = TextStyle(
+    fontSize: 14,
+    color: Colors.grey,
+  );
+
+  /// Used in breadcrumb headers for branches
+  static const TextStyle branchBreadcrumbStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: Colors.black87,
+  );
+
+  /// Used in breadcrumb headers for groups
+  static const TextStyle groupBreadcrumbStyle = TextStyle(
+    fontSize: 16,
+    fontStyle: FontStyle.italic,
+    color: Colors.black87,
+  );
+
+  /// Used in section titles within detail views
+  static const TextStyle detailTitleStyle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: primaryBlue,
+  );
+
+  /// Used in alert dialogs like emergency reminder
+  static const TextStyle modalTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+  );
+
+  /// Used to show phonetic spelling (styled bodySmall)
+  static final TextStyle phoneticStyle = textTheme.bodySmall!.copyWith(
+    color: Colors.grey[600],
+  );
+
+  /// Used for "Close" buttons in modals
+  static const TextStyle dialogButtonText = TextStyle(
+    fontSize: 16,
+    color: Colors.white,
+  );
+
+  /// Used for section labels in settings modal
+  static const TextStyle sectionTitle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  );
+
+  /// Default app-wide text theme
+  static const TextTheme textTheme = TextTheme(
+    headlineLarge: headingStyle,
+    headlineMedium: subheadingStyle,
+    bodyLarge: bodyTextStyle,
+    labelLarge: buttonTextStyle,
+    bodySmall: captionStyle,
+  );
+
+  /// Scaled text theme for accessibility / larger text setting
+  static const double textScaleMultiplier = 1.5;
+  static final TextTheme scaledTextTheme = TextTheme(
+    headlineLarge: headingStyle.copyWith(
+      fontSize: headingStyle.fontSize! * textScaleMultiplier,
+    ),
+    headlineMedium: subheadingStyle.copyWith(
+      fontSize: subheadingStyle.fontSize! * textScaleMultiplier,
+    ),
+    bodyLarge: bodyTextStyle.copyWith(
+      fontSize: bodyTextStyle.fontSize! * textScaleMultiplier,
+    ),
+    labelLarge: buttonTextStyle.copyWith(
+      fontSize: buttonTextStyle.fontSize! * textScaleMultiplier,
+    ),
+    bodySmall: captionStyle.copyWith(
+      fontSize: captionStyle.fontSize! * textScaleMultiplier,
+    ),
+  );
+
+  /// Used for guided tour text
+  static const tourDescriptionStyle = TextStyle(
+    color: Colors.white,
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    height: 1.4,
+  );
+
+  // /// Returns the appropriate color for the tour overlay shadow
+  // /// depending on brightness (light = white, dark = black) and
+  // /// using AppTheme.tourOverlayOpacity.
+  // static Color tourOverlayColor(BuildContext context) {
+  //   final brightness = Theme.of(context).brightness;
+  //   final base = brightness == Brightness.dark ? Colors.white : Colors.black; //white for dark mode, black for light mode
+  //   return base.withAlpha((tourOverlayOpacity * 255).toInt());
+  // }
+
+  // /// Opacity for the guided tour overlay (0.0–1.0 range)
+  // static const double tourOverlayOpacity = 0.8;
+
+  /// Opacity for the tour overlay shadow: 0–255
+  static const int tourOverlayAlpha = 204; // ~0.8 opacity
+
+  /// Theme-aware shadow color for the tour overlay
+  static Color tourOverlayColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? Colors.white
+        : Colors.black;
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // 🔘 Button Styles
+  // ────────────────────────────────────────────────────────────
 
   static final ButtonStyle groupRedButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: primaryRed,
@@ -6601,6 +6907,7 @@ class AppTheme {
       borderRadius: BorderRadius.circular(buttonCornerRadius),
     ),
   );
+
   static final ButtonStyle whiteTextButton = ElevatedButton.styleFrom(
     backgroundColor: primaryRed,
     foregroundColor: Colors.white,
@@ -6628,80 +6935,67 @@ class AppTheme {
       borderRadius: BorderRadius.circular(buttonCornerRadius),
     ),
   );
+
+  static final ButtonStyle navigationButtonStyle = ElevatedButton.styleFrom(
+    backgroundColor: primaryRed,
+    foregroundColor: Colors.white,
+    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+    textStyle: buttonTextStyle,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(buttonCornerRadius),
+    ),
+  );
+
+  static final ButtonStyle disabledNavigationButtonStyle =
+      ElevatedButton.styleFrom(
+        backgroundColor: Colors.grey.shade400,
+        foregroundColor: Colors.white.withAlpha(153),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        textStyle: buttonTextStyle,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(buttonCornerRadius),
+        ),
+      );
+
+  static final ButtonStyle highlightedGroupButtonStyle =
+      ElevatedButton.styleFrom(
+        backgroundColor: primaryRed,
+        padding: groupButtonPadding,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(buttonCornerRadius),
+        ),
+      );
+
   static ButtonStyle get landingPrimaryButton => largeRedButton;
+  static ButtonStyle get navigationButton => navigationButtonStyle;
+  static ButtonStyle get disabledNavigationButton =>
+      disabledNavigationButtonStyle;
 
-  static const TextStyle subheadingStyle = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w600,
-    color: Colors.white,
-  );
+  static Color get groupButtonSelected => primaryBlue.withAlpha(229);
+  static Color get groupButtonUnselected => primaryBlue.withAlpha(153);
 
-  static const TextStyle bodyTextStyle = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.normal,
-    color: Colors.black87,
-  );
+  // ────────────────────────────────────────────────────────────
+  // 📐 Dimensions & Padding
+  // ────────────────────────────────────────────────────────────
+  static const double buttonCornerRadius = 12.0;
+  static const double cardCornerRadius = 16.0;
+  static const double screenPadding = 16.0;
 
-  static const TextStyle buttonTextStyle = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
-    color: Colors.white,
-  );
-
-  static const TextStyle captionStyle = TextStyle(
-    fontSize: 14,
-    color: Colors.grey,
+  static const EdgeInsetsGeometry groupButtonPadding = EdgeInsets.symmetric(
+    vertical: 14,
+    horizontal: 24,
   );
 
-  static const TextStyle branchBreadcrumbStyle = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.bold,
-    color: Colors.black87,
+  static const EdgeInsetsGeometry itemButtonPadding = EdgeInsets.symmetric(
+    vertical: 10,
+    horizontal: 12,
   );
 
-  static const TextStyle groupBreadcrumbStyle = TextStyle(
-    fontSize: 16,
-    fontStyle: FontStyle.italic,
-    color: Colors.black87,
-  );
+  static const EdgeInsets cardPadding = EdgeInsets.all(12);
 
-  static const TextStyle detailTitleStyle = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.bold,
-    color: primaryBlue,
-  );
-
-  static const TextTheme textTheme = TextTheme(
-    headlineLarge: headingStyle,
-    headlineMedium: subheadingStyle,
-    bodyLarge: bodyTextStyle,
-    labelLarge: buttonTextStyle,
-    bodySmall: captionStyle,
-  );
-
-  static final TextTheme scaledTextTheme = TextTheme(
-    headlineLarge: headingStyle.copyWith(
-      fontSize: headingStyle.fontSize! * textScaleMultiplier,
-    ),
-    headlineMedium: subheadingStyle.copyWith(
-      fontSize: subheadingStyle.fontSize! * textScaleMultiplier,
-    ),
-    bodyLarge: bodyTextStyle.copyWith(
-      fontSize: bodyTextStyle.fontSize! * textScaleMultiplier,
-    ),
-    labelLarge: buttonTextStyle.copyWith(
-      fontSize: buttonTextStyle.fontSize! * textScaleMultiplier,
-    ),
-    bodySmall: captionStyle.copyWith(
-      fontSize: captionStyle.fontSize! * textScaleMultiplier,
-    ),
-  );
-  static const tourDescriptionStyle = TextStyle(
-    color: Colors.white,
-    fontSize: 18,
-    fontWeight: FontWeight.w500,
-    height: 1.4,
-  );
+  // ────────────────────────────────────────────────────────────
+  // 🌞 Light & 🌚 Dark Themes
+  // ────────────────────────────────────────────────────────────
 
   static ThemeData get lightTheme => ThemeData(
     useMaterial3: true,
@@ -6749,60 +7043,296 @@ class AppTheme {
     ),
     textTheme: textTheme,
   );
-
-  static const double buttonCornerRadius = 12.0;
-  static const double cardCornerRadius = 16.0;
-  static const double screenPadding = 16.0;
-
-  static const EdgeInsetsGeometry groupButtonPadding = EdgeInsets.symmetric(
-    vertical: 14,
-    horizontal: 24,
-  );
-
-  static const EdgeInsetsGeometry itemButtonPadding = EdgeInsets.symmetric(
-    vertical: 10,
-    horizontal: 12,
-  );
-
-  static const EdgeInsets cardPadding = EdgeInsets.all(12);
-
-  static final ButtonStyle navigationButtonStyle = ElevatedButton.styleFrom(
-    backgroundColor: primaryRed,
-    foregroundColor: Colors.white,
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-    textStyle: buttonTextStyle,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(buttonCornerRadius),
-    ),
-  );
-
-  static final ButtonStyle disabledNavigationButtonStyle =
-      ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey.shade400,
-        foregroundColor: Colors.white.withAlpha(153),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-        textStyle: buttonTextStyle,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(buttonCornerRadius),
-        ),
-      );
-
-  static final ButtonStyle highlightedGroupButtonStyle =
-      ElevatedButton.styleFrom(
-        backgroundColor: primaryRed,
-        padding: groupButtonPadding,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(buttonCornerRadius),
-        ),
-      );
-
-  static Color get groupButtonSelected => primaryBlue.withAlpha(229);
-  static Color get groupButtonUnselected => primaryBlue.withAlpha(153);
-
-  static ButtonStyle get navigationButton => navigationButtonStyle;
-  static ButtonStyle get disabledNavigationButton =>
-      disabledNavigationButtonStyle;
 }
+
+// import 'package:flutter/material.dart';
+
+// class AppTheme {
+//   // ────────────────────────────────────────────────────────────
+//   // 🎨 Color Palette
+//   // ────────────────────────────────────────────────────────────
+//   static const Color primaryBlue = Color(0xFF163FE8);
+//   static const Color primaryRed = Color.fromARGB(255, 255, 0, 0);
+//   static const Color backgroundColor = Colors.white;
+//   static const Color darkBackground = Color(0xFF121212);
+
+//   static const Color infoColor = primaryBlue;
+//   static const Color errorColor = primaryRed;
+//   static const Color successColor = Colors.green;
+//   static const Color warningColor = Colors.orange;
+//   static const Color disabledGray = Colors.grey;
+
+//   // ────────────────────────────────────────────────────────────
+//   // 🔠 Text Styles
+//   // ────────────────────────────────────────────────────────────
+
+//   /// Used in AppBar titles
+//   static const TextStyle headingStyle = TextStyle(
+//     fontSize: 22,
+//     fontWeight: FontWeight.bold,
+//     color: Colors.white,
+//   );
+
+//   /// Used in section headers throughout modals/settings
+//   static const TextStyle subheadingStyle = TextStyle(
+//     fontSize: 18,
+//     fontWeight: FontWeight.w600,
+//     color: Colors.white,
+//   );
+
+//   /// Default large body text
+//   static const TextStyle bodyTextStyle = TextStyle(
+//     fontSize: 16,
+//     fontWeight: FontWeight.normal,
+//     color: Colors.black87,
+//   );
+
+//   /// Default button label text
+//   static const TextStyle buttonTextStyle = TextStyle(
+//     fontSize: 16,
+//     fontWeight: FontWeight.w600,
+//     color: Colors.white,
+//   );
+
+//   /// Subtext or hints
+//   static const TextStyle captionStyle = TextStyle(
+//     fontSize: 14,
+//     color: Colors.grey,
+//   );
+
+//   /// Used in breadcrumb headers for branches
+//   static const TextStyle branchBreadcrumbStyle = TextStyle(
+//     fontSize: 16,
+//     fontWeight: FontWeight.bold,
+//     color: Colors.black87,
+//   );
+
+//   /// Used in breadcrumb headers for groups
+//   static const TextStyle groupBreadcrumbStyle = TextStyle(
+//     fontSize: 16,
+//     fontStyle: FontStyle.italic,
+//     color: Colors.black87,
+//   );
+
+//   /// Used in section titles within detail views
+//   static const TextStyle detailTitleStyle = TextStyle(
+//     fontSize: 20,
+//     fontWeight: FontWeight.bold,
+//     color: primaryBlue,
+//   );
+
+//   /// Used in alert dialogs like emergency reminder
+//   static const TextStyle modalTitle = TextStyle(
+//     fontSize: 20,
+//     fontWeight: FontWeight.w600,
+//     color: Colors.black,
+//   );
+
+//   /// Used to show phonetic spelling (styled bodySmall)
+//   static final TextStyle phoneticStyle = textTheme.bodySmall!.copyWith(
+//     color: Colors.grey[600],
+//   );
+
+//   /// Used for "Close" buttons in modals
+//   static const TextStyle dialogButtonText = TextStyle(
+//     fontSize: 16,
+//     color: Colors.white,
+//   );
+
+//   /// Used for section labels in settings modal
+//   static const TextStyle sectionTitle = TextStyle(
+//     fontSize: 16,
+//     fontWeight: FontWeight.w500,
+//     color: Colors.black,
+//   );
+
+//   /// Default app-wide text theme
+//   static const TextTheme textTheme = TextTheme(
+//     headlineLarge: headingStyle,
+//     headlineMedium: subheadingStyle,
+//     bodyLarge: bodyTextStyle,
+//     labelLarge: buttonTextStyle,
+//     bodySmall: captionStyle,
+//   );
+
+//   /// Scaled text theme for accessibility / larger text setting
+//   static const double textScaleMultiplier = 1.5;
+//   static final TextTheme scaledTextTheme = TextTheme(
+//     headlineLarge: headingStyle.copyWith(
+//       fontSize: headingStyle.fontSize! * textScaleMultiplier,
+//     ),
+//     headlineMedium: subheadingStyle.copyWith(
+//       fontSize: subheadingStyle.fontSize! * textScaleMultiplier,
+//     ),
+//     bodyLarge: bodyTextStyle.copyWith(
+//       fontSize: bodyTextStyle.fontSize! * textScaleMultiplier,
+//     ),
+//     labelLarge: buttonTextStyle.copyWith(
+//       fontSize: buttonTextStyle.fontSize! * textScaleMultiplier,
+//     ),
+//     bodySmall: captionStyle.copyWith(
+//       fontSize: captionStyle.fontSize! * textScaleMultiplier,
+//     ),
+//   );
+
+//   /// Used for guided tour text
+//   static const tourDescriptionStyle = TextStyle(
+//     color: Colors.white,
+//     fontSize: 18,
+//     fontWeight: FontWeight.w500,
+//     height: 1.4,
+//   );
+
+//   // ────────────────────────────────────────────────────────────
+//   // 🔘 Button Styles
+//   // ────────────────────────────────────────────────────────────
+
+//   static final ButtonStyle groupRedButtonStyle = ElevatedButton.styleFrom(
+//     backgroundColor: primaryRed,
+//     foregroundColor: Colors.white,
+//     padding: const EdgeInsets.symmetric(vertical: 14),
+//     textStyle: buttonTextStyle,
+//     shape: RoundedRectangleBorder(
+//       borderRadius: BorderRadius.circular(buttonCornerRadius),
+//     ),
+//   );
+
+//   static final ButtonStyle whiteTextButton = ElevatedButton.styleFrom(
+//     backgroundColor: primaryRed,
+//     foregroundColor: Colors.white,
+//     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+//     textStyle: buttonTextStyle.copyWith(
+//       fontSize: 16,
+//       fontWeight: FontWeight.w600,
+//       color: Colors.white,
+//     ),
+//     shape: RoundedRectangleBorder(
+//       borderRadius: BorderRadius.circular(buttonCornerRadius),
+//     ),
+//   );
+
+//   static final ButtonStyle largeRedButton = ElevatedButton.styleFrom(
+//     backgroundColor: primaryRed,
+//     foregroundColor: Colors.white,
+//     padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 32),
+//     textStyle: const TextStyle(
+//       fontSize: 20,
+//       fontWeight: FontWeight.bold,
+//       color: Colors.white,
+//     ),
+//     shape: RoundedRectangleBorder(
+//       borderRadius: BorderRadius.circular(buttonCornerRadius),
+//     ),
+//   );
+
+//   static final ButtonStyle navigationButtonStyle = ElevatedButton.styleFrom(
+//     backgroundColor: primaryRed,
+//     foregroundColor: Colors.white,
+//     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+//     textStyle: buttonTextStyle,
+//     shape: RoundedRectangleBorder(
+//       borderRadius: BorderRadius.circular(buttonCornerRadius),
+//     ),
+//   );
+
+//   static final ButtonStyle disabledNavigationButtonStyle =
+//       ElevatedButton.styleFrom(
+//         backgroundColor: Colors.grey.shade400,
+//         foregroundColor: Colors.white.withAlpha(153),
+//         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+//         textStyle: buttonTextStyle,
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(buttonCornerRadius),
+//         ),
+//       );
+
+//   static final ButtonStyle highlightedGroupButtonStyle =
+//       ElevatedButton.styleFrom(
+//         backgroundColor: primaryRed,
+//         padding: groupButtonPadding,
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(buttonCornerRadius),
+//         ),
+//       );
+
+//   static ButtonStyle get landingPrimaryButton => largeRedButton;
+//   static ButtonStyle get navigationButton => navigationButtonStyle;
+//   static ButtonStyle get disabledNavigationButton =>
+//       disabledNavigationButtonStyle;
+
+//   static Color get groupButtonSelected => primaryBlue.withAlpha(229);
+//   static Color get groupButtonUnselected => primaryBlue.withAlpha(153);
+
+//   // ────────────────────────────────────────────────────────────
+//   // 📐 Dimensions & Padding
+//   // ────────────────────────────────────────────────────────────
+//   static const double buttonCornerRadius = 12.0;
+//   static const double cardCornerRadius = 16.0;
+//   static const double screenPadding = 16.0;
+
+//   static const EdgeInsetsGeometry groupButtonPadding = EdgeInsets.symmetric(
+//     vertical: 14,
+//     horizontal: 24,
+//   );
+
+//   static const EdgeInsetsGeometry itemButtonPadding = EdgeInsets.symmetric(
+//     vertical: 10,
+//     horizontal: 12,
+//   );
+
+//   static const EdgeInsets cardPadding = EdgeInsets.all(12);
+
+//   // ────────────────────────────────────────────────────────────
+//   // 🌞 Light & 🌚 Dark Themes
+//   // ────────────────────────────────────────────────────────────
+
+//   static ThemeData get lightTheme => ThemeData(
+//     useMaterial3: true,
+//     scaffoldBackgroundColor: backgroundColor,
+//     colorScheme: ColorScheme.fromSeed(seedColor: primaryBlue),
+//     appBarTheme: const AppBarTheme(
+//       backgroundColor: primaryBlue,
+//       foregroundColor: Colors.white,
+//       centerTitle: true,
+//       elevation: 0,
+//       titleTextStyle: headingStyle,
+//       iconTheme: IconThemeData(color: Colors.white),
+//     ),
+//     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+//       backgroundColor: primaryBlue,
+//       selectedItemColor: primaryRed,
+//       unselectedItemColor: Colors.white70,
+//       selectedIconTheme: IconThemeData(size: 26),
+//       unselectedIconTheme: IconThemeData(size: 22),
+//       selectedLabelStyle: buttonTextStyle,
+//       unselectedLabelStyle: buttonTextStyle,
+//       showUnselectedLabels: true,
+//     ),
+//     textTheme: textTheme,
+//   );
+
+//   static ThemeData get darkTheme => ThemeData(
+//     useMaterial3: true,
+//     brightness: Brightness.dark,
+//     scaffoldBackgroundColor: darkBackground,
+//     colorScheme: ColorScheme.dark(primary: primaryBlue, secondary: primaryRed),
+//     appBarTheme: const AppBarTheme(
+//       backgroundColor: primaryBlue,
+//       centerTitle: true,
+//       elevation: 0,
+//       titleTextStyle: headingStyle,
+//       iconTheme: IconThemeData(color: Colors.white),
+//     ),
+//     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+//       backgroundColor: primaryBlue,
+//       selectedItemColor: Colors.white,
+//       unselectedItemColor: Colors.white70,
+//       selectedLabelStyle: buttonTextStyle,
+//       unselectedLabelStyle: buttonTextStyle,
+//     ),
+//     textTheme: textTheme,
+//   );
+// }
 
 
 
@@ -6981,14 +7511,16 @@ class PathItem {
 }
 
 class LearningPathChapter {
-  final String id; // e.g., "path_competentCrew_1.00"
+  final String id;
   final String title;
   final List<PathItem> items;
+  final bool showFlashcardEnding; // NEW
 
-  const LearningPathChapter({
+  LearningPathChapter({
     required this.id,
     required this.title,
     required this.items,
+    this.showFlashcardEnding = true, // NEW
   });
 }
 
@@ -7087,9 +7619,11 @@ class RenderItem {
 
 
 File: lib/widgets/end_of_group_modal.dart
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/transition_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bcc5/theme/app_theme.dart';
@@ -7104,6 +7638,7 @@ class EndOfGroupModal extends StatelessWidget {
   final DetailRoute detailRoute;
   final String? forwardButtonLabel;
   final VoidCallback? onNextGroup;
+  final List<RenderItem> curatedFlashcards;
 
   const EndOfGroupModal({
     super.key,
@@ -7116,6 +7651,7 @@ class EndOfGroupModal extends StatelessWidget {
     required this.detailRoute,
     this.forwardButtonLabel,
     this.onNextGroup,
+    required this.curatedFlashcards, // ✅ NEW
   });
 
   @override
@@ -7146,6 +7682,28 @@ class EndOfGroupModal extends StatelessWidget {
                 child: Text(forwardButtonLabel!),
               ),
             ),
+          const SizedBox(height: 4),
+
+          if (curatedFlashcards.isNotEmpty)
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // close modal
+                TransitionManager.goToDetailScreen(
+                  context: context,
+                  screenType: RenderItemType.flashcard,
+                  renderItems: curatedFlashcards,
+                  currentIndex: 0,
+                  branchIndex: branchIndex,
+                  backDestination: backRoute,
+                  backExtra: backExtra,
+                  detailRoute: detailRoute,
+                  direction: SlideDirection.right,
+                );
+              },
+              style: AppTheme.navigationButton, // ✅ match other buttons
+              child: const Text('Test Yourself with Flashcards'),
+            ),
+          const SizedBox(height: 12),
 
           ElevatedButton(
             // Back to List (BOTTOM button)
@@ -7655,6 +8213,8 @@ class DisabledItemButton extends StatelessWidget {
 File: lib/widgets/navigation/last_group_button.dart
 // lib/widgets/navigation/last_group_button.dart
 
+import 'package:bcc5/data/repositories/flashcards/competent_crew_flashards.dart';
+import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -7699,6 +8259,9 @@ class _LastGroupButtonState extends State<LastGroupButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
+        final isPath = widget.detailRoute == DetailRoute.path;
+        final pathName = widget.backExtra?['pathName'] as String?;
+        final chapterId = widget.backExtra?['chapterId'] as String?;
         logger.i('⏭️ LastGroupButton tapped (${widget.label})');
 
         final renderItems = await widget.getNextRenderItems();
@@ -7706,7 +8269,28 @@ class _LastGroupButtonState extends State<LastGroupButton> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!mounted) return;
 
-          _showEndOfGroupModal(context, renderItems ?? []);
+          final curatedFlashcards = <RenderItem>[];
+          if (isPath && pathName != null && chapterId != null) {
+            final curatedIds = curatedChapterFlashcards[chapterId];
+            if (curatedIds != null && curatedIds.isNotEmpty) {
+              curatedFlashcards.addAll(
+                curatedIds
+                    .map(
+                      (id) => getAllFlashcards().firstWhere((f) => f.id == id),
+                    )
+                    .map(RenderItem.fromFlashcard),
+              );
+            }
+          }
+
+          _showEndOfGroupModal(
+            context,
+            renderItems ?? [],
+            curatedFlashcards,
+            isPath,
+            pathName,
+            chapterId,
+          );
         });
       },
       style: AppTheme.navigationButton,
@@ -7717,11 +8301,11 @@ class _LastGroupButtonState extends State<LastGroupButton> {
   void _showEndOfGroupModal(
     BuildContext context,
     List<RenderItem> renderItems,
+    List<RenderItem> curatedFlashcards,
+    bool isPath,
+    String? pathName,
+    String? chapterId,
   ) {
-    final isPath = widget.detailRoute == DetailRoute.path;
-    final pathName = widget.backExtra?['pathName'] as String?;
-    final chapterId = widget.backExtra?['chapterId'] as String?;
-
     final nextChapter =
         (isPath && pathName != null && chapterId != null)
             ? PathRepositoryIndex.getNextChapter(pathName, chapterId)
@@ -7786,6 +8370,7 @@ class _LastGroupButtonState extends State<LastGroupButton> {
             backExtra: backExtra,
             branchIndex: widget.branchIndex,
             detailRoute: widget.detailRoute,
+            curatedFlashcards: curatedFlashcards, // ✅ add this correctly here
           ),
     );
   }
@@ -7801,6 +8386,86 @@ class _LastGroupButtonState extends State<LastGroupButton> {
   // }
 
   String _pluralize(String word) => word.endsWith('s') ? word : '${word}s';
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/navigation/path_ending_actions.dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:bcc5/data/repositories/flashcards/competent_crew_flashards.dart';
+
+class PathEndingActions extends StatelessWidget {
+  final String pathName;
+  final String chapterId;
+
+  const PathEndingActions({
+    super.key,
+    required this.pathName,
+    required this.chapterId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            final curated = curatedChapterFlashcards[chapterId];
+            if (curated != null && curated.isNotEmpty) {
+              context.push(
+                '/flashcards/custom',
+                extra: {
+                  'flashcardIds': curated,
+                  'pathName': pathName,
+                  'chapterId': chapterId,
+                },
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('No flashcards available for this chapter.'),
+                ),
+              );
+            }
+          },
+          child: const Text('Test your knowledge'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            final nextPath = _getNextPathName(pathName);
+            if (nextPath != null) {
+              context.push(
+                '/learning-paths/${nextPath.replaceAll(' ', '-').toLowerCase()}',
+              );
+            }
+          },
+          child: const Text('Start next Course Series'),
+        ),
+        TextButton(
+          onPressed: () => context.go('/learning-paths'),
+          child: const Text('Back to the Main Index'),
+        ),
+      ],
+    );
+  }
+
+  String? _getNextPathName(String currentPath) {
+    final paths = [
+      'competent crew',
+      // Add future paths here if needed
+    ];
+    final currentIndex = paths.indexOf(currentPath.toLowerCase());
+    if (currentIndex == -1 || currentIndex + 1 >= paths.length) return null;
+    return paths[currentIndex + 1];
+  }
 }
 
 
@@ -7840,6 +8505,212 @@ void showMOBModal(BuildContext context) {
     );
   });
 }
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/setting_depth_picker.dart
+import 'package:flutter/material.dart';
+
+Widget settingDepthPickerField({
+  required String label,
+  required Future<String> initialValueFuture,
+  required Future<String> Function() getUnitFuture,
+  required void Function(String) onChanged,
+}) {
+  return FutureBuilder<List<String>>(
+    future: Future.wait([initialValueFuture, getUnitFuture()]),
+    builder: (context, snapshot) {
+      if (!snapshot.hasData) return const CircularProgressIndicator();
+
+      final saved = snapshot.data![0];
+      final unit = snapshot.data![1];
+      int feet = 0;
+      int inches = 0;
+      String meters = '';
+
+      if (unit == 'feet' && saved.contains('ft')) {
+        final match = RegExp(r'(\\d+)\\s*ft\\s*(\\d*)').firstMatch(saved);
+        feet = int.tryParse(match?.group(1) ?? '') ?? 0;
+        inches = int.tryParse(match?.group(2) ?? '') ?? 0;
+      } else {
+        meters = saved;
+      }
+
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(label),
+              const SizedBox(height: 4),
+              if (unit == 'feet')
+                Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButton<int>(
+                        isExpanded: true,
+                        value: feet,
+                        items: List.generate(
+                          20,
+                          (i) =>
+                              DropdownMenuItem(value: i, child: Text('$i ft')),
+                        ),
+                        onChanged: (v) {
+                          if (v != null) {
+                            setState(() => feet = v);
+                            onChanged('$feet ft $inches in');
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: DropdownButton<int>(
+                        isExpanded: true,
+                        value: inches,
+                        items: List.generate(
+                          12,
+                          (i) =>
+                              DropdownMenuItem(value: i, child: Text('$i in')),
+                        ),
+                        onChanged: (v) {
+                          if (v != null) {
+                            setState(() => inches = v);
+                            onChanged('$feet ft $inches in');
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                )
+              else
+                TextField(
+                  controller: TextEditingController(text: meters),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'e.g. 1.4',
+                  ),
+                  onChanged: (value) {
+                    final parsed = double.tryParse(value);
+                    if (parsed != null) {
+                      final formatted = parsed.toStringAsFixed(
+                        2,
+                      ); // ✅ round to 2 decimal places
+                      onChanged(formatted);
+                    }
+                  },
+                ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/setting_input_fields.dart
+import 'package:flutter/material.dart';
+
+Widget settingTextField({
+  required String label,
+  required Future<String> initialValueFuture,
+  required void Function(String) onChanged,
+}) {
+  return FutureBuilder<String>(
+    future: initialValueFuture,
+    builder: (context, snapshot) {
+      final controller = TextEditingController(text: snapshot.data ?? '');
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: TextField(
+          controller: controller,
+          decoration: InputDecoration(labelText: label),
+          onChanged: onChanged,
+        ),
+      );
+    },
+  );
+}
+
+Widget settingIntField({
+  required String label,
+  required Future<int> initialValueFuture,
+  required void Function(int) onChanged,
+}) {
+  return FutureBuilder<int>(
+    future: initialValueFuture,
+    builder: (context, snapshot) {
+      final controller = TextEditingController(
+        text: (snapshot.data ?? 0).toString(),
+      );
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: TextField(
+          controller: controller,
+          decoration: InputDecoration(labelText: label),
+          keyboardType: TextInputType.number,
+          onChanged: (value) {
+            final parsed = int.tryParse(value);
+            if (parsed != null) onChanged(parsed);
+          },
+        ),
+      );
+    },
+  );
+}
+
+// Widget settingIntPickerField({
+//   required String label,
+//   required int minValue,
+//   required int maxValue,
+//   required Future<int> initialValueFuture,
+//   required ValueChanged<int> onChanged,
+// }) {
+//   return FutureBuilder<int>(
+//     future: initialValueFuture,
+//     builder: (context, snapshot) {
+//       int value = snapshot.data ?? minValue;
+//       return Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(label),
+//           DropdownButton<int>(
+//             value: value,
+//             items: List.generate(
+//               maxValue - minValue + 1,
+//               (i) => DropdownMenuItem(
+//                 value: minValue + i,
+//                 child: Text('${minValue + i}'),
+//               ),
+//             ),
+//             onChanged: (newValue) {
+//               if (newValue != null) onChanged(newValue);
+//             },
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }
 
 
 
@@ -8115,6 +8986,693 @@ class GroupPickerDropdown extends StatelessWidget {
 
 
 
+File: lib/widgets/emergency_info_modal.dart
+import 'package:bcc5/utils/radio_helper.dart' hide formatPhonetic;
+import 'package:bcc5/utils/vessel_formatting.dart';
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/settings_manager.dart';
+import 'package:bcc5/widgets/setting_input_fields.dart';
+import 'package:bcc5/widgets/setting_unit_picker.dart';
+import 'package:bcc5/widgets/setting_int_picker.dart';
+import 'package:bcc5/widgets/setting_depth_picker.dart';
+
+void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
+  showDialog(
+    context: context,
+    builder:
+        (_) => AlertDialog(
+          title: const Text('🚨 Emergency Info'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  settingTextField(
+                    label: 'Boat Name',
+                    initialValueFuture: SettingsManager.getBoatName(),
+                    onChanged: (value) async {
+                      await SettingsManager.setBoatName(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  FutureBuilder<String>(
+                    future: SettingsManager.getBoatName(),
+                    builder: (context, snapshot) {
+                      final name = snapshot.data ?? '';
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          'Phonetic: ${formatPhonetic(name)}',
+                          style: AppTheme.phoneticStyle,
+                        ),
+                      );
+                    },
+                  ),
+                  FutureBuilder<String>(
+                    future: SettingsManager.getVesselType(),
+                    builder: (context, snapshot) {
+                      final raw = snapshot.data;
+                      final current =
+                          (raw == null || raw.isEmpty || raw == 'Other')
+                              ? 'Sailing'
+                              : raw;
+                      final controller = TextEditingController(text: current);
+                      final options = [
+                        'Sailing',
+                        'Motor',
+                        'Catamaran',
+                        'Other',
+                      ];
+                      return StatefulBuilder(
+                        builder: (context, setState) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Vessel Type'),
+                              const SizedBox(height: 4),
+                              DropdownButtonFormField<String>(
+                                value:
+                                    options.contains(current)
+                                        ? current
+                                        : 'Other',
+                                items:
+                                    options
+                                        .map(
+                                          (type) => DropdownMenuItem(
+                                            value: type,
+                                            child: Text(type),
+                                          ),
+                                        )
+                                        .toList(),
+                                onChanged: (value) {
+                                  if (value == 'Other') {
+                                    controller.text = '';
+                                  } else {
+                                    controller.text = value!;
+                                    SettingsManager.setVesselType(value);
+                                    if (onChanged != null) onChanged();
+                                  }
+                                  setState(() {});
+                                },
+                              ),
+                              const SizedBox(height: 6),
+                              if (controller.text.isEmpty ||
+                                  controller.text == 'Other')
+                                TextField(
+                                  controller: controller,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Enter vessel type',
+                                    border: OutlineInputBorder(),
+                                  ),
+                                  onChanged: (value) async {
+                                    await SettingsManager.setVesselType(value);
+                                    if (onChanged != null) onChanged();
+                                  },
+                                ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  settingTextFieldWithUnitPicker(
+                    label: 'Vessel Length',
+                    initialValueFuture: SettingsManager.getVesselLength(),
+                    unitOptions: ['feet', 'meters'],
+                    defaultUnit: 'feet',
+                    getUnitFuture: SettingsManager.getLengthUnit,
+                    setUnit: SettingsManager.setLengthUnit,
+                    onChanged: (value) async {
+                      await SettingsManager.setVesselLength(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingDepthPickerField(
+                    label: 'Minimum Depth / Boat Draft',
+                    initialValueFuture: SettingsManager.getMinimumDepth(),
+                    getUnitFuture: SettingsManager.getLengthUnit,
+                    onChanged: (value) async {
+                      await SettingsManager.setMinimumDepth(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+
+                  settingTextField(
+                    label: 'Vessel Description',
+                    initialValueFuture: SettingsManager.getVesselDescription(),
+                    onChanged: (value) async {
+                      await SettingsManager.setVesselDescription(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingIntPickerField(
+                    label: 'Souls Onboard (Adults)',
+                    minValue: 0,
+                    maxValue: 10,
+                    initialValueFuture: SettingsManager.getSoulsAdults(),
+                    onChanged: (value) async {
+                      await SettingsManager.setSoulsAdults(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingIntPickerField(
+                    label: 'Souls Onboard (Children)',
+                    minValue: 0,
+                    maxValue: 10,
+                    initialValueFuture: SettingsManager.getSoulsChildren(),
+                    onChanged: (value) async {
+                      await SettingsManager.setSoulsChildren(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingTextField(
+                    label: 'MMSI (optional)',
+                    initialValueFuture: SettingsManager.getMMSI(),
+                    onChanged: (value) async {
+                      await SettingsManager.setMMSI(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingTextField(
+                    label: "Captain's Phone",
+                    initialValueFuture: SettingsManager.getCaptainPhone(),
+                    onChanged: (value) async {
+                      await SettingsManager.setCaptainPhone(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingTextField(
+                    label: 'Coast Guard Emergency Number',
+                    initialValueFuture: SettingsManager.getCoastGuardPhone(),
+                    onChanged: (value) async {
+                      await SettingsManager.setCoastGuardPhone(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingTextField(
+                    label: 'Emergency Contact Name',
+                    initialValueFuture:
+                        SettingsManager.getEmergencyContactName(),
+                    onChanged: (value) async {
+                      await SettingsManager.setEmergencyContactName(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingTextField(
+                    label: 'Emergency Contact Phone',
+                    initialValueFuture: SettingsManager.getEmergencyContact(),
+                    onChanged: (value) async {
+                      await SettingsManager.setEmergencyContact(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            Padding(
+              padding: EdgeInsets.zero,
+              child: SizedBox(
+                height: 44,
+                width: double.infinity,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: AppTheme.primaryRed,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.zero,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Close', style: AppTheme.dialogButtonText),
+                ),
+              ),
+            ),
+          ],
+        ),
+  );
+}
+
+
+
+
+
+
+// import 'package:bcc5/utils/radio_helper.dart';
+// import 'package:flutter/material.dart';
+// import 'package:bcc5/theme/app_theme.dart';
+// import 'package:bcc5/utils/settings_manager.dart';
+// import 'package:bcc5/widgets/setting_input_fields.dart';
+
+// void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
+//   showDialog(
+//     context: context,
+//     builder: (_) => AlertDialog(
+//       title: const Text('🚨 Emergency Info'),
+//       content: SizedBox(
+//         width: double.maxFinite,
+//         child: SingleChildScrollView(
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               // 🔤 Boat Name Field
+//               settingTextField(
+//                 label: 'Boat Name',
+//                 initialValueFuture: SettingsManager.getBoatName(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setBoatName(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 🔡 Phonetic preview
+//               FutureBuilder<String>(
+//                 future: SettingsManager.getBoatName(),
+//                 builder: (context, snapshot) {
+//                   final name = snapshot.data ?? '';
+//                   return Padding(
+//                     padding: const EdgeInsets.only(bottom: 8),
+//                     child: Text(
+//                       'Phonetic: ${formatPhonetic(name)}',
+//                       style: AppTheme.phoneticStyle,
+//                     ),
+//                   );
+//                 },
+//               ),
+
+//               // 🚢 Vessel Type Dropdown
+//               FutureBuilder<String>(
+//                 future: SettingsManager.getVesselType(),
+//                 builder: (context, snapshot) {
+//                   final raw = snapshot.data;
+//                   final current = (raw == null || raw.isEmpty || raw == 'Other') ? 'Sailing' : raw;
+//                   final controller = TextEditingController(text: current);
+//                   final options = ['Sailing', 'Motor', 'Catamaran', 'Other'];
+//                   return StatefulBuilder(
+//                     builder: (context, setState) {
+//                       return Column(
+//                         crossAxisAlignment: CrossAxisAlignment.start,
+//                         children: [
+//                           const Text('Vessel Type'),
+//                           const SizedBox(height: 4),
+//                           DropdownButtonFormField<String>(
+//                             value: options.contains(current) ? current : 'Other',
+//                             items: options.map((type) => DropdownMenuItem(
+//                               value: type,
+//                               child: Text(type),
+//                             )).toList(),
+//                             onChanged: (value) {
+//                               if (value == 'Other') {
+//                                 controller.text = '';
+//                               } else {
+//                                 controller.text = value!;
+//                                 SettingsManager.setVesselType(value);
+//                                 if (onChanged != null) onChanged();
+//                               }
+//                               setState(() {});
+//                             },
+//                           ),
+//                           const SizedBox(height: 6),
+//                           if (controller.text.isEmpty || controller.text == 'Other')
+//                             TextField(
+//                               controller: controller,
+//                               decoration: const InputDecoration(
+//                                 hintText: 'Enter vessel type',
+//                                 border: OutlineInputBorder(),
+//                               ),
+//                               onChanged: (value) async {
+//                                 await SettingsManager.setVesselType(value);
+//                                 if (onChanged != null) onChanged();
+//                               },
+//                             ),
+//                         ],
+//                       );
+//                     },
+//                   );
+//                 },
+//               ),
+
+//               // 📏 Vessel Length with units
+//               settingTextFieldWithUnitPicker(
+//                 label: 'Vessel Length',
+//                 initialValueFuture: SettingsManager.getVesselLength(),
+//                 unitOptions: ['feet', 'meters'],
+//                 defaultUnit: 'feet',
+//                 getUnitFuture: SettingsManager.getLengthUnit,
+//                 setUnit: SettingsManager.setLengthUnit,
+//                 onChanged: (value) async {
+//                   await SettingsManager.setVesselLength(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 🪣 Minimum Depth
+//               settingTextField(
+//                 label: 'Minimum Depth (e.g., keel clearance)',
+//                 initialValueFuture: SettingsManager.getMinimumDepth(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setMinimumDepth(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 📋 Description
+//               settingTextField(
+//                 label: 'Vessel Description',
+//                 initialValueFuture: SettingsManager.getVesselDescription(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setVesselDescription(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 🧍 Souls Onboard
+//               settingIntPickerField(
+//                 label: 'Souls Onboard (Adults)',
+//                 minValue: 0,
+//                 maxValue: 10,
+//                 initialValueFuture: SettingsManager.getSoulsAdults(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setSoulsAdults(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+//               settingIntPickerField(
+//                 label: 'Souls Onboard (Children)',
+//                 minValue: 0,
+//                 maxValue: 10,
+//                 initialValueFuture: SettingsManager.getSoulsChildren(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setSoulsChildren(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 📞 MMSI
+//               settingTextField(
+//                 label: 'MMSI (optional)',
+//                 initialValueFuture: SettingsManager.getMMSI(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setMMSI(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // ☎️ Captain’s Phone
+//               settingTextField(
+//                 label: "Captain's Phone",
+//                 initialValueFuture: SettingsManager.getCaptainPhone(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setCaptainPhone(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 🚨 Coast Guard Emergency Number
+//               settingTextField(
+//                 label: 'Coast Guard Emergency Number',
+//                 initialValueFuture: SettingsManager.getCoastGuardPhone(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setCoastGuardPhone(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               // 📞 Emergency Contact
+//               settingTextField(
+//                 label: 'Emergency Contact Name',
+//                 initialValueFuture: SettingsManager.getEmergencyContactName(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setEmergencyContactName(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+//               settingTextField(
+//                 label: 'Emergency Contact Phone',
+//                 initialValueFuture: SettingsManager.getEmergencyContact(),
+//                 onChanged: (value) async {
+//                   await SettingsManager.setEmergencyContact(value);
+//                   if (onChanged != null) onChanged();
+//                 },
+//               ),
+
+//               const SizedBox(height: 16),
+//             ],
+//           ),
+//         ),
+//       ),
+//       actions: [
+//         Padding(
+//           padding: EdgeInsets.zero,
+//           child: SizedBox(
+//             height: 44,
+//             width: double.infinity,
+//             child: TextButton(
+//               style: TextButton.styleFrom(
+//                 backgroundColor: AppTheme.primaryRed,
+//                 foregroundColor: Colors.white,
+//                 padding: EdgeInsets.zero,
+//                 shape: const RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.zero,
+//                 ),
+//               ),
+//               onPressed: () => Navigator.of(context).pop(),
+//               child: const Text('Close', style: AppTheme.dialogButtonText),
+//             ),
+//           ),
+//         ),
+//       ],
+//     ),
+//   );
+// }
+
+
+
+
+
+
+
+
+// // import 'package:bcc5/utils/radio_helper.dart';
+// // import 'package:flutter/material.dart';
+// // import 'package:bcc5/theme/app_theme.dart';
+// // import 'package:bcc5/utils/settings_manager.dart';
+// // import 'package:bcc5/widgets/setting_input_fields.dart';
+
+// // void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
+// //   showDialog(
+// //     context: context,
+// //     builder:
+// //         (_) => AlertDialog(
+// //           title: const Text('🚨 Emergency Info'),
+// //           content: SizedBox(
+// //             width: double.maxFinite,
+// //             child: SingleChildScrollView(
+// //               child: Column(
+// //                 crossAxisAlignment: CrossAxisAlignment.start,
+// //                 children: [
+// //                   // 🔤 Boat Name Field (now first)
+// //                   settingTextField(
+// //                     label: 'Boat Name',
+// //                     initialValueFuture: SettingsManager.getBoatName(),
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setBoatName(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
+// //                   ),
+
+// //                   // 🔡 Phonetic preview (below name field)
+// //                   FutureBuilder<String>(
+// //                     future: SettingsManager.getBoatName(),
+// //                     builder: (context, snapshot) {
+// //                       final name = snapshot.data ?? '';
+// //                       return Padding(
+// //                         padding: const EdgeInsets.only(bottom: 8),
+// //                         child: Text(
+// //                           'Phonetic: ${formatPhonetic(name)}',
+// //                           style: AppTheme.phoneticStyle,
+// //                         ),
+// //                       );
+// //                     },
+// //                   ),
+
+// //                   // 🚢 Vessel Type Dropdown
+// //                   FutureBuilder<String>(
+// //                     future: SettingsManager.getVesselType(),
+// //                     builder: (context, snapshot) {
+// //                       final raw = snapshot.data;
+// //                       final current =
+// //                           (raw == null || raw.isEmpty || raw == 'Other')
+// //                               ? 'Sailing'
+// //                               : raw;
+// //                       final controller = TextEditingController(text: current);
+// //                       final options = [
+// //                         'Sailing',
+// //                         'Motor',
+// //                         'Catamaran',
+// //                         'Other',
+// //                       ];
+// //                       return StatefulBuilder(
+// //                         builder: (context, setState) {
+// //                           return Column(
+// //                             crossAxisAlignment: CrossAxisAlignment.start,
+// //                             children: [
+// //                               const Text('Vessel Type'),
+// //                               const SizedBox(height: 4),
+// //                               DropdownButtonFormField<String>(
+// //                                 value:
+// //                                     options.contains(current)
+// //                                         ? current
+// //                                         : 'Other',
+// //                                 items:
+// //                                     options
+// //                                         .map(
+// //                                           (type) => DropdownMenuItem(
+// //                                             value: type,
+// //                                             child: Text(type),
+// //                                           ),
+// //                                         )
+// //                                         .toList(),
+// //                                 onChanged: (value) {
+// //                                   if (value == 'Other') {
+// //                                     controller.text = '';
+// //                                   } else {
+// //                                     controller.text = value!;
+// //                                     SettingsManager.setVesselType(value);
+// //                                     if (onChanged != null) onChanged();
+// //                                   }
+// //                                   setState(() {});
+// //                                 },
+// //                               ),
+// //                               const SizedBox(height: 6),
+// //                               if (controller.text.isEmpty ||
+// //                                   controller.text == 'Other')
+// //                                 TextField(
+// //                                   controller: controller,
+// //                                   decoration: const InputDecoration(
+// //                                     hintText: 'Enter vessel type',
+// //                                     border: OutlineInputBorder(),
+// //                                   ),
+// //                                   onChanged: (value) async {
+// //                                     await SettingsManager.setVesselType(value);
+// //                                     if (onChanged != null) onChanged();
+// //                                   },
+// //                                 ),
+// //                             ],
+// //                           );
+// //                         },
+// //                       );
+// //                     },
+// //                   ),
+
+// //                   // 📏 Vessel Length
+// //                   settingTextField(
+// //                     label: 'Vessel Length',
+// //                     initialValueFuture: SettingsManager.getVesselLength(),
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setVesselLength(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
+// //                   ),
+
+// //                   // 📋 Description
+// //                   settingTextField(
+// //                     label: 'Vessel Description (e.g., “sail number 56788”)',
+// //                     initialValueFuture: SettingsManager.getVesselDescription(),
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setVesselDescription(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
+// //                   ),
+
+// //                   // 🧍 Adults & Children
+// //                   settingIntField(
+// //                     label: 'Souls Onboard (Adults)',
+// //                     initialValueFuture: SettingsManager.getSoulsAdults(),
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setSoulsAdults(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
+// //                   ),
+// //                   settingIntField(
+// //                     label: 'Souls Onboard (Children)',
+// //                     initialValueFuture: SettingsManager.getSoulsChildren(),
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setSoulsChildren(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
+// //                   ),
+
+// //                   // 📞 Contacts
+// //                   settingTextField(
+// //                     label: 'MMSI (optional)',
+// //                     initialValueFuture: SettingsManager.getMMSI(),
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setMMSI(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
+// //                   ),
+// //                   settingTextField(
+// //                     label: 'Emergency Contact Phone',
+// //                     initialValueFuture: SettingsManager.getEmergencyContact(),
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setEmergencyContact(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
+// //                   ),
+// //                   settingTextField(
+// //                     label: "Captain's Phone",
+// //                     initialValueFuture: SettingsManager.getCaptainPhone(),
+// //                     onChanged: (value) async {
+// //                       await SettingsManager.setCaptainPhone(value);
+// //                       if (onChanged != null) onChanged();
+// //                     },
+// //                   ),
+
+// //                   const SizedBox(height: 16),
+// //                 ],
+// //               ),
+// //             ),
+// //           ),
+// //           actions: [
+// //             Padding(
+// //               padding: EdgeInsets.zero,
+// //               child: SizedBox(
+// //                 height: 44,
+// //                 width: double.infinity,
+// //                 child: TextButton(
+// //                   style: TextButton.styleFrom(
+// //                     backgroundColor: AppTheme.primaryRed,
+// //                     foregroundColor: Colors.white,
+// //                     padding: EdgeInsets.zero,
+// //                     shape: const RoundedRectangleBorder(
+// //                       borderRadius: BorderRadius.zero,
+// //                     ),
+// //                   ),
+// //                   onPressed: () => Navigator.of(context).pop(),
+// //                   child: const Text('Close', style: AppTheme.dialogButtonText),
+// //                 ),
+// //               ),
+// //             ),
+// //           ],
+// //         ),
+// //   );
+// // }
+
+
+
+
+
+
+
+
+
+
 File: lib/widgets/navigation_buttons.dart
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -8258,12 +9816,12 @@ File: lib/widgets/settings_modal.dart
 
 import 'package:bcc5/screens/landing_screen/landing_screen.dart';
 import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/widgets/emergency_info_modal.dart';
 import 'package:bcc5/widgets/tour/landing_screen_tour.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/resume_manager.dart'; // ✅ Needed for reset
 import 'package:bcc5/utils/settings_manager.dart';
-import 'package:bcc5/utils/radio_helper.dart';
 import 'package:go_router/go_router.dart';
 
 void showSettingsModal(BuildContext context, String currentRouteName) {
@@ -8295,58 +9853,53 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                   ),
                   const SizedBox(height: 8),
 
-                  // this button closes the settingsModal and restarts the tour
-                  TextButton(
-                    onPressed: () {
-                      logger.i(
-                        '🧭 SettingsModal tapped — route = $currentRouteName',
-                      );
-
-                      // Close modal first
-                      Navigator.of(context).pop();
-
-                      // Schedule logic after modal disappears
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        logger.i('📦 Modal closed, post-frame triggered');
-
-                        if (currentRouteName == '/' ||
-                            currentRouteName == '/landing') {
+                  // 🚀 Restart Tour Button
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: AppTheme.navigationButton,
+                        onPressed: () {
                           logger.i(
-                            '✅ Already on landing — restarting tour directly',
+                            '🧭 SettingsModal tapped — route = $currentRouteName',
                           );
-
-                          final state = LandingScreen.getState();
-                          if (state != null && state.mounted) {
-                            logger.i('🔁 Restarting tour...');
-                            LandingScreenTour.restartNow(
-                              landingScreenState: state,
-                              mobKey: state.mobKey,
-                              settingsKey: state.settingsKey,
-                              titleKey: state.titleKey,
-                              searchKey: state.searchKey,
-                              harborKey: state.widget.harborKey,
-                              coursesKey: state.widget.coursesKey,
-                              partsKey: state.widget.partsKey,
-                              toolsKey: state.widget.toolsKey,
-                              drillsKey: state.widget.drillsKey,
-                              newCrewKey: state.widget.newCrewKey,
-                              advancedRefreshersKey:
-                                  state.widget.advancedRefreshersKey,
-                            );
-                          } else {
-                            logger.w(
-                              '⚠️ LandingScreen not mounted — cannot restart tour',
-                            );
-                          }
-                        } else {
-                          logger.i('➡️ Navigating to landing to trigger tour');
-                          GoRouter.of(
-                            context,
-                          ).go('/', extra: {'startTour': true});
-                        }
-                      });
-                    },
-                    child: const Text('Start App Tour Now'),
+                          Navigator.of(context).pop();
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (currentRouteName == '/' ||
+                                currentRouteName == '/landing') {
+                              final state = LandingScreen.getState();
+                              if (state != null && state.mounted) {
+                                LandingScreenTour.restartNow(
+                                  landingScreenState: state,
+                                  mobKey: state.mobKey,
+                                  settingsKey: state.settingsKey,
+                                  titleKey: state.titleKey,
+                                  searchKey: state.searchKey,
+                                  harborKey: state.widget.harborKey,
+                                  coursesKey: state.widget.coursesKey,
+                                  partsKey: state.widget.partsKey,
+                                  toolsKey: state.widget.toolsKey,
+                                  drillsKey: state.widget.drillsKey,
+                                  newCrewKey: state.widget.newCrewKey,
+                                  advancedRefreshersKey:
+                                      state.widget.advancedRefreshersKey,
+                                );
+                              } else {
+                                logger.w(
+                                  '⚠️ LandingScreen not mounted — cannot restart tour',
+                                );
+                              }
+                            } else {
+                              GoRouter.of(
+                                context,
+                              ).go('/', extra: {'startTour': true});
+                            }
+                          });
+                        },
+                        child: const Text('Restart Tour'),
+                      ),
+                    ),
                   ),
 
                   const SizedBox(height: 8),
@@ -8355,65 +9908,50 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: ListView(
                         children: [
-                          _settingSwitch('Dark Mode', false),
+                          // // 🚢 Vessel Name display button
+                          StatefulBuilder(
+                            builder: (context, setState) {
+                              return FutureBuilder<List<String>>(
+                                future: Future.wait([
+                                  SettingsManager.getBoatName(),
+                                  SettingsManager.getVesselType(),
+                                ]),
+                                builder: (context, snapshot) {
+                                  final name = snapshot.data?[0].trim() ?? '';
+                                  final type =
+                                      snapshot.data?[1].trim().isEmpty ?? true
+                                          ? 'Sailing'
+                                          : snapshot.data![1].trim();
+                                  final prefix =
+                                      (type == 'Sailing')
+                                          ? 'S/V'
+                                          : (type == 'Motor')
+                                          ? 'M/V'
+                                          : type;
 
-                          // 📜 Boat Name w/ Phonetic Preview
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Boat Name',
-                                  style: AppTheme.textTheme.bodyLarge,
-                                ),
-                                const SizedBox(height: 4),
-                                FutureBuilder<String>(
-                                  future: SettingsManager.getBoatName(),
-                                  builder: (context, snapshot) {
-                                    final controller = TextEditingController(
-                                      text: snapshot.data ?? '',
-                                    );
-                                    return StatefulBuilder(
-                                      builder: (context, setModalState) {
-                                        return Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            TextField(
-                                              controller: controller,
-                                              decoration: const InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                hintText: 'Enter boat name...',
-                                              ),
-                                              onChanged: (value) async {
-                                                await SettingsManager.setBoatName(
-                                                  value,
-                                                );
-                                                setModalState(() {});
-                                              },
-                                            ),
-                                            const SizedBox(height: 6),
-                                            Text(
-                                              'Phonetic: ${formatPhonetic(controller.text)}',
-                                              style: AppTheme
-                                                  .textTheme
-                                                  .bodySmall!
-                                                  .copyWith(
-                                                    color: Colors.grey[700],
-                                                  ),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
+                                  final displayName =
+                                      name.isEmpty
+                                          ? 'Boat Information'
+                                          : '$prefix $name';
+
+                                  return ListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    title: Text(
+                                      displayName,
+                                      style: AppTheme.textTheme.bodyLarge,
+                                    ),
+                                    trailing: const Icon(Icons.chevron_right),
+                                    onTap: () {
+                                      showEmergencyInfoModal(
+                                        context,
+                                        onChanged: () => setState(() {}),
+                                      );
+                                    },
+                                  );
+                                },
+                              );
+                            },
                           ),
-
-                          _settingSwitch('Show Tour Wizard', true),
 
                           _settingButton(context, 'Legal & Privacy Docs'),
                           _settingDropdown('Units', ['Meters', 'Feet'], 'Feet'),
@@ -8458,122 +9996,9 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
 
                           const Divider(height: 24),
                           const SizedBox(height: 8),
-                          Text(
-                            '🚨 Emergency Info',
-                            style: AppTheme.textTheme.titleMedium,
-                          ),
-                          const SizedBox(height: 4),
-
-                          FutureBuilder<String>(
-                            future: SettingsManager.getVesselType(),
-                            builder: (context, snapshot) {
-                              final current = snapshot.data ?? '';
-                              final controller = TextEditingController(
-                                text: current,
-                              );
-                              final options = [
-                                'Sailing Vessel',
-                                'Motor Vessel',
-                                'Catamaran',
-                                'Other',
-                              ];
-
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 4,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text('Vessel Type'),
-                                    const SizedBox(height: 4),
-                                    DropdownButtonFormField<String>(
-                                      value:
-                                          options.contains(current)
-                                              ? current
-                                              : 'Other',
-                                      items:
-                                          options
-                                              .map(
-                                                (type) => DropdownMenuItem(
-                                                  value: type,
-                                                  child: Text(type),
-                                                ),
-                                              )
-                                              .toList(),
-                                      onChanged: (value) {
-                                        if (value == 'Other') {
-                                          controller.text = '';
-                                        } else {
-                                          controller.text = value!;
-                                          SettingsManager.setVesselType(value);
-                                        }
-                                      },
-                                    ),
-                                    const SizedBox(height: 6),
-                                    if (controller.text.isEmpty ||
-                                        controller.text == 'Other')
-                                      TextField(
-                                        controller: controller,
-                                        decoration: const InputDecoration(
-                                          hintText: 'Enter vessel type',
-                                          border: OutlineInputBorder(),
-                                        ),
-                                        onChanged:
-                                            (value) =>
-                                                SettingsManager.setVesselType(
-                                                  value,
-                                                ),
-                                      ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-
-                          _settingTextField(
-                            label: 'Vessel Length',
-                            initialValueFuture:
-                                SettingsManager.getVesselLength(),
-                            onChanged: SettingsManager.setVesselLength,
-                          ),
-                          _settingTextField(
-                            label:
-                                'Vessel Description (e.g., “sail number 56788”)',
-                            initialValueFuture:
-                                SettingsManager.getVesselDescription(),
-                            onChanged: SettingsManager.setVesselDescription,
-                          ),
-                          _settingIntField(
-                            label: 'Souls Onboard (Adults)',
-                            initialValueFuture:
-                                SettingsManager.getSoulsAdults(),
-                            onChanged: SettingsManager.setSoulsAdults,
-                          ),
-                          _settingIntField(
-                            label: 'Souls Onboard (Children)',
-                            initialValueFuture:
-                                SettingsManager.getSoulsChildren(),
-                            onChanged: SettingsManager.setSoulsChildren,
-                          ),
-                          _settingTextField(
-                            label: 'MMSI (optional)',
-                            initialValueFuture: SettingsManager.getMMSI(),
-                            onChanged: SettingsManager.setMMSI,
-                          ),
-                          _settingTextField(
-                            label: 'Emergency Contact Phone',
-                            initialValueFuture:
-                                SettingsManager.getEmergencyContact(),
-                            onChanged: SettingsManager.setEmergencyContact,
-                          ),
-                          _settingTextField(
-                            label: "Captain's Phone",
-                            initialValueFuture:
-                                SettingsManager.getCaptainPhone(),
-                            onChanged: SettingsManager.setCaptainPhone,
-                          ),
                           const SizedBox(height: 12),
+
+                          _settingSwitch('Dark Mode', false),
 
                           // 🧪 DEV Reset Resume Point
                           ElevatedButton(
@@ -8702,63 +10127,13 @@ Widget _settingButton(BuildContext context, String label) {
                       onPressed: () => Navigator.of(context).pop(),
                       child: const Text(
                         'Close',
-                        style: TextStyle(fontSize: 16),
+                        style: AppTheme.dialogButtonText,
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-      );
-    },
-  );
-}
-
-// 🔤 Text field with Future initial value
-Widget _settingTextField({
-  required String label,
-  required Future<String> initialValueFuture,
-  required void Function(String) onChanged,
-}) {
-  return FutureBuilder<String>(
-    future: initialValueFuture,
-    builder: (context, snapshot) {
-      final controller = TextEditingController(text: snapshot.data ?? '');
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: TextField(
-          controller: controller,
-          decoration: InputDecoration(labelText: label),
-          onChanged: onChanged,
-        ),
-      );
-    },
-  );
-}
-
-// 🔢 Integer-only input field
-Widget _settingIntField({
-  required String label,
-  required Future<int> initialValueFuture,
-  required void Function(int) onChanged,
-}) {
-  return FutureBuilder<int>(
-    future: initialValueFuture,
-    builder: (context, snapshot) {
-      final controller = TextEditingController(
-        text: (snapshot.data ?? 0).toString(),
-      );
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: TextField(
-          controller: controller,
-          decoration: InputDecoration(labelText: label),
-          keyboardType: TextInputType.number,
-          onChanged: (value) {
-            final parsed = int.tryParse(value);
-            if (parsed != null) onChanged(parsed);
-          },
-        ),
       );
     },
   );
@@ -8779,20 +10154,20 @@ File: lib/widgets/tour/tour_descriptions.dart
 /// All tour text copy, organized by step ID.
 class TourDescriptions {
   static const mob =
-      'Tap here in case of a Man Overboard emergency. Try it out sometime so you\'re familiar with it beforehand.';
+      'Tap here in case of a Man Overboard emergency. Try it out sometime so you\'re familiar with it beforehand. (Don\'t worry, nothing will happen!)';
   static const settings =
-      'Access your profile and app settings. You can also restart this tour from here.';
-  static const title = 'This is your main dashboard.';
-  static const search = 'Search for lessons, parts, tools, or flashcards.';
+      'Access your boat\'s emergency information, profile and app settings. You can also restart this tour from here.';
+  static const title = 'This is your main dashboard. ';
+  static const search = 'Search for topics, parts, tools, or flashcards.';
   static const newCrew =
-      'Start your training here as a new crewmember for curated lesson sequences to help at each stage of sailing.';
+      'New to sailing? Start your training here as a new crewmember for curated lesson sequences to learn about each stage of sailing. This is the last stop in the tour: tap here and start your journey!';
   static const advanced =
-      'Returning sailors can find curated lesson sequences to knock the rust off .';
+      'Returning sailors can find curated lesson sequences to knock the rust off.';
   static const bnbHarbor =
       'Tap here to return to the Main/Harbor screen, where you are now.';
   static const bnbCourses = 'Access structured sailing lessons directly.';
   static const bnbParts =
-      'Explore parts of the boat based on where the part is located.';
+      'Explore parts of the boat based on where each part is located.';
   static const bnbTools = 'Access helpful guides, calculators, and checklists.';
   static const bnbDrills = 'Test yourself with flashcard drills.';
 }
@@ -8807,6 +10182,8 @@ class TourDescriptions {
 
 
 File: lib/widgets/tour/landing_screen_tour.dart
+import 'dart:ui';
+
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/widgets/tour/tour_descriptions.dart';
 import 'package:flutter/material.dart';
@@ -8854,15 +10231,14 @@ class LandingScreenTour {
     final tutorial = TutorialCoachMark(
       targets: [
         TargetFocus(
-          identify: 'mob',
-          keyTarget: mobKey,
+          identify: 'search',
+          keyTarget: searchKey,
           enableOverlayTab: true,
-
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
               child: Text(
-                TourDescriptions.mob,
+                TourDescriptions.search,
                 style: AppTheme.tourDescriptionStyle,
               ),
             ),
@@ -8872,7 +10248,6 @@ class LandingScreenTour {
           identify: 'settings',
           keyTarget: settingsKey,
           enableOverlayTab: true,
-
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
@@ -8885,52 +10260,14 @@ class LandingScreenTour {
         ),
 
         TargetFocus(
-          identify: 'search',
-          keyTarget: searchKey,
+          identify: 'mob',
+          keyTarget: mobKey,
           enableOverlayTab: true,
-
           contents: [
             TargetContent(
               align: ContentAlign.bottom,
               child: Text(
-                TourDescriptions.search,
-                style: AppTheme.tourDescriptionStyle,
-              ),
-            ),
-          ],
-        ),
-
-        TargetFocus(
-          identify: 'newCrew',
-          keyTarget: newCrewKey,
-          enableOverlayTab: true,
-
-          shape: ShapeLightFocus.RRect,
-          radius: 40, // 👈 shrink the circle size
-          paddingFocus: 6, // 👈 tighter highlight
-          contents: [
-            TargetContent(
-              align: ContentAlign.bottom,
-              child: Text(
-                TourDescriptions.newCrew,
-                style: AppTheme.tourDescriptionStyle,
-              ),
-            ),
-          ],
-        ),
-        TargetFocus(
-          identify: 'advanced',
-          keyTarget: advancedRefreshersKey,
-          enableOverlayTab: true,
-
-          shape: ShapeLightFocus.RRect,
-          radius: 40, // 👈 shrink the circle size
-          paddingFocus: 6, // 👈 tighter highlight
-          contents: [
-            TargetContent(
-              align: ContentAlign.bottom,
-              child: Text(
-                TourDescriptions.advanced,
+                TourDescriptions.mob,
                 style: AppTheme.tourDescriptionStyle,
               ),
             ),
@@ -9021,23 +10358,243 @@ class LandingScreenTour {
             ),
           ],
         ),
+        TargetFocus(
+          identify: 'advanced',
+          keyTarget: advancedRefreshersKey,
+          enableOverlayTab: true,
+          shape: ShapeLightFocus.RRect,
+          radius: 40,
+          paddingFocus: 6,
+          contents: [
+            TargetContent(
+              align: ContentAlign.bottom,
+              child: Text(
+                TourDescriptions.advanced,
+                style: AppTheme.tourDescriptionStyle,
+              ),
+            ),
+          ],
+        ),
+        TargetFocus(
+          identify: 'newCrew',
+          keyTarget: newCrewKey,
+          enableOverlayTab: true,
+          shape: ShapeLightFocus.RRect,
+          radius: 40,
+          paddingFocus: 6,
+          contents: [
+            TargetContent(
+              align: ContentAlign.bottom,
+              child: Text(
+                TourDescriptions.newCrew,
+                style: AppTheme.tourDescriptionStyle,
+              ),
+            ),
+          ],
+        ),
       ],
-
-      // tutorial customizations
-      alignSkip: Alignment.centerRight, // 🔄 Positions the skip button
+      alignSkip: Alignment.centerRight,
       textSkip: "Skip\nTour",
       textStyleSkip: const TextStyle(color: Colors.white),
       focusAnimationDuration: Duration.zero,
       unFocusAnimationDuration: Duration.zero,
-
-      pulseEnable: true, // 👈 disables pulsing circle effect
-
+      pulseEnable: true,
+      opacityShadow: AppTheme.tourOverlayAlpha / 255.0,
+      imageFilter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
       onFinish: () => logger.i('✅ Tour finished'),
       onSkip: () {
         logger.i('⏭ Tour skipped');
         return true;
       },
     );
+
+    // final tutorial = TutorialCoachMark(
+    //   targets: [
+    //     TargetFocus(
+    //       identify: 'mob',
+    //       keyTarget: mobKey,
+    //       enableOverlayTab: true,
+
+    //       contents: [
+    //         TargetContent(
+    //           align: ContentAlign.bottom,
+    //           child: Text(
+    //             TourDescriptions.mob,
+    //             style: AppTheme.tourDescriptionStyle,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     TargetFocus(
+    //       identify: 'settings',
+    //       keyTarget: settingsKey,
+    //       enableOverlayTab: true,
+
+    //       contents: [
+    //         TargetContent(
+    //           align: ContentAlign.bottom,
+    //           child: Text(
+    //             TourDescriptions.settings,
+    //             style: AppTheme.tourDescriptionStyle,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+
+    //     TargetFocus(
+    //       identify: 'search',
+    //       keyTarget: searchKey,
+    //       enableOverlayTab: true,
+
+    //       contents: [
+    //         TargetContent(
+    //           align: ContentAlign.bottom,
+    //           child: Text(
+    //             TourDescriptions.search,
+    //             style: AppTheme.tourDescriptionStyle,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+
+    //     TargetFocus(
+    //       identify: 'newCrew',
+    //       keyTarget: newCrewKey,
+    //       enableOverlayTab: true,
+
+    //       shape: ShapeLightFocus.RRect,
+    //       radius: 40, // 👈 shrink the circle size
+    //       paddingFocus: 6, // 👈 tighter highlight
+    //       contents: [
+    //         TargetContent(
+    //           align: ContentAlign.bottom,
+    //           child: Text(
+    //             TourDescriptions.newCrew,
+    //             style: AppTheme.tourDescriptionStyle,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     TargetFocus(
+    //       identify: 'advanced',
+    //       keyTarget: advancedRefreshersKey,
+    //       enableOverlayTab: true,
+
+    //       shape: ShapeLightFocus.RRect,
+    //       radius: 40, // 👈 shrink the circle size
+    //       paddingFocus: 6, // 👈 tighter highlight
+    //       contents: [
+    //         TargetContent(
+    //           align: ContentAlign.bottom,
+    //           child: Text(
+    //             TourDescriptions.advanced,
+    //             style: AppTheme.tourDescriptionStyle,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     TargetFocus(
+    //       identify: 'bnbHarbor',
+    //       keyTarget: harborKey,
+    //       enableOverlayTab: true,
+    //       shape: ShapeLightFocus.Circle,
+    //       radius: 50,
+    //       paddingFocus: 25,
+    //       contents: [
+    //         TargetContent(
+    //           align: ContentAlign.top,
+    //           child: Text(
+    //             TourDescriptions.bnbHarbor,
+    //             style: AppTheme.tourDescriptionStyle,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     TargetFocus(
+    //       identify: 'bnbCourses',
+    //       keyTarget: coursesKey,
+    //       enableOverlayTab: true,
+    //       shape: ShapeLightFocus.Circle,
+    //       radius: 50,
+    //       paddingFocus: 25,
+    //       contents: [
+    //         TargetContent(
+    //           align: ContentAlign.top,
+    //           child: Text(
+    //             TourDescriptions.bnbCourses,
+    //             style: AppTheme.tourDescriptionStyle,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     TargetFocus(
+    //       identify: 'bnbParts',
+    //       keyTarget: partsKey,
+    //       enableOverlayTab: true,
+    //       shape: ShapeLightFocus.Circle,
+    //       radius: 50,
+    //       paddingFocus: 20,
+    //       contents: [
+    //         TargetContent(
+    //           align: ContentAlign.top,
+    //           child: Text(
+    //             TourDescriptions.bnbParts,
+    //             style: AppTheme.tourDescriptionStyle,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     TargetFocus(
+    //       identify: 'bnbTools',
+    //       keyTarget: toolsKey,
+    //       enableOverlayTab: true,
+    //       shape: ShapeLightFocus.Circle,
+    //       radius: 50,
+    //       paddingFocus: 20,
+    //       contents: [
+    //         TargetContent(
+    //           align: ContentAlign.top,
+    //           child: Text(
+    //             TourDescriptions.bnbTools,
+    //             style: AppTheme.tourDescriptionStyle,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //     TargetFocus(
+    //       identify: 'bnbDrills',
+    //       keyTarget: drillsKey,
+    //       enableOverlayTab: true,
+    //       shape: ShapeLightFocus.Circle,
+    //       radius: 50,
+    //       paddingFocus: 20,
+    //       contents: [
+    //         TargetContent(
+    //           align: ContentAlign.top,
+    //           child: Text(
+    //             TourDescriptions.bnbDrills,
+    //             style: AppTheme.tourDescriptionStyle,
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ],
+
+    //   // tutorial customizations
+    //   alignSkip: Alignment.centerRight, // 🔄 Positions the skip button
+    //   textSkip: "Skip\nTour",
+    //   textStyleSkip: const TextStyle(color: Colors.white),
+    //   focusAnimationDuration: Duration.zero,
+    //   unFocusAnimationDuration: Duration.zero,
+
+    //   pulseEnable: true, // 👈 disables pulsing circle effect
+
+    //   onFinish: () => logger.i('✅ Tour finished'),
+    //   onSkip: () {
+    //     logger.i('⏭ Tour skipped');
+    //     return true;
+    //   },
+    // );
 
     await markSeen();
     if (!state.mounted) return;
@@ -9094,50 +10651,31 @@ class LandingScreenTour {
 
 
 File: lib/widgets/dialogs/emergency_reminder_dialog.dart
-import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/widgets/emergency_info_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/utils/settings_manager.dart';
-import 'package:bcc5/widgets/settings_modal.dart';
-import 'package:go_router/go_router.dart';
+import 'package:bcc5/utils/vessel_formatting.dart';
 
 Future<void> showEmergencyReminderDialog(BuildContext context) async {
-  logger.i('📦 Entered showEmergencyReminderDialog()');
-
   final boatName = await SettingsManager.getBoatName();
-  logger.i('📦 boatName = $boatName');
-
   final vesselType = await SettingsManager.getVesselType();
-  logger.i('📦 vesselType = $vesselType');
-
   final vesselLength = await SettingsManager.getVesselLength();
-  logger.i('📦 vesselLength = $vesselLength');
-
+  final lengthUnit = await SettingsManager.getLengthUnit();
+  final minDepth = await SettingsManager.getMinimumDepth();
   final vesselDescription = await SettingsManager.getVesselDescription();
-  logger.i('📦 vesselDescription = $vesselDescription');
-
   final adults = await SettingsManager.getSoulsAdults();
-  logger.i('📦 adults = $adults');
-
   final children = await SettingsManager.getSoulsChildren();
-  logger.i('📦 children = $children');
-
   final mmsi = await SettingsManager.getMMSI();
-  logger.i('📦 mmsi = $mmsi');
-
   final emergencyPhone = await SettingsManager.getEmergencyContact();
-  logger.i('📦 emergencyPhone = $emergencyPhone');
-
   final captainPhone = await SettingsManager.getCaptainPhone();
-  logger.i('📦 captainPhone = $captainPhone');
+  final coastGuardPhone = await SettingsManager.getCoastGuardPhone(); // ✅ NEW
+  final emergencyName = await SettingsManager.getEmergencyContactName();
 
   if (context.mounted) {
-    logger.i('📦 Showing AlertDialog...');
-
     showDialog(
       context: context,
       builder: (_) {
-        logger.i('📦 AlertDialog builder executed');
-
         return AlertDialog(
           insetPadding: const EdgeInsets.all(24),
           titlePadding: EdgeInsets.zero,
@@ -9145,7 +10683,10 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
             children: [
               const Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Text('Review Vessel & Safety Info'),
+                child: Text(
+                  'Review Vessel & Safety Info',
+                  style: AppTheme.modalTitle,
+                ),
               ),
               Positioned(
                 top: 0,
@@ -9164,14 +10705,23 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Boat Name: $boatName'),
-              Text('Type: $vesselType'),
-              Text('Length: $vesselLength'),
-              Text('Description: $vesselDescription'),
-              Text('Souls Aboard: $adults adults, $children children'),
-              Text('MMSI: $mmsi'),
-              Text('Emergency Contact: $emergencyPhone'),
+              Text('${getVesselPrefix(vesselType)} $boatName'),
+              Text('Phonetic: ${formatPhonetic(boatName)}'),
+              Text('Length: $vesselLength $lengthUnit'),
+              if (minDepth.isNotEmpty) Text('Minimum Depth: $minDepth'),
+              if (vesselDescription.isNotEmpty)
+                Text('Description: $vesselDescription'),
+              Text(
+                'Souls Aboard: $adults adult${adults != 1 ? 's' : ''}, $children child${children != 1 ? 'ren' : ''}',
+              ),
+              if (mmsi.isNotEmpty) Text('MMSI: $mmsi'),
+              if (coastGuardPhone.isNotEmpty)
+                Text('Coast Guard Emergency: $coastGuardPhone'), // ✅ NEW
               Text("Captain's Phone: $captainPhone"),
+              if (emergencyName.isNotEmpty)
+                Text('Emergency Contact: $emergencyName'),
+              if (emergencyPhone.isNotEmpty)
+                Text('Emergency Phone: $emergencyPhone'),
             ],
           ),
           actions: [
@@ -9185,13 +10735,9 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                final routeName =
-                    GoRouter.of(
-                      context,
-                    ).routeInformationProvider.value.uri.path;
-                showSettingsModal(context, routeName);
+                showEmergencyInfoModal(context);
               },
-              child: const Text('Edit Settings'),
+              child: const Text('Edit Emergency Info'),
             ),
           ],
         );
@@ -9201,13 +10747,628 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
 }
 
 
-            // TextButton(
-            //   onPressed: () {
-            //     Navigator.pop(context);
-            //     SettingsManager.setEmergencyInfoReviewedNow(); // ✅ this is your actual method name
-            //   },
-            //   child: const Text('Looks Good'),
-            // ),
+
+
+// import 'package:bcc5/theme/app_theme.dart';
+// import 'package:bcc5/widgets/emergency_info_modal.dart';
+// import 'package:flutter/material.dart';
+// import 'package:bcc5/utils/settings_manager.dart';
+
+// Future<void> showEmergencyReminderDialog(BuildContext context) async {
+//   final boatName = await SettingsManager.getBoatName();
+//   final vesselType = await SettingsManager.getVesselType();
+//   final vesselLength = await SettingsManager.getVesselLength();
+//   final lengthUnit = await SettingsManager.getLengthUnit();
+//   final minDepth = await SettingsManager.getMinimumDepth();
+//   final vesselDescription = await SettingsManager.getVesselDescription();
+//   final adults = await SettingsManager.getSoulsAdults();
+//   final children = await SettingsManager.getSoulsChildren();
+//   final mmsi = await SettingsManager.getMMSI();
+//   final emergencyPhone = await SettingsManager.getEmergencyContact();
+//   final captainPhone = await SettingsManager.getCaptainPhone();
+//   final emergencyName = await SettingsManager.getEmergencyContactName();
+
+//   if (context.mounted) {
+//     showDialog(
+//       context: context,
+//       builder: (_) {
+//         return AlertDialog(
+//           insetPadding: const EdgeInsets.all(24),
+//           titlePadding: EdgeInsets.zero,
+//           title: Stack(
+//             children: [
+//               const Padding(
+//                 padding: EdgeInsets.all(16.0),
+//                 child: Text(
+//                   'Review Vessel & Safety Info',
+//                   style: AppTheme.modalTitle,
+//                 ),
+//               ),
+//               Positioned(
+//                 top: 0,
+//                 right: 0,
+//                 child: IconButton(
+//                   icon: const Icon(Icons.close),
+//                   tooltip: 'Close',
+//                   onPressed: () {
+//                     Navigator.of(context).pop();
+//                   },
+//                 ),
+//               ),
+//             ],
+//           ),
+//           content: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Text('$vesselType Vessel $boatName'),
+//               Text('Length: $vesselLength $lengthUnit'),
+//               if (minDepth.isNotEmpty) Text('Minimum Depth: $minDepth'),
+//               if (vesselDescription.isNotEmpty)
+//                 Text('Description: $vesselDescription'),
+//               Text(
+//                 'Souls Aboard: $adults adult${adults != 1 ? 's' : ''}, $children child${children != 1 ? 'ren' : ''}',
+//               ),
+//               if (mmsi.isNotEmpty) Text('MMSI: $mmsi'),
+//               Text("Captain's Phone: $captainPhone"),
+//               if (emergencyName.isNotEmpty)
+//                 Text('Emergency Contact: $emergencyName'),
+//               if (emergencyPhone.isNotEmpty)
+//                 Text('Emergency Phone: $emergencyPhone'),
+//             ],
+//           ),
+//           actions: [
+//             TextButton(
+//               onPressed: () async {
+//                 await SettingsManager.setEmergencyInfoReviewedNow();
+//                 if (context.mounted) Navigator.of(context).pop();
+//               },
+//               child: const Text('Looks Good'),
+//             ),
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+//                 showEmergencyInfoModal(context);
+//               },
+//               child: const Text('Edit Emergency Info'),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+// }
+
+
+
+
+// // import 'package:bcc5/theme/app_theme.dart';
+// // import 'package:bcc5/utils/logger.dart';
+// // import 'package:bcc5/widgets/emergency_info_modal.dart';
+// // import 'package:flutter/material.dart';
+// // import 'package:bcc5/utils/settings_manager.dart';
+
+// // Future<void> showEmergencyReminderDialog(BuildContext context) async {
+// //   logger.i('📦 Entered showEmergencyReminderDialog()');
+
+// //   final boatName = await SettingsManager.getBoatName();
+// //   final vesselType = await SettingsManager.getVesselType();
+// //   final vesselLength = await SettingsManager.getVesselLength();
+// //   final lengthUnit = await SettingsManager.getLengthUnit();
+// //   final minDepth = await SettingsManager.getMinimumDepth();
+// //   final vesselDescription = await SettingsManager.getVesselDescription();
+// //   final adults = await SettingsManager.getSoulsAdults();
+// //   final children = await SettingsManager.getSoulsChildren();
+// //   final mmsi = await SettingsManager.getMMSI();
+// //   final emergencyPhone = await SettingsManager.getEmergencyContact();
+// //   final captainPhone = await SettingsManager.getCaptainPhone();
+// //   final emergencyName = await SettingsManager.getEmergencyContactName();
+
+// //   logger.i('📦 Loaded all emergency settings');
+
+// //   if (context.mounted) {
+// //     showDialog(
+// //       context: context,
+// //       builder: (_) {
+// //         return AlertDialog(
+// //           insetPadding: const EdgeInsets.all(24),
+// //           titlePadding: EdgeInsets.zero,
+// //           title: Stack(
+// //             children: [
+// //               const Padding(
+// //                 padding: EdgeInsets.all(16.0),
+// //                 child: Text(
+// //                   'Review Vessel & Safety Info',
+// //                   style: AppTheme.modalTitle,
+// //                 ),
+// //               ),
+// //               Positioned(
+// //                 top: 0,
+// //                 right: 0,
+// //                 child: IconButton(
+// //                   icon: const Icon(Icons.close),
+// //                   tooltip: 'Close',
+// //                   onPressed: () {
+// //                     Navigator.of(context).pop();
+// //                   },
+// //                 ),
+// //               ),
+// //             ],
+// //           ),
+// //           content: Column(
+// //             mainAxisSize: MainAxisSize.min,
+// //             crossAxisAlignment: CrossAxisAlignment.start,
+// //             children: [
+// //               Text('Boat Name: $boatName'),
+// //               Text('Type: $vesselType'),
+// //               Text('Length: $vesselLength $lengthUnit'),
+// //               if (minDepth.isNotEmpty) Text('Minimum Depth: $minDepth'),
+// //               if (vesselDescription.isNotEmpty)
+// //                 Text('Description: $vesselDescription'),
+// //               Text(
+// //                 'Souls Aboard: $adults adult${adults != 1 ? 's' : ''}, $children child${children != 1 ? 'ren' : ''}',
+// //               ),
+// //               if (mmsi.isNotEmpty) Text('MMSI: $mmsi'),
+// //               Text("Captain's Phone: $captainPhone"),
+// //               if (emergencyName.isNotEmpty)
+// //                 Text('Emergency Contact: $emergencyName'),
+// //               if (emergencyPhone.isNotEmpty)
+// //                 Text('Emergency Phone: $emergencyPhone'),
+// //             ],
+// //           ),
+// //           actions: [
+// //             TextButton(
+// //               onPressed: () async {
+// //                 await SettingsManager.setEmergencyInfoReviewedNow();
+// //                 if (context.mounted) Navigator.of(context).pop();
+// //               },
+// //               child: const Text('Looks Good'),
+// //             ),
+// //             TextButton(
+// //               onPressed: () {
+// //                 Navigator.of(context).pop();
+// //                 showEmergencyInfoModal(context);
+// //               },
+// //               child: const Text('Edit Emergency Info'),
+// //             ),
+// //           ],
+// //         );
+// //       },
+// //     );
+// //   }
+// // }
+
+
+
+
+// // // import 'package:bcc5/theme/app_theme.dart';
+// // // import 'package:bcc5/utils/logger.dart';
+// // // import 'package:bcc5/widgets/emergency_info_modal.dart';
+// // // import 'package:flutter/material.dart';
+// // // import 'package:bcc5/utils/settings_manager.dart';
+
+// // // Future<void> showEmergencyReminderDialog(BuildContext context) async {
+// // //   logger.i('📦 Entered showEmergencyReminderDialog()');
+
+// // //   final boatName = await SettingsManager.getBoatName();
+// // //   logger.i('📦 boatName = $boatName');
+
+// // //   final vesselType = await SettingsManager.getVesselType();
+// // //   logger.i('📦 vesselType = $vesselType');
+
+// // //   final vesselLength = await SettingsManager.getVesselLength();
+// // //   logger.i('📦 vesselLength = $vesselLength');
+
+// // //   final vesselDescription = await SettingsManager.getVesselDescription();
+// // //   logger.i('📦 vesselDescription = $vesselDescription');
+
+// // //   final adults = await SettingsManager.getSoulsAdults();
+// // //   logger.i('📦 adults = $adults');
+
+// // //   final children = await SettingsManager.getSoulsChildren();
+// // //   logger.i('📦 children = $children');
+
+// // //   final mmsi = await SettingsManager.getMMSI();
+// // //   logger.i('📦 mmsi = $mmsi');
+
+// // //   final emergencyPhone = await SettingsManager.getEmergencyContact();
+// // //   logger.i('📦 emergencyPhone = $emergencyPhone');
+
+// // //   final captainPhone = await SettingsManager.getCaptainPhone();
+// // //   logger.i('📦 captainPhone = $captainPhone');
+
+// // //   if (context.mounted) {
+// // //     logger.i('📦 Showing AlertDialog...');
+
+// // //     showDialog(
+// // //       context: context,
+// // //       builder: (_) {
+// // //         logger.i('📦 AlertDialog builder executed');
+
+// // //         return AlertDialog(
+// // //           insetPadding: const EdgeInsets.all(24),
+// // //           titlePadding: EdgeInsets.zero,
+// // //           title: Stack(
+// // //             children: [
+// // //               const Padding(
+// // //                 padding: EdgeInsets.all(16.0),
+// // //                 child: Text(
+// // //                   'Review Vessel & Safety Info',
+// // //                   style: AppTheme.modalTitle,
+// // //                 ),
+// // //               ),
+// // //               Positioned(
+// // //                 top: 0,
+// // //                 right: 0,
+// // //                 child: IconButton(
+// // //                   icon: const Icon(Icons.close),
+// // //                   tooltip: 'Close',
+// // //                   onPressed: () {
+// // //                     Navigator.of(context).pop();
+// // //                   },
+// // //                 ),
+// // //               ),
+// // //             ],
+// // //           ),
+// // //           content: Column(
+// // //             mainAxisSize: MainAxisSize.min,
+// // //             crossAxisAlignment: CrossAxisAlignment.start,
+// // //             children: [
+// // //               Text('Boat Name: $boatName'),
+// // //               Text('Type: $vesselType'),
+// // //               Text('Length: $vesselLength'),
+// // //               Text('Description: $vesselDescription'),
+// // //               Text('Souls Aboard: $adults adults, $children children'),
+// // //               Text('MMSI: $mmsi'),
+// // //               Text('Emergency Contact: $emergencyPhone'),
+// // //               Text("Captain's Phone: $captainPhone"),
+// // //             ],
+// // //           ),
+// // //           actions: [
+// // //             TextButton(
+// // //               onPressed: () async {
+// // //                 await SettingsManager.setEmergencyInfoReviewedNow();
+// // //                 if (context.mounted) Navigator.of(context).pop();
+// // //               },
+// // //               child: const Text('Looks Good'),
+// // //             ),
+// // //             TextButton(
+// // //               onPressed: () {
+// // //                 Navigator.of(context).pop();
+// // //                 showEmergencyInfoModal(context);
+// // //               },
+// // //               child: const Text('Edit Emergency Info'),
+// // //             ),
+// // //           ],
+// // //         );
+// // //       },
+// // //     );
+// // //   }
+// // // }
+
+
+// // //             // TextButton(
+// // //             //   onPressed: () {
+// // //             //     Navigator.pop(context);
+// // //             //     SettingsManager.setEmergencyInfoReviewedNow(); // ✅ this is your actual method name
+// // //             //   },
+// // //             //   child: const Text('Looks Good'),
+// // //             // ),
+
+
+
+
+
+
+
+
+
+File: lib/widgets/setting_unit_picker.dart
+import 'package:flutter/material.dart';
+
+Widget settingTextFieldWithUnitPicker({
+  required String label,
+  required Future<String> initialValueFuture,
+  required List<String> unitOptions,
+  required String defaultUnit,
+  required Future<String> Function() getUnitFuture,
+  required void Function(String) setUnit,
+  required void Function(String) onChanged,
+}) {
+  return StatefulBuilder(
+    builder: (context, setState) {
+      final textController = TextEditingController();
+
+      return FutureBuilder<String>(
+        future: Future.wait([
+          initialValueFuture,
+          getUnitFuture(),
+        ]).then((results) => '${results[0]}|${results[1]}'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done ||
+              !snapshot.hasData) {
+            return const CircularProgressIndicator();
+          }
+
+          final parts = snapshot.data!.split('|');
+          final initialValue = parts[0];
+          final unit = parts[1];
+
+          textController.text = initialValue;
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(label),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 100, // ✅ Shrunk width
+                    child: TextField(
+                      controller: textController,
+                      keyboardType: TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: onChanged,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  DropdownButton<String>(
+                    value: unit,
+                    items:
+                        unitOptions
+                            .map(
+                              (u) => DropdownMenuItem(value: u, child: Text(u)),
+                            )
+                            .toList(),
+                    onChanged: (newUnit) {
+                      if (newUnit != null) {
+                        setState(() {
+                          setUnit(newUnit);
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+// import 'package:flutter/material.dart';
+
+// Widget settingTextFieldWithUnitPicker({
+//   required String label,
+//   required Future<String> initialValueFuture,
+//   required List<String> unitOptions,
+//   required String defaultUnit,
+//   required Future<String> Function() getUnitFuture,
+//   required void Function(String) setUnit,
+//   required void Function(String) onChanged,
+// }) {
+//   return StatefulBuilder(
+//     builder: (context, setState) {
+//       final textController = TextEditingController();
+
+//       return FutureBuilder<String>(
+//         future: Future.wait([
+//           initialValueFuture,
+//           getUnitFuture(),
+//         ]).then((results) => '${results[0]}|${results[1]}'),
+//         builder: (context, snapshot) {
+//           if (snapshot.connectionState != ConnectionState.done ||
+//               !snapshot.hasData) {
+//             return const CircularProgressIndicator();
+//           }
+
+//           final parts = snapshot.data!.split('|');
+//           final initialValue = parts[0];
+//           final unit = parts[1];
+
+//           textController.text = initialValue;
+
+//           return Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Text(label),
+//               Row(
+//                 children: [
+//                   Expanded(
+//                     child: TextField(
+//                       controller: textController,
+//                       keyboardType: TextInputType.numberWithOptions(
+//                         decimal: true,
+//                       ),
+//                       decoration: const InputDecoration(
+//                         border: OutlineInputBorder(), // No suffixText
+//                       ),
+//                       onChanged: onChanged,
+//                     ),
+//                   ),
+//                   const SizedBox(width: 8),
+//                   DropdownButton<String>(
+//                     value: unit,
+//                     items:
+//                         unitOptions
+//                             .map(
+//                               (u) => DropdownMenuItem(value: u, child: Text(u)),
+//                             )
+//                             .toList(),
+//                     onChanged: (newUnit) {
+//                       if (newUnit != null) {
+//                         setState(() {
+//                           setUnit(newUnit);
+//                         });
+//                       }
+//                     },
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           );
+//         },
+//       );
+//     },
+//   );
+// }
+
+// // import 'package:flutter/material.dart';
+
+// // Widget settingTextFieldWithUnitPicker({
+// //   required String label,
+// //   required Future<String> initialValueFuture,
+// //   required List<String> unitOptions,
+// //   required String defaultUnit,
+// //   required Future<String> Function() getUnitFuture,
+// //   required void Function(String) setUnit,
+// //   required void Function(String) onChanged,
+// // }) {
+// //   return StatefulBuilder(
+// //     builder: (context, setState) {
+// //       final textController = TextEditingController();
+
+// //       return FutureBuilder<String>(
+// //         future: Future.wait([
+// //           initialValueFuture,
+// //           getUnitFuture(),
+// //         ]).then((results) => '${results[0]}|${results[1]}'),
+// //         builder: (context, snapshot) {
+// //           if (snapshot.connectionState != ConnectionState.done ||
+// //               !snapshot.hasData) {
+// //             return const CircularProgressIndicator();
+// //           }
+
+// //           final parts = snapshot.data!.split('|');
+// //           final initialValue = parts[0];
+// //           final unit = parts[1];
+
+// //           textController.text = initialValue;
+
+// //           return Column(
+// //             crossAxisAlignment: CrossAxisAlignment.start,
+// //             children: [
+// //               Text(label),
+// //               Row(
+// //                 children: [
+// //                   Expanded(
+// //                     child: TextField(
+// //                       controller: textController,
+// //                       keyboardType: TextInputType.numberWithOptions(
+// //                         decimal: true,
+// //                       ),
+// //                       decoration: InputDecoration(
+// //                         border: const OutlineInputBorder(),
+// //                         suffixText: unit,
+// //                       ),
+// //                       onChanged: onChanged,
+// //                     ),
+// //                   ),
+// //                   const SizedBox(width: 8),
+// //                   DropdownButton<String>(
+// //                     value: unit,
+// //                     items:
+// //                         unitOptions
+// //                             .map(
+// //                               (u) => DropdownMenuItem(value: u, child: Text(u)),
+// //                             )
+// //                             .toList(),
+// //                     onChanged: (newUnit) {
+// //                       if (newUnit != null) {
+// //                         setState(() {
+// //                           setUnit(newUnit);
+// //                         });
+// //                       }
+// //                     },
+// //                   ),
+// //                 ],
+// //               ),
+// //             ],
+// //           );
+// //         },
+// //       );
+// //     },
+// //   );
+// // }
+
+// // // import 'package:flutter/material.dart';
+
+// // // Widget settingTextFieldWithUnitPicker({
+// // //   required String label,
+// // //   required Future<String> initialValueFuture,
+// // //   required List<String> unitOptions,
+// // //   required String defaultUnit,
+// // //   required Future<String> Function() getUnitFuture,
+// // //   required void Function(String) setUnit,
+// // //   required void Function(String) onChanged,
+// // // }) {
+// // //   final textController = TextEditingController();
+// // //   String currentUnit = defaultUnit;
+
+// // //   return FutureBuilder<String>(
+// // //     future: Future.wait([
+// // //       initialValueFuture,
+// // //       getUnitFuture(),
+// // //     ]).then((results) => '${results[0]}|${results[1]}'),
+// // //     builder: (context, snapshot) {
+// // //       if (snapshot.connectionState != ConnectionState.done ||
+// // //           !snapshot.hasData) {
+// // //         return const CircularProgressIndicator();
+// // //       }
+
+// // //       final parts = snapshot.data!.split('|');
+// // //       final initialValue = parts[0];
+// // //       currentUnit = parts[1];
+
+// // //       textController.text = initialValue;
+
+// // //       return Column(
+// // //         crossAxisAlignment: CrossAxisAlignment.start,
+// // //         children: [
+// // //           Text(label),
+// // //           Row(
+// // //             children: [
+// // //               Expanded(
+// // //                 child: TextField(
+// // //                   controller: textController,
+// // //                   keyboardType: TextInputType.numberWithOptions(decimal: true),
+// // //                   decoration: const InputDecoration(
+// // //                     border: OutlineInputBorder(),
+// // //                   ),
+// // //                   onChanged: onChanged,
+// // //                 ),
+// // //               ),
+// // //               const SizedBox(width: 8),
+// // //               DropdownButton<String>(
+// // //                 value: currentUnit,
+// // //                 items:
+// // //                     unitOptions
+// // //                         .map(
+// // //                           (unit) =>
+// // //                               DropdownMenuItem(value: unit, child: Text(unit)),
+// // //                         )
+// // //                         .toList(),
+// // //                 onChanged: (unit) {
+// // //                   if (unit != null) {
+// // //                     currentUnit = unit;
+// // //                     setUnit(unit);
+// // //                   }
+// // //                 },
+// // //               ),
+// // //             ],
+// // //           ),
+// // //         ],
+// // //       );
+// // //     },
+// // //   );
+// // // }
+
 
 
 
@@ -9297,3 +11458,141 @@ class LearningPathProgressBar extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+File: lib/widgets/setting_int_picker.dart
+import 'package:flutter/material.dart';
+
+Widget settingIntPickerField({
+  required String label,
+  required int minValue,
+  required int maxValue,
+  required Future<int> initialValueFuture,
+  required void Function(int) onChanged,
+}) {
+  return FutureBuilder<int>(
+    future: initialValueFuture,
+    builder: (context, snapshot) {
+      int currentValue = snapshot.data ?? minValue;
+      return StatefulBuilder(
+        builder: (context, setState) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(label),
+              DropdownButton<int>(
+                isExpanded: true,
+                value: currentValue,
+                items: List.generate(
+                  maxValue - minValue + 1,
+                  (index) => DropdownMenuItem(
+                    value: minValue + index,
+                    child: Text((minValue + index).toString()),
+                  ),
+                ),
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() => currentValue = value);
+                    onChanged(value);
+                  }
+                },
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+// import 'package:flutter/material.dart';
+
+// Widget settingIntPickerField({
+//   required String label,
+//   required int minValue,
+//   required int maxValue,
+//   required Future<int> initialValueFuture,
+//   required void Function(int) onChanged,
+// }) {
+//   return FutureBuilder<int>(
+//     future: initialValueFuture,
+//     builder: (context, snapshot) {
+//       return StatefulBuilder(
+//         builder: (context, setState) {
+//           int currentValue = snapshot.data ?? minValue;
+
+//           return Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Text(label),
+//               DropdownButton<int>(
+//                 value: currentValue,
+//                 isExpanded: true,
+//                 items: List.generate(
+//                   maxValue - minValue + 1,
+//                   (index) => DropdownMenuItem(
+//                     value: minValue + index,
+//                     child: Text((minValue + index).toString()),
+//                   ),
+//                 ),
+//                 onChanged: (value) {
+//                   if (value != null) {
+//                     setState(() {
+//                       currentValue = value;
+//                     });
+//                     onChanged(value);
+//                   }
+//                 },
+//               ),
+//             ],
+//           );
+//         },
+//       );
+//     },
+//   );
+// }
+
+// // import 'package:flutter/material.dart';
+
+// // Widget settingIntPickerField({
+// //   required String label,
+// //   required int minValue,
+// //   required int maxValue,
+// //   required Future<int> initialValueFuture,
+// //   required void Function(int) onChanged,
+// // }) {
+// //   return FutureBuilder<int>(
+// //     future: initialValueFuture,
+// //     builder: (context, snapshot) {
+// //       final currentValue = snapshot.data ?? minValue;
+// //       return Column(
+// //         crossAxisAlignment: CrossAxisAlignment.start,
+// //         children: [
+// //           Text(label),
+// //           DropdownButton<int>(
+// //             value: currentValue,
+// //             isExpanded: true,
+// //             items: List.generate(
+// //               maxValue - minValue + 1,
+// //               (index) => DropdownMenuItem(
+// //                 value: minValue + index,
+// //                 child: Text((minValue + index).toString()),
+// //               ),
+// //             ),
+// //             onChanged: (value) {
+// //               if (value != null) onChanged(value);
+// //             },
+// //           ),
+// //         ],
+// //       );
+// //     },
+// //   );
+// // }
