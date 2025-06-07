@@ -33,7 +33,69 @@ class SettingsManager {
     return GPSDisplayFormat.values[index ?? 0]; // Default: marineCompact
   }
 
+  // defaults for emergency info
+  static Future<void> seedEmergencyDefaultsIfNeeded() async {
+    if ((await getBoatName()).trim().isEmpty) {
+      await setBoatName('Unnamed Vessel');
+    }
+
+    if ((await getVesselType()).trim().isEmpty) {
+      await setVesselType('Sailing');
+    }
+
+    if ((await getVesselLength()).trim().isEmpty) {
+      await setVesselLength('0');
+    }
+
+    if ((await getLengthUnit()).trim().isEmpty) {
+      await setLengthUnit('feet');
+    }
+
+    if ((await getMinimumDepth()).trim().isEmpty) {
+      await setMinimumDepth('0');
+    }
+
+    if ((await getVesselDescription()).trim().isEmpty) {
+      await setVesselDescription('No description provided.');
+    }
+
+    if (await getSoulsAdults() == 0) {
+      await setSoulsAdults(1); // safer than 0 in case of singlehanders
+    }
+
+    if (await getSoulsChildren() == 0) {
+      await setSoulsChildren(0);
+    }
+
+    if ((await getMMSI()).trim().isEmpty) {
+      await setMMSI('000000000');
+    }
+
+    if ((await getCoastGuardPhone()).trim().isEmpty) {
+      await setCoastGuardPhone('000-000-0000');
+    }
+
+    if ((await getCaptainPhone()).trim().isEmpty) {
+      await setCaptainPhone('000-000-0000');
+    }
+
+    if ((await getEmergencyContactName()).trim().isEmpty) {
+      await setEmergencyContactName('Emergency Contact');
+    }
+
+    if ((await getEmergencyContact()).trim().isEmpty) {
+      await setEmergencyContact('000-000-0000');
+    }
+  }
+
   // Emergency Info Reminder
+  static Future<bool> shouldShowEmergencyReminder() async {
+    final prefs = await SharedPreferences.getInstance();
+    final firstLaunchComplete = prefs.getBool('firstLaunchComplete') ?? false;
+    final reminderEnabled = await getEmergencyReminderEnabled();
+    return !firstLaunchComplete && reminderEnabled;
+  }
+
   static Future<bool> getEmergencyReminderEnabled() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(_emergencyReminderEnabledKey) ?? true;

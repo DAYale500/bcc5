@@ -175,18 +175,18 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
                     },
                   ),
                   settingTextField(
-                    label: "Captain's Phone",
-                    initialValueFuture: SettingsManager.getCaptainPhone(),
-                    onChanged: (value) async {
-                      await SettingsManager.setCaptainPhone(value);
-                      if (onChanged != null) onChanged();
-                    },
-                  ),
-                  settingTextField(
                     label: 'Coast Guard Emergency Number',
                     initialValueFuture: SettingsManager.getCoastGuardPhone(),
                     onChanged: (value) async {
                       await SettingsManager.setCoastGuardPhone(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingTextField(
+                    label: "Captain's Phone",
+                    initialValueFuture: SettingsManager.getCaptainPhone(),
+                    onChanged: (value) async {
+                      await SettingsManager.setCaptainPhone(value);
                       if (onChanged != null) onChanged();
                     },
                   ),

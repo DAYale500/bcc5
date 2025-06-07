@@ -1,6 +1,7 @@
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/settings_manager.dart';
 import 'package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -59,6 +60,7 @@ class LandingScreenState extends State<LandingScreen> {
   GlobalKey get settingsKey => _keySettingsIcon;
   GlobalKey get titleKey => _keyAppBarTitle;
   GlobalKey get searchKey => _keySearchIcon;
+  bool _reminderAlreadyShown = false;
 
   @override
   void initState() {
@@ -88,53 +90,48 @@ class LandingScreenState extends State<LandingScreen> {
       }
     });
 
-    if (widget.showReminder) {
-      logger.i('🧭 Scheduling 2s delayed dialog...');
+    if (!_reminderAlreadyShown) {
+      _reminderAlreadyShown = true;
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Future.delayed(const Duration(seconds: 2), () {
-          if (mounted) {
-            logger.i('🧭 Triggering showEmergencyReminderDialog()');
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(const SnackBar(content: Text("Reminder is ON")));
-            showEmergencyReminderDialog(context);
-          } else {
-            logger.w('⚠️ Not mounted when dialog should show');
-          }
-        });
+      Future<bool> isTourPlanned() async {
+        return widget.startTour || await LandingScreenTour.shouldStart();
+      }
+
+      SettingsManager.shouldShowEmergencyReminder().then((shouldShow) async {
+        final tourPlanned = await isTourPlanned();
+        if (shouldShow && !tourPlanned) {
+          logger.i('🧭 Scheduling 2s delayed dialog (tour not running)...');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Future.delayed(const Duration(seconds: 2), () {
+              if (mounted) {
+                logger.i('🧭 Triggering showEmergencyReminderDialog()');
+                showEmergencyReminderDialog(context);
+              }
+            });
+          });
+        } else {
+          logger.i(
+            '🧭 Skipping emergency reminder on first-ever launch (tourPlanned: $tourPlanned)',
+          );
+        }
       });
     }
 
-    // if (widget.showReminder) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     showDialog(
-    //       context: context,
-    //       builder:
-    //           (_) => AlertDialog(
-    //             title: const Text('Update Vessel Info'),
-    //             content: const Text(
-    //               'Review your vessel info to ensure emergency details are up to date.',
-    //             ),
-    //             actions: [
-    //               TextButton(
-    //                 onPressed: () => Navigator.pop(context),
-    //                 child: const Text("Info is accurate"),
-    //               ),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   final routeName =
-    //                       GoRouter.of(
-    //                         context,
-    //                       ).routeInformationProvider.value.uri.path;
-    //                   showSettingsModal(context, routeName);
-    //                 },
-    //                 child: const Text("Update Now"),
-    //               ),
-    //             ],
-    //           ),
-    //     );
+    // if (!_reminderAlreadyShown) {
+    //   _reminderAlreadyShown = true;
+
+    //   SettingsManager.shouldShowEmergencyReminder().then((shouldShow) {
+    //     if (shouldShow) {
+    //       logger.i('🧭 Scheduling 2s delayed dialog...');
+    //       WidgetsBinding.instance.addPostFrameCallback((_) {
+    //         Future.delayed(const Duration(seconds: 2), () {
+    //           if (mounted) {
+    //             logger.i('🧭 Triggering showEmergencyReminderDialog()');
+    //             showEmergencyReminderDialog(context);
+    //           }
+    //         });
+    //       });
+    //     }
     //   });
     // }
   }

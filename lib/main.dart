@@ -24,7 +24,17 @@ void main() async {
 ''');
   }
 
-  final showReminder = await _shouldShowEmergencyReminder();
+  await SettingsManager.seedEmergencyDefaultsIfNeeded();
+  final showReminder = await SettingsManager.shouldShowEmergencyReminder();
+  final reviewedAt = await SettingsManager.getEmergencyInfoReviewedAt();
+  logger.i('''
+🚀 Reminder Check:
+- showReminder: $showReminder
+- reviewedAt: $reviewedAt
+- shouldStartTour: ${await LandingScreenTour.shouldStart()}
+''');
+
+  // final showReminder = await SettingsManager.shouldShowEmergencyReminder();
 
   logger.i('''
 🚀 App Launch | Emergency Reminder: $showReminder
@@ -91,23 +101,23 @@ void main() async {
 //   runApp(Bcc5App(showReminder: showReminder));
 // }
 
-Future<bool> _shouldShowEmergencyReminder() async {
-  final enabled = await SettingsManager.getEmergencyReminderEnabled();
-  if (!enabled) return false;
+// Future<bool> _shouldShowEmergencyReminder() async {
+//   final enabled = await SettingsManager.getEmergencyReminderEnabled();
+//   if (!enabled) return false;
 
-  // ✅ Skip check only on first launch (i.e. first-tour session)
-  final isFirstLaunch = await LandingScreenTour.shouldStart();
-  if (isFirstLaunch) return false;
+//   // ✅ Skip check only on first launch (i.e. first-tour session)
+//   final isFirstLaunch = await LandingScreenTour.shouldStart();
+//   if (isFirstLaunch) return false;
 
-  // ✅ Always show after first launch — no 'reviewedAt' condition
-  return true;
+//   // ✅ Always show after first launch — no 'reviewedAt' condition
+//   return true;
 
-  // Legacy/future timing logic (commented for dev simplicity):
-  // final reviewedAt = await SettingsManager.getEmergencyInfoReviewedAt();
-  // if (reviewedAt == null) return true;
-  // final reviewedDate = DateTime.parse(reviewedAt);
-  // return DateTime.now().difference(reviewedDate).inDays > 30;
-}
+//   // Legacy/future timing logic (commented for dev simplicity):
+//   // final reviewedAt = await SettingsManager.getEmergencyInfoReviewedAt();
+//   // if (reviewedAt == null) return true;
+//   // final reviewedDate = DateTime.parse(reviewedAt);
+//   // return DateTime.now().difference(reviewedDate).inDays > 30;
+// }
 
 // Future<bool> _shouldShowEmergencyReminder() async {
 //   final enabled = await SettingsManager.getEmergencyReminderEnabled();

@@ -1,191 +1,22 @@
 Launching lib/main.dart on iPhone 13 in debug mode...
 Running Xcode build...                                          
- └─Compiling, linking and signing...                      1,863ms
-Xcode build done.                                            8.5s
-[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
-│ #0   main (package:bcc5/main.dart:19:12)<…>
-│ 💡 🧪 DEBUG STARTUP INFO:<…>
-│ 💡 - reviewedAt: 2025-05-26T21:34:53.791040<…>
-│ 💡 - boatName: Hello Kitty<…>
-│ 💡 - shouldStartTour: false<…>
-│ 💡 <…>
-│ #0   main (package:bcc5/main.dart:29:10)<…>
-│ 💡 🚀 App Launch | Emergency Reminder: true<…>
-│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 <…>
-s
+Xcode build done.                                            0.5s
+Failed to build iOS app
+Uncategorized (Xcode): Unable to find a destination matching the provided destination specifier:
+		{ id:3A04C62A-C78C-4470-A174-DD9285589BCA }
 
-Flutter run key commands.
-r Hot reload. 🔥🔥🔥
-R Hot restart.
-h List all available interactive commands.
-d Detach (terminate "flutter run" but leave application running).
-c Clear the screen
-q Quit (terminate the application on the device).
+	Ineligible destinations for the "Runner" scheme:
+		{ platform:iOS, arch:arm64e, id:00008103-000934C201FB001E, name:DY iPad Pro, error:iOS 18.5 is not installed. To use with Xcode, first download and install the platform }
+		{ platform:iOS, arch:arm64e, id:00008110-001E41122183801E, name:DY iPhone13, error:iOS 18.5 is not installed. To use with Xcode, first download and install the platform }
+		{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device, error:iOS 18.5 is not installed. To use with Xcode, first download and install the platform }
 
-A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:49992/CL2oym5RgrU=/
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
-│ 💡 🧭 LandingScreenState.initState() called<…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
-│ 💡 🧭 showReminder = true<…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
-│ 💡 🧭 Scheduling 2s delayed dialog...<…>
-The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:49992/CL2oym5RgrU=/
-[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
-│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
-│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
+════════════════════════════════════════════════════════════════════════════════
+iOS 18.5 is not installed. To download and install the platform, open
+Xcode, select Xcode > Settings > Components, and click the GET button for the
+required platform.
 
-Performing hot restart...                                       
-Restarted application in 244ms.
-│ #0   main (package:bcc5/main.dart:19:12)<…>
-│ 💡 🧪 DEBUG STARTUP INFO:<…>
-│ 💡 - reviewedAt: 2025-05-26T21:34:53.791040<…>
-│ 💡 - boatName: Hello Kitty<…>
-│ 💡 - shouldStartTour: false<…>
-│ 💡 <…>
-│ #0   main (package:bcc5/main.dart:29:10)<…>
-│ 💡 🚀 App Launch | Emergency Reminder: true<…>
-│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 <…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
-│ 💡 🧭 LandingScreenState.initState() called<…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
-│ 💡 🧭 showReminder = true<…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
-│ 💡 🧭 Scheduling 2s delayed dialog...<…>
-│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
-│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
-
-Performing hot restart...                                       
-s.
-│ #0   main (package:bcc5/main.dart:19:12)<…>
-│ 💡 🧪 DEBUG STARTUP INFO:<…>
-│ 💡 - reviewedAt: 2025-05-26T21:34:53.791040<…>
-│ 💡 - boatName: Hello Kitty<…>
-│ 💡 - shouldStartTour: false<…>
-│ 💡 <…>
-│ #0   main (package:bcc5/main.dart:29:10)<…>
-│ 💡 🚀 App Launch | Emergency Reminder: true<…>
-│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 <…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
-│ 💡 🧭 LandingScreenState.initState() called<…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
-│ 💡 🧭 showReminder = true<…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
-│ 💡 🧭 Scheduling 2s delayed dialog...<…>
-│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
-│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
-
-══╡ EXCEPTION CAUGHT BY WIDGETS LIBRARY ╞═══════════════════════════════════════════════════════════
-The following assertion was thrown building StatefulBuilder(dirty, state:
-_StatefulBuilderState#e40a7):
-There should be exactly one item with [DropdownButton]'s value: 8 ft 0 in.
-Either zero or 2 or more [DropdownMenuItem]s were detected with the same value
-'package:flutter/src/material/dropdown.dart':
-Failed assertion: line 1001 pos 10: 'items == null ||
-             items.isEmpty ||
-             value == null ||
-             items.where((DropdownMenuItem<T> item) {
-                   return item.value == value;
-                 }).length ==
-                 1'
-
-The relevant error-causing widget was:
-  StatefulBuilder
-  StatefulBuilder:file:///Users/david/Desktop/0_SailingAppDev/FlutterAttempts/BCC5/bcc5/lib/widgets/setting_depth_picker.dart:28:14
-
-When the exception was thrown, this was the stack:
-#2      new DropdownButton (package:flutter/src/material/dropdown.dart:1001:10)
-#3      settingDepthPickerField.<anonymous closure>.<anonymous closure> (package:bcc5/widgets/setting_depth_picker.dart:76:17)
-#4      _StatefulBuilderState.build (package:flutter/src/widgets/basic.dart:7891:55)
-#5      StatefulElement.build (package:flutter/src/widgets/framework.dart:5841:27)
-#6      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5733:15)
-#7      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5892:11)
-#8      Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
-#9      ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5715:5)
-#10     StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5883:11)
-#11     ComponentElement.mount (package:flutter/src/widgets/framework.dart:5709:5)
-#12     Element.inflateWidget (package:flutter/src/widgets/framework.dart:4555:16)
-#13     Element.updateChild (package:flutter/src/widgets/framework.dart:4014:20)
-#14     ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5756:16)
-#15     StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5892:11)
-#16     Element.rebuild (package:flutter/src/widgets/framework.dart:5445:7)
-#17     BuildScope._tryRebuild (package:flutter/src/widgets/framework.dart:2704:15)
-#18     BuildScope._flushDirtyElements (package:flutter/src/widgets/framework.dart:2762:11)
-#19     BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3066:18)
-#20     WidgetsBinding.drawFrame (package:flutter/src/widgets/binding.dart:1229:21)
-#21     RendererBinding._handlePersistentFrameCallback (package:flutter/src/rendering/binding.dart:482:5)
-#22     SchedulerBinding._invokeFrameCallback (package:flutter/src/scheduler/binding.dart:1442:15)
-#23     SchedulerBinding.handleDrawFrame (package:flutter/src/scheduler/binding.dart:1355:9)
-#24     SchedulerBinding._handleDrawFrame (package:flutter/src/scheduler/binding.dart:1208:5)
-#25     _invoke (dart:ui/hooks.dart:316:13)
-#26     PlatformDispatcher._drawFrame (dart:ui/platform_dispatcher.dart:428:5)
-#27     _drawFrame (dart:ui/hooks.dart:288:31)
-(elided 2 frames from class _AssertionError)
-
-════════════════════════════════════════════════════════════════════════════════════════════════════
-
-
-Performing hot restart...                                       
-Restarted application in 263ms.
-│ #0   main (package:bcc5/main.dart:19:12)<…>
-│ 💡 🧪 DEBUG STARTUP INFO:<…>
-│ 💡 - reviewedAt: 2025-05-26T21:34:53.791040<…>
-│ 💡 - boatName: Hello Kitty<…>
-│ 💡 - shouldStartTour: false<…>
-│ 💡 <…>
-│ #0   main (package:bcc5/main.dart:29:10)<…>
-│ 💡 🚀 App Launch | Emergency Reminder: true<…>
-│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 <…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
-│ 💡 🧭 LandingScreenState.initState() called<…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
-│ 💡 🧭 showReminder = true<…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
-│ 💡 🧭 Scheduling 2s delayed dialog...<…>
-│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
-│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
-
-Performing hot restart...                                       
-Restarted application in 236ms.
-│ #0   main (package:bcc5/main.dart:19:12)<…>
-│ 💡 🧪 DEBUG STARTUP INFO:<…>
-│ 💡 - reviewedAt: 2025-05-26T21:34:53.791040<…>
-│ 💡 - boatName: Hello Kitty<…>
-│ 💡 - shouldStartTour: false<…>
-│ 💡 <…>
-│ #0   main (package:bcc5/main.dart:29:10)<…>
-│ 💡 🚀 App Launch | Emergency Reminder: true<…>
-│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
-│ 💡 <…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:68:12)<…>
-│ 💡 🧭 LandingScreenState.initState() called<…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:69:12)<…>
-│ 💡 🧭 showReminder = true<…>
-│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:92:14)<…>
-│ 💡 🧭 Scheduling 2s delayed dialog...<…>
-│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:97:20)<…>
-│ 💡 🧭 Triggering showEmergencyReminderDialog()<…>
-
-Performing hot restart...                                       
-Restarted application in 245ms.
-│ #0   main (package:bcc5/main.dart:19:12)<…>
-│ 💡 🧪 DEBUG STARTUP INFO:<…>
-│ 💡 - revi
+For more information, please visit:
+  https://developer.apple.com/documentation/xcode/installing-additional-simulator-runtimes
+════════════════════════════════════════════════════════════════════════════════
+Could not build the application for the simulator.
+Error launching application on iPhone 13.

@@ -1,4 +1,7 @@
+// lib/widgets/dialogs/emergency_reminder_dialog.dart
+
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/emergency_info_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/utils/settings_manager.dart';
@@ -21,6 +24,21 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
   final formattedDepth = lengthUnit == 'meters' ? '$minDepth m' : minDepth;
 
   final prefix = getVesselPrefix(vesselType);
+
+  logger.i('''
+🛟 Emergency Reminder Data:
+- Vessel: $prefix $boatName
+- Length: $vesselLength $lengthUnit
+- Min Depth: $minDepth
+- Description: $vesselDescription
+- Adults: $adults
+- Children: $children
+- MMSI: $mmsi
+- Coast Guard: $coastGuardPhone
+- Captain: $captainPhone
+- Emergency Contact: $emergencyName
+- Emergency Phone: $emergencyPhone
+''');
 
   if (context.mounted) {
     showDialog(
@@ -76,6 +94,7 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
           actions: [
             TextButton(
               onPressed: () async {
+                logger.i('✅ User tapped "Looks Good" — saving reviewedAt');
                 await SettingsManager.setEmergencyInfoReviewedNow();
                 if (context.mounted) Navigator.of(context).pop();
               },

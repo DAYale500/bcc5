@@ -1670,7 +1670,69 @@ class SettingsManager {
     return GPSDisplayFormat.values[index ?? 0]; // Default: marineCompact
   }
 
+  // defaults for emergency info
+  static Future<void> seedEmergencyDefaultsIfNeeded() async {
+    if ((await getBoatName()).trim().isEmpty) {
+      await setBoatName('Unnamed Vessel');
+    }
+
+    if ((await getVesselType()).trim().isEmpty) {
+      await setVesselType('Sailing');
+    }
+
+    if ((await getVesselLength()).trim().isEmpty) {
+      await setVesselLength('0');
+    }
+
+    if ((await getLengthUnit()).trim().isEmpty) {
+      await setLengthUnit('feet');
+    }
+
+    if ((await getMinimumDepth()).trim().isEmpty) {
+      await setMinimumDepth('0');
+    }
+
+    if ((await getVesselDescription()).trim().isEmpty) {
+      await setVesselDescription('No description provided.');
+    }
+
+    if (await getSoulsAdults() == 0) {
+      await setSoulsAdults(1); // safer than 0 in case of singlehanders
+    }
+
+    if (await getSoulsChildren() == 0) {
+      await setSoulsChildren(0);
+    }
+
+    if ((await getMMSI()).trim().isEmpty) {
+      await setMMSI('000000000');
+    }
+
+    if ((await getCoastGuardPhone()).trim().isEmpty) {
+      await setCoastGuardPhone('000-000-0000');
+    }
+
+    if ((await getCaptainPhone()).trim().isEmpty) {
+      await setCaptainPhone('000-000-0000');
+    }
+
+    if ((await getEmergencyContactName()).trim().isEmpty) {
+      await setEmergencyContactName('Emergency Contact');
+    }
+
+    if ((await getEmergencyContact()).trim().isEmpty) {
+      await setEmergencyContact('000-000-0000');
+    }
+  }
+
   // Emergency Info Reminder
+  static Future<bool> shouldShowEmergencyReminder() async {
+    final prefs = await SharedPreferences.getInstance();
+    final firstLaunchComplete = prefs.getBool('firstLaunchComplete') ?? false;
+    final reminderEnabled = await getEmergencyReminderEnabled();
+    return !firstLaunchComplete && reminderEnabled;
+  }
+
   static Future<bool> getEmergencyReminderEnabled() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(_emergencyReminderEnabledKey) ?? true;
@@ -4213,6 +4275,8 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
 
 
 File: lib/screens/emergency/mob_emergency_screen.dart
+// lib/screens/emergency/mob_emergency_screen.dart
+
 import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:bcc5/screens/emergency/mob_radio_script_modal.dart';
 import 'package:bcc5/screens/tools/tool_item_screen.dart';
@@ -4269,7 +4333,8 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
     final lon = position?.longitude ?? 0;
 
     final gpsSpoken = formatGPSForRadio(lat, lon, _format);
-    final intro = await buildPhoneticVesselIntro();
+    final boatName = await SettingsManager.getBoatName(); // ✅ new
+    final vesselType = await SettingsManager.getVesselType(); // ✅ new
     final description = await buildSpokenVesselDescription();
     final mmsi = await SettingsManager.getMMSI();
 
@@ -4280,7 +4345,8 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
         context: context,
         builder:
             (_) => MOBRadioScriptModal(
-              intro: intro,
+              boatName: boatName,
+              vesselType: vesselType,
               gpsSpoken: gpsSpoken,
               description: description,
               mmsi: mmsi,
@@ -4613,20 +4679,21 @@ class _MOBEmergencyScreenState extends State<MOBEmergencyScreen> {
 
 
 File: lib/screens/emergency/mob_radio_script_modal.dart
-// 📄 lib/screens/emergency/mob_radio_script_modal.dart
-
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/vessel_formatting.dart';
 
 class MOBRadioScriptModal extends StatelessWidget {
-  final String intro;
+  final String boatName;
+  final String vesselType;
   final String gpsSpoken;
   final String description;
   final String mmsi;
 
   const MOBRadioScriptModal({
     super.key,
-    required this.intro,
+    required this.boatName,
+    required this.vesselType,
     required this.gpsSpoken,
     required this.description,
     required this.mmsi,
@@ -4635,6 +4702,8 @@ class MOBRadioScriptModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gpsLines = gpsSpoken.split('\n');
+    final prefix = getVesselPrefix(vesselType);
+    final phonetic = formatPhonetic(boatName);
 
     return AlertDialog(
       title: const Text('Report MAYDAY to the Coast Guard: '),
@@ -4651,7 +4720,7 @@ class MOBRadioScriptModal extends StatelessWidget {
             // 🔊 Step-by-step script
             SelectableText(
               '1. Mayday, Mayday, Mayday.\n\n'
-              '2. $intro\n\n'
+              '2. $prefix $boatName\n   Phonetic: $phonetic\n\n'
               '3. We have a man overboard at position:\n'
               '  • ${gpsLines[0]}\n'
               '  • ${gpsLines[1]}\n\n'
@@ -4710,6 +4779,103 @@ class MOBRadioScriptModal extends StatelessWidget {
   }
 }
 
+// // 📄 lib/screens/emergency/mob_radio_script_modal.dart
+
+// import 'package:flutter/material.dart';
+// import 'package:bcc5/theme/app_theme.dart';
+
+// class MOBRadioScriptModal extends StatelessWidget {
+//   final String intro;
+//   final String gpsSpoken;
+//   final String description;
+//   final String mmsi;
+
+//   const MOBRadioScriptModal({
+//     super.key,
+//     required this.intro,
+//     required this.gpsSpoken,
+//     required this.description,
+//     required this.mmsi,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final gpsLines = gpsSpoken.split('\n');
+
+//     return AlertDialog(
+//       title: const Text('Report MAYDAY to the Coast Guard: '),
+//       content: SingleChildScrollView(
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             const Text(
+//               'Ensure radio is on channel 16, press and hold the microphone transmit button while speaking slowly and clearly the following:',
+//               style: TextStyle(fontWeight: FontWeight.bold),
+//             ),
+//             const SizedBox(height: 16),
+
+//             // 🔊 Step-by-step script
+//             SelectableText(
+//               '1. Mayday, Mayday, Mayday.\n\n'
+//               '2. $intro\n\n'
+//               '3. We have a man overboard at position:\n'
+//               '  • ${gpsLines[0]}\n'
+//               '  • ${gpsLines[1]}\n\n'
+//               '4. We are located near [SAY HELPFUL NEARBY LANDMARK IF YOU CAN], 📍e.g., ‘In the north bay, two miles east of Pelican Rock.’\n\n'
+//               '5. $description\n\n'
+//               '6. We have four adults and one child onboard, all wearing life jackets.\n\n'
+//               '7. We need immediate assistance recovering the person in the water.\n\n'
+//               '8. Over. (LET GO of the microphone button)\n\n'
+//               '9. Wait for a response from the Coast Guard. If no response, repeat the message.',
+//               style: AppTheme.textTheme.bodyMedium,
+//             ),
+
+//             const SizedBox(height: 24),
+//             const Divider(thickness: 10), // separation line
+//             const SizedBox(height: 12),
+
+//             // 📌 Optional Details Section
+//             const Text(
+//               'Optional Follow-Up Details',
+//               style: TextStyle(fontWeight: FontWeight.bold),
+//             ),
+//             const SizedBox(height: 8),
+//             const Text(
+//               'You may offer and/or the Coast Guard may ask you about any other relevant details, such as :',
+//             ),
+//             const SizedBox(height: 6),
+//             const Text('- Any injuries onboard.'),
+//             const Text('- If any flares were fired.'),
+//             if (mmsi.trim().isNotEmpty) Text('- Your MMSI: ${mmsi.trim()}'),
+//             const Text(
+//               '- Typically, they will want to call you if there is cell service. Be prepared to provide your cell phone number. Remember to slowly and clearly.',
+//             ),
+//           ],
+//         ),
+//       ),
+//       actions: [
+//         Padding(
+//           padding: const EdgeInsets.only(top: 12),
+//           child: SizedBox(
+//             height: 44,
+//             width: double.infinity,
+//             child: TextButton(
+//               style: TextButton.styleFrom(
+//                 backgroundColor: AppTheme.primaryRed,
+//                 foregroundColor: Colors.white,
+//                 shape: const RoundedRectangleBorder(),
+//                 padding: EdgeInsets.zero,
+//               ),
+//               onPressed: () => Navigator.of(context).pop(),
+//               child: const Text('Close', style: TextStyle(fontSize: 16)),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
 
 
 
@@ -4723,6 +4889,7 @@ File: lib/screens/landing_screen/landing_screen.dart
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/settings_manager.dart';
 import 'package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -4781,6 +4948,7 @@ class LandingScreenState extends State<LandingScreen> {
   GlobalKey get settingsKey => _keySettingsIcon;
   GlobalKey get titleKey => _keyAppBarTitle;
   GlobalKey get searchKey => _keySearchIcon;
+  bool _reminderAlreadyShown = false;
 
   @override
   void initState() {
@@ -4810,21 +4978,21 @@ class LandingScreenState extends State<LandingScreen> {
       }
     });
 
-    if (widget.showReminder) {
-      logger.i('🧭 Scheduling 2s delayed dialog...');
+    if (!_reminderAlreadyShown) {
+      _reminderAlreadyShown = true;
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Future.delayed(const Duration(seconds: 2), () {
-          if (mounted) {
-            logger.i('🧭 Triggering showEmergencyReminderDialog()');
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(const SnackBar(content: Text("Reminder is ON")));
-            showEmergencyReminderDialog(context);
-          } else {
-            logger.w('⚠️ Not mounted when dialog should show');
-          }
-        });
+      SettingsManager.shouldShowEmergencyReminder().then((shouldShow) {
+        if (shouldShow) {
+          logger.i('🧭 Scheduling 2s delayed dialog...');
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Future.delayed(const Duration(seconds: 2), () {
+              if (mounted) {
+                logger.i('🧭 Triggering showEmergencyReminderDialog()');
+                showEmergencyReminderDialog(context);
+              }
+            });
+          });
+        }
       });
     }
 
@@ -6570,7 +6738,17 @@ void main() async {
 ''');
   }
 
-  final showReminder = await _shouldShowEmergencyReminder();
+  await SettingsManager.seedEmergencyDefaultsIfNeeded();
+  final showReminder = await SettingsManager.shouldShowEmergencyReminder();
+  final reviewedAt = await SettingsManager.getEmergencyInfoReviewedAt();
+  logger.i('''
+🚀 Reminder Check:
+- showReminder: $showReminder
+- reviewedAt: $reviewedAt
+- shouldStartTour: ${await LandingScreenTour.shouldStart()}
+''');
+
+  // final showReminder = await SettingsManager.shouldShowEmergencyReminder();
 
   logger.i('''
 🚀 App Launch | Emergency Reminder: $showReminder
@@ -6637,23 +6815,23 @@ void main() async {
 //   runApp(Bcc5App(showReminder: showReminder));
 // }
 
-Future<bool> _shouldShowEmergencyReminder() async {
-  final enabled = await SettingsManager.getEmergencyReminderEnabled();
-  if (!enabled) return false;
+// Future<bool> _shouldShowEmergencyReminder() async {
+//   final enabled = await SettingsManager.getEmergencyReminderEnabled();
+//   if (!enabled) return false;
 
-  // ✅ Skip check only on first launch (i.e. first-tour session)
-  final isFirstLaunch = await LandingScreenTour.shouldStart();
-  if (isFirstLaunch) return false;
+//   // ✅ Skip check only on first launch (i.e. first-tour session)
+//   final isFirstLaunch = await LandingScreenTour.shouldStart();
+//   if (isFirstLaunch) return false;
 
-  // ✅ Always show after first launch — no 'reviewedAt' condition
-  return true;
+//   // ✅ Always show after first launch — no 'reviewedAt' condition
+//   return true;
 
-  // Legacy/future timing logic (commented for dev simplicity):
-  // final reviewedAt = await SettingsManager.getEmergencyInfoReviewedAt();
-  // if (reviewedAt == null) return true;
-  // final reviewedDate = DateTime.parse(reviewedAt);
-  // return DateTime.now().difference(reviewedDate).inDays > 30;
-}
+//   // Legacy/future timing logic (commented for dev simplicity):
+//   // final reviewedAt = await SettingsManager.getEmergencyInfoReviewedAt();
+//   // if (reviewedAt == null) return true;
+//   // final reviewedDate = DateTime.parse(reviewedAt);
+//   // return DateTime.now().difference(reviewedDate).inDays > 30;
+// }
 
 // Future<bool> _shouldShowEmergencyReminder() async {
 //   final enabled = await SettingsManager.getEmergencyReminderEnabled();
@@ -8550,7 +8728,7 @@ Widget settingDepthPickerField({
             children: [
               Text(label),
               const SizedBox(height: 4),
-              if (unit == 'feet')
+              if (unit == 'feet') ...[
                 Row(
                   children: [
                     Expanded(
@@ -8589,27 +8767,152 @@ Widget settingDepthPickerField({
                       ),
                     ),
                   ],
-                )
-              else
-                TextField(
-                  controller: TextEditingController(text: meters),
-                  keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true,
-                  ),
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'e.g. 1.4',
-                  ),
-                  onChanged: (value) {
-                    final parsed = double.tryParse(value);
-                    if (parsed != null) {
-                      final formatted = parsed.toStringAsFixed(
-                        2,
-                      ); // ✅ round to 2 decimal places
-                      onChanged(formatted);
-                    }
-                  },
                 ),
+              ] else ...[
+                Row(
+                  children: [
+                    Expanded(
+                      child: DropdownButton<int>(
+                        isExpanded: true,
+                        value: int.tryParse(meters.split('.').first) ?? 0,
+                        items: List.generate(
+                          6,
+                          (i) =>
+                              DropdownMenuItem(value: i, child: Text('$i m')),
+                        ),
+                        onChanged: (v) {
+                          if (v != null) {
+                            final cmVal =
+                                int.tryParse(
+                                  meters.split('.').last.padRight(2, '0'),
+                                ) ??
+                                0;
+                            final formatted =
+                                '${v.toString()}.${(cmVal).toString().padLeft(2, '0')}';
+                            setState(() => meters = formatted);
+                            onChanged(formatted);
+                          }
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: DropdownButtonHideUnderline(
+                        child: ButtonTheme(
+                          alignedDropdown: true,
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          height:
+                              36, // Applies to the DropdownButton button itself
+                          child: DropdownButton<int>(
+                            isExpanded: true,
+                            value:
+                                int.tryParse(
+                                  meters.split('.').last.padRight(2, '0'),
+                                ) ??
+                                0,
+                            menuMaxHeight:
+                                250, // Limit scroll area height (optional)
+                            items: List.generate(20, (i) {
+                              final cm = i * 5;
+                              return DropdownMenuItem(
+                                value: cm,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 4,
+                                  ), // Shrinks spacing
+                                  child: Text(
+                                    '$cm cm',
+                                    style: const TextStyle(fontSize: 14),
+                                  ),
+                                ),
+                              );
+                            }),
+                            onChanged: (v) {
+                              if (v != null) {
+                                final mVal =
+                                    int.tryParse(meters.split('.').first) ?? 0;
+                                final formatted =
+                                    '${mVal.toString()}.${v.toString().padLeft(2, '0')}';
+                                setState(() => meters = formatted);
+                                onChanged(formatted);
+                              }
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Expanded(
+                    //   child: DropdownButton<int>(
+                    //     isExpanded: true,
+                    //     value:
+                    //         int.tryParse(
+                    //           meters.split('.').last.padRight(2, '0'),
+                    //         ) ??
+                    //         0,
+                    //     items: List.generate(20, (i) {
+                    //       final cm = i * 5;
+                    //       return DropdownMenuItem(
+                    //         value: cm,
+                    //         child: Text('$cm cm'),
+                    //       );
+                    //     }),
+                    //     onChanged: (v) {
+                    //       if (v != null) {
+                    //         final mVal =
+                    //             int.tryParse(meters.split('.').first) ?? 0;
+                    //         final formatted =
+                    //             '${mVal.toString()}.${v.toString().padLeft(2, '0')}';
+                    //         setState(() => meters = formatted);
+                    //         onChanged(formatted);
+                    //       }
+                    //     },
+                    //   ),
+                    // ),
+                  ],
+                ),
+                // DropdownButton<String>(
+                //   isExpanded: true,
+                //   value:
+                //       RegExp(r'^\\d+(\\.\\d{1,2})?\$').hasMatch(meters)
+                //           ? meters
+                //           : '1.00',
+                //   items: List.generate(50, (i) {
+                //     final value = (0.5 + i * 0.1).toStringAsFixed(2);
+                //     return DropdownMenuItem(
+                //       value: value,
+                //       child: Text('$value m'),
+                //     );
+                //   }),
+                //   onChanged: (value) {
+                //     if (value != null) {
+                //       setState(() => meters = value);
+                //       onChanged(value); // Store just "1.30"
+                //     }
+                //   },
+                // ),
+
+                // TextField(
+                //   controller: TextEditingController(text: meters),
+                //   keyboardType: const TextInputType.numberWithOptions(
+                //     decimal: true,
+                //   ),
+                //   decoration: const InputDecoration(
+                //     border: OutlineInputBorder(),
+                //     suffixText: 'm',
+                //     hintText: 'e.g. 1.20',
+                //   ),
+                //   onChanged: (value) {
+                //     final parsed = double.tryParse(value);
+                //     if (parsed != null) {
+                //       final formatted = parsed.toStringAsFixed(2);
+                //       setState(() => meters = formatted);
+                //       onChanged(formatted);
+                //     }
+                //   },
+                // ),
+              ],
             ],
           );
         },
@@ -8617,6 +8920,108 @@ Widget settingDepthPickerField({
     },
   );
 }
+
+// import 'package:flutter/material.dart';
+
+// Widget settingDepthPickerField({
+//   required String label,
+//   required Future<String> initialValueFuture,
+//   required Future<String> Function() getUnitFuture,
+//   required void Function(String) onChanged,
+// }) {
+//   return FutureBuilder<List<String>>(
+//     future: Future.wait([initialValueFuture, getUnitFuture()]),
+//     builder: (context, snapshot) {
+//       if (!snapshot.hasData) return const CircularProgressIndicator();
+
+//       final saved = snapshot.data![0];
+//       final unit = snapshot.data![1];
+//       int feet = 0;
+//       int inches = 0;
+//       String meters = '';
+
+//       if (unit == 'feet' && saved.contains('ft')) {
+//         final match = RegExp(r'(\\d+)\\s*ft\\s*(\\d*)').firstMatch(saved);
+//         feet = int.tryParse(match?.group(1) ?? '') ?? 0;
+//         inches = int.tryParse(match?.group(2) ?? '') ?? 0;
+//       } else {
+//         meters = saved;
+//       }
+
+//       return StatefulBuilder(
+//         builder: (context, setState) {
+//           return Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Text(label),
+//               const SizedBox(height: 4),
+//               if (unit == 'feet')
+//                 Row(
+//                   children: [
+//                     Expanded(
+//                       child: DropdownButton<int>(
+//                         isExpanded: true,
+//                         value: feet,
+//                         items: List.generate(
+//                           20,
+//                           (i) =>
+//                               DropdownMenuItem(value: i, child: Text('$i ft')),
+//                         ),
+//                         onChanged: (v) {
+//                           if (v != null) {
+//                             setState(() => feet = v);
+//                             onChanged('$feet ft $inches in');
+//                           }
+//                         },
+//                       ),
+//                     ),
+//                     const SizedBox(width: 8),
+//                     Expanded(
+//                       child: DropdownButton<int>(
+//                         isExpanded: true,
+//                         value: inches,
+//                         items: List.generate(
+//                           12,
+//                           (i) =>
+//                               DropdownMenuItem(value: i, child: Text('$i in')),
+//                         ),
+//                         onChanged: (v) {
+//                           if (v != null) {
+//                             setState(() => inches = v);
+//                             onChanged('$feet ft $inches in');
+//                           }
+//                         },
+//                       ),
+//                     ),
+//                   ],
+//                 )
+//               else
+//                 TextField(
+//                   controller: TextEditingController(text: meters),
+//                   keyboardType: const TextInputType.numberWithOptions(
+//                     decimal: true,
+//                   ),
+//                   decoration: const InputDecoration(
+//                     border: OutlineInputBorder(),
+//                     hintText: 'e.g. 1.4',
+//                   ),
+//                   onChanged: (value) {
+//                     final parsed = double.tryParse(value);
+//                     if (parsed != null) {
+//                       final formatted = parsed.toStringAsFixed(
+//                         2,
+//                       ); // ✅ round to 2 decimal places
+//                       onChanged(formatted);
+//                     }
+//                   },
+//                 ),
+//             ],
+//           );
+//         },
+//       );
+//     },
+//   );
+// }
 
 
 
@@ -8987,7 +9392,6 @@ class GroupPickerDropdown extends StatelessWidget {
 
 
 File: lib/widgets/emergency_info_modal.dart
-import 'package:bcc5/utils/radio_helper.dart' hide formatPhonetic;
 import 'package:bcc5/utils/vessel_formatting.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';
@@ -9119,6 +9523,15 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
                     },
                   ),
 
+                  // settingDepthPickerField(
+                  //   label: 'Minimum Depth / Boat Draft',
+                  //   initialValueFuture: SettingsManager.getMinimumDepth(),
+                  //   getUnitFuture: SettingsManager.getLengthUnit,
+                  //   onChanged: (value) async {
+                  //     await SettingsManager.setMinimumDepth(value);
+                  //     if (onChanged != null) onChanged();
+                  //   },
+                  // ),
                   settingTextField(
                     label: 'Vessel Description',
                     initialValueFuture: SettingsManager.getVesselDescription(),
@@ -10651,7 +11064,10 @@ class LandingScreenTour {
 
 
 File: lib/widgets/dialogs/emergency_reminder_dialog.dart
+// lib/widgets/dialogs/emergency_reminder_dialog.dart
+
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/emergency_info_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/utils/settings_manager.dart';
@@ -10669,8 +11085,26 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
   final mmsi = await SettingsManager.getMMSI();
   final emergencyPhone = await SettingsManager.getEmergencyContact();
   final captainPhone = await SettingsManager.getCaptainPhone();
-  final coastGuardPhone = await SettingsManager.getCoastGuardPhone(); // ✅ NEW
+  final coastGuardPhone = await SettingsManager.getCoastGuardPhone();
   final emergencyName = await SettingsManager.getEmergencyContactName();
+  final formattedDepth = lengthUnit == 'meters' ? '$minDepth m' : minDepth;
+
+  final prefix = getVesselPrefix(vesselType);
+
+  logger.i('''
+🛟 Emergency Reminder Data:
+- Vessel: $prefix $boatName
+- Length: $vesselLength $lengthUnit
+- Min Depth: $minDepth
+- Description: $vesselDescription
+- Adults: $adults
+- Children: $children
+- MMSI: $mmsi
+- Coast Guard: $coastGuardPhone
+- Captain: $captainPhone
+- Emergency Contact: $emergencyName
+- Emergency Phone: $emergencyPhone
+''');
 
   if (context.mounted) {
     showDialog(
@@ -10705,10 +11139,9 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('${getVesselPrefix(vesselType)} $boatName'),
-              Text('Phonetic: ${formatPhonetic(boatName)}'),
+              Text('$prefix $boatName'),
               Text('Length: $vesselLength $lengthUnit'),
-              if (minDepth.isNotEmpty) Text('Minimum Depth: $minDepth'),
+              if (minDepth.isNotEmpty) Text('Minimum Depth: $formattedDepth'),
               if (vesselDescription.isNotEmpty)
                 Text('Description: $vesselDescription'),
               Text(
@@ -10716,7 +11149,7 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
               ),
               if (mmsi.isNotEmpty) Text('MMSI: $mmsi'),
               if (coastGuardPhone.isNotEmpty)
-                Text('Coast Guard Emergency: $coastGuardPhone'), // ✅ NEW
+                Text('Coast Guard Emergency: $coastGuardPhone'),
               Text("Captain's Phone: $captainPhone"),
               if (emergencyName.isNotEmpty)
                 Text('Emergency Contact: $emergencyName'),
@@ -10727,6 +11160,7 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
           actions: [
             TextButton(
               onPressed: () async {
+                logger.i('✅ User tapped "Looks Good" — saving reviewedAt');
                 await SettingsManager.setEmergencyInfoReviewedNow();
                 if (context.mounted) Navigator.of(context).pop();
               },
@@ -10749,10 +11183,14 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
 
 
 
+
+
+
 // import 'package:bcc5/theme/app_theme.dart';
 // import 'package:bcc5/widgets/emergency_info_modal.dart';
 // import 'package:flutter/material.dart';
 // import 'package:bcc5/utils/settings_manager.dart';
+// import 'package:bcc5/utils/vessel_formatting.dart';
 
 // Future<void> showEmergencyReminderDialog(BuildContext context) async {
 //   final boatName = await SettingsManager.getBoatName();
@@ -10766,6 +11204,7 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
 //   final mmsi = await SettingsManager.getMMSI();
 //   final emergencyPhone = await SettingsManager.getEmergencyContact();
 //   final captainPhone = await SettingsManager.getCaptainPhone();
+//   final coastGuardPhone = await SettingsManager.getCoastGuardPhone(); // ✅ NEW
 //   final emergencyName = await SettingsManager.getEmergencyContactName();
 
 //   if (context.mounted) {
@@ -10801,7 +11240,8 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
 //             mainAxisSize: MainAxisSize.min,
 //             crossAxisAlignment: CrossAxisAlignment.start,
 //             children: [
-//               Text('$vesselType Vessel $boatName'),
+//               Text('${getVesselPrefix(vesselType)} $boatName'),
+//               Text('Phonetic: ${formatPhonetic(boatName)}'),
 //               Text('Length: $vesselLength $lengthUnit'),
 //               if (minDepth.isNotEmpty) Text('Minimum Depth: $minDepth'),
 //               if (vesselDescription.isNotEmpty)
@@ -10810,6 +11250,8 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
 //                 'Souls Aboard: $adults adult${adults != 1 ? 's' : ''}, $children child${children != 1 ? 'ren' : ''}',
 //               ),
 //               if (mmsi.isNotEmpty) Text('MMSI: $mmsi'),
+//               if (coastGuardPhone.isNotEmpty)
+//                 Text('Coast Guard Emergency: $coastGuardPhone'), // ✅ NEW
 //               Text("Captain's Phone: $captainPhone"),
 //               if (emergencyName.isNotEmpty)
 //                 Text('Emergency Contact: $emergencyName'),
@@ -10843,14 +11285,11 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
 
 
 // // import 'package:bcc5/theme/app_theme.dart';
-// // import 'package:bcc5/utils/logger.dart';
 // // import 'package:bcc5/widgets/emergency_info_modal.dart';
 // // import 'package:flutter/material.dart';
 // // import 'package:bcc5/utils/settings_manager.dart';
 
 // // Future<void> showEmergencyReminderDialog(BuildContext context) async {
-// //   logger.i('📦 Entered showEmergencyReminderDialog()');
-
 // //   final boatName = await SettingsManager.getBoatName();
 // //   final vesselType = await SettingsManager.getVesselType();
 // //   final vesselLength = await SettingsManager.getVesselLength();
@@ -10863,8 +11302,6 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
 // //   final emergencyPhone = await SettingsManager.getEmergencyContact();
 // //   final captainPhone = await SettingsManager.getCaptainPhone();
 // //   final emergencyName = await SettingsManager.getEmergencyContactName();
-
-// //   logger.i('📦 Loaded all emergency settings');
 
 // //   if (context.mounted) {
 // //     showDialog(
@@ -10899,8 +11336,7 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
 // //             mainAxisSize: MainAxisSize.min,
 // //             crossAxisAlignment: CrossAxisAlignment.start,
 // //             children: [
-// //               Text('Boat Name: $boatName'),
-// //               Text('Type: $vesselType'),
+// //               Text('$vesselType Vessel $boatName'),
 // //               Text('Length: $vesselLength $lengthUnit'),
 // //               if (minDepth.isNotEmpty) Text('Minimum Depth: $minDepth'),
 // //               if (vesselDescription.isNotEmpty)
@@ -10951,40 +11387,24 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
 // // //   logger.i('📦 Entered showEmergencyReminderDialog()');
 
 // // //   final boatName = await SettingsManager.getBoatName();
-// // //   logger.i('📦 boatName = $boatName');
-
 // // //   final vesselType = await SettingsManager.getVesselType();
-// // //   logger.i('📦 vesselType = $vesselType');
-
 // // //   final vesselLength = await SettingsManager.getVesselLength();
-// // //   logger.i('📦 vesselLength = $vesselLength');
-
+// // //   final lengthUnit = await SettingsManager.getLengthUnit();
+// // //   final minDepth = await SettingsManager.getMinimumDepth();
 // // //   final vesselDescription = await SettingsManager.getVesselDescription();
-// // //   logger.i('📦 vesselDescription = $vesselDescription');
-
 // // //   final adults = await SettingsManager.getSoulsAdults();
-// // //   logger.i('📦 adults = $adults');
-
 // // //   final children = await SettingsManager.getSoulsChildren();
-// // //   logger.i('📦 children = $children');
-
 // // //   final mmsi = await SettingsManager.getMMSI();
-// // //   logger.i('📦 mmsi = $mmsi');
-
 // // //   final emergencyPhone = await SettingsManager.getEmergencyContact();
-// // //   logger.i('📦 emergencyPhone = $emergencyPhone');
-
 // // //   final captainPhone = await SettingsManager.getCaptainPhone();
-// // //   logger.i('📦 captainPhone = $captainPhone');
+// // //   final emergencyName = await SettingsManager.getEmergencyContactName();
+
+// // //   logger.i('📦 Loaded all emergency settings');
 
 // // //   if (context.mounted) {
-// // //     logger.i('📦 Showing AlertDialog...');
-
 // // //     showDialog(
 // // //       context: context,
 // // //       builder: (_) {
-// // //         logger.i('📦 AlertDialog builder executed');
-
 // // //         return AlertDialog(
 // // //           insetPadding: const EdgeInsets.all(24),
 // // //           titlePadding: EdgeInsets.zero,
@@ -11016,12 +11436,19 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
 // // //             children: [
 // // //               Text('Boat Name: $boatName'),
 // // //               Text('Type: $vesselType'),
-// // //               Text('Length: $vesselLength'),
-// // //               Text('Description: $vesselDescription'),
-// // //               Text('Souls Aboard: $adults adults, $children children'),
-// // //               Text('MMSI: $mmsi'),
-// // //               Text('Emergency Contact: $emergencyPhone'),
+// // //               Text('Length: $vesselLength $lengthUnit'),
+// // //               if (minDepth.isNotEmpty) Text('Minimum Depth: $minDepth'),
+// // //               if (vesselDescription.isNotEmpty)
+// // //                 Text('Description: $vesselDescription'),
+// // //               Text(
+// // //                 'Souls Aboard: $adults adult${adults != 1 ? 's' : ''}, $children child${children != 1 ? 'ren' : ''}',
+// // //               ),
+// // //               if (mmsi.isNotEmpty) Text('MMSI: $mmsi'),
 // // //               Text("Captain's Phone: $captainPhone"),
+// // //               if (emergencyName.isNotEmpty)
+// // //                 Text('Emergency Contact: $emergencyName'),
+// // //               if (emergencyPhone.isNotEmpty)
+// // //                 Text('Emergency Phone: $emergencyPhone'),
 // // //             ],
 // // //           ),
 // // //           actions: [
@@ -11047,13 +11474,121 @@ Future<void> showEmergencyReminderDialog(BuildContext context) async {
 // // // }
 
 
-// // //             // TextButton(
-// // //             //   onPressed: () {
-// // //             //     Navigator.pop(context);
-// // //             //     SettingsManager.setEmergencyInfoReviewedNow(); // ✅ this is your actual method name
-// // //             //   },
-// // //             //   child: const Text('Looks Good'),
-// // //             // ),
+
+
+// // // // import 'package:bcc5/theme/app_theme.dart';
+// // // // import 'package:bcc5/utils/logger.dart';
+// // // // import 'package:bcc5/widgets/emergency_info_modal.dart';
+// // // // import 'package:flutter/material.dart';
+// // // // import 'package:bcc5/utils/settings_manager.dart';
+
+// // // // Future<void> showEmergencyReminderDialog(BuildContext context) async {
+// // // //   logger.i('📦 Entered showEmergencyReminderDialog()');
+
+// // // //   final boatName = await SettingsManager.getBoatName();
+// // // //   logger.i('📦 boatName = $boatName');
+
+// // // //   final vesselType = await SettingsManager.getVesselType();
+// // // //   logger.i('📦 vesselType = $vesselType');
+
+// // // //   final vesselLength = await SettingsManager.getVesselLength();
+// // // //   logger.i('📦 vesselLength = $vesselLength');
+
+// // // //   final vesselDescription = await SettingsManager.getVesselDescription();
+// // // //   logger.i('📦 vesselDescription = $vesselDescription');
+
+// // // //   final adults = await SettingsManager.getSoulsAdults();
+// // // //   logger.i('📦 adults = $adults');
+
+// // // //   final children = await SettingsManager.getSoulsChildren();
+// // // //   logger.i('📦 children = $children');
+
+// // // //   final mmsi = await SettingsManager.getMMSI();
+// // // //   logger.i('📦 mmsi = $mmsi');
+
+// // // //   final emergencyPhone = await SettingsManager.getEmergencyContact();
+// // // //   logger.i('📦 emergencyPhone = $emergencyPhone');
+
+// // // //   final captainPhone = await SettingsManager.getCaptainPhone();
+// // // //   logger.i('📦 captainPhone = $captainPhone');
+
+// // // //   if (context.mounted) {
+// // // //     logger.i('📦 Showing AlertDialog...');
+
+// // // //     showDialog(
+// // // //       context: context,
+// // // //       builder: (_) {
+// // // //         logger.i('📦 AlertDialog builder executed');
+
+// // // //         return AlertDialog(
+// // // //           insetPadding: const EdgeInsets.all(24),
+// // // //           titlePadding: EdgeInsets.zero,
+// // // //           title: Stack(
+// // // //             children: [
+// // // //               const Padding(
+// // // //                 padding: EdgeInsets.all(16.0),
+// // // //                 child: Text(
+// // // //                   'Review Vessel & Safety Info',
+// // // //                   style: AppTheme.modalTitle,
+// // // //                 ),
+// // // //               ),
+// // // //               Positioned(
+// // // //                 top: 0,
+// // // //                 right: 0,
+// // // //                 child: IconButton(
+// // // //                   icon: const Icon(Icons.close),
+// // // //                   tooltip: 'Close',
+// // // //                   onPressed: () {
+// // // //                     Navigator.of(context).pop();
+// // // //                   },
+// // // //                 ),
+// // // //               ),
+// // // //             ],
+// // // //           ),
+// // // //           content: Column(
+// // // //             mainAxisSize: MainAxisSize.min,
+// // // //             crossAxisAlignment: CrossAxisAlignment.start,
+// // // //             children: [
+// // // //               Text('Boat Name: $boatName'),
+// // // //               Text('Type: $vesselType'),
+// // // //               Text('Length: $vesselLength'),
+// // // //               Text('Description: $vesselDescription'),
+// // // //               Text('Souls Aboard: $adults adults, $children children'),
+// // // //               Text('MMSI: $mmsi'),
+// // // //               Text('Emergency Contact: $emergencyPhone'),
+// // // //               Text("Captain's Phone: $captainPhone"),
+// // // //             ],
+// // // //           ),
+// // // //           actions: [
+// // // //             TextButton(
+// // // //               onPressed: () async {
+// // // //                 await SettingsManager.setEmergencyInfoReviewedNow();
+// // // //                 if (context.mounted) Navigator.of(context).pop();
+// // // //               },
+// // // //               child: const Text('Looks Good'),
+// // // //             ),
+// // // //             TextButton(
+// // // //               onPressed: () {
+// // // //                 Navigator.of(context).pop();
+// // // //                 showEmergencyInfoModal(context);
+// // // //               },
+// // // //               child: const Text('Edit Emergency Info'),
+// // // //             ),
+// // // //           ],
+// // // //         );
+// // // //       },
+// // // //     );
+// // // //   }
+// // // // }
+
+
+// // // //             // TextButton(
+// // // //             //   onPressed: () {
+// // // //             //     Navigator.pop(context);
+// // // //             //     SettingsManager.setEmergencyInfoReviewedNow(); // ✅ this is your actual method name
+// // // //             //   },
+// // // //             //   child: const Text('Looks Good'),
+// // // //             // ),
 
 
 
