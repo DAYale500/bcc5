@@ -1,0 +1,48 @@
+{
+  "id": "lesson_dock_1.00",
+  "title": "L1: Handling Dock Lines JSON",
+  "content": [
+    {
+      "type": "text",
+      "content": "Learn how to approach the dock methodically to ensure smooth arrivals."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Use dock lines effectively to secure the boat in variable conditions."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Crew coordination and preparation makes docking safer and easier."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_1.00",
+      "title": "Using Dock Lines",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is the purpose of dock lines during mooring?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "To secure the vessel to the dock and control its movement."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

@@ -1100,6 +1100,22 @@ File: lib/utils/tour_manager.dart
 
 
 
+File: lib/utils/app_startup_tracker.dart
+// 📄 lib/utils/app_startup_tracker.dart
+
+class AppStartupTracker {
+  static bool reminderAlreadyShown = false;
+}
+
+
+
+
+
+
+
+
+
+
 File: lib/utils/radio_helper.dart
 // 📄 lib/utils/radio_helper.dart
 
@@ -2064,19 +2080,16 @@ import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
+import 'package:bcc5/data/loaders/content_loader.dart';
 import 'package:bcc5/utils/logger.dart';
 
-List<RenderItem> buildRenderItems({required List<String> ids}) {
-  // if (ids.length > 2) {
-  //   logger.d('[Render] ${ids.length} item IDs: $ids');
-  // }
+Future<List<RenderItem>> buildRenderItems({required List<String> ids}) async {
   final items = <RenderItem>[];
   final invalidIds = <String>[];
 
   for (final id in ids) {
-    final item = getContentObject(id);
+    final item = await getContentObject(id);
     if (item != null) {
-      // logger.d('✅ Built RenderItem → id: ${item.id}, type: ${item.type}');
       items.add(item);
     } else {
       logger.w('❌ Failed to resolve RenderItem for id: $id');
@@ -2091,9 +2104,9 @@ List<RenderItem> buildRenderItems({required List<String> ids}) {
   return items;
 }
 
-RenderItem? getContentObject(String id) {
+Future<RenderItem?> getContentObject(String id) async {
   if (id.startsWith('lesson_')) {
-    final lesson = LessonRepositoryIndex.getLessonById(id);
+    final lesson = await ContentLoader.loadLessonById(id);
     if (lesson != null) {
       return RenderItem(
         type: RenderItemType.lesson,
@@ -2151,6 +2164,99 @@ RenderItem? getContentObject(String id) {
   logger.w('❌ getContentObject → no match for id: $id');
   return null;
 }
+
+// import 'package:bcc5/data/models/content_block.dart';
+// import 'package:bcc5/data/models/render_item.dart';
+// import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
+// import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
+// import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
+// import 'package:bcc5/utils/logger.dart';
+
+// List<RenderItem> buildRenderItems({required List<String> ids}) {
+//   // if (ids.length > 2) {
+//   //   logger.d('[Render] ${ids.length} item IDs: $ids');
+//   // }
+//   final items = <RenderItem>[];
+//   final invalidIds = <String>[];
+
+//   for (final id in ids) {
+//     final item = getContentObject(id);
+//     if (item != null) {
+//       // logger.d('✅ Built RenderItem → id: ${item.id}, type: ${item.type}');
+//       items.add(item);
+//     } else {
+//       logger.w('❌ Failed to resolve RenderItem for id: $id');
+//       invalidIds.add(id);
+//     }
+//   }
+
+//   if (invalidIds.isNotEmpty) {
+//     logger.w('⚠️ Invalid RenderItem IDs: $invalidIds');
+//   }
+
+//   return items;
+// }
+
+// RenderItem? getContentObject(String id) {
+//   if (id.startsWith('lesson_')) {
+//     final lesson = LessonRepositoryIndex.getLessonById(id);
+//     if (lesson != null) {
+//       return RenderItem(
+//         type: RenderItemType.lesson,
+//         id: lesson.id,
+//         title: lesson.title,
+//         content: lesson.content,
+//         flashcards: lesson.flashcards,
+//       );
+//     }
+//   }
+
+//   if (id.startsWith('part_')) {
+//     final part = PartRepositoryIndex.getPartById(id);
+//     if (part != null) {
+//       return RenderItem(
+//         type: RenderItemType.part,
+//         id: part.id,
+//         title: part.title,
+//         content: part.content,
+//         flashcards: part.flashcards,
+//       );
+//     }
+//   }
+
+//   if (id.startsWith('tool_')) {
+//     final tool = ToolRepositoryIndex.getToolById(id);
+//     if (tool != null) {
+//       return RenderItem(
+//         type: RenderItemType.tool,
+//         id: tool.id,
+//         title: tool.title,
+//         content: tool.content,
+//         flashcards: tool.flashcards,
+//       );
+//     }
+//   }
+
+//   if (id.startsWith('flashcard_')) {
+//     final flashcard =
+//         LessonRepositoryIndex.getFlashcardById(id) ??
+//         PartRepositoryIndex.getFlashcardById(id) ??
+//         ToolRepositoryIndex.getFlashcardById(id);
+
+//     if (flashcard != null) {
+//       return RenderItem(
+//         type: RenderItemType.flashcard,
+//         id: flashcard.id,
+//         title: flashcard.title,
+//         content: flashcard.sideA + ContentBlock.dividerList() + flashcard.sideB,
+//         flashcards: [flashcard],
+//       );
+//     }
+//   }
+
+//   logger.w('❌ getContentObject → no match for id: $id');
+//   return null;
+// }
 
 
 
@@ -2278,11 +2384,11 @@ class ToolBagScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: GroupButton(
                     label: toolbag.toTitleCase(),
-                    onTap: () {
+                    onTap: () async {
                       logger.d('🛠️ Selected toolbag: $toolbag');
 
                       final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
-                      final renderItems = buildRenderItems(
+                      final renderItems = await buildRenderItems(
                         ids: tools.map((tool) => tool.id).toList(),
                       );
 
@@ -2396,108 +2502,116 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // logger.i('🛠️ ToolItemScreen loaded for toolbag: ${widget.toolbag}');
-
-    return PopScope(
-      canPop: !widget.cameFromMob,
-      onPopInvokedWithResult: (didPop, _) {
-        if (!didPop || widget.cameFromMob) {
-          _handleBack(); // ⬅️ force fallback logic
-        }
-      },
-      child: _buildContent(context),
-    );
-  }
-
-  Widget _buildContent(BuildContext context) {
     final tools = ToolRepositoryIndex.getToolsForBag(widget.toolbag);
     final toolIds = tools.map((t) => t.id).toList();
-    final renderItems = buildRenderItems(ids: toolIds);
     final toolbagTitle = widget.toolbag.toTitleCase();
 
-    return Column(
-      children: [
-        CustomAppBarWidget(
-          title: 'Tools',
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          mobKey: mobKey,
-          settingsKey: settingsKey,
-          searchKey: searchKey,
-          titleKey: titleKey,
-          onBack: _handleBack,
-        ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Tools',
-                    style: AppTheme.branchBreadcrumbStyle,
-                  ),
-                  const TextSpan(
-                    text: ' / ',
-                    style: TextStyle(color: Colors.black87),
-                  ),
-                  TextSpan(
-                    text: toolbagTitle,
-                    style: AppTheme.groupBreadcrumbStyle,
-                  ),
-                ],
+    return FutureBuilder<List<RenderItem>>(
+      future: buildRenderItems(ids: toolIds),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        final renderItems = snapshot.data!;
+
+        return PopScope(
+          canPop: !widget.cameFromMob,
+          onPopInvokedWithResult: (didPop, _) {
+            if (!didPop || widget.cameFromMob) {
+              _handleBack(); // ⬅️ force fallback logic
+            }
+          },
+          child: Column(
+            children: [
+              CustomAppBarWidget(
+                title: 'Tools',
+                showBackButton: true,
+                showSearchIcon: true,
+                showSettingsIcon: true,
+                mobKey: mobKey,
+                settingsKey: settingsKey,
+                searchKey: searchKey,
+                titleKey: titleKey,
+                onBack: _handleBack,
               ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Which ${toolbagTitle.replaceFirst(RegExp(r's$'), '')} would you like?',
-          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 16),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ListView.builder(
-              itemCount: tools.length,
-              itemBuilder: (context, index) {
-                final tool = tools[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: ItemButton(
-                    label: tool.title,
-                    onTap: () {
-                      logger.i('🛠️ Tapped tool: ${tool.id}');
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: RenderItemType.tool,
-                        renderItems: renderItems,
-                        currentIndex: index,
-                        branchIndex: 3,
-                        backDestination: '/tools/items',
-                        backExtra: {
-                          'toolbag': widget.toolbag,
-                          'cameFromMob': widget.cameFromMob,
-                          'fromNext': true,
-                        },
-                        detailRoute: DetailRoute.branch,
-                        direction: SlideDirection.right,
-                        transitionType: TransitionType.slide,
-                        replace: false,
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Tools',
+                          style: AppTheme.branchBreadcrumbStyle,
+                        ),
+                        const TextSpan(
+                          text: ' / ',
+                          style: TextStyle(color: Colors.black87),
+                        ),
+                        TextSpan(
+                          text: toolbagTitle,
+                          style: AppTheme.groupBreadcrumbStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Which ${toolbagTitle.replaceFirst(RegExp(r's$'), '')} would you like?',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: ListView.builder(
+                    itemCount: tools.length,
+                    itemBuilder: (context, index) {
+                      final tool = tools[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: ItemButton(
+                          label: tool.title,
+                          onTap: () {
+                            logger.i('🛠️ Tapped tool: ${tool.id}');
+                            TransitionManager.goToDetailScreen(
+                              context: context,
+                              screenType: renderItems[index].type,
+                              renderItems: renderItems,
+                              currentIndex: index,
+                              branchIndex: 3,
+                              backDestination: '/tools/items',
+                              backExtra: {
+                                'toolbag': widget.toolbag,
+                                'cameFromMob': widget.cameFromMob,
+                                'fromNext': true,
+                              },
+                              detailRoute: DetailRoute.branch,
+                              direction: SlideDirection.right,
+                              transitionType: TransitionType.slide,
+                              replace: false,
+                            );
+                          },
+                        ),
                       );
                     },
                   ),
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
-        ),
-      ],
+        );
+      },
     );
   }
 }
@@ -2796,7 +2910,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                   );
                               if (nextChapter == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     nextChapter.items
                                         .map((e) => e.pathItemId)
@@ -2816,7 +2930,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                               final tools = ToolRepositoryIndex.getToolsForBag(
                                 nextToolbag,
                               );
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids: tools.map((e) => e.id).toList(),
                               );
                             }
@@ -2862,7 +2976,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                               replace: true,
                             );
                           },
-                          onRestartAtFirstGroup: () {
+                          onRestartAtFirstGroup: () async {
                             final isPath =
                                 widget.detailRoute == DetailRoute.path;
 
@@ -2879,7 +2993,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 return;
                               }
 
-                              final renderItems = buildRenderItems(
+                              final renderItems = await buildRenderItems(
                                 ids:
                                     firstChapter.items
                                         .map((e) => e.pathItemId)
@@ -2912,7 +3026,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                   ToolRepositoryIndex.getToolsForBag(
                                     firstToolbag,
                                   );
-                              final renderItems = buildRenderItems(
+                              final renderItems = await buildRenderItems(
                                 ids: firstTools.map((e) => e.id).toList(),
                               );
 
@@ -3331,7 +3445,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                   );
                               if (nextChapter == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     nextChapter.items
                                         .map((e) => e.pathItemId)
@@ -3397,75 +3511,85 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                             );
                           },
                           onRestartAtFirstGroup: () {
-                            if (widget.detailRoute == DetailRoute.path) {
-                              final pathName =
-                                  widget.backExtra?['pathName'] as String?;
-                              final firstChapter =
-                                  pathName == null
-                                      ? null
-                                      : PathRepositoryIndex.getChaptersForPath(
-                                        pathName,
-                                      ).first;
-
-                              if (pathName == null || firstChapter == null) {
-                                return;
-                              }
-
-                              final renderItems = buildRenderItems(
-                                ids:
-                                    firstChapter.items
-                                        .map((e) => e.pathItemId)
-                                        .toList(),
-                              );
-
-                              if (renderItems.isEmpty) return;
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: RenderItemType.flashcard,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination:
-                                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                                backExtra: {
-                                  'chapterId': firstChapter.id,
-                                  'pathName': pathName,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            } else {
-                              final firstCategory = getAllCategories().first;
-                              final firstFlashcards = getFlashcardsForCategory(
-                                firstCategory,
-                              );
-                              final renderItems =
-                                  firstFlashcards
-                                      .map((f) => RenderItem.fromFlashcard(f))
-                                      .toList();
-
-                              if (renderItems.isEmpty) return;
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: RenderItemType.flashcard,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination: '/flashcards/items',
-                                backExtra: {
-                                  'category': firstCategory,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            }
+                            if (!mounted) return;
+                            final localContext = context;
+                            _handleRestart(localContext);
                           },
+
+                          // onRestartAtFirstGroup: () async {
+                          //   final localContext =
+                          //       context; // ✅ Moved to top before anything else
+                          //   if (!mounted) return;
+
+                          //   if (widget.detailRoute == DetailRoute.path) {
+                          //     final pathName =
+                          //         widget.backExtra?['pathName'] as String?;
+                          //     final chapters =
+                          //         pathName == null
+                          //             ? null
+                          //             : PathRepositoryIndex.getChaptersForPath(
+                          //               pathName,
+                          //             );
+
+                          //     if (pathName == null ||
+                          //         chapters == null ||
+                          //         chapters.isEmpty) {
+                          //       return;
+                          //     }
+                          //     final firstChapter = chapters.first;
+
+                          //     final renderItems = await buildRenderItems(
+                          //       ids:
+                          //           firstChapter.items
+                          //               .map((e) => e.pathItemId)
+                          //               .toList(),
+                          //     );
+                          //     if (renderItems.isEmpty) return;
+
+                          //     Future.microtask(() {
+                          //       if (!mounted) return;
+                          //       goToFlashcardDetail(
+                          //         context: localContext,
+                          //         renderItems: renderItems,
+                          //         branchIndex: widget.branchIndex,
+                          //         backDestination:
+                          //             '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                          //         backExtra: {
+                          //           'chapterId': firstChapter.id,
+                          //           'pathName': pathName,
+                          //           'branchIndex': widget.branchIndex,
+                          //         },
+                          //         detailRoute: widget.detailRoute,
+                          //       );
+                          //     });
+                          //   } else {
+                          //     final firstCategory = getAllCategories().first;
+                          //     final firstFlashcards = getFlashcardsForCategory(
+                          //       firstCategory,
+                          //     );
+                          //     final renderItems =
+                          //         firstFlashcards
+                          //             .map((f) => RenderItem.fromFlashcard(f))
+                          //             .toList();
+
+                          //     if (renderItems.isEmpty) return;
+
+                          //     Future.microtask(() {
+                          //       if (!mounted) return;
+                          //       goToFlashcardDetail(
+                          //         context: localContext,
+                          //         renderItems: renderItems,
+                          //         branchIndex: widget.branchIndex,
+                          //         backDestination: '/flashcards/items',
+                          //         backExtra: {
+                          //           'category': firstCategory,
+                          //           'branchIndex': widget.branchIndex,
+                          //         },
+                          //         detailRoute: widget.detailRoute,
+                          //       );
+                          //     });
+                          //   }
+                          // },
                         )
                         : null,
               ),
@@ -3475,6 +3599,83 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       ),
     );
   }
+
+  Future<void> _handleRestart(BuildContext localContext) async {
+    if (!mounted) return;
+
+    if (widget.detailRoute == DetailRoute.path) {
+      final pathName = widget.backExtra?['pathName'] as String?;
+      final chapters =
+          pathName == null
+              ? null
+              : PathRepositoryIndex.getChaptersForPath(pathName);
+
+      if (pathName == null || chapters == null || chapters.isEmpty) return;
+
+      final firstChapter = chapters.first;
+      final renderItems = await buildRenderItems(
+        ids: firstChapter.items.map((e) => e.pathItemId).toList(),
+      );
+      if (renderItems.isEmpty) return;
+
+      if (!localContext.mounted) return;
+      goToFlashcardDetail(
+        context: localContext,
+        renderItems: renderItems,
+        branchIndex: widget.branchIndex,
+        backDestination:
+            '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+        backExtra: {
+          'chapterId': firstChapter.id,
+          'pathName': pathName,
+          'branchIndex': widget.branchIndex,
+        },
+        detailRoute: widget.detailRoute,
+      );
+    } else {
+      final firstCategory = getAllCategories().first;
+      final firstFlashcards = getFlashcardsForCategory(firstCategory);
+      final renderItems =
+          firstFlashcards.map((f) => RenderItem.fromFlashcard(f)).toList();
+
+      if (renderItems.isEmpty) return;
+
+      if (!localContext.mounted) return;
+      goToFlashcardDetail(
+        context: localContext,
+        renderItems: renderItems,
+        branchIndex: widget.branchIndex,
+        backDestination: '/flashcards/items',
+        backExtra: {
+          'category': firstCategory,
+          'branchIndex': widget.branchIndex,
+        },
+        detailRoute: widget.detailRoute,
+      );
+    }
+  }
+}
+
+void goToFlashcardDetail({
+  required BuildContext context,
+  required List<RenderItem> renderItems,
+  required int branchIndex,
+  required String backDestination,
+  required Map<String, dynamic> backExtra,
+  required DetailRoute detailRoute,
+}) {
+  TransitionManager.goToDetailScreen(
+    context: context,
+    screenType: RenderItemType.flashcard,
+    renderItems: renderItems,
+    currentIndex: 0,
+    branchIndex: branchIndex,
+    backDestination: backDestination,
+    backExtra: backExtra,
+    detailRoute: detailRoute,
+    direction: SlideDirection.right,
+    replace: true,
+  );
 }
 
 
@@ -3720,9 +3921,7 @@ class FlashcardItemScreen extends StatelessWidget {
     logger.i('🟦 Entered FlashcardItemScreen for category: $category');
 
     final flashcards = getFlashcardsForCategory(category);
-    final renderItems = buildRenderItems(
-      ids: flashcards.map((fc) => fc.id).toList(),
-    );
+    final ids = flashcards.map((fc) => fc.id).toList();
     final categoryTitle = category.toTitleCase();
 
     final appBar = CustomAppBarWidget(
@@ -3747,112 +3946,123 @@ class FlashcardItemScreen extends StatelessWidget {
       },
     );
 
-    if (flashcards.isEmpty) {
-      return MainScaffold(
-        branchIndex: 4,
-        harborKey: harborKey,
-        coursesKey: coursesKey,
-        partsKey: partsKey,
-        toolsKey: toolsKey,
-        drillsKey: drillsKey,
-        child: Column(
-          children: [
-            appBar,
-            const Expanded(
-              child: Center(
-                child: Text('No flashcards found for this category.'),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+    return FutureBuilder<List<RenderItem>>(
+      future: buildRenderItems(ids: ids),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-    return MainScaffold(
-      branchIndex: 4,
-      harborKey: harborKey,
-      coursesKey: coursesKey,
-      partsKey: partsKey,
-      toolsKey: toolsKey,
-      drillsKey: drillsKey,
-      child: Column(
-        children: [
-          appBar,
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Drills',
-                      style: AppTheme.branchBreadcrumbStyle,
+        final renderItems = snapshot.data!;
+        if (flashcards.isEmpty) {
+          return MainScaffold(
+            branchIndex: 4,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
+            child: Column(
+              children: [
+                appBar,
+                const Expanded(
+                  child: Center(
+                    child: Text('No flashcards found for this category.'),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return MainScaffold(
+          branchIndex: 4,
+          harborKey: harborKey,
+          coursesKey: coursesKey,
+          partsKey: partsKey,
+          toolsKey: toolsKey,
+          drillsKey: drillsKey,
+          child: Column(
+            children: [
+              appBar,
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Drills',
+                          style: AppTheme.branchBreadcrumbStyle,
+                        ),
+                        const TextSpan(
+                          text: ' / ',
+                          style: TextStyle(color: Colors.black87),
+                        ),
+                        TextSpan(
+                          text: categoryTitle,
+                          style: AppTheme.groupBreadcrumbStyle,
+                        ),
+                      ],
                     ),
-                    const TextSpan(
-                      text: ' / ',
-                      style: TextStyle(color: Colors.black87),
-                    ),
-                    TextSpan(
-                      text: categoryTitle,
-                      style: AppTheme.groupBreadcrumbStyle,
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Dive into a challenge.',
-            style: AppTheme.subheadingStyle.copyWith(
-              color: AppTheme.primaryBlue,
-            ),
-            textAlign: TextAlign.center,
-          ),
-
-          const SizedBox(height: 16),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: GridView.builder(
-                itemCount: flashcards.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 4,
-                  childAspectRatio: 2.8,
+              const SizedBox(height: 8),
+              Text(
+                'Dive into a challenge.',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
                 ),
-                itemBuilder: (context, index) {
-                  final card = flashcards[index];
-                  logger.i('📗 Rendering flashcard: ${card.title}');
-
-                  return ItemButton(
-                    label: card.title,
-                    onTap: () {
-                      logger.i('🟧 Tapped flashcard: ${card.title}');
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: RenderItemType.flashcard,
-                        renderItems: renderItems,
-                        currentIndex: index,
-                        branchIndex: 4,
-                        backDestination: '/flashcards/items',
-                        backExtra: {'category': category, 'branchIndex': 4},
-                        detailRoute: DetailRoute.branch,
-                        direction: SlideDirection.right,
-                        transitionType: TransitionType.slide,
-                        replace: false,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: GridView.builder(
+                    itemCount: flashcards.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 4,
+                          mainAxisSpacing: 4,
+                          childAspectRatio: 2.8,
+                        ),
+                    itemBuilder: (context, index) {
+                      final card = flashcards[index];
+                      logger.i('📗 Rendering flashcard: ${card.title}');
+                      return ItemButton(
+                        label: card.title,
+                        onTap: () {
+                          logger.i('🟧 Tapped flashcard: ${card.title}');
+                          TransitionManager.goToDetailScreen(
+                            context: context,
+                            screenType: RenderItemType.flashcard,
+                            renderItems: renderItems,
+                            currentIndex: index,
+                            branchIndex: 4,
+                            backDestination: '/flashcards/items',
+                            backExtra: {'category': category, 'branchIndex': 4},
+                            detailRoute: DetailRoute.branch,
+                            direction: SlideDirection.right,
+                            transitionType: TransitionType.slide,
+                            replace: false,
+                          );
+                        },
                       );
                     },
-                  );
-                },
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -3869,6 +4079,7 @@ class FlashcardItemScreen extends StatelessWidget {
 File: lib/screens/paths/path_item_screen.dart
 // 📄 lib/screens/paths/path_item_screen.dart
 
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
@@ -3906,10 +4117,6 @@ class _PathItemScreenState extends State<PathItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    logger.i(
-      '📘 Building PathItemScreen for path "${widget.pathName}", chapter "${widget.chapterId}"',
-    );
-
     final chapter = PathRepositoryIndex.getChapterById(
       widget.pathName,
       widget.chapterId,
@@ -3923,100 +4130,113 @@ class _PathItemScreenState extends State<PathItemScreen> {
     }
 
     final sequenceIds = chapter.items.map((e) => e.pathItemId).toList();
-    final renderItems = buildRenderItems(ids: sequenceIds);
 
-    logger.i(
-      '🟩 Found chapter "${chapter.title}" with ${renderItems.length} items',
-    );
+    return FutureBuilder<List<RenderItem>>(
+      future: buildRenderItems(ids: sequenceIds),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-    return Column(
-      children: [
-        CustomAppBarWidget(
-          title: widget.pathName.toTitleCase(),
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          mobKey: mobKey,
-          settingsKey: settingsKey,
-          searchKey: searchKey,
-          titleKey: titleKey,
-          onBack: () {
-            logger.i('🔙 Returning to PathChapterScreen');
-            context.go(
-              '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}',
-              extra: {
-                'slideFrom': SlideDirection.left,
-                'transitionType': TransitionType.slide,
-                'detailRoute': DetailRoute.path,
-              },
-            );
-          },
-        ),
-        const SizedBox(height: 16),
-        Text(
-          chapter.title,
-          style: AppTheme.headingStyle.copyWith(
-            fontSize: 20,
-            color: AppTheme.primaryBlue,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Resume your voyage, or chart any path below.',
-          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 16),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListView.builder(
-              itemCount: renderItems.length,
-              itemBuilder: (context, index) {
-                final renderItem = renderItems[index];
-                final title = renderItem.title;
+        final renderItems = snapshot.data!;
+        final isFinalChapter = _isLastChapter(
+          widget.chapterId,
+          widget.pathName,
+        );
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: ItemButton(
-                    label: title,
-                    onTap: () {
-                      logger.i('🟦 Tapped PathItem → $title');
-
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: renderItem.type,
-                        renderItems: renderItems,
-                        currentIndex: index,
-                        branchIndex: 0,
-                        backDestination:
-                            '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                        backExtra: {
-                          'pathName': widget.pathName,
-                          'chapterId': widget.chapterId,
-                        },
-                        detailRoute: DetailRoute.path,
-                        direction: SlideDirection.right,
-                        transitionType: TransitionType.slide,
-                      );
-                    },
-                  ),
+        return Column(
+          children: [
+            CustomAppBarWidget(
+              title: widget.pathName.toTitleCase(),
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
+              onBack: () {
+                logger.i('🔙 Returning to PathChapterScreen');
+                context.go(
+                  '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}',
+                  extra: {
+                    'slideFrom': SlideDirection.left,
+                    'transitionType': TransitionType.slide,
+                    'detailRoute': DetailRoute.path,
+                  },
                 );
               },
             ),
-          ),
-        ),
-        if (chapter.showFlashcardEnding &&
-            _isLastChapter(widget.chapterId, widget.pathName))
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: PathEndingActions(
-              pathName: widget.pathName,
-              chapterId: widget.chapterId,
+            const SizedBox(height: 16),
+            Text(
+              chapter.title,
+              style: AppTheme.headingStyle.copyWith(
+                fontSize: 20,
+                color: AppTheme.primaryBlue,
+              ),
+              textAlign: TextAlign.center,
             ),
-          ),
-      ],
+            const SizedBox(height: 8),
+            Text(
+              'Resume your voyage, or chart any path below.',
+              style: AppTheme.subheadingStyle.copyWith(
+                color: AppTheme.primaryBlue,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: ListView.builder(
+                  itemCount: renderItems.length,
+                  itemBuilder: (context, index) {
+                    final renderItem = renderItems[index];
+                    final title = renderItem.title;
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: ItemButton(
+                        label: title,
+                        onTap: () {
+                          logger.i('🟦 Tapped PathItem → $title');
+
+                          TransitionManager.goToDetailScreen(
+                            context: context,
+                            screenType: renderItem.type,
+                            renderItems: renderItems,
+                            currentIndex: index,
+                            branchIndex: 0,
+                            backDestination:
+                                '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                            backExtra: {
+                              'pathName': widget.pathName,
+                              'chapterId': widget.chapterId,
+                            },
+                            detailRoute: DetailRoute.path,
+                            direction: SlideDirection.right,
+                            transitionType: TransitionType.slide,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            if (chapter.showFlashcardEnding && isFinalChapter)
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: PathEndingActions(
+                  pathName: widget.pathName,
+                  chapterId: widget.chapterId,
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 
@@ -4057,6 +4277,8 @@ import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart';
+import 'package:bcc5/data/models/path_model.dart';
+lib/data/models/path_model.dart
 
 class PathChapterScreen extends StatefulWidget {
   final String pathName;
@@ -4116,109 +4338,123 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  if (chapters.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('No chapters found for this path.'),
-                      ),
-                    );
-                    return;
-                  }
+                  final localContext = context;
+                  if (!localContext.mounted) return;
 
-                  final firstChapter = chapters.first;
-                  final renderItems = buildRenderItems(
-                    ids: firstChapter.items.map((e) => e.pathItemId).toList(),
-                  );
-
-                  if (renderItems.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('This chapter has no items.'),
-                      ),
-                    );
-                    return;
-                  }
-
-                  TransitionManager.goToDetailScreen(
-                    context: context,
-                    screenType: renderItems.first.type,
-                    renderItems: renderItems,
-                    currentIndex: 0,
-                    branchIndex: 0,
-                    backDestination:
-                        '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                    backExtra: {
-                      'pathName': pathName,
-                      'chapterId': firstChapter.id,
-                    },
-                    detailRoute: DetailRoute.path,
-                    direction: SlideDirection.right,
-                  );
+                  _handleSetSail(localContext, chapters);
                 },
+
+                // onPressed: () async {
+                //   if (chapters.isEmpty) {
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       const SnackBar(
+                //         content: Text('No chapters found for this path.'),
+                //       ),
+                //     );
+                //     return;
+                //   }
+
+                //   final firstChapter = chapters.first;
+                //   final renderItems = await buildRenderItems(
+                //     ids: firstChapter.items.map((e) => e.pathItemId).toList(),
+                //   );
+
+                //   if (renderItems.isEmpty) {
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       const SnackBar(
+                //         content: Text('This chapter has no items.'),
+                //       ),
+                //     );
+                //     return;
+                //   }
+
+                //   TransitionManager.goToDetailScreen(
+                //     context: context,
+                //     screenType: renderItems.first.type,
+                //     renderItems: renderItems,
+                //     currentIndex: 0,
+                //     branchIndex: 0,
+                //     backDestination:
+                //         '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                //     backExtra: {
+                //       'pathName': pathName,
+                //       'chapterId': firstChapter.id,
+                //     },
+                //     detailRoute: DetailRoute.path,
+                //     direction: SlideDirection.right,
+                //   );
+                // },
                 style: AppTheme.groupRedButtonStyle,
                 child: const Text('Set sail on a new course'),
               ),
               const SizedBox(height: 12),
               ElevatedButton(
-                onPressed: () async {
-                  final resume = await ResumeManager.getResumePoint();
+                onPressed: () {
+                  final localContext = context;
+                  if (!localContext.mounted) return;
 
-                  if (!context.mounted ||
-                      resume == null ||
-                      resume['pathName'] != pathName) {
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('No resume point for this path.'),
-                        ),
-                      );
-                    }
-                    return;
-                  }
-
-                  final chapter = PathRepositoryIndex.getChapterById(
-                    pathName,
-                    resume['chapterId']!,
-                  );
-                  if (!context.mounted) return;
-                  if (chapter == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Saved chapter not found.')),
-                    );
-                    return;
-                  }
-
-                  final index = chapter.items.indexWhere(
-                    (i) => i.pathItemId == resume['itemId'],
-                  );
-                  if (!context.mounted) return;
-                  if (index == -1) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Saved item not found.')),
-                    );
-                    return;
-                  }
-
-                  final renderItems = buildRenderItems(
-                    ids: chapter.items.map((e) => e.pathItemId).toList(),
-                  );
-
-                  TransitionManager.goToDetailScreen(
-                    context: context,
-                    screenType: renderItems[index].type,
-                    renderItems: renderItems,
-                    currentIndex: index,
-                    branchIndex: 0,
-                    backDestination:
-                        '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                    backExtra: {
-                      'pathName': pathName,
-                      'chapterId': resume['chapterId']!,
-                    },
-                    detailRoute: DetailRoute.path,
-                    direction: SlideDirection.right,
-                  );
+                  _handleResumeVoyage(localContext, widget.pathName);
                 },
+
+                // onPressed: () async {
+                //   final resume = await ResumeManager.getResumePoint();
+
+                //   if (!context.mounted ||
+                //       resume == null ||
+                //       resume['pathName'] != pathName) {
+                //     if (context.mounted) {
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         const SnackBar(
+                //           content: Text('No resume point for this path.'),
+                //         ),
+                //       );
+                //     }
+                //     return;
+                //   }
+
+                //   final chapter = PathRepositoryIndex.getChapterById(
+                //     pathName,
+                //     resume['chapterId']!,
+                //   );
+                //   if (!context.mounted) return;
+                //   if (chapter == null) {
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       const SnackBar(content: Text('Saved chapter not found.')),
+                //     );
+                //     return;
+                //   }
+
+                //   final index = chapter.items.indexWhere(
+                //     (i) => i.pathItemId == resume['itemId'],
+                //   );
+                //   if (!context.mounted) return;
+                //   if (index == -1) {
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       const SnackBar(content: Text('Saved item not found.')),
+                //     );
+                //     return;
+                //   }
+
+                //   final renderItems = await buildRenderItems(
+                //     ids: chapter.items.map((e) => e.pathItemId).toList(),
+                //   );
+
+                //   TransitionManager.goToDetailScreen(
+                //     context: context,
+                //     screenType: renderItems[index].type,
+                //     renderItems: renderItems,
+                //     currentIndex: index,
+                //     branchIndex: 0,
+                //     backDestination:
+                //         '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                //     backExtra: {
+                //       'pathName': pathName,
+                //       'chapterId': resume['chapterId']!,
+                //     },
+                //     detailRoute: DetailRoute.path,
+                //     direction: SlideDirection.right,
+                //   );
+                // },
                 style: AppTheme.groupRedButtonStyle,
                 child: const Text('Resume your voyage'),
               ),
@@ -4235,7 +4471,7 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: titles.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (_, index) {
                 final title = titles[index];
                 final chapter = chapters[index];
@@ -4261,6 +4497,109 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
             ),
           ),
       ],
+    );
+  }
+
+  Future<void> _handleSetSail(
+    BuildContext localContext,
+  List<Chapter> chapters,
+  ) async {
+    if (!localContext.mounted) return;
+
+    if (chapters.isEmpty) {
+      ScaffoldMessenger.of(localContext).showSnackBar(
+        const SnackBar(content: Text('No chapters found for this path.')),
+      );
+      return;
+    }
+
+    final firstChapter = chapters.first;
+    final renderItems = await buildRenderItems(
+      ids: firstChapter.items.map((e) => e.pathItemId).toList(),
+    );
+
+    if (!localContext.mounted) return;
+
+    if (renderItems.isEmpty) {
+      ScaffoldMessenger.of(localContext).showSnackBar(
+        const SnackBar(content: Text('This chapter has no items.')),
+      );
+      return;
+    }
+
+    TransitionManager.goToDetailScreen(
+      context: localContext,
+      screenType: renderItems.first.type,
+      renderItems: renderItems,
+      currentIndex: 0,
+      branchIndex: 0,
+      backDestination:
+          '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}/items',
+      backExtra: {'pathName': widget.pathName, 'chapterId': firstChapter.id},
+      detailRoute: DetailRoute.path,
+      direction: SlideDirection.right,
+    );
+  }
+
+  Future<void> _handleResumeVoyage(
+    BuildContext localContext,
+    String pathName,
+  ) async {
+    if (!localContext.mounted) return;
+
+    final resume = await ResumeManager.getResumePoint();
+
+    if (!localContext.mounted ||
+        resume == null ||
+        resume['pathName'] != pathName) {
+      if (localContext.mounted) {
+        ScaffoldMessenger.of(localContext).showSnackBar(
+          const SnackBar(content: Text('No resume point for this path.')),
+        );
+      }
+      return;
+    }
+
+    final chapter = PathRepositoryIndex.getChapterById(
+      pathName,
+      resume['chapterId']!,
+    );
+    if (!localContext.mounted) return;
+    if (chapter == null) {
+      ScaffoldMessenger.of(
+        localContext,
+      ).showSnackBar(const SnackBar(content: Text('Saved chapter not found.')));
+      return;
+    }
+
+    final index = chapter.items.indexWhere(
+      (i) => i.pathItemId == resume['itemId'],
+    );
+    if (!localContext.mounted) return;
+    if (index == -1) {
+      ScaffoldMessenger.of(
+        localContext,
+      ).showSnackBar(const SnackBar(content: Text('Saved item not found.')));
+      return;
+    }
+
+    final renderItems = await buildRenderItems(
+      ids: chapter.items.map((e) => e.pathItemId).toList(),
+    );
+
+    if (!localContext.mounted) return;
+
+    TransitionManager.goToDetailScreen(
+      context: localContext,
+      screenType: renderItems[index].type,
+      renderItems: renderItems,
+      currentIndex: index,
+      branchIndex: 0,
+      backDestination:
+          '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+      backExtra: {'pathName': pathName, 'chapterId': resume['chapterId']!},
+      detailRoute: DetailRoute.path,
+      direction: SlideDirection.right,
     );
   }
 }
@@ -4897,6 +5236,7 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/tour/landing_screen_tour.dart';
+import 'package:bcc5/utils/app_startup_tracker.dart';
 
 class LandingScreen extends StatefulWidget {
   final bool showReminder;
@@ -4948,7 +5288,6 @@ class LandingScreenState extends State<LandingScreen> {
   GlobalKey get settingsKey => _keySettingsIcon;
   GlobalKey get titleKey => _keyAppBarTitle;
   GlobalKey get searchKey => _keySearchIcon;
-  bool _reminderAlreadyShown = false;
 
   @override
   void initState() {
@@ -4956,7 +5295,11 @@ class LandingScreenState extends State<LandingScreen> {
     LandingScreen._state = this;
 
     logger.i('🧭 LandingScreenState.initState() called');
-    logger.i('🧭 showReminder = ${widget.showReminder}');
+    logger.i(
+      '🧭 AppStartupTracker.reminderAlreadyShown = ${AppStartupTracker.reminderAlreadyShown}',
+    );
+    logger.i('🧭 widget.showReminder = ${widget.showReminder}');
+    logger.i('🧭 widget.startTour = ${widget.startTour}');
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (widget.startTour || await LandingScreenTour.shouldStart()) {
@@ -4978,53 +5321,93 @@ class LandingScreenState extends State<LandingScreen> {
       }
     });
 
-    if (!_reminderAlreadyShown) {
-      _reminderAlreadyShown = true;
+    if (!AppStartupTracker.reminderAlreadyShown) {
+      logger.i('🧭 Reminder has NOT been shown yet. Proceeding to check...');
 
-      SettingsManager.shouldShowEmergencyReminder().then((shouldShow) {
-        if (shouldShow) {
-          logger.i('🧭 Scheduling 2s delayed dialog...');
+      AppStartupTracker.reminderAlreadyShown = true;
+
+      Future<bool> isTourPlanned() async {
+        final tourFromWidget = widget.startTour;
+        final tourFromSettings = await LandingScreenTour.shouldStart();
+        logger.i(
+          '🧭 Tour check — from widget: $tourFromWidget, from settings: $tourFromSettings',
+        );
+        return tourFromWidget || tourFromSettings;
+      }
+
+      SettingsManager.shouldShowEmergencyReminder().then((shouldShow) async {
+        logger.i(
+          '🧭 SettingsManager.shouldShowEmergencyReminder = $shouldShow',
+        );
+        final tourPlanned = await isTourPlanned();
+        logger.i(
+          '🧭 Final condition — shouldShow: $shouldShow, tourPlanned: $tourPlanned',
+        );
+
+        if (shouldShow && !tourPlanned) {
+          logger.i('🧭 ✅ Showing reminder (2s delay)...');
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Future.delayed(const Duration(seconds: 2), () {
               if (mounted) {
-                logger.i('🧭 Triggering showEmergencyReminderDialog()');
+                logger.i('🧭 ✅ showEmergencyReminderDialog(context)');
                 showEmergencyReminderDialog(context);
+              } else {
+                logger.w('⚠️ Skipped dialog — widget not mounted');
               }
             });
           });
+        } else {
+          logger.i(
+            '🧭 ⛔ Skipping reminder — already shown or tour in progress',
+          );
         }
       });
+    } else {
+      logger.i('🧭 Reminder already shown this session. Skipping.');
     }
 
-    // if (widget.showReminder) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     showDialog(
-    //       context: context,
-    //       builder:
-    //           (_) => AlertDialog(
-    //             title: const Text('Update Vessel Info'),
-    //             content: const Text(
-    //               'Review your vessel info to ensure emergency details are up to date.',
-    //             ),
-    //             actions: [
-    //               TextButton(
-    //                 onPressed: () => Navigator.pop(context),
-    //                 child: const Text("Info is accurate"),
-    //               ),
-    //               TextButton(
-    //                 onPressed: () {
-    //                   Navigator.pop(context);
-    //                   final routeName =
-    //                       GoRouter.of(
-    //                         context,
-    //                       ).routeInformationProvider.value.uri.path;
-    //                   showSettingsModal(context, routeName);
-    //                 },
-    //                 child: const Text("Update Now"),
-    //               ),
-    //             ],
-    //           ),
-    //     );
+    // if (!_reminderAlreadyShown) {
+    //   _reminderAlreadyShown = true;
+
+    //   Future<bool> isTourPlanned() async {
+    //     return widget.startTour || await LandingScreenTour.shouldStart();
+    //   }
+
+    //   SettingsManager.shouldShowEmergencyReminder().then((shouldShow) async {
+    //     final tourPlanned = await isTourPlanned();
+    //     if (shouldShow && !tourPlanned) {
+    //       logger.i('🧭 Scheduling 2s delayed dialog (tour not running)...');
+    //       WidgetsBinding.instance.addPostFrameCallback((_) {
+    //         Future.delayed(const Duration(seconds: 2), () {
+    //           if (mounted) {
+    //             logger.i('🧭 Triggering showEmergencyReminderDialog()');
+    //             showEmergencyReminderDialog(context);
+    //           }
+    //         });
+    //       });
+    //     } else {
+    //       logger.i(
+    //         '🧭 Skipping emergency reminder on first-ever launch (tourPlanned: $tourPlanned)',
+    //       );
+    //     }
+    //   });
+    // }
+
+    // if (!_reminderAlreadyShown) {
+    //   _reminderAlreadyShown = true;
+
+    //   SettingsManager.shouldShowEmergencyReminder().then((shouldShow) {
+    //     if (shouldShow) {
+    //       logger.i('🧭 Scheduling 2s delayed dialog...');
+    //       WidgetsBinding.instance.addPostFrameCallback((_) {
+    //         Future.delayed(const Duration(seconds: 2), () {
+    //           if (mounted) {
+    //             logger.i('🧭 Triggering showEmergencyReminderDialog()');
+    //             showEmergencyReminderDialog(context);
+    //           }
+    //         });
+    //       });
+    //     }
     //   });
     // }
   }
@@ -5220,111 +5603,119 @@ class PartItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<PartItem> filteredParts = PartRepositoryIndex.getPartsForZone(
-      zone.toLowerCase(),
-    );
-
-    final List<String> sequenceIds = filteredParts.map((p) => p.id).toList();
-    final List<RenderItem> renderItems = buildRenderItems(ids: sequenceIds);
-
-    // logger.i('🟦 Displaying PartItemScreen (Zone: $zone)');
-
-    // 🔑 Local ownership of GlobalKeys
     final mobKey = GlobalKey(debugLabel: 'MOBKey');
     final settingsKey = GlobalKey(debugLabel: 'SettingsKey');
     final searchKey = GlobalKey(debugLabel: 'SearchKey');
     final titleKey = GlobalKey(debugLabel: 'TitleKey');
 
-    return Column(
-      children: [
-        CustomAppBarWidget(
-          title: 'Parts',
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          mobKey: mobKey,
-          settingsKey: settingsKey,
-          searchKey: searchKey,
-          titleKey: titleKey,
-          onBack: () {
-            logger.i('🔙 AppBar back from PartItemScreen');
-            context.go(
-              '/parts',
-              extra: {
-                'slideFrom': SlideDirection.left,
-                'transitionType': TransitionType.slide,
-                'detailRoute': DetailRoute.branch,
-              },
-            );
-          },
-        ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Parts',
-                    style: AppTheme.branchBreadcrumbStyle,
-                  ),
-                  const TextSpan(
-                    text: ' / ',
-                    style: TextStyle(color: Colors.black87),
-                  ),
-                  TextSpan(
-                    text: zone.toTitleCase(),
-                    style: AppTheme.groupBreadcrumbStyle,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+    final List<PartItem> filteredParts = PartRepositoryIndex.getPartsForZone(
+      zone.toLowerCase(),
+    );
+    final List<String> sequenceIds = filteredParts.map((p) => p.id).toList();
 
-        const SizedBox(height: 12),
-        Text(
-          'Choose a Part',
-          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
-        ),
-        const SizedBox(height: 12),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListView.builder(
-              itemCount: filteredParts.length,
-              itemBuilder: (context, index) {
-                final part = filteredParts[index];
+    return FutureBuilder<List<RenderItem>>(
+      future: buildRenderItems(ids: sequenceIds),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: ItemButton(
-                    label: part.title,
-                    onTap: () {
-                      logger.i('🟥 Tapped part: ${part.id}');
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: renderItems[index].type,
-                        renderItems: renderItems,
-                        currentIndex: index,
-                        branchIndex: 2,
-                        backDestination: '/parts/items',
-                        backExtra: {'zone': zone},
-                        detailRoute: DetailRoute.branch,
-                        direction: SlideDirection.right,
-                        transitionType: TransitionType.slide,
-                        replace: false,
-                      );
-                    },
-                  ),
+        final renderItems = snapshot.data!;
+
+        return Column(
+          children: [
+            CustomAppBarWidget(
+              title: 'Parts',
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
+              onBack: () {
+                logger.i('🔙 AppBar back from PartItemScreen');
+                context.go(
+                  '/parts',
+                  extra: {
+                    'slideFrom': SlideDirection.left,
+                    'transitionType': TransitionType.slide,
+                    'detailRoute': DetailRoute.branch,
+                  },
                 );
               },
             ),
-          ),
-        ),
-      ],
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Parts',
+                        style: AppTheme.branchBreadcrumbStyle,
+                      ),
+                      const TextSpan(
+                        text: ' / ',
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      TextSpan(
+                        text: zone.toTitleCase(),
+                        style: AppTheme.groupBreadcrumbStyle,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Choose a Part',
+              style: AppTheme.subheadingStyle.copyWith(
+                color: AppTheme.primaryBlue,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: ListView.builder(
+                  itemCount: filteredParts.length,
+                  itemBuilder: (context, index) {
+                    final part = filteredParts[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: ItemButton(
+                        label: part.title,
+                        onTap: () {
+                          logger.i('🟥 Tapped part: ${part.id}');
+                          TransitionManager.goToDetailScreen(
+                            context: context,
+                            screenType: renderItems[index].type,
+                            renderItems: renderItems,
+                            currentIndex: index,
+                            branchIndex: 2,
+                            backDestination: '/parts/items',
+                            backExtra: {'zone': zone},
+                            detailRoute: DetailRoute.branch,
+                            direction: SlideDirection.right,
+                            transitionType: TransitionType.slide,
+                            replace: false,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -5432,12 +5823,12 @@ class PartItemScreen extends StatelessWidget {
 
                 return ItemButton(
                   label: part.title,
-                  onTap: () {
+                  onTap: () async {
                     logger.i('🟥 Tapped part: ${part.id}');
                     context.push(
                       '/parts/detail',
                       extra: {
-                        'renderItems': buildRenderItems(ids: sequenceIds),
+                        'renderItems': await buildRenderItems(ids: sequenceIds),
                         'currentIndex': index,
                         'branchIndex': 2,
                         'backDestination': '/parts/items',
@@ -5742,7 +6133,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                   );
                               if (nextChapter == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     nextChapter.items
                                         .map((e) => e.pathItemId)
@@ -5759,7 +6150,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                   );
                               if (nextZoneId == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     PartRepositoryIndex.getPartsForZone(
                                       nextZoneId,
@@ -5805,33 +6196,10 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                             );
                           },
                           onRestartAtFirstGroup: () {
-                            final firstZoneId =
-                                PartRepositoryIndex.getZoneNames().first;
-                            final firstItems =
-                                PartRepositoryIndex.getPartsForZone(
-                                  firstZoneId,
-                                );
-                            final renderItems = buildRenderItems(
-                              ids: firstItems.map((p) => p.id).toList(),
-                            );
+                            final localContext = context;
+                            if (!localContext.mounted) return;
 
-                            if (renderItems.isEmpty) return;
-
-                            TransitionManager.goToDetailScreen(
-                              context: context,
-                              screenType: RenderItemType.part,
-                              renderItems: renderItems,
-                              currentIndex: 0,
-                              branchIndex: widget.branchIndex,
-                              backDestination: '/parts/items',
-                              backExtra: {
-                                'zone': firstZoneId,
-                                'branchIndex': widget.branchIndex,
-                              },
-                              detailRoute: widget.detailRoute,
-                              direction: SlideDirection.right,
-                              replace: true,
-                            );
+                            _handleRestartPartGroup(localContext);
                           },
                         )
                         : null,
@@ -5840,6 +6208,31 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _handleRestartPartGroup(BuildContext localContext) async {
+    if (!localContext.mounted) return;
+
+    final firstZoneId = PartRepositoryIndex.getZoneNames().first;
+    final firstItems = PartRepositoryIndex.getPartsForZone(firstZoneId);
+    final renderItems = await buildRenderItems(
+      ids: firstItems.map((p) => p.id).toList(),
+    );
+
+    if (!localContext.mounted || renderItems.isEmpty) return;
+
+    TransitionManager.goToDetailScreen(
+      context: localContext,
+      screenType: RenderItemType.part,
+      renderItems: renderItems,
+      currentIndex: 0,
+      branchIndex: widget.branchIndex,
+      backDestination: '/parts/items',
+      backExtra: {'zone': firstZoneId, 'branchIndex': widget.branchIndex},
+      detailRoute: widget.detailRoute,
+      direction: SlideDirection.right,
+      replace: true,
     );
   }
 }
@@ -6332,7 +6725,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                   );
                               if (nextChapter == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     nextChapter.items
                                         .map((e) => e.pathItemId)
@@ -6353,7 +6746,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                   LessonRepositoryIndex.getLessonsForModule(
                                     nextModuleId,
                                   );
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids: nextLessons.map((l) => l.id).toList(),
                               );
                             }
@@ -6418,19 +6811,23 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                               );
                             }
                           },
-                          onRestartAtFirstGroup: () {
+                          onRestartAtFirstGroup: () async {
                             final firstModuleId =
                                 LessonRepositoryIndex.getModuleNames().first;
                             final firstLessons =
                                 LessonRepositoryIndex.getLessonsForModule(
                                   firstModuleId,
                                 );
-                            final renderItems = buildRenderItems(
+                            final renderItems = await buildRenderItems(
                               ids: firstLessons.map((l) => l.id).toList(),
                             );
 
-                            if (renderItems.isEmpty) return;
-
+                            if ((await buildRenderItems(
+                              ids: firstLessons.map((l) => l.id).toList(),
+                            )).isEmpty) {
+                              return;
+                            }
+                            if (!mounted) return;
                             TransitionManager.goToDetailScreen(
                               context: context,
                               screenType: RenderItemType.lesson,
@@ -6468,6 +6865,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
 
 
 File: lib/screens/lessons/lesson_item_screen.dart
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/transition_manager.dart';
@@ -6489,106 +6887,116 @@ class LessonItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // logger.i('📘 LessonItemScreen loaded for module: $module');
-
     final lessons = LessonRepositoryIndex.getLessonsForModule(module);
-    final renderItems = buildRenderItems(
-      ids: lessons.map((l) => l.id).toList(),
-    );
+    final ids = lessons.map((l) => l.id).toList();
     final moduleTitle = module.toTitleCase();
 
-    return Column(
-      children: [
-        CustomAppBarWidget(
-          title: 'Courses',
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          onBack: () {
-            logger.i('🔙 Back tapped → /lessons');
-            context.go(
-              '/lessons',
-              extra: {
-                'transitionKey':
-                    'return_from_items_${DateTime.now().millisecondsSinceEpoch}',
-                'slideFrom': SlideDirection.left,
-                'transitionType': TransitionType.slide,
-              },
-            );
-          },
-        ),
+    return FutureBuilder<List<RenderItem>>(
+      future: buildRenderItems(ids: ids),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-        // 🧭 Breadcrumb below AppBar
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Courses',
-                    style: AppTheme.branchBreadcrumbStyle,
-                  ),
-                  const TextSpan(
-                    text: ' / ',
-                    style: TextStyle(color: Colors.black87),
-                  ),
-                  TextSpan(
-                    text: moduleTitle,
-                    style: AppTheme.groupBreadcrumbStyle,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        final renderItems = snapshot.data!;
 
-        const SizedBox(height: 16),
-        Text(
-          '$moduleTitle:\nDive in to any course below.',
-          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 16),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: ListView.builder(
-              itemCount: lessons.length,
-              itemBuilder: (context, index) {
-                final lesson = lessons[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: ItemButton(
-                    label: lesson.title,
-                    onTap: () {
-                      logger.i('📘 Tapped lesson: ${lesson.id}');
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: renderItems[index].type,
-                        renderItems: renderItems,
-                        currentIndex: index,
-                        branchIndex: 1,
-                        backDestination: '/lessons/items',
-                        backExtra: {
-                          'module': module,
-                          'branchIndex': 1,
-                          'detailRoute': DetailRoute.branch,
-                        },
-                        detailRoute: DetailRoute.branch,
-                        direction: SlideDirection.right,
-                        transitionType: TransitionType.slide,
-                        replace: false,
-                      );
-                    },
-                  ),
+        return Column(
+          children: [
+            CustomAppBarWidget(
+              title: 'Courses',
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              onBack: () {
+                logger.i('🔙 Back tapped → /lessons');
+                context.go(
+                  '/lessons',
+                  extra: {
+                    'transitionKey':
+                        'return_from_items_${DateTime.now().millisecondsSinceEpoch}',
+                    'slideFrom': SlideDirection.left,
+                    'transitionType': TransitionType.slide,
+                  },
                 );
               },
             ),
-          ),
-        ),
-      ],
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 16.0,
+                left: 16.0,
+                right: 16.0,
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Courses',
+                        style: AppTheme.branchBreadcrumbStyle,
+                      ),
+                      const TextSpan(
+                        text: ' / ',
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      TextSpan(
+                        text: moduleTitle,
+                        style: AppTheme.groupBreadcrumbStyle,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '$moduleTitle:\nDive in to any course below.',
+              style: AppTheme.subheadingStyle.copyWith(
+                color: AppTheme.primaryBlue,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: ListView.builder(
+                  itemCount: lessons.length,
+                  itemBuilder: (context, index) {
+                    final lesson = lessons[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: ItemButton(
+                        label: lesson.title,
+                        onTap: () {
+                          logger.i('📘 Tapped lesson: ${lesson.id}');
+                          TransitionManager.goToDetailScreen(
+                            context: context,
+                            screenType: renderItems[index].type,
+                            renderItems: renderItems,
+                            currentIndex: index,
+                            branchIndex: 1,
+                            backDestination: '/lessons/items',
+                            backExtra: {
+                              'module': module,
+                              'branchIndex': 1,
+                              'detailRoute': DetailRoute.branch,
+                            },
+                            detailRoute: DetailRoute.branch,
+                            direction: SlideDirection.right,
+                            transitionType: TransitionType.slide,
+                            replace: false,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -6670,7 +7078,7 @@ class _LessonModuleScreenState extends State<LessonModuleScreen> {
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: moduleNames.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final moduleName = moduleNames[index];
                 final label = moduleName.toTitleCase(); // ✅ Title Case
@@ -7566,6 +7974,20 @@ class ContentBlock {
 
   // Optional convenience getter
   List<String>? get bullets => bulletList;
+
+  factory ContentBlock.fromJson(Map<String, dynamic> json) {
+    final type = json['type'] as String;
+    final content = json['content'] as String;
+
+    switch (type) {
+      case 'text':
+        return ContentBlock.text(content);
+      case 'image':
+        return ContentBlock.image(content);
+      default:
+        throw ArgumentError('Unsupported ContentBlock type: $type');
+    }
+  }
 }
 
 
@@ -7628,6 +8050,23 @@ class Lesson {
     required this.flashcards,
     required this.isPaid,
   });
+
+  factory Lesson.fromJson(Map<String, dynamic> json) {
+    return Lesson(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      content:
+          (json['content'] as List)
+              .map((item) => ContentBlock.fromJson(item))
+              .toList(),
+      keywords: List<String>.from(json['keywords'] ?? []),
+      flashcards:
+          (json['flashcards'] as List? ?? [])
+              .map((item) => Flashcard.fromJson(item))
+              .toList(),
+      isPaid: json['isPaid'] ?? false,
+    );
+  }
 }
 
 
@@ -7733,6 +8172,23 @@ class Flashcard {
     required this.showAFirst,
   }) : sideA = sideA ?? [],
        sideB = sideB ?? [];
+
+  factory Flashcard.fromJson(Map<String, dynamic> json) {
+    return Flashcard(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      sideA:
+          (json['sideA'] as List)
+              .map((item) => ContentBlock.fromJson(item))
+              .toList(),
+      sideB:
+          (json['sideB'] as List)
+              .map((item) => ContentBlock.fromJson(item))
+              .toList(),
+      isPaid: json['isPaid'] ?? false,
+      showAFirst: json['showAFirst'] ?? true,
+    );
+  }
 }
 
 
@@ -7784,6 +8240,40 @@ class RenderItem {
       content: flashcard.sideA, // or empty list if irrelevant
       flashcards: [flashcard],
     );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/loaders/content_loader.dart
+import 'package:bcc5/data/models/lesson_model.dart';
+import 'package:bcc5/data/repositories/lessons/json_lesson_repository.dart';
+import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart'; // legacy fallback
+import 'package:bcc5/utils/logger.dart';
+
+class ContentLoader {
+  static final _lessonCache = <String, Lesson?>{};
+
+  static Future<Lesson?> loadLessonById(String id) async {
+    if (_lessonCache.containsKey(id)) return _lessonCache[id];
+
+    final jsonLesson = await JsonLessonRepository.loadById(id);
+    if (jsonLesson != null) {
+      _lessonCache[id] = jsonLesson;
+      return jsonLesson;
+    }
+
+    logger.w('⚠️ Falling back to Dart for $id');
+    final fallback = LessonRepositoryIndex.getLessonById(id);
+    _lessonCache[id] = fallback;
+    return fallback;
   }
 }
 
@@ -8202,8 +8692,8 @@ class _SearchModalState extends State<SearchModal> {
     });
   }
 
-  void _navigateToResult(SearchResult result) {
-    final renderItems = buildRenderItems(ids: [result.id]);
+  Future<void> _navigateToResult(SearchResult result) async {
+    final renderItems = await buildRenderItems(ids: [result.id]);
     final timestamp = DateTime.now().millisecondsSinceEpoch;
 
     final detailRoute = switch (result.type) {
@@ -8258,7 +8748,7 @@ class _SearchModalState extends State<SearchModal> {
           Expanded(
             child: ListView.separated(
               itemCount: _filteredResults.length,
-              separatorBuilder: (_, __) => const Divider(height: 1),
+              separatorBuilder: (_, _) => const Divider(height: 1),
               itemBuilder: (context, index) {
                 final result = _filteredResults[index];
                 return ListTile(
@@ -9569,18 +10059,18 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
                     },
                   ),
                   settingTextField(
-                    label: "Captain's Phone",
-                    initialValueFuture: SettingsManager.getCaptainPhone(),
-                    onChanged: (value) async {
-                      await SettingsManager.setCaptainPhone(value);
-                      if (onChanged != null) onChanged();
-                    },
-                  ),
-                  settingTextField(
                     label: 'Coast Guard Emergency Number',
                     initialValueFuture: SettingsManager.getCoastGuardPhone(),
                     onChanged: (value) async {
                       await SettingsManager.setCoastGuardPhone(value);
+                      if (onChanged != null) onChanged();
+                    },
+                  ),
+                  settingTextField(
+                    label: "Captain's Phone",
+                    initialValueFuture: SettingsManager.getCaptainPhone(),
+                    onChanged: (value) async {
+                      await SettingsManager.setCaptainPhone(value);
                       if (onChanged != null) onChanged();
                     },
                   ),

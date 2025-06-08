@@ -124,9 +124,11 @@ class _SearchModalState extends State<SearchModal> {
     });
   }
 
-  void _navigateToResult(SearchResult result) {
-    final renderItems = buildRenderItems(ids: [result.id]);
+  Future<void> _navigateToResult(SearchResult result) async {
+    final renderItems = await buildRenderItems(ids: [result.id]);
     final timestamp = DateTime.now().millisecondsSinceEpoch;
+
+    if (!mounted) return; // ✅ Dart-safe context use
 
     final detailRoute = switch (result.type) {
       RenderItemType.lesson => DetailRoute.branch,

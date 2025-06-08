@@ -1,5 +1,6 @@
 // 📄 lib/screens/paths/path_item_screen.dart
 
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
@@ -37,10 +38,6 @@ class _PathItemScreenState extends State<PathItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    logger.i(
-      '📘 Building PathItemScreen for path "${widget.pathName}", chapter "${widget.chapterId}"',
-    );
-
     final chapter = PathRepositoryIndex.getChapterById(
       widget.pathName,
       widget.chapterId,
@@ -54,100 +51,113 @@ class _PathItemScreenState extends State<PathItemScreen> {
     }
 
     final sequenceIds = chapter.items.map((e) => e.pathItemId).toList();
-    final renderItems = buildRenderItems(ids: sequenceIds);
 
-    logger.i(
-      '🟩 Found chapter "${chapter.title}" with ${renderItems.length} items',
-    );
+    return FutureBuilder<List<RenderItem>>(
+      future: buildRenderItems(ids: sequenceIds),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-    return Column(
-      children: [
-        CustomAppBarWidget(
-          title: widget.pathName.toTitleCase(),
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          mobKey: mobKey,
-          settingsKey: settingsKey,
-          searchKey: searchKey,
-          titleKey: titleKey,
-          onBack: () {
-            logger.i('🔙 Returning to PathChapterScreen');
-            context.go(
-              '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}',
-              extra: {
-                'slideFrom': SlideDirection.left,
-                'transitionType': TransitionType.slide,
-                'detailRoute': DetailRoute.path,
-              },
-            );
-          },
-        ),
-        const SizedBox(height: 16),
-        Text(
-          chapter.title,
-          style: AppTheme.headingStyle.copyWith(
-            fontSize: 20,
-            color: AppTheme.primaryBlue,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Resume your voyage, or chart any path below.',
-          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 16),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ListView.builder(
-              itemCount: renderItems.length,
-              itemBuilder: (context, index) {
-                final renderItem = renderItems[index];
-                final title = renderItem.title;
+        final renderItems = snapshot.data!;
+        final isFinalChapter = _isLastChapter(
+          widget.chapterId,
+          widget.pathName,
+        );
 
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: ItemButton(
-                    label: title,
-                    onTap: () {
-                      logger.i('🟦 Tapped PathItem → $title');
-
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: renderItem.type,
-                        renderItems: renderItems,
-                        currentIndex: index,
-                        branchIndex: 0,
-                        backDestination:
-                            '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                        backExtra: {
-                          'pathName': widget.pathName,
-                          'chapterId': widget.chapterId,
-                        },
-                        detailRoute: DetailRoute.path,
-                        direction: SlideDirection.right,
-                        transitionType: TransitionType.slide,
-                      );
-                    },
-                  ),
+        return Column(
+          children: [
+            CustomAppBarWidget(
+              title: widget.pathName.toTitleCase(),
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              mobKey: mobKey,
+              settingsKey: settingsKey,
+              searchKey: searchKey,
+              titleKey: titleKey,
+              onBack: () {
+                logger.i('🔙 Returning to PathChapterScreen');
+                context.go(
+                  '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}',
+                  extra: {
+                    'slideFrom': SlideDirection.left,
+                    'transitionType': TransitionType.slide,
+                    'detailRoute': DetailRoute.path,
+                  },
                 );
               },
             ),
-          ),
-        ),
-        if (chapter.showFlashcardEnding &&
-            _isLastChapter(widget.chapterId, widget.pathName))
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: PathEndingActions(
-              pathName: widget.pathName,
-              chapterId: widget.chapterId,
+            const SizedBox(height: 16),
+            Text(
+              chapter.title,
+              style: AppTheme.headingStyle.copyWith(
+                fontSize: 20,
+                color: AppTheme.primaryBlue,
+              ),
+              textAlign: TextAlign.center,
             ),
-          ),
-      ],
+            const SizedBox(height: 8),
+            Text(
+              'Resume your voyage, or chart any path below.',
+              style: AppTheme.subheadingStyle.copyWith(
+                color: AppTheme.primaryBlue,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: ListView.builder(
+                  itemCount: renderItems.length,
+                  itemBuilder: (context, index) {
+                    final renderItem = renderItems[index];
+                    final title = renderItem.title;
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: ItemButton(
+                        label: title,
+                        onTap: () {
+                          logger.i('🟦 Tapped PathItem → $title');
+
+                          TransitionManager.goToDetailScreen(
+                            context: context,
+                            screenType: renderItem.type,
+                            renderItems: renderItems,
+                            currentIndex: index,
+                            branchIndex: 0,
+                            backDestination:
+                                '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                            backExtra: {
+                              'pathName': widget.pathName,
+                              'chapterId': widget.chapterId,
+                            },
+                            detailRoute: DetailRoute.path,
+                            direction: SlideDirection.right,
+                            transitionType: TransitionType.slide,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            if (chapter.showFlashcardEnding && isFinalChapter)
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: PathEndingActions(
+                  pathName: widget.pathName,
+                  chapterId: widget.chapterId,
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 

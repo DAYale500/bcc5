@@ -92,38 +92,98 @@ class ToolBagScreen extends StatelessWidget {
                   child: GroupButton(
                     label: toolbag.toTitleCase(),
                     onTap: () {
-                      logger.d('🛠️ Selected toolbag: $toolbag');
+                      final toolbagCopy = toolbag; // Avoid capture in async gap
+                      final contextCopy = context; // Safe for closure
 
-                      final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
-                      final renderItems = buildRenderItems(
-                        ids: tools.map((tool) => tool.id).toList(),
-                      );
-
-                      if (renderItems.isEmpty) {
-                        logger.w(
-                          '⚠️ No tools found in selected toolbag: $toolbag',
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('No tools found in this toolbag.'),
-                          ),
-                        );
-                        return;
-                      }
-
-                      // ✅ This is the fix: navigate to ToolItemScreen
-                      context.push(
-                        '/tools/items',
-                        extra: {
-                          'toolbag': toolbag,
-                          'transitionKey':
-                              'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
-                          'slideFrom': SlideDirection.right,
-                          'transitionType': TransitionType.slide,
-                          'detailRoute': DetailRoute.branch,
-                        },
-                      );
+                      _handleToolbagTap(contextCopy, toolbagCopy);
                     },
+
+                    // onTap: () async {
+                    //   final localContext = context;
+                    //   logger.d('🛠️ Selected toolbag: $toolbag');
+
+                    //   final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+                    //   final renderItems = await buildRenderItems(
+                    //     ids: tools.map((tool) => tool.id).toList(),
+                    //   );
+
+                    //   if (renderItems.isEmpty) {
+                    //     logger.w(
+                    //       '⚠️ No tools found in selected toolbag: $toolbag',
+                    //     );
+                    //     ScaffoldMessenger.of(localContext).showSnackBar(
+                    //       const SnackBar(
+                    //         content: Text('No tools found in this toolbag.'),
+                    //       ),
+                    //     );
+                    //     return;
+                    //   }
+
+                    //   // Just continue — no mounted check needed
+
+                    //   // if (renderItems.isEmpty) {
+                    //   //   logger.w(
+                    //   //     '⚠️ No tools found in selected toolbag: $toolbag',
+                    //   //   );
+
+                    //   //   if (localContext.mounted) {
+                    //   //     ScaffoldMessenger.of(localContext).showSnackBar(
+                    //   //       const SnackBar(
+                    //   //         content: Text('No tools found in this toolbag.'),
+                    //   //       ),
+                    //   //     );
+                    //   //   }
+                    //   //   return;
+                    //   // }
+
+                    //   // if (!localContext.mounted) return;
+
+                    //   localContext.push(
+                    //     '/tools/items',
+                    //     extra: {
+                    //       'toolbag': toolbag,
+                    //       'transitionKey':
+                    //           'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
+                    //       'slideFrom': SlideDirection.right,
+                    //       'transitionType': TransitionType.slide,
+                    //       'detailRoute': DetailRoute.branch,
+                    //     },
+                    //   );
+                    // },
+
+                    // onTap: () async {
+                    //   logger.d('🛠️ Selected toolbag: $toolbag');
+
+                    //   final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+                    //   final renderItems = await buildRenderItems(
+                    //     ids: tools.map((tool) => tool.id).toList(),
+                    //   );
+
+                    //   if (renderItems.isEmpty) {
+                    //     logger.w(
+                    //       '⚠️ No tools found in selected toolbag: $toolbag',
+                    //     );
+                    //     ScaffoldMessenger.of(context).showSnackBar(
+                    //       const SnackBar(
+                    //         content: Text('No tools found in this toolbag.'),
+                    //       ),
+                    //     );
+                    //     return;
+                    //   }
+
+                    //   // ✅ This is the fix: navigate to ToolItemScreen
+                    //   context.push(
+                    //     '/tools/items',
+                    //     extra: {
+                    //       'toolbag': toolbag,
+                    //       'transitionKey':
+                    //           'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
+                    //       'slideFrom': SlideDirection.right,
+                    //       'transitionType': TransitionType.slide,
+                    //       'detailRoute': DetailRoute.branch,
+                    //     },
+                    //   );
+                    // },
                   ),
                 );
               },
@@ -131,6 +191,40 @@ class ToolBagScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Future<void> _handleToolbagTap(BuildContext context, String toolbag) async {
+    logger.d('🛠️ Selected toolbag: $toolbag');
+
+    final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+    final renderItems = await buildRenderItems(
+      ids: tools.map((tool) => tool.id).toList(),
+    );
+
+    // ✅ Bail early if not valid
+    if (renderItems.isEmpty) {
+      logger.w('⚠️ No tools found in selected toolbag: $toolbag');
+      if (!context.mounted) return; // ✅ add this line
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No tools found in this toolbag.')),
+      );
+      return;
+    }
+
+    // ✅ Guard this too
+    if (!context.mounted) return;
+
+    context.push(
+      '/tools/items',
+      extra: {
+        'toolbag': toolbag,
+        'transitionKey':
+            'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
+        'slideFrom': SlideDirection.right,
+        'transitionType': TransitionType.slide,
+        'detailRoute': DetailRoute.branch,
+      },
     );
   }
 }

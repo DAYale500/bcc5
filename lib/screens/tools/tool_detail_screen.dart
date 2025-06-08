@@ -282,7 +282,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                   );
                               if (nextChapter == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     nextChapter.items
                                         .map((e) => e.pathItemId)
@@ -302,7 +302,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                               final tools = ToolRepositoryIndex.getToolsForBag(
                                 nextToolbag,
                               );
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids: tools.map((e) => e.id).toList(),
                               );
                             }
@@ -348,7 +348,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                               replace: true,
                             );
                           },
-                          onRestartAtFirstGroup: () {
+                          onRestartAtFirstGroup: () async {
                             final isPath =
                                 widget.detailRoute == DetailRoute.path;
 
@@ -365,14 +365,14 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 return;
                               }
 
-                              final renderItems = buildRenderItems(
+                              final renderItems = await buildRenderItems(
                                 ids:
                                     firstChapter.items
                                         .map((e) => e.pathItemId)
                                         .toList(),
                               );
 
-                              if (renderItems.isEmpty) return;
+                              if (!mounted || renderItems.isEmpty) return;
 
                               TransitionManager.goToDetailScreen(
                                 context: context,
@@ -398,11 +398,11 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                   ToolRepositoryIndex.getToolsForBag(
                                     firstToolbag,
                                   );
-                              final renderItems = buildRenderItems(
+                              final renderItems = await buildRenderItems(
                                 ids: firstTools.map((e) => e.id).toList(),
                               );
 
-                              if (renderItems.isEmpty) return;
+                              if (!mounted || renderItems.isEmpty) return;
 
                               TransitionManager.goToDetailScreen(
                                 context: context,

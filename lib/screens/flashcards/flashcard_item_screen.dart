@@ -42,9 +42,7 @@ class FlashcardItemScreen extends StatelessWidget {
     logger.i('🟦 Entered FlashcardItemScreen for category: $category');
 
     final flashcards = getFlashcardsForCategory(category);
-    final renderItems = buildRenderItems(
-      ids: flashcards.map((fc) => fc.id).toList(),
-    );
+    final ids = flashcards.map((fc) => fc.id).toList();
     final categoryTitle = category.toTitleCase();
 
     final appBar = CustomAppBarWidget(
@@ -69,112 +67,123 @@ class FlashcardItemScreen extends StatelessWidget {
       },
     );
 
-    if (flashcards.isEmpty) {
-      return MainScaffold(
-        branchIndex: 4,
-        harborKey: harborKey,
-        coursesKey: coursesKey,
-        partsKey: partsKey,
-        toolsKey: toolsKey,
-        drillsKey: drillsKey,
-        child: Column(
-          children: [
-            appBar,
-            const Expanded(
-              child: Center(
-                child: Text('No flashcards found for this category.'),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+    return FutureBuilder<List<RenderItem>>(
+      future: buildRenderItems(ids: ids),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-    return MainScaffold(
-      branchIndex: 4,
-      harborKey: harborKey,
-      coursesKey: coursesKey,
-      partsKey: partsKey,
-      toolsKey: toolsKey,
-      drillsKey: drillsKey,
-      child: Column(
-        children: [
-          appBar,
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Drills',
-                      style: AppTheme.branchBreadcrumbStyle,
+        final renderItems = snapshot.data!;
+        if (flashcards.isEmpty) {
+          return MainScaffold(
+            branchIndex: 4,
+            harborKey: harborKey,
+            coursesKey: coursesKey,
+            partsKey: partsKey,
+            toolsKey: toolsKey,
+            drillsKey: drillsKey,
+            child: Column(
+              children: [
+                appBar,
+                const Expanded(
+                  child: Center(
+                    child: Text('No flashcards found for this category.'),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return MainScaffold(
+          branchIndex: 4,
+          harborKey: harborKey,
+          coursesKey: coursesKey,
+          partsKey: partsKey,
+          toolsKey: toolsKey,
+          drillsKey: drillsKey,
+          child: Column(
+            children: [
+              appBar,
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Drills',
+                          style: AppTheme.branchBreadcrumbStyle,
+                        ),
+                        const TextSpan(
+                          text: ' / ',
+                          style: TextStyle(color: Colors.black87),
+                        ),
+                        TextSpan(
+                          text: categoryTitle,
+                          style: AppTheme.groupBreadcrumbStyle,
+                        ),
+                      ],
                     ),
-                    const TextSpan(
-                      text: ' / ',
-                      style: TextStyle(color: Colors.black87),
-                    ),
-                    TextSpan(
-                      text: categoryTitle,
-                      style: AppTheme.groupBreadcrumbStyle,
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Dive into a challenge.',
-            style: AppTheme.subheadingStyle.copyWith(
-              color: AppTheme.primaryBlue,
-            ),
-            textAlign: TextAlign.center,
-          ),
-
-          const SizedBox(height: 16),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: GridView.builder(
-                itemCount: flashcards.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 4,
-                  mainAxisSpacing: 4,
-                  childAspectRatio: 2.8,
+              const SizedBox(height: 8),
+              Text(
+                'Dive into a challenge.',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
                 ),
-                itemBuilder: (context, index) {
-                  final card = flashcards[index];
-                  logger.i('📗 Rendering flashcard: ${card.title}');
-
-                  return ItemButton(
-                    label: card.title,
-                    onTap: () {
-                      logger.i('🟧 Tapped flashcard: ${card.title}');
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: RenderItemType.flashcard,
-                        renderItems: renderItems,
-                        currentIndex: index,
-                        branchIndex: 4,
-                        backDestination: '/flashcards/items',
-                        backExtra: {'category': category, 'branchIndex': 4},
-                        detailRoute: DetailRoute.branch,
-                        direction: SlideDirection.right,
-                        transitionType: TransitionType.slide,
-                        replace: false,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: GridView.builder(
+                    itemCount: flashcards.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 4,
+                          mainAxisSpacing: 4,
+                          childAspectRatio: 2.8,
+                        ),
+                    itemBuilder: (context, index) {
+                      final card = flashcards[index];
+                      logger.i('📗 Rendering flashcard: ${card.title}');
+                      return ItemButton(
+                        label: card.title,
+                        onTap: () {
+                          logger.i('🟧 Tapped flashcard: ${card.title}');
+                          TransitionManager.goToDetailScreen(
+                            context: context,
+                            screenType: RenderItemType.flashcard,
+                            renderItems: renderItems,
+                            currentIndex: index,
+                            branchIndex: 4,
+                            backDestination: '/flashcards/items',
+                            backExtra: {'category': category, 'branchIndex': 4},
+                            detailRoute: DetailRoute.branch,
+                            direction: SlideDirection.right,
+                            transitionType: TransitionType.slide,
+                            replace: false,
+                          );
+                        },
                       );
                     },
-                  );
-                },
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

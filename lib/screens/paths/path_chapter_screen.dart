@@ -71,109 +71,123 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  if (chapters.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('No chapters found for this path.'),
-                      ),
-                    );
-                    return;
-                  }
+                  final localContext = context;
+                  if (!localContext.mounted) return;
 
-                  final firstChapter = chapters.first;
-                  final renderItems = buildRenderItems(
-                    ids: firstChapter.items.map((e) => e.pathItemId).toList(),
-                  );
-
-                  if (renderItems.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('This chapter has no items.'),
-                      ),
-                    );
-                    return;
-                  }
-
-                  TransitionManager.goToDetailScreen(
-                    context: context,
-                    screenType: renderItems.first.type,
-                    renderItems: renderItems,
-                    currentIndex: 0,
-                    branchIndex: 0,
-                    backDestination:
-                        '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                    backExtra: {
-                      'pathName': pathName,
-                      'chapterId': firstChapter.id,
-                    },
-                    detailRoute: DetailRoute.path,
-                    direction: SlideDirection.right,
-                  );
+                  _handleSetSail(localContext, widget.pathName);
                 },
+
+                // onPressed: () async {
+                //   if (chapters.isEmpty) {
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       const SnackBar(
+                //         content: Text('No chapters found for this path.'),
+                //       ),
+                //     );
+                //     return;
+                //   }
+
+                //   final firstChapter = chapters.first;
+                //   final renderItems = await buildRenderItems(
+                //     ids: firstChapter.items.map((e) => e.pathItemId).toList(),
+                //   );
+
+                //   if (renderItems.isEmpty) {
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       const SnackBar(
+                //         content: Text('This chapter has no items.'),
+                //       ),
+                //     );
+                //     return;
+                //   }
+
+                //   TransitionManager.goToDetailScreen(
+                //     context: context,
+                //     screenType: renderItems.first.type,
+                //     renderItems: renderItems,
+                //     currentIndex: 0,
+                //     branchIndex: 0,
+                //     backDestination:
+                //         '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                //     backExtra: {
+                //       'pathName': pathName,
+                //       'chapterId': firstChapter.id,
+                //     },
+                //     detailRoute: DetailRoute.path,
+                //     direction: SlideDirection.right,
+                //   );
+                // },
                 style: AppTheme.groupRedButtonStyle,
                 child: const Text('Set sail on a new course'),
               ),
               const SizedBox(height: 12),
               ElevatedButton(
-                onPressed: () async {
-                  final resume = await ResumeManager.getResumePoint();
+                onPressed: () {
+                  final localContext = context;
+                  if (!localContext.mounted) return;
 
-                  if (!context.mounted ||
-                      resume == null ||
-                      resume['pathName'] != pathName) {
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('No resume point for this path.'),
-                        ),
-                      );
-                    }
-                    return;
-                  }
-
-                  final chapter = PathRepositoryIndex.getChapterById(
-                    pathName,
-                    resume['chapterId']!,
-                  );
-                  if (!context.mounted) return;
-                  if (chapter == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Saved chapter not found.')),
-                    );
-                    return;
-                  }
-
-                  final index = chapter.items.indexWhere(
-                    (i) => i.pathItemId == resume['itemId'],
-                  );
-                  if (!context.mounted) return;
-                  if (index == -1) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Saved item not found.')),
-                    );
-                    return;
-                  }
-
-                  final renderItems = buildRenderItems(
-                    ids: chapter.items.map((e) => e.pathItemId).toList(),
-                  );
-
-                  TransitionManager.goToDetailScreen(
-                    context: context,
-                    screenType: renderItems[index].type,
-                    renderItems: renderItems,
-                    currentIndex: index,
-                    branchIndex: 0,
-                    backDestination:
-                        '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                    backExtra: {
-                      'pathName': pathName,
-                      'chapterId': resume['chapterId']!,
-                    },
-                    detailRoute: DetailRoute.path,
-                    direction: SlideDirection.right,
-                  );
+                  _handleResumeVoyage(localContext, widget.pathName);
                 },
+
+                // onPressed: () async {
+                //   final resume = await ResumeManager.getResumePoint();
+
+                //   if (!context.mounted ||
+                //       resume == null ||
+                //       resume['pathName'] != pathName) {
+                //     if (context.mounted) {
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         const SnackBar(
+                //           content: Text('No resume point for this path.'),
+                //         ),
+                //       );
+                //     }
+                //     return;
+                //   }
+
+                //   final chapter = PathRepositoryIndex.getChapterById(
+                //     pathName,
+                //     resume['chapterId']!,
+                //   );
+                //   if (!context.mounted) return;
+                //   if (chapter == null) {
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       const SnackBar(content: Text('Saved chapter not found.')),
+                //     );
+                //     return;
+                //   }
+
+                //   final index = chapter.items.indexWhere(
+                //     (i) => i.pathItemId == resume['itemId'],
+                //   );
+                //   if (!context.mounted) return;
+                //   if (index == -1) {
+                //     ScaffoldMessenger.of(context).showSnackBar(
+                //       const SnackBar(content: Text('Saved item not found.')),
+                //     );
+                //     return;
+                //   }
+
+                //   final renderItems = await buildRenderItems(
+                //     ids: chapter.items.map((e) => e.pathItemId).toList(),
+                //   );
+
+                //   TransitionManager.goToDetailScreen(
+                //     context: context,
+                //     screenType: renderItems[index].type,
+                //     renderItems: renderItems,
+                //     currentIndex: index,
+                //     branchIndex: 0,
+                //     backDestination:
+                //         '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                //     backExtra: {
+                //       'pathName': pathName,
+                //       'chapterId': resume['chapterId']!,
+                //     },
+                //     detailRoute: DetailRoute.path,
+                //     direction: SlideDirection.right,
+                //   );
+                // },
                 style: AppTheme.groupRedButtonStyle,
                 child: const Text('Resume your voyage'),
               ),
@@ -216,6 +230,110 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
             ),
           ),
       ],
+    );
+  }
+
+  Future<void> _handleSetSail(
+    BuildContext localContext,
+    String pathName,
+  ) async {
+    if (!localContext.mounted) return;
+
+    final chapters = PathRepositoryIndex.getChaptersForPath(pathName);
+    if (chapters.isEmpty) {
+      ScaffoldMessenger.of(localContext).showSnackBar(
+        const SnackBar(content: Text('No chapters found for this path.')),
+      );
+      return;
+    }
+
+    final firstChapter = chapters.first;
+    final renderItems = await buildRenderItems(
+      ids: firstChapter.items.map((e) => e.pathItemId).toList(),
+    );
+
+    if (!localContext.mounted) return;
+
+    if (renderItems.isEmpty) {
+      ScaffoldMessenger.of(localContext).showSnackBar(
+        const SnackBar(content: Text('This chapter has no items.')),
+      );
+      return;
+    }
+
+    TransitionManager.goToDetailScreen(
+      context: localContext,
+      screenType: renderItems.first.type,
+      renderItems: renderItems,
+      currentIndex: 0,
+      branchIndex: 0,
+      backDestination:
+          '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+      backExtra: {'pathName': pathName, 'chapterId': firstChapter.id},
+      detailRoute: DetailRoute.path,
+      direction: SlideDirection.right,
+    );
+  }
+
+  Future<void> _handleResumeVoyage(
+    BuildContext localContext,
+    String pathName,
+  ) async {
+    if (!localContext.mounted) return;
+
+    final resume = await ResumeManager.getResumePoint();
+
+    if (!localContext.mounted ||
+        resume == null ||
+        resume['pathName'] != pathName) {
+      if (localContext.mounted) {
+        ScaffoldMessenger.of(localContext).showSnackBar(
+          const SnackBar(content: Text('No resume point for this path.')),
+        );
+      }
+      return;
+    }
+
+    final chapter = PathRepositoryIndex.getChapterById(
+      pathName,
+      resume['chapterId']!,
+    );
+    if (!localContext.mounted) return;
+    if (chapter == null) {
+      ScaffoldMessenger.of(
+        localContext,
+      ).showSnackBar(const SnackBar(content: Text('Saved chapter not found.')));
+      return;
+    }
+
+    final index = chapter.items.indexWhere(
+      (i) => i.pathItemId == resume['itemId'],
+    );
+    if (!localContext.mounted) return;
+    if (index == -1) {
+      ScaffoldMessenger.of(
+        localContext,
+      ).showSnackBar(const SnackBar(content: Text('Saved item not found.')));
+      return;
+    }
+
+    final renderItems = await buildRenderItems(
+      ids: chapter.items.map((e) => e.pathItemId).toList(),
+    );
+
+    if (!localContext.mounted) return;
+
+    TransitionManager.goToDetailScreen(
+      context: localContext,
+      screenType: renderItems[index].type,
+      renderItems: renderItems,
+      currentIndex: index,
+      branchIndex: 0,
+      backDestination:
+          '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+      backExtra: {'pathName': pathName, 'chapterId': resume['chapterId']!},
+      detailRoute: DetailRoute.path,
+      direction: SlideDirection.right,
     );
   }
 }

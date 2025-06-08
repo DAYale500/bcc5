@@ -42,4 +42,18 @@ class ContentBlock {
 
   // Optional convenience getter
   List<String>? get bullets => bulletList;
+
+  factory ContentBlock.fromJson(Map<String, dynamic> json) {
+    final type = json['type'] as String;
+    final content = json['content'] as String;
+
+    switch (type) {
+      case 'text':
+        return ContentBlock.text(content);
+      case 'image':
+        return ContentBlock.image(content);
+      default:
+        throw ArgumentError('Unsupported ContentBlock type: $type');
+    }
+  }
 }

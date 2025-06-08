@@ -19,4 +19,21 @@ class Lesson {
     required this.flashcards,
     required this.isPaid,
   });
+
+  factory Lesson.fromJson(Map<String, dynamic> json) {
+    return Lesson(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      content:
+          (json['content'] as List)
+              .map((item) => ContentBlock.fromJson(item))
+              .toList(),
+      keywords: List<String>.from(json['keywords'] ?? []),
+      flashcards:
+          (json['flashcards'] as List? ?? [])
+              .map((item) => Flashcard.fromJson(item))
+              .toList(),
+      isPaid: json['isPaid'] ?? false,
+    );
+  }
 }

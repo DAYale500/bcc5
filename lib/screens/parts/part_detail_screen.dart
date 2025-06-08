@@ -259,7 +259,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                   );
                               if (nextChapter == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     nextChapter.items
                                         .map((e) => e.pathItemId)
@@ -276,7 +276,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                                   );
                               if (nextZoneId == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     PartRepositoryIndex.getPartsForZone(
                                       nextZoneId,
@@ -322,33 +322,10 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                             );
                           },
                           onRestartAtFirstGroup: () {
-                            final firstZoneId =
-                                PartRepositoryIndex.getZoneNames().first;
-                            final firstItems =
-                                PartRepositoryIndex.getPartsForZone(
-                                  firstZoneId,
-                                );
-                            final renderItems = buildRenderItems(
-                              ids: firstItems.map((p) => p.id).toList(),
-                            );
+                            final localContext = context;
+                            if (!localContext.mounted) return;
 
-                            if (renderItems.isEmpty) return;
-
-                            TransitionManager.goToDetailScreen(
-                              context: context,
-                              screenType: RenderItemType.part,
-                              renderItems: renderItems,
-                              currentIndex: 0,
-                              branchIndex: widget.branchIndex,
-                              backDestination: '/parts/items',
-                              backExtra: {
-                                'zone': firstZoneId,
-                                'branchIndex': widget.branchIndex,
-                              },
-                              detailRoute: widget.detailRoute,
-                              direction: SlideDirection.right,
-                              replace: true,
-                            );
+                            _handleRestartPartGroup(localContext);
                           },
                         )
                         : null,
@@ -357,6 +334,31 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Future<void> _handleRestartPartGroup(BuildContext localContext) async {
+    if (!localContext.mounted) return;
+
+    final firstZoneId = PartRepositoryIndex.getZoneNames().first;
+    final firstItems = PartRepositoryIndex.getPartsForZone(firstZoneId);
+    final renderItems = await buildRenderItems(
+      ids: firstItems.map((p) => p.id).toList(),
+    );
+
+    if (!localContext.mounted || renderItems.isEmpty) return;
+
+    TransitionManager.goToDetailScreen(
+      context: localContext,
+      screenType: RenderItemType.part,
+      renderItems: renderItems,
+      currentIndex: 0,
+      branchIndex: widget.branchIndex,
+      backDestination: '/parts/items',
+      backExtra: {'zone': firstZoneId, 'branchIndex': widget.branchIndex},
+      detailRoute: widget.detailRoute,
+      direction: SlideDirection.right,
+      replace: true,
     );
   }
 }

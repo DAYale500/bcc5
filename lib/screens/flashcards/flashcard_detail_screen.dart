@@ -371,7 +371,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                   );
                               if (nextChapter == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     nextChapter.items
                                         .map((e) => e.pathItemId)
@@ -437,75 +437,85 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                             );
                           },
                           onRestartAtFirstGroup: () {
-                            if (widget.detailRoute == DetailRoute.path) {
-                              final pathName =
-                                  widget.backExtra?['pathName'] as String?;
-                              final firstChapter =
-                                  pathName == null
-                                      ? null
-                                      : PathRepositoryIndex.getChaptersForPath(
-                                        pathName,
-                                      ).first;
-
-                              if (pathName == null || firstChapter == null) {
-                                return;
-                              }
-
-                              final renderItems = buildRenderItems(
-                                ids:
-                                    firstChapter.items
-                                        .map((e) => e.pathItemId)
-                                        .toList(),
-                              );
-
-                              if (renderItems.isEmpty) return;
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: RenderItemType.flashcard,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination:
-                                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                                backExtra: {
-                                  'chapterId': firstChapter.id,
-                                  'pathName': pathName,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            } else {
-                              final firstCategory = getAllCategories().first;
-                              final firstFlashcards = getFlashcardsForCategory(
-                                firstCategory,
-                              );
-                              final renderItems =
-                                  firstFlashcards
-                                      .map((f) => RenderItem.fromFlashcard(f))
-                                      .toList();
-
-                              if (renderItems.isEmpty) return;
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: RenderItemType.flashcard,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination: '/flashcards/items',
-                                backExtra: {
-                                  'category': firstCategory,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            }
+                            if (!mounted) return;
+                            final localContext = context;
+                            _handleRestart(localContext);
                           },
+
+                          // onRestartAtFirstGroup: () async {
+                          //   final localContext =
+                          //       context; // ✅ Moved to top before anything else
+                          //   if (!mounted) return;
+
+                          //   if (widget.detailRoute == DetailRoute.path) {
+                          //     final pathName =
+                          //         widget.backExtra?['pathName'] as String?;
+                          //     final chapters =
+                          //         pathName == null
+                          //             ? null
+                          //             : PathRepositoryIndex.getChaptersForPath(
+                          //               pathName,
+                          //             );
+
+                          //     if (pathName == null ||
+                          //         chapters == null ||
+                          //         chapters.isEmpty) {
+                          //       return;
+                          //     }
+                          //     final firstChapter = chapters.first;
+
+                          //     final renderItems = await buildRenderItems(
+                          //       ids:
+                          //           firstChapter.items
+                          //               .map((e) => e.pathItemId)
+                          //               .toList(),
+                          //     );
+                          //     if (renderItems.isEmpty) return;
+
+                          //     Future.microtask(() {
+                          //       if (!mounted) return;
+                          //       goToFlashcardDetail(
+                          //         context: localContext,
+                          //         renderItems: renderItems,
+                          //         branchIndex: widget.branchIndex,
+                          //         backDestination:
+                          //             '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+                          //         backExtra: {
+                          //           'chapterId': firstChapter.id,
+                          //           'pathName': pathName,
+                          //           'branchIndex': widget.branchIndex,
+                          //         },
+                          //         detailRoute: widget.detailRoute,
+                          //       );
+                          //     });
+                          //   } else {
+                          //     final firstCategory = getAllCategories().first;
+                          //     final firstFlashcards = getFlashcardsForCategory(
+                          //       firstCategory,
+                          //     );
+                          //     final renderItems =
+                          //         firstFlashcards
+                          //             .map((f) => RenderItem.fromFlashcard(f))
+                          //             .toList();
+
+                          //     if (renderItems.isEmpty) return;
+
+                          //     Future.microtask(() {
+                          //       if (!mounted) return;
+                          //       goToFlashcardDetail(
+                          //         context: localContext,
+                          //         renderItems: renderItems,
+                          //         branchIndex: widget.branchIndex,
+                          //         backDestination: '/flashcards/items',
+                          //         backExtra: {
+                          //           'category': firstCategory,
+                          //           'branchIndex': widget.branchIndex,
+                          //         },
+                          //         detailRoute: widget.detailRoute,
+                          //       );
+                          //     });
+                          //   }
+                          // },
                         )
                         : null,
               ),
@@ -515,4 +525,81 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       ),
     );
   }
+
+  Future<void> _handleRestart(BuildContext localContext) async {
+    if (!mounted) return;
+
+    if (widget.detailRoute == DetailRoute.path) {
+      final pathName = widget.backExtra?['pathName'] as String?;
+      final chapters =
+          pathName == null
+              ? null
+              : PathRepositoryIndex.getChaptersForPath(pathName);
+
+      if (pathName == null || chapters == null || chapters.isEmpty) return;
+
+      final firstChapter = chapters.first;
+      final renderItems = await buildRenderItems(
+        ids: firstChapter.items.map((e) => e.pathItemId).toList(),
+      );
+      if (renderItems.isEmpty) return;
+
+      if (!localContext.mounted) return;
+      goToFlashcardDetail(
+        context: localContext,
+        renderItems: renderItems,
+        branchIndex: widget.branchIndex,
+        backDestination:
+            '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+        backExtra: {
+          'chapterId': firstChapter.id,
+          'pathName': pathName,
+          'branchIndex': widget.branchIndex,
+        },
+        detailRoute: widget.detailRoute,
+      );
+    } else {
+      final firstCategory = getAllCategories().first;
+      final firstFlashcards = getFlashcardsForCategory(firstCategory);
+      final renderItems =
+          firstFlashcards.map((f) => RenderItem.fromFlashcard(f)).toList();
+
+      if (renderItems.isEmpty) return;
+
+      if (!localContext.mounted) return;
+      goToFlashcardDetail(
+        context: localContext,
+        renderItems: renderItems,
+        branchIndex: widget.branchIndex,
+        backDestination: '/flashcards/items',
+        backExtra: {
+          'category': firstCategory,
+          'branchIndex': widget.branchIndex,
+        },
+        detailRoute: widget.detailRoute,
+      );
+    }
+  }
+}
+
+void goToFlashcardDetail({
+  required BuildContext context,
+  required List<RenderItem> renderItems,
+  required int branchIndex,
+  required String backDestination,
+  required Map<String, dynamic> backExtra,
+  required DetailRoute detailRoute,
+}) {
+  TransitionManager.goToDetailScreen(
+    context: context,
+    screenType: RenderItemType.flashcard,
+    renderItems: renderItems,
+    currentIndex: 0,
+    branchIndex: branchIndex,
+    backDestination: backDestination,
+    backExtra: backExtra,
+    detailRoute: detailRoute,
+    direction: SlideDirection.right,
+    replace: true,
+  );
 }

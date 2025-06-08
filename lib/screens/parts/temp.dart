@@ -91,12 +91,12 @@ class PartItemScreen extends StatelessWidget {
 
                 return ItemButton(
                   label: part.title,
-                  onTap: () {
+                  onTap: () async {
                     logger.i('🟥 Tapped part: ${part.id}');
                     context.push(
                       '/parts/detail',
                       extra: {
-                        'renderItems': buildRenderItems(ids: sequenceIds),
+                        'renderItems': await buildRenderItems(ids: sequenceIds),
                         'currentIndex': index,
                         'branchIndex': 2,
                         'backDestination': '/parts/items',

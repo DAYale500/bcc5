@@ -6,7 +6,7 @@ class DockingLessonRepository {
   static final lessons = <Lesson>[
     Lesson(
       id: 'lesson_dock_1.00',
-      title: 'L1: Handling Dock Lines',
+      title: 'L1: Handling Dock Lines Repository',
       content: [
         ContentBlock.text(
           'Learn how to approach the dock methodically to ensure smooth arrivals.',

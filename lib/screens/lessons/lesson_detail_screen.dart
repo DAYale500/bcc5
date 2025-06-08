@@ -281,7 +281,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                   );
                               if (nextChapter == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     nextChapter.items
                                         .map((e) => e.pathItemId)
@@ -302,7 +302,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                   LessonRepositoryIndex.getLessonsForModule(
                                     nextModuleId,
                                   );
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids: nextLessons.map((l) => l.id).toList(),
                               );
                             }
@@ -367,19 +367,23 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                               );
                             }
                           },
-                          onRestartAtFirstGroup: () {
+                          onRestartAtFirstGroup: () async {
                             final firstModuleId =
                                 LessonRepositoryIndex.getModuleNames().first;
                             final firstLessons =
                                 LessonRepositoryIndex.getLessonsForModule(
                                   firstModuleId,
                                 );
-                            final renderItems = buildRenderItems(
+                            final renderItems = await buildRenderItems(
                               ids: firstLessons.map((l) => l.id).toList(),
                             );
 
-                            if (renderItems.isEmpty) return;
-
+                            if ((await buildRenderItems(
+                              ids: firstLessons.map((l) => l.id).toList(),
+                            )).isEmpty) {
+                              return;
+                            }
+                            if (!mounted) return;
                             TransitionManager.goToDetailScreen(
                               context: context,
                               screenType: RenderItemType.lesson,

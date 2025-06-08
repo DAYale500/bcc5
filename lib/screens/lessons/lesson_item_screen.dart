@@ -1,3 +1,4 @@
+import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/transition_manager.dart';
@@ -19,106 +20,116 @@ class LessonItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // logger.i('📘 LessonItemScreen loaded for module: $module');
-
     final lessons = LessonRepositoryIndex.getLessonsForModule(module);
-    final renderItems = buildRenderItems(
-      ids: lessons.map((l) => l.id).toList(),
-    );
+    final ids = lessons.map((l) => l.id).toList();
     final moduleTitle = module.toTitleCase();
 
-    return Column(
-      children: [
-        CustomAppBarWidget(
-          title: 'Courses',
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          onBack: () {
-            logger.i('🔙 Back tapped → /lessons');
-            context.go(
-              '/lessons',
-              extra: {
-                'transitionKey':
-                    'return_from_items_${DateTime.now().millisecondsSinceEpoch}',
-                'slideFrom': SlideDirection.left,
-                'transitionType': TransitionType.slide,
-              },
-            );
-          },
-        ),
+    return FutureBuilder<List<RenderItem>>(
+      future: buildRenderItems(ids: ids),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-        // 🧭 Breadcrumb below AppBar
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Courses',
-                    style: AppTheme.branchBreadcrumbStyle,
-                  ),
-                  const TextSpan(
-                    text: ' / ',
-                    style: TextStyle(color: Colors.black87),
-                  ),
-                  TextSpan(
-                    text: moduleTitle,
-                    style: AppTheme.groupBreadcrumbStyle,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        final renderItems = snapshot.data!;
 
-        const SizedBox(height: 16),
-        Text(
-          '$moduleTitle:\nDive in to any course below.',
-          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 16),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: ListView.builder(
-              itemCount: lessons.length,
-              itemBuilder: (context, index) {
-                final lesson = lessons[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: ItemButton(
-                    label: lesson.title,
-                    onTap: () {
-                      logger.i('📘 Tapped lesson: ${lesson.id}');
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: renderItems[index].type,
-                        renderItems: renderItems,
-                        currentIndex: index,
-                        branchIndex: 1,
-                        backDestination: '/lessons/items',
-                        backExtra: {
-                          'module': module,
-                          'branchIndex': 1,
-                          'detailRoute': DetailRoute.branch,
-                        },
-                        detailRoute: DetailRoute.branch,
-                        direction: SlideDirection.right,
-                        transitionType: TransitionType.slide,
-                        replace: false,
-                      );
-                    },
-                  ),
+        return Column(
+          children: [
+            CustomAppBarWidget(
+              title: 'Courses',
+              showBackButton: true,
+              showSearchIcon: true,
+              showSettingsIcon: true,
+              onBack: () {
+                logger.i('🔙 Back tapped → /lessons');
+                context.go(
+                  '/lessons',
+                  extra: {
+                    'transitionKey':
+                        'return_from_items_${DateTime.now().millisecondsSinceEpoch}',
+                    'slideFrom': SlideDirection.left,
+                    'transitionType': TransitionType.slide,
+                  },
                 );
               },
             ),
-          ),
-        ),
-      ],
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 16.0,
+                left: 16.0,
+                right: 16.0,
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Courses',
+                        style: AppTheme.branchBreadcrumbStyle,
+                      ),
+                      const TextSpan(
+                        text: ' / ',
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      TextSpan(
+                        text: moduleTitle,
+                        style: AppTheme.groupBreadcrumbStyle,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '$moduleTitle:\nDive in to any course below.',
+              style: AppTheme.subheadingStyle.copyWith(
+                color: AppTheme.primaryBlue,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: ListView.builder(
+                  itemCount: lessons.length,
+                  itemBuilder: (context, index) {
+                    final lesson = lessons[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: ItemButton(
+                        label: lesson.title,
+                        onTap: () {
+                          logger.i('📘 Tapped lesson: ${lesson.id}');
+                          TransitionManager.goToDetailScreen(
+                            context: context,
+                            screenType: renderItems[index].type,
+                            renderItems: renderItems,
+                            currentIndex: index,
+                            branchIndex: 1,
+                            backDestination: '/lessons/items',
+                            backExtra: {
+                              'module': module,
+                              'branchIndex': 1,
+                              'detailRoute': DetailRoute.branch,
+                            },
+                            detailRoute: DetailRoute.branch,
+                            direction: SlideDirection.right,
+                            transitionType: TransitionType.slide,
+                            replace: false,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
