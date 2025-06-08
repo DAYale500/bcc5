@@ -65,7 +65,7 @@ class _LessonModuleScreenState extends State<LessonModuleScreen> {
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: moduleNames.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 12),
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
                 final moduleName = moduleNames[index];
                 final label = moduleName.toTitleCase(); // ✅ Title Case

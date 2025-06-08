@@ -1,22 +1,306 @@
 Launching lib/main.dart on iPhone 13 in debug mode...
 Running Xcode build...                                          
-Xcode build done.                                            0.5s
-Failed to build iOS app
-Uncategorized (Xcode): Unable to find a destination matching the provided destination specifier:
-		{ id:3A04C62A-C78C-4470-A174-DD9285589BCA }
+ └─Compiling, linking and signing...                      2,104ms
+Xcode build done.                                            9.8s
+Syncing files to device iPhone 13...                            
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: 2025-06-08T06:54:23.200244<…>
+│ 💡 - boatName: Unnamed Vessel<…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+[ERROR:flutter/shell/platform/darwin/ios/framework/Source/FlutterDartVMServicePublisher.mm(129)] Could not register as server for FlutterDartVMServicePublisher, permission denied. Check your 'Local Network' permissions for this app in the Privacy section of the system Settings.
+│ #0   main (package:bcc5/main.dart:30:10)<…>
+│ 💡 🚀 Reminder Check:<…>
+│ 💡 - showReminder: true<…>
+│ 💡 - reviewedAt: 2025-06-08T06:54:23.200244<…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:39:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+s
 
-	Ineligible destinations for the "Runner" scheme:
-		{ platform:iOS, arch:arm64e, id:00008103-000934C201FB001E, name:DY iPad Pro, error:iOS 18.5 is not installed. To use with Xcode, first download and install the platform }
-		{ platform:iOS, arch:arm64e, id:00008110-001E41122183801E, name:DY iPhone13, error:iOS 18.5 is not installed. To use with Xcode, first download and install the platform }
-		{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device, error:iOS 18.5 is not installed. To use with Xcode, first download and install the platform }
+Flutter run key commands.
+r Hot reload. 🔥🔥🔥
+R Hot restart.
+h List all available interactive commands.
+d Detach (terminate "flutter run" but leave application running).
+c Clear the screen
+q Quit (terminate the application on the device).
 
-════════════════════════════════════════════════════════════════════════════════
-iOS 18.5 is not installed. To download and install the platform, open
-Xcode, select Xcode > Settings > Components, and click the GET button for the
-required platform.
+A Dart VM Service on iPhone 13 is available at: http://127.0.0.1:49619/Se-LMX2TByg=/
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:70:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:71:12)<…>
+│ 💡 🧭 AppStartupTracker.reminderAlreadyShown = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:74:12)<…>
+│ 💡 🧭 widget.showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:75:12)<…>
+│ 💡 🧭 widget.startTour = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:98:14)<…>
+│ 💡 🧭 Reminder has NOT been shown yet. Proceeding to check...<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:112:16)<…>
+│ 💡 🧭 SettingsManager.shouldShowEmergencyReminder = true<…>
+│ #0   LandingScreenState.initState.isTourPlanned (package:bcc5/screens/landing_screen/landing_screen.dart:105:16)<…>
+│ 💡 🧭 Tour check — from widget: false, from settings: false<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:116:16)<…>
+│ 💡 🧭 Final condition — shouldShow: true, tourPlanned: false<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:121:18)<…>
+│ 💡 🧭 ✅ Showing reminder (2s delay)...<…>
+The Flutter DevTools debugger and profiler on iPhone 13 is available at: http://127.0.0.1:9101?uri=http://127.0.0.1:49619/Se-LMX2TByg=/
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:125:24)<…>
+│ 💡 🧭 ✅ showEmergencyReminderDialog(context)<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:28:10)<…>
+│ 💡 🛟 Emergency Reminder Data:<…>
+│ 💡 - Vessel: S/V Unnamed Vessel<…>
+│ 💡 - Length: 0 feet<…>
+│ 💡 - Min Depth: 0<…>
+│ 💡 - Description: No description provided.<…>
+│ 💡 - Adults: 1<…>
+│ 💡 - Children: 0<…>
+│ 💡 - MMSI: 000000000<…>
+│ 💡 - Coast Guard: 000-000-0000<…>
+│ 💡 - Captain: 000-000-0000<…>
+│ 💡 - Emergency Contact: Emergency Contact<…>
+│ 💡 - Emergency Phone: 000-000-0000<…>
+│ 💡 <…>
+│ #0   showEmergencyReminderDialog.<anonymous closure>.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:97:24)<…>
+│ 💡 ✅ User tapped "Looks Good" — saving reviewedAt<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:70:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:71:12)<…>
+│ 💡 🧭 AppStartupTracker.reminderAlreadyShown = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:74:12)<…>
+│ 💡 🧭 widget.showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:75:12)<…>
+│ 💡 🧭 widget.startTour = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:139:14)<…>
+│ 💡 🧭 Reminder already shown this session. Skipping.<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+│ #0   PartZoneScreen.build.<anonymous closure>.<anonymous closure> (package:bcc5/screens/parts/part_zone_screen.dart:161:24)<…>
+│ 💡 🟦 Tapped zone: Interior<…>
+│ #0   appRouter.<anonymous closure> (package:bcc5/navigation/app_router.dart:369:18)<…>
+│ 💡 🧩 Navigating to PartItemScreen for zone: Interior | detailRoute: DetailRoute.branch<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:70:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:71:12)<…>
+│ 💡 🧭 AppStartupTracker.reminderAlreadyShown = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:74:12)<…>
+│ 💡 🧭 widget.showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:75:12)<…>
+│ 💡 🧭 widget.startTour = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:139:14)<…>
+│ 💡 🧭 Reminder already shown this session. Skipping.<…>
 
-For more information, please visit:
-  https://developer.apple.com/documentation/xcode/installing-additional-simulator-runtimes
-════════════════════════════════════════════════════════════════════════════════
-Could not build the application for the simulator.
-Error launching application on iPhone 13.
+Performing hot restart...                                       
+Restarted application in 239ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: <…>
+│ 💡 - shouldStartTour: true<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:30:10)<…>
+│ 💡 🚀 Reminder Check:<…>
+│ 💡 - showReminder: true<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - shouldStartTour: true<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:39:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:70:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:71:12)<…>
+│ 💡 🧭 AppStartupTracker.reminderAlreadyShown = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:74:12)<…>
+│ 💡 🧭 widget.showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:75:12)<…>
+│ 💡 🧭 widget.startTour = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:98:14)<…>
+│ 💡 🧭 Reminder has NOT been shown yet. Proceeding to check...<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:112:16)<…>
+│ 💡 🧭 SettingsManager.shouldShowEmergencyReminder = true<…>
+│ #0   LandingScreenState.initState.isTourPlanned (package:bcc5/screens/landing_screen/landing_screen.dart:105:16)<…>
+│ 💡 🧭 Tour check — from widget: false, from settings: true<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:116:16)<…>
+│ 💡 🧭 Final condition — shouldShow: true, tourPlanned: true<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:133:18)<…>
+│ 💡 🧭 ⛔ Skipping reminder — already shown or tour in progress<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:37:12)<…>
+│ 💡 🎯 Starting Landing Tour...<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:38:12)<…>
+│ 💡 🧪 mobKey = IconButton-[GlobalKey#a4363](tooltip: Man Overboard, disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#db232]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:39:12)<…>
+│ 💡 🧪 settingsKey = IconButton-[GlobalKey#f8a7a](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#db232]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:40:12)<…>
+│ 💡 🧪 titleKey = Text-[GlobalKey#41df2]("Welcome!", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), size: 22.0, weight: 700, textAlign: center, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:41:12)<…>
+│ 💡 🧪 searchKey = IconButton-[GlobalKey#642a9](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#db232]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:42:12)<…>
+│ 💡 🧪 newCrewKey = KeyedSubtree-[GlobalKey#1a1d2 NewCrewKey]<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:43:12)<…>
+│ 💡 🧪 advancedRefreshersKey = KeyedSubtree-[GlobalKey#eb0aa AdvancedRefreshersKey]<…>
+│ #0   LandingScreenTour.start.<anonymous closure> (package:bcc5/widgets/tour/landing_screen_tour.dart:222:16)<…>
+│ 💡 ⏭ Tour skipped<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:70:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:71:12)<…>
+│ 💡 🧭 AppStartupTracker.reminderAlreadyShown = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:74:12)<…>
+│ 💡 🧭 widget.showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:75:12)<…>
+│ 💡 🧭 widget.startTour = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:139:14)<…>
+│ 💡 🧭 Reminder already shown this session. Skipping.<…>
+
+Performing hot restart...                                       
+Restarted application in 246ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: Unnamed Vessel<…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:30:10)<…>
+│ 💡 🚀 Reminder Check:<…>
+│ 💡 - showReminder: true<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - shouldStartTour: false<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:39:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:70:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:71:12)<…>
+│ 💡 🧭 AppStartupTracker.reminderAlreadyShown = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:74:12)<…>
+│ 💡 🧭 widget.showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:75:12)<…>
+│ 💡 🧭 widget.startTour = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:98:14)<…>
+│ 💡 🧭 Reminder has NOT been shown yet. Proceeding to check...<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:112:16)<…>
+│ 💡 🧭 SettingsManager.shouldShowEmergencyReminder = true<…>
+│ #0   LandingScreenState.initState.isTourPlanned (package:bcc5/screens/landing_screen/landing_screen.dart:105:16)<…>
+│ 💡 🧭 Tour check — from widget: false, from settings: false<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:116:16)<…>
+│ 💡 🧭 Final condition — shouldShow: true, tourPlanned: false<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:121:18)<…>
+│ 💡 🧭 ✅ Showing reminder (2s delay)...<…>
+│ #0   LandingScreenState.initState.<anonymous closure>.<anonymous closure>.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:125:24)<…>
+│ 💡 🧭 ✅ showEmergencyReminderDialog(context)<…>
+│ #0   showEmergencyReminderDialog (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:28:10)<…>
+│ 💡 🛟 Emergency Reminder Data:<…>
+│ 💡 - Vessel: S/V Unnamed Vessel<…>
+│ 💡 - Length: 0 feet<…>
+│ 💡 - Min Depth: 0<…>
+│ 💡 - Description: No description provided.<…>
+│ 💡 - Adults: 1<…>
+│ 💡 - Children: 0<…>
+│ 💡 - MMSI: 000000000<…>
+│ 💡 - Coast Guard: 000-000-0000<…>
+│ 💡 - Captain: 000-000-0000<…>
+│ 💡 - Emergency Contact: Emergency Contact<…>
+│ 💡 - Emergency Phone: 000-000-0000<…>
+│ 💡 <…>
+│ #0   showEmergencyReminderDialog.<anonymous closure>.<anonymous closure> (package:bcc5/widgets/dialogs/emergency_reminder_dialog.dart:97:24)<…>
+│ 💡 ✅ User tapped "Looks Good" — saving reviewedAt<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:70:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:71:12)<…>
+│ 💡 🧭 AppStartupTracker.reminderAlreadyShown = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:74:12)<…>
+│ 💡 🧭 widget.showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:75:12)<…>
+│ 💡 🧭 widget.startTour = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:139:14)<…>
+│ 💡 🧭 Reminder already shown this session. Skipping.<…>
+│ #0   PartZoneScreen.build (package:bcc5/screens/parts/part_zone_screen.dart:49:12)<…>
+│ 💡 🟩 Displaying PartZoneScreen with layout polish<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:70:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:71:12)<…>
+│ 💡 🧭 AppStartupTracker.reminderAlreadyShown = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:74:12)<…>
+│ 💡 🧭 widget.showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:75:12)<…>
+│ 💡 🧭 widget.startTour = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:139:14)<…>
+│ 💡 🧭 Reminder already shown this session. Skipping.<…>
+
+Performing hot restart...                                       
+Restarted application in 230ms.
+│ #0   main (package:bcc5/main.dart:19:12)<…>
+│ 💡 🧪 DEBUG STARTUP INFO:<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - boatName: <…>
+│ 💡 - shouldStartTour: true<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:30:10)<…>
+│ 💡 🚀 Reminder Check:<…>
+│ 💡 - showReminder: true<…>
+│ 💡 - reviewedAt: null<…>
+│ 💡 - shouldStartTour: true<…>
+│ 💡 <…>
+│ #0   main (package:bcc5/main.dart:39:10)<…>
+│ 💡 🚀 App Launch | Emergency Reminder: true<…>
+│ 💡 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 🌕🌕🌕🌕🌕 APP LAUNCH 🌕🌕🌕🌕🌕<…>
+│ 💡 <…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:70:12)<…>
+│ 💡 🧭 LandingScreenState.initState() called<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:71:12)<…>
+│ 💡 🧭 AppStartupTracker.reminderAlreadyShown = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:74:12)<…>
+│ 💡 🧭 widget.showReminder = true<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:75:12)<…>
+│ 💡 🧭 widget.startTour = false<…>
+│ #0   LandingScreenState.initState (package:bcc5/screens/landing_screen/landing_screen.dart:98:14)<…>
+│ 💡 🧭 Reminder has NOT been shown yet. Proceeding to check...<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:112:16)<…>
+│ 💡 🧭 SettingsManager.shouldShowEmergencyReminder = true<…>
+│ #0   LandingScreenState.initState.isTourPlanned (package:bcc5/screens/landing_screen/landing_screen.dart:105:16)<…>
+│ 💡 🧭 Tour check — from widget: false, from settings: true<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:116:16)<…>
+│ 💡 🧭 Final condition — shouldShow: true, tourPlanned: true<…>
+│ #0   LandingScreenState.initState.<anonymous closure> (package:bcc5/screens/landing_screen/landing_screen.dart:133:18)<…>
+│ 💡 🧭 ⛔ Skipping reminder — already shown or tour in progress<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:37:12)<…>
+│ 💡 🎯 Starting Landing Tour...<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:38:12)<…>
+│ 💡 🧪 mobKey = IconButton-[GlobalKey#d6d90](tooltip: Man Overboard, disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#b4ed2]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:39:12)<…>
+│ 💡 🧪 settingsKey = IconButton-[GlobalKey#a8c4e](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#b4ed2]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:40:12)<…>
+│ 💡 🧪 titleKey = Text-[GlobalKey#cc0f7]("Welcome!", inherit: true, color: Color(alpha: 1.0000, red: 1.0000, green: 1.0000, blue: 1.0000, colorSpace: ColorSpace.sRGB), size: 22.0, weight: 700, textAlign: center, dependencies: [DefaultSelectionStyle, DefaultTextStyle, MediaQuery])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:41:12)<…>
+│ 💡 🧪 searchKey = IconButton-[GlobalKey#57dcc](disabled, disabled, dependencies: [InheritedCupertinoTheme, _InheritedTheme, _LocalizationsScope-[GlobalKey#b4ed2]])<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:42:12)<…>
+│ 💡 🧪 newCrewKey = KeyedSubtree-[GlobalKey#dd424 NewCrewKey]<…>
+│ #0   LandingScreenTour.start (package:bcc5/widgets/tour/landing_screen_tour.dart:43:12)<…>
+│ 💡 🧪 advancedRefreshersKey = KeyedSubtree-[GlobalKey#745af AdvancedRefreshersKey]<…>
+│ #0   LandingScreenTour.start.<anonymous closure> (package:bcc5/widgets/tour/landing_screen_tour.dart:222:16)<…>
+│ 💡 ⏭ Tour skipped<…>
+
+Application finished.

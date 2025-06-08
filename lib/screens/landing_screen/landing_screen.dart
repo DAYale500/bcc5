@@ -9,6 +9,7 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/tour/landing_screen_tour.dart';
+import 'package:bcc5/utils/app_startup_tracker.dart';
 
 class LandingScreen extends StatefulWidget {
   final bool showReminder;
@@ -60,7 +61,6 @@ class LandingScreenState extends State<LandingScreen> {
   GlobalKey get settingsKey => _keySettingsIcon;
   GlobalKey get titleKey => _keyAppBarTitle;
   GlobalKey get searchKey => _keySearchIcon;
-  bool _reminderAlreadyShown = false;
 
   @override
   void initState() {
@@ -68,7 +68,11 @@ class LandingScreenState extends State<LandingScreen> {
     LandingScreen._state = this;
 
     logger.i('🧭 LandingScreenState.initState() called');
-    logger.i('🧭 showReminder = ${widget.showReminder}');
+    logger.i(
+      '🧭 AppStartupTracker.reminderAlreadyShown = ${AppStartupTracker.reminderAlreadyShown}',
+    );
+    logger.i('🧭 widget.showReminder = ${widget.showReminder}');
+    logger.i('🧭 widget.startTour = ${widget.startTour}');
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (widget.startTour || await LandingScreenTour.shouldStart()) {
@@ -90,32 +94,77 @@ class LandingScreenState extends State<LandingScreen> {
       }
     });
 
-    if (!_reminderAlreadyShown) {
-      _reminderAlreadyShown = true;
+    if (!AppStartupTracker.reminderAlreadyShown) {
+      logger.i('🧭 Reminder has NOT been shown yet. Proceeding to check...');
+
+      AppStartupTracker.reminderAlreadyShown = true;
 
       Future<bool> isTourPlanned() async {
-        return widget.startTour || await LandingScreenTour.shouldStart();
+        final tourFromWidget = widget.startTour;
+        final tourFromSettings = await LandingScreenTour.shouldStart();
+        logger.i(
+          '🧭 Tour check — from widget: $tourFromWidget, from settings: $tourFromSettings',
+        );
+        return tourFromWidget || tourFromSettings;
       }
 
       SettingsManager.shouldShowEmergencyReminder().then((shouldShow) async {
+        logger.i(
+          '🧭 SettingsManager.shouldShowEmergencyReminder = $shouldShow',
+        );
         final tourPlanned = await isTourPlanned();
+        logger.i(
+          '🧭 Final condition — shouldShow: $shouldShow, tourPlanned: $tourPlanned',
+        );
+
         if (shouldShow && !tourPlanned) {
-          logger.i('🧭 Scheduling 2s delayed dialog (tour not running)...');
+          logger.i('🧭 ✅ Showing reminder (2s delay)...');
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Future.delayed(const Duration(seconds: 2), () {
               if (mounted) {
-                logger.i('🧭 Triggering showEmergencyReminderDialog()');
+                logger.i('🧭 ✅ showEmergencyReminderDialog(context)');
                 showEmergencyReminderDialog(context);
+              } else {
+                logger.w('⚠️ Skipped dialog — widget not mounted');
               }
             });
           });
         } else {
           logger.i(
-            '🧭 Skipping emergency reminder on first-ever launch (tourPlanned: $tourPlanned)',
+            '🧭 ⛔ Skipping reminder — already shown or tour in progress',
           );
         }
       });
+    } else {
+      logger.i('🧭 Reminder already shown this session. Skipping.');
     }
+
+    // if (!_reminderAlreadyShown) {
+    //   _reminderAlreadyShown = true;
+
+    //   Future<bool> isTourPlanned() async {
+    //     return widget.startTour || await LandingScreenTour.shouldStart();
+    //   }
+
+    //   SettingsManager.shouldShowEmergencyReminder().then((shouldShow) async {
+    //     final tourPlanned = await isTourPlanned();
+    //     if (shouldShow && !tourPlanned) {
+    //       logger.i('🧭 Scheduling 2s delayed dialog (tour not running)...');
+    //       WidgetsBinding.instance.addPostFrameCallback((_) {
+    //         Future.delayed(const Duration(seconds: 2), () {
+    //           if (mounted) {
+    //             logger.i('🧭 Triggering showEmergencyReminderDialog()');
+    //             showEmergencyReminderDialog(context);
+    //           }
+    //         });
+    //       });
+    //     } else {
+    //       logger.i(
+    //         '🧭 Skipping emergency reminder on first-ever launch (tourPlanned: $tourPlanned)',
+    //       );
+    //     }
+    //   });
+    // }
 
     // if (!_reminderAlreadyShown) {
     //   _reminderAlreadyShown = true;
