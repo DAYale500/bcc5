@@ -1,0 +1,52 @@
+{
+  "id": "lesson_emer_6.00",
+  "title": "Advanced Emergency Procedures json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Emergencies require calm thinking, clear communication, and quick action."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Understand your emergency plan and assign roles in advance."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Practice drills to stay sharp and reduce panic in real scenarios."
+    }
+  ],
+  "keywords": [
+    "emergency procedures",
+    "response",
+    "emergency response"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_emer_6.00",
+      "title": "Advanced Emergency Procedures",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are the steps to follow during a boat emergency?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Assess the situation, communicate clearly, follow emergency protocols."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

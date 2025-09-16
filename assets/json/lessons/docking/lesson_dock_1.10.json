@@ -1,6 +1,6 @@
 {
-  "id": "lesson_docking_1.10",
-  "title": "Departing the Dock \u2013 What to Expect",
+  "id": "lesson_dock_1.10",
+  "title": "Departing the Dock \u2013 What to Expect Json crazy",
   "content": [
     {
       "type": "text",
@@ -20,7 +20,7 @@
   "isPaid": false,
   "flashcards": [
     {
-      "id": "flashcard_lesson_docking_1.10",
+      "id": "flashcard_lesson_dock_1.10",
       "title": "FC: What to Expect During Departure",
       "sideA": [
         {

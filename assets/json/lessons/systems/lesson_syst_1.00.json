@@ -1,0 +1,37 @@
+{
+  "id": "lesson_syst_1.00",
+  "title": "Get Oriented with the Boat",
+  "content": [
+    {
+      "type": "text",
+      "content": "Explore key areas of a sailboat, including the cockpit, deck, and cabin."
+    }
+  ],
+  "keywords": [
+    "boat layout",
+    "cockpit",
+    "deck",
+    "cabin"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_syst_1.00",
+      "title": "Get Oriented with the Boat",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are the key areas of a sailboat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "The cockpit, deck, and cabin are primary areas of a sailboat."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

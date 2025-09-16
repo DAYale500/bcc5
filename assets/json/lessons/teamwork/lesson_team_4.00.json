@@ -1,0 +1,36 @@
+{
+  "id": "lesson_team_4.00",
+  "title": "Paid: Crew Roles and Communication",
+  "content": [
+    {
+      "type": "text",
+      "content": "Clear communication is crucial for coordination and safety."
+    }
+  ],
+  "keywords": [
+    "crew",
+    "communication",
+    "roles"
+  ],
+  "isPaid": true,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_team_4.00",
+      "title": "Crew Roles and Communication",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why is communication essential among crew members?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Clear communication prevents accidents and ensures smooth operations."
+        }
+      ],
+      "isPaid": true,
+      "showAFirst": true
+    }
+  ]
+}

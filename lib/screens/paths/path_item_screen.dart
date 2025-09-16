@@ -101,7 +101,7 @@ class _PathItemScreenState extends State<PathItemScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Resume your voyage, or chart any path below.',
+              'Select a starting point',
               style: AppTheme.subheadingStyle.copyWith(
                 color: AppTheme.primaryBlue,
               ),

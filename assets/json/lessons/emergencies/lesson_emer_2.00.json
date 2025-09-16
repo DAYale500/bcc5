@@ -1,0 +1,53 @@
+{
+  "id": "lesson_emer_2.00",
+  "title": "Man Overboard Procedure json",
+  "content": [
+    {
+      "type": "text",
+      "content": "IMMEDIATE ACTIONS for MOB: Alert the crew and assign a spotter."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Throw a flotation device and maintain visual contact. Circle around carefully."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Recover the person from the water safely, using equipment if needed."
+    }
+  ],
+  "keywords": [
+    "man overboard",
+    "MOB",
+    "rescue",
+    "recovery"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_emer_2.00",
+      "title": "Man Overboard Procedure",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What should the crew do immediately in a man overboard situation?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Throw a flotation device, assign a spotter, turn the boat for recovery."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

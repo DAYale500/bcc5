@@ -6,7 +6,7 @@ class CompetentCrewRepository {
   static final List<LearningPathChapter> _chapters = [
     LearningPathChapter(
       id: 'path_competentCrew_1.00',
-      title: 'Before You Board',
+      title: 'Home: Before You Board',
       showFlashcardEnding: true, // NEW
 
       items: [
@@ -27,7 +27,7 @@ class CompetentCrewRepository {
     ),
     LearningPathChapter(
       id: 'path_competentCrew_2.00',
-      title: 'Dockside: Board and Prepare ',
+      title: 'Dockside: Boarding ',
       items: [
         PathItem(pathItemId: 'lesson_safe_2.11'),
         PathItem(pathItemId: 'lesson_safe_2.12'),
@@ -49,7 +49,7 @@ class CompetentCrewRepository {
     ),
     LearningPathChapter(
       id: 'path_competentCrew_3.00',
-      title: '3: Get Settled Onboard',
+      title: 'Onboard: Get Settled',
       items: [
         PathItem(pathItemId: 'lesson_emer_1.00'),
         PathItem(pathItemId: 'lesson_emer_2.00'),
@@ -69,7 +69,7 @@ class CompetentCrewRepository {
     ),
     LearningPathChapter(
       id: 'path_competentCrew_4.00',
-      title: '4: Getting Underway',
+      title: 'Leaving: Getting Underway',
       items: [
         PathItem(pathItemId: 'lesson_navi_1.00'),
         PathItem(pathItemId: 'lesson_navi_2.00'),
@@ -92,7 +92,7 @@ class CompetentCrewRepository {
     ),
     LearningPathChapter(
       id: 'path_competentCrew_5.00',
-      title: '5: Allhands Responsibilities',
+      title: 'Underway: Allhands Responsibilities',
       items: [
         PathItem(pathItemId: 'lesson_emer_1.00'),
         PathItem(pathItemId: 'lesson_emer_2.00'),
@@ -114,7 +114,7 @@ class CompetentCrewRepository {
     ),
     LearningPathChapter(
       id: 'path_competentCrew_6.00',
-      title: '6: Sailing at Last',
+      title: 'Sailing: Sails and Lines',
       items: [
         PathItem(pathItemId: 'lesson_emer_1.00'),
         PathItem(pathItemId: 'lesson_emer_2.00'),

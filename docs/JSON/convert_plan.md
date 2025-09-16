@@ -901,7 +901,7 @@ If the latter works, your fallback+JSON blend is proven.
 You’ve approved or expressed interest in these:
 
 ### 🧩 Structure & Content Architecture
-
+ 
 * [ ] Apply **same JSON/folder/index structure** to tools and parts
 * [ ] Use **shared schema** formats where practical
 * [ ] Build a **master index across all modules** for global search

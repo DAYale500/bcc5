@@ -1,0 +1,40 @@
+{
+  "id": "lesson_seam_2.00",
+  "title": "Sailing Along - Trimming Sails",
+  "content": [
+    {
+      "type": "heading",
+      "content": "Trim for Speed"
+    },
+    {
+      "type": "text",
+      "content": "Learn how to trim sails to optimize performance based on wind conditions."
+    }
+  ],
+  "keywords": [
+    "sail trim",
+    "tacking",
+    "jibing"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_seam_2.00",
+      "title": "Sailing Along - Trimming Sails",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What does proper sail trimming achieve?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "It optimizes boat speed and efficiency by adjusting sails to wind conditions."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

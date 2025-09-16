@@ -1,0 +1,36 @@
+{
+  "id": "lesson_syst_2.00",
+  "title": "Essential Boat Equipment",
+  "content": [
+    {
+      "type": "text",
+      "content": "Understand the essential equipment on a boat."
+    }
+  ],
+  "keywords": [
+    "equipment",
+    "boat safety",
+    "essentials"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_syst_2.00",
+      "title": "Essential Boat Equipment",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are examples of essential boat equipment?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Life jackets, fire extinguishers, and navigation tools."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

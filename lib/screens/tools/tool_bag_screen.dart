@@ -45,6 +45,7 @@ class ToolBagScreen extends StatelessWidget {
             titleKey: titleKey,
           ),
         ),
+
         Positioned(
           top: appBarOffset + 26,
           left: 16,

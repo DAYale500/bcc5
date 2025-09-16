@@ -1,0 +1,36 @@
+{
+  "id": "lesson_navi_4.00",
+  "title": "How to Read Wind Direction",
+  "content": [
+    {
+      "type": "text",
+      "content": "Reading the wind direction is crucial for effective sailing and anticipating shifts in boat movement."
+    }
+  ],
+  "keywords": [
+    "wind direction",
+    "sailing",
+    "navigation"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_navi_4.00",
+      "title": "Reading Wind Direction",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why is wind direction important in sailing?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "It determines how you adjust the sails and steer the boat."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

@@ -94,6 +94,7 @@ import 'package:bcc5/utils/logger.dart';
 import 'tool_procedures_repository.dart';
 import 'tool_colregs_repository.dart';
 import 'tool_checklists_repository.dart';
+import 'tool_utilities_repository.dart';
 
 class ToolRepositoryIndex {
   static final Map<String, List<ToolItem>> _toolbags = {
@@ -101,6 +102,7 @@ class ToolRepositoryIndex {
     'procedures': ToolProceduresRepository.toolItems,
     'references': ToolReferencesRepository.toolItems,
     'colregs': ToolColregsRepository.toolItems,
+    'utilities': ToolUtilitiesRepository.toolItems,
   };
 
   static List<ToolItem> getToolsForBag(String toolbag) =>
@@ -240,6 +242,43 @@ class ToolColregsRepository {
           showAFirst: true,
         ),
       ],
+    ),
+  ];
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/repositories/tools/tool_utilities_repository.dart
+// lib/data/repositories/tools/tool_utilities_repository.dart
+import 'package:bcc5/data/models/tool_model.dart';
+import 'package:bcc5/data/models/content_block.dart';
+
+class ToolUtilitiesRepository {
+  static const String bagKey = 'utilities';
+
+  // For now: a single tool item; ToolItemScreen will show this one.
+  static final List<ToolItem> toolItems = [
+    ToolItem(
+      id: 'tool_utilities_gps_conversion_1.00', // note: bag prefix "utilities"
+      title: 'GPS Conversion', // keeps exact caps on item screen
+      content: [
+        ContentBlock.heading('Enter Coordinates to Convert:'),
+        ContentBlock.gpsConverter(), // 🟩 now at the top
+        ContentBlock.divider(),
+        ContentBlock.text(
+          // 🟩 explanatory text below
+          'Paste or type coordinates in any of the common formats '
+          '(DD, DMM, or DMS). You’ll see all three formats below the field.',
+        ),
+      ],
+      flashcards: const [],
     ),
   ];
 }
@@ -1779,7 +1818,7 @@ class CompetentCrewRepository {
   static final List<LearningPathChapter> _chapters = [
     LearningPathChapter(
       id: 'path_competentCrew_1.00',
-      title: 'Before You Board',
+      title: 'Home: Before You Board',
       showFlashcardEnding: true, // NEW
 
       items: [
@@ -1800,7 +1839,7 @@ class CompetentCrewRepository {
     ),
     LearningPathChapter(
       id: 'path_competentCrew_2.00',
-      title: 'Dockside: Board and Prepare ',
+      title: 'Dockside: Boarding ',
       items: [
         PathItem(pathItemId: 'lesson_safe_2.11'),
         PathItem(pathItemId: 'lesson_safe_2.12'),
@@ -1822,7 +1861,7 @@ class CompetentCrewRepository {
     ),
     LearningPathChapter(
       id: 'path_competentCrew_3.00',
-      title: '3: Get Settled Onboard',
+      title: 'Onboard: Get Settled',
       items: [
         PathItem(pathItemId: 'lesson_emer_1.00'),
         PathItem(pathItemId: 'lesson_emer_2.00'),
@@ -1842,7 +1881,7 @@ class CompetentCrewRepository {
     ),
     LearningPathChapter(
       id: 'path_competentCrew_4.00',
-      title: '4: Getting Underway',
+      title: 'Leaving: Getting Underway',
       items: [
         PathItem(pathItemId: 'lesson_navi_1.00'),
         PathItem(pathItemId: 'lesson_navi_2.00'),
@@ -1865,7 +1904,7 @@ class CompetentCrewRepository {
     ),
     LearningPathChapter(
       id: 'path_competentCrew_5.00',
-      title: '5: Allhands Responsibilities',
+      title: 'Underway: Allhands Responsibilities',
       items: [
         PathItem(pathItemId: 'lesson_emer_1.00'),
         PathItem(pathItemId: 'lesson_emer_2.00'),
@@ -1887,7 +1926,7 @@ class CompetentCrewRepository {
     ),
     LearningPathChapter(
       id: 'path_competentCrew_6.00',
-      title: '6: Sailing at Last',
+      title: 'Sailing: Sails and Lines',
       items: [
         PathItem(pathItemId: 'lesson_emer_1.00'),
         PathItem(pathItemId: 'lesson_emer_2.00'),
@@ -2739,31 +2778,101 @@ import 'package:bcc5/data/models/lesson_model.dart';
 import 'package:bcc5/utils/logger.dart';
 
 class JsonLessonRepository {
-  static Future<Lesson?> loadById(String id) async {
-    final possibleFolders = [
-      'assets/json/lessons/docking',
-      'assets/json/lessons/safety',
-      'assets/json/lessons/emergencies',
-      // add other folders as needed
-    ];
+  static String? _moduleFor(String id) {
+    if (id.startsWith('lesson_dock_')) {
+      return 'docking';
+    }
+    if (id.startsWith('lesson_safety_')) {
+      return 'safety';
+    }
+    if (id.startsWith('lesson_emer_')) {
+      return 'emergencies';
+    }
+    if (id.startsWith('lesson_seam_')) {
+      return 'seamanship';
+    }
+    if (id.startsWith('lesson_term_')) {
+      return 'terminology';
+    }
+    if (id.startsWith('lesson_syst_')) {
+      return 'systems';
+    }
+    if (id.startsWith('lesson_team_')) {
+      return 'teamwork';
+    }
+    if (id.startsWith('lesson_knot_') || id.startsWith('lesson_knots_')) {
+      return 'knots';
+    }
+    if (id.startsWith('lesson_nav_')) {
+      return 'navigation';
+    }
+    return null;
+  }
 
-    for (final folder in possibleFolders) {
-      final path = '$folder/$id.json';
+  /// Finds a single lesson by id inside the module file.
+  static Future<Lesson?> loadById(String id) async {
+    final module = _moduleFor(id);
+    if (module != null) {
+      final path = 'assets/json/lessons/$module.json';
       try {
-        final rawJson = await rootBundle.loadString(path);
-        final map = jsonDecode(rawJson);
-        final lesson = Lesson.fromJson(map);
-        logger.i('📘 Loaded $id from $path');
-        return lesson;
-      } catch (e) {
-        // Continue trying other folders silently
+        logger.i('🔎 Searching $id in $path');
+        final raw = await rootBundle.loadString(path);
+        final Map<String, dynamic> map = jsonDecode(raw);
+        final List lessons = (map['lessons'] as List?) ?? const [];
+        final match = lessons.cast<Map>().firstWhere(
+          (e) => (e['id'] ?? '').toString() == id,
+          orElse: () => const <String, dynamic>{},
+        );
+        if (match.isNotEmpty) {
+          logger.i('📘 Found $id in $path');
+          return Lesson.fromJson(Map<String, dynamic>.from(match));
+        }
+      } catch (e, st) {
+        logger.w('❌ Failed module file $path → $e\n$st');
       }
     }
-
     logger.w('🕵️‍♂️ Could not find JSON for lesson $id');
     return null;
   }
 }
+
+// import 'dart:convert';
+// import 'package:flutter/services.dart' show rootBundle;
+// import 'package:bcc5/data/models/lesson_model.dart';
+// import 'package:bcc5/utils/logger.dart';
+
+// class JsonLessonRepository {
+//   static Future<Lesson?> loadById(String id) async {
+//     final possibleFolders = [
+//       'assets/json/lessons/docking',
+//       'assets/json/lessons/safety',
+//       'assets/json/lessons/emergencies',
+//       'assets/json/lessons/seamanship',
+//       'assets/json/lessons/terminology',
+//       'assets/json/lessons/systems',
+//       'assets/json/lessons/teamwork',
+//       'assets/json/lessons/knots',
+//       'assets/json/lessons/navigation',
+//     ];
+
+//     for (final folder in possibleFolders) {
+//       final path = '$folder/$id.json';
+//       try {
+//         logger.i('🔎 Trying to load $id from: $path');
+//         final rawJson = await rootBundle.loadString(path);
+//         final map = jsonDecode(rawJson);
+//         final lesson = Lesson.fromJson(map);
+//         logger.i('📘 Successfully loaded $id from $path');
+//         return lesson;
+//       } catch (e, stack) {
+//         logger.w('❌ Failed to load $path → $e\n$stack');
+//       }
+//     }
+
+//     logger.w('🕵️‍♂️ Could not find JSON for lesson $id');
+//     return null;
+//   }
+// }
 
 
 
@@ -2877,6 +2986,156 @@ class LessonRepositoryIndex {
     return moduleNames[currentIndex + 1];
   }
 }
+
+
+
+
+
+
+
+
+
+
+File: lib/data/repositories/lessons/json_lesson_index.dart
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+
+class JsonLessonIndex {
+  static Future<List<String>> getModuleNames() async {
+    // hardcode for now; we can auto-discover later
+    return [
+      'docking',
+      'safety',
+      'emergencies',
+      'seamanship',
+      'terminology',
+      'systems',
+      'teamwork',
+      'knots',
+      'navigation',
+    ];
+  }
+
+  /// Reads one JSON file per module: assets/json/lessons/`<module>`.json
+  static Future<List<Map<String, String>>> getLessonsForModule(
+    String module,
+  ) async {
+    final path = 'assets/json/lessons/$module.json';
+    try {
+      final raw = await rootBundle.loadString(path);
+      final Map<String, dynamic> map = jsonDecode(raw);
+      final List lessons = (map['lessons'] as List?) ?? const [];
+      return lessons
+          .map<Map<String, String>>(
+            (e) => {
+              'id': (e['id'] ?? '').toString(),
+              'title': (e['title'] ?? e['id'] ?? '').toString(),
+            },
+          )
+          .toList();
+    } catch (_) {
+      return [];
+    }
+  }
+}
+
+
+
+
+// import 'dart:convert';
+// import 'package:flutter/services.dart' show rootBundle;
+
+
+
+// class JsonLessonIndex {
+
+// // lib/data/repositories/lessons/json_lesson_index.dart
+// static Future<List<Map<String, String>>> getLessonsForModule(String module) async {
+//   final path = 'assets/json/lessons/$module.json';
+//   final raw = await rootBundle.loadString(path);
+//   final Map map = jsonDecode(raw);
+//   final List lessons = (map['lessons'] as List?) ?? const [];
+//   return lessons.map<Map<String,String>>((e) => {
+//     'id': (e['id'] ?? '').toString(),
+//     'title': (e['title'] ?? e['id'] ?? '').toString(),
+//   }).toList();
+// }
+
+
+// // lib/data/repositories/lessons/json_lesson_repository.dart
+// static String? _moduleFor(String id) {
+//   if (id.startsWith('lesson_term_')) return 'terminology';
+//   // (add your other prefixes later)
+//   return null;
+// }
+
+// static Future<Lesson?> loadById(String id) async {
+//   final module = _moduleFor(id);
+//   if (module != null) {
+//     final raw = await rootBundle.loadString('assets/json/lessons/$module.json');
+//     final Map map = jsonDecode(raw);
+//     final List lessons = (map['lessons'] as List?) ?? const [];
+//     final match = lessons.cast<Map>().firstWhere(
+//       (e) => (e['id'] ?? '') == id,
+//       orElse: () => {},
+//     );
+//     if (match.isNotEmpty) {
+//       return Lesson.fromJson(Map<String, dynamic>.from(match));
+//     }
+//   }
+//   return null; // (you can keep your old per-file fallback during migration if you want)
+// }
+
+
+//   static Future<List<String>> getModuleNames() async {
+//     // keep your hardcoded list for now
+//     return [
+//       'docking',
+//       'safety',
+//       'emergencies',
+//       'seamanship',
+//       'terminology',
+//       'systems',
+//       'teamwork',
+//       'knots',
+//       'navigation',
+//     ];
+//   }
+
+//   static Future<List<Map<String, String>>> getLessonsForModule(
+//     String module,
+//   ) async {
+//     // Map module -> expected index filename
+//     final indexName = switch (module) {
+//       'docking' => 'index_lesson_dock.json',
+//       'safety' => 'index_lesson_safety.json',
+//       'emergencies' => 'index_lesson_emer.json',
+//       'seamanship' => 'index_lesson_seamanship.json',
+//       'terminology' => 'index_lesson_term.json',
+//       'systems' => 'index_lesson_syst.json',
+//       'teamwork' => 'index_lesson_team.json',
+//       'knots' => 'index_lesson_knots.json',
+//       'navigation' => 'index_lesson_navigation.json',
+//       _ => 'index_lesson_$module.json',
+//     };
+
+//     final path = 'assets/json/lessons/$module/$indexName';
+
+//     try {
+//       final raw = await rootBundle.loadString(path);
+//       final List list = jsonDecode(raw);
+//       // index entries look like: {"id": "...", "title": "...", "description": "..."}
+//       return list
+//           .map<Map<String, String>>(
+//             (e) => {'id': e['id'] as String, 'title': e['title'] as String},
+//           )
+//           .toList();
+//     } catch (_) {
+//       // If no index file yet, return empty for now (we’ll add manifest-scanning later)
+//       return [];
+//     }
+//   }
+// }
 
 
 
@@ -4627,7 +4886,7 @@ class DockingLessonRepository {
     ),
 
     Lesson(
-      id: "lesson_docking_1.10",
+      id: "lesson_dock_1.10",
       title: "Departing the Dock – What to Expect",
       content: [
         ContentBlock.text(
@@ -4644,7 +4903,7 @@ class DockingLessonRepository {
       isPaid: false,
       flashcards: [
         Flashcard(
-          id: "flashcard_lesson_docking_1.10",
+          id: "flashcard_lesson_dock_1.10",
           title: "FC: What to Expect During Departure",
           sideA: [
             ContentBlock.text("What are common ways a boat departs the dock?"),

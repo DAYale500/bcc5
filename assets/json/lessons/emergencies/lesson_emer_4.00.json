@@ -1,0 +1,53 @@
+{
+  "id": "lesson_emer_4.00",
+  "title": "Safety Equipment json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Know where all safety equipment is located on board. Time is critical in an emergency."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Familiarize yourself with how to use life jackets, fire extinguishers, and radios."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Conduct safety walkthroughs at the beginning of each trip."
+    }
+  ],
+  "keywords": [
+    "PFD",
+    "life sling",
+    "radio",
+    "fire extinguisher"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_emer_4.00",
+      "title": "Safety Equipment",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are essential pieces of safety equipment on a sailboat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Life jackets, throwable flotation devices, VHF radio, fire extinguisher."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

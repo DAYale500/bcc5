@@ -118,7 +118,7 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
                 //   );
                 // },
                 style: AppTheme.groupRedButtonStyle,
-                child: const Text('Set sail on a new course'),
+                child: const Text('Start at the beginning'),
               ),
               const SizedBox(height: 12),
               ElevatedButton(
@@ -189,7 +189,7 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
                 //   );
                 // },
                 style: AppTheme.groupRedButtonStyle,
-                child: const Text('Resume your voyage'),
+                child: const Text('Resume where you left off'),
               ),
             ],
           ),

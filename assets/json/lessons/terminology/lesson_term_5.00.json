@@ -1,0 +1,36 @@
+{
+  "id": "lesson_term_5.00",
+  "title": "Paid: Points of Sail",
+  "content": [
+    {
+      "type": "text",
+      "data": "The angle of the boat relative to the wind determines the \"point of sail\"."
+    }
+  ],
+  "keywords": [
+    "points of sail",
+    "wind",
+    "sailing"
+  ],
+  "isPaid": true,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_term_5.00",
+      "title": "Points of Sail",
+      "sideA": [
+        {
+          "type": "text",
+          "data": "What are the main points of sail?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "data": "Close-hauled (into the wind), beam reach (90\u00b0 to wind), broad reach (wind behind), run (directly downwind)."
+        }
+      ],
+      "isPaid": true,
+      "showAFirst": true
+    }
+  ]
+}

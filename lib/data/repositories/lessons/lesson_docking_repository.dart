@@ -43,7 +43,7 @@ class DockingLessonRepository {
     ),
 
     Lesson(
-      id: "lesson_docking_1.10",
+      id: "lesson_dock_1.10",
       title: "Departing the Dock – What to Expect",
       content: [
         ContentBlock.text(
@@ -60,7 +60,7 @@ class DockingLessonRepository {
       isPaid: false,
       flashcards: [
         Flashcard(
-          id: "flashcard_lesson_docking_1.10",
+          id: "flashcard_lesson_dock_1.10",
           title: "FC: What to Expect During Departure",
           sideA: [
             ContentBlock.text("What are common ways a boat departs the dock?"),

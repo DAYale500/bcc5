@@ -1,0 +1,36 @@
+{
+  "id": "lesson_knot_2.00",
+  "title": "Essential Knots",
+  "content": [
+    {
+      "type": "text",
+      "content": "Learn the bowline, cleat hitch, figure-eight, and two half-hitches."
+    }
+  ],
+  "keywords": [
+    "knots",
+    "bowline",
+    "cleat hitch"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_knot_2.00",
+      "title": "Essential Knots",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Which knot is best for creating a secure loop that won’t slip?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "The bowline knot."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

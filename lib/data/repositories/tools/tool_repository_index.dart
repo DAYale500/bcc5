@@ -6,6 +6,7 @@ import 'package:bcc5/utils/logger.dart';
 import 'tool_procedures_repository.dart';
 import 'tool_colregs_repository.dart';
 import 'tool_checklists_repository.dart';
+import 'tool_utilities_repository.dart';
 
 class ToolRepositoryIndex {
   static final Map<String, List<ToolItem>> _toolbags = {
@@ -13,6 +14,7 @@ class ToolRepositoryIndex {
     'procedures': ToolProceduresRepository.toolItems,
     'references': ToolReferencesRepository.toolItems,
     'colregs': ToolColregsRepository.toolItems,
+    'utilities': ToolUtilitiesRepository.toolItems,
   };
 
   static List<ToolItem> getToolsForBag(String toolbag) =>

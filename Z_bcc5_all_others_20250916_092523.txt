@@ -1071,6 +1071,252 @@ String getSequenceFromId(String id) {
 
 
 
+File: lib/utils/gps_formats.dart
+// lib/utils/gps_formats.dart
+
+class GpsCoord {
+  final double lat; // decimal degrees
+  final double lon; // decimal degrees
+  const GpsCoord(this.lat, this.lon);
+}
+
+enum CoordFormat { dd, dmm, dms }
+
+class ParseResult {
+  final GpsCoord coord;
+  final CoordFormat format;
+  const ParseResult(this.coord, this.format);
+}
+
+class GpsFormats {
+  // ───────────────────────── Public API
+  static ParseResult? tryParse(String raw) {
+    final s = _normalize(raw);
+    if (s.isEmpty) return null;
+
+    // 1) DD first (pure decimals are unambiguous)
+    final dd = _parseDD(s);
+    if (dd != null) return ParseResult(dd, CoordFormat.dd);
+
+    // 2) Then DMM, then DMS
+    final dmm = _parseDMM(s);
+    if (dmm != null) return ParseResult(dmm, CoordFormat.dmm);
+
+    final dms = _parseDMS(s);
+    if (dms != null) return ParseResult(dms, CoordFormat.dms);
+
+    return null;
+  }
+
+  // ───────────────────────── Formatters
+  static String toDD(GpsCoord c) {
+    String f(double v) => v.toStringAsFixed(6);
+    return '${f(c.lat)}, ${f(c.lon)}';
+  }
+
+  static String toDMM(GpsCoord c) {
+    String fmt(double deg, bool isLat) {
+      final hemi = _hemi(deg, isLat);
+      final abs = deg.abs();
+      final d = abs.floor();
+      final m = (abs - d) * 60.0;
+      return "$hemi $d° ${m.toStringAsFixed(3)}'";
+    }
+
+    return '${fmt(c.lat, true)}  ${fmt(c.lon, false)}';
+  }
+
+  static String toDMS(GpsCoord c) {
+    String fmt(double deg, bool isLat) {
+      final hemi = _hemi(deg, isLat);
+      final abs = deg.abs();
+      final d = abs.floor();
+      final minF = (abs - d) * 60.0;
+      final m = minF.floor();
+      final s = (minF - m) * 60.0;
+      return '$hemi $d° ${_pad2(m)}\' ${s.toStringAsFixed(2)}"';
+    }
+
+    return '${fmt(c.lat, true)}  ${fmt(c.lon, false)}';
+  }
+
+  // ───────────────────────── Parsers
+  // Accepts: N 37° 47' 9.12"  W 122° 24' 23.1"
+  static GpsCoord? _parseDMS(String s) {
+    // Accepts: N 37° 4' 33" [ , ; | or space ] W 122° 45' 12"
+    // Degree/minute/second symbols are optional if spacing is present.
+    final re = RegExp(
+      '([NS])?\\s*([+\\-]?\\d{1,2})(?:\\s*°|\\s+)?\\s*(\\d{1,2})(?:\\s*\\\'|\\s+)?\\s*(\\d{1,2}(?:\\.\\d+)?)(?:\\s*"|\\s+)?(?:\\s*(?:,|;|\\|)\\s*|\\s+)([EW])?\\s*([+\\-]?\\d{1,3})(?:\\s*°|\\s+)?\\s*(\\d{1,2})(?:\\s*\\\'|\\s+)?\\s*(\\d{1,2}(?:\\.\\d+)?)(?:\\s*"|\\s+)?',
+      caseSensitive: false,
+    );
+
+    final m = re.firstMatch(s);
+    if (m == null) return null;
+
+    final latHem = m.group(1);
+    final latD = double.tryParse(m.group(2) ?? '');
+    final latM = double.tryParse(m.group(3) ?? '');
+    final latS = double.tryParse(m.group(4) ?? '');
+    final lonHem = m.group(5);
+    final lonD = double.tryParse(m.group(6) ?? '');
+    final lonM = double.tryParse(m.group(7) ?? '');
+    final lonS = double.tryParse(m.group(8) ?? '');
+    if ([latD, latM, latS, lonD, lonM, lonS].any((e) => e == null)) return null;
+
+    final lat = _applyHem(
+      _dmsToDec(latD!, latM!, latS!),
+      latHem,
+      isLat: true,
+      signed: latD.isNegative,
+    );
+    final lon = _applyHem(
+      _dmsToDec(lonD!, lonM!, lonS!),
+      lonHem,
+      isLat: false,
+      signed: lonD.isNegative,
+    );
+    return _valid(lat, lon) ? GpsCoord(lat, lon) : null;
+  }
+
+  // Accepts: N 37° 47.150'  W 122° 24.385'
+  static GpsCoord? _parseDMM(String s) {
+    // Accepts: N 37° 4.56' [ , ; | or space ] W 122° 5.67'
+    // Degree/minute symbols are optional if spacing is present.
+    final re = RegExp(
+      '([NS])?\\s*([+\\-]?\\d{1,2})(?:\\s*°|\\s+)?\\s*(\\d{1,2}(?:\\.\\d+)?)(?:\\s*\\\'|\\s+)?(?:\\s*(?:,|;|\\|)\\s*|\\s+)([EW])?\\s*([+\\-]?\\d{1,3})(?:\\s*°|\\s+)?\\s*(\\d{1,2}(?:\\.\\d+)?)(?:\\s*\\\'|\\s+)?',
+      caseSensitive: false,
+    );
+
+    final m = re.firstMatch(s);
+    if (m == null) return null;
+
+    final latHem = m.group(1);
+    final latD = double.tryParse(m.group(2) ?? '');
+    final latM = double.tryParse(m.group(3) ?? '');
+    final lonHem = m.group(4);
+    final lonD = double.tryParse(m.group(5) ?? '');
+    final lonM = double.tryParse(m.group(6) ?? '');
+    if ([latD, latM, lonD, lonM].any((e) => e == null)) return null;
+
+    final lat = _applyHem(
+      _dmmToDec(latD!, latM!),
+      latHem,
+      isLat: true,
+      signed: latD.isNegative,
+    );
+    final lon = _applyHem(
+      _dmmToDec(lonD!, lonM!),
+      lonHem,
+      isLat: false,
+      signed: lonD.isNegative,
+    );
+    return _valid(lat, lon) ? GpsCoord(lat, lon) : null;
+  }
+
+  // Accepts: 37.78583, -122.40642
+  // Also: N 37.78583 W 122.40642   or   37.78583 122.40642 (one space)
+  // NOTE: both numbers must have a decimal part to avoid clashing with DMM/DMS.
+  static GpsCoord? _parseDD(String s) {
+    final re = RegExp(
+      r'^\s*([NS])?\s*([+\-]?\d+(?:\.\d+))\s*(?:,|;|\||\s)\s*([EW])?\s*([+\-]?\d+(?:\.\d+))\s*$',
+      caseSensitive: false,
+    );
+
+    final m = re.firstMatch(s);
+    if (m == null) return null;
+
+    final latHem = m.group(1);
+    final latV = double.tryParse(m.group(2)!);
+    final lonHem = m.group(3);
+    final lonV = double.tryParse(m.group(4)!);
+    if (latV == null || lonV == null) return null;
+
+    final lat = _applyHem(
+      latV.abs(),
+      latHem,
+      isLat: true,
+      signed: latV.isNegative,
+    );
+    final lon = _applyHem(
+      lonV.abs(),
+      lonHem,
+      isLat: false,
+      signed: lonV.isNegative,
+    );
+    return _valid(lat, lon) ? GpsCoord(lat, lon) : null;
+  }
+
+  // ───────────────────────── Helpers
+  // normalize METHOD
+  static String _normalize(String s) {
+    return s
+        // degree + minutes + seconds variants → standard symbols
+        .replaceAll('º', '°')
+        .replaceAll('°', '°')
+        .replaceAll('’', "'")
+        .replaceAll('`', "'")
+        .replaceAll('′', "'") // prime → '
+        .replaceAll('ʼ', "'") // modifier letter apostrophe → '
+        .replaceAll('˝', '"') // double acute → "
+        .replaceAll('″', '"') // double prime → "
+        .replaceAll('“', '"')
+        .replaceAll('”', '"')
+        // minus variants
+        .replaceAll('−', '-') // unicode minus → hyphen-minus
+        .replaceAll('−', '-') // math minus
+        .replaceAll('–', '-') // en dash  🟦 ADD
+        .replaceAll('—', '-') // em dash  🟦 ADD
+        // space variants
+        .replaceAll('\u00A0', ' ') // nbsp
+        .replaceAll('\u2009', ' ') // thin space
+        .replaceAll('\u2002', ' ') // en space
+        .replaceAll('\u2003', ' ') // em space
+        // collapse repeats, trim
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+  }
+
+  static String _hemi(double v, bool isLat) {
+    if (isLat) return v >= 0 ? 'N' : 'S';
+    return v >= 0 ? 'E' : 'W';
+  }
+
+  static String _pad2(int n) => n.toString().padLeft(2, '0');
+
+  static double _dmmToDec(double d, double m) => d.abs() + (m / 60.0);
+  static double _dmsToDec(double d, double m, double s) =>
+      d.abs() + (m / 60.0) + (s / 3600.0);
+
+  static double _signed(double v, bool negative) => negative ? -v : v;
+
+  static double _applyHem(
+    double absVal,
+    String? hemi, {
+    required bool isLat,
+    required bool signed,
+  }) {
+    if (hemi == null || hemi.isEmpty) {
+      // rely on the sign that came with the number
+      return _signed(absVal, signed);
+    }
+    final h = hemi.toUpperCase();
+    if (isLat) return (h == 'S') ? -absVal : absVal;
+    return (h == 'W') ? -absVal : absVal;
+  }
+
+  static bool _valid(double lat, double lon) =>
+      lat.abs() <= 90.0 && lon.abs() <= 180.0;
+}
+
+
+
+
+
+
+
+
+
+
 File: lib/utils/tour_manager.dart
 // class TourManager {
 //   static const _hasSeenLandingTourKey = 'hasSeenLandingTour';
@@ -2338,6 +2584,7 @@ class ToolBagScreen extends StatelessWidget {
             titleKey: titleKey,
           ),
         ),
+
         Positioned(
           top: appBarOffset + 26,
           left: 16,
@@ -2384,39 +2631,99 @@ class ToolBagScreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: GroupButton(
                     label: toolbag.toTitleCase(),
-                    onTap: () async {
-                      logger.d('🛠️ Selected toolbag: $toolbag');
+                    onTap: () {
+                      final toolbagCopy = toolbag; // Avoid capture in async gap
+                      final contextCopy = context; // Safe for closure
 
-                      final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
-                      final renderItems = await buildRenderItems(
-                        ids: tools.map((tool) => tool.id).toList(),
-                      );
-
-                      if (renderItems.isEmpty) {
-                        logger.w(
-                          '⚠️ No tools found in selected toolbag: $toolbag',
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('No tools found in this toolbag.'),
-                          ),
-                        );
-                        return;
-                      }
-
-                      // ✅ This is the fix: navigate to ToolItemScreen
-                      context.push(
-                        '/tools/items',
-                        extra: {
-                          'toolbag': toolbag,
-                          'transitionKey':
-                              'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
-                          'slideFrom': SlideDirection.right,
-                          'transitionType': TransitionType.slide,
-                          'detailRoute': DetailRoute.branch,
-                        },
-                      );
+                      _handleToolbagTap(contextCopy, toolbagCopy);
                     },
+
+                    // onTap: () async {
+                    //   final localContext = context;
+                    //   logger.d('🛠️ Selected toolbag: $toolbag');
+
+                    //   final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+                    //   final renderItems = await buildRenderItems(
+                    //     ids: tools.map((tool) => tool.id).toList(),
+                    //   );
+
+                    //   if (renderItems.isEmpty) {
+                    //     logger.w(
+                    //       '⚠️ No tools found in selected toolbag: $toolbag',
+                    //     );
+                    //     ScaffoldMessenger.of(localContext).showSnackBar(
+                    //       const SnackBar(
+                    //         content: Text('No tools found in this toolbag.'),
+                    //       ),
+                    //     );
+                    //     return;
+                    //   }
+
+                    //   // Just continue — no mounted check needed
+
+                    //   // if (renderItems.isEmpty) {
+                    //   //   logger.w(
+                    //   //     '⚠️ No tools found in selected toolbag: $toolbag',
+                    //   //   );
+
+                    //   //   if (localContext.mounted) {
+                    //   //     ScaffoldMessenger.of(localContext).showSnackBar(
+                    //   //       const SnackBar(
+                    //   //         content: Text('No tools found in this toolbag.'),
+                    //   //       ),
+                    //   //     );
+                    //   //   }
+                    //   //   return;
+                    //   // }
+
+                    //   // if (!localContext.mounted) return;
+
+                    //   localContext.push(
+                    //     '/tools/items',
+                    //     extra: {
+                    //       'toolbag': toolbag,
+                    //       'transitionKey':
+                    //           'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
+                    //       'slideFrom': SlideDirection.right,
+                    //       'transitionType': TransitionType.slide,
+                    //       'detailRoute': DetailRoute.branch,
+                    //     },
+                    //   );
+                    // },
+
+                    // onTap: () async {
+                    //   logger.d('🛠️ Selected toolbag: $toolbag');
+
+                    //   final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+                    //   final renderItems = await buildRenderItems(
+                    //     ids: tools.map((tool) => tool.id).toList(),
+                    //   );
+
+                    //   if (renderItems.isEmpty) {
+                    //     logger.w(
+                    //       '⚠️ No tools found in selected toolbag: $toolbag',
+                    //     );
+                    //     ScaffoldMessenger.of(context).showSnackBar(
+                    //       const SnackBar(
+                    //         content: Text('No tools found in this toolbag.'),
+                    //       ),
+                    //     );
+                    //     return;
+                    //   }
+
+                    //   // ✅ This is the fix: navigate to ToolItemScreen
+                    //   context.push(
+                    //     '/tools/items',
+                    //     extra: {
+                    //       'toolbag': toolbag,
+                    //       'transitionKey':
+                    //           'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
+                    //       'slideFrom': SlideDirection.right,
+                    //       'transitionType': TransitionType.slide,
+                    //       'detailRoute': DetailRoute.branch,
+                    //     },
+                    //   );
+                    // },
                   ),
                 );
               },
@@ -2424,6 +2731,40 @@ class ToolBagScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Future<void> _handleToolbagTap(BuildContext context, String toolbag) async {
+    logger.d('🛠️ Selected toolbag: $toolbag');
+
+    final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+    final renderItems = await buildRenderItems(
+      ids: tools.map((tool) => tool.id).toList(),
+    );
+
+    // ✅ Bail early if not valid
+    if (renderItems.isEmpty) {
+      logger.w('⚠️ No tools found in selected toolbag: $toolbag');
+      if (!context.mounted) return; // ✅ add this line
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No tools found in this toolbag.')),
+      );
+      return;
+    }
+
+    // ✅ Guard this too
+    if (!context.mounted) return;
+
+    context.push(
+      '/tools/items',
+      extra: {
+        'toolbag': toolbag,
+        'transitionKey':
+            'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
+        'slideFrom': SlideDirection.right,
+        'transitionType': TransitionType.slide,
+        'detailRoute': DetailRoute.branch,
+      },
     );
   }
 }
@@ -2616,6 +2957,53 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
   }
 }
 
+
+
+
+
+
+
+
+
+
+File: lib/screens/tools/Plan_GPS_conversion_tool_adding.md
+Plan (outline)
+
+Parsing & detection (new util/repo)
+
+Create lib/data/repositories/gps/gps_conversion_repository.dart
+
+Provide:
+
+parseCoordinates(String input) -> ParsedCoord { lat, lon, detectedFormat }
+
+Formatters: toDD(), toDMM(), toDMS() (all return strings)
+
+Robust detection: handles N/S/E/W, ± signs, spaces/commas, unicode degree/minute/second symbols, mixed delimiters.
+
+UI screen
+
+lib/screens/tools/gps_conversion_screen.dart
+
+Layout: header + single text input (paste/type).
+
+On change -> parse -> show all three representations in stacked cards with copy buttons.
+
+Optional: a small dropdown to force a format if auto-detect fails.
+
+Routing
+
+Add route: '/tools/gps-conversion' -> GpsConversionScreen (slide in from right; same transition type as other tools).
+
+Integration
+
+Add a GPS Conversion button to the Tools (ToolBag) screen (this message includes the code).
+
+(Optionally) index it in your ToolRepositoryIndex later if you want this to behave exactly like other “bags”.
+
+Tests (optional but recommended)
+
+Unit tests for parser edge cases and formatters.
 
 
 
@@ -3000,7 +3388,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                         .toList(),
                               );
 
-                              if (renderItems.isEmpty) return;
+                              if (!mounted || renderItems.isEmpty) return;
 
                               TransitionManager.goToDetailScreen(
                                 context: context,
@@ -3030,7 +3418,7 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
                                 ids: firstTools.map((e) => e.id).toList(),
                               );
 
-                              if (renderItems.isEmpty) return;
+                              if (!mounted || renderItems.isEmpty) return;
 
                               TransitionManager.goToDetailScreen(
                                 context: context,
@@ -4180,7 +4568,7 @@ class _PathItemScreenState extends State<PathItemScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Resume your voyage, or chart any path below.',
+              'Select a starting point',
               style: AppTheme.subheadingStyle.copyWith(
                 color: AppTheme.primaryBlue,
               ),
@@ -4277,8 +4665,6 @@ import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart';
-import 'package:bcc5/data/models/path_model.dart';
-lib/data/models/path_model.dart
 
 class PathChapterScreen extends StatefulWidget {
   final String pathName;
@@ -4341,7 +4727,7 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
                   final localContext = context;
                   if (!localContext.mounted) return;
 
-                  _handleSetSail(localContext, chapters);
+                  _handleSetSail(localContext, widget.pathName);
                 },
 
                 // onPressed: () async {
@@ -4385,7 +4771,7 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
                 //   );
                 // },
                 style: AppTheme.groupRedButtonStyle,
-                child: const Text('Set sail on a new course'),
+                child: const Text('Start at the beginning'),
               ),
               const SizedBox(height: 12),
               ElevatedButton(
@@ -4456,7 +4842,7 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
                 //   );
                 // },
                 style: AppTheme.groupRedButtonStyle,
-                child: const Text('Resume your voyage'),
+                child: const Text('Resume where you left off'),
               ),
             ],
           ),
@@ -4502,10 +4888,11 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
 
   Future<void> _handleSetSail(
     BuildContext localContext,
-  List<Chapter> chapters,
+    String pathName,
   ) async {
     if (!localContext.mounted) return;
 
+    final chapters = PathRepositoryIndex.getChaptersForPath(pathName);
     if (chapters.isEmpty) {
       ScaffoldMessenger.of(localContext).showSnackBar(
         const SnackBar(content: Text('No chapters found for this path.')),
@@ -4534,8 +4921,8 @@ class _PathChapterScreenState extends State<PathChapterScreen> {
       currentIndex: 0,
       branchIndex: 0,
       backDestination:
-          '/learning-paths/${widget.pathName.replaceAll(' ', '-').toLowerCase()}/items',
-      backExtra: {'pathName': widget.pathName, 'chapterId': firstChapter.id},
+          '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+      backExtra: {'pathName': pathName, 'chapterId': firstChapter.id},
       detailRoute: DetailRoute.path,
       direction: SlideDirection.right,
     );
@@ -5730,137 +6117,137 @@ class PartItemScreen extends StatelessWidget {
 
 
 File: lib/screens/parts/temp.dart
-import 'package:bcc5/theme/slide_direction.dart';
-import 'package:bcc5/theme/transition_type.dart';
-import 'package:bcc5/utils/string_extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:bcc5/widgets/custom_app_bar_widget.dart';
-import 'package:bcc5/widgets/item_button.dart';
-import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/data/models/part_model.dart';
-import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
-import 'package:bcc5/utils/render_item_helpers.dart';
-import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/navigation/detail_route.dart'; // <-- required for DetailRoute
+// import 'package:bcc5/theme/slide_direction.dart';
+// import 'package:bcc5/theme/transition_type.dart';
+// import 'package:bcc5/utils/string_extensions.dart';
+// import 'package:flutter/material.dart';
+// import 'package:go_router/go_router.dart';
+// import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+// import 'package:bcc5/widgets/item_button.dart';
+// import 'package:bcc5/utils/logger.dart';
+// import 'package:bcc5/data/models/part_model.dart';
+// import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
+// import 'package:bcc5/utils/render_item_helpers.dart';
+// import 'package:bcc5/theme/app_theme.dart';
+// import 'package:bcc5/navigation/detail_route.dart'; // <-- required for DetailRoute
 
-class PartItemScreen extends StatelessWidget {
-  final String zone;
+// class PartItemScreen extends StatelessWidget {
+//   final String zone;
 
-  const PartItemScreen({
-    super.key,
-    required this.zone,
-    required this.mobKey,
-    required this.settingsKey,
-    required this.searchKey,
-    required this.titleKey,
-  });
+//   const PartItemScreen({
+//     super.key,
+//     required this.zone,
+//     required this.mobKey,
+//     required this.settingsKey,
+//     required this.searchKey,
+//     required this.titleKey,
+//   });
 
-  final GlobalKey mobKey;
-  final GlobalKey settingsKey;
-  final GlobalKey searchKey;
-  final GlobalKey titleKey;
+//   final GlobalKey mobKey;
+//   final GlobalKey settingsKey;
+//   final GlobalKey searchKey;
+//   final GlobalKey titleKey;
 
-  @override
-  Widget build(BuildContext context) {
-    final List<PartItem> filteredParts = PartRepositoryIndex.getPartsForZone(
-      zone.toLowerCase(),
-    );
+//   @override
+//   Widget build(BuildContext context) {
+//     final List<PartItem> filteredParts = PartRepositoryIndex.getPartsForZone(
+//       zone.toLowerCase(),
+//     );
 
-    final List<String> sequenceIds = filteredParts.map((p) => p.id).toList();
+//     final List<String> sequenceIds = filteredParts.map((p) => p.id).toList();
 
-    logger.i('🟦 Displaying PartItemScreen (Zone: $zone)');
+//     logger.i('🟦 Displaying PartItemScreen (Zone: $zone)');
 
-    return Column(
-      children: [
-        CustomAppBarWidget(
-          title: 'Parts',
-          showBackButton: true,
-          showSearchIcon: true,
-          showSettingsIcon: true,
-          mobKey: mobKey,
-          settingsKey: settingsKey,
-          searchKey: searchKey,
-          titleKey: titleKey,
-          onBack: () {
-            logger.i('🔙 AppBar back from PartItemScreen');
-            context.go(
-              '/parts',
-              extra: {
-                'slideFrom': SlideDirection.left,
-                'transitionType': TransitionType.slide,
-                'detailRoute': DetailRoute.branch,
-              },
-            );
-          },
-        ),
-        const SizedBox(height: 16),
-        Text(
-          zone.toTitleCase(),
-          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 12),
-        Text(
-          'Choose a Part',
-          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
-        ),
-        const SizedBox(height: 12),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: GridView.builder(
-              itemCount: filteredParts.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 4,
-                crossAxisSpacing: 4,
-                childAspectRatio: 2.8,
-              ),
-              itemBuilder: (context, index) {
-                final part = filteredParts[index];
-                final timestamp = DateTime.now().millisecondsSinceEpoch;
+//     return Column(
+//       children: [
+//         CustomAppBarWidget(
+//           title: 'Parts',
+//           showBackButton: true,
+//           showSearchIcon: true,
+//           showSettingsIcon: true,
+//           mobKey: mobKey,
+//           settingsKey: settingsKey,
+//           searchKey: searchKey,
+//           titleKey: titleKey,
+//           onBack: () {
+//             logger.i('🔙 AppBar back from PartItemScreen');
+//             context.go(
+//               '/parts',
+//               extra: {
+//                 'slideFrom': SlideDirection.left,
+//                 'transitionType': TransitionType.slide,
+//                 'detailRoute': DetailRoute.branch,
+//               },
+//             );
+//           },
+//         ),
+//         const SizedBox(height: 16),
+//         Text(
+//           zone.toTitleCase(),
+//           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+//           textAlign: TextAlign.center,
+//         ),
+//         const SizedBox(height: 12),
+//         Text(
+//           'Choose a Part',
+//           style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
+//         ),
+//         const SizedBox(height: 12),
+//         Expanded(
+//           child: Padding(
+//             padding: const EdgeInsets.all(16),
+//             child: GridView.builder(
+//               itemCount: filteredParts.length,
+//               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//                 crossAxisCount: 2,
+//                 mainAxisSpacing: 4,
+//                 crossAxisSpacing: 4,
+//                 childAspectRatio: 2.8,
+//               ),
+//               itemBuilder: (context, index) {
+//                 final part = filteredParts[index];
+//                 final timestamp = DateTime.now().millisecondsSinceEpoch;
 
-                return ItemButton(
-                  label: part.title,
-                  onTap: () async {
-                    logger.i('🟥 Tapped part: ${part.id}');
-                    context.push(
-                      '/parts/detail',
-                      extra: {
-                        'renderItems': await buildRenderItems(ids: sequenceIds),
-                        'currentIndex': index,
-                        'branchIndex': 2,
-                        'backDestination': '/parts/items',
-                        'backExtra': {
-                          'zone': zone,
-                          'mobKey': mobKey,
-                          'settingsKey': settingsKey,
-                          'searchKey': searchKey,
-                          'titleKey': titleKey,
-                        },
-                        'transitionKey': 'part_${part.id}_$timestamp',
-                        'detailRoute': DetailRoute.branch,
-                        'transitionType': TransitionType.slide,
-                        'slideFrom': SlideDirection.right,
+//                 return ItemButton(
+//                   label: part.title,
+//                   onTap: () async {
+//                     logger.i('🟥 Tapped part: ${part.id}');
+//                     context.push(
+//                       '/parts/detail',
+//                       extra: {
+//                         'renderItems': await buildRenderItems(ids: sequenceIds),
+//                         'currentIndex': index,
+//                         'branchIndex': 2,
+//                         'backDestination': '/parts/items',
+//                         'backExtra': {
+//                           'zone': zone,
+//                           'mobKey': mobKey,
+//                           'settingsKey': settingsKey,
+//                           'searchKey': searchKey,
+//                           'titleKey': titleKey,
+//                         },
+//                         'transitionKey': 'part_${part.id}_$timestamp',
+//                         'detailRoute': DetailRoute.branch,
+//                         'transitionType': TransitionType.slide,
+//                         'slideFrom': SlideDirection.right,
 
-                        // ✅ Add missing required keys for PartDetailScreen
-                        'mobKey': mobKey,
-                        'settingsKey': settingsKey,
-                        'searchKey': searchKey,
-                        'titleKey': titleKey,
-                      },
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
+//                         // ✅ Add missing required keys for PartDetailScreen
+//                         'mobKey': mobKey,
+//                         'settingsKey': settingsKey,
+//                         'searchKey': searchKey,
+//                         'titleKey': titleKey,
+//                       },
+//                     );
+//                   },
+//                 );
+//               },
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 
 
@@ -6874,11 +7261,12 @@ import 'package:go_router/go_router.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
+// import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/data/repositories/lessons/json_lesson_index.dart';
 
 class LessonItemScreen extends StatelessWidget {
   final String module;
@@ -6887,114 +7275,125 @@ class LessonItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lessons = LessonRepositoryIndex.getLessonsForModule(module);
-    final ids = lessons.map((l) => l.id).toList();
     final moduleTitle = module.toTitleCase();
 
-    return FutureBuilder<List<RenderItem>>(
-      future: buildRenderItems(ids: ids),
+    return FutureBuilder<List<Map<String, String>>>(
+      future: JsonLessonIndex.getLessonsForModule(module),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final renderItems = snapshot.data!;
+        final items = snapshot.data!; // [{id,title}, ...]
+        final ids = items.map((e) => e['id']!).toList();
 
-        return Column(
-          children: [
-            CustomAppBarWidget(
-              title: 'Courses',
-              showBackButton: true,
-              showSearchIcon: true,
-              showSettingsIcon: true,
-              onBack: () {
-                logger.i('🔙 Back tapped → /lessons');
-                context.go(
-                  '/lessons',
-                  extra: {
-                    'transitionKey':
-                        'return_from_items_${DateTime.now().millisecondsSinceEpoch}',
-                    'slideFrom': SlideDirection.left,
-                    'transitionType': TransitionType.slide,
-                  },
-                );
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 16.0,
-                left: 16.0,
-                right: 16.0,
-              ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Courses',
-                        style: AppTheme.branchBreadcrumbStyle,
-                      ),
-                      const TextSpan(
-                        text: ' / ',
-                        style: TextStyle(color: Colors.black87),
-                      ),
-                      TextSpan(
-                        text: moduleTitle,
-                        style: AppTheme.groupBreadcrumbStyle,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              '$moduleTitle:\nDive in to any course below.',
-              style: AppTheme.subheadingStyle.copyWith(
-                color: AppTheme.primaryBlue,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: ListView.builder(
-                  itemCount: lessons.length,
-                  itemBuilder: (context, index) {
-                    final lesson = lessons[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: ItemButton(
-                        label: lesson.title,
-                        onTap: () {
-                          logger.i('📘 Tapped lesson: ${lesson.id}');
-                          TransitionManager.goToDetailScreen(
-                            context: context,
-                            screenType: renderItems[index].type,
-                            renderItems: renderItems,
-                            currentIndex: index,
-                            branchIndex: 1,
-                            backDestination: '/lessons/items',
-                            backExtra: {
-                              'module': module,
-                              'branchIndex': 1,
-                              'detailRoute': DetailRoute.branch,
-                            },
-                            detailRoute: DetailRoute.branch,
-                            direction: SlideDirection.right,
-                            transitionType: TransitionType.slide,
-                            replace: false,
-                          );
-                        },
-                      ),
+        return FutureBuilder<List<RenderItem>>(
+          future: buildRenderItems(ids: ids),
+          builder: (context, renderSnap) {
+            if (!renderSnap.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            final renderItems = renderSnap.data!;
+
+            return Column(
+              children: [
+                CustomAppBarWidget(
+                  title: 'Courses',
+                  showBackButton: true,
+                  showSearchIcon: true,
+                  showSettingsIcon: true,
+                  onBack: () {
+                    logger.i('🔙 Back tapped → /lessons');
+                    context.go(
+                      '/lessons',
+                      extra: {
+                        'transitionKey':
+                            'return_from_items_${DateTime.now().millisecondsSinceEpoch}',
+                        'slideFrom': SlideDirection.left,
+                        'transitionType': TransitionType.slide,
+                      },
                     );
                   },
                 ),
-              ),
-            ),
-          ],
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 16.0,
+                    left: 16.0,
+                    right: 16.0,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Courses',
+                            style: AppTheme.branchBreadcrumbStyle,
+                          ),
+                          const TextSpan(
+                            text: ' / ',
+                            style: TextStyle(color: Colors.black87),
+                          ),
+                          TextSpan(
+                            text: moduleTitle,
+                            style: AppTheme.groupBreadcrumbStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  '$moduleTitle:\nDive in to any course below.',
+                  style: AppTheme.subheadingStyle.copyWith(
+                    color: AppTheme.primaryBlue,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: ListView.builder(
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final id = items[index]['id']!;
+                        final title = items[index]['title'] ?? id;
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: ItemButton(
+                            label: title,
+                            onTap: () {
+                              logger.i('📘 Tapped lesson: $id');
+                              TransitionManager.goToDetailScreen(
+                                context: context,
+                                screenType: renderItems[index].type,
+                                renderItems: renderItems,
+                                currentIndex: index,
+                                branchIndex: 1,
+                                backDestination: '/lessons/items',
+                                backExtra: {
+                                  'module': module,
+                                  'branchIndex': 1,
+                                  'detailRoute': DetailRoute.branch,
+                                },
+                                detailRoute: DetailRoute.branch,
+                                direction: SlideDirection.right,
+                                transitionType: TransitionType.slide,
+                                replace: false,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         );
       },
     );
@@ -7019,10 +7418,11 @@ import 'package:go_router/go_router.dart';
 
 import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
-import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
+// import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase
+import 'package:bcc5/data/repositories/lessons/json_lesson_index.dart'; // ⬅️ add this
 
 class LessonModuleScreen extends StatefulWidget {
   // ✅ Converted to StatefulWidget
@@ -7041,9 +7441,6 @@ class _LessonModuleScreenState extends State<LessonModuleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final moduleNames = LessonRepositoryIndex.getModuleNames();
-    // logger.i('🟦 Entered LessonModuleScreen');
-
     return Scaffold(
       appBar: CustomAppBarWidget(
         title: 'Courses',
@@ -7055,56 +7452,66 @@ class _LessonModuleScreenState extends State<LessonModuleScreen> {
         searchKey: searchKey,
         titleKey: titleKey,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Courses', style: AppTheme.branchBreadcrumbStyle),
-            ),
-          ),
-
-          const SizedBox(height: 16),
-          Text(
-            'Select a course to embark upon:',
-            style: AppTheme.subheadingStyle.copyWith(
-              color: AppTheme.primaryBlue,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(16),
-              itemCount: moduleNames.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final moduleName = moduleNames[index];
-                final label = moduleName.toTitleCase(); // ✅ Title Case
-
-                return GroupButton(
-                  label: label,
-                  onTap: () {
-                    logger.i('📘 Tapped Module: $moduleName');
-                    final timestamp = DateTime.now().millisecondsSinceEpoch;
-
-                    context.push(
-                      '/lessons/items',
-                      extra: {
-                        'module': moduleName,
-                        'transitionKey': 'lesson_items_${index}_$timestamp',
-                        'transitionType': TransitionType.slide,
-                        'slideFrom': SlideDirection.right,
-                        'detailRoute': DetailRoute.branch,
+      body: FutureBuilder<List<String>>(
+        future: JsonLessonIndex.getModuleNames(), // ⬅️ async now
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final moduleNames = snapshot.data!;
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 16.0,
+                  left: 16.0,
+                  right: 16.0,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Courses', style: AppTheme.branchBreadcrumbStyle),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Select a course to embark upon:',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: moduleNames.length,
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final moduleName = moduleNames[index];
+                    final label = moduleName.toTitleCase();
+                    return GroupButton(
+                      label: label,
+                      onTap: () {
+                        logger.i('📘 Tapped Module: $moduleName');
+                        final timestamp = DateTime.now().millisecondsSinceEpoch;
+                        context.push(
+                          '/lessons/items',
+                          extra: {
+                            'module': moduleName,
+                            'transitionKey': 'lesson_items_${index}_$timestamp',
+                            'transitionType': TransitionType.slide,
+                            'slideFrom': SlideDirection.right,
+                            'detailRoute': DetailRoute.branch,
+                          },
+                        );
                       },
                     );
                   },
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -7322,15 +7729,24 @@ enum SlideDirection { right, left, up, down, none }
 File: lib/theme/app_theme.dart
 import 'package:flutter/material.dart';
 
+/// Unified application theme & design tokens.
+/// Keep this class focused on **tokens** (colors, type, sizing) and
+/// **reusable styles** (buttons, surfaces). App-specific widgets should
+/// *not* live here.
 class AppTheme {
   // ────────────────────────────────────────────────────────────
-  // 🎨 Color Palette
+  // 🎨 CORE PALETTE
   // ────────────────────────────────────────────────────────────
   static const Color primaryBlue = Color(0xFF163FE8);
   static const Color primaryRed = Color.fromARGB(255, 255, 0, 0);
+
   static const Color backgroundColor = Colors.white;
   static const Color darkBackground = Color(0xFF121212);
 
+  // starboard green on gps keypad
+  static const Color keypadAccentGreen = Color(0xFF2ECC71);
+
+  // Semantic helpers (kept for existing usages)
   static const Color infoColor = primaryBlue;
   static const Color errorColor = primaryRed;
   static const Color successColor = Colors.green;
@@ -7338,9 +7754,25 @@ class AppTheme {
   static const Color disabledGray = Colors.grey;
 
   // ────────────────────────────────────────────────────────────
-  // 🔠 Text Styles
+  // 📐 DIMENSIONS & SPACING
   // ────────────────────────────────────────────────────────────
+  static const double buttonCornerRadius = 12.0;
+  static const double cardCornerRadius = 16.0;
+  static const double screenPadding = 16.0;
 
+  static const EdgeInsetsGeometry groupButtonPadding = EdgeInsets.symmetric(
+    vertical: 14,
+    horizontal: 24,
+  );
+  static const EdgeInsetsGeometry itemButtonPadding = EdgeInsets.symmetric(
+    vertical: 10,
+    horizontal: 12,
+  );
+  static const EdgeInsets cardPadding = EdgeInsets.all(12);
+
+  // ────────────────────────────────────────────────────────────
+  // 🔠 TYPOGRAPHY
+  // ────────────────────────────────────────────────────────────
   /// Used in AppBar titles
   static const TextStyle headingStyle = TextStyle(
     fontSize: 22,
@@ -7451,26 +7883,17 @@ class AppTheme {
   );
 
   /// Used for guided tour text
-  static const tourDescriptionStyle = TextStyle(
+  static const TextStyle tourDescriptionStyle = TextStyle(
     color: Colors.white,
     fontSize: 18,
     fontWeight: FontWeight.w500,
     height: 1.4,
   );
 
-  // /// Returns the appropriate color for the tour overlay shadow
-  // /// depending on brightness (light = white, dark = black) and
-  // /// using AppTheme.tourOverlayOpacity.
-  // static Color tourOverlayColor(BuildContext context) {
-  //   final brightness = Theme.of(context).brightness;
-  //   final base = brightness == Brightness.dark ? Colors.white : Colors.black; //white for dark mode, black for light mode
-  //   return base.withAlpha((tourOverlayOpacity * 255).toInt());
-  // }
-
-  // /// Opacity for the guided tour overlay (0.0–1.0 range)
-  // static const double tourOverlayOpacity = 0.8;
-
-  /// Opacity for the tour overlay shadow: 0–255
+  // ────────────────────────────────────────────────────────────
+  // 🎯 TOUR OVERLAY
+  // ────────────────────────────────────────────────────────────
+  /// Opacity for the tour overlay shadow: 0–255 (kept for existing usages)
   static const int tourOverlayAlpha = 204; // ~0.8 opacity
 
   /// Theme-aware shadow color for the tour overlay
@@ -7481,9 +7904,8 @@ class AppTheme {
   }
 
   // ────────────────────────────────────────────────────────────
-  // 🔘 Button Styles
+  // 🔘 BUTTON STYLES
   // ────────────────────────────────────────────────────────────
-
   static final ButtonStyle groupRedButtonStyle = ElevatedButton.styleFrom(
     backgroundColor: primaryRed,
     foregroundColor: Colors.white,
@@ -7552,6 +7974,7 @@ class AppTheme {
         ),
       );
 
+  // Convenience getters (kept for existing usages)
   static ButtonStyle get landingPrimaryButton => largeRedButton;
   static ButtonStyle get navigationButton => navigationButtonStyle;
   static ButtonStyle get disabledNavigationButton =>
@@ -7561,28 +7984,52 @@ class AppTheme {
   static Color get groupButtonUnselected => primaryBlue.withAlpha(153);
 
   // ────────────────────────────────────────────────────────────
-  // 📐 Dimensions & Padding
+  // ⌨️  GPS KEYPAD THEME (Consolidated)
   // ────────────────────────────────────────────────────────────
-  static const double buttonCornerRadius = 12.0;
-  static const double cardCornerRadius = 16.0;
-  static const double screenPadding = 16.0;
+  // Legacy constants kept for compatibility (if referenced anywhere else)
+  static const Color keypadSurfaceLight = Color(0xFFF3F4F6); // subtle bg block
+  static const Color keypadKeyBg = Color(0xFFE5E7EB); // key cap
+  static const Color keypadKeyText = Colors.black87;
 
-  static const EdgeInsetsGeometry groupButtonPadding = EdgeInsets.symmetric(
-    vertical: 14,
-    horizontal: 24,
+  // Single source of truth for accent colors
+  static const Color keypadAccentRed = Color(0xFFF25B57); // NESW
+  static const Color keypadAccentGold = Color(0xFFF4C542); // symbols
+
+  // Surface behind the keypad (semi-opaque to calm background art)
+  static Color keypadSurface(BuildContext ctx) =>
+      Theme.of(ctx).brightness == Brightness.dark
+          ? const Color(0xFF1E1E1E).withValues(alpha: 0.92)
+          : Colors.white.withValues(alpha: 0.92);
+
+  /// Neutral fill for number keys (varies with theme)
+  static Color keypadKeyFill(BuildContext ctx) =>
+      Theme.of(ctx).brightness == Brightness.dark
+          ? Colors.grey.shade800
+          : Colors.grey.shade300;
+
+  /// Reusable keypad button style
+  // tweak existing helper (adds an optional outline; existing calls keep working)
+  static ButtonStyle gpsKeyButtonStyle({
+    Color? background,
+    bool outlined = false,
+  }) => ElevatedButton.styleFrom(
+    backgroundColor: background ?? Colors.grey.shade300,
+    foregroundColor: Colors.black87,
+    padding: EdgeInsets.zero,
+    elevation: 0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(14),
+      side:
+          outlined
+              ? const BorderSide(color: AppTheme.primaryBlue, width: 1)
+              : BorderSide.none,
+    ),
+    textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
   );
 
-  static const EdgeInsetsGeometry itemButtonPadding = EdgeInsets.symmetric(
-    vertical: 10,
-    horizontal: 12,
-  );
-
-  static const EdgeInsets cardPadding = EdgeInsets.all(12);
-
   // ────────────────────────────────────────────────────────────
-  // 🌞 Light & 🌚 Dark Themes
+  // 🌞 LIGHT & 🌚 DARK THEMES
   // ────────────────────────────────────────────────────────────
-
   static ThemeData get lightTheme => ThemeData(
     useMaterial3: true,
     scaffoldBackgroundColor: backgroundColor,
@@ -7630,6 +8077,12 @@ class AppTheme {
     textTheme: textTheme,
   );
 }
+
+
+
+
+
+
 
 // import 'package:flutter/material.dart';
 
@@ -7769,6 +8222,28 @@ class AppTheme {
 //     height: 1.4,
 //   );
 
+//   // /// Returns the appropriate color for the tour overlay shadow
+//   // /// depending on brightness (light = white, dark = black) and
+//   // /// using AppTheme.tourOverlayOpacity.
+//   // static Color tourOverlayColor(BuildContext context) {
+//   //   final brightness = Theme.of(context).brightness;
+//   //   final base = brightness == Brightness.dark ? Colors.white : Colors.black; //white for dark mode, black for light mode
+//   //   return base.withAlpha((tourOverlayOpacity * 255).toInt());
+//   // }
+
+//   // /// Opacity for the guided tour overlay (0.0–1.0 range)
+//   // static const double tourOverlayOpacity = 0.8;
+
+//   /// Opacity for the tour overlay shadow: 0–255
+//   static const int tourOverlayAlpha = 204; // ~0.8 opacity
+
+//   /// Theme-aware shadow color for the tour overlay
+//   static Color tourOverlayColor(BuildContext context) {
+//     return Theme.of(context).brightness == Brightness.dark
+//         ? Colors.white
+//         : Colors.black;
+//   }
+
 //   // ────────────────────────────────────────────────────────────
 //   // 🔘 Button Styles
 //   // ────────────────────────────────────────────────────────────
@@ -7849,6 +8324,47 @@ class AppTheme {
 //   static Color get groupButtonSelected => primaryBlue.withAlpha(229);
 //   static Color get groupButtonUnselected => primaryBlue.withAlpha(153);
 
+//   // for gps conversion keyboard
+
+//   // AppTheme additions
+
+//   // Colors for the keypad surface and keys (works in light/dark)
+//   static const Color keypadSurfaceLight = Color(0xFFF3F4F6); // subtle bg block
+//   static const Color keypadKeyBg = Color(0xFFE5E7EB); // key cap
+//   static const Color keypadKeyText = Colors.black87;
+//   static const Color keypadAccentRed = Color(0xFFE35D4A); // NESW
+//   static const Color keypadAccentGold = Color(0xFFF2C94C); // symbols
+
+
+
+//   // Near your palette:
+// static const Color keypadAccentRed  = Color(0xFFF25B57); // NESW
+// static const Color keypadAccentGold = Color(0xFFF4C542); // symbols
+
+// // Surface behind the keypad (semi-opaque so the watermark doesn’t fight it)
+// static Color keypadSurface(BuildContext ctx) =>
+//     Theme.of(ctx).brightness == Brightness.dark
+//         ? const Color(0xFF1E1E1E).withOpacity(0.92)
+//         : Colors.white.withOpacity(0.92);
+
+// // Neutral fill for number keys (varies with theme)
+// static Color keypadKeyFill(BuildContext ctx) =>
+//     Theme.of(ctx).brightness == Brightness.dark
+//         ? Colors.grey.shade800
+//         : Colors.grey.shade300;
+
+// // Button style used by GpsKeypad
+// static ButtonStyle gpsKeyButtonStyle({Color? background}) =>
+//     ElevatedButton.styleFrom(
+//       backgroundColor: background ?? Colors.grey.shade300,
+//       foregroundColor: Colors.black87,
+//       padding: EdgeInsets.zero,
+//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+//       elevation: 0,
+//       textStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+//     );
+
+
 //   // ────────────────────────────────────────────────────────────
 //   // 📐 Dimensions & Padding
 //   // ────────────────────────────────────────────────────────────
@@ -7920,6 +8436,295 @@ class AppTheme {
 //   );
 // }
 
+// // import 'package:flutter/material.dart';
+
+// // class AppTheme {
+// //   // ────────────────────────────────────────────────────────────
+// //   // 🎨 Color Palette
+// //   // ────────────────────────────────────────────────────────────
+// //   static const Color primaryBlue = Color(0xFF163FE8);
+// //   static const Color primaryRed = Color.fromARGB(255, 255, 0, 0);
+// //   static const Color backgroundColor = Colors.white;
+// //   static const Color darkBackground = Color(0xFF121212);
+
+// //   static const Color infoColor = primaryBlue;
+// //   static const Color errorColor = primaryRed;
+// //   static const Color successColor = Colors.green;
+// //   static const Color warningColor = Colors.orange;
+// //   static const Color disabledGray = Colors.grey;
+
+// //   // ────────────────────────────────────────────────────────────
+// //   // 🔠 Text Styles
+// //   // ────────────────────────────────────────────────────────────
+
+// //   /// Used in AppBar titles
+// //   static const TextStyle headingStyle = TextStyle(
+// //     fontSize: 22,
+// //     fontWeight: FontWeight.bold,
+// //     color: Colors.white,
+// //   );
+
+// //   /// Used in section headers throughout modals/settings
+// //   static const TextStyle subheadingStyle = TextStyle(
+// //     fontSize: 18,
+// //     fontWeight: FontWeight.w600,
+// //     color: Colors.white,
+// //   );
+
+// //   /// Default large body text
+// //   static const TextStyle bodyTextStyle = TextStyle(
+// //     fontSize: 16,
+// //     fontWeight: FontWeight.normal,
+// //     color: Colors.black87,
+// //   );
+
+// //   /// Default button label text
+// //   static const TextStyle buttonTextStyle = TextStyle(
+// //     fontSize: 16,
+// //     fontWeight: FontWeight.w600,
+// //     color: Colors.white,
+// //   );
+
+// //   /// Subtext or hints
+// //   static const TextStyle captionStyle = TextStyle(
+// //     fontSize: 14,
+// //     color: Colors.grey,
+// //   );
+
+// //   /// Used in breadcrumb headers for branches
+// //   static const TextStyle branchBreadcrumbStyle = TextStyle(
+// //     fontSize: 16,
+// //     fontWeight: FontWeight.bold,
+// //     color: Colors.black87,
+// //   );
+
+// //   /// Used in breadcrumb headers for groups
+// //   static const TextStyle groupBreadcrumbStyle = TextStyle(
+// //     fontSize: 16,
+// //     fontStyle: FontStyle.italic,
+// //     color: Colors.black87,
+// //   );
+
+// //   /// Used in section titles within detail views
+// //   static const TextStyle detailTitleStyle = TextStyle(
+// //     fontSize: 20,
+// //     fontWeight: FontWeight.bold,
+// //     color: primaryBlue,
+// //   );
+
+// //   /// Used in alert dialogs like emergency reminder
+// //   static const TextStyle modalTitle = TextStyle(
+// //     fontSize: 20,
+// //     fontWeight: FontWeight.w600,
+// //     color: Colors.black,
+// //   );
+
+// //   /// Used to show phonetic spelling (styled bodySmall)
+// //   static final TextStyle phoneticStyle = textTheme.bodySmall!.copyWith(
+// //     color: Colors.grey[600],
+// //   );
+
+// //   /// Used for "Close" buttons in modals
+// //   static const TextStyle dialogButtonText = TextStyle(
+// //     fontSize: 16,
+// //     color: Colors.white,
+// //   );
+
+// //   /// Used for section labels in settings modal
+// //   static const TextStyle sectionTitle = TextStyle(
+// //     fontSize: 16,
+// //     fontWeight: FontWeight.w500,
+// //     color: Colors.black,
+// //   );
+
+// //   /// Default app-wide text theme
+// //   static const TextTheme textTheme = TextTheme(
+// //     headlineLarge: headingStyle,
+// //     headlineMedium: subheadingStyle,
+// //     bodyLarge: bodyTextStyle,
+// //     labelLarge: buttonTextStyle,
+// //     bodySmall: captionStyle,
+// //   );
+
+// //   /// Scaled text theme for accessibility / larger text setting
+// //   static const double textScaleMultiplier = 1.5;
+// //   static final TextTheme scaledTextTheme = TextTheme(
+// //     headlineLarge: headingStyle.copyWith(
+// //       fontSize: headingStyle.fontSize! * textScaleMultiplier,
+// //     ),
+// //     headlineMedium: subheadingStyle.copyWith(
+// //       fontSize: subheadingStyle.fontSize! * textScaleMultiplier,
+// //     ),
+// //     bodyLarge: bodyTextStyle.copyWith(
+// //       fontSize: bodyTextStyle.fontSize! * textScaleMultiplier,
+// //     ),
+// //     labelLarge: buttonTextStyle.copyWith(
+// //       fontSize: buttonTextStyle.fontSize! * textScaleMultiplier,
+// //     ),
+// //     bodySmall: captionStyle.copyWith(
+// //       fontSize: captionStyle.fontSize! * textScaleMultiplier,
+// //     ),
+// //   );
+
+// //   /// Used for guided tour text
+// //   static const tourDescriptionStyle = TextStyle(
+// //     color: Colors.white,
+// //     fontSize: 18,
+// //     fontWeight: FontWeight.w500,
+// //     height: 1.4,
+// //   );
+
+// //   // ────────────────────────────────────────────────────────────
+// //   // 🔘 Button Styles
+// //   // ────────────────────────────────────────────────────────────
+
+// //   static final ButtonStyle groupRedButtonStyle = ElevatedButton.styleFrom(
+// //     backgroundColor: primaryRed,
+// //     foregroundColor: Colors.white,
+// //     padding: const EdgeInsets.symmetric(vertical: 14),
+// //     textStyle: buttonTextStyle,
+// //     shape: RoundedRectangleBorder(
+// //       borderRadius: BorderRadius.circular(buttonCornerRadius),
+// //     ),
+// //   );
+
+// //   static final ButtonStyle whiteTextButton = ElevatedButton.styleFrom(
+// //     backgroundColor: primaryRed,
+// //     foregroundColor: Colors.white,
+// //     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+// //     textStyle: buttonTextStyle.copyWith(
+// //       fontSize: 16,
+// //       fontWeight: FontWeight.w600,
+// //       color: Colors.white,
+// //     ),
+// //     shape: RoundedRectangleBorder(
+// //       borderRadius: BorderRadius.circular(buttonCornerRadius),
+// //     ),
+// //   );
+
+// //   static final ButtonStyle largeRedButton = ElevatedButton.styleFrom(
+// //     backgroundColor: primaryRed,
+// //     foregroundColor: Colors.white,
+// //     padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 32),
+// //     textStyle: const TextStyle(
+// //       fontSize: 20,
+// //       fontWeight: FontWeight.bold,
+// //       color: Colors.white,
+// //     ),
+// //     shape: RoundedRectangleBorder(
+// //       borderRadius: BorderRadius.circular(buttonCornerRadius),
+// //     ),
+// //   );
+
+// //   static final ButtonStyle navigationButtonStyle = ElevatedButton.styleFrom(
+// //     backgroundColor: primaryRed,
+// //     foregroundColor: Colors.white,
+// //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+// //     textStyle: buttonTextStyle,
+// //     shape: RoundedRectangleBorder(
+// //       borderRadius: BorderRadius.circular(buttonCornerRadius),
+// //     ),
+// //   );
+
+// //   static final ButtonStyle disabledNavigationButtonStyle =
+// //       ElevatedButton.styleFrom(
+// //         backgroundColor: Colors.grey.shade400,
+// //         foregroundColor: Colors.white.withAlpha(153),
+// //         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+// //         textStyle: buttonTextStyle,
+// //         shape: RoundedRectangleBorder(
+// //           borderRadius: BorderRadius.circular(buttonCornerRadius),
+// //         ),
+// //       );
+
+// //   static final ButtonStyle highlightedGroupButtonStyle =
+// //       ElevatedButton.styleFrom(
+// //         backgroundColor: primaryRed,
+// //         padding: groupButtonPadding,
+// //         shape: RoundedRectangleBorder(
+// //           borderRadius: BorderRadius.circular(buttonCornerRadius),
+// //         ),
+// //       );
+
+// //   static ButtonStyle get landingPrimaryButton => largeRedButton;
+// //   static ButtonStyle get navigationButton => navigationButtonStyle;
+// //   static ButtonStyle get disabledNavigationButton =>
+// //       disabledNavigationButtonStyle;
+
+// //   static Color get groupButtonSelected => primaryBlue.withAlpha(229);
+// //   static Color get groupButtonUnselected => primaryBlue.withAlpha(153);
+
+// //   // ────────────────────────────────────────────────────────────
+// //   // 📐 Dimensions & Padding
+// //   // ────────────────────────────────────────────────────────────
+// //   static const double buttonCornerRadius = 12.0;
+// //   static const double cardCornerRadius = 16.0;
+// //   static const double screenPadding = 16.0;
+
+// //   static const EdgeInsetsGeometry groupButtonPadding = EdgeInsets.symmetric(
+// //     vertical: 14,
+// //     horizontal: 24,
+// //   );
+
+// //   static const EdgeInsetsGeometry itemButtonPadding = EdgeInsets.symmetric(
+// //     vertical: 10,
+// //     horizontal: 12,
+// //   );
+
+// //   static const EdgeInsets cardPadding = EdgeInsets.all(12);
+
+// //   // ────────────────────────────────────────────────────────────
+// //   // 🌞 Light & 🌚 Dark Themes
+// //   // ────────────────────────────────────────────────────────────
+
+// //   static ThemeData get lightTheme => ThemeData(
+// //     useMaterial3: true,
+// //     scaffoldBackgroundColor: backgroundColor,
+// //     colorScheme: ColorScheme.fromSeed(seedColor: primaryBlue),
+// //     appBarTheme: const AppBarTheme(
+// //       backgroundColor: primaryBlue,
+// //       foregroundColor: Colors.white,
+// //       centerTitle: true,
+// //       elevation: 0,
+// //       titleTextStyle: headingStyle,
+// //       iconTheme: IconThemeData(color: Colors.white),
+// //     ),
+// //     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+// //       backgroundColor: primaryBlue,
+// //       selectedItemColor: primaryRed,
+// //       unselectedItemColor: Colors.white70,
+// //       selectedIconTheme: IconThemeData(size: 26),
+// //       unselectedIconTheme: IconThemeData(size: 22),
+// //       selectedLabelStyle: buttonTextStyle,
+// //       unselectedLabelStyle: buttonTextStyle,
+// //       showUnselectedLabels: true,
+// //     ),
+// //     textTheme: textTheme,
+// //   );
+
+// //   static ThemeData get darkTheme => ThemeData(
+// //     useMaterial3: true,
+// //     brightness: Brightness.dark,
+// //     scaffoldBackgroundColor: darkBackground,
+// //     colorScheme: ColorScheme.dark(primary: primaryBlue, secondary: primaryRed),
+// //     appBarTheme: const AppBarTheme(
+// //       backgroundColor: primaryBlue,
+// //       centerTitle: true,
+// //       elevation: 0,
+// //       titleTextStyle: headingStyle,
+// //       iconTheme: IconThemeData(color: Colors.white),
+// //     ),
+// //     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+// //       backgroundColor: primaryBlue,
+// //       selectedItemColor: Colors.white,
+// //       unselectedItemColor: Colors.white70,
+// //       selectedLabelStyle: buttonTextStyle,
+// //       unselectedLabelStyle: buttonTextStyle,
+// //     ),
+// //     textTheme: textTheme,
+// //   );
+// // }
+
 
 
 
@@ -7930,13 +8735,21 @@ class AppTheme {
 
 
 File: lib/data/models/content_block.dart
-enum ContentBlockType { heading, text, code, bulletList, image, divider }
+enum ContentBlockType {
+  heading,
+  text,
+  code,
+  bulletList,
+  image,
+  divider,
+  gpsConverter,
+}
 
 class ContentBlock {
   final ContentBlockType type;
-  final String? text;
-  final List<String>? bulletList;
-  final String? imagePath;
+  final String? text; // used by heading/text/code
+  final List<String>? bulletList; // used by bulletList
+  final String? imagePath; // used by image
 
   const ContentBlock._({
     required this.type,
@@ -7945,48 +8758,131 @@ class ContentBlock {
     this.imagePath,
   });
 
-  // Heading block
+  // Factories
   factory ContentBlock.heading(String text) =>
       ContentBlock._(type: ContentBlockType.heading, text: text);
 
-  // Text block
   factory ContentBlock.text(String text) =>
       ContentBlock._(type: ContentBlockType.text, text: text);
 
-  // Code block
   factory ContentBlock.code(String codeText) =>
       ContentBlock._(type: ContentBlockType.code, text: codeText);
 
-  // Bullet list block
   factory ContentBlock.bullets(List<String> bullets) =>
       ContentBlock._(type: ContentBlockType.bulletList, bulletList: bullets);
 
-  // Image block
   factory ContentBlock.image(String imagePath) =>
       ContentBlock._(type: ContentBlockType.image, imagePath: imagePath);
 
-  // Divider block
   factory ContentBlock.divider() =>
       ContentBlock._(type: ContentBlockType.divider);
 
-  // Optional: utility for combining sides with divider
-  static List<ContentBlock> dividerList() => [ContentBlock.divider()];
+  factory ContentBlock.gpsConverter() =>
+      ContentBlock._(type: ContentBlockType.gpsConverter);
 
-  // Optional convenience getter
+  // Convenience
+  static List<ContentBlock> dividerList() => [ContentBlock.divider()];
   List<String>? get bullets => bulletList;
 
+  /// Robust JSON parser:
+  /// - Accepts "content" | "value" | "data"
+  /// - Handles bullet lists as `List<String>` OR line-broken String
+  /// - Tolerates minor type aliases
   factory ContentBlock.fromJson(Map<String, dynamic> json) {
-    final type = json['type'] as String;
-    final content = json['content'] as String;
+    final rawType = (json['type'] ?? '').toString().trim().toLowerCase();
+    final type = _parseType(rawType);
+
+    // Pull payload from any of the supported keys
+    final dynamic payload =
+        json.containsKey('content')
+            ? json['content']
+            : (json.containsKey('value')
+                ? json['value']
+                : (json.containsKey('data') ? json['data'] : null));
 
     switch (type) {
-      case 'text':
-        return ContentBlock.text(content);
-      case 'image':
-        return ContentBlock.image(content);
-      default:
-        throw ArgumentError('Unsupported ContentBlock type: $type');
+      case ContentBlockType.heading:
+        return ContentBlock.heading(_asString(payload) ?? '');
+      case ContentBlockType.text:
+        return ContentBlock.text(_asString(payload) ?? '');
+      case ContentBlockType.code:
+        return ContentBlock.code(_asString(payload) ?? '');
+      case ContentBlockType.image:
+        return ContentBlock.image(_asString(payload) ?? '');
+      case ContentBlockType.bulletList:
+        return ContentBlock.bullets(_asStringList(payload));
+      case ContentBlockType.divider:
+        return ContentBlock.divider();
+      case ContentBlockType.gpsConverter:
+        return ContentBlock.gpsConverter();
     }
+  }
+
+  // --- helpers ---
+
+  static ContentBlockType _parseType(String raw) {
+    switch (raw) {
+      case 'heading':
+        return ContentBlockType.heading;
+      case 'text':
+        return ContentBlockType.text;
+      case 'code':
+        return ContentBlockType.code;
+      case 'image':
+        return ContentBlockType.image;
+      case 'divider':
+        return ContentBlockType.divider;
+      case 'gpsconverter':
+      case 'gps_converter':
+      case 'gps-converter':
+        return ContentBlockType.gpsConverter;
+      case 'bulletlist':
+      case 'bullets':
+      case 'bullet_list':
+      case 'bullet-list':
+        return ContentBlockType.bulletList;
+      default:
+        // Default to text if unknown (prevents hard crashes on new types)
+        return ContentBlockType.text;
+    }
+  }
+
+  static String? _asString(dynamic v) {
+    if (v == null) return null;
+    if (v is String) return v;
+    // Allow numbers/bools to stringify if ever present
+    return v.toString();
+  }
+
+  static List<String> _asStringList(dynamic v) {
+    if (v == null) return const [];
+
+    // If already a list, coerce each element to string.
+    if (v is List) {
+      return v
+          .map((e) => _asString(e) ?? '')
+          .where((s) => s.isNotEmpty)
+          .toList();
+    }
+
+    // If a single string, split by common delimiters (newline / bullets / commas)
+    if (v is String) {
+      final s = v.trim();
+      if (s.isEmpty) return const [];
+      // split on newlines first; if none, try bullets or commas
+      final sep =
+          s.contains('\n')
+              ? '\n'
+              : (s.contains('•') ? '•' : (s.contains(',') ? ',' : '\n'));
+      return s
+          .split(sep)
+          .map((e) => e.trim())
+          .where((e) => e.isNotEmpty)
+          .toList();
+    }
+
+    // Fallback
+    return const [];
   }
 }
 
@@ -8417,6 +9313,163 @@ class EndOfGroupModal extends StatelessWidget {
 
 
 
+File: lib/widgets/gps_keypad.dart
+import 'package:flutter/material.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+class GpsKeypad extends StatelessWidget {
+  final void Function(String text) onKey;
+  const GpsKeypad({super.key, required this.onKey});
+
+  static const Color _deleteGrey = Color(0xFFE6E7EB);
+
+  Widget _key(
+    BuildContext context,
+    String label, {
+    required double keyW,
+    required double keyH,
+    int span = 1,
+    String? insert,
+    Color? bg,
+    bool outlined = false,
+  }) {
+    const gap = 8.0;
+    const eps = 0.25; // trims fractional spill
+    final w = (keyW * span) + gap * (span - 1) - eps;
+
+    return SizedBox(
+      width: w,
+      height: keyH,
+      child: ElevatedButton(
+        style: AppTheme.gpsKeyButtonStyle(background: bg, outlined: outlined),
+        onPressed: () => onKey(insert ?? label),
+        child: Text(label),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // layout constants
+    const cols = 6;
+    const gap = 8.0;
+    const hPadL = 6.0; // ⬅ left Container padding
+    const hPadR = 6.0; // ⬅ right Container padding
+
+    return LayoutBuilder(
+      builder: (context, c) {
+        // 🔧 compute sizes from the *inner* width (after padding)
+        final innerWidth = c.maxWidth - hPadL - hPadR;
+        final keyW = (innerWidth - gap * (cols - 1)) / cols;
+        final keyH = keyW * 0.84;
+
+        Row row(List<Widget> kids) => Row(
+          children: [
+            for (var i = 0; i < kids.length; i++)
+              Padding(
+                padding: EdgeInsets.only(right: i == kids.length - 1 ? 0 : gap),
+                child: kids[i],
+              ),
+          ],
+        );
+
+        final red = AppTheme.keypadAccentRed;
+        final green = AppTheme.keypadAccentGreen;
+
+        return Container(
+          padding: const EdgeInsets.fromLTRB(hPadL, 10, hPadR, 10),
+          decoration: BoxDecoration(
+            color: AppTheme.keypadSurface(context),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            children: [
+              row([
+                _key(context, 'N', keyW: keyW, keyH: keyH, bg: red),
+                _key(context, '7', keyW: keyW, keyH: keyH, outlined: true),
+                _key(context, '8', keyW: keyW, keyH: keyH, outlined: true),
+                _key(context, '9', keyW: keyW, keyH: keyH, outlined: true),
+                _key(context, '°', keyW: keyW, keyH: keyH, bg: green),
+                _key(
+                  context,
+                  '−',
+                  keyW: keyW,
+                  keyH: keyH,
+                  bg: green,
+                  insert: '-',
+                ),
+              ]),
+              const SizedBox(height: gap),
+              row([
+                _key(context, 'S', keyW: keyW, keyH: keyH, bg: red),
+                _key(context, '4', keyW: keyW, keyH: keyH, outlined: true),
+                _key(context, '5', keyW: keyW, keyH: keyH, outlined: true),
+                _key(context, '6', keyW: keyW, keyH: keyH, outlined: true),
+                _key(context, "'", keyW: keyW, keyH: keyH, bg: green),
+                _key(context, '"', keyW: keyW, keyH: keyH, bg: green),
+              ]),
+              const SizedBox(height: gap),
+              row([
+                _key(context, 'E', keyW: keyW, keyH: keyH, bg: red),
+                _key(context, '1', keyW: keyW, keyH: keyH, outlined: true),
+                _key(context, '2', keyW: keyW, keyH: keyH, outlined: true),
+                _key(context, '3', keyW: keyW, keyH: keyH, outlined: true),
+                _key(
+                  context,
+                  '.',
+                  keyW: keyW,
+                  keyH: keyH,
+                  bg: green,
+                  insert: '.',
+                ),
+                _key(
+                  context,
+                  ',',
+                  keyW: keyW,
+                  keyH: keyH,
+                  bg: green,
+                  insert: ', ',
+                ),
+              ]),
+              const SizedBox(height: gap),
+              row([
+                _key(context, 'W', keyW: keyW, keyH: keyH, bg: red),
+                _key(
+                  context,
+                  '␣',
+                  keyW: keyW,
+                  keyH: keyH,
+                  span: 2,
+                  insert: ' ',
+                ),
+                _key(context, '0', keyW: keyW, keyH: keyH, outlined: true),
+                _key(
+                  context,
+                  '⌫',
+                  keyW: keyW,
+                  keyH: keyH,
+                  span: 2,
+                  insert: '{BKSP}',
+                  bg: _deleteGrey,
+                ),
+              ]),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
 File: lib/widgets/item_button.dart
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -8474,19 +9527,22 @@ File: lib/widgets/content_block_renderer.dart
 import 'package:flutter/material.dart';
 import 'package:bcc5/data/models/content_block.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/utils/gps_formats.dart';
+import 'package:flutter/services.dart';
+import 'package:bcc5/widgets/gps_keypad.dart';
+import 'package:geolocator/geolocator.dart';
 
 class ContentBlockRenderer extends StatelessWidget {
   final List<ContentBlock> blocks;
-
   const ContentBlockRenderer({super.key, required this.blocks});
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.only(bottom: 16), // add bottom spacing
+      padding: const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: blocks.map((block) => _renderBlock(context, block)).toList(),
+        children: blocks.map((b) => _renderBlock(context, b)).toList(),
       ),
     );
   }
@@ -8496,12 +9552,8 @@ class ContentBlockRenderer extends StatelessWidget {
       case ContentBlockType.heading:
         return Padding(
           padding: const EdgeInsets.only(top: 12, bottom: 4),
-          child: Text(
-            block.text ?? '',
-            style: AppTheme.scaledTextTheme.headlineMedium,
-          ),
+          child: Text(block.text ?? '', style: AppTheme.detailTitleStyle),
         );
-
       case ContentBlockType.text:
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
@@ -8510,7 +9562,6 @@ class ContentBlockRenderer extends StatelessWidget {
             style: AppTheme.scaledTextTheme.bodyLarge,
           ),
         );
-
       case ContentBlockType.code:
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 4),
@@ -8521,7 +9572,6 @@ class ContentBlockRenderer extends StatelessWidget {
             style: const TextStyle(fontFamily: 'monospace'),
           ),
         );
-
       case ContentBlockType.bulletList:
         final bullets = block.bullets ?? [];
         return Column(
@@ -8540,7 +9590,6 @@ class ContentBlockRenderer extends StatelessWidget {
                 );
               }).toList(),
         );
-
       case ContentBlockType.image:
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -8549,10 +9598,400 @@ class ContentBlockRenderer extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         );
-
       case ContentBlockType.divider:
         return const Divider(thickness: 2);
+      case ContentBlockType.gpsConverter:
+        return const Padding(
+          padding: EdgeInsets.only(top: 8.0, bottom: 12.0),
+          child: GpsConverterBlock(),
+        );
     }
+  }
+}
+
+// ────────────────────────────────────────────────────────────
+// GPS Converter (prefills with current location in DMM)
+// ────────────────────────────────────────────────────────────
+class GpsConverterBlock extends StatefulWidget {
+  const GpsConverterBlock({super.key});
+
+  @override
+  State<GpsConverterBlock> createState() => _GpsConverterBlockState();
+}
+
+class _GpsConverterBlockState extends State<GpsConverterBlock> {
+  final TextEditingController _controller = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+
+  // UI options
+  static const bool _useInlineQuickKeys = false;
+  bool _useCustomKeyboard = true;
+
+  Widget _emptyContextMenu(BuildContext _, EditableTextState _) =>
+      const SizedBox.shrink();
+  // location state (these belong on the State, not the Widget)
+  bool _locLoading = false;
+  String? _locError;
+
+  // last successful parse
+  ParseResult? _result;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() => setState(() {}));
+    _prefillWithCurrentLocation(); // one-shot prefill
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  // ───────────────── location prefill ─────────────────
+  Future<void> _prefillWithCurrentLocation() async {
+    setState(() {
+      _locLoading = true;
+      _locError = null;
+    });
+
+    try {
+      // Services enabled?
+      final enabled = await Geolocator.isLocationServiceEnabled();
+      if (!enabled) {
+        setState(() {
+          _locError = 'Location services are disabled';
+          _locLoading = false;
+        });
+        return;
+      }
+
+      // Permissions
+      var perm = await Geolocator.checkPermission();
+      if (perm == LocationPermission.denied) {
+        perm = await Geolocator.requestPermission();
+      }
+      if (perm == LocationPermission.denied) {
+        setState(() {
+          _locError = 'Location permission denied';
+          _locLoading = false;
+        });
+        return;
+      }
+      if (perm == LocationPermission.deniedForever) {
+        setState(() {
+          _locError = 'Location permission permanently denied';
+          _locLoading = false;
+        });
+        return;
+      }
+
+      // Position (Geolocator 14: use locationSettings)
+      final pos = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.best,
+        ),
+      );
+
+      // Prefill as DMM (Marine)
+      final dmm = GpsFormats.toDMM(GpsCoord(pos.latitude, pos.longitude));
+
+      _controller.text = dmm;
+      _controller.selection = TextSelection.collapsed(
+        offset: _controller.text.length,
+      );
+      setState(() {
+        _result = GpsFormats.tryParse(dmm);
+      });
+    } catch (e) {
+      setState(() => _locError = 'Location error: $e');
+    } finally {
+      setState(() => _locLoading = false);
+    }
+  }
+
+  // ───────────────── text helpers ─────────────────
+  void _insertText(String text) {
+    final v = _controller.value;
+    final sel = v.selection;
+    final start = sel.start < 0 ? v.text.length : sel.start;
+    final end = sel.end < 0 ? start : sel.end;
+    final newText = v.text.replaceRange(start, end, text);
+    _controller.value = v.copyWith(
+      text: newText,
+      selection: TextSelection.collapsed(offset: start + text.length),
+      composing: TextRange.empty,
+    );
+    setState(() => _result = GpsFormats.tryParse(newText));
+    if (!_focusNode.hasFocus) _focusNode.requestFocus();
+  }
+
+  void _backspace() {
+    final v = _controller.value;
+    final s = v.selection;
+
+    if (s.isValid && s.start != s.end) {
+      final newText = v.text.replaceRange(s.start, s.end, '');
+      _controller.value = v.copyWith(
+        text: newText,
+        selection: TextSelection.collapsed(offset: s.start),
+        composing: TextRange.empty,
+      );
+    } else {
+      final caret = s.start < 0 ? v.text.length : s.start;
+      if (caret > 0) {
+        final newText = v.text.replaceRange(caret - 1, caret, '');
+        _controller.value = v.copyWith(
+          text: newText,
+          selection: TextSelection.collapsed(offset: caret - 1),
+          composing: TextRange.empty,
+        );
+      }
+    }
+    setState(() => _result = GpsFormats.tryParse(_controller.text));
+    if (!_focusNode.hasFocus) _focusNode.requestFocus();
+  }
+
+  Widget _buildInlineQuickKeys() {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        for (final t in const ['N', 'S', 'E', 'W'])
+          _QuickKey(label: t, onTap: () => _insertText('$t ')),
+        _QuickKey(label: '°', onTap: () => _insertText('°')),
+        _QuickKey(label: "'", onTap: () => _insertText("'")),
+        _QuickKey(label: '"', onTap: () => _insertText('"')),
+        _QuickKey(label: ',', onTap: () => _insertText(', ')),
+        _QuickKey(label: '−', onTap: () => _insertText('-')),
+      ],
+    );
+  }
+
+  Widget _formatTile(String label, String value, {bool isPlaceholder = false}) {
+    final theme = AppTheme.scaledTextTheme;
+    final labelStyle = (theme.bodySmall ?? const TextStyle(fontSize: 10))
+        .copyWith(
+          fontWeight: FontWeight.w600,
+          fontSize: ((theme.bodySmall?.fontSize ?? 12) * 0.75),
+          color: Colors.grey[700],
+        );
+    final baseCoordSize = theme.bodyMedium?.fontSize ?? 15;
+    final valueStyle = (theme.bodyMedium ?? const TextStyle(fontSize: 15))
+        .copyWith(
+          fontSize: baseCoordSize * 1.12,
+          color: isPlaceholder ? Colors.grey[600] : Colors.black87,
+          fontStyle: isPlaceholder ? FontStyle.italic : FontStyle.normal,
+        );
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Row(
+        children: [
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 108),
+            child: Text(
+              label,
+              style: labelStyle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          const VerticalDivider(width: 12, thickness: 1),
+          Expanded(
+            child: Text(
+              value,
+              style: valueStyle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.copy, size: 16),
+            onPressed: () => Clipboard.setData(ClipboardData(text: value)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final fallback = GpsCoord(0, 0);
+    final dd = GpsFormats.toDD(_result?.coord ?? fallback);
+    final dmm = GpsFormats.toDMM(_result?.coord ?? fallback);
+    final dms = GpsFormats.toDMS(_result?.coord ?? fallback);
+
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 8),
+            TextField(
+              controller: _controller,
+              focusNode: _focusNode,
+
+              // toggle between custom keypad and system keyboard
+              readOnly: _useCustomKeyboard,
+
+              // 👇 ensures the caret is visible
+              showCursor: true,
+              cursorOpacityAnimates:
+                  true, // 👈 forces blinking even in readOnly
+              // 👇 prevents system menu/selection when using custom keypad
+              enableInteractiveSelection: !_useCustomKeyboard,
+              contextMenuBuilder: _useCustomKeyboard ? _emptyContextMenu : null,
+
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+                signed: true,
+              ),
+
+              decoration: InputDecoration(
+                hintText:
+                    "e.g. N 37° 4.560'  W 122° 6.700'  or  37.076, -122.112",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      tooltip: 'Use my location',
+                      onPressed:
+                          _locLoading ? null : _prefillWithCurrentLocation,
+                      icon:
+                          _locLoading
+                              ? const SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                              : const Icon(Icons.my_location, size: 18),
+                    ),
+                    IconButton(
+                      tooltip:
+                          _useCustomKeyboard
+                              ? 'Use native keyboard'
+                              : 'Use GPS keypad',
+                      icon: Icon(
+                        _useCustomKeyboard
+                            ? Icons.keyboard
+                            : Icons.keyboard_alt,
+                        size: 18,
+                      ),
+                      onPressed:
+                          () => setState(() {
+                            _useCustomKeyboard = !_useCustomKeyboard;
+                          }),
+                    ),
+                    if (_controller.text.isNotEmpty)
+                      IconButton(
+                        tooltip: 'Clear',
+                        icon: const Icon(Icons.clear, size: 18),
+                        onPressed: () {
+                          setState(() {
+                            _controller.clear();
+                            _result = null;
+                          });
+                          _focusNode.requestFocus();
+                        },
+                      ),
+                  ],
+                ),
+              ),
+
+              onTap: () {
+                // keep focus when using custom keypad
+                if (_useCustomKeyboard && !_focusNode.hasFocus) {
+                  _focusNode.requestFocus();
+                }
+              },
+
+              onChanged:
+                  (v) => setState(() {
+                    _result = GpsFormats.tryParse(v);
+                  }),
+
+              onSubmitted: (_) => FocusScope.of(context).unfocus(), // optional
+            ),
+
+            if (_locError != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  _locError!,
+                  style: AppTheme.scaledTextTheme.bodySmall?.copyWith(
+                    color: Colors.red[700],
+                  ),
+                ),
+              ),
+            const SizedBox(height: 8),
+
+            if (_focusNode.hasFocus && _useCustomKeyboard)
+              (_useInlineQuickKeys
+                  ? _buildInlineQuickKeys()
+                  : GpsKeypad(
+                    onKey: (t) => t == '{BKSP}' ? _backspace() : _insertText(t),
+                  )),
+
+            const SizedBox(height: 8),
+            _formatTile(
+              'DMM (Marine Style)',
+              dmm,
+              isPlaceholder: _result == null,
+            ),
+            _formatTile('DD (Decimal)', dd, isPlaceholder: _result == null),
+            _formatTile(
+              'DMS (Older Charts)',
+              dms,
+              isPlaceholder: _result == null,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// Small reusable chip (kept for inline quick keys)
+class _QuickKey extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  const _QuickKey({required this.label, required this.onTap});
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 32,
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+          side: BorderSide(color: Colors.grey.shade300),
+        ),
+        onPressed: onTap,
+        child: Text(
+          label,
+          style: AppTheme.scaledTextTheme.bodyMedium?.copyWith(fontSize: 14),
+        ),
+      ),
+    );
   }
 }
 
@@ -8695,6 +10134,8 @@ class _SearchModalState extends State<SearchModal> {
   Future<void> _navigateToResult(SearchResult result) async {
     final renderItems = await buildRenderItems(ids: [result.id]);
     final timestamp = DateTime.now().millisecondsSinceEpoch;
+
+    if (!mounted) return; // ✅ Dart-safe context use
 
     final detailRoute = switch (result.type) {
       RenderItemType.lesson => DetailRoute.branch,
@@ -10744,19 +12185,49 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text('Settings', style: AppTheme.headingStyle),
+                        Text(
+                          'Settings',
+                          textAlign: TextAlign.center,
+                          style: AppTheme.modalTitle.copyWith(
+                            fontSize: 24, // slightly larger for this sheet
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                         const SizedBox(height: 12),
                         const Divider(),
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 8),
 
-                  // 🚀 Restart Tour Button
+                  // 🚨 Emergency Information (primary action)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: AppTheme.navigationButton,
+                        onPressed: () {
+                          showEmergencyInfoModal(
+                            context,
+                            onChanged: () {
+                              // no-op; modal manages its own state
+                            },
+                          );
+                        },
+                        child: const Text('Emergency Information'),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // 🚀 Restart Tour (secondary top action)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: SizedBox(
@@ -10806,57 +12277,37 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                   ),
 
                   const SizedBox(height: 8),
+
+                  // 🧪 DEV Reset Resume Point (third top action)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: AppTheme.navigationButton,
+                        onPressed: () async {
+                          await ResumeManager.clearResumePoint();
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('✅ Resume point cleared'),
+                            ),
+                          );
+                        },
+                        child: const Text('Reset Resume Point'),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // ▼ Scrollable settings list
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: ListView(
                         children: [
-                          // // 🚢 Vessel Name display button
-                          StatefulBuilder(
-                            builder: (context, setState) {
-                              return FutureBuilder<List<String>>(
-                                future: Future.wait([
-                                  SettingsManager.getBoatName(),
-                                  SettingsManager.getVesselType(),
-                                ]),
-                                builder: (context, snapshot) {
-                                  final name = snapshot.data?[0].trim() ?? '';
-                                  final type =
-                                      snapshot.data?[1].trim().isEmpty ?? true
-                                          ? 'Sailing'
-                                          : snapshot.data![1].trim();
-                                  final prefix =
-                                      (type == 'Sailing')
-                                          ? 'S/V'
-                                          : (type == 'Motor')
-                                          ? 'M/V'
-                                          : type;
-
-                                  final displayName =
-                                      name.isEmpty
-                                          ? 'Boat Information'
-                                          : '$prefix $name';
-
-                                  return ListTile(
-                                    contentPadding: EdgeInsets.zero,
-                                    title: Text(
-                                      displayName,
-                                      style: AppTheme.textTheme.bodyLarge,
-                                    ),
-                                    trailing: const Icon(Icons.chevron_right),
-                                    onTap: () {
-                                      showEmergencyInfoModal(
-                                        context,
-                                        onChanged: () => setState(() {}),
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                          ),
-
-                          _settingButton(context, 'Legal & Privacy Docs'),
+                          // Measurement settings
                           _settingDropdown('Units', ['Meters', 'Feet'], 'Feet'),
                           _settingDropdown('Wave Height', [
                             'Feet',
@@ -10867,6 +12318,7 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                             'Celsius',
                           ], 'Fahrenheit'),
 
+                          // GPS Format
                           StatefulBuilder(
                             builder: (context, setState) {
                               return FutureBuilder<GPSDisplayFormat>(
@@ -10898,27 +12350,18 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                           ),
 
                           const Divider(height: 24),
-                          const SizedBox(height: 8),
-                          const SizedBox(height: 12),
 
+                          // Dark mode switch
                           _settingSwitch('Dark Mode', false),
 
-                          // 🧪 DEV Reset Resume Point
-                          ElevatedButton(
-                            style: AppTheme.navigationButton,
-                            onPressed: () async {
-                              await ResumeManager.clearResumePoint();
-                              if (!context.mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('✅ Resume point cleared'),
-                                ),
-                              );
-                            },
-                            child: const Text('Reset Resume Point'),
-                          ),
+                          const SizedBox(height: 12),
+
+                          // Legal & Privacy (left-aligned tile)
+                          _settingButton(context, 'Legal & Privacy Docs'),
 
                           const SizedBox(height: 12),
+
+                          // Close Settings button
                           ElevatedButton(
                             style: AppTheme.navigationButton,
                             onPressed: () => Navigator.of(context).pop(),
@@ -10928,6 +12371,153 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                       ),
                     ),
                   ),
+
+                  // // 🚀 Restart Tour Button
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                  //   child: SizedBox(
+                  //     width: double.infinity,
+                  //     child: ElevatedButton(
+                  //       style: AppTheme.navigationButton,
+                  //       onPressed: () {
+                  //         logger.i(
+                  //           '🧭 SettingsModal tapped — route = $currentRouteName',
+                  //         );
+                  //         Navigator.of(context).pop();
+                  //         WidgetsBinding.instance.addPostFrameCallback((_) {
+                  //           if (currentRouteName == '/' ||
+                  //               currentRouteName == '/landing') {
+                  //             final state = LandingScreen.getState();
+                  //             if (state != null && state.mounted) {
+                  //               LandingScreenTour.restartNow(
+                  //                 landingScreenState: state,
+                  //                 mobKey: state.mobKey,
+                  //                 settingsKey: state.settingsKey,
+                  //                 titleKey: state.titleKey,
+                  //                 searchKey: state.searchKey,
+                  //                 harborKey: state.widget.harborKey,
+                  //                 coursesKey: state.widget.coursesKey,
+                  //                 partsKey: state.widget.partsKey,
+                  //                 toolsKey: state.widget.toolsKey,
+                  //                 drillsKey: state.widget.drillsKey,
+                  //                 newCrewKey: state.widget.newCrewKey,
+                  //                 advancedRefreshersKey:
+                  //                     state.widget.advancedRefreshersKey,
+                  //               );
+                  //             } else {
+                  //               logger.w(
+                  //                 '⚠️ LandingScreen not mounted — cannot restart tour',
+                  //               );
+                  //             }
+                  //           } else {
+                  //             GoRouter.of(
+                  //               context,
+                  //             ).go('/', extra: {'startTour': true});
+                  //           }
+                  //         });
+                  //       },
+                  //       child: const Text('Restart Tour'),
+                  //     ),
+                  //   ),
+                  // ),
+
+                  // const SizedBox(height: 8),
+                  // Expanded(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.symmetric(horizontal: 16),
+                  //     child: ListView(
+                  //       children: [
+                  //         // // 🚢 Vessel Name display button
+                  //         StatefulBuilder(
+                  //           builder: (context, setState) {
+                  //             return ListTile(
+                  //               contentPadding: EdgeInsets.zero,
+                  //               title: Text(
+                  //                 'Emergency Info',
+                  //                 style: AppTheme.textTheme.bodyLarge,
+                  //               ),
+                  //               trailing: const Icon(Icons.chevron_right),
+                  //               onTap: () {
+                  //                 showEmergencyInfoModal(
+                  //                   context,
+                  //                   onChanged: () => setState(() {}),
+                  //                 );
+                  //               },
+                  //             );
+                  //           },
+                  //         ),
+                  //         _settingButton(context, 'Legal & Privacy Docs'),
+                  //         _settingDropdown('Units', ['Meters', 'Feet'], 'Feet'),
+                  //         _settingDropdown('Wave Height', [
+                  //           'Feet',
+                  //           'Meters',
+                  //         ], 'Feet'),
+                  //         _settingDropdown('Temperature', [
+                  //           'Fahrenheit',
+                  //           'Celsius',
+                  //         ], 'Fahrenheit'),
+
+                  //         StatefulBuilder(
+                  //           builder: (context, setState) {
+                  //             return FutureBuilder<GPSDisplayFormat>(
+                  //               future: SettingsManager.getGPSDisplayFormat(),
+                  //               builder: (context, snapshot) {
+                  //                 final current =
+                  //                     snapshot.data ??
+                  //                     GPSDisplayFormat.marineCompact;
+                  //                 return _settingEnumDropdown(
+                  //                   'GPS Format',
+                  //                   {
+                  //                     'DMM (Marine Style)':
+                  //                         GPSDisplayFormat.marineCompact,
+                  //                     'DMS (Older Charts)':
+                  //                         GPSDisplayFormat.marineFull,
+                  //                     'DD (Decimal)': GPSDisplayFormat.decimal,
+                  //                   },
+                  //                   current,
+                  //                   (newFormat) async {
+                  //                     await SettingsManager.setGPSDisplayFormat(
+                  //                       newFormat,
+                  //                     );
+                  //                     setState(() {});
+                  //                   },
+                  //                 );
+                  //               },
+                  //             );
+                  //           },
+                  //         ),
+
+                  //         const Divider(height: 24),
+                  //         const SizedBox(height: 8),
+                  //         const SizedBox(height: 12),
+
+                  //         _settingSwitch('Dark Mode', false),
+
+                  //         // 🧪 DEV Reset Resume Point
+                  //         ElevatedButton(
+                  //           style: AppTheme.navigationButton,
+                  //           onPressed: () async {
+                  //             await ResumeManager.clearResumePoint();
+                  //             if (!context.mounted) return;
+                  //             ScaffoldMessenger.of(context).showSnackBar(
+                  //               const SnackBar(
+                  //                 content: Text('✅ Resume point cleared'),
+                  //               ),
+                  //             );
+                  //           },
+                  //           child: const Text('Reset Resume Point'),
+                  //         ),
+
+                  //         const SizedBox(height: 12),
+                  //         ElevatedButton(
+                  //           style: AppTheme.navigationButton,
+                  //           onPressed: () => Navigator.of(context).pop(),
+                  //           child: const Text('Close Settings'),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             );
@@ -11003,6 +12593,7 @@ Widget _settingEnumDropdown<T>(
 // 📄 Legal Docs Button
 Widget _settingButton(BuildContext context, String label) {
   return ListTile(
+    contentPadding: EdgeInsets.zero, // ⬅️ Add this to left-align text
     title: Text(label, style: AppTheme.textTheme.bodyLarge),
     trailing: const Icon(Icons.chevron_right),
     onTap: () {

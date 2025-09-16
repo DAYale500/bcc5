@@ -264,3 +264,123 @@ Use this in:
 ---
 
 Would you like me to turn this into a Markdown snippet you can keep in your repo (`lint_guides/use_build_context_synchronously.md` or similar)?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Excellent question — and the answer gets at the heart of **why the JSON conversion required a deep refactor** across your app.
+
+### 🧩 Why So Many `use_build_context_synchronously` Errors?
+
+#### 🔄 **Before (Dart Repository Approach)**
+
+Your app loaded all content **synchronously** from in-memory Dart repositories like:
+
+```dart
+final lesson = LessonRepositoryIndex.getLessonById(id); // Fast and sync
+```
+
+This meant you could safely use `BuildContext` before/after without issues, because **there were no async calls**.
+
+---
+
+#### 🗂️ **After (JSON Repository Approach)**
+
+Once you moved to loading from JSON:
+
+```dart
+final renderItems = await buildRenderItems(ids: [...]);
+```
+
+The logic became **asynchronous**, because:
+
+* JSON files must be **read from disk** (via `rootBundle.loadString`)
+* They must then be **parsed into Dart objects** (via `jsonDecode`)
+* This can take **tens or hundreds of milliseconds**, depending on file size and device
+
+---
+
+### ⚠️ Why This Triggers the Error
+
+Dart’s linter now **strictly flags** any time you use `BuildContext` *after* an `await` unless:
+
+* You check `if (!context.mounted)` first
+* Or you isolate the logic into a fresh synchronous context (like a closure)
+
+This is meant to prevent bugs like:
+
+* Navigating **after** a widget was disposed
+* Calling `ScaffoldMessenger.of(context)` after the screen was popped
+* Animating or focusing something that’s no longer mounted
+
+---
+
+### 💥 Why It Happened Everywhere
+
+Because your `buildRenderItems()` became async, **any usage of it inside a callback or tap handler** now introduced an async gap. That **rippled through**:
+
+* All GroupButton taps (tools, parts, lessons)
+* The SearchModal `onTap`
+* Chapter "Set Sail"
+* Path detail screen transitions
+* Tool navigation
+* MOB override logic
+* Custom onboarding transitions
+
+Each of these had to be guarded or refactored to prevent illegal use of `context`.
+
+---
+
+### 🛠️ Summary of Root Cause
+
+| Before (Dart Repo)         | After (JSON Loading)                |
+| -------------------------- | ----------------------------------- |
+| Synchronous access         | Asynchronous file loading           |
+| `BuildContext` always safe | Now must **guard** with `.mounted`  |
+| No `await` = no issues     | `await` = context must be validated |
+| UI transitions simple      | Must protect all transitions        |
+
+---
+
+### ✅ Solution Pattern
+
+To fix:
+
+* Wrap `context` use in `if (!context.mounted) return`
+* Or store it as a local `final` before `await`, and **guard all post-await usages**
+
+---
+
+Let me know if you want me to **audit all known `await` calls using `buildRenderItems()`** and provide a checklist for safe usage — happy to generate a quick report.
+
+
+
+

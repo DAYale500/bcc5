@@ -1,0 +1,42 @@
+{
+  "id": "lesson_safe_2.11",
+  "title": "Find and Approach the Boat",
+  "content": [
+    {
+      "type": "text",
+      "content": "Arriving at the marina is the first step in joining a sailing trip. Knowing how to safely locate and approach your assigned boat helps set the tone for the day."
+    },
+    {
+      "type": "text",
+      "content": "• Locate the correct slip or dock using the information provided ahead of time.\n• If small children are with you, they must wear a life jacket on the dock.\n• Walk calmly—docks can be slippery and contain tripping hazards.\n• Observe activity aboard the boat to see whether preparations are underway or if the crew is still gathering."
+    }
+  ],
+  "keywords": [
+    "arrival",
+    "dock",
+    "slip",
+    "safety",
+    "first steps"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_safe_2.11",
+      "title": "Finding the Boat",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What should you do upon arriving at the marina?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Locate the assigned slip or dock, walk calmly, and observe what’s happening on the boat."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

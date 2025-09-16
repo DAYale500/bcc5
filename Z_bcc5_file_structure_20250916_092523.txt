@@ -16,6 +16,7 @@ lib
 │       │   ├── competent_crew_flashards.dart
 │       │   └── flashcard_repository_index.dart
 │       ├── lessons
+│       │   ├── json_lesson_index.dart
 │       │   ├── json_lesson_repository.dart
 │       │   ├── lesson_docking_repository.dart
 │       │   ├── lesson_emergencies_repository.dart
@@ -45,7 +46,8 @@ lib
 │           ├── tool_grabbag_repository.dart.bak
 │           ├── tool_procedures_repository.dart
 │           ├── tool_references_repository.dart
-│           └── tool_repository_index.dart
+│           ├── tool_repository_index.dart
+│           └── tool_utilities_repository.dart
 ├── main.dart
 ├── navigation
 │   ├── app_router.dart
@@ -75,6 +77,7 @@ lib
 │   │   ├── path_chapter_screen.dart
 │   │   └── path_item_screen.dart
 │   └── tools
+│       ├── Plan_GPS_conversion_tool_adding.md
 │       ├── tool_bag_screen.dart
 │       ├── tool_detail_screen.dart
 │       └── tool_item_screen.dart
@@ -84,6 +87,7 @@ lib
 │   └── transition_type.dart
 ├── utils
 │   ├── app_startup_tracker.dart
+│   ├── gps_formats.dart
 │   ├── id_parser.dart
 │   ├── location_helper.dart
 │   ├── logger.dart
@@ -105,6 +109,7 @@ lib
     ├── emergency_info_modal.dart
     ├── end_of_group_modal.dart
     ├── flip_card_widget.dart
+    ├── gps_keypad.dart
     ├── group_button.dart
     ├── group_picker_dropdown.dart
     ├── item_button.dart
@@ -124,4 +129,4 @@ lib
         ├── landing_screen_tour.dart
         └── tour_descriptions.dart
 
-25 directories, 100 files
+25 directories, 105 files

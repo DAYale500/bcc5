@@ -6,10 +6,11 @@ import 'package:go_router/go_router.dart';
 
 import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
-import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
+// import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase
+import 'package:bcc5/data/repositories/lessons/json_lesson_index.dart'; // ⬅️ add this
 
 class LessonModuleScreen extends StatefulWidget {
   // ✅ Converted to StatefulWidget
@@ -28,9 +29,6 @@ class _LessonModuleScreenState extends State<LessonModuleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final moduleNames = LessonRepositoryIndex.getModuleNames();
-    // logger.i('🟦 Entered LessonModuleScreen');
-
     return Scaffold(
       appBar: CustomAppBarWidget(
         title: 'Courses',
@@ -42,56 +40,66 @@ class _LessonModuleScreenState extends State<LessonModuleScreen> {
         searchKey: searchKey,
         titleKey: titleKey,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Courses', style: AppTheme.branchBreadcrumbStyle),
-            ),
-          ),
-
-          const SizedBox(height: 16),
-          Text(
-            'Select a course to embark upon:',
-            style: AppTheme.subheadingStyle.copyWith(
-              color: AppTheme.primaryBlue,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(16),
-              itemCount: moduleNames.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final moduleName = moduleNames[index];
-                final label = moduleName.toTitleCase(); // ✅ Title Case
-
-                return GroupButton(
-                  label: label,
-                  onTap: () {
-                    logger.i('📘 Tapped Module: $moduleName');
-                    final timestamp = DateTime.now().millisecondsSinceEpoch;
-
-                    context.push(
-                      '/lessons/items',
-                      extra: {
-                        'module': moduleName,
-                        'transitionKey': 'lesson_items_${index}_$timestamp',
-                        'transitionType': TransitionType.slide,
-                        'slideFrom': SlideDirection.right,
-                        'detailRoute': DetailRoute.branch,
+      body: FutureBuilder<List<String>>(
+        future: JsonLessonIndex.getModuleNames(), // ⬅️ async now
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final moduleNames = snapshot.data!;
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 16.0,
+                  left: 16.0,
+                  right: 16.0,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Courses', style: AppTheme.branchBreadcrumbStyle),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Select a course to embark upon:',
+                style: AppTheme.subheadingStyle.copyWith(
+                  color: AppTheme.primaryBlue,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.separated(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: moduleNames.length,
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final moduleName = moduleNames[index];
+                    final label = moduleName.toTitleCase();
+                    return GroupButton(
+                      label: label,
+                      onTap: () {
+                        logger.i('📘 Tapped Module: $moduleName');
+                        final timestamp = DateTime.now().millisecondsSinceEpoch;
+                        context.push(
+                          '/lessons/items',
+                          extra: {
+                            'module': moduleName,
+                            'transitionKey': 'lesson_items_${index}_$timestamp',
+                            'transitionType': TransitionType.slide,
+                            'slideFrom': SlideDirection.right,
+                            'detailRoute': DetailRoute.branch,
+                          },
+                        );
                       },
                     );
                   },
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
