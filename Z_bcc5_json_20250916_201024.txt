@@ -1,0 +1,3716 @@
+
+
+
+
+
+
+
+
+
+
+File: assets/json/june_effort/dart_to_json_converter.py
+import re
+import json
+
+# Parses Dart repository code and converts each Lesson(...) 
+# into a structured JSON object
+
+# Best used on formatted, cleaned Dart lesson definitions 
+# like those in DockingLessonRepository
+
+def dart_to_json(dart_text):
+    lessons = []
+    lesson_blocks = re.split(r'Lesson\(', dart_text)[1:]
+
+    for block in lesson_blocks:
+        lesson = {}
+        lesson['id'] = re.search(r"id: '([^']+)'", block).group(1)
+        lesson['title'] = re.search(r"title: '([^']+)'", block).group(1)
+        content_blocks = []
+        for m in re.finditer(r"ContentBlock\.(text|image)\(\s*'([^']+)'\s*\)", block):
+            content_blocks.append({"type": m.group(1), "content": m.group(2)})
+        lesson['content'] = content_blocks
+        lesson['keywords'] = []
+        lesson['isPaid'] = False
+        flashcard = {}
+        flash_match = re.search(r"Flashcard\((.*?)\)", block, re.DOTALL)
+        if flash_match:
+            flash_block = flash_match.group(1)
+            flashcard['id'] = re.search(r"id: '([^']+)'", flash_block).group(1)
+            flashcard['title'] = re.search(r"title: '([^']+)'", flash_block).group(1)
+            side_a = re.search(r"sideA: \[.*?ContentBlock.text\(\s*'([^']+)'\s*\)", flash_block)
+            side_b = re.search(r"sideB: \[.*?ContentBlock.text\(\s*'([^']+)'\s*\)", flash_block)
+            flashcard['sideA'] = [{"type": "text", "content": side_a.group(1)}] if side_a else []
+            flashcard['sideB'] = [{"type": "text", "content": side_b.group(1)}] if side_b else []
+            flashcard['isPaid'] = False
+            flashcard['showAFirst'] = True
+            lesson['flashcards'] = [flashcard]
+        else:
+            lesson['flashcards'] = []
+        lessons.append(lesson)
+
+    return lessons
+
+# Example usage:
+# dart_code = open("docking_repo.dart").read()
+# jsons = dart_to_json(dart_code)
+# for l in jsons: json.dump(l, open(f"{l['id']}.json", "w"), indent=2)
+
+
+
+
+
+
+
+
+
+File: assets/json/june_effort/json_csv_converter.py
+import json
+import csv
+import os
+
+# Converts a folder of JSON lessons into a single CSV index
+# Also lets you update lesson titles/descriptions from a CSV 
+# back into the JSON files
+
+def json_to_csv(input_folder, output_csv):
+    index = []
+    for file_name in os.listdir(input_folder):
+        if file_name.endswith(".json") and not file_name.startswith("index"):
+            with open(os.path.join(input_folder, file_name)) as f:
+                data = json.load(f)
+                id = data.get("id", "")
+                title = data.get("title", "")
+                description = data.get("content", [{}])[0].get("content", "")
+                index.append({"id": id, "title": title, "description": description})
+    with open(output_csv, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["id", "title", "description"])
+        writer.writeheader()
+        writer.writerows(index)
+
+def csv_to_json(input_csv, json_template_folder, output_folder):
+    with open(input_csv, newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            json_path = os.path.join(json_template_folder, f"{row['id']}.json")
+            if not os.path.exists(json_path):
+                continue
+            with open(json_path) as jf:
+                data = json.load(jf)
+            data["title"] = row["title"]
+            if data.get("content"):
+                data["content"][0]["content"] = row["description"]
+            with open(os.path.join(output_folder, f"{row['id']}.json"), "w") as out_f:
+                json.dump(data, out_f, indent=2)
+
+# Example usage:
+# json_to_csv("json/lessons/docking", "output.csv")
+# csv_to_json("output.csv", "json/lessons/docking", "json/lessons/docking_updated")
+
+
+
+
+
+
+
+
+
+File: assets/json/tools/navigation.json
+{
+  "module": "navigation",
+  "tools": [
+    {
+      "id": "tool_nav_1.00",
+      "title": "GPS Basics",
+      "content": [
+        { "type": "text", "content": "Confirm position, COG, SOG, and route on your plotter or handheld." }
+      ],
+      "flashcards": []
+    },
+    {
+      "id": "tool_gps_1.10",
+      "title": "Man-Overboard (MOB) Mark",
+      "content": [
+        { "type": "text", "content": "How to drop and navigate to a MOB waypoint quickly." }
+      ],
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/tools/checklists.json
+{
+  "module": "checklists",
+  "tools": [
+    {
+      "id": "tool_check_preDeparture_1.00",
+      "title": "Pre-Departure Checklist",
+      "content": [
+        { "type": "text", "content": "Run these checks before leaving the dock." },
+        { "type": "bullets", "items": [
+          "Weather & Notices to Mariners reviewed",
+          "Float plan filed; VHF operational check",
+          "Fuel, water, batteries, bilge, and engine fluids checked",
+          "Safety gear aboard: PFDs, fire extinguishers, flares, sound device",
+          "Anchors/rode secured; docklines & fenders stowed",
+          "Navigation lights & electronics functional"
+        ]},
+        { "type": "text", "content": "Tip: assign responsibilities to crew and brief everyone." }
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_check_preDeparture_1.00",
+          "title": "Pre-Departure Essentials",
+          "sideA": [{ "type": "text", "content": "Name three critical pre-departure checks." }],
+          "sideB": [{ "type": "text", "content": "Weather, safety gear, and engine/bilge/fuel systems." }]
+        }
+      ]
+    },
+    {
+      "id": "tool_check_returnToDock_1.00",
+      "title": "Return-to-Dock Checklist",
+      "content": [
+        { "type": "text", "content": "Checks for a tidy, safe return and shutdown." },
+        { "type": "bullets", "items": [
+          "Secure lines & fenders; verify spring lines",
+          "Shut down engine per manual; close raw-water if required",
+          "Switch off non-essential electronics; shore power connected",
+          "Bilge check; trash/heads handled; decks tidied",
+          "Log times, engine hours, and any issues"
+        ]}
+      ],
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/tools/calculators.json
+{
+  "module": "calculators",
+  "tools": [
+    {
+      "id": "tool_calc_gps_1.00",
+      "title": "GPS Coordinate Conversion (DD ↔ DMS)",
+      "content": [
+        { "type": "text", "content": "Convert between Decimal Degrees (DD) and Degrees-Minutes-Seconds (DMS)." },
+        { "type": "bullets", "items": [
+          "DD → DMS: deg = int(DD); min = int(|DD − deg| × 60); sec = (|DD − deg| × 60 − min) × 60.",
+          "DMS → DD: DD = deg + (min / 60) + (sec / 3600).",
+          "Use N/E as positive, S/W as negative."
+        ]},
+        { "type": "text", "content": "Example: 37.7749° → 37° 46' 29.64\". 122° 25' 9.84\" W → −122.4194°." }
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_calc_gps_1.00",
+          "title": "DD ↔ DMS Basics",
+          "sideA": [{ "type": "text", "content": "Formula to convert DMS to DD?" }],
+          "sideB": [{ "type": "text", "content": "DD = deg + (min/60) + (sec/3600). Use sign by hemisphere." }]
+        }
+      ]
+    },
+    {
+      "id": "tool_calc_dst_1.00",
+      "title": "Speed / Time / Distance",
+      "content": [
+        { "type": "text", "content": "Quick relationships for trip planning and ETAs." },
+        { "type": "bullets", "items": [
+          "S = D / T (knots = NM per hour)",
+          "D = S × T",
+          "T = D / S"
+        ]},
+        { "type": "text", "content": "Example: 12 NM at 6 kn → 2 h. 18 NM in 3 h → 6 kn." }
+      ],
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/tools/vhf.json
+{
+  "module": "vhf",
+  "tools": [
+    {
+      "id": "tool_vhf_1.00",
+      "title": "VHF Basics",
+      "content": [
+        { "type": "text", "content": "Turn on, set to channel 16, perform radio checks on working channels." }
+      ],
+      "keywords": ["vhf", "radio"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/tools/emergency.json
+{
+  "module": "emergency",
+  "tools": [
+    {
+      "id": "tool_emerg_mob_1.00",
+      "title": "Man Overboard (MOB) — Immediate Actions",
+      "content": [
+        { "type": "text", "content": "Immediate steps for a classic Williamson or Quick-Stop maneuver." },
+        { "type": "bullets", "items": [
+          "Shout 'MOB', press MOB on GPS/plotter",
+          "Throw flotation & a marker (light/dan buoy)",
+          "Spotter keeps eyes on person, pointing continuously",
+          "Execute recovery maneuver; approach from leeward at low speed",
+          "Secure recovery with a line/sling; treat for hypothermia/shock"
+        ]},
+        { "type": "text", "content": "Use your local MOB screen for drill mode if available." }
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_emerg_mob_1.00",
+          "title": "MOB Priorities",
+          "sideA": [{ "type": "text", "content": "First three steps after 'Man Overboard!'?" }],
+          "sideB": [{ "type": "text", "content": "Shout/Alarm, mark position (MOB on GPS), deploy flotation/marker." }]
+        }
+      ]
+    },
+    {
+      "id": "tool_emerg_fire_1.00",
+      "title": "Onboard Fire — Response",
+      "content": [
+        { "type": "text", "content": "Assess, alert crew, and attack safely from windward if possible." },
+        { "type": "bullets", "items": [
+          "Raise alarm; don PFDs; prepare VHF Ch 16 call",
+          "Isolate fuel/elec if safe; close hatches to starve oxygen",
+          "Use correct extinguisher class; short bursts, sweep base",
+          "If uncontrolled, issue Mayday; prepare to abandon to raft"
+        ]}
+      ],
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/tools/engine.json
+{
+  "module": "engine",
+  "tools": [
+    {
+      "id": "tool_engine_1.00",
+      "title": "Pre-Start Checks",
+      "content": [
+        { "type": "text", "content": "Fast checklist before starting the diesel." },
+        { "type": "bullets", "items": [
+          "Fuel valve open, no leaks",
+          "Raw water seacock open",
+          "Battery switch on, oil level OK"
+        ]}
+      ],
+      "flashcards": []
+    },
+    {
+      "id": "tool_mot_1.10",
+      "title": "Overheating — Immediate Actions",
+      "content": [
+        { "type": "text", "content": "If the temp spikes or alarm sounds:" },
+        { "type": "bullets", "items": [
+          "Throttle to idle, shift to neutral",
+          "Check raw water strainer / impeller",
+          "Verify water out exhaust"
+        ]}
+      ],
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/tools/test.json
+{
+  "module": "Test",
+  "tools": [
+    {
+      "id": "tool_test_1.00",
+      "title": "It's a test",
+      "content": [
+        { "type": "text", "content": "Convert between Decimal Degrees (DD) and Degrees-Minutes-Seconds (DMS)." },
+        { "type": "bullets", "items": [
+          "DD → DMS: deg = int(DD); min = int(|DD − deg| × 60); sec = (|DD − deg| × 60 − min) × 60.",
+          "DMS → DD: DD = deg + (min / 60) + (sec / 3600).",
+          "Use N/E as positive, S/W as negative."
+        ]},
+        { "type": "text", "content": "Example: 37.7749° → 37° 46' 29.64\". 122° 25' 9.84\" W → −122.4194°." }
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_calc_gps_1.00",
+          "title": "DD ↔ DMS Basics",
+          "sideA": [{ "type": "text", "content": "Formula to convert DMS to DD?" }],
+          "sideB": [{ "type": "text", "content": "DD = deg + (min/60) + (sec/3600). Use sign by hemisphere." }]
+        }
+      ]
+    },
+    {
+      "id": "tool_test_1.00",
+      "title": "This is the second one.",
+      "content": [
+        { "type": "text", "content": "Quick relationships for trip planning and ETAs." },
+        { "type": "bullets", "items": [
+          "S = D / T (knots = NM per hour)",
+          "D = S × T",
+          "T = D / S"
+        ]},
+        { "type": "text", "content": "Example: 12 NM at 6 kn → 2 h. 18 NM in 3 h → 6 kn." }
+      ],
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/tools/test_2.json
+{
+  "module": "Test2",
+  "tools": [
+    {
+      "id": "tool_test_2_1.00",
+      "title": "Comm stuff",
+      "content": [
+        { "type": "text", "content": "Run these checks before leaving the dock." },
+        { "type": "bullets", "items": [
+          "Weather & Notices to Mariners reviewed",
+          "Float plan filed; VHF operational check",
+          "Fuel, water, batteries, bilge, and engine fluids checked",
+          "Safety gear aboard: PFDs, fire extinguishers, flares, sound device",
+          "Anchors/rode secured; docklines & fenders stowed",
+          "Navigation lights & electronics functional"
+        ]},
+        { "type": "text", "content": "Tip: assign responsibilities to crew and brief everyone." }
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_check_preDeparture_1.00",
+          "title": "Pre-Departure Essentials",
+          "sideA": [{ "type": "text", "content": "Name three critical pre-departure checks." }],
+          "sideB": [{ "type": "text", "content": "Weather, safety gear, and engine/bilge/fuel systems." }]
+        }
+      ]
+    },
+    {
+      "id": "tool_test2_2_1.00",
+      "title": "flares",
+      "content": [
+        { "type": "text", "content": "Checks for a tidy, safe return and shutdown." },
+        { "type": "bullets", "items": [
+          "Secure lines & fenders; verify spring lines",
+          "Shut down engine per manual; close raw-water if required",
+          "Switch off non-essential electronics; shore power connected",
+          "Bilge check; trash/heads handled; decks tidied",
+          "Log times, engine hours, and any issues"
+        ]}
+      ],
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/tools/communications.json
+{
+  "module": "Communications",
+  "tools": [
+    {
+      "id": "tool_comm_preDeparture_1.00",
+      "title": "Comm stuff",
+      "content": [
+        { "type": "text", "content": "Run these checks before leaving the dock." },
+        { "type": "bullets", "items": [
+          "Weather & Notices to Mariners reviewed",
+          "Float plan filed; VHF operational check",
+          "Fuel, water, batteries, bilge, and engine fluids checked",
+          "Safety gear aboard: PFDs, fire extinguishers, flares, sound device",
+          "Anchors/rode secured; docklines & fenders stowed",
+          "Navigation lights & electronics functional"
+        ]},
+        { "type": "text", "content": "Tip: assign responsibilities to crew and brief everyone." }
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_check_preDeparture_1.00",
+          "title": "Pre-Departure Essentials",
+          "sideA": [{ "type": "text", "content": "Name three critical pre-departure checks." }],
+          "sideB": [{ "type": "text", "content": "Weather, safety gear, and engine/bilge/fuel systems." }]
+        }
+      ]
+    },
+    {
+      "id": "tool_comm_flares_1.00",
+      "title": "flares",
+      "content": [
+        { "type": "text", "content": "Checks for a tidy, safe return and shutdown." },
+        { "type": "bullets", "items": [
+          "Secure lines & fenders; verify spring lines",
+          "Shut down engine per manual; close raw-water if required",
+          "Switch off non-essential electronics; shore power connected",
+          "Bilge check; trash/heads handled; decks tidied",
+          "Log times, engine hours, and any issues"
+        ]}
+      ],
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/tools/colregs.json
+{
+  "module": "colregs",
+  "tools": [
+    {
+      "id": "tool_colregs_1.00",
+      "title": "Nav Lights — Basics",
+      "content": [
+        { "type": "text", "content": "Understand standard navigation lights and what they signal." },
+        { "type": "bullets", "items": [
+          "Red = port, Green = starboard",
+          "Masthead + Stern light indicate power-driven vessel",
+          "Sailing vessels differ under sail vs. power"
+        ]}
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_colregs_1.00",
+          "title": "Nav Lights — Basics",
+          "sideA": [{ "type": "text", "content": "Which side shows a red light?" }],
+          "sideB": [{ "type": "text", "content": "Port (left) side shows red." }]
+        }
+      ]
+    },
+    {
+      "id": "tool_rules_1.10",
+      "title": "Right of Way — Overview",
+      "content": [
+        { "type": "text", "content": "Know which vessel must give way under common scenarios." },
+        { "type": "bullets", "items": [
+          "Power gives way to sail (usually)",
+          "Overtaking vessel keeps clear",
+          "Vessel constrained by draft has priority"
+        ]}
+      ],
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/paths/competent_crew.json
+{
+  "path": "competent crew",
+  "chapters": [
+    {
+      "id": "path_competentCrew_1.00",
+      "title": "Home: Before You Board",
+      "showFlashcardEnding": true,
+      "items": [
+        { "id": "lesson_emer_4.00" },
+        { "id": "lesson_emer_5.00" },
+        { "id": "part_hull_1.00" },
+        { "id": "tool_check_preDeparture_1.00" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_2.00",
+      "title": "Dockside: Boarding",
+      "items": [
+        { "id": "part_hull_1.10" },
+        { "id": "part_hull_1.20" },
+        { "id": "tool_nav_1.00" },
+        { "id": "tool_gps_1.10" },
+        { "id": "tool_check_returnToDock_1.00" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_3.00",
+      "title": "Onboard: Basic Systems",
+      "items": [
+        { "id": "part_rigg_1.00" },
+        { "id": "part_rigg_1.20" },
+        { "id": "tool_engine_1.00" },
+        { "id": "tool_mot_1.10" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_4.00",
+      "title": "Rules & Quick Calcs",
+      "items": [
+        { "id": "tool_colregs_1.00" },
+        { "id": "tool_rules_1.10" },
+        { "id": "tool_calc_gps_1.00" }
+      ]
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/parts/hull.json
+{
+  "module": "hull",
+  "parts": [
+    {
+      "id": "part_hull_1.00",
+      "title": "Hull Inspection Basics jan the cat",
+      "content": [
+        { "type": "text", "content": "Walk the hull and deck. Look for cracks, crazing, blisters, and soft spots." },
+        { "type": "bulletList", "content": ["Check below waterline (if hauled)", "Scan topsides for impact marks", "Inspect deck around chainplates and stanchions"] }
+      ],
+      "keywords": ["hull", "inspection", "deck"],
+      "isPaid": false
+    },
+    {
+      "id": "part_hull_1.10",
+      "title": "Topsides & Deck",
+      "content": [
+        { "type": "text", "content": "Examine gelcoat, non-skid, and hardware bedding to prevent leaks." },
+        { "type": "bulletList", "content": ["Non-skid wear", "Lifeline stanchion bases", "Toe-rail integrity"] }
+      ],
+      "keywords": ["topsides", "non-skid", "hardware"],
+      "isPaid": false
+    },
+    {
+      "id": "part_hull_1.20",
+      "title": "Keel & Rudder Check",
+      "content": [
+        { "type": "text", "content": "Confirm fair keel joint, tight bolts (if accessible), and smooth rudder travel." },
+        { "type": "bulletList", "content": ["Keel-hull joint (smiles)", "Rudder play/bind", "Weeps or staining"] }
+      ],
+      "keywords": ["keel", "rudder"],
+      "isPaid": false
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/parts/rigging.json
+{
+  "module": "rigging",
+  "parts": [
+    {
+      "id": "part_rigg_1.00",
+      "title": "Standing vs Running Rigging",
+      "content": [
+        { "type": "text", "content": "Standing rigging supports the mast; running rigging controls the sails." },
+        { "type": "bullets", "content": "Shrouds & Stays (standing)\nHalyards & Sheets (running)" }
+      ],
+      "keywords": ["rigging", "standing", "running"],
+      "isPaid": false,
+      "flashcards": []
+    },
+    {
+      "id": "part_rigg_1.20",
+      "title": "Winches & Clutches",
+      "content": [
+        { "type": "text", "content": "Understand how to load a self-tailing winch and safely use line clutches." }
+      ],
+      "keywords": ["winch", "clutch"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/parts/deck.json
+{
+  "module": "deck",
+  "parts": [
+    {
+      "id": "part_deck_1.00",
+      "title": "Deck Layout Overview",
+      "content": [
+        { "type": "text", "content": "A quick tour of the deck layout and common fittings." },
+        { "type": "bullets", "content": "Cleats\nStanchions\nWinches\nPulpit & Pushpit" },
+        { "type": "image", "content": "assets/images/parts/deck_overview.png" }
+      ],
+      "keywords": ["deck", "layout", "fittings"],
+      "isPaid": false,
+      "flashcards": []
+    },
+    {
+      "id": "part_deck_1.10",
+      "title": "Cleats & Line Handling",
+      "content": [
+        { "type": "heading", "content": "Using Cleats" },
+        { "type": "text", "content": "Learn the proper 'figure-8 + lock' technique to secure lines safely." }
+      ],
+      "keywords": ["cleat", "line handling"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/parts/interior.json
+{
+  "module": "interior",
+  "parts": [
+    {
+      "id": "part_intr_1.00",
+      "title": "Interior Safety & Stowage",
+      "content": [
+        { "type": "text", "content": "Secure gear, keep egress clear, and know where the essentials live." }
+      ],
+      "keywords": ["interior", "stowage", "safety"],
+      "isPaid": false,
+      "flashcards": []
+    },
+    {
+      "id": "part_intr_1.10",
+      "title": "Galley Basics",
+      "content": [
+        { "type": "text", "content": "Using the stove safely and managing water tanks underway." }
+      ],
+      "keywords": ["galley", "water"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/parts/sails.json
+{
+  "module": "sails",
+  "parts": [
+    {
+      "id": "part_sail_1.00",
+      "title": "Mainsail Essentials",
+      "content": [
+        { "type": "text", "content": "Key parts: luff, leech, foot, tack, clew, head." },
+        { "type": "bullets", "content": "Batten pockets\nReef points\nCunningham\nOuthaul" }
+      ],
+      "keywords": ["mainsail", "controls"],
+      "isPaid": false,
+      "flashcards": []
+    },
+    {
+      "id": "part_sail_1.10",
+      "title": "Headsail & Furlers",
+      "content": [
+        { "type": "text", "content": "How furlers work and what to look for before sailing." }
+      ],
+      "keywords": ["headsail", "furling"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/navigation.json
+{
+  "module": "navigation",
+  "lessons": [
+    {
+      "id": "lesson_nav_1.00",
+      "title": "Intro to Aids to Navigation",
+      "content": [
+        { "type": "text", "content": "Buoys, beacons, and what their shapes/colors mean." }
+      ],
+      "keywords": ["navigation", "ATON"],
+      "isPaid": false
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/terminology.json
+{
+  "module": "terminology",
+  "lessons": [
+    {
+      "id": "lesson_term_1.00",
+      "title": "Essential Terms",
+      "content": [
+        { "type": "text", "content": "Introduction to essential sailing terms." }
+      ],
+      "keywords": ["essential terms", "sailing basics", "orientation"],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_1.00",
+          "title": "Essential Terms",
+          "sideA": [{ "type": "text", "content": "What are essential sailing terms?" }],
+          "sideB": [{ "type": "text", "content": "Bow, stern, port, starboard." }],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_2.00",
+      "title": "Common Nautical Terms",
+      "content": [
+        { "type": "text", "content": "Learn basic terms like “port” (left) and “starboard” (right)." }
+      ],
+      "keywords": ["nautical terms", "port", "starboard"],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_2.00",
+          "title": "Common Nautical Terms",
+          "sideA": [{ "type": "text", "content": "What does 'port' and 'starboard' mean?" }],
+          "sideB": [{ "type": "text", "content": "'Port' is left; 'starboard' is right." }],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/knots.json
+{
+  "module": "knots",
+  "lessons": [
+    {
+      "id": "lesson_knot_1.00",
+      "title": "Figure Eight Knot",
+      "content": [
+        { "type": "text", "content": "Stopper knot to keep lines from running through blocks or cleats." }
+      ],
+      "keywords": ["knots", "figure eight"],
+      "isPaid": false
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking.json
+{
+  "module": "docking",
+  "lessons": [
+    {
+      "id": "lesson_dock_1.00",
+      "title": "Approach Basics",
+      "content": [
+        { "type": "text", "content": "Intro to safe approach angles and speed control." }
+      ],
+      "keywords": ["docking", "approach"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/terminology/lesson_term_4.00.json
+{
+  "id": "lesson_term_4.00",
+  "title": "Paid: Types of Sails",
+  "content": [
+    {
+      "type": "text",
+      "data": "Main sail, jib, and spinnaker are common types of sails."
+    }
+  ],
+  "keywords": [
+    "sails",
+    "types of sails",
+    "spinnaker"
+  ],
+  "isPaid": true,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_term_4.00",
+      "title": "Types of Sails",
+      "sideA": [
+        {
+          "type": "text",
+          "data": "What are the common types of sails?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "data": "Main sail (primary driving force), jib (front sail), spinnaker (large, balloon-like sail for downwind sailing)."
+        }
+      ],
+      "isPaid": true,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/terminology/lesson_term_5.00.json
+{
+  "id": "lesson_term_5.00",
+  "title": "Paid: Points of Sail",
+  "content": [
+    {
+      "type": "text",
+      "data": "The angle of the boat relative to the wind determines the \"point of sail\"."
+    }
+  ],
+  "keywords": [
+    "points of sail",
+    "wind",
+    "sailing"
+  ],
+  "isPaid": true,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_term_5.00",
+      "title": "Points of Sail",
+      "sideA": [
+        {
+          "type": "text",
+          "data": "What are the main points of sail?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "data": "Close-hauled (into the wind), beam reach (90\u00b0 to wind), broad reach (wind behind), run (directly downwind)."
+        }
+      ],
+      "isPaid": true,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/terminology/lesson_term_3.00.json
+{
+  "id": "lesson_term_3.00",
+  "title": "Paid: Basic Parts of the Boat",
+  "content": [
+    {
+      "type": "text",
+      "data": "Understand the key parts: mast, boom, rudder, cockpit, and deck."
+    }
+  ],
+  "keywords": [
+    "boat parts",
+    "mast",
+    "rudder"
+  ],
+  "isPaid": true,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_term_3.00",
+      "title": "Basic Parts of the Boat",
+      "sideA": [
+        {
+          "type": "text",
+          "data": "What are the key parts of a sailboat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "data": "Mast (holds sails), boom (controls sail angle), rudder (steering), cockpit (control area), deck (walking space)."
+        }
+      ],
+      "isPaid": true,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/terminology/lesson_term_2.00.json
+{
+  "id": "lesson_term_2.00",
+  "title": "Common Nautical Terms",
+  "content": [
+    {
+      "type": "text",
+      "data": "Learn basic terms like \u201cport\u201d (left), \u201cstarboard\u201d (right)."
+    }
+  ],
+  "keywords": [
+    "nautical terms",
+    "port",
+    "starboard"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_term_2.00",
+      "title": "Common Nautical Terms",
+      "sideA": [
+        {
+          "type": "text",
+          "data": "What does 'port' and 'starboard' mean?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "data": "'Port' refers to the left side of the boat, 'starboard' refers to the right side."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/terminology/lesson_term_1.00.json
+{
+  "id": "lesson_term_1.00",
+  "title": "Essential Terms",
+  "content": [
+    {
+      "type": "text",
+      "data": "Introduction to essential sailing terms."
+    }
+  ],
+  "keywords": [
+    "essential terms",
+    "sailing basics",
+    "orientation"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_term_1.00",
+      "title": "Essential Terms",
+      "sideA": [
+        {
+          "type": "text",
+          "data": "What are some essential sailing terms every crew member should know?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "data": "Terms like 'bow' (front), 'stern' (back), 'port' (left), 'starboard' (right)."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/seamanship/lesson_seam_4.00.json
+{
+  "id": "lesson_seam_4.00",
+  "title": "Heaving-To: How to Stop a Sailboat",
+  "content": [
+    {
+      "type": "heading",
+      "content": "Pausing in Open Water"
+    },
+    {
+      "type": "text",
+      "content": "Learn how to heave-to, an essential sailing maneuver to pause in open water."
+    }
+  ],
+  "keywords": [
+    "heaving-to",
+    "stopping",
+    "storm tactics"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_seam_4.00",
+      "title": "Heaving-To: How to Stop a Sailboat",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is heaving-to?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "A maneuver where the sails and rudder are adjusted to keep the boat nearly stationary in the water."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/seamanship/lesson_seam_3.00.json
+{
+  "id": "lesson_seam_3.00",
+  "title": "Understanding Wind and Sail Interaction",
+  "content": [
+    {
+      "type": "heading",
+      "content": "Harnessing Wind Power"
+    },
+    {
+      "type": "text",
+      "content": "Gain an understanding of how sails interact with the wind to generate propulsion."
+    }
+  ],
+  "keywords": [
+    "wind",
+    "aerodynamics",
+    "sail force"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_seam_3.00",
+      "title": "Understanding Wind and Sail Interaction",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "How does wind generate propulsion on a sailboat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Wind flows over the sails, creating lift and pushing the boat forward."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/seamanship/lesson_seam_2.00.json
+{
+  "id": "lesson_seam_2.00",
+  "title": "Sailing Along - Trimming Sails",
+  "content": [
+    {
+      "type": "heading",
+      "content": "Trim for Speed"
+    },
+    {
+      "type": "text",
+      "content": "Learn how to trim sails to optimize performance based on wind conditions."
+    }
+  ],
+  "keywords": [
+    "sail trim",
+    "tacking",
+    "jibing"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_seam_2.00",
+      "title": "Sailing Along - Trimming Sails",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What does proper sail trimming achieve?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "It optimizes boat speed and efficiency by adjusting sails to wind conditions."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/seamanship/lesson_seam_1.00.json
+{
+  "id": "lesson_seam_1.00",
+  "title": "Raising the Sails",
+  "content": [
+    {
+      "type": "heading",
+      "content": "Teamwork & Terminology"
+    },
+    {
+      "type": "text",
+      "content": "Learn the names of sails and the teamwork required to raise them properly."
+    }
+  ],
+  "keywords": [
+    "sails",
+    "halyards",
+    "winches"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_seam_1.00",
+      "title": "Raising the Sails",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is the primary function of halyards?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Halyards are used to hoist sails up the mast."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/navigation/lesson_navi_6.00.json
+{
+  "id": "lesson_navi_6.00",
+  "title": "Weather Awareness",
+  "content": [
+    {
+      "type": "text",
+      "content": "Recognize signs of approaching weather changes like cloud formations, temperature drops, and sudden wind shifts."
+    }
+  ],
+  "keywords": [
+    "weather awareness",
+    "weather changes",
+    "safety"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_navi_6.00",
+      "title": "Weather Awareness",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are signs of an approaching storm?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Darkening clouds, dropping temperatures, and increasing wind speed."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/navigation/lesson_navi_4.00.json
+{
+  "id": "lesson_navi_4.00",
+  "title": "How to Read Wind Direction",
+  "content": [
+    {
+      "type": "text",
+      "content": "Reading the wind direction is crucial for effective sailing and anticipating shifts in boat movement."
+    }
+  ],
+  "keywords": [
+    "wind direction",
+    "sailing",
+    "navigation"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_navi_4.00",
+      "title": "Reading Wind Direction",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why is wind direction important in sailing?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "It determines how you adjust the sails and steer the boat."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/navigation/lesson_navi_5.00.json
+{
+  "id": "lesson_navi_5.00",
+  "title": "Advanced Weather Forecasting",
+  "content": [
+    {
+      "type": "text",
+      "content": "Getting and interpreting GRIB files for detailed weather forecasts, useful for planning long passages."
+    }
+  ],
+  "keywords": [
+    "weather",
+    "forecast",
+    "GRIB files",
+    "weather patterns"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_navi_5.00",
+      "title": "Advanced Weather Forecasting",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a GRIB file used for?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Providing detailed weather forecast data for sailors."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/navigation/lesson_navi_1.00.json
+{
+  "id": "lesson_navi_1.00",
+  "title": "Being a Good Lookout",
+  "content": [
+    {
+      "type": "text",
+      "content": "Understand the responsibilities of a lookout, including spotting hazards and maintaining awareness."
+    }
+  ],
+  "keywords": [
+    "navigation",
+    "lookout",
+    "hazards",
+    "awareness"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_navi_1.00",
+      "title": "Being a Good Lookout",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a key responsibility of a lookout?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Spotting hazards and maintaining situational awareness."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/navigation/lesson_navi_3.00.json
+{
+  "id": "lesson_navi_3.00",
+  "title": "Understanding Weather on the Water",
+  "content": [
+    {
+      "type": "text",
+      "content": "Weather conditions can change quickly on the water, affecting sailing safety and comfort."
+    }
+  ],
+  "keywords": [
+    "weather",
+    "navigation",
+    "safety"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_navi_3.00",
+      "title": "Understanding Weather on the Water",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What weather conditions can impact sailing?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Wind shifts, sudden temperature drops, and cloud formations."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/navigation/lesson_navi_2.00.json
+{
+  "id": "lesson_navi_2.00",
+  "title": "Weather Awareness Basics",
+  "content": [
+    {
+      "type": "text",
+      "content": "Introduction to basic weather cues, like cloud patterns and wind shifts, which can impact safety and comfort on the water."
+    }
+  ],
+  "keywords": [
+    "weather awareness",
+    "basic weather cues",
+    "safety"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_navi_2.00",
+      "title": "Weather Awareness Basics",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why is recognizing cloud patterns important?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Cloud patterns can indicate changing weather conditions."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/safety/lesson_safe_4.00.json
+{
+  "id": "lesson_safe_4.00",
+  "title": "Man Overboard Procedure",
+  "content": [
+    {
+      "type": "text",
+      "content": "IMMEDIATE ACTIONS for MOB. If someone falls overboard, it's important to recover them quickly, especially in cold water."
+    }
+  ],
+  "keywords": [
+    "man overboard",
+    "MOB",
+    "rescue",
+    "recovery"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_safe_4.00",
+      "title": "Man Overboard Procedure",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What should you do immediately if someone falls overboard?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Shout 'Man Overboard', throw a flotation device, and maintain visual contact."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/safety/lesson_safe_2.11.json
+{
+  "id": "lesson_safe_2.11",
+  "title": "Find and Approach the Boat",
+  "content": [
+    {
+      "type": "text",
+      "content": "Arriving at the marina is the first step in joining a sailing trip. Knowing how to safely locate and approach your assigned boat helps set the tone for the day."
+    },
+    {
+      "type": "text",
+      "content": "• Locate the correct slip or dock using the information provided ahead of time.\n• If small children are with you, they must wear a life jacket on the dock.\n• Walk calmly—docks can be slippery and contain tripping hazards.\n• Observe activity aboard the boat to see whether preparations are underway or if the crew is still gathering."
+    }
+  ],
+  "keywords": [
+    "arrival",
+    "dock",
+    "slip",
+    "safety",
+    "first steps"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_safe_2.11",
+      "title": "Finding the Boat",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What should you do upon arriving at the marina?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Locate the assigned slip or dock, walk calmly, and observe what’s happening on the boat."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/safety/lesson_safe_1.00.json
+{
+  "id": "lesson_safe_1.00",
+  "title": "Packing List and Clothing",
+  "content": [
+    {
+      "type": "text",
+      "content": "Learn what to pack for a sailing trip, including clothing, gear, and safety essentials."
+    }
+  ],
+  "keywords": [
+    "packing",
+    "gear",
+    "clothing",
+    "preparation"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_safe_1.00",
+      "title": "Packing List and Clothing",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are essential items to pack for a sailing trip?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Clothing layers, waterproof gear, life jackets, and safety essentials."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/lesson_dock_3.00.json
+{
+  "id": "lesson_dock_3.00",
+  "title": "Basics of Side Ties json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Side ties are useful when rafting up with other boats."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Proper fender placement protects both vessels from contact damage."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Choose knots that are secure but easy to untie under load."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_3.00",
+      "title": "Side Tie Basics",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why is fender placement critical during a side tie?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "It prevents hull damage from contact with adjacent boats."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/lessons_dock_index.csv
+id,title,description
+lesson_dock_1.00,L1: Handling Dock Lines,Learn how to approach the dock methodically to ensure smooth arrivals.
+lesson_docking_1.10,Departing the Dock – What to Expect,"As the boat prepares to leave the dock, your role may vary depending on experience and instruction. Understand what to expect and how to remain helpful and safe."
+lesson_dock_2.00,L2: Anchoring - Setting Up,Anchoring starts with understanding the seabed and wind direction.
+lesson_dock_3.00,Basics of Side Ties,Side ties are useful when rafting up with other boats.
+lesson_dock_4.00,Returning to Dock - Docking Procedure,Slow and controlled movements are key when entering a slip.
+lesson_dock_5.00,Basic Deck Safety and Boom Awareness,Always maintain three points of contact while on deck.
+lesson_dock_6.00,How to Assist in Docking,Crew should be stationed and aware of their docking role.
+lesson_dock_7.00,How to Assist in Anchoring,Listen carefully to helm commands and anticipate needs.
+lesson_dock_8.00,Lowering the Anchor Safely,Approach into the wind and stop the boat before dropping anchor.
+lesson_dock_9.00,Raising the Anchor Safely,Coordinate engine movement with winch operation to reduce strain.
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/index_lesson_dock.json
+[
+  {
+    "id": "lesson_dock_1.00",
+    "title": "L1: Handling Dock Lines json-index",
+    "description": "Learn how to approach the dock methodically to ensure smooth arrivals."
+  },
+  {
+    "id": "lesson_docking_1.10",
+    "title": "Departing the Dock \u2013 What to Expect json-index",
+    "description": "As the boat prepares to leave the dock, your role may vary depending on experience and instruction. Understand what to expect and how to remain helpful and safe."
+  },
+  {
+    "id": "lesson_dock_2.00",
+    "title": "L2: Anchoring - Setting Up json-index",
+    "description": "Anchoring starts with understanding the seabed and wind direction."
+  },
+  {
+    "id": "lesson_dock_3.00",
+    "title": "Basics of Side Ties json-index",
+    "description": "Side ties are useful when rafting up with other boats."
+  },
+  {
+    "id": "lesson_dock_4.00",
+    "title": "Returning to Dock - Docking Procedure json-index",
+    "description": "Slow and controlled movements are key when entering a slip."
+  },
+  {
+    "id": "lesson_dock_5.00",
+    "title": "Basic Deck Safety and Boom Awareness json-index",
+    "description": "Always maintain three points of contact while on deck."
+  },
+  {
+    "id": "lesson_dock_6.00",
+    "title": "How to Assist in Docking json-index",
+    "description": "Crew should be stationed and aware of their docking role."
+  },
+  {
+    "id": "lesson_dock_7.00",
+    "title": "How to Assist in Anchoring json-index",
+    "description": "Listen carefully to helm commands and anticipate needs."
+  },
+  {
+    "id": "lesson_dock_8.00",
+    "title": "Lowering the Anchor Safely json-index",
+    "description": "Approach into the wind and stop the boat before dropping anchor."
+  },
+  {
+    "id": "lesson_dock_9.00",
+    "title": "Raising the Anchor Safely json-index",
+    "description": "Coordinate engine movement with winch operation to reduce strain."
+  }
+]
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/lesson_dock_1.10.json
+{
+  "id": "lesson_dock_1.10",
+  "title": "Departing the Dock \u2013 What to Expect Json crazy",
+  "content": [
+    {
+      "type": "text",
+      "content": "As the boat prepares to leave the dock, your role may vary depending on experience and instruction. Understand what to expect and how to remain helpful and safe."
+    },
+    {
+      "type": "text",
+      "content": "\u2022 Departure may involve engine use, sailing off a mooring, or pushing off from a slip.\n\u2022 Crew may be assigned tasks like line handling, fender duty, or lookout.\n\u2022 If you're not given a job, stay alert and out of the way.\n\u2022 Once the boat is \u2018clear of the dock,\u2019 lines and fenders are stowed and we\u2019re underway."
+    }
+  ],
+  "keywords": [
+    "departure",
+    "dock",
+    "crew roles",
+    "underway"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_1.10",
+      "title": "FC: What to Expect During Departure",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are common ways a boat departs the dock?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "By motoring, sailing off a mooring, or being pushed off from a slip."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/lesson_dock_2.00.json
+{
+  "id": "lesson_dock_2.00",
+  "title": "L2: Anchoring - Setting Up json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Anchoring starts with understanding the seabed and wind direction."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Use visual cues and depth sounders to choose a safe location."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Scope and anchor type are critical to holding strength."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_2.00",
+      "title": "Choosing Anchor Location",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What factors determine a good anchoring spot?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Wind direction, seabed type, depth, and swing room."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/lesson_dock_9.00.json
+{
+  "id": "lesson_dock_9.00",
+  "title": "Raising the Anchor Safely json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Coordinate engine movement with winch operation to reduce strain."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Ensure crew hands are clear of the windlass during retrieval."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Secure the anchor and check it's seated properly before departure."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_9.00",
+      "title": "Raising Anchor",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why is it important to coordinate engine and winch when raising anchor?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "To reduce load on the windlass and avoid damaging gear."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/lesson_dock_1.00.json
+{
+  "id": "lesson_dock_1.00",
+  "title": "L1: Handling Dock Lines JSON david",
+  "content": [
+    {
+      "type": "text",
+      "content": "JSON Learn how to approach the dock methodically to ensure smooth arrivals."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Use dock lines effectively to secure the boat in variable conditions."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Crew coordination and preparation makes docking safer and easier."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_1.00",
+      "title": "Using Dock Lines",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is the purpose of dock lines during mooring?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "To secure the vessel to the dock and control its movement."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/lesson_dock_8.00.json
+{
+  "id": "lesson_dock_8.00",
+  "title": "Lowering the Anchor Safely json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Approach into the wind and stop the boat before dropping anchor."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Let the rode out steadily to avoid tangles."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Observe how the anchor sets and adjust scope if necessary."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_8.00",
+      "title": "Lowering Anchor",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why do you approach into the wind when anchoring?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "To reduce drift and improve anchor set accuracy."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/lesson_dock_4.00.json
+{
+  "id": "lesson_dock_4.00",
+  "title": "Returning to Dock - Docking Procedure json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Slow and controlled movements are key when entering a slip."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Crew should be briefed and in position before final approach."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Use visual alignment with dock features to stay centered."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_4.00",
+      "title": "Final Docking Steps",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What should the crew do before the final docking approach?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Be briefed, ready in position, and aware of their tasks."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/lesson_dock_5.00.json
+{
+  "id": "lesson_dock_5.00",
+  "title": "Basic Deck Safety and Boom Awareness json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Always maintain three points of contact while on deck."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Watch the boom's position to avoid surprise jibes."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Secure loose lines and gear to prevent trip hazards."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_5.00",
+      "title": "Deck Safety",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is the \u201cthree points of contact\u201d rule?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Always have two hands and one foot (or vice versa) in contact with the boat for stability."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/lesson_dock_7.00.json
+{
+  "id": "lesson_dock_7.00",
+  "title": "How to Assist in Anchoring json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Listen carefully to helm commands and anticipate needs."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Ensure the anchor is free to drop and flaked correctly."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Watch for signs of dragging or improper setting."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_7.00",
+      "title": "Assisting Anchoring",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What should crew do before dropping the anchor?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Verify the anchor is ready and listen for commands."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/docking/lesson_dock_6.00.json
+{
+  "id": "lesson_dock_6.00",
+  "title": "How to Assist in Docking json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Crew should be stationed and aware of their docking role."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Lines should be coiled and ready to deploy quickly."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Communication between helm and crew is essential for timing."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_6.00",
+      "title": "Assisting Docking",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a crew member\u2019s main role when assisting with docking?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Be alert, positioned, and ready to handle lines on command."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/systems.json
+{
+  "module": "systems",
+  "lessons": [
+    {
+      "id": "lesson_syst_1.00",
+      "title": "Electrical Overview",
+      "content": [
+        { "type": "text", "content": "House vs start battery, breakers, and safe usage at sea." }
+      ],
+      "keywords": ["systems", "electrical"],
+      "isPaid": false
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/emergencies/lesson_emer_1.00.json
+{
+  "id": "lesson_emer_1.00",
+  "title": "Man Overboard Basics json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Learn how to respond swiftly and safely when someone falls overboard. Every second matters during a man overboard scenario."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Crew coordination and preparedness are key to a successful recovery. Assigning clear roles reduces panic."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Practice man overboard drills regularly to ensure readiness under pressure."
+    }
+  ],
+  "keywords": [
+    "man overboard",
+    "emergency",
+    "safety"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_emer_1.00",
+      "title": "Man Overboard Basics",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is the first action to take in a man overboard situation?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Alert the crew, assign a spotter, and prepare for recovery."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/emergencies/lesson_emer_2.00.json
+{
+  "id": "lesson_emer_2.00",
+  "title": "Man Overboard Procedure json",
+  "content": [
+    {
+      "type": "text",
+      "content": "IMMEDIATE ACTIONS for MOB: Alert the crew and assign a spotter."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Throw a flotation device and maintain visual contact. Circle around carefully."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Recover the person from the water safely, using equipment if needed."
+    }
+  ],
+  "keywords": [
+    "man overboard",
+    "MOB",
+    "rescue",
+    "recovery"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_emer_2.00",
+      "title": "Man Overboard Procedure",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What should the crew do immediately in a man overboard situation?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Throw a flotation device, assign a spotter, turn the boat for recovery."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/emergencies/lesson_emer_3.00.json
+{
+  "id": "lesson_emer_3.00",
+  "title": "Basic First Aid for Minor Injuries json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Be prepared to treat small injuries like cuts, bruises, or seasickness. A stocked first aid kit is essential."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Apply antiseptic and bandages promptly to avoid infection. Hydration helps with seasickness."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Keep first aid supplies accessible and review their use before setting sail."
+    }
+  ],
+  "keywords": [
+    "first aid",
+    "injury",
+    "safety"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_emer_3.00",
+      "title": "Basic First Aid",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are common minor injuries on a sailboat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Small cuts, bruises, seasickness, sunburns."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/emergencies/lesson_emer_6.00.json
+{
+  "id": "lesson_emer_6.00",
+  "title": "Advanced Emergency Procedures json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Emergencies require calm thinking, clear communication, and quick action."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Understand your emergency plan and assign roles in advance."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Practice drills to stay sharp and reduce panic in real scenarios."
+    }
+  ],
+  "keywords": [
+    "emergency procedures",
+    "response",
+    "emergency response"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_emer_6.00",
+      "title": "Advanced Emergency Procedures",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are the steps to follow during a boat emergency?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Assess the situation, communicate clearly, follow emergency protocols."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/emergencies/lesson_emer_5.00.json
+{
+  "id": "lesson_emer_5.00",
+  "title": "Advanced Safety json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Advanced safety techniques include using tethers and storm preparations."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Be proactive: identify risks early and communicate with the crew."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Participate in training for emergency signaling and abandon-ship scenarios."
+    }
+  ],
+  "keywords": [
+    "advanced safety",
+    "safety protocols",
+    "crew safety"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_emer_5.00",
+      "title": "Advanced Safety",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are advanced safety measures every sailor should know?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Tether use, emergency signaling, handling extreme weather."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/emergencies/lesson_emer_4.00.json
+{
+  "id": "lesson_emer_4.00",
+  "title": "Safety Equipment json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Know where all safety equipment is located on board. Time is critical in an emergency."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Familiarize yourself with how to use life jackets, fire extinguishers, and radios."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Conduct safety walkthroughs at the beginning of each trip."
+    }
+  ],
+  "keywords": [
+    "PFD",
+    "life sling",
+    "radio",
+    "fire extinguisher"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_emer_4.00",
+      "title": "Safety Equipment",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are essential pieces of safety equipment on a sailboat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Life jackets, throwable flotation devices, VHF radio, fire extinguisher."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/teamwork.json
+{
+  "module": "teamwork",
+  "lessons": [
+    {
+      "id": "lesson_team_1.00",
+      "title": "Roles & Communication",
+      "content": [
+        { "type": "text", "content": "Clear roles and closed-loop communication for safe maneuvers." }
+      ],
+      "keywords": ["teamwork", "communication"],
+      "isPaid": false
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/safety.json
+{
+  "module": "safety",
+  "lessons": [
+    {
+      "id": "lesson_safety_1.00",
+      "title": "Personal Safety Basics",
+      "content": [
+        { "type": "text", "content": "Lifejackets, situational awareness, and moving safely aboard." }
+      ],
+      "keywords": ["safety", "pfd", "awareness"],
+      "isPaid": false
+    },
+    {
+      "id": "lesson_safety_1.10",
+      "title": "Man Overboard Overview",
+      "content": [
+        { "type": "text", "content": "Immediate actions, point, throw, mark, maneuver." }
+      ],
+      "keywords": ["MOB", "safety"],
+      "isPaid": false
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/emergencies.json
+{
+  "module": "emergencies",
+  "lessons": [
+    {
+      "id": "lesson_emer_1.00",
+      "title": "Mayday Basics",
+      "content": [
+        { "type": "text", "content": "Learn when and how to issue a Mayday and what info to include." }
+      ],
+      "keywords": ["emergency", "mayday"],
+      "isPaid": false
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/knots/lesson_knot_5.00.json
+{
+  "id": "lesson_knot_5.00",
+  "title": "Advanced Knots",
+  "content": [
+    {
+      "type": "text",
+      "content": "Learn advanced knots like the sheet bend and alpine bend."
+    }
+  ],
+  "keywords": [
+    "advanced knots",
+    "sheet bend",
+    "alpine bend"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_knot_5.00",
+      "title": "Advanced Knots",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a sheet bend used for?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Joining two ropes of different sizes."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/knots/lesson_knot_4.00.json
+{
+  "id": "lesson_knot_4.00",
+  "title": "How to Coil and Store Lines",
+  "content": [
+    {
+      "type": "text",
+      "content": "Proper coiling and storage of lines prevent tangles and reduce wear."
+    }
+  ],
+  "keywords": [
+    "lines",
+    "rope_work",
+    "coiling"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_knot_4.00",
+      "title": "Coiling and Storing Lines",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is the benefit of properly coiling a line?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Prevents tangles and makes deployment easier."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/knots/lesson_knot_1.00.json
+{
+  "id": "lesson_knot_1.00",
+  "title": "Introductory Knots",
+  "content": [
+    {
+      "type": "text",
+      "content": "Introduction to two essential knots: figure-eight and cleat hitch. David"
+    }
+  ],
+  "keywords": [
+    "figure-eight",
+    "cleat hitch",
+    "basic knots"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_knot_1.00",
+      "title": "Introductory Knots",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a figure-eight knot used for?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "To prevent a line from slipping through an opening."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/knots/lesson_knot_2.00.json
+{
+  "id": "lesson_knot_2.00",
+  "title": "Essential Knots",
+  "content": [
+    {
+      "type": "text",
+      "content": "Learn the bowline, cleat hitch, figure-eight, and two half-hitches."
+    }
+  ],
+  "keywords": [
+    "knots",
+    "bowline",
+    "cleat hitch"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_knot_2.00",
+      "title": "Essential Knots",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Which knot is best for creating a secure loop that won’t slip?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "The bowline knot."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/knots/lesson_knot_3.00.json
+{
+  "id": "lesson_knot_3.00",
+  "title": "Basic Knots for Sailing",
+  "content": [
+    {
+      "type": "text",
+      "content": "Knowing basic knots is essential for securing lines."
+    }
+  ],
+  "keywords": [
+    "knots",
+    "rope_work",
+    "sailing"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_knot_3.00",
+      "title": "Knots for Sailing",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why is the cleat hitch important in sailing?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "It secures a line to a cleat quickly and securely."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/systems/lesson_syst_3.00.json
+{
+  "id": "lesson_syst_3.00",
+  "title": "Winches",
+  "content": [
+    {
+      "type": "text",
+      "content": "Overview of a winch’s purpose and safe handling techniques."
+    }
+  ],
+  "keywords": [
+    "winches",
+    "equipment",
+    "handling"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_syst_3.00",
+      "title": "Winches",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a winch used for on a boat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "A winch provides mechanical advantage for tightening lines."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/systems/lesson_syst_2.00.json
+{
+  "id": "lesson_syst_2.00",
+  "title": "Essential Boat Equipment",
+  "content": [
+    {
+      "type": "text",
+      "content": "Understand the essential equipment on a boat."
+    }
+  ],
+  "keywords": [
+    "equipment",
+    "boat safety",
+    "essentials"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_syst_2.00",
+      "title": "Essential Boat Equipment",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are examples of essential boat equipment?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Life jackets, fire extinguishers, and navigation tools."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/systems/lesson_syst_1.00.json
+{
+  "id": "lesson_syst_1.00",
+  "title": "Get Oriented with the Boat",
+  "content": [
+    {
+      "type": "text",
+      "content": "Explore key areas of a sailboat, including the cockpit, deck, and cabin."
+    }
+  ],
+  "keywords": [
+    "boat layout",
+    "cockpit",
+    "deck",
+    "cabin"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_syst_1.00",
+      "title": "Get Oriented with the Boat",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are the key areas of a sailboat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "The cockpit, deck, and cabin are primary areas of a sailboat."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/systems/lesson_syst_4.00.json
+{
+  "id": "lesson_syst_4.00",
+  "title": "Paid: Use of the Head (Toilet)",
+  "content": [
+    {
+      "type": "text",
+      "content": "To use the head, pump a small amount of water into the bowl first, then pump 3–4 times after use."
+    }
+  ],
+  "keywords": [
+    "toilet",
+    "head",
+    "boat equipment"
+  ],
+  "isPaid": true,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_syst_4.00",
+      "title": "Use of the Head (Toilet)",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "How do you properly use a marine toilet?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Pump water in, use the toilet, then pump 3–4 times after use."
+        }
+      ],
+      "isPaid": true,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/systems/lesson_syst_5.00.json
+{
+  "id": "lesson_syst_5.00",
+  "title": "Paid: Introduction to Boat Equipment",
+  "content": [
+    {
+      "type": "text",
+      "content": "This lesson covers essential boat equipment every crew member should know."
+    }
+  ],
+  "keywords": [
+    "equipment",
+    "boat safety",
+    "introduction"
+  ],
+  "isPaid": true,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_syst_5.00",
+      "title": "Introduction to Boat Equipment",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why is it important to know boat equipment?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Understanding equipment improves safety and efficiency on board."
+        }
+      ],
+      "isPaid": true,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/systems/lesson_syst_6.00.json
+{
+  "id": "lesson_syst_6.00",
+  "title": "Parts of the Boat",
+  "content": [
+    {
+      "type": "text",
+      "content": "Familiarize yourself with key parts of the boat: bow, stern, port, starboard, and boom."
+    }
+  ],
+  "keywords": [
+    "bow",
+    "stern",
+    "port",
+    "starboard",
+    "boom"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_syst_6.00",
+      "title": "Parts of the Boat",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are the key directional terms on a boat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Bow (front), stern (back), port (left), starboard (right)."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/seamanship.json
+{
+  "module": "seamanship",
+  "lessons": [
+    {
+      "id": "lesson_seam_1.00",
+      "title": "Lines & Fenders",
+      "content": [
+        { "type": "text", "content": "Basic care and use of dock lines and fender placement." }
+      ],
+      "keywords": ["seamanship", "lines", "fenders"],
+      "isPaid": false
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/teamwork/lesson_team_4.00.json
+{
+  "id": "lesson_team_4.00",
+  "title": "Paid: Crew Roles and Communication",
+  "content": [
+    {
+      "type": "text",
+      "content": "Clear communication is crucial for coordination and safety."
+    }
+  ],
+  "keywords": [
+    "crew",
+    "communication",
+    "roles"
+  ],
+  "isPaid": true,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_team_4.00",
+      "title": "Crew Roles and Communication",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why is communication essential among crew members?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Clear communication prevents accidents and ensures smooth operations."
+        }
+      ],
+      "isPaid": true,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/teamwork/lesson_team_5.00.json
+{
+  "id": "lesson_team_5.00",
+  "title": "Paid: Assist in Docking and Anchoring",
+  "content": [
+    {
+      "type": "text",
+      "content": "Be ready to handle lines and follow directions."
+    }
+  ],
+  "keywords": [
+    "docking",
+    "anchoring",
+    "crew roles"
+  ],
+  "isPaid": true,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_team_5.00",
+      "title": "Assist in Docking and Anchoring",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a crew member's role in docking and anchoring?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Handling lines, securing the boat, and following skipper instructions."
+        }
+      ],
+      "isPaid": true,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/teamwork/lesson_team_3.00.json
+{
+  "id": "lesson_team_3.00",
+  "title": "Basic Crew Responsibilities",
+  "content": [
+    {
+      "type": "text",
+      "content": "Understand the roles of each crew member."
+    }
+  ],
+  "keywords": [
+    "crew",
+    "roles",
+    "responsibilities"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_team_3.00",
+      "title": "Basic Crew Responsibilities",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are the primary responsibilities of a crew member?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Assisting in navigation, keeping watch, handling lines, and maintaining safety."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/teamwork/lesson_team_2.00.json
+{
+  "id": "lesson_team_2.00",
+  "title": "Welcome Aboard: Expectations and Basic Boat Etiquette",
+  "content": [
+    {
+      "type": "text",
+      "content": "Brief introduction to crew roles and expectations."
+    }
+  ],
+  "keywords": [
+    "boat etiquette",
+    "crew expectations",
+    "onboard"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_team_2.00",
+      "title": "Basic Boat Etiquette",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why is boat etiquette important?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "It ensures safety, smooth operations, and harmony among crew members."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+File: assets/json/lessons/teamwork/lesson_team_1.00.json
+{
+  "id": "lesson_team_1.00",
+  "title": "Boarding Etiquette",
+  "content": [
+    {
+      "type": "text",
+      "content": "Learn the proper way to board a sailboat and where to stow gear."
+    }
+  ],
+  "keywords": [
+    "boarding",
+    "etiquette",
+    "gear storage"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_team_1.00",
+      "title": "Boarding Etiquette",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is the proper way to board a sailboat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Step carefully, distribute weight evenly, and secure gear immediately."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

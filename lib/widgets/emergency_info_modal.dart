@@ -63,7 +63,7 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
                               const Text('Vessel Type'),
                               const SizedBox(height: 4),
                               DropdownButtonFormField<String>(
-                                value:
+                                initialValue:
                                     options.contains(current)
                                         ? current
                                         : 'Other',
