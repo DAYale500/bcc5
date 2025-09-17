@@ -1,0 +1,14 @@
+{
+  "module": "systems",
+  "lessons": [
+    {
+      "id": "lesson_syst_1.00",
+      "title": "Electrical Overview",
+      "content": [
+        { "type": "text", "content": "House vs start battery, breakers, and safe usage at sea." }
+      ],
+      "keywords": ["systems", "electrical"],
+      "isPaid": false
+    }
+  ]
+}

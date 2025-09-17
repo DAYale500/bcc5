@@ -1,0 +1,31 @@
+{
+  "module": "engine",
+  "tools": [
+    {
+      "id": "tool_engine_1.00",
+      "title": "Pre-Start Checks",
+      "content": [
+        { "type": "text", "content": "Fast checklist before starting the diesel." },
+        { "type": "bullets", "items": [
+          "Fuel valve open, no leaks",
+          "Raw water seacock open",
+          "Battery switch on, oil level OK"
+        ]}
+      ],
+      "flashcards": []
+    },
+    {
+      "id": "tool_mot_1.10",
+      "title": "Overheating — Immediate Actions",
+      "content": [
+        { "type": "text", "content": "If the temp spikes or alarm sounds:" },
+        { "type": "bullets", "items": [
+          "Throttle to idle, shift to neutral",
+          "Check raw water strainer / impeller",
+          "Verify water out exhaust"
+        ]}
+      ],
+      "flashcards": []
+    }
+  ]
+}

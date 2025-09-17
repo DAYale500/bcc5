@@ -356,8 +356,13 @@ GoRouter appRouter(bool showReminder) {
         path: '/parts/items',
         name: 'part-items',
         pageBuilder: (context, state) {
-          final extras = state.extra as Map<String, dynamic>? ?? {};
-          final zone = extras['zone'] as String? ?? '';
+          final extras = (state.extra as Map?) ?? const {};
+          // Prefer `module`, fall back to old `zone` for safety.
+          final module =
+              (extras['module'] as String?) ??
+              (extras['zone'] as String?)?.toLowerCase() ??
+              'hull';
+
           final slideFrom =
               extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
           final transitionType =
@@ -367,10 +372,10 @@ GoRouter appRouter(bool showReminder) {
               extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
 
           logger.i(
-            '🧩 Navigating to PartItemScreen for zone: $zone | detailRoute: $detailRoute',
+            '🧩 Navigating to PartItemScreen for module: $module | detailRoute: $detailRoute',
           );
 
-          // 🔑 GlobalKeys for BNB
+          // 🔑 GlobalKeys for BNB (unchanged)
           final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
           final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
           final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
@@ -390,12 +395,55 @@ GoRouter appRouter(bool showReminder) {
               partsKey: partsKey,
               toolsKey: toolsKey,
               drillsKey: drillsKey,
-              child: PartItemScreen(zone: zone),
+              child: PartItemScreen(module: module), // ⬅️ changed
             ),
           );
         },
       ),
 
+      // GoRoute(
+      //   path: '/parts/items',
+      //   name: 'part-items',
+      //   pageBuilder: (context, state) {
+      //     final extras = state.extra as Map<String, dynamic>? ?? {};
+      //     final zone = extras['zone'] as String? ?? '';
+      //     final slideFrom =
+      //         extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+      //     final transitionType =
+      //         extras['transitionType'] as TransitionType? ??
+      //         TransitionType.instant;
+      //     final detailRoute =
+      //         extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+      //     logger.i(
+      //       '🧩 Navigating to PartItemScreen for zone: $zone | detailRoute: $detailRoute',
+      //     );
+
+      //     // 🔑 GlobalKeys for BNB
+      //     final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+      //     final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+      //     final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+      //     final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+      //     final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
+
+      //     return TransitionManager.buildCustomTransition(
+      //       context: context,
+      //       state: state,
+      //       transitionKey: state.pageKey,
+      //       slideFrom: slideFrom,
+      //       transitionType: transitionType,
+      //       child: MainScaffold(
+      //         branchIndex: 2,
+      //         harborKey: harborKey,
+      //         coursesKey: coursesKey,
+      //         partsKey: partsKey,
+      //         toolsKey: toolsKey,
+      //         drillsKey: drillsKey,
+      //         child: PartItemScreen(zone: zone),
+      //       ),
+      //     );
+      //   },
+      // ),
       GoRoute(
         path: '/parts/detail',
         pageBuilder: (context, state) {
@@ -482,8 +530,13 @@ GoRouter appRouter(bool showReminder) {
         path: '/tools/items',
         name: 'tool-items',
         pageBuilder: (context, state) {
-          final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
-          final toolbag = extras['toolbag'] as String? ?? '';
+          final extras = (state.extra as Map?) ?? const {};
+          // Prefer legacy 'toolbag'; allow 'module' as fallback.
+          final toolbag =
+              (extras['toolbag'] as String?) ??
+              (extras['module'] as String?) ??
+              '';
+
           final slideFrom =
               extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
           final transitionType =
@@ -496,7 +549,7 @@ GoRouter appRouter(bool showReminder) {
             '🛠️ Navigating to ToolItemScreen for toolbag: $toolbag | detailRoute: $detailRoute',
           );
 
-          // 🔑 GlobalKeys for BNB
+          // 🔑 GlobalKeys for BNB (required by MainScaffold)
           final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
           final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
           final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
@@ -522,6 +575,49 @@ GoRouter appRouter(bool showReminder) {
         },
       ),
 
+      // GoRoute(
+      //   path: '/tools/items',
+      //   name: 'tool-items',
+      //   pageBuilder: (context, state) {
+      //     final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
+      //     final toolbag = extras['toolbag'] as String? ?? '';
+      //     final slideFrom =
+      //         extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+      //     final transitionType =
+      //         extras['transitionType'] as TransitionType? ??
+      //         TransitionType.instant;
+      //     final detailRoute =
+      //         extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+      //     logger.i(
+      //       '🛠️ Navigating to ToolItemScreen for toolbag: $toolbag | detailRoute: $detailRoute',
+      //     );
+
+      //     // 🔑 GlobalKeys for BNB
+      //     final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+      //     final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+      //     final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+      //     final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+      //     final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
+
+      //     return TransitionManager.buildCustomTransition(
+      //       context: context,
+      //       state: state,
+      //       transitionKey: state.pageKey,
+      //       slideFrom: slideFrom,
+      //       transitionType: transitionType,
+      //       child: MainScaffold(
+      //         branchIndex: 3,
+      //         harborKey: harborKey,
+      //         coursesKey: coursesKey,
+      //         partsKey: partsKey,
+      //         toolsKey: toolsKey,
+      //         drillsKey: drillsKey,
+      //         child: ToolItemScreen(toolbag: toolbag),
+      //       ),
+      //     );
+      //   },
+      // ),
       GoRoute(
         path: '/tools/detail',
         pageBuilder: (context, state) {

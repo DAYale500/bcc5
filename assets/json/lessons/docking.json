@@ -1,0 +1,15 @@
+{
+  "module": "docking",
+  "lessons": [
+    {
+      "id": "lesson_dock_1.00",
+      "title": "Approach Basics",
+      "content": [
+        { "type": "text", "content": "Intro to safe approach angles and speed control." }
+      ],
+      "keywords": ["docking", "approach"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}

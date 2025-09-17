@@ -1,16 +1,14 @@
+import 'package:bcc5/data/repositories/lessons/json_lesson_repository.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
-// import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase
-import 'package:bcc5/data/repositories/lessons/json_lesson_index.dart'; // ⬅️ add this
 
 class LessonModuleScreen extends StatefulWidget {
   // ✅ Converted to StatefulWidget
@@ -41,7 +39,7 @@ class _LessonModuleScreenState extends State<LessonModuleScreen> {
         titleKey: titleKey,
       ),
       body: FutureBuilder<List<String>>(
-        future: JsonLessonIndex.getModuleNames(), // ⬅️ async now
+        future: JsonLessonRepository.getModuleNames(), // ⬅️ async now
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());

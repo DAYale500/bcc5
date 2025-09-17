@@ -1,0 +1,26 @@
+{
+  "module": "rigging",
+  "parts": [
+    {
+      "id": "part_rigg_1.00",
+      "title": "Standing vs Running Rigging",
+      "content": [
+        { "type": "text", "content": "Standing rigging supports the mast; running rigging controls the sails." },
+        { "type": "bullets", "content": "Shrouds & Stays (standing)\nHalyards & Sheets (running)" }
+      ],
+      "keywords": ["rigging", "standing", "running"],
+      "isPaid": false,
+      "flashcards": []
+    },
+    {
+      "id": "part_rigg_1.20",
+      "title": "Winches & Clutches",
+      "content": [
+        { "type": "text", "content": "Understand how to load a self-tailing winch and safely use line clutches." }
+      ],
+      "keywords": ["winch", "clutch"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}
