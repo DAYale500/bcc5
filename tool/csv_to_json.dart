@@ -91,18 +91,18 @@ List<Map<String, dynamic>> _blocksFromMarkdown(String md) {
   return blocks;
 }
 
-Future<List<Map<String, String>>> _readDirCsv(String dirPath) async {
-  final dir = Directory(dirPath);
-  if (!await dir.exists()) return [];
-  final all = <Map<String, String>>[];
-  await for (final e in dir.list()) {
-    if (e is File && e.path.toLowerCase().endsWith('.csv')) {
-      if (_verbose) stdout.writeln('↪︎ reading ${e.path}');
-      all.addAll(await _readCsv(e.path));
-    }
-  }
-  return all;
-}
+// Future<List<Map<String, String>>> _readDirCsv(String dirPath) async {
+//   final dir = Directory(dirPath);
+//   if (!await dir.exists()) return [];
+//   final all = <Map<String, String>>[];
+//   await for (final e in dir.list()) {
+//     if (e is File && e.path.toLowerCase().endsWith('.csv')) {
+//       if (_verbose) stdout.writeln('↪︎ reading ${e.path}');
+//       all.addAll(await _readCsv(e.path));
+//     }
+//   }
+//   return all;
+// }
 
 String _basenameNoExt(String path) {
   final name = path.split(Platform.pathSeparator).last;
