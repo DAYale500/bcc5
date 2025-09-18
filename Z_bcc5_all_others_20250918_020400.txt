@@ -158,7 +158,6 @@ class MainScaffold extends StatelessWidget {
 
 File: lib/navigation/app_router.dart
 import 'package:bcc5/data/models/render_item.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:bcc5/theme/slide_direction.dart';
@@ -181,8 +180,14 @@ import 'package:bcc5/screens/flashcards/flashcard_category_screen.dart';
 import 'package:bcc5/screens/flashcards/flashcard_item_screen.dart';
 import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
 import 'package:bcc5/screens/paths/path_chapter_screen.dart';
-// import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:bcc5/utils/transition_manager.dart';
+import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart';
+
+// Helper to build RenderItems from JSON-backed flashcards
+Future<List<RenderItem>> _buildFlashcardRenderItems(List<String> ids) async {
+  final cards = await JsonFlashcardRepository.getFlashcardsByIds(ids);
+  return cards.map(RenderItem.fromFlashcard).toList();
+}
 
 GoRouter appRouter(bool showReminder) {
   return GoRouter(
@@ -560,49 +565,6 @@ GoRouter appRouter(bool showReminder) {
         },
       ),
 
-      // GoRoute(
-      //   path: '/parts/items',
-      //   name: 'part-items',
-      //   pageBuilder: (context, state) {
-      //     final extras = state.extra as Map<String, dynamic>? ?? {};
-      //     final zone = extras['zone'] as String? ?? '';
-      //     final slideFrom =
-      //         extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
-      //     final transitionType =
-      //         extras['transitionType'] as TransitionType? ??
-      //         TransitionType.instant;
-      //     final detailRoute =
-      //         extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
-
-      //     logger.i(
-      //       '🧩 Navigating to PartItemScreen for zone: $zone | detailRoute: $detailRoute',
-      //     );
-
-      //     // 🔑 GlobalKeys for BNB
-      //     final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
-      //     final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
-      //     final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
-      //     final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
-      //     final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
-
-      //     return TransitionManager.buildCustomTransition(
-      //       context: context,
-      //       state: state,
-      //       transitionKey: state.pageKey,
-      //       slideFrom: slideFrom,
-      //       transitionType: transitionType,
-      //       child: MainScaffold(
-      //         branchIndex: 2,
-      //         harborKey: harborKey,
-      //         coursesKey: coursesKey,
-      //         partsKey: partsKey,
-      //         toolsKey: toolsKey,
-      //         drillsKey: drillsKey,
-      //         child: PartItemScreen(zone: zone),
-      //       ),
-      //     );
-      //   },
-      // ),
       GoRoute(
         path: '/parts/detail',
         pageBuilder: (context, state) {
@@ -962,24 +924,30 @@ GoRouter appRouter(bool showReminder) {
           final extras = state.extra as Map<String, dynamic>;
           final ids = extras['flashcardIds'] as List<String>;
 
-          final renderItems =
-              ids
-                  .map((id) => getAllFlashcards().firstWhere((c) => c.id == id))
-                  .map(RenderItem.fromFlashcard)
-                  .toList();
-
           return MaterialPage(
-            child: FlashcardDetailScreen(
-              renderItems: renderItems,
-              currentIndex: 0,
-              branchIndex: 0,
-              backDestination: '/learning-paths',
-              backExtra: {
-                'pathName': extras['pathName'] ?? 'competent crew',
-                'chapterId': extras['chapterId'],
+            child: FutureBuilder<List<RenderItem>>(
+              future: _buildFlashcardRenderItems(ids),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                  );
+                }
+                final renderItems = snapshot.data ?? const <RenderItem>[];
+
+                return FlashcardDetailScreen(
+                  renderItems: renderItems,
+                  currentIndex: 0,
+                  branchIndex: 0,
+                  backDestination: '/learning-paths',
+                  backExtra: {
+                    'pathName': extras['pathName'] ?? 'competent crew',
+                    'chapterId': extras['chapterId'],
+                  },
+                  detailRoute: DetailRoute.path,
+                  transitionKey: UniqueKey().toString(),
+                );
               },
-              detailRoute: DetailRoute.path,
-              transitionKey: UniqueKey().toString(),
             ),
           );
         },
@@ -2354,21 +2322,9 @@ class ResumeManager {
 
 
 
-File: lib/utils/dev/csv_to_json.dart
-
-
-
-
-
-
-
-
-
-
 File: lib/utils/dev/path_validator.dart
 // lib/utils/dev/path_validator.dart
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/data/repositories/paths/json_path_repository.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 
@@ -2428,6 +2384,59 @@ Future<void> printValidation(String pathName) async {
     logger.w(report.toString());
   }
 }
+
+
+///Call it from anywhere in debug 
+///(e.g., after app start, behind a dev-only button, 
+///or a quick one-liner):
+///
+///
+// // Example: in a debug-only branch
+// assert(() {
+//   printValidation('competent crew'); // or any path key
+//   return true;
+// }());
+
+///You’ll get a log listing any missing 
+///IDs per chapter (the same check your 
+///UI does, without tapping through).
+
+
+
+
+// Path Validator
+// Drop this anywhere in your debug area to list missing 
+//item IDs referenced by a path:
+
+
+// import 'package:bcc5/data/repositories/paths/json_path_repository.dart';
+// import 'package:bcc5/utils/render_item_helpers.dart';
+// import 'package:bcc5/utils/logger.dart';
+
+// class PathValidator {
+//   static Future<void> validate(String pathName) async {
+//     final chapters = await JsonPathRepository.getChaptersForPath(pathName);
+//     if (chapters.isEmpty) {
+//       logger.w('No chapters for "$pathName"');
+//       return;
+//     }
+
+//     final allKnownIds = await getAllKnownRenderableIds(); // you likely already have this helper; if not, expose it from your loaders
+//     for (final c in chapters) {
+//       final unknown = <String>[];
+//       for (final item in c.items) {
+//         if (!allKnownIds.contains(item.pathItemId)) {
+//           unknown.add(item.pathItemId);
+//         }
+//       }
+//       if (unknown.isEmpty) {
+//         logger.i('✅ ${c.id} "${c.title}" — all IDs resolve');
+//       } else {
+//         logger.e('❌ ${c.id} "${c.title}" — missing IDs: $unknown');
+//       }
+//     }
+//   }
+// }
 
 
 
@@ -3931,26 +3940,25 @@ class _ToolDetailScreenState extends State<ToolDetailScreen> {
 
 File: lib/screens/flashcards/flashcard_detail_screen.dart
 import 'dart:math' as math;
-import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
-import 'package:bcc5/navigation/detail_route.dart';
-import 'package:bcc5/theme/slide_direction.dart';
-import 'package:bcc5/theme/transition_type.dart';
-import 'package:bcc5/utils/render_item_helpers.dart';
-import 'package:bcc5/utils/string_extensions.dart';
-import 'package:bcc5/widgets/learning_path_progress_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:bcc5/data/models/render_item.dart';
-import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/widgets/flip_card_widget.dart';
-import 'package:bcc5/widgets/navigation_buttons.dart';
+import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart'; // ✅ JSON only
+import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/utils/render_item_helpers.dart'; // kept for PATH branch buildRenderItems(ids:...)
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/utils/transition_manager.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
-
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/widgets/flip_card_widget.dart';
+import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:bcc5/widgets/navigation/last_group_button.dart';
+import 'package:bcc5/widgets/navigation_buttons.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class FlashcardDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -3983,6 +3991,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
   late Animation<double> _flipAnimation;
   bool showFront = true;
 
+  // App bar keys
   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
   final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
@@ -4009,9 +4018,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       );
 
       if (item.type != RenderItemType.flashcard) {
-        logger.w(
-          '⚠️ Redirecting from non-flashcard type: ${item.id} (${item.type})',
-        );
+        // Defensive: auto-redirect if route was called with a non-flashcard
         WidgetsBinding.instance.addPostFrameCallback((_) {
           TransitionManager.goToDetailScreen(
             context: context,
@@ -4046,6 +4053,36 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     super.dispose();
   }
 
+  // ---------- Helpers (JSON only for categories) ----------
+  String _slug(String raw) {
+    return raw
+        .trim()
+        .toLowerCase()
+        .replaceAll('&', 'and')
+        .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
+        .replaceAll(RegExp(r'_+'), '_')
+        .replaceAll(RegExp(r'^_|_$'), '');
+  }
+
+  Future<List<String>> _sortedCategories() async {
+    // Keep 'all' and 'random' (if present) first, others after — matches your category screen
+    final cats = await JsonFlashcardRepository.getAllCategories();
+    final specials = cats.where((c) => c == 'all' || c == 'random');
+    final rest = cats.where((c) => c != 'all' && c != 'random');
+    return [...specials, ...rest].toList();
+  }
+
+  Future<String?> _nextCategory(String current) async {
+    final cats = await _sortedCategories();
+    if (cats.isEmpty) return null;
+    final curSlug = _slug(current);
+    final idx = cats.indexWhere((c) => _slug(c) == curSlug);
+    if (idx < 0) return null;
+    final nextIdx = idx + 1;
+    if (nextIdx >= cats.length) return null;
+    return cats[nextIdx];
+  }
+
   void flipCard() {
     logger.i(showFront ? '🔃 Flipping to back' : '🔃 Flipping to front');
     setState(() {
@@ -4061,7 +4098,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       logger.w('⛔ Invalid navigation attempt: $newIndex');
       return;
     }
-
     final target = widget.renderItems[newIndex];
     TransitionManager.goToDetailScreen(
       context: context,
@@ -4096,15 +4132,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final title = flashcard.title;
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
-    // 📛 Customize breadcrumb title for flashcards from learning paths
+
     final isFromPath = widget.detailRoute == DetailRoute.path;
     final pathName = widget.backExtra?['pathName'] ?? '';
     final chapterId = widget.backExtra?['chapterId'] ?? '';
 
     final breadcrumbTitle =
-        isFromPath
-            ? '${pathName.toString().toTitleCase()} Review' // future-proof for paths like "Advanced Crew"
-            : 'Drills';
+        isFromPath ? '${pathName.toString().toTitleCase()} Review' : 'Drills';
 
     final chapterTitle =
         isFromPath
@@ -4114,14 +4148,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                 )?.toTitleCase() ??
                 ''
             : (widget.backExtra?['category'] as String?)?.toTitleCase() ?? '';
-    // final categoryId = widget.backExtra?['category'] as String?;
-
-    // logger.i(
-    //   '🖼️ Rendering Flashcard:\n'
-    //   '  ├─ title: $title\n'
-    //   '  ├─ sideA: ${sideA.length} blocks\n'
-    //   '  └─ sideB: ${sideB.length} blocks',
-    // );
 
     return Scaffold(
       key: ValueKey(widget.transitionKey),
@@ -4159,7 +4185,8 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                   );
                 },
               ),
-              if (widget.detailRoute == DetailRoute.path)
+
+              if (isFromPath)
                 LearningPathProgressBar(
                   pathName: widget.backExtra?['pathName'] ?? '',
                 ),
@@ -4200,7 +4227,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
               ),
               const SizedBox(height: 12),
 
-              const SizedBox(height: 12),
               Expanded(
                 child: Center(
                   child: Stack(
@@ -4258,6 +4284,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                   ),
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ElevatedButton(
@@ -4266,11 +4293,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                   child: Text(showFront ? 'Flip Over' : 'Flip Back'),
                 ),
               ),
+
               NavigationButtons(
                 isPreviousEnabled: currentIndex > 0,
                 isNextEnabled: currentIndex < widget.renderItems.length - 1,
                 onPrevious: () => _navigateTo(currentIndex - 1),
                 onNext: () => _navigateTo(currentIndex + 1),
+                // JSON-only custom button when we're at the last card
                 customNextButton:
                     currentIndex == widget.renderItems.length - 1
                         ? LastGroupButton(
@@ -4279,27 +4308,24 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                           backExtra: widget.backExtra,
                           branchIndex: widget.branchIndex,
                           backDestination:
-                              widget.detailRoute == DetailRoute.path
+                              isFromPath
                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
                                   : '/flashcards',
-                          label:
-                              widget.detailRoute == DetailRoute.path
-                                  ? 'chapter'
-                                  : 'category',
+                          label: isFromPath ? 'chapter' : 'category',
+
+                          // ✅ JSON-only “what’s next?” deck
                           getNextRenderItems: () async {
-                            if (widget.detailRoute == DetailRoute.path) {
-                              final pathName =
+                            if (isFromPath) {
+                              final path =
                                   widget.backExtra?['pathName'] as String?;
-                              final chapterId =
+                              final chapter =
                                   widget.backExtra?['chapterId'] as String?;
-                              if (pathName == null || chapterId == null) {
-                                return null;
-                              }
+                              if (path == null || chapter == null) return null;
 
                               final nextChapter =
                                   PathRepositoryIndex.getNextChapter(
-                                    pathName,
-                                    chapterId,
+                                    path,
+                                    chapter,
                                   );
                               if (nextChapter == null) return null;
 
@@ -4314,140 +4340,84 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                   widget.backExtra?['category'] as String?;
                               if (currentCategory == null) return null;
 
-                              final nextCategory = getNextCategory(
+                              final nextCategory = await _nextCategory(
                                 currentCategory,
                               );
                               if (nextCategory == null) return null;
 
-                              final nextFlashcards = getFlashcardsForCategory(
-                                nextCategory,
-                              );
-                              if (nextFlashcards.isEmpty) return [];
+                              final nextCards =
+                                  await JsonFlashcardRepository.getFlashcardsForCategory(
+                                    nextCategory,
+                                  );
+                              if (nextCards.isEmpty) return <RenderItem>[];
 
-                              return nextFlashcards
+                              return nextCards
                                   .map(RenderItem.fromFlashcard)
                                   .toList();
                             }
                           },
-                          onNavigateToNextGroup: (renderItems) {
+
+                          // ✅ JSON-only navigation to that next deck
+                          onNavigateToNextGroup: (renderItems) async {
                             if (renderItems.isEmpty) return;
 
-                            final isPath =
-                                widget.detailRoute == DetailRoute.path;
-                            final route =
-                                isPath
+                            // Capture the actual context we will use and guard it later.
+                            final localContext = context;
+
+                            // Precompute route string (no await here)
+                            final String route =
+                                isFromPath
                                     ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
                                     : '/flashcards/items';
 
-                            final backExtra = {
-                              if (isPath)
-                                'chapterId':
-                                    PathRepositoryIndex.getNextChapter(
-                                      widget.backExtra?['pathName'],
-                                      widget.backExtra?['chapterId'],
-                                    )?.id,
-                              if (isPath)
-                                'pathName': widget.backExtra?['pathName'],
-                              if (!isPath)
-                                'category': getNextCategory(
-                                  widget.backExtra?['category'],
-                                ),
+                            // Build backExtra, doing awaits up front (no UI work yet)
+                            String? nextCategory;
+                            String? nextChapterId;
+
+                            if (isFromPath) {
+                              nextChapterId =
+                                  PathRepositoryIndex.getNextChapter(
+                                    widget.backExtra?['pathName'],
+                                    widget.backExtra?['chapterId'],
+                                  )?.id;
+                            } else {
+                              final current =
+                                  widget.backExtra?['category'] ?? '';
+                              nextCategory = await _nextCategory(current);
+                            }
+
+                            // ✅ Guard the same BuildContext we will use after the awaits
+                            if (!localContext.mounted) return;
+
+                            final nextBackExtra = <String, dynamic>{
                               'branchIndex': widget.branchIndex,
+                              if (isFromPath) ...{
+                                'chapterId': nextChapterId,
+                                'pathName': widget.backExtra?['pathName'],
+                              } else ...{
+                                'category': nextCategory,
+                              },
                             };
 
                             TransitionManager.goToDetailScreen(
-                              context: context,
+                              context: localContext,
                               screenType: RenderItemType.flashcard,
                               renderItems: renderItems,
                               currentIndex: 0,
                               branchIndex: widget.branchIndex,
                               backDestination: route,
-                              backExtra: backExtra,
+                              backExtra: nextBackExtra,
                               detailRoute: widget.detailRoute,
                               direction: SlideDirection.right,
                               replace: true,
                             );
                           },
+
+                          // ✅ JSON-only “start over at the beginning”
                           onRestartAtFirstGroup: () {
                             if (!mounted) return;
-                            final localContext = context;
-                            _handleRestart(localContext);
+                            _handleRestart(context);
                           },
-
-                          // onRestartAtFirstGroup: () async {
-                          //   final localContext =
-                          //       context; // ✅ Moved to top before anything else
-                          //   if (!mounted) return;
-
-                          //   if (widget.detailRoute == DetailRoute.path) {
-                          //     final pathName =
-                          //         widget.backExtra?['pathName'] as String?;
-                          //     final chapters =
-                          //         pathName == null
-                          //             ? null
-                          //             : PathRepositoryIndex.getChaptersForPath(
-                          //               pathName,
-                          //             );
-
-                          //     if (pathName == null ||
-                          //         chapters == null ||
-                          //         chapters.isEmpty) {
-                          //       return;
-                          //     }
-                          //     final firstChapter = chapters.first;
-
-                          //     final renderItems = await buildRenderItems(
-                          //       ids:
-                          //           firstChapter.items
-                          //               .map((e) => e.pathItemId)
-                          //               .toList(),
-                          //     );
-                          //     if (renderItems.isEmpty) return;
-
-                          //     Future.microtask(() {
-                          //       if (!mounted) return;
-                          //       goToFlashcardDetail(
-                          //         context: localContext,
-                          //         renderItems: renderItems,
-                          //         branchIndex: widget.branchIndex,
-                          //         backDestination:
-                          //             '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                          //         backExtra: {
-                          //           'chapterId': firstChapter.id,
-                          //           'pathName': pathName,
-                          //           'branchIndex': widget.branchIndex,
-                          //         },
-                          //         detailRoute: widget.detailRoute,
-                          //       );
-                          //     });
-                          //   } else {
-                          //     final firstCategory = getAllCategories().first;
-                          //     final firstFlashcards = getFlashcardsForCategory(
-                          //       firstCategory,
-                          //     );
-                          //     final renderItems =
-                          //         firstFlashcards
-                          //             .map((f) => RenderItem.fromFlashcard(f))
-                          //             .toList();
-
-                          //     if (renderItems.isEmpty) return;
-
-                          //     Future.microtask(() {
-                          //       if (!mounted) return;
-                          //       goToFlashcardDetail(
-                          //         context: localContext,
-                          //         renderItems: renderItems,
-                          //         branchIndex: widget.branchIndex,
-                          //         backDestination: '/flashcards/items',
-                          //         backExtra: {
-                          //           'category': firstCategory,
-                          //           'branchIndex': widget.branchIndex,
-                          //         },
-                          //         detailRoute: widget.detailRoute,
-                          //       );
-                          //     });
-                          //   }
-                          // },
                         )
                         : null,
               ),
@@ -4458,8 +4428,9 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     );
   }
 
+  // JSON-only restart logic
   Future<void> _handleRestart(BuildContext localContext) async {
-    if (!mounted) return;
+    // NOTE: Do not check `mounted` here; we will guard `localContext` right before using it.
 
     if (widget.detailRoute == DetailRoute.path) {
       final pathName = widget.backExtra?['pathName'] as String?;
@@ -4471,11 +4442,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       if (pathName == null || chapters == null || chapters.isEmpty) return;
 
       final firstChapter = chapters.first;
+
       final renderItems = await buildRenderItems(
         ids: firstChapter.items.map((e) => e.pathItemId).toList(),
       );
       if (renderItems.isEmpty) return;
 
+      // ✅ Guard the exact BuildContext being used after awaits
       if (!localContext.mounted) return;
       goToFlashcardDetail(
         context: localContext,
@@ -4491,13 +4464,20 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
         detailRoute: widget.detailRoute,
       );
     } else {
-      final firstCategory = getAllCategories().first;
-      final firstFlashcards = getFlashcardsForCategory(firstCategory);
+      // ✅ JSON: restart at the first JSON category
+      final categories = await JsonFlashcardRepository.getAllCategories();
+      if (categories.isEmpty) return;
+
+      final firstCategory = categories.first;
+      final firstCards = await JsonFlashcardRepository.getFlashcardsForCategory(
+        firstCategory,
+      );
       final renderItems =
-          firstFlashcards.map((f) => RenderItem.fromFlashcard(f)).toList();
+          firstCards.map((f) => RenderItem.fromFlashcard(f)).toList();
 
       if (renderItems.isEmpty) return;
 
+      // ✅ Guard the exact BuildContext being used after awaits
       if (!localContext.mounted) return;
       goToFlashcardDetail(
         context: localContext,
@@ -4514,6 +4494,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
   }
 }
 
+// tiny navigator helper (unchanged)
 void goToFlashcardDetail({
   required BuildContext context,
   required List<RenderItem> renderItems,
@@ -4536,6 +4517,612 @@ void goToFlashcardDetail({
   );
 }
 
+// import 'dart:math' as math;
+// import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+// import 'package:bcc5/navigation/detail_route.dart';
+// import 'package:bcc5/theme/slide_direction.dart';
+// import 'package:bcc5/theme/transition_type.dart';
+// import 'package:bcc5/utils/render_item_helpers.dart';
+// import 'package:bcc5/utils/string_extensions.dart';
+// import 'package:bcc5/widgets/learning_path_progress_bar.dart';
+// import 'package:flutter/material.dart';
+// import 'package:go_router/go_router.dart';
+
+// import 'package:bcc5/data/models/render_item.dart';
+// import 'package:bcc5/utils/logger.dart';
+// import 'package:bcc5/widgets/flip_card_widget.dart';
+// import 'package:bcc5/widgets/navigation_buttons.dart';
+// import 'package:bcc5/theme/app_theme.dart';
+// import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+// import 'package:bcc5/utils/transition_manager.dart';
+// import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
+
+// import 'package:bcc5/widgets/navigation/last_group_button.dart';
+
+// class FlashcardDetailScreen extends StatefulWidget {
+//   final List<RenderItem> renderItems;
+//   final int currentIndex;
+//   final int branchIndex;
+//   final String backDestination;
+//   final Map<String, dynamic>? backExtra;
+//   final DetailRoute detailRoute;
+//   final String transitionKey;
+
+//   const FlashcardDetailScreen({
+//     super.key,
+//     required this.renderItems,
+//     required this.currentIndex,
+//     required this.branchIndex,
+//     required this.backDestination,
+//     required this.backExtra,
+//     required this.detailRoute,
+//     required this.transitionKey,
+//   });
+
+//   @override
+//   State<FlashcardDetailScreen> createState() => _FlashcardDetailScreenState();
+// }
+
+// class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
+//     with SingleTickerProviderStateMixin {
+//   late int currentIndex;
+//   late AnimationController _controller;
+//   late Animation<double> _flipAnimation;
+//   bool showFront = true;
+
+//   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
+//   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+//   final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
+//   final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey');
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     currentIndex = widget.currentIndex;
+
+//     if (widget.renderItems.isEmpty) {
+//       logger.e('❌ FlashcardDetailScreen received empty renderItems');
+//     } else {
+//       final item = widget.renderItems[currentIndex];
+//       logger.i(
+//         '🟩 FlashcardDetailScreen Loaded:\n'
+//         '  ├─ index: $currentIndex\n'
+//         '  ├─ id: ${item.id}\n'
+//         '  ├─ type: ${item.type}\n'
+//         '  ├─ renderItems.length: ${widget.renderItems.length}\n'
+//         '  ├─ branchIndex: ${widget.branchIndex}\n'
+//         '  ├─ backDestination: ${widget.backDestination}\n'
+//         '  └─ backExtra: ${widget.backExtra}',
+//       );
+
+//       if (item.type != RenderItemType.flashcard) {
+//         logger.w(
+//           '⚠️ Redirecting from non-flashcard type: ${item.id} (${item.type})',
+//         );
+//         WidgetsBinding.instance.addPostFrameCallback((_) {
+//           TransitionManager.goToDetailScreen(
+//             context: context,
+//             screenType: item.type,
+//             renderItems: widget.renderItems,
+//             currentIndex: currentIndex,
+//             branchIndex: widget.branchIndex,
+//             backDestination: widget.backDestination,
+//             backExtra: widget.backExtra,
+//             detailRoute: widget.detailRoute,
+//             direction: SlideDirection.none,
+//             replace: true,
+//           );
+//         });
+//       }
+//     }
+
+//     _controller = AnimationController(
+//       vsync: this,
+//       duration: const Duration(milliseconds: 400),
+//     );
+
+//     _flipAnimation = Tween<double>(
+//       begin: 0,
+//       end: 1,
+//     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+//   }
+
+//   @override
+//   void dispose() {
+//     _controller.dispose();
+//     super.dispose();
+//   }
+
+//   void flipCard() {
+//     logger.i(showFront ? '🔃 Flipping to back' : '🔃 Flipping to front');
+//     setState(() {
+//       showFront = !showFront;
+//       _controller.isCompleted || _controller.velocity > 0
+//           ? _controller.reverse()
+//           : _controller.forward();
+//     });
+//   }
+
+//   void _navigateTo(int newIndex) {
+//     if (newIndex < 0 || newIndex >= widget.renderItems.length) {
+//       logger.w('⛔ Invalid navigation attempt: $newIndex');
+//       return;
+//     }
+
+//     final target = widget.renderItems[newIndex];
+//     TransitionManager.goToDetailScreen(
+//       context: context,
+//       screenType: target.type,
+//       renderItems: widget.renderItems,
+//       currentIndex: newIndex,
+//       branchIndex: widget.branchIndex,
+//       backDestination: widget.backDestination,
+//       backExtra: widget.backExtra,
+//       detailRoute: widget.detailRoute,
+//       direction: SlideDirection.none,
+//       transitionType: TransitionType.fadeScale,
+//     );
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     if (widget.renderItems.isEmpty) {
+//       return const Scaffold(
+//         body: Center(child: Text('No flashcard content available')),
+//       );
+//     }
+
+//     final item = widget.renderItems[currentIndex];
+//     if (item.type != RenderItemType.flashcard || item.flashcards.isEmpty) {
+//       return const Scaffold(
+//         body: Center(child: Text('No flashcard content available')),
+//       );
+//     }
+
+//     final flashcard = item.flashcards.first;
+//     final title = flashcard.title;
+//     final sideA = flashcard.sideA;
+//     final sideB = flashcard.sideB;
+//     // 📛 Customize breadcrumb title for flashcards from learning paths
+//     final isFromPath = widget.detailRoute == DetailRoute.path;
+//     final pathName = widget.backExtra?['pathName'] ?? '';
+//     final chapterId = widget.backExtra?['chapterId'] ?? '';
+
+//     final breadcrumbTitle =
+//         isFromPath
+//             ? '${pathName.toString().toTitleCase()} Review' // future-proof for paths like "Advanced Crew"
+//             : 'Drills';
+
+//     final chapterTitle =
+//         isFromPath
+//             ? PathRepositoryIndex.getChapterTitleForPath(
+//                   pathName,
+//                   chapterId,
+//                 )?.toTitleCase() ??
+//                 ''
+//             : (widget.backExtra?['category'] as String?)?.toTitleCase() ?? '';
+//     // final categoryId = widget.backExtra?['category'] as String?;
+
+//     // logger.i(
+//     //   '🖼️ Rendering Flashcard:\n'
+//     //   '  ├─ title: $title\n'
+//     //   '  ├─ sideA: ${sideA.length} blocks\n'
+//     //   '  └─ sideB: ${sideB.length} blocks',
+//     // );
+
+//     return Scaffold(
+//       key: ValueKey(widget.transitionKey),
+//       body: Stack(
+//         fit: StackFit.expand,
+//         children: [
+//           Opacity(
+//             opacity: 0.2,
+//             child: Image.asset(
+//               'assets/images/sailboat_cartoon.jpg',
+//               fit: BoxFit.cover,
+//             ),
+//           ),
+//           Column(
+//             children: [
+//               CustomAppBarWidget(
+//                 title: breadcrumbTitle,
+//                 showBackButton: true,
+//                 showSearchIcon: true,
+//                 showSettingsIcon: true,
+//                 mobKey: mobKey,
+//                 settingsKey: settingsKey,
+//                 searchKey: searchKey,
+//                 titleKey: titleKey,
+//                 onBack: () {
+//                   logger.i('🔙 Back tapped → ${widget.backDestination}');
+//                   context.go(
+//                     widget.backDestination,
+//                     extra: {
+//                       ...?widget.backExtra,
+//                       'transitionKey': UniqueKey().toString(),
+//                       'slideFrom': SlideDirection.left,
+//                       'transitionType': TransitionType.slide,
+//                     },
+//                   );
+//                 },
+//               ),
+//               if (widget.detailRoute == DetailRoute.path)
+//                 LearningPathProgressBar(
+//                   pathName: widget.backExtra?['pathName'] ?? '',
+//                 ),
+
+//               const SizedBox(height: 12),
+//               Align(
+//                 alignment: Alignment.centerLeft,
+//                 child: Padding(
+//                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//                   child: RichText(
+//                     text: TextSpan(
+//                       children: [
+//                         TextSpan(
+//                           text: breadcrumbTitle,
+//                           style: AppTheme.branchBreadcrumbStyle,
+//                         ),
+//                         const TextSpan(
+//                           text: ' / ',
+//                           style: TextStyle(color: Colors.black87),
+//                         ),
+//                         TextSpan(
+//                           text: chapterTitle,
+//                           style: AppTheme.groupBreadcrumbStyle,
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//               ),
+
+//               const SizedBox(height: 4),
+//               Text(
+//                 title,
+//                 style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+//                   color: AppTheme.primaryBlue,
+//                 ),
+//                 textAlign: TextAlign.center,
+//               ),
+//               const SizedBox(height: 12),
+
+//               const SizedBox(height: 12),
+//               Expanded(
+//                 child: Center(
+//                   child: Stack(
+//                     alignment: Alignment.center,
+//                     children: [
+//                       Image.asset(
+//                         'assets/images/index_card.png',
+//                         width: 360,
+//                         height: 420,
+//                         fit: BoxFit.fill,
+//                       ),
+//                       SizedBox(
+//                         width: 360,
+//                         height: 420,
+//                         child: AnimatedBuilder(
+//                           animation: _flipAnimation,
+//                           builder: (context, child) {
+//                             final isFront = _flipAnimation.value < 0.5;
+//                             return Transform(
+//                               alignment: Alignment.center,
+//                               transform: Matrix4.rotationY(
+//                                 _flipAnimation.value * math.pi,
+//                               ),
+//                               child:
+//                                   isFront
+//                                       ? Padding(
+//                                         padding: const EdgeInsets.only(top: 32),
+//                                         child: FlipCardWidget(
+//                                           front: sideA,
+//                                           back: sideB,
+//                                           showFront: true,
+//                                           animation: _flipAnimation,
+//                                         ),
+//                                       )
+//                                       : Transform(
+//                                         alignment: Alignment.center,
+//                                         transform: Matrix4.rotationY(math.pi),
+//                                         child: Padding(
+//                                           padding: const EdgeInsets.only(
+//                                             top: 32,
+//                                           ),
+//                                           child: FlipCardWidget(
+//                                             front: sideA,
+//                                             back: sideB,
+//                                             showFront: false,
+//                                             animation: _flipAnimation,
+//                                           ),
+//                                         ),
+//                                       ),
+//                             );
+//                           },
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//               Padding(
+//                 padding: const EdgeInsets.symmetric(vertical: 8.0),
+//                 child: ElevatedButton(
+//                   onPressed: flipCard,
+//                   style: AppTheme.navigationButton,
+//                   child: Text(showFront ? 'Flip Over' : 'Flip Back'),
+//                 ),
+//               ),
+//               NavigationButtons(
+//                 isPreviousEnabled: currentIndex > 0,
+//                 isNextEnabled: currentIndex < widget.renderItems.length - 1,
+//                 onPrevious: () => _navigateTo(currentIndex - 1),
+//                 onNext: () => _navigateTo(currentIndex + 1),
+//                 customNextButton:
+//                     currentIndex == widget.renderItems.length - 1
+//                         ? LastGroupButton(
+//                           type: RenderItemType.flashcard,
+//                           detailRoute: widget.detailRoute,
+//                           backExtra: widget.backExtra,
+//                           branchIndex: widget.branchIndex,
+//                           backDestination:
+//                               widget.detailRoute == DetailRoute.path
+//                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
+//                                   : '/flashcards',
+//                           label:
+//                               widget.detailRoute == DetailRoute.path
+//                                   ? 'chapter'
+//                                   : 'category',
+//                           getNextRenderItems: () async {
+//                             if (widget.detailRoute == DetailRoute.path) {
+//                               final pathName =
+//                                   widget.backExtra?['pathName'] as String?;
+//                               final chapterId =
+//                                   widget.backExtra?['chapterId'] as String?;
+//                               if (pathName == null || chapterId == null) {
+//                                 return null;
+//                               }
+
+//                               final nextChapter =
+//                                   PathRepositoryIndex.getNextChapter(
+//                                     pathName,
+//                                     chapterId,
+//                                   );
+//                               if (nextChapter == null) return null;
+
+//                               return await buildRenderItems(
+//                                 ids:
+//                                     nextChapter.items
+//                                         .map((e) => e.pathItemId)
+//                                         .toList(),
+//                               );
+//                             } else {
+//                               final currentCategory =
+//                                   widget.backExtra?['category'] as String?;
+//                               if (currentCategory == null) return null;
+
+//                               final nextCategory = getNextCategory(
+//                                 currentCategory,
+//                               );
+//                               if (nextCategory == null) return null;
+
+//                               final nextFlashcards = getFlashcardsForCategory(
+//                                 nextCategory,
+//                               );
+//                               if (nextFlashcards.isEmpty) return [];
+
+//                               return nextFlashcards
+//                                   .map(RenderItem.fromFlashcard)
+//                                   .toList();
+//                             }
+//                           },
+//                           onNavigateToNextGroup: (renderItems) {
+//                             if (renderItems.isEmpty) return;
+
+//                             final isPath =
+//                                 widget.detailRoute == DetailRoute.path;
+//                             final route =
+//                                 isPath
+//                                     ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
+//                                     : '/flashcards/items';
+
+//                             final backExtra = {
+//                               if (isPath)
+//                                 'chapterId':
+//                                     PathRepositoryIndex.getNextChapter(
+//                                       widget.backExtra?['pathName'],
+//                                       widget.backExtra?['chapterId'],
+//                                     )?.id,
+//                               if (isPath)
+//                                 'pathName': widget.backExtra?['pathName'],
+//                               if (!isPath)
+//                                 'category': getNextCategory(
+//                                   widget.backExtra?['category'],
+//                                 ),
+//                               'branchIndex': widget.branchIndex,
+//                             };
+
+//                             TransitionManager.goToDetailScreen(
+//                               context: context,
+//                               screenType: RenderItemType.flashcard,
+//                               renderItems: renderItems,
+//                               currentIndex: 0,
+//                               branchIndex: widget.branchIndex,
+//                               backDestination: route,
+//                               backExtra: backExtra,
+//                               detailRoute: widget.detailRoute,
+//                               direction: SlideDirection.right,
+//                               replace: true,
+//                             );
+//                           },
+//                           onRestartAtFirstGroup: () {
+//                             if (!mounted) return;
+//                             final localContext = context;
+//                             _handleRestart(localContext);
+//                           },
+
+//                           // onRestartAtFirstGroup: () async {
+//                           //   final localContext =
+//                           //       context; // ✅ Moved to top before anything else
+//                           //   if (!mounted) return;
+
+//                           //   if (widget.detailRoute == DetailRoute.path) {
+//                           //     final pathName =
+//                           //         widget.backExtra?['pathName'] as String?;
+//                           //     final chapters =
+//                           //         pathName == null
+//                           //             ? null
+//                           //             : PathRepositoryIndex.getChaptersForPath(
+//                           //               pathName,
+//                           //             );
+
+//                           //     if (pathName == null ||
+//                           //         chapters == null ||
+//                           //         chapters.isEmpty) {
+//                           //       return;
+//                           //     }
+//                           //     final firstChapter = chapters.first;
+
+//                           //     final renderItems = await buildRenderItems(
+//                           //       ids:
+//                           //           firstChapter.items
+//                           //               .map((e) => e.pathItemId)
+//                           //               .toList(),
+//                           //     );
+//                           //     if (renderItems.isEmpty) return;
+
+//                           //     Future.microtask(() {
+//                           //       if (!mounted) return;
+//                           //       goToFlashcardDetail(
+//                           //         context: localContext,
+//                           //         renderItems: renderItems,
+//                           //         branchIndex: widget.branchIndex,
+//                           //         backDestination:
+//                           //             '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+//                           //         backExtra: {
+//                           //           'chapterId': firstChapter.id,
+//                           //           'pathName': pathName,
+//                           //           'branchIndex': widget.branchIndex,
+//                           //         },
+//                           //         detailRoute: widget.detailRoute,
+//                           //       );
+//                           //     });
+//                           //   } else {
+//                           //     final firstCategory = getAllCategories().first;
+//                           //     final firstFlashcards = getFlashcardsForCategory(
+//                           //       firstCategory,
+//                           //     );
+//                           //     final renderItems =
+//                           //         firstFlashcards
+//                           //             .map((f) => RenderItem.fromFlashcard(f))
+//                           //             .toList();
+
+//                           //     if (renderItems.isEmpty) return;
+
+//                           //     Future.microtask(() {
+//                           //       if (!mounted) return;
+//                           //       goToFlashcardDetail(
+//                           //         context: localContext,
+//                           //         renderItems: renderItems,
+//                           //         branchIndex: widget.branchIndex,
+//                           //         backDestination: '/flashcards/items',
+//                           //         backExtra: {
+//                           //           'category': firstCategory,
+//                           //           'branchIndex': widget.branchIndex,
+//                           //         },
+//                           //         detailRoute: widget.detailRoute,
+//                           //       );
+//                           //     });
+//                           //   }
+//                           // },
+//                         )
+//                         : null,
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   Future<void> _handleRestart(BuildContext localContext) async {
+//     if (!mounted) return;
+
+//     if (widget.detailRoute == DetailRoute.path) {
+//       final pathName = widget.backExtra?['pathName'] as String?;
+//       final chapters =
+//           pathName == null
+//               ? null
+//               : PathRepositoryIndex.getChaptersForPath(pathName);
+
+//       if (pathName == null || chapters == null || chapters.isEmpty) return;
+
+//       final firstChapter = chapters.first;
+//       final renderItems = await buildRenderItems(
+//         ids: firstChapter.items.map((e) => e.pathItemId).toList(),
+//       );
+//       if (renderItems.isEmpty) return;
+
+//       if (!localContext.mounted) return;
+//       goToFlashcardDetail(
+//         context: localContext,
+//         renderItems: renderItems,
+//         branchIndex: widget.branchIndex,
+//         backDestination:
+//             '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+//         backExtra: {
+//           'chapterId': firstChapter.id,
+//           'pathName': pathName,
+//           'branchIndex': widget.branchIndex,
+//         },
+//         detailRoute: widget.detailRoute,
+//       );
+//     } else {
+//       final firstCategory = getAllCategories().first;
+//       final firstFlashcards = getFlashcardsForCategory(firstCategory);
+//       final renderItems =
+//           firstFlashcards.map((f) => RenderItem.fromFlashcard(f)).toList();
+
+//       if (renderItems.isEmpty) return;
+
+//       if (!localContext.mounted) return;
+//       goToFlashcardDetail(
+//         context: localContext,
+//         renderItems: renderItems,
+//         branchIndex: widget.branchIndex,
+//         backDestination: '/flashcards/items',
+//         backExtra: {
+//           'category': firstCategory,
+//           'branchIndex': widget.branchIndex,
+//         },
+//         detailRoute: widget.detailRoute,
+//       );
+//     }
+//   }
+// }
+
+// void goToFlashcardDetail({
+//   required BuildContext context,
+//   required List<RenderItem> renderItems,
+//   required int branchIndex,
+//   required String backDestination,
+//   required Map<String, dynamic> backExtra,
+//   required DetailRoute detailRoute,
+// }) {
+//   TransitionManager.goToDetailScreen(
+//     context: context,
+//     screenType: RenderItemType.flashcard,
+//     renderItems: renderItems,
+//     currentIndex: 0,
+//     branchIndex: branchIndex,
+//     backDestination: backDestination,
+//     backExtra: backExtra,
+//     detailRoute: detailRoute,
+//     direction: SlideDirection.right,
+//     replace: true,
+//   );
+// }
+
 
 
 
@@ -4547,7 +5134,6 @@ void goToFlashcardDetail({
 
 File: lib/screens/flashcards/flashcard_category_screen.dart
 import 'package:bcc5/data/models/render_item.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -4558,21 +5144,85 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
-class FlashcardCategoryScreen extends StatelessWidget {
+// ✅ JSON-backed repo (replaces legacy)
+import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart';
+
+class FlashcardCategoryScreen extends StatefulWidget {
   const FlashcardCategoryScreen({super.key});
 
   static const double appBarOffset = 80.0;
 
   @override
-  Widget build(BuildContext context) {
-    logger.i('🟦 Entered FlashcardCategoryScreen');
+  State<FlashcardCategoryScreen> createState() =>
+      _FlashcardCategoryScreenState();
+}
 
-    final categories = getAllCategories();
-    final sorted = [
-      ...categories.where((c) => c == 'all' || c == 'random'),
-      ...categories.where((c) => c != 'all' && c != 'random'),
-    ];
-    // logger.i('📇 Sorted flashcard categories: $sorted');
+class _FlashcardCategoryScreenState extends State<FlashcardCategoryScreen> {
+  late Future<List<String>> _futureCategories;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureCategories = _loadCategories();
+  }
+
+  Future<List<String>> _loadCategories() async {
+    final categories = await JsonFlashcardRepository.getAllCategories();
+    // Keep 'all' and 'random' first, everything else after (preserves your UX)
+    final specials = categories.where((c) => c == 'all' || c == 'random');
+    final rest = categories.where((c) => c != 'all' && c != 'random');
+    final sorted = [...specials, ...rest].toList();
+    logger.i('📇 Sorted flashcard categories (JSON): $sorted');
+    return sorted;
+  }
+
+  Future<void> _refresh() async {
+    JsonFlashcardRepository.invalidateIndex();
+    setState(() {
+      _futureCategories = _loadCategories();
+    });
+    await _futureCategories;
+  }
+
+  Future<void> _onCategoryTap(BuildContext context, String category) async {
+    logger.i('🟥 Tapped flashcard category: $category (JSON)');
+    final flashcards = await JsonFlashcardRepository.getFlashcardsForCategory(
+      category,
+    );
+
+    if (!context.mounted) return; // ✅ guard the specific BuildContext
+
+    if (flashcards.isEmpty) {
+      logger.w('⚠️ No flashcards found in category: $category');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No flashcards found in this category.')),
+      );
+      return;
+    }
+
+    final renderItems = flashcards.map(RenderItem.fromFlashcard).toList();
+
+    if (!context.mounted) return; // ✅ guard before navigation
+    context.push(
+      '/flashcards/detail',
+      extra: {
+        'renderItems': renderItems,
+        'currentIndex': 0,
+        'branchIndex': 4,
+        'backDestination': '/flashcards',
+        'backExtra': {'category': category, 'branchIndex': 4},
+        'transitionKey':
+            'flashcards_detail_${category}_${DateTime.now().millisecondsSinceEpoch}',
+        'slideFrom': SlideDirection.right,
+        'transitionType': TransitionType.slide,
+        'detailRoute': DetailRoute.branch,
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🟦 Entered FlashcardCategoryScreen (JSON)');
 
     // 🔑 Internally managed GlobalKeys
     final mobKey = GlobalKey(debugLabel: 'MOBKey');
@@ -4580,11 +5230,11 @@ class FlashcardCategoryScreen extends StatelessWidget {
     final searchKey = GlobalKey(debugLabel: 'SearchKey');
     final titleKey = GlobalKey(debugLabel: 'TitleKey');
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
+    return FutureBuilder<List<String>>(
+      future: _futureCategories,
+      builder: (context, snap) {
         // AppBar
-        Positioned(
+        final appBar = Positioned(
           top: 0,
           left: 0,
           right: 0,
@@ -4598,11 +5248,11 @@ class FlashcardCategoryScreen extends StatelessWidget {
             searchKey: searchKey,
             titleKey: titleKey,
           ),
-        ),
+        );
 
-        // 🔽 Breadcrumb: Insert right here
-        const Positioned(
-          top: appBarOffset + 30,
+        // Breadcrumb
+        final crumb = const Positioned(
+          top: FlashcardCategoryScreen.appBarOffset + 30,
           left: 16,
           right: 16,
           child: Text(
@@ -4610,11 +5260,11 @@ class FlashcardCategoryScreen extends StatelessWidget {
             style: AppTheme.branchBreadcrumbStyle,
             textAlign: TextAlign.left,
           ),
-        ),
+        );
 
-        // Instruction text
-        Positioned(
-          top: appBarOffset + 32,
+        // Instruction chip
+        final instruction = Positioned(
+          top: FlashcardCategoryScreen.appBarOffset + 32,
           left: 62,
           right: 62,
           child: Container(
@@ -4632,98 +5282,282 @@ class FlashcardCategoryScreen extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        );
 
-        // Category buttons
-        Positioned.fill(
-          top: appBarOffset + 100,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Center(
-              child: Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                children:
-                    sorted.map((category) {
-                      final isSpecial =
-                          category == 'all' || category == 'random';
-                      final style =
-                          isSpecial
-                              ? AppTheme.highlightedGroupButtonStyle
-                              : ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.groupButtonUnselected,
-                                padding: AppTheme.groupButtonPadding,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    AppTheme.buttonCornerRadius,
-                                  ),
+        if (snap.connectionState != ConnectionState.done) {
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              appBar,
+              crumb,
+              instruction,
+              Positioned.fill(
+                top: FlashcardCategoryScreen.appBarOffset + 100,
+                child: const Center(child: CircularProgressIndicator()),
+              ),
+            ],
+          );
+        }
+
+        final categories = snap.data ?? const <String>[];
+        if (categories.isEmpty) {
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              appBar,
+              crumb,
+              instruction,
+              Positioned.fill(
+                top: FlashcardCategoryScreen.appBarOffset + 120,
+                child: const Center(
+                  child: Text('No flashcard categories found'),
+                ),
+              ),
+            ],
+          );
+        }
+
+        // Category buttons (unchanged layout & styling)
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            appBar,
+            crumb,
+            instruction,
+            Positioned.fill(
+              top: FlashcardCategoryScreen.appBarOffset + 100,
+              child: RefreshIndicator(
+                onRefresh: _refresh, // ← uses your method
+                child: SingleChildScrollView(
+                  physics:
+                      const AlwaysScrollableScrollPhysics(), // allows pull even if short
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Center(
+                    child: Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
+                      children:
+                          categories.map((category) {
+                            final isSpecial =
+                                category == 'all' || category == 'random';
+                            final style =
+                                isSpecial
+                                    ? AppTheme.highlightedGroupButtonStyle
+                                    : ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          AppTheme.groupButtonUnselected,
+                                      padding: AppTheme.groupButtonPadding,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          AppTheme.buttonCornerRadius,
+                                        ),
+                                      ),
+                                    );
+
+                            return SizedBox(
+                              width: 160,
+                              child: ElevatedButton(
+                                onPressed:
+                                    () => _onCategoryTap(context, category),
+                                style: style,
+                                child: Text(
+                                  category.toTitleCase(),
+                                  style: AppTheme.buttonTextStyle,
+                                  textAlign: TextAlign.center,
                                 ),
-                              );
-
-                      return SizedBox(
-                        width: 160,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            logger.i('🟥 Tapped flashcard category: $category');
-
-                            final flashcards = getFlashcardsForCategory(
-                              category,
+                              ),
                             );
-                            if (flashcards.isEmpty) {
-                              logger.w(
-                                '⚠️ No flashcards found in category: $category',
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'No flashcards found in this category.',
-                                  ),
-                                ),
-                              );
-                              return;
-                            }
-
-                            final renderItems =
-                                flashcards
-                                    .map(RenderItem.fromFlashcard)
-                                    .toList();
-
-                            context.push(
-                              '/flashcards/detail',
-                              extra: {
-                                'renderItems': renderItems,
-                                'currentIndex': 0,
-                                'branchIndex': 4,
-                                'backDestination': '/flashcards',
-                                'backExtra': {
-                                  'category': category,
-                                  'branchIndex': 4,
-                                },
-                                'transitionKey':
-                                    'flashcards_detail_${category}_${DateTime.now().millisecondsSinceEpoch}',
-                                'slideFrom': SlideDirection.right,
-                                'transitionType': TransitionType.slide,
-                                'detailRoute': DetailRoute.branch,
-                              },
-                            );
-                          },
-                          style: style,
-                          child: Text(
-                            category.toTitleCase(),
-                            style: AppTheme.buttonTextStyle,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                          }).toList(),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
+
+// import 'package:bcc5/data/models/render_item.dart';
+// import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
+// import 'package:bcc5/navigation/detail_route.dart';
+// import 'package:bcc5/theme/slide_direction.dart';
+// import 'package:bcc5/theme/transition_type.dart';
+// import 'package:bcc5/utils/string_extensions.dart';
+// import 'package:flutter/material.dart';
+// import 'package:go_router/go_router.dart';
+// import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+// import 'package:bcc5/utils/logger.dart';
+// import 'package:bcc5/theme/app_theme.dart';
+
+// class FlashcardCategoryScreen extends StatelessWidget {
+//   const FlashcardCategoryScreen({super.key});
+
+//   static const double appBarOffset = 80.0;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     logger.i('🟦 Entered FlashcardCategoryScreen');
+
+//     final categories = getAllCategories();
+//     final sorted = [
+//       ...categories.where((c) => c == 'all' || c == 'random'),
+//       ...categories.where((c) => c != 'all' && c != 'random'),
+//     ];
+//     // logger.i('📇 Sorted flashcard categories: $sorted');
+
+//     // 🔑 Internally managed GlobalKeys
+//     final mobKey = GlobalKey(debugLabel: 'MOBKey');
+//     final settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+//     final searchKey = GlobalKey(debugLabel: 'SearchKey');
+//     final titleKey = GlobalKey(debugLabel: 'TitleKey');
+
+//     return Stack(
+//       fit: StackFit.expand,
+//       children: [
+//         // AppBar
+//         Positioned(
+//           top: 0,
+//           left: 0,
+//           right: 0,
+//           child: CustomAppBarWidget(
+//             title: 'Drills',
+//             showBackButton: false,
+//             showSearchIcon: true,
+//             showSettingsIcon: true,
+//             mobKey: mobKey,
+//             settingsKey: settingsKey,
+//             searchKey: searchKey,
+//             titleKey: titleKey,
+//           ),
+//         ),
+
+//         // 🔽 Breadcrumb: Insert right here
+//         const Positioned(
+//           top: appBarOffset + 30,
+//           left: 16,
+//           right: 16,
+//           child: Text(
+//             'Drills',
+//             style: AppTheme.branchBreadcrumbStyle,
+//             textAlign: TextAlign.left,
+//           ),
+//         ),
+
+//         // Instruction text
+//         Positioned(
+//           top: appBarOffset + 32,
+//           left: 62,
+//           right: 62,
+//           child: Container(
+//             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 2),
+//             decoration: BoxDecoration(
+//               color: Colors.white.withAlpha(217),
+//               borderRadius: BorderRadius.circular(12),
+//             ),
+//             child: Center(
+//               child: Text(
+//                 'Pick a Challenge!',
+//                 style: AppTheme.subheadingStyle.copyWith(
+//                   color: AppTheme.primaryBlue,
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+
+//         // Category buttons
+//         Positioned.fill(
+//           top: appBarOffset + 100,
+//           child: SingleChildScrollView(
+//             padding: const EdgeInsets.symmetric(horizontal: 16),
+//             child: Center(
+//               child: Wrap(
+//                 spacing: 12,
+//                 runSpacing: 12,
+//                 children:
+//                     sorted.map((category) {
+//                       final isSpecial =
+//                           category == 'all' || category == 'random';
+//                       final style =
+//                           isSpecial
+//                               ? AppTheme.highlightedGroupButtonStyle
+//                               : ElevatedButton.styleFrom(
+//                                 backgroundColor: AppTheme.groupButtonUnselected,
+//                                 padding: AppTheme.groupButtonPadding,
+//                                 shape: RoundedRectangleBorder(
+//                                   borderRadius: BorderRadius.circular(
+//                                     AppTheme.buttonCornerRadius,
+//                                   ),
+//                                 ),
+//                               );
+
+//                       return SizedBox(
+//                         width: 160,
+//                         child: ElevatedButton(
+//                           onPressed: () {
+//                             logger.i('🟥 Tapped flashcard category: $category');
+
+//                             final flashcards = getFlashcardsForCategory(
+//                               category,
+//                             );
+//                             if (flashcards.isEmpty) {
+//                               logger.w(
+//                                 '⚠️ No flashcards found in category: $category',
+//                               );
+//                               ScaffoldMessenger.of(context).showSnackBar(
+//                                 const SnackBar(
+//                                   content: Text(
+//                                     'No flashcards found in this category.',
+//                                   ),
+//                                 ),
+//                               );
+//                               return;
+//                             }
+
+//                             final renderItems =
+//                                 flashcards
+//                                     .map(RenderItem.fromFlashcard)
+//                                     .toList();
+
+//                             context.push(
+//                               '/flashcards/detail',
+//                               extra: {
+//                                 'renderItems': renderItems,
+//                                 'currentIndex': 0,
+//                                 'branchIndex': 4,
+//                                 'backDestination': '/flashcards',
+//                                 'backExtra': {
+//                                   'category': category,
+//                                   'branchIndex': 4,
+//                                 },
+//                                 'transitionKey':
+//                                     'flashcards_detail_${category}_${DateTime.now().millisecondsSinceEpoch}',
+//                                 'slideFrom': SlideDirection.right,
+//                                 'transitionType': TransitionType.slide,
+//                                 'detailRoute': DetailRoute.branch,
+//                               },
+//                             );
+//                           },
+//                           style: style,
+//                           child: Text(
+//                             category.toTitleCase(),
+//                             style: AppTheme.buttonTextStyle,
+//                             textAlign: TextAlign.center,
+//                           ),
+//                         ),
+//                       );
+//                     }).toList(),
+//               ),
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 
 
@@ -4736,22 +5570,20 @@ class FlashcardCategoryScreen extends StatelessWidget {
 
 File: lib/screens/flashcards/flashcard_item_screen.dart
 import 'package:bcc5/data/models/render_item.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
 import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/utils/string_extensions.dart';
-import 'package:bcc5/utils/transition_manager.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/item_button.dart';
-import 'package:bcc5/navigation/main_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:bcc5/utils/transition_manager.dart';
+import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart';
 
-class FlashcardItemScreen extends StatelessWidget {
+class FlashcardItemScreen extends StatefulWidget {
   final String category;
   final GlobalKey harborKey;
   final GlobalKey coursesKey;
@@ -4770,17 +5602,65 @@ class FlashcardItemScreen extends StatelessWidget {
   });
 
   @override
+  State<FlashcardItemScreen> createState() => _FlashcardItemScreenState();
+}
+
+class _FlashcardItemScreenState extends State<FlashcardItemScreen> {
+  late Future<_Deck> _futureDeck;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureDeck = _loadDeck();
+  }
+
+  // Normalize category names so UI labels like "Rules & Regs"
+  // resolve to JSON keys like "rules_and_regs".
+  String _norm(String raw) {
+    return raw
+        .trim()
+        .toLowerCase()
+        .replaceAll('&', 'and')
+        .replaceAll(RegExp(r'[^a-z0-9]+'), '_') // spaces/punct -> _
+        .replaceAll(RegExp(r'_+'), '_') // collapse __
+        .replaceAll(RegExp(r'^_|_$'), ''); // trim leading/trailing _
+  }
+
+  Future<_Deck> _loadDeck() async {
+    // 1) Try the incoming category as-is
+    var flashcards = await JsonFlashcardRepository.getFlashcardsForCategory(
+      widget.category,
+    );
+
+    // 2) If empty, try a normalized slug
+    if (flashcards.isEmpty) {
+      final slug = _norm(widget.category);
+      if (slug != widget.category.toLowerCase()) {
+        logger.w(
+          '🔎 No flashcards for "${widget.category}" — retrying as "$slug"',
+        );
+        flashcards = await JsonFlashcardRepository.getFlashcardsForCategory(
+          slug,
+        );
+      }
+    }
+
+    final renderItems = flashcards.map(RenderItem.fromFlashcard).toList();
+    logger.i(
+      '🗂️ Loaded ${flashcards.length} flashcards for "${widget.category}" (JSON)',
+    );
+    return _Deck(flashcards: flashcards, renderItems: renderItems);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // Local keys for your custom app bar
     final mobKey = GlobalKey(debugLabel: 'MOBKey');
     final settingsKey = GlobalKey(debugLabel: 'SettingsKey');
     final searchKey = GlobalKey(debugLabel: 'SearchKey');
     final titleKey = GlobalKey(debugLabel: 'TitleKey');
 
-    logger.i('🟦 Entered FlashcardItemScreen for category: $category');
-
-    final flashcards = getFlashcardsForCategory(category);
-    final ids = flashcards.map((fc) => fc.id).toList();
-    final categoryTitle = category.toTitleCase();
+    final categoryTitle = widget.category.toTitleCase();
 
     final appBar = CustomAppBarWidget(
       title: 'Drills',
@@ -4804,126 +5684,319 @@ class FlashcardItemScreen extends StatelessWidget {
       },
     );
 
-    return FutureBuilder<List<RenderItem>>(
-      future: buildRenderItems(ids: ids),
+    return FutureBuilder<_Deck>(
+      future: _futureDeck,
       builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
-
-        final renderItems = snapshot.data!;
-        if (flashcards.isEmpty) {
-          return MainScaffold(
-            branchIndex: 4,
-            harborKey: harborKey,
-            coursesKey: coursesKey,
-            partsKey: partsKey,
-            toolsKey: toolsKey,
-            drillsKey: drillsKey,
-            child: Column(
-              children: [
-                appBar,
-                const Expanded(
-                  child: Center(
-                    child: Text('No flashcards found for this category.'),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-
-        return MainScaffold(
-          branchIndex: 4,
-          harborKey: harborKey,
-          coursesKey: coursesKey,
-          partsKey: partsKey,
-          toolsKey: toolsKey,
-          drillsKey: drillsKey,
-          child: Column(
+        // ⏳ Loading (keep the app bar visible)
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Column(
             children: [
               appBar,
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'Drills',
-                          style: AppTheme.branchBreadcrumbStyle,
-                        ),
-                        const TextSpan(
-                          text: ' / ',
-                          style: TextStyle(color: Colors.black87),
-                        ),
-                        TextSpan(
-                          text: categoryTitle,
-                          style: AppTheme.groupBreadcrumbStyle,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Dive into a challenge.',
-                style: AppTheme.subheadingStyle.copyWith(
-                  color: AppTheme.primaryBlue,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: GridView.builder(
-                    itemCount: flashcards.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 4,
-                          mainAxisSpacing: 4,
-                          childAspectRatio: 2.8,
-                        ),
-                    itemBuilder: (context, index) {
-                      final card = flashcards[index];
-                      logger.i('📗 Rendering flashcard: ${card.title}');
-                      return ItemButton(
-                        label: card.title,
-                        onTap: () {
-                          logger.i('🟧 Tapped flashcard: ${card.title}');
-                          TransitionManager.goToDetailScreen(
-                            context: context,
-                            screenType: RenderItemType.flashcard,
-                            renderItems: renderItems,
-                            currentIndex: index,
-                            branchIndex: 4,
-                            backDestination: '/flashcards/items',
-                            backExtra: {'category': category, 'branchIndex': 4},
-                            detailRoute: DetailRoute.branch,
-                            direction: SlideDirection.right,
-                            transitionType: TransitionType.slide,
-                            replace: false,
-                          );
-                        },
-                      );
-                    },
-                  ),
+              const Expanded(child: Center(child: CircularProgressIndicator())),
+            ],
+          );
+        }
+
+        final deck =
+            snapshot.data ?? const _Deck(flashcards: [], renderItems: []);
+        final flashcards = deck.flashcards;
+        final renderItems = deck.renderItems;
+
+        // 🈳 Empty state
+        if (flashcards.isEmpty) {
+          return Column(
+            children: [
+              appBar,
+              const Expanded(
+                child: Center(
+                  child: Text('No flashcards found for this category.'),
                 ),
               ),
             ],
-          ),
+          );
+        }
+
+        // 📄 Content (NO nested MainScaffold — router provides it)
+        return Column(
+          children: [
+            appBar,
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Drills',
+                        style: AppTheme.branchBreadcrumbStyle,
+                      ),
+                      const TextSpan(
+                        text: ' / ',
+                        style: TextStyle(color: Colors.black87),
+                      ),
+                      TextSpan(
+                        text: categoryTitle,
+                        style: AppTheme.groupBreadcrumbStyle,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Dive into a challenge.',
+              style: AppTheme.subheadingStyle.copyWith(
+                color: AppTheme.primaryBlue,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: GridView.builder(
+                  itemCount: flashcards.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 4,
+                    mainAxisSpacing: 4,
+                    childAspectRatio: 2.8,
+                  ),
+                  itemBuilder: (context, index) {
+                    final card = flashcards[index];
+                    final label = (card.title ?? '').toString();
+                    logger.i('📗 Rendering flashcard: $label');
+                    return ItemButton(
+                      label: label,
+                      onTap: () {
+                        logger.i('🟧 Tapped flashcard: $label');
+                        TransitionManager.goToDetailScreen(
+                          context: context,
+                          screenType: RenderItemType.flashcard,
+                          renderItems: renderItems,
+                          currentIndex: index,
+                          branchIndex: 4,
+                          backDestination: '/flashcards/items',
+                          backExtra: {
+                            'category': widget.category,
+                            'branchIndex': 4,
+                          },
+                          detailRoute: DetailRoute.branch,
+                          direction: SlideDirection.right,
+                          transitionType: TransitionType.slide,
+                          replace: false,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
   }
 }
+
+class _Deck {
+  const _Deck({required this.flashcards, required this.renderItems});
+  final List<dynamic> flashcards; // your Flashcard model
+  final List<RenderItem> renderItems;
+}
+
+// import 'package:bcc5/data/models/render_item.dart';
+// import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
+// import 'package:bcc5/navigation/detail_route.dart';
+// import 'package:bcc5/theme/app_theme.dart';
+// import 'package:bcc5/theme/slide_direction.dart';
+// import 'package:bcc5/theme/transition_type.dart';
+// import 'package:bcc5/utils/logger.dart';
+// import 'package:bcc5/utils/render_item_helpers.dart';
+// import 'package:bcc5/utils/string_extensions.dart';
+// import 'package:bcc5/utils/transition_manager.dart';
+// import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+// import 'package:bcc5/widgets/item_button.dart';
+// import 'package:bcc5/navigation/main_scaffold.dart';
+// import 'package:flutter/material.dart';
+// import 'package:go_router/go_router.dart';
+
+// class FlashcardItemScreen extends StatelessWidget {
+//   final String category;
+//   final GlobalKey harborKey;
+//   final GlobalKey coursesKey;
+//   final GlobalKey partsKey;
+//   final GlobalKey toolsKey;
+//   final GlobalKey drillsKey;
+
+//   const FlashcardItemScreen({
+//     super.key,
+//     required this.category,
+//     required this.harborKey,
+//     required this.coursesKey,
+//     required this.partsKey,
+//     required this.toolsKey,
+//     required this.drillsKey,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final mobKey = GlobalKey(debugLabel: 'MOBKey');
+//     final settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+//     final searchKey = GlobalKey(debugLabel: 'SearchKey');
+//     final titleKey = GlobalKey(debugLabel: 'TitleKey');
+
+//     logger.i('🟦 Entered FlashcardItemScreen for category: $category');
+
+//     final flashcards = getFlashcardsForCategory(category);
+//     final ids = flashcards.map((fc) => fc.id).toList();
+//     final categoryTitle = category.toTitleCase();
+
+//     final appBar = CustomAppBarWidget(
+//       title: 'Drills',
+//       showBackButton: true,
+//       showSearchIcon: true,
+//       showSettingsIcon: true,
+//       mobKey: mobKey,
+//       settingsKey: settingsKey,
+//       searchKey: searchKey,
+//       titleKey: titleKey,
+//       onBack: () {
+//         logger.i('🔙 AppBar back from FlashcardItemScreen');
+//         context.go(
+//           '/flashcards',
+//           extra: {
+//             'slideFrom': SlideDirection.left,
+//             'transitionType': TransitionType.slide,
+//             'detailRoute': DetailRoute.branch,
+//           },
+//         );
+//       },
+//     );
+
+//     return FutureBuilder<List<RenderItem>>(
+//       future: buildRenderItems(ids: ids),
+//       builder: (context, snapshot) {
+//         if (!snapshot.hasData) {
+//           return const Scaffold(
+//             body: Center(child: CircularProgressIndicator()),
+//           );
+//         }
+
+//         final renderItems = snapshot.data!;
+//         if (flashcards.isEmpty) {
+//           return MainScaffold(
+//             branchIndex: 4,
+//             harborKey: harborKey,
+//             coursesKey: coursesKey,
+//             partsKey: partsKey,
+//             toolsKey: toolsKey,
+//             drillsKey: drillsKey,
+//             child: Column(
+//               children: [
+//                 appBar,
+//                 const Expanded(
+//                   child: Center(
+//                     child: Text('No flashcards found for this category.'),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           );
+//         }
+
+//         return MainScaffold(
+//           branchIndex: 4,
+//           harborKey: harborKey,
+//           coursesKey: coursesKey,
+//           partsKey: partsKey,
+//           toolsKey: toolsKey,
+//           drillsKey: drillsKey,
+//           child: Column(
+//             children: [
+//               appBar,
+//               const SizedBox(height: 16),
+//               Padding(
+//                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//                 child: Align(
+//                   alignment: Alignment.centerLeft,
+//                   child: RichText(
+//                     text: TextSpan(
+//                       children: [
+//                         TextSpan(
+//                           text: 'Drills',
+//                           style: AppTheme.branchBreadcrumbStyle,
+//                         ),
+//                         const TextSpan(
+//                           text: ' / ',
+//                           style: TextStyle(color: Colors.black87),
+//                         ),
+//                         TextSpan(
+//                           text: categoryTitle,
+//                           style: AppTheme.groupBreadcrumbStyle,
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(height: 8),
+//               Text(
+//                 'Dive into a challenge.',
+//                 style: AppTheme.subheadingStyle.copyWith(
+//                   color: AppTheme.primaryBlue,
+//                 ),
+//                 textAlign: TextAlign.center,
+//               ),
+//               const SizedBox(height: 16),
+//               Expanded(
+//                 child: Padding(
+//                   padding: const EdgeInsets.all(12),
+//                   child: GridView.builder(
+//                     itemCount: flashcards.length,
+//                     gridDelegate:
+//                         const SliverGridDelegateWithFixedCrossAxisCount(
+//                           crossAxisCount: 2,
+//                           crossAxisSpacing: 4,
+//                           mainAxisSpacing: 4,
+//                           childAspectRatio: 2.8,
+//                         ),
+//                     itemBuilder: (context, index) {
+//                       final card = flashcards[index];
+//                       logger.i('📗 Rendering flashcard: ${card.title}');
+//                       return ItemButton(
+//                         label: card.title,
+//                         onTap: () {
+//                           logger.i('🟧 Tapped flashcard: ${card.title}');
+//                           TransitionManager.goToDetailScreen(
+//                             context: context,
+//                             screenType: RenderItemType.flashcard,
+//                             renderItems: renderItems,
+//                             currentIndex: index,
+//                             branchIndex: 4,
+//                             backDestination: '/flashcards/items',
+//                             backExtra: {'category': category, 'branchIndex': 4},
+//                             detailRoute: DetailRoute.branch,
+//                             direction: SlideDirection.right,
+//                             transitionType: TransitionType.slide,
+//                             replace: false,
+//                           );
+//                         },
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 
 
@@ -5123,7 +6196,6 @@ class _PathItemScreenState extends State<PathItemScreen> {
                           itemCount: renderItems.length,
                           separatorBuilder:
                               (context, index) => const SizedBox(height: 8),
-
                           itemBuilder: (context, index) {
                             final item = renderItems[index];
                             return ItemButton(
@@ -8592,420 +9664,6 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
   }
 }
 
-// import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
-
-// import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
-// import 'package:bcc5/navigation/detail_route.dart';
-// import 'package:bcc5/theme/slide_direction.dart';
-// import 'package:bcc5/theme/transition_type.dart';
-// import 'package:bcc5/utils/render_item_helpers.dart';
-// import 'package:bcc5/utils/string_extensions.dart';
-// import 'package:bcc5/widgets/learning_path_progress_bar.dart';
-// import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
-// import 'package:animations/animations.dart';
-
-// import 'package:bcc5/data/models/render_item.dart';
-// import 'package:bcc5/utils/logger.dart';
-// import 'package:bcc5/widgets/custom_app_bar_widget.dart';
-// import 'package:bcc5/widgets/navigation_buttons.dart';
-// import 'package:bcc5/widgets/content_block_renderer.dart';
-// import 'package:bcc5/theme/app_theme.dart';
-// import 'package:bcc5/utils/transition_manager.dart';
-
-// import 'package:bcc5/widgets/navigation/last_group_button.dart';
-
-// class LessonDetailScreen extends StatefulWidget {
-//   final List<RenderItem> renderItems;
-//   final int currentIndex;
-//   final int branchIndex;
-//   final String backDestination;
-//   final Map<String, dynamic>? backExtra;
-//   final DetailRoute detailRoute;
-//   final String transitionKey;
-
-//   const LessonDetailScreen({
-//     super.key,
-//     required this.renderItems,
-//     required this.currentIndex,
-//     required this.branchIndex,
-//     required this.backDestination,
-//     required this.backExtra,
-//     required this.detailRoute,
-//     required this.transitionKey,
-//   });
-
-//   @override
-//   State<LessonDetailScreen> createState() => _LessonDetailScreenState();
-// }
-
-// class _LessonDetailScreenState extends State<LessonDetailScreen> {
-//   late int currentIndex;
-
-//   // 🔐 Local GlobalKeys preserved for onboarding tour targeting
-//   // Avoid relying on internal AppBar key generation in this screen
-//   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
-//   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
-//   final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
-//   final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey');
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     currentIndex = widget.currentIndex;
-
-//     final item = widget.renderItems[currentIndex];
-//     if (item.type != RenderItemType.lesson) {
-//       logger.w(
-//         '⚠️ Redirecting from non-lesson type: ${item.id} (${item.type})',
-//       );
-//       WidgetsBinding.instance.addPostFrameCallback((_) {
-//         TransitionManager.goToDetailScreen(
-//           context: context,
-//           screenType: item.type,
-//           renderItems: widget.renderItems,
-//           currentIndex: currentIndex,
-//           branchIndex: widget.branchIndex,
-//           backDestination: widget.backDestination,
-//           backExtra: widget.backExtra,
-//           detailRoute: widget.detailRoute,
-//           direction: SlideDirection.none,
-//           replace: true,
-//         );
-//       });
-//     }
-//   }
-
-//   void _navigateTo(int newIndex) {
-//     if (newIndex < 0 || newIndex >= widget.renderItems.length) {
-//       logger.w('⚠️ Navigation index out of bounds: $newIndex');
-//       return;
-//     }
-
-//     final nextItem = widget.renderItems[newIndex];
-//     TransitionManager.goToDetailScreen(
-//       context: context,
-//       screenType: nextItem.type,
-//       renderItems: widget.renderItems,
-//       currentIndex: newIndex,
-//       branchIndex: widget.branchIndex,
-//       backDestination: widget.backDestination,
-//       backExtra: widget.backExtra,
-//       detailRoute: widget.detailRoute,
-//       direction: SlideDirection.none,
-//       transitionType: TransitionType.fadeScale,
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final item = widget.renderItems[currentIndex];
-
-//     if (item.type != RenderItemType.lesson) {
-//       return const Scaffold(body: SizedBox());
-//     }
-
-//     const moduleTitle = 'Courses';
-//     final lessonTitle = item.title;
-
-//     logger.i('📘 LessonDetailScreen: $lessonTitle');
-//     logger.i('🧩 Content blocks: ${item.content.length}');
-//     logger.i('🧠 Flashcards: ${item.flashcards.length}');
-
-//     return PageTransitionSwitcher(
-//       duration: const Duration(milliseconds: 250),
-//       transitionBuilder: buildScaleFadeTransition,
-//       child: _buildScaffold(item, moduleTitle, lessonTitle),
-//     );
-//   }
-
-//   Widget _buildScaffold(
-//     RenderItem item,
-//     String moduleTitle,
-//     String lessonTitle,
-//   ) {
-//     return Scaffold(
-//       key: ValueKey(widget.transitionKey),
-//       body: Stack(
-//         fit: StackFit.expand,
-//         children: [
-//           Opacity(
-//             opacity: 0.2,
-//             child: Image.asset(
-//               'assets/images/boat_overview_new.png',
-//               fit: BoxFit.cover,
-//             ),
-//           ),
-//           Column(
-//             children: [
-//               CustomAppBarWidget(
-//                 title: moduleTitle,
-//                 showBackButton: true,
-//                 showSearchIcon: true,
-//                 showSettingsIcon: true,
-//                 mobKey: mobKey,
-//                 settingsKey: settingsKey,
-//                 searchKey: searchKey,
-//                 titleKey: titleKey,
-//                 onBack: () {
-//                   logger.i('🔙 Back tapped → ${widget.backDestination}');
-//                   context.go(
-//                     widget.backDestination,
-//                     extra: {
-//                       ...?widget.backExtra,
-//                       'transitionKey': UniqueKey().toString(),
-//                       'slideFrom': SlideDirection.left,
-//                       'transitionType': TransitionType.slide,
-//                     },
-//                   );
-//                 },
-//               ),
-
-//               if (widget.detailRoute == DetailRoute.path)
-//                 LearningPathProgressBar(
-//                   pathName: widget.backExtra?['pathName'] ?? '',
-//                 ),
-
-//               Padding(
-//                 padding: const EdgeInsets.only(
-//                   top: 8.0,
-//                   left: 16.0,
-//                   right: 16.0,
-//                 ),
-//                 child: Align(
-//                   alignment: Alignment.centerLeft,
-//                   child: RichText(
-//                     text: TextSpan(
-//                       children: [
-//                         TextSpan(
-//                           text:
-//                               widget.detailRoute == DetailRoute.path
-//                                   ? (widget.backExtra?['pathName'] as String?)
-//                                           ?.toTitleCase() ??
-//                                       ''
-//                                   : 'Courses',
-//                           style: AppTheme.branchBreadcrumbStyle,
-//                         ),
-//                         const TextSpan(
-//                           text: ' / ',
-//                           style: TextStyle(color: Colors.black87),
-//                         ),
-//                         TextSpan(
-//                           text:
-//                               widget.detailRoute == DetailRoute.path
-//                                   ? PathRepositoryIndex.getChapterTitleForPath(
-//                                         widget.backExtra?['pathName'] ?? '',
-//                                         widget.backExtra?['chapterId'] ?? '',
-//                                       )?.toTitleCase() ??
-//                                       ''
-//                                   : (widget.backExtra?['module'] as String?)
-//                                           ?.toTitleCase() ??
-//                                       '',
-
-//                           style: AppTheme.groupBreadcrumbStyle,
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-
-//               Padding(
-//                 padding: const EdgeInsets.only(top: 4.0, bottom: 8.0),
-//                 child: Text(
-//                   lessonTitle,
-//                   style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
-//                     color: AppTheme.primaryBlue,
-//                   ),
-//                   textAlign: TextAlign.center,
-//                 ),
-//               ),
-
-//               Expanded(
-//                 child: Padding(
-//                   padding: const EdgeInsets.symmetric(horizontal: 16),
-//                   child: ContentBlockRenderer(
-//                     key: ValueKey(item.id),
-//                     blocks: item.content,
-//                   ),
-//                 ),
-//               ),
-
-//               NavigationButtons(
-//                 isPreviousEnabled: currentIndex > 0,
-//                 isNextEnabled: currentIndex < widget.renderItems.length - 1,
-//                 onPrevious: () {
-//                   logger.i('⬅️ Previous tapped on LessonDetailScreen');
-//                   _navigateTo(currentIndex - 1);
-//                 },
-//                 onNext: () {
-//                   if (currentIndex < widget.renderItems.length - 1) {
-//                     logger.i('➡️ Next tapped on LessonDetailScreen');
-//                     _navigateTo(currentIndex + 1);
-//                   }
-//                 },
-//                 customNextButton:
-//                     (currentIndex == widget.renderItems.length - 1)
-//                         ? LastGroupButton(
-//                           type: RenderItemType.lesson,
-//                           detailRoute: widget.detailRoute,
-//                           backExtra: widget.backExtra,
-//                           branchIndex: widget.branchIndex,
-//                           backDestination:
-//                               widget.detailRoute == DetailRoute.path
-//                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}'
-//                                   : '/lessons',
-//                           label:
-//                               widget.detailRoute == DetailRoute.path
-//                                   ? 'chapter'
-//                                   : 'module',
-//                           getNextRenderItems: () async {
-//                             if (widget.detailRoute == DetailRoute.path) {
-//                               final pathName =
-//                                   widget.backExtra?['pathName'] as String?;
-//                               final chapterId =
-//                                   widget.backExtra?['chapterId'] as String?;
-//                               if (pathName == null || chapterId == null) {
-//                                 return null;
-//                               }
-
-//                               final nextChapter =
-//                                   PathRepositoryIndex.getNextChapter(
-//                                     pathName,
-//                                     chapterId,
-//                                   );
-//                               if (nextChapter == null) return null;
-
-//                               return await buildRenderItems(
-//                                 ids:
-//                                     nextChapter.items
-//                                         .map((e) => e.pathItemId)
-//                                         .toList(),
-//                               );
-//                             } else {
-//                               final currentModuleId =
-//                                   widget.backExtra?['module'] as String?;
-//                               if (currentModuleId == null) return null;
-
-//                               final nextModuleId =
-//                                   LessonRepositoryIndex.getNextModule(
-//                                     currentModuleId,
-//                                   );
-//                               if (nextModuleId == null) return null;
-
-//                               final nextLessons =
-//                                   LessonRepositoryIndex.getLessonsForModule(
-//                                     nextModuleId,
-//                                   );
-//                               return await buildRenderItems(
-//                                 ids: nextLessons.map((l) => l.id).toList(),
-//                               );
-//                             }
-//                           },
-//                           onNavigateToNextGroup: (renderItems) {
-//                             if (renderItems.isEmpty) return;
-
-//                             if (widget.detailRoute == DetailRoute.path) {
-//                               final pathName =
-//                                   widget.backExtra?['pathName'] as String?;
-//                               final chapterId =
-//                                   widget.backExtra?['chapterId'] as String?;
-//                               if (pathName == null || chapterId == null) return;
-
-//                               final nextChapter =
-//                                   PathRepositoryIndex.getNextChapter(
-//                                     pathName,
-//                                     chapterId,
-//                                   );
-//                               if (nextChapter == null) return;
-
-//                               final route =
-//                                   '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items';
-
-//                               TransitionManager.goToDetailScreen(
-//                                 context: context,
-//                                 screenType: RenderItemType.lesson,
-//                                 renderItems: renderItems,
-//                                 currentIndex: 0,
-//                                 branchIndex: widget.branchIndex,
-//                                 backDestination: route,
-//                                 backExtra: {
-//                                   'pathName': pathName,
-//                                   'chapterId': nextChapter.id,
-//                                   'branchIndex': widget.branchIndex,
-//                                 },
-//                                 detailRoute: widget.detailRoute,
-//                                 direction: SlideDirection.right,
-//                                 replace: true,
-//                               );
-//                             } else {
-//                               final nextModuleId =
-//                                   LessonRepositoryIndex.getNextModule(
-//                                     widget.backExtra?['module'],
-//                                   );
-//                               if (nextModuleId == null) return;
-
-//                               TransitionManager.goToDetailScreen(
-//                                 context: context,
-//                                 screenType: RenderItemType.lesson,
-//                                 renderItems: renderItems,
-//                                 currentIndex: 0,
-//                                 branchIndex: widget.branchIndex,
-//                                 backDestination: '/lessons/items',
-//                                 backExtra: {
-//                                   'module': nextModuleId,
-//                                   'branchIndex': widget.branchIndex,
-//                                 },
-//                                 detailRoute: widget.detailRoute,
-//                                 direction: SlideDirection.right,
-//                                 replace: true,
-//                               );
-//                             }
-//                           },
-//                           onRestartAtFirstGroup: () async {
-//                             final firstModuleId =
-//                                 LessonRepositoryIndex.getModuleNames().first;
-//                             final firstLessons =
-//                                 LessonRepositoryIndex.getLessonsForModule(
-//                                   firstModuleId,
-//                                 );
-//                             final renderItems = await buildRenderItems(
-//                               ids: firstLessons.map((l) => l.id).toList(),
-//                             );
-
-//                             if ((await buildRenderItems(
-//                               ids: firstLessons.map((l) => l.id).toList(),
-//                             )).isEmpty) {
-//                               return;
-//                             }
-//                             if (!mounted) return;
-//                             TransitionManager.goToDetailScreen(
-//                               context: context,
-//                               screenType: RenderItemType.lesson,
-//                               renderItems: renderItems,
-//                               currentIndex: 0,
-//                               branchIndex: widget.branchIndex,
-//                               backDestination: '/lessons/items',
-//                               backExtra: {
-//                                 'module': firstModuleId,
-//                                 'branchIndex': widget.branchIndex,
-//                               },
-//                               detailRoute: widget.detailRoute,
-//                               direction: SlideDirection.right,
-//                               replace: true,
-//                             );
-//                           },
-//                         )
-//                         : null,
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 
 
 
@@ -10947,6 +11605,105 @@ class RenderItem {
 
 
 
+File: lib/data/data_csv/lessons/lessons_docking.csv
+module,id,title,keywords,isPaid,flashcard_ids,content_md
+docking,lesson_dock_1.00,"L1: Handling Dock Lines Repository","",FALSE,flashcard_lesson_dock_1.00,"Learn how to approach the dock methodically to ensure smooth arrivals.
+
+![](assets/images/fallback_image.jpeg)
+
+Use dock lines effectively to secure the boat in variable conditions.
+
+![](assets/images/fallback_image.jpeg)
+
+Crew coordination and preparation makes docking safer and easier."
+docking,lesson_dock_1.10,"Departing the Dock – What to Expect","departure; dock; crew roles; underway",FALSE,flashcard_lesson_dock_1.10,"As the boat prepares to leave the dock, your role may vary depending on experience and instruction. Understand what to expect and how to remain helpful and safe.
+
+- Departure may involve engine use, sailing off a mooring, or pushing off from a slip.
+- Crew may be assigned tasks like line handling, fender duty, or lookout.
+- If you're not given a job, stay alert and out of the way.
+- Once the boat is ‘clear of the dock,’ lines and fenders are stowed and we’re underway."
+docking,lesson_dock_2.00,"L2: Anchoring - Setting Up","",FALSE,flashcard_lesson_dock_2.00,"Anchoring starts with understanding the seabed and wind direction.
+
+![](assets/images/fallback_image.jpeg)
+
+Use visual cues and depth sounders to choose a safe location.
+
+![](assets/images/fallback_image.jpeg)
+
+Scope and anchor type are critical to holding strength."
+docking,lesson_dock_3.00,"Basics of Side Ties","",FALSE,flashcard_lesson_dock_3.00,"Side ties are useful when rafting up with other boats.
+
+![](assets/images/fallback_image.jpeg)
+
+Proper fender placement protects both vessels from contact damage.
+
+![](assets/images/fallback_image.jpeg)
+
+Choose knots that are secure but easy to untie under load."
+docking,lesson_dock_4.00,"Returning to Dock - Docking Procedure","",FALSE,flashcard_lesson_dock_4.00,"Slow and controlled movements are key when entering a slip.
+
+![](assets/images/fallback_image.jpeg)
+
+Crew should be briefed and in position before final approach.
+
+![](assets/images/fallback_image.jpeg)
+
+Use visual alignment with dock features to stay centered."
+docking,lesson_dock_5.00,"Basic Deck Safety and Boom Awareness","",FALSE,flashcard_lesson_dock_5.00,"Always maintain three points of contact while on deck.
+
+![](assets/images/fallback_image.jpeg)
+
+Watch the boom's position to avoid surprise jibes.
+
+![](assets/images/fallback_image.jpeg)
+
+Secure loose lines and gear to prevent trip hazards."
+docking,lesson_dock_6.00,"How to Assist in Docking","",FALSE,flashcard_lesson_dock_6.00,"Crew should be stationed and aware of their docking role.
+
+![](assets/images/fallback_image.jpeg)
+
+Lines should be coiled and ready to deploy quickly.
+
+![](assets/images/fallback_image.jpeg)
+
+Communication between helm and crew is essential for timing."
+docking,lesson_dock_7.00,"How to Assist in Anchoring","",FALSE,flashcard_lesson_dock_7.00,"Listen carefully to helm commands and anticipate needs.
+
+![](assets/images/fallback_image.jpeg)
+
+Ensure the anchor is free to drop and flaked correctly.
+
+![](assets/images/fallback_image.jpeg)
+
+Watch for signs of dragging or improper setting."
+docking,lesson_dock_8.00,"Lowering the Anchor Safely","",FALSE,flashcard_lesson_dock_8.00,"Approach into the wind and stop the boat before dropping anchor.
+
+![](assets/images/fallback_image.jpeg)
+
+Let the rode out steadily to avoid tangles.
+
+![](assets/images/fallback_image.jpeg)
+
+Observe how the anchor sets and adjust scope if necessary."
+docking,lesson_dock_9.00,"Raising the Anchor Safely","",FALSE,flashcard_lesson_dock_9.00,"Coordinate engine movement with winch operation to reduce strain.
+
+![](assets/images/fallback_image.jpeg)
+
+Ensure crew hands are clear of the windlass during retrieval.
+
+![](assets/images/fallback_image.jpeg)
+
+Secure the anchor and check it's seated properly before departure."
+
+
+
+
+
+
+
+
+
+
 File: lib/data/loaders/content_loader.dart
 import 'package:bcc5/data/models/lesson_model.dart';
 import 'package:bcc5/data/repositories/lessons/json_lesson_repository.dart';
@@ -12121,18 +12878,25 @@ class DisabledItemButton extends StatelessWidget {
 File: lib/widgets/navigation/last_group_button.dart
 // lib/widgets/navigation/last_group_button.dart
 
-import 'package:bcc5/data/repositories/flashcards/competent_crew_flashards.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
-import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+import 'package:flutter/material.dart';
+
+import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
-import 'package:flutter/material.dart';
-import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/string_extensions.dart';
+
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/widgets/end_of_group_modal.dart';
+
+import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+
+// ✅ JSON-backed flashcards
+import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart';
+
+// ✅ Your curated mapping (IDs per chapter)
+import 'package:bcc5/data/repositories/flashcards/competent_crew_flashards.dart';
 
 class LastGroupButton extends StatefulWidget {
   final RenderItemType type;
@@ -12141,8 +12905,14 @@ class LastGroupButton extends StatefulWidget {
   final int branchIndex;
   final String backDestination;
   final String label;
+
+  /// Parent supplies “what’s next” (already JSON-only in your Detail screen).
   final Future<List<RenderItem>?> Function() getNextRenderItems;
+
+  /// Parent performs navigation to next group.
   final void Function(List<RenderItem> renderItems)? onNavigateToNextGroup;
+
+  /// Parent restarts at the first group.
   final VoidCallback? onRestartAtFirstGroup;
 
   const LastGroupButton({
@@ -12167,53 +12937,53 @@ class _LastGroupButtonState extends State<LastGroupButton> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
+        logger.i('⏭️ LastGroupButton tapped (${widget.label})');
+
+        final localContext = context; // ✅ capture BEFORE awaits
+
         final isPath = widget.detailRoute == DetailRoute.path;
         final pathName = widget.backExtra?['pathName'] as String?;
         final chapterId = widget.backExtra?['chapterId'] as String?;
-        logger.i('⏭️ LastGroupButton tapped (${widget.label})');
 
-        final renderItems = await widget.getNextRenderItems();
+        // 1) Ask parent for the next group’s render items (JSON-only upstream).
+        final nextRenderItems = await widget.getNextRenderItems();
 
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (!mounted) return;
-
-          final curatedFlashcards = <RenderItem>[];
-          if (isPath && pathName != null && chapterId != null) {
-            final curatedIds = curatedChapterFlashcards[chapterId];
-            if (curatedIds != null && curatedIds.isNotEmpty) {
-              curatedFlashcards.addAll(
-                curatedIds
-                    .map(
-                      (id) => getAllFlashcards().firstWhere((f) => f.id == id),
-                    )
-                    .map(RenderItem.fromFlashcard),
-              );
-            }
+        // 2) Build curated flashcards (if any) using JSON repo by IDs.
+        final curated = <RenderItem>[];
+        if (isPath && chapterId != null) {
+          final curatedIds = curatedChapterFlashcards[chapterId];
+          if (curatedIds != null && curatedIds.isNotEmpty) {
+            final curatedCards =
+                await JsonFlashcardRepository.getFlashcardsByIds(curatedIds);
+            curated.addAll(curatedCards.map(RenderItem.fromFlashcard));
           }
+        }
 
-          _showEndOfGroupModal(
-            context,
-            renderItems ?? [],
-            curatedFlashcards,
-            isPath,
-            pathName,
-            chapterId,
-          );
-        });
+        // ✅ Guard the exact BuildContext we’re about to use
+        if (!localContext.mounted) return;
+
+        _showEndOfGroupModal(
+          context: localContext,
+          renderItems: nextRenderItems ?? const <RenderItem>[],
+          curatedFlashcards: curated,
+          isPath: isPath,
+          pathName: pathName,
+          chapterId: chapterId,
+        );
       },
       style: AppTheme.navigationButton,
       child: Text('Next ${widget.label.toTitleCase()}'),
     );
   }
 
-  void _showEndOfGroupModal(
-    BuildContext context,
-    List<RenderItem> renderItems,
-    List<RenderItem> curatedFlashcards,
-    bool isPath,
-    String? pathName,
-    String? chapterId,
-  ) {
+  void _showEndOfGroupModal({
+    required BuildContext context,
+    required List<RenderItem> renderItems,
+    required List<RenderItem> curatedFlashcards,
+    required bool isPath,
+    required String? pathName,
+    required String? chapterId,
+  }) {
     final nextChapter =
         (isPath && pathName != null && chapterId != null)
             ? PathRepositoryIndex.getNextChapter(pathName, chapterId)
@@ -12261,11 +13031,11 @@ class _LastGroupButtonState extends State<LastGroupButton> {
       builder:
           (_) => EndOfGroupModal(
             title:
-                nextChapter != null || hasNextGroup
+                (nextChapter != null || hasNextGroup)
                     ? '📘 End of this ${widget.label}'
                     : '🎉 You’ve completed all ${_pluralize(widget.label)}!',
             message:
-                nextChapter != null || hasNextGroup
+                (nextChapter != null || hasNextGroup)
                     ? 'Nice job! Would you like to return to the main list or begin the next ${widget.label}?'
                     : 'You’ve completed the full path! Return to home or restart the first ${widget.label}.',
             backButtonLabel: backLabel,
@@ -12278,23 +13048,190 @@ class _LastGroupButtonState extends State<LastGroupButton> {
             backExtra: backExtra,
             branchIndex: widget.branchIndex,
             detailRoute: widget.detailRoute,
-            curatedFlashcards: curatedFlashcards, // ✅ add this correctly here
+            curatedFlashcards: curatedFlashcards, // ✅ same UX, JSON-fed
           ),
     );
   }
 
-  // String _normalizeToTopLevelRoute(String route) {
-  //   if (route.startsWith('/learning-paths') && route.contains('/items')) {
-  //     return route.replaceAll('/items', '');
-  //   }
-  //   if (route.endsWith('/items')) {
-  //     return route.replaceAll('/items', '');
-  //   }
-  //   return route;
-  // }
-
   String _pluralize(String word) => word.endsWith('s') ? word : '${word}s';
 }
+
+// // lib/widgets/navigation/last_group_button.dart
+
+// import 'package:bcc5/data/repositories/flashcards/competent_crew_flashards.dart';
+// import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
+// import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+// import 'package:bcc5/theme/slide_direction.dart';
+// import 'package:bcc5/theme/transition_type.dart';
+// import 'package:flutter/material.dart';
+// import 'package:bcc5/theme/app_theme.dart';
+// import 'package:bcc5/utils/logger.dart';
+// import 'package:bcc5/utils/string_extensions.dart';
+// import 'package:bcc5/data/models/render_item.dart';
+// import 'package:bcc5/navigation/detail_route.dart';
+// import 'package:bcc5/widgets/end_of_group_modal.dart';
+
+// class LastGroupButton extends StatefulWidget {
+//   final RenderItemType type;
+//   final DetailRoute detailRoute;
+//   final Map<String, dynamic>? backExtra;
+//   final int branchIndex;
+//   final String backDestination;
+//   final String label;
+//   final Future<List<RenderItem>?> Function() getNextRenderItems;
+//   final void Function(List<RenderItem> renderItems)? onNavigateToNextGroup;
+//   final VoidCallback? onRestartAtFirstGroup;
+
+//   const LastGroupButton({
+//     super.key,
+//     required this.type,
+//     required this.detailRoute,
+//     required this.backExtra,
+//     required this.branchIndex,
+//     required this.backDestination,
+//     required this.label,
+//     required this.getNextRenderItems,
+//     this.onNavigateToNextGroup,
+//     this.onRestartAtFirstGroup,
+//   });
+
+//   @override
+//   State<LastGroupButton> createState() => _LastGroupButtonState();
+// }
+
+// class _LastGroupButtonState extends State<LastGroupButton> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return ElevatedButton(
+//       onPressed: () async {
+//         final isPath = widget.detailRoute == DetailRoute.path;
+//         final pathName = widget.backExtra?['pathName'] as String?;
+//         final chapterId = widget.backExtra?['chapterId'] as String?;
+//         logger.i('⏭️ LastGroupButton tapped (${widget.label})');
+
+//         final renderItems = await widget.getNextRenderItems();
+
+//         WidgetsBinding.instance.addPostFrameCallback((_) {
+//           if (!mounted) return;
+
+//           final curatedFlashcards = <RenderItem>[];
+//           if (isPath && pathName != null && chapterId != null) {
+//             final curatedIds = curatedChapterFlashcards[chapterId];
+//             if (curatedIds != null && curatedIds.isNotEmpty) {
+//               curatedFlashcards.addAll(
+//                 curatedIds
+//                     .map(
+//                       (id) => getAllFlashcards().firstWhere((f) => f.id == id),
+//                     )
+//                     .map(RenderItem.fromFlashcard),
+//               );
+//             }
+//           }
+
+//           _showEndOfGroupModal(
+//             context,
+//             renderItems ?? [],
+//             curatedFlashcards,
+//             isPath,
+//             pathName,
+//             chapterId,
+//           );
+//         });
+//       },
+//       style: AppTheme.navigationButton,
+//       child: Text('Next ${widget.label.toTitleCase()}'),
+//     );
+//   }
+
+//   void _showEndOfGroupModal(
+//     BuildContext context,
+//     List<RenderItem> renderItems,
+//     List<RenderItem> curatedFlashcards,
+//     bool isPath,
+//     String? pathName,
+//     String? chapterId,
+//   ) {
+//     final nextChapter =
+//         (isPath && pathName != null && chapterId != null)
+//             ? PathRepositoryIndex.getNextChapter(pathName, chapterId)
+//             : null;
+
+//     final hasNextGroup = renderItems.isNotEmpty;
+
+//     final backRoute =
+//         isPath
+//             ? (nextChapter != null
+//                 ? '/learning-paths/${pathName!.toLowerCase().replaceAll(' ', '-')}'
+//                 : '/')
+//             : widget.backDestination;
+
+//     final backLabel =
+//         isPath
+//             ? (nextChapter != null
+//                 ? 'Back to ${pathName!.toTitleCase()} Chapters'
+//                 : '🎉 Congrats! Return to Home')
+//             : 'Back to ${_pluralize(widget.label.toTitleCase())}';
+
+//     final forwardLabel =
+//         isPath
+//             ? (nextChapter != null
+//                 ? 'Next ${pathName!.toTitleCase()} Chapter'
+//                 : 'Restart ${pathName!.toTitleCase()}')
+//             : (hasNextGroup
+//                 ? 'Next ${widget.label.toTitleCase()}'
+//                 : 'Start Over at Beginning');
+
+//     final backExtra = {
+//       if (isPath && pathName != null) 'pathName': pathName,
+//       if (isPath && nextChapter != null) 'chapterId': chapterId,
+//       if (!isPath && widget.backExtra != null) ...widget.backExtra!,
+//       'branchIndex': widget.branchIndex,
+//       'transitionKey': UniqueKey().toString(),
+//       'slideFrom': SlideDirection.left,
+//       'transitionType': TransitionType.slide,
+//       'detailRoute': widget.detailRoute,
+//     };
+
+//     showModalBottomSheet(
+//       context: context,
+//       showDragHandle: true,
+//       builder:
+//           (_) => EndOfGroupModal(
+//             title:
+//                 nextChapter != null || hasNextGroup
+//                     ? '📘 End of this ${widget.label}'
+//                     : '🎉 You’ve completed all ${_pluralize(widget.label)}!',
+//             message:
+//                 nextChapter != null || hasNextGroup
+//                     ? 'Nice job! Would you like to return to the main list or begin the next ${widget.label}?'
+//                     : 'You’ve completed the full path! Return to home or restart the first ${widget.label}.',
+//             backButtonLabel: backLabel,
+//             backRoute: backRoute,
+//             forwardButtonLabel: forwardLabel,
+//             onNextGroup:
+//                 (nextChapter != null || hasNextGroup)
+//                     ? () => widget.onNavigateToNextGroup?.call(renderItems)
+//                     : widget.onRestartAtFirstGroup,
+//             backExtra: backExtra,
+//             branchIndex: widget.branchIndex,
+//             detailRoute: widget.detailRoute,
+//             curatedFlashcards: curatedFlashcards, // ✅ add this correctly here
+//           ),
+//     );
+//   }
+
+//   // String _normalizeToTopLevelRoute(String route) {
+//   //   if (route.startsWith('/learning-paths') && route.contains('/items')) {
+//   //     return route.replaceAll('/items', '');
+//   //   }
+//   //   if (route.endsWith('/items')) {
+//   //     return route.replaceAll('/items', '');
+//   //   }
+//   //   return route;
+//   // }
+
+//   String _pluralize(String word) => word.endsWith('s') ? word : '${word}s';
+// }
 
 
 
@@ -13187,7 +14124,7 @@ void showEmergencyInfoModal(BuildContext context, {VoidCallback? onChanged}) {
                               const Text('Vessel Type'),
                               const SizedBox(height: 4),
                               DropdownButtonFormField<String>(
-                                value:
+                                initialValue:
                                     options.contains(current)
                                         ? current
                                         : 'Other',

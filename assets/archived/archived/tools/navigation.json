@@ -1,0 +1,21 @@
+{
+  "module": "navigation",
+  "tools": [
+    {
+      "id": "tool_nav_1.00",
+      "title": "GPS Basics",
+      "content": [
+        { "type": "text", "content": "Confirm position, COG, SOG, and route on your plotter or handheld." }
+      ],
+      "flashcards": []
+    },
+    {
+      "id": "tool_gps_1.10",
+      "title": "Man-Overboard (MOB) Mark",
+      "content": [
+        { "type": "text", "content": "How to drop and navigate to a MOB waypoint quickly." }
+      ],
+      "flashcards": []
+    }
+  ]
+}

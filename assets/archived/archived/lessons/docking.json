@@ -1,0 +1,478 @@
+{
+  "module": "docking json",
+  "lessons": [
+    {
+      "id": "lesson_dock_1.00",
+      "title": "L1: Handling Dock Lines Repository  json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Learn how to approach the dock methodically to ensure smooth arrivals."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Use dock lines effectively to secure the boat in variable conditions."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Crew coordination and preparation makes docking safer and easier."
+        }
+      ],
+      "keywords": [],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_dock_1.00",
+          "title": "Using Dock Lines",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What is the purpose of dock lines during mooring? json"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "To secure the vessel to the dock and control its movement."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_dock_1.10",
+      "title": "Departing the Dock – What to Expect",
+      "content": [
+        {
+          "type": "text",
+          "content": "As the boat prepares to leave the dock, your role may vary depending on experience and instruction. Understand what to expect and how to remain helpful and safe."
+        },
+        {
+          "type": "text",
+          "content": "• Departure may involve engine use, sailing off a mooring, or pushing off from a slip.\n• Crew may be assigned tasks like line handling, fender duty, or lookout.\n• If you're not given a job, stay alert and out of the way.\n• Once the boat is ‘clear of the dock,’ lines and fenders are stowed and we’re underway."
+        }
+      ],
+      "keywords": [
+        "departure",
+        "dock",
+        "crew roles",
+        "underway"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_dock_1.10",
+          "title": "FC: What to Expect During Departure",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are common ways a boat departs the dock?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "By motoring, sailing off a mooring, or being pushed off from a slip."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_dock_2.00",
+      "title": "L2: Anchoring - Setting Up",
+      "content": [
+        {
+          "type": "text",
+          "content": "Anchoring starts with understanding the seabed and wind direction."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Use visual cues and depth sounders to choose a safe location."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Scope and anchor type are critical to holding strength."
+        }
+      ],
+      "keywords": [],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_dock_2.00",
+          "title": "Choosing Anchor Location",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What factors determine a good anchoring spot?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Wind direction, seabed type, depth, and swing room."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_dock_3.00",
+      "title": "Basics of Side Ties",
+      "content": [
+        {
+          "type": "text",
+          "content": "Side ties are useful when rafting up with other boats."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Proper fender placement protects both vessels from contact damage."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Choose knots that are secure but easy to untie under load."
+        }
+      ],
+      "keywords": [],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_dock_3.00",
+          "title": "Side Tie Basics",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "Why is fender placement critical during a side tie?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "It prevents hull damage from contact with adjacent boats."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_dock_4.00",
+      "title": "Returning to Dock - Docking Procedure",
+      "content": [
+        {
+          "type": "text",
+          "content": "Slow and controlled movements are key when entering a slip."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Crew should be briefed and in position before final approach."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Use visual alignment with dock features to stay centered."
+        }
+      ],
+      "keywords": [],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_dock_4.00",
+          "title": "Final Docking Steps",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What should the crew do before the final docking approach?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Be briefed, ready in position, and aware of their tasks."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_dock_5.00",
+      "title": "Basic Deck Safety and Boom Awareness",
+      "content": [
+        {
+          "type": "text",
+          "content": "Always maintain three points of contact while on deck."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Watch the boom's position to avoid surprise jibes."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Secure loose lines and gear to prevent trip hazards."
+        }
+      ],
+      "keywords": [],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_dock_5.00",
+          "title": "Deck Safety",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What is the “three points of contact” rule?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Always have two hands and one foot (or vice versa) in contact with the boat for stability."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_dock_6.00",
+      "title": "How to Assist in Docking",
+      "content": [
+        {
+          "type": "text",
+          "content": "Crew should be stationed and aware of their docking role."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Lines should be coiled and ready to deploy quickly."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Communication between helm and crew is essential for timing."
+        }
+      ],
+      "keywords": [],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_dock_6.00",
+          "title": "Assisting Docking",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What is a crew member’s main role when assisting with docking?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Be alert, positioned, and ready to handle lines on command."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_dock_7.00",
+      "title": "How to Assist in Anchoring",
+      "content": [
+        {
+          "type": "text",
+          "content": "Listen carefully to helm commands and anticipate needs."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Ensure the anchor is free to drop and flaked correctly."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Watch for signs of dragging or improper setting."
+        }
+      ],
+      "keywords": [],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_dock_7.00",
+          "title": "Assisting Anchoring",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What should crew do before dropping the anchor?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Verify the anchor is ready and listen for commands."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_dock_8.00",
+      "title": "Lowering the Anchor Safely",
+      "content": [
+        {
+          "type": "text",
+          "content": "Approach into the wind and stop the boat before dropping anchor."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Let the rode out steadily to avoid tangles."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Observe how the anchor sets and adjust scope if necessary."
+        }
+      ],
+      "keywords": [],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_dock_8.00",
+          "title": "Lowering Anchor",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "Why do you approach into the wind when anchoring?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "To reduce drift and improve anchor set accuracy."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_dock_9.00",
+      "title": "Raising the Anchor Safely",
+      "content": [
+        {
+          "type": "text",
+          "content": "Coordinate engine movement with winch operation to reduce strain."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Ensure crew hands are clear of the windlass during retrieval."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/fallback_image.jpeg"
+        },
+        {
+          "type": "text",
+          "content": "Secure the anchor and check it's seated properly before departure."
+        }
+      ],
+      "keywords": [],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_dock_9.00",
+          "title": "Raising Anchor",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "Why is it important to coordinate engine and winch when raising anchor?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "To reduce load on the windlass and avoid damaging gear."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    }
+  ]
+}

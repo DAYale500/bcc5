@@ -1,14 +1,40 @@
 {
-  "module": "knots",
+  "module": "knots-json",
   "lessons": [
     {
       "id": "lesson_knot_1.00",
-      "title": "Figure Eight Knot",
+      "title": "Figure Eight Knot-json",
       "content": [
-        { "type": "text", "content": "Stopper knot to keep lines from running through blocks or cleats." }
+        {
+          "type": "text",
+          "content": "Stopper knot to keep lines from running through blocks or cleats."
+        }
       ],
-      "keywords": ["knots", "figure eight"],
-      "isPaid": false
+      "keywords": [
+        "knots",
+        "figure eight"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_1.00_8f281a6f",
+          "title": "Figure Eight Knot-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Figure Eight Knot'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Stopper knot to keep lines from running through blocks or cleats."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,36 @@
+{
+  "id": "lesson_term_2.00",
+  "title": "Common Nautical Terms-json",
+  "content": [
+    {
+      "type": "text",
+      "data": "Learn basic terms like “port” (left), “starboard” (right)."
+    }
+  ],
+  "keywords": [
+    "nautical terms",
+    "port",
+    "starboard"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_term_2.00",
+      "title": "Common Nautical Terms-json",
+      "sideA": [
+        {
+          "type": "text",
+          "data": "What does 'port' and 'starboard' mean?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "data": "'Port' refers to the left side of the boat, 'starboard' refers to the right side."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

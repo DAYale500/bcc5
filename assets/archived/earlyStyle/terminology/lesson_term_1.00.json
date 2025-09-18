@@ -1,0 +1,36 @@
+{
+  "id": "lesson_term_1.00",
+  "title": "Essential Terms-json",
+  "content": [
+    {
+      "type": "text",
+      "data": "Introduction to essential sailing terms."
+    }
+  ],
+  "keywords": [
+    "essential terms",
+    "sailing basics",
+    "orientation"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_term_1.00",
+      "title": "Essential Terms-json",
+      "sideA": [
+        {
+          "type": "text",
+          "data": "What are some essential sailing terms every crew member should know?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "data": "Terms like 'bow' (front), 'stern' (back), 'port' (left), 'starboard' (right)."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

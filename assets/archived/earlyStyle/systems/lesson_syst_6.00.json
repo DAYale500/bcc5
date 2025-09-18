@@ -1,0 +1,38 @@
+{
+  "id": "lesson_syst_6.00",
+  "title": "Parts of the Boat-json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Familiarize yourself with key parts of the boat: bow, stern, port, starboard, and boom."
+    }
+  ],
+  "keywords": [
+    "bow",
+    "stern",
+    "port",
+    "starboard",
+    "boom"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_syst_6.00",
+      "title": "Parts of the Boat-json",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are the key directional terms on a boat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Bow (front), stern (back), port (left), starboard (right)."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

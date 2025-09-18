@@ -1,0 +1,40 @@
+{
+  "id": "lesson_seam_3.00",
+  "title": "Understanding Wind and Sail Interaction-json",
+  "content": [
+    {
+      "type": "heading",
+      "content": "Harnessing Wind Power"
+    },
+    {
+      "type": "text",
+      "content": "Gain an understanding of how sails interact with the wind to generate propulsion."
+    }
+  ],
+  "keywords": [
+    "wind",
+    "aerodynamics",
+    "sail force"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_seam_3.00",
+      "title": "Understanding Wind and Sail Interaction-json",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "How does wind generate propulsion on a sailboat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Wind flows over the sails, creating lift and pushing the boat forward."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

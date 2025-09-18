@@ -1,14 +1,40 @@
 {
-  "module": "navigation",
+  "module": "navigation-json",
   "lessons": [
     {
       "id": "lesson_nav_1.00",
-      "title": "Intro to Aids to Navigation",
+      "title": "Intro to Aids to Navigation-json",
       "content": [
-        { "type": "text", "content": "Buoys, beacons, and what their shapes/colors mean." }
+        {
+          "type": "text",
+          "content": "Buoys, beacons, and what their shapes/colors mean."
+        }
       ],
-      "keywords": ["navigation", "ATON"],
-      "isPaid": false
+      "keywords": [
+        "navigation",
+        "ATON"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_1.00_5c7f4df3",
+          "title": "Intro to Aids to Navigation-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Intro to Aids to Navigation'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Buoys, beacons, and what their shapes/colors mean."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

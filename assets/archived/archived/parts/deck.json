@@ -1,0 +1,28 @@
+{
+  "module": "deck",
+  "parts": [
+    {
+      "id": "part_deck_1.00",
+      "title": "Deck Layout Overview",
+      "content": [
+        { "type": "text", "content": "A quick tour of the deck layout and common fittings." },
+        { "type": "bullets", "content": "Cleats\nStanchions\nWinches\nPulpit & Pushpit" },
+        { "type": "image", "content": "assets/images/parts/deck_overview.png" }
+      ],
+      "keywords": ["deck", "layout", "fittings"],
+      "isPaid": false,
+      "flashcards": []
+    },
+    {
+      "id": "part_deck_1.10",
+      "title": "Cleats & Line Handling",
+      "content": [
+        { "type": "heading", "content": "Using Cleats" },
+        { "type": "text", "content": "Learn the proper 'figure-8 + lock' technique to secure lines safely." }
+      ],
+      "keywords": ["cleat", "line handling"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}

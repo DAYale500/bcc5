@@ -1,0 +1,36 @@
+{
+  "id": "lesson_knot_4.00",
+  "title": "How to Coil and Store Lines-json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Proper coiling and storage of lines prevent tangles and reduce wear."
+    }
+  ],
+  "keywords": [
+    "lines",
+    "rope_work",
+    "coiling"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_knot_4.00",
+      "title": "Coiling and Storing Lines-json",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is the benefit of properly coiling a line?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Prevents tangles and makes deployment easier."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

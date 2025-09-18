@@ -1,26 +1,80 @@
 {
-  "module": "rigging",
+  "module": "rigging-json",
   "parts": [
     {
       "id": "part_rigg_1.00",
-      "title": "Standing vs Running Rigging",
+      "title": "Standing vs Running Rigging-json",
       "content": [
-        { "type": "text", "content": "Standing rigging supports the mast; running rigging controls the sails." },
-        { "type": "bullets", "content": "Shrouds & Stays (standing)\nHalyards & Sheets (running)" }
+        {
+          "type": "text",
+          "content": "Standing rigging supports the mast; running rigging controls the sails."
+        },
+        {
+          "type": "bullets",
+          "content": "Shrouds & Stays (standing)\nHalyards & Sheets (running)"
+        }
       ],
-      "keywords": ["rigging", "standing", "running"],
+      "keywords": [
+        "rigging",
+        "standing",
+        "running"
+      ],
       "isPaid": false,
-      "flashcards": []
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_1.00_cd597338",
+          "title": "Standing vs Running Rigging-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Standing vs Running Rigging'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Standing rigging supports the mast; running rigging controls the sails."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     },
     {
       "id": "part_rigg_1.20",
-      "title": "Winches & Clutches",
+      "title": "Winches & Clutches-json",
       "content": [
-        { "type": "text", "content": "Understand how to load a self-tailing winch and safely use line clutches." }
+        {
+          "type": "text",
+          "content": "Understand how to load a self-tailing winch and safely use line clutches."
+        }
       ],
-      "keywords": ["winch", "clutch"],
+      "keywords": [
+        "winch",
+        "clutch"
+      ],
       "isPaid": false,
-      "flashcards": []
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_1.20_35b0fe92",
+          "title": "Winches & Clutches-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Winches & Clutches'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Understand how to load a self-tailing winch and safely use line clutches."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

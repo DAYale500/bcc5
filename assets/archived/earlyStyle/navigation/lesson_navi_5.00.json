@@ -1,0 +1,37 @@
+{
+  "id": "lesson_navi_5.00",
+  "title": "Advanced Weather Forecasting-json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Getting and interpreting GRIB files for detailed weather forecasts, useful for planning long passages."
+    }
+  ],
+  "keywords": [
+    "weather",
+    "forecast",
+    "GRIB files",
+    "weather patterns"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_navi_5.00",
+      "title": "Advanced Weather Forecasting-json",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a GRIB file used for?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Providing detailed weather forecast data for sailors."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

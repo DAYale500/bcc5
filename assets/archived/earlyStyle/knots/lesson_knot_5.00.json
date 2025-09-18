@@ -1,0 +1,36 @@
+{
+  "id": "lesson_knot_5.00",
+  "title": "Advanced Knots-json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Learn advanced knots like the sheet bend and alpine bend."
+    }
+  ],
+  "keywords": [
+    "advanced knots",
+    "sheet bend",
+    "alpine bend"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_knot_5.00",
+      "title": "Advanced Knots-json",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a sheet bend used for?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Joining two ropes of different sizes."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

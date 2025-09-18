@@ -1,0 +1,43 @@
+{
+  "module": "terminology",
+  "lessons": [
+    {
+      "id": "lesson_term_1.00",
+      "title": "Essential Terms",
+      "content": [
+        { "type": "text", "content": "Introduction to essential sailing terms." }
+      ],
+      "keywords": ["essential terms", "sailing basics", "orientation"],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_1.00",
+          "title": "Essential Terms  json",
+          "sideA": [{ "type": "text", "content": "What are essential sailing terms?" }],
+          "sideB": [{ "type": "text", "content": "Bow, stern, port, starboard." }],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_2.00",
+      "title": "Common Nautical Terms",
+      "content": [
+        { "type": "text", "content": "Learn basic terms like “port” (left) and “starboard” (right)." }
+      ],
+      "keywords": ["nautical terms", "port", "starboard"],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_2.00",
+          "title": "Common Nautical Terms",
+          "sideA": [{ "type": "text", "content": "What does 'port' and 'starboard' mean?" }],
+          "sideB": [{ "type": "text", "content": "'Port' is left; 'starboard' is right." }],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    }
+  ]
+}

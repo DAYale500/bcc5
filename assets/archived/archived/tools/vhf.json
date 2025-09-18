@@ -1,0 +1,15 @@
+{
+  "module": "vhf",
+  "tools": [
+    {
+      "id": "tool_vhf_1.00",
+      "title": "VHF Basics",
+      "content": [
+        { "type": "text", "content": "Turn on, set to channel 16, perform radio checks on working channels." }
+      ],
+      "keywords": ["vhf", "radio"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}

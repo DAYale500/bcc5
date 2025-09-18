@@ -1,26 +1,79 @@
 {
-  "module": "sails",
+  "module": "sails-json",
   "parts": [
     {
       "id": "part_sail_1.00",
-      "title": "Mainsail Essentials",
+      "title": "Mainsail Essentials-json",
       "content": [
-        { "type": "text", "content": "Key parts: luff, leech, foot, tack, clew, head." },
-        { "type": "bullets", "content": "Batten pockets\nReef points\nCunningham\nOuthaul" }
+        {
+          "type": "text",
+          "content": "Key parts: luff, leech, foot, tack, clew, head."
+        },
+        {
+          "type": "bullets",
+          "content": "Batten pockets\nReef points\nCunningham\nOuthaul"
+        }
       ],
-      "keywords": ["mainsail", "controls"],
+      "keywords": [
+        "mainsail",
+        "controls"
+      ],
       "isPaid": false,
-      "flashcards": []
+      "flashcards": [
+        {
+          "id": "flashcard_part_sail_1.00_dff9d984",
+          "title": "Mainsail Essentials-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Mainsail Essentials'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Key parts: luff, leech, foot, tack, clew, head."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     },
     {
       "id": "part_sail_1.10",
-      "title": "Headsail & Furlers",
+      "title": "Headsail & Furlers-json",
       "content": [
-        { "type": "text", "content": "How furlers work and what to look for before sailing." }
+        {
+          "type": "text",
+          "content": "How furlers work and what to look for before sailing."
+        }
       ],
-      "keywords": ["headsail", "furling"],
+      "keywords": [
+        "headsail",
+        "furling"
+      ],
       "isPaid": false,
-      "flashcards": []
+      "flashcards": [
+        {
+          "id": "flashcard_part_sail_1.10_f2d651ea",
+          "title": "Headsail & Furlers-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Headsail & Furlers'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "How furlers work and what to look for before sailing."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

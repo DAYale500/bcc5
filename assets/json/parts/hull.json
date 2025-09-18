@@ -1,35 +1,136 @@
 {
-  "module": "hull",
+  "module": "hull-json",
   "parts": [
     {
       "id": "part_hull_1.00",
-      "title": "Hull Inspection Basics jan the cat",
+      "title": "Hull Inspection Basics jan the cat-json",
       "content": [
-        { "type": "text", "content": "Walk the hull and deck. Look for cracks, crazing, blisters, and soft spots." },
-        { "type": "bulletList", "content": ["Check below waterline (if hauled)", "Scan topsides for impact marks", "Inspect deck around chainplates and stanchions"] }
+        {
+          "type": "text",
+          "content": "Walk the hull and deck. Look for cracks, crazing, blisters, and soft spots."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Check below waterline (if hauled)",
+            "Scan topsides for impact marks",
+            "Inspect deck around chainplates and stanchions"
+          ]
+        }
       ],
-      "keywords": ["hull", "inspection", "deck"],
-      "isPaid": false
+      "keywords": [
+        "hull",
+        "inspection",
+        "deck"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_1.00_32619487",
+          "title": "Hull Inspection Basics jan the cat-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Hull Inspection Basics jan the cat'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Walk the hull and deck. Look for cracks, crazing, blisters, and soft spots."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     },
     {
       "id": "part_hull_1.10",
-      "title": "Topsides & Deck",
+      "title": "Topsides & Deck-json",
       "content": [
-        { "type": "text", "content": "Examine gelcoat, non-skid, and hardware bedding to prevent leaks." },
-        { "type": "bulletList", "content": ["Non-skid wear", "Lifeline stanchion bases", "Toe-rail integrity"] }
+        {
+          "type": "text",
+          "content": "Examine gelcoat, non-skid, and hardware bedding to prevent leaks."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Non-skid wear",
+            "Lifeline stanchion bases",
+            "Toe-rail integrity"
+          ]
+        }
       ],
-      "keywords": ["topsides", "non-skid", "hardware"],
-      "isPaid": false
+      "keywords": [
+        "topsides",
+        "non-skid",
+        "hardware"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_1.10_ea6cd5c0",
+          "title": "Topsides & Deck-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Topsides & Deck'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Examine gelcoat, non-skid, and hardware bedding to prevent leaks."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     },
     {
       "id": "part_hull_1.20",
-      "title": "Keel & Rudder Check",
+      "title": "Keel & Rudder Check-json",
       "content": [
-        { "type": "text", "content": "Confirm fair keel joint, tight bolts (if accessible), and smooth rudder travel." },
-        { "type": "bulletList", "content": ["Keel-hull joint (smiles)", "Rudder play/bind", "Weeps or staining"] }
+        {
+          "type": "text",
+          "content": "Confirm fair keel joint, tight bolts (if accessible), and smooth rudder travel."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Keel-hull joint (smiles)",
+            "Rudder play/bind",
+            "Weeps or staining"
+          ]
+        }
       ],
-      "keywords": ["keel", "rudder"],
-      "isPaid": false
+      "keywords": [
+        "keel",
+        "rudder"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_1.20_d2abc594",
+          "title": "Keel & Rudder Check-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Keel & Rudder Check'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Confirm fair keel joint, tight bolts (if accessible), and smooth rudder travel."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

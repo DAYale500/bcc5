@@ -1,23 +1,76 @@
 {
-  "module": "safety",
+  "module": "safety-json",
   "lessons": [
     {
       "id": "lesson_safety_1.00",
-      "title": "Personal Safety Basics",
+      "title": "Personal Safety Basics-json",
       "content": [
-        { "type": "text", "content": "Lifejackets, situational awareness, and moving safely aboard." }
+        {
+          "type": "text",
+          "content": "Lifejackets, situational awareness, and moving safely aboard."
+        }
       ],
-      "keywords": ["safety", "pfd", "awareness"],
-      "isPaid": false
+      "keywords": [
+        "safety",
+        "pfd",
+        "awareness"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_1.00_3e7b5aa0",
+          "title": "Personal Safety Basics-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Personal Safety Basics'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Lifejackets, situational awareness, and moving safely aboard."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     },
     {
       "id": "lesson_safety_1.10",
-      "title": "Man Overboard Overview",
+      "title": "Man Overboard Overview-json",
       "content": [
-        { "type": "text", "content": "Immediate actions, point, throw, mark, maneuver." }
+        {
+          "type": "text",
+          "content": "Immediate actions, point, throw, mark, maneuver."
+        }
       ],
-      "keywords": ["MOB", "safety"],
-      "isPaid": false
+      "keywords": [
+        "MOB",
+        "safety"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_1.10_3bd483de",
+          "title": "Man Overboard Overview-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Man Overboard Overview'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Immediate actions, point, throw, mark, maneuver."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

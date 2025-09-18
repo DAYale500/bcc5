@@ -1,0 +1,26 @@
+{
+  "module": "sails",
+  "parts": [
+    {
+      "id": "part_sail_1.00",
+      "title": "Mainsail Essentials",
+      "content": [
+        { "type": "text", "content": "Key parts: luff, leech, foot, tack, clew, head." },
+        { "type": "bullets", "content": "Batten pockets\nReef points\nCunningham\nOuthaul" }
+      ],
+      "keywords": ["mainsail", "controls"],
+      "isPaid": false,
+      "flashcards": []
+    },
+    {
+      "id": "part_sail_1.10",
+      "title": "Headsail & Furlers",
+      "content": [
+        { "type": "text", "content": "How furlers work and what to look for before sailing." }
+      ],
+      "keywords": ["headsail", "furling"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}

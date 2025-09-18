@@ -44,3 +44,11 @@ def dart_to_json(dart_text):
 # dart_code = open("docking_repo.dart").read()
 # jsons = dart_to_json(dart_code)
 # for l in jsons: json.dump(l, open(f"{l['id']}.json", "w"), indent=2)
+
+
+
+
+
+
+
+

@@ -1,0 +1,36 @@
+{
+  "id": "lesson_syst_3.00",
+  "title": "Winches-json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Overview of a winch’s purpose and safe handling techniques."
+    }
+  ],
+  "keywords": [
+    "winches",
+    "equipment",
+    "handling"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_syst_3.00",
+      "title": "Winches-json",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a winch used for on a boat?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "A winch provides mechanical advantage for tightening lines."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

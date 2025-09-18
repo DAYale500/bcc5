@@ -1,0 +1,25 @@
+{
+  "module": "interior",
+  "parts": [
+    {
+      "id": "part_intr_1.00",
+      "title": "Interior Safety & Stowage",
+      "content": [
+        { "type": "text", "content": "Secure gear, keep egress clear, and know where the essentials live." }
+      ],
+      "keywords": ["interior", "stowage", "safety"],
+      "isPaid": false,
+      "flashcards": []
+    },
+    {
+      "id": "part_intr_1.10",
+      "title": "Galley Basics",
+      "content": [
+        { "type": "text", "content": "Using the stove safely and managing water tanks underway." }
+      ],
+      "keywords": ["galley", "water"],
+      "isPaid": false,
+      "flashcards": []
+    }
+  ]
+}

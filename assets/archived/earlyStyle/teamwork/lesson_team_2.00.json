@@ -1,0 +1,36 @@
+{
+  "id": "lesson_team_2.00",
+  "title": "Welcome Aboard: Expectations and Basic Boat Etiquette-json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Brief introduction to crew roles and expectations."
+    }
+  ],
+  "keywords": [
+    "boat etiquette",
+    "crew expectations",
+    "onboard"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_team_2.00",
+      "title": "Basic Boat Etiquette-json",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "Why is boat etiquette important?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "It ensures safety, smooth operations, and harmony among crew members."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

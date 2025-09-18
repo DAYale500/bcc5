@@ -1,0 +1,38 @@
+{
+  "module": "colregs",
+  "tools": [
+    {
+      "id": "tool_colregs_1.00",
+      "title": "Nav Lights — Basics",
+      "content": [
+        { "type": "text", "content": "Understand standard navigation lights and what they signal." },
+        { "type": "bullets", "items": [
+          "Red = port, Green = starboard",
+          "Masthead + Stern light indicate power-driven vessel",
+          "Sailing vessels differ under sail vs. power"
+        ]}
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_colregs_1.00",
+          "title": "Nav Lights — Basics",
+          "sideA": [{ "type": "text", "content": "Which side shows a red light?" }],
+          "sideB": [{ "type": "text", "content": "Port (left) side shows red." }]
+        }
+      ]
+    },
+    {
+      "id": "tool_rules_1.10",
+      "title": "Right of Way — Overview",
+      "content": [
+        { "type": "text", "content": "Know which vessel must give way under common scenarios." },
+        { "type": "bullets", "items": [
+          "Power gives way to sail (usually)",
+          "Overtaking vessel keeps clear",
+          "Vessel constrained by draft has priority"
+        ]}
+      ],
+      "flashcards": []
+    }
+  ]
+}

@@ -1,14 +1,41 @@
 {
-  "module": "seamanship",
+  "module": "seamanship-json",
   "lessons": [
     {
       "id": "lesson_seam_1.00",
-      "title": "Lines & Fenders",
+      "title": "Lines & Fenders-json",
       "content": [
-        { "type": "text", "content": "Basic care and use of dock lines and fender placement." }
+        {
+          "type": "text",
+          "content": "Basic care and use of dock lines and fender placement."
+        }
       ],
-      "keywords": ["seamanship", "lines", "fenders"],
-      "isPaid": false
+      "keywords": [
+        "seamanship",
+        "lines",
+        "fenders"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_1.00_f8515257",
+          "title": "Lines & Fenders-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Lines & Fenders'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Basic care and use of dock lines and fender placement."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

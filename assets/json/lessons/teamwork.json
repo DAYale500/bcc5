@@ -1,14 +1,40 @@
 {
-  "module": "teamwork",
+  "module": "teamwork-json",
   "lessons": [
     {
       "id": "lesson_team_1.00",
-      "title": "Roles & Communication",
+      "title": "Roles & Communication-json",
       "content": [
-        { "type": "text", "content": "Clear roles and closed-loop communication for safe maneuvers." }
+        {
+          "type": "text",
+          "content": "Clear roles and closed-loop communication for safe maneuvers."
+        }
       ],
-      "keywords": ["teamwork", "communication"],
-      "isPaid": false
+      "keywords": [
+        "teamwork",
+        "communication"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_1.00_01ea19a4",
+          "title": "Roles & Communication-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Roles & Communication'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Clear roles and closed-loop communication for safe maneuvers."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

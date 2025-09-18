@@ -1,6 +1,9 @@
 lib
 ├── bcc5_app.dart
 ├── data
+│   ├── data_csv
+│   │   └── lessons
+│   │       └── lessons_docking.csv
 │   ├── loaders
 │   │   └── content_loader.dart
 │   ├── models
@@ -14,7 +17,8 @@ lib
 │   └── repositories
 │       ├── flashcards
 │       │   ├── competent_crew_flashards.dart
-│       │   └── flashcard_repository_index.dart
+│       │   ├── flashcard_repository_index.dart
+│       │   └── json_flashcard_repository.dart
 │       ├── lessons
 │       │   ├── json_lesson_index.dart
 │       │   ├── json_lesson_repository.dart
@@ -92,7 +96,6 @@ lib
 ├── utils
 │   ├── app_startup_tracker.dart
 │   ├── dev
-│   │   ├── csv_to_json.dart
 │   │   └── path_validator.dart
 │   ├── gps_formats.dart
 │   ├── id_parser.dart
@@ -136,4 +139,4 @@ lib
         ├── landing_screen_tour.dart
         └── tour_descriptions.dart
 
-26 directories, 111 files
+28 directories, 112 files

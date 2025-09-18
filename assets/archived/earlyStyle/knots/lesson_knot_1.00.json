@@ -1,0 +1,36 @@
+{
+  "id": "lesson_knot_1.00",
+  "title": "Introductory Knots-json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Introduction to two essential knots: figure-eight and cleat hitch. David"
+    }
+  ],
+  "keywords": [
+    "figure-eight",
+    "cleat hitch",
+    "basic knots"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_knot_1.00",
+      "title": "Introductory Knots-json",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a figure-eight knot used for?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "To prevent a line from slipping through an opening."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

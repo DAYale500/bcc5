@@ -39,3 +39,11 @@ def csv_to_json(input_csv, json_template_folder, output_folder):
 # Example usage:
 # json_to_csv("json/lessons/docking", "output.csv")
 # csv_to_json("output.csv", "json/lessons/docking", "json/lessons/docking_updated")
+
+
+
+
+
+
+
+

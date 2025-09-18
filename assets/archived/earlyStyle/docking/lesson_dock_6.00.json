@@ -1,0 +1,48 @@
+{
+  "id": "lesson_dock_6.00",
+  "title": "How to Assist in Docking json-json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Crew should be stationed and aware of their docking role."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Lines should be coiled and ready to deploy quickly."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Communication between helm and crew is essential for timing."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_6.00",
+      "title": "Assisting Docking-json",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What is a crew member’s main role when assisting with docking?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Be alert, positioned, and ready to handle lines on command."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

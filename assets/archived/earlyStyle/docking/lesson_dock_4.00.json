@@ -1,0 +1,48 @@
+{
+  "id": "lesson_dock_4.00",
+  "title": "Returning to Dock - Docking Procedure json-json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Slow and controlled movements are key when entering a slip."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Crew should be briefed and in position before final approach."
+    },
+    {
+      "type": "image",
+      "content": "assets/images/fallback_image.jpeg"
+    },
+    {
+      "type": "text",
+      "content": "Use visual alignment with dock features to stay centered."
+    }
+  ],
+  "keywords": [],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_dock_4.00",
+      "title": "Final Docking Steps-json",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What should the crew do before the final docking approach?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Be briefed, ready in position, and aware of their tasks."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+}

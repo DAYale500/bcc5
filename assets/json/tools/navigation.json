@@ -1,21 +1,65 @@
 {
-  "module": "navigation",
+  "module": "navigation-json",
   "tools": [
     {
       "id": "tool_nav_1.00",
-      "title": "GPS Basics",
+      "title": "GPS Basics-json",
       "content": [
-        { "type": "text", "content": "Confirm position, COG, SOG, and route on your plotter or handheld." }
+        {
+          "type": "text",
+          "content": "Confirm position, COG, SOG, and route on your plotter or handheld."
+        }
       ],
-      "flashcards": []
+      "flashcards": [
+        {
+          "id": "flashcard_tool_nav_1.00_d533e111",
+          "title": "GPS Basics-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'GPS Basics'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Confirm position, COG, SOG, and route on your plotter or handheld."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     },
     {
       "id": "tool_gps_1.10",
-      "title": "Man-Overboard (MOB) Mark",
+      "title": "Man-Overboard (MOB) Mark-json",
       "content": [
-        { "type": "text", "content": "How to drop and navigate to a MOB waypoint quickly." }
+        {
+          "type": "text",
+          "content": "How to drop and navigate to a MOB waypoint quickly."
+        }
       ],
-      "flashcards": []
+      "flashcards": [
+        {
+          "id": "flashcard_tool_gps_1.10_e4e1b4f5",
+          "title": "Man-Overboard (MOB) Mark-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Man-Overboard (MOB) Mark'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "How to drop and navigate to a MOB waypoint quickly."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }
