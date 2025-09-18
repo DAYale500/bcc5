@@ -82,33 +82,3 @@ Future<void> printValidation(String pathName) async {
 // Path Validator
 // Drop this anywhere in your debug area to list missing 
 //item IDs referenced by a path:
-
-
-// import 'package:bcc5/data/repositories/paths/json_path_repository.dart';
-// import 'package:bcc5/utils/render_item_helpers.dart';
-// import 'package:bcc5/utils/logger.dart';
-
-// class PathValidator {
-//   static Future<void> validate(String pathName) async {
-//     final chapters = await JsonPathRepository.getChaptersForPath(pathName);
-//     if (chapters.isEmpty) {
-//       logger.w('No chapters for "$pathName"');
-//       return;
-//     }
-
-//     final allKnownIds = await getAllKnownRenderableIds(); // you likely already have this helper; if not, expose it from your loaders
-//     for (final c in chapters) {
-//       final unknown = <String>[];
-//       for (final item in c.items) {
-//         if (!allKnownIds.contains(item.pathItemId)) {
-//           unknown.add(item.pathItemId);
-//         }
-//       }
-//       if (unknown.isEmpty) {
-//         logger.i('✅ ${c.id} "${c.title}" — all IDs resolve');
-//       } else {
-//         logger.e('❌ ${c.id} "${c.title}" — missing IDs: $unknown');
-//       }
-//     }
-//   }
-// }
