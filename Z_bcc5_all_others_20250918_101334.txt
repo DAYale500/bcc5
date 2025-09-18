@@ -3342,6 +3342,7 @@ class ToolBagScreen extends StatelessWidget {
 
 
 File: lib/screens/tools/tool_item_screen.dart
+// lib/screens/tools/tool_item_screen.dart
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/screens/emergency/mob_emergency_screen.dart';
 import 'package:bcc5/theme/slide_direction.dart';
@@ -3411,25 +3412,47 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
     return FutureBuilder<List<Map<String, String>>>(
       future: JsonToolRepository.getToolsForModule(widget.toolbag),
       builder: (context, listSnap) {
-        if (!listSnap.hasData) {
+        if (listSnap.connectionState != ConnectionState.done) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
         }
+        if (listSnap.hasError) {
+          logger.e(
+            '🛠️ Error loading tools for ${widget.toolbag}: ${listSnap.error}',
+          );
+          return _ErrorState(onBack: _handleBack);
+        }
 
-        final items = listSnap.data!; // [{id,title}, ...]
+        final items = (listSnap.data ?? const []);
+        if (items.isEmpty) {
+          logger.w('🛠️ No tools found for module: ${widget.toolbag}');
+          return _EmptyState(toolbagTitle: toolbagTitle, onBack: _handleBack);
+        }
+
         final ids = items.map((e) => e['id']!).toList();
 
         return FutureBuilder<List<RenderItem>>(
           future: buildRenderItems(ids: ids),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) {
+            if (snapshot.connectionState != ConnectionState.done) {
               return const Scaffold(
                 body: Center(child: CircularProgressIndicator()),
               );
             }
+            if (snapshot.hasError) {
+              logger.e('🛠️ Error building render items: ${snapshot.error}');
+              return _ErrorState(onBack: _handleBack);
+            }
 
-            final renderItems = snapshot.data!;
+            final renderItems = snapshot.data ?? const <RenderItem>[];
+            if (renderItems.isEmpty) {
+              logger.w('🛠️ buildRenderItems returned empty for: $ids');
+              return _EmptyState(
+                toolbagTitle: toolbagTitle,
+                onBack: _handleBack,
+              );
+            }
 
             return PopScope(
               canPop: !widget.cameFromMob,
@@ -3504,7 +3527,7 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
                                   screenType: renderItems[index].type,
                                   renderItems: renderItems,
                                   currentIndex: index,
-                                  branchIndex: 3,
+                                  branchIndex: 3, // Tools branch index
                                   backDestination: '/tools/items',
                                   backExtra: {
                                     'toolbag': widget.toolbag,
@@ -3532,6 +3555,246 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
     );
   }
 }
+
+class _ErrorState extends StatelessWidget {
+  final VoidCallback onBack;
+  const _ErrorState({required this.onBack});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CustomAppBarWidget(
+          title: 'Tools',
+          showBackButton: true,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+          onBack: onBack,
+        ),
+        const Expanded(
+          child: Center(
+            child: Text('There was a problem loading this toolbag.'),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  final String toolbagTitle;
+  final VoidCallback onBack;
+  const _EmptyState({required this.toolbagTitle, required this.onBack});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CustomAppBarWidget(
+          title: 'Tools',
+          showBackButton: true,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+          onBack: onBack,
+        ),
+        Expanded(
+          child: Center(child: Text('No tools found for "$toolbagTitle".')),
+        ),
+      ],
+    );
+  }
+}
+
+// import 'package:bcc5/data/models/render_item.dart';
+// import 'package:bcc5/screens/emergency/mob_emergency_screen.dart';
+// import 'package:bcc5/theme/slide_direction.dart';
+// import 'package:bcc5/theme/transition_type.dart';
+// import 'package:bcc5/utils/string_extensions.dart';
+// import 'package:bcc5/utils/transition_manager.dart';
+// import 'package:flutter/material.dart';
+// import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+// import 'package:bcc5/widgets/item_button.dart';
+// import 'package:bcc5/utils/logger.dart';
+// import 'package:bcc5/utils/render_item_helpers.dart';
+// import 'package:bcc5/theme/app_theme.dart';
+// import 'package:bcc5/navigation/detail_route.dart';
+// import 'package:go_router/go_router.dart';
+// import 'package:bcc5/data/repositories/tools/json_tool_repository.dart';
+
+// class ToolItemScreen extends StatefulWidget {
+//   final String toolbag;
+//   final bool cameFromMob;
+
+//   const ToolItemScreen({
+//     super.key,
+//     required this.toolbag,
+//     this.cameFromMob = false,
+//   });
+
+//   @override
+//   State<ToolItemScreen> createState() => _ToolItemScreenState();
+// }
+
+// class _ToolItemScreenState extends State<ToolItemScreen> {
+//   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
+//   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+//   final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
+//   final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey');
+
+//   void _handleBack() {
+//     if (widget.cameFromMob) {
+//       logger.i('🔙 Back to MOBEmergencyScreen (cameFromMob = true)');
+//       Navigator.of(context).pushReplacement(
+//         MaterialPageRoute(
+//           fullscreenDialog: true,
+//           builder: (_) => const MOBEmergencyScreen(),
+//         ),
+//       );
+//     } else if (Navigator.of(context).canPop()) {
+//       logger.i('🔙 Back to previous screen via Navigator');
+//       Navigator.of(context).pop();
+//     } else {
+//       logger.i('🔙 Back to ToolBagScreen (fallback)');
+//       context.go(
+//         '/tools',
+//         extra: {
+//           'transitionKey': UniqueKey().toString(),
+//           'slideFrom': SlideDirection.left,
+//           'transitionType': TransitionType.slide,
+//           'detailRoute': DetailRoute.branch,
+//         },
+//       );
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final toolbagTitle = widget.toolbag.toTitleCase();
+
+//     return FutureBuilder<List<Map<String, String>>>(
+//       future: JsonToolRepository.getToolsForModule(widget.toolbag),
+//       builder: (context, listSnap) {
+//         if (!listSnap.hasData) {
+//           return const Scaffold(
+//             body: Center(child: CircularProgressIndicator()),
+//           );
+//         }
+
+//         final items = listSnap.data!; // [{id,title}, ...]
+//         final ids = items.map((e) => e['id']!).toList();
+
+//         return FutureBuilder<List<RenderItem>>(
+//           future: buildRenderItems(ids: ids),
+//           builder: (context, snapshot) {
+//             if (!snapshot.hasData) {
+//               return const Scaffold(
+//                 body: Center(child: CircularProgressIndicator()),
+//               );
+//             }
+
+//             final renderItems = snapshot.data!;
+
+//             return PopScope(
+//               canPop: !widget.cameFromMob,
+//               onPopInvokedWithResult: (didPop, _) {
+//                 if (!didPop || widget.cameFromMob) {
+//                   _handleBack();
+//                 }
+//               },
+//               child: Column(
+//                 children: [
+//                   CustomAppBarWidget(
+//                     title: 'Tools',
+//                     showBackButton: true,
+//                     showSearchIcon: true,
+//                     showSettingsIcon: true,
+//                     mobKey: mobKey,
+//                     settingsKey: settingsKey,
+//                     searchKey: searchKey,
+//                     titleKey: titleKey,
+//                     onBack: _handleBack,
+//                   ),
+//                   const SizedBox(height: 16),
+//                   Padding(
+//                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//                     child: Align(
+//                       alignment: Alignment.centerLeft,
+//                       child: RichText(
+//                         text: TextSpan(
+//                           children: [
+//                             TextSpan(
+//                               text: 'Tools',
+//                               style: AppTheme.branchBreadcrumbStyle,
+//                             ),
+//                             const TextSpan(
+//                               text: ' / ',
+//                               style: TextStyle(color: Colors.black87),
+//                             ),
+//                             TextSpan(
+//                               text: toolbagTitle,
+//                               style: AppTheme.groupBreadcrumbStyle,
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                   const SizedBox(height: 8),
+//                   Text(
+//                     'Which ${toolbagTitle.replaceFirst(RegExp(r's$'), '')} would you like?',
+//                     style: AppTheme.subheadingStyle.copyWith(
+//                       color: AppTheme.primaryBlue,
+//                     ),
+//                     textAlign: TextAlign.center,
+//                   ),
+//                   const SizedBox(height: 16),
+//                   Expanded(
+//                     child: Padding(
+//                       padding: const EdgeInsets.symmetric(horizontal: 16),
+//                       child: ListView.builder(
+//                         itemCount: items.length,
+//                         itemBuilder: (context, index) {
+//                           final id = ids[index];
+//                           final title = items[index]['title'] ?? id;
+//                           return Padding(
+//                             padding: const EdgeInsets.symmetric(vertical: 4.0),
+//                             child: ItemButton(
+//                               label: title,
+//                               onTap: () {
+//                                 logger.i('🛠️ Tapped tool: $id');
+//                                 TransitionManager.goToDetailScreen(
+//                                   context: context,
+//                                   screenType: renderItems[index].type,
+//                                   renderItems: renderItems,
+//                                   currentIndex: index,
+//                                   branchIndex: 3,
+//                                   backDestination: '/tools/items',
+//                                   backExtra: {
+//                                     'toolbag': widget.toolbag,
+//                                     'cameFromMob': widget.cameFromMob,
+//                                     'fromNext': true,
+//                                   },
+//                                   detailRoute: DetailRoute.branch,
+//                                   direction: SlideDirection.right,
+//                                   transitionType: TransitionType.slide,
+//                                   replace: false,
+//                                 );
+//                               },
+//                             ),
+//                           );
+//                         },
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             );
+//           },
+//         );
+//       },
+//     );
+//   }
+// }
 
 
 
@@ -4046,7 +4309,9 @@ File: lib/screens/flashcards/flashcard_detail_screen.dart
 import 'dart:math' as math;
 
 import 'package:bcc5/data/models/render_item.dart';
-import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+// 🔄 Legacy → JSON
+// import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+import 'package:bcc5/data/repositories/paths/json_path_repository.dart';
 import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart'; // ✅ JSON only
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/app_theme.dart';
@@ -4095,6 +4360,9 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
   late Animation<double> _flipAnimation;
   bool showFront = true;
 
+  // Async-loaded when launched from a path
+  String _chapterTitle = '';
+
   // App bar keys
   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
@@ -4124,6 +4392,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       if (item.type != RenderItemType.flashcard) {
         // Defensive: auto-redirect if route was called with a non-flashcard
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
           TransitionManager.goToDetailScreen(
             context: context,
             screenType: item.type,
@@ -4149,6 +4418,24 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
+    // If launched from a path, fetch the chapter title via JSON repo.
+    _maybeLoadChapterTitle();
+  }
+
+  Future<void> _maybeLoadChapterTitle() async {
+    if (widget.detailRoute != DetailRoute.path) return;
+    final pathName = widget.backExtra?['pathName'] as String?;
+    final chapterId = widget.backExtra?['chapterId'] as String?;
+    if (pathName == null || chapterId == null) return;
+
+    final title =
+        await JsonPathRepository.getChapterTitleForPath(pathName, chapterId) ??
+        '';
+    if (!mounted) return;
+    setState(() {
+      _chapterTitle = title.toTitleCase();
+    });
   }
 
   @override
@@ -4244,18 +4531,15 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
 
     final isFromPath = widget.detailRoute == DetailRoute.path;
     final pathName = widget.backExtra?['pathName'] ?? '';
-    final chapterId = widget.backExtra?['chapterId'] ?? '';
+    // final chapterId = widget.backExtra?['chapterId'] ?? '';
 
     final breadcrumbTitle =
         isFromPath ? '${pathName.toString().toTitleCase()} Review' : 'Drills';
 
+    // Chapter title now comes from async JSON repo; rendered from state.
     final chapterTitle =
         isFromPath
-            ? PathRepositoryIndex.getChapterTitleForPath(
-                  pathName,
-                  chapterId,
-                )?.toTitleCase() ??
-                ''
+            ? _chapterTitle
             : (widget.backExtra?['category'] as String?)?.toTitleCase() ?? '';
 
     return Scaffold(
@@ -4431,8 +4715,9 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                   widget.backExtra?['chapterId'] as String?;
                               if (path == null || chapter == null) return null;
 
+                              // JSON Path repo (async)
                               final nextChapter =
-                                  PathRepositoryIndex.getNextChapter(
+                                  await JsonPathRepository.getNextChapter(
                                     path,
                                     chapter,
                                   );
@@ -4489,11 +4774,18 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                             String? nextChapterId;
 
                             if (isFromPath) {
-                              nextChapterId =
-                                  PathRepositoryIndex.getNextChapter(
-                                    widget.backExtra?['pathName'],
-                                    widget.backExtra?['chapterId'],
-                                  )?.id;
+                              final p =
+                                  widget.backExtra?['pathName'] as String?;
+                              final c =
+                                  widget.backExtra?['chapterId'] as String?;
+                              if (p != null && c != null) {
+                                final next =
+                                    await JsonPathRepository.getNextChapter(
+                                      p,
+                                      c,
+                                    );
+                                nextChapterId = next?.id;
+                              }
                             } else {
                               final current =
                                   widget.backExtra?['category'] ?? '';
@@ -4551,7 +4843,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       final chapters =
           pathName == null
               ? null
-              : PathRepositoryIndex.getChaptersForPath(pathName);
+              : await JsonPathRepository.getChaptersForPath(pathName);
 
       if (pathName == null || chapters == null || chapters.isEmpty) return;
 
@@ -4632,26 +4924,25 @@ void goToFlashcardDetail({
 }
 
 // import 'dart:math' as math;
-// import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
-// import 'package:bcc5/navigation/detail_route.dart';
-// import 'package:bcc5/theme/slide_direction.dart';
-// import 'package:bcc5/theme/transition_type.dart';
-// import 'package:bcc5/utils/render_item_helpers.dart';
-// import 'package:bcc5/utils/string_extensions.dart';
-// import 'package:bcc5/widgets/learning_path_progress_bar.dart';
-// import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
 
 // import 'package:bcc5/data/models/render_item.dart';
-// import 'package:bcc5/utils/logger.dart';
-// import 'package:bcc5/widgets/flip_card_widget.dart';
-// import 'package:bcc5/widgets/navigation_buttons.dart';
+// import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+// import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart'; // ✅ JSON only
+// import 'package:bcc5/navigation/detail_route.dart';
 // import 'package:bcc5/theme/app_theme.dart';
-// import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+// import 'package:bcc5/theme/slide_direction.dart';
+// import 'package:bcc5/theme/transition_type.dart';
+// import 'package:bcc5/utils/logger.dart';
+// import 'package:bcc5/utils/render_item_helpers.dart'; // kept for PATH branch buildRenderItems(ids:...)
+// import 'package:bcc5/utils/string_extensions.dart';
 // import 'package:bcc5/utils/transition_manager.dart';
-// import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
-
+// import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+// import 'package:bcc5/widgets/flip_card_widget.dart';
+// import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 // import 'package:bcc5/widgets/navigation/last_group_button.dart';
+// import 'package:bcc5/widgets/navigation_buttons.dart';
+// import 'package:flutter/material.dart';
+// import 'package:go_router/go_router.dart';
 
 // class FlashcardDetailScreen extends StatefulWidget {
 //   final List<RenderItem> renderItems;
@@ -4684,6 +4975,7 @@ void goToFlashcardDetail({
 //   late Animation<double> _flipAnimation;
 //   bool showFront = true;
 
+//   // App bar keys
 //   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
 //   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
 //   final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
@@ -4710,9 +5002,7 @@ void goToFlashcardDetail({
 //       );
 
 //       if (item.type != RenderItemType.flashcard) {
-//         logger.w(
-//           '⚠️ Redirecting from non-flashcard type: ${item.id} (${item.type})',
-//         );
+//         // Defensive: auto-redirect if route was called with a non-flashcard
 //         WidgetsBinding.instance.addPostFrameCallback((_) {
 //           TransitionManager.goToDetailScreen(
 //             context: context,
@@ -4747,6 +5037,41 @@ void goToFlashcardDetail({
 //     super.dispose();
 //   }
 
+//   // ---------- Helpers (JSON only for categories) ----------
+//   String _slug(String raw) {
+//     return raw
+//         .trim()
+//         .toLowerCase()
+//         .replaceAll('&', 'and')
+//         .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
+//         .replaceAll(RegExp(r'_+'), '_')
+//         .replaceAll(RegExp(r'^_|_$'), '');
+//   }
+
+//   Future<List<String>> _sortedCategories() async {
+//     // Keep 'all' and 'random' (if present) first, others after — matches your category screen
+//     final cats = await JsonFlashcardRepository.getAllCategories();
+//     final specials = cats.where((c) => c == 'all' || c == 'random');
+//     final rest = cats.where((c) => c != 'all' && c != 'random');
+//     return [...specials, ...rest].toList();
+//   }
+
+//   Future<String?> _nextCategory(String current) async {
+//     final cats = await _sortedCategories();
+//     if (cats.isEmpty) return null;
+//     final curSlug = _slug(current);
+//     final idx = cats.indexWhere((c) => _slug(c) == curSlug);
+//     if (idx < 0) return null;
+//     final nextIdx = idx + 1;
+//     if (nextIdx >= cats.length) return null;
+//     return cats[nextIdx];
+//   }
+
+//   bool _isTerminalCategory(String name) {
+//     final s = _slug(name);
+//     return s == 'all' || s == 'random';
+//   }
+
 //   void flipCard() {
 //     logger.i(showFront ? '🔃 Flipping to back' : '🔃 Flipping to front');
 //     setState(() {
@@ -4762,7 +5087,6 @@ void goToFlashcardDetail({
 //       logger.w('⛔ Invalid navigation attempt: $newIndex');
 //       return;
 //     }
-
 //     final target = widget.renderItems[newIndex];
 //     TransitionManager.goToDetailScreen(
 //       context: context,
@@ -4797,15 +5121,13 @@ void goToFlashcardDetail({
 //     final title = flashcard.title;
 //     final sideA = flashcard.sideA;
 //     final sideB = flashcard.sideB;
-//     // 📛 Customize breadcrumb title for flashcards from learning paths
+
 //     final isFromPath = widget.detailRoute == DetailRoute.path;
 //     final pathName = widget.backExtra?['pathName'] ?? '';
 //     final chapterId = widget.backExtra?['chapterId'] ?? '';
 
 //     final breadcrumbTitle =
-//         isFromPath
-//             ? '${pathName.toString().toTitleCase()} Review' // future-proof for paths like "Advanced Crew"
-//             : 'Drills';
+//         isFromPath ? '${pathName.toString().toTitleCase()} Review' : 'Drills';
 
 //     final chapterTitle =
 //         isFromPath
@@ -4815,14 +5137,6 @@ void goToFlashcardDetail({
 //                 )?.toTitleCase() ??
 //                 ''
 //             : (widget.backExtra?['category'] as String?)?.toTitleCase() ?? '';
-//     // final categoryId = widget.backExtra?['category'] as String?;
-
-//     // logger.i(
-//     //   '🖼️ Rendering Flashcard:\n'
-//     //   '  ├─ title: $title\n'
-//     //   '  ├─ sideA: ${sideA.length} blocks\n'
-//     //   '  └─ sideB: ${sideB.length} blocks',
-//     // );
 
 //     return Scaffold(
 //       key: ValueKey(widget.transitionKey),
@@ -4860,7 +5174,8 @@ void goToFlashcardDetail({
 //                   );
 //                 },
 //               ),
-//               if (widget.detailRoute == DetailRoute.path)
+
+//               if (isFromPath)
 //                 LearningPathProgressBar(
 //                   pathName: widget.backExtra?['pathName'] ?? '',
 //                 ),
@@ -4901,7 +5216,6 @@ void goToFlashcardDetail({
 //               ),
 //               const SizedBox(height: 12),
 
-//               const SizedBox(height: 12),
 //               Expanded(
 //                 child: Center(
 //                   child: Stack(
@@ -4959,6 +5273,7 @@ void goToFlashcardDetail({
 //                   ),
 //                 ),
 //               ),
+
 //               Padding(
 //                 padding: const EdgeInsets.symmetric(vertical: 8.0),
 //                 child: ElevatedButton(
@@ -4967,11 +5282,13 @@ void goToFlashcardDetail({
 //                   child: Text(showFront ? 'Flip Over' : 'Flip Back'),
 //                 ),
 //               ),
+
 //               NavigationButtons(
 //                 isPreviousEnabled: currentIndex > 0,
 //                 isNextEnabled: currentIndex < widget.renderItems.length - 1,
 //                 onPrevious: () => _navigateTo(currentIndex - 1),
 //                 onNext: () => _navigateTo(currentIndex + 1),
+//                 // JSON-only custom button when we're at the last card
 //                 customNextButton:
 //                     currentIndex == widget.renderItems.length - 1
 //                         ? LastGroupButton(
@@ -4980,27 +5297,24 @@ void goToFlashcardDetail({
 //                           backExtra: widget.backExtra,
 //                           branchIndex: widget.branchIndex,
 //                           backDestination:
-//                               widget.detailRoute == DetailRoute.path
+//                               isFromPath
 //                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
 //                                   : '/flashcards',
-//                           label:
-//                               widget.detailRoute == DetailRoute.path
-//                                   ? 'chapter'
-//                                   : 'category',
+//                           label: isFromPath ? 'chapter' : 'category',
+
+//                           // ✅ JSON-only “what’s next?” deck
 //                           getNextRenderItems: () async {
-//                             if (widget.detailRoute == DetailRoute.path) {
-//                               final pathName =
+//                             if (isFromPath) {
+//                               final path =
 //                                   widget.backExtra?['pathName'] as String?;
-//                               final chapterId =
+//                               final chapter =
 //                                   widget.backExtra?['chapterId'] as String?;
-//                               if (pathName == null || chapterId == null) {
-//                                 return null;
-//                               }
+//                               if (path == null || chapter == null) return null;
 
 //                               final nextChapter =
 //                                   PathRepositoryIndex.getNextChapter(
-//                                     pathName,
-//                                     chapterId,
+//                                     path,
+//                                     chapter,
 //                                   );
 //                               if (nextChapter == null) return null;
 
@@ -5015,140 +5329,89 @@ void goToFlashcardDetail({
 //                                   widget.backExtra?['category'] as String?;
 //                               if (currentCategory == null) return null;
 
-//                               final nextCategory = getNextCategory(
+//                               // ⛳️ Treat 'all' and 'random' as terminal: no "Next Category"
+//                               if (_isTerminalCategory(currentCategory)) {
+//                                 return <RenderItem>[];
+//                               }
+
+//                               final nextCategory = await _nextCategory(
 //                                 currentCategory,
 //                               );
 //                               if (nextCategory == null) return null;
 
-//                               final nextFlashcards = getFlashcardsForCategory(
-//                                 nextCategory,
-//                               );
-//                               if (nextFlashcards.isEmpty) return [];
+//                               final nextCards =
+//                                   await JsonFlashcardRepository.getFlashcardsForCategory(
+//                                     nextCategory,
+//                                   );
+//                               if (nextCards.isEmpty) return <RenderItem>[];
 
-//                               return nextFlashcards
+//                               return nextCards
 //                                   .map(RenderItem.fromFlashcard)
 //                                   .toList();
 //                             }
 //                           },
-//                           onNavigateToNextGroup: (renderItems) {
+
+//                           // ✅ JSON-only navigation to that next deck
+//                           onNavigateToNextGroup: (renderItems) async {
 //                             if (renderItems.isEmpty) return;
 
-//                             final isPath =
-//                                 widget.detailRoute == DetailRoute.path;
-//                             final route =
-//                                 isPath
+//                             // Capture the actual context we will use and guard it later.
+//                             final localContext = context;
+
+//                             // Precompute route string (no await here)
+//                             final String route =
+//                                 isFromPath
 //                                     ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
 //                                     : '/flashcards/items';
 
-//                             final backExtra = {
-//                               if (isPath)
-//                                 'chapterId':
-//                                     PathRepositoryIndex.getNextChapter(
-//                                       widget.backExtra?['pathName'],
-//                                       widget.backExtra?['chapterId'],
-//                                     )?.id,
-//                               if (isPath)
-//                                 'pathName': widget.backExtra?['pathName'],
-//                               if (!isPath)
-//                                 'category': getNextCategory(
-//                                   widget.backExtra?['category'],
-//                                 ),
+//                             // Build backExtra, doing awaits up front (no UI work yet)
+//                             String? nextCategory;
+//                             String? nextChapterId;
+
+//                             if (isFromPath) {
+//                               nextChapterId =
+//                                   PathRepositoryIndex.getNextChapter(
+//                                     widget.backExtra?['pathName'],
+//                                     widget.backExtra?['chapterId'],
+//                                   )?.id;
+//                             } else {
+//                               final current =
+//                                   widget.backExtra?['category'] ?? '';
+//                               nextCategory = await _nextCategory(current);
+//                             }
+
+//                             // ✅ Guard the same BuildContext we will use after the awaits
+//                             if (!localContext.mounted) return;
+
+//                             final nextBackExtra = <String, dynamic>{
 //                               'branchIndex': widget.branchIndex,
+//                               if (isFromPath) ...{
+//                                 'chapterId': nextChapterId,
+//                                 'pathName': widget.backExtra?['pathName'],
+//                               } else ...{
+//                                 'category': nextCategory,
+//                               },
 //                             };
 
 //                             TransitionManager.goToDetailScreen(
-//                               context: context,
+//                               context: localContext,
 //                               screenType: RenderItemType.flashcard,
 //                               renderItems: renderItems,
 //                               currentIndex: 0,
 //                               branchIndex: widget.branchIndex,
 //                               backDestination: route,
-//                               backExtra: backExtra,
+//                               backExtra: nextBackExtra,
 //                               detailRoute: widget.detailRoute,
 //                               direction: SlideDirection.right,
 //                               replace: true,
 //                             );
 //                           },
+
+//                           // ✅ JSON-only “start over at the beginning”
 //                           onRestartAtFirstGroup: () {
 //                             if (!mounted) return;
-//                             final localContext = context;
-//                             _handleRestart(localContext);
+//                             _handleRestart(context);
 //                           },
-
-//                           // onRestartAtFirstGroup: () async {
-//                           //   final localContext =
-//                           //       context; // ✅ Moved to top before anything else
-//                           //   if (!mounted) return;
-
-//                           //   if (widget.detailRoute == DetailRoute.path) {
-//                           //     final pathName =
-//                           //         widget.backExtra?['pathName'] as String?;
-//                           //     final chapters =
-//                           //         pathName == null
-//                           //             ? null
-//                           //             : PathRepositoryIndex.getChaptersForPath(
-//                           //               pathName,
-//                           //             );
-
-//                           //     if (pathName == null ||
-//                           //         chapters == null ||
-//                           //         chapters.isEmpty) {
-//                           //       return;
-//                           //     }
-//                           //     final firstChapter = chapters.first;
-
-//                           //     final renderItems = await buildRenderItems(
-//                           //       ids:
-//                           //           firstChapter.items
-//                           //               .map((e) => e.pathItemId)
-//                           //               .toList(),
-//                           //     );
-//                           //     if (renderItems.isEmpty) return;
-
-//                           //     Future.microtask(() {
-//                           //       if (!mounted) return;
-//                           //       goToFlashcardDetail(
-//                           //         context: localContext,
-//                           //         renderItems: renderItems,
-//                           //         branchIndex: widget.branchIndex,
-//                           //         backDestination:
-//                           //             '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-//                           //         backExtra: {
-//                           //           'chapterId': firstChapter.id,
-//                           //           'pathName': pathName,
-//                           //           'branchIndex': widget.branchIndex,
-//                           //         },
-//                           //         detailRoute: widget.detailRoute,
-//                           //       );
-//                           //     });
-//                           //   } else {
-//                           //     final firstCategory = getAllCategories().first;
-//                           //     final firstFlashcards = getFlashcardsForCategory(
-//                           //       firstCategory,
-//                           //     );
-//                           //     final renderItems =
-//                           //         firstFlashcards
-//                           //             .map((f) => RenderItem.fromFlashcard(f))
-//                           //             .toList();
-
-//                           //     if (renderItems.isEmpty) return;
-
-//                           //     Future.microtask(() {
-//                           //       if (!mounted) return;
-//                           //       goToFlashcardDetail(
-//                           //         context: localContext,
-//                           //         renderItems: renderItems,
-//                           //         branchIndex: widget.branchIndex,
-//                           //         backDestination: '/flashcards/items',
-//                           //         backExtra: {
-//                           //           'category': firstCategory,
-//                           //           'branchIndex': widget.branchIndex,
-//                           //         },
-//                           //         detailRoute: widget.detailRoute,
-//                           //       );
-//                           //     });
-//                           //   }
-//                           // },
 //                         )
 //                         : null,
 //               ),
@@ -5159,8 +5422,9 @@ void goToFlashcardDetail({
 //     );
 //   }
 
+//   // JSON-only restart logic
 //   Future<void> _handleRestart(BuildContext localContext) async {
-//     if (!mounted) return;
+//     // NOTE: Do not check `mounted` here; we will guard `localContext` right before using it.
 
 //     if (widget.detailRoute == DetailRoute.path) {
 //       final pathName = widget.backExtra?['pathName'] as String?;
@@ -5172,11 +5436,13 @@ void goToFlashcardDetail({
 //       if (pathName == null || chapters == null || chapters.isEmpty) return;
 
 //       final firstChapter = chapters.first;
+
 //       final renderItems = await buildRenderItems(
 //         ids: firstChapter.items.map((e) => e.pathItemId).toList(),
 //       );
 //       if (renderItems.isEmpty) return;
 
+//       // ✅ Guard the exact BuildContext being used after awaits
 //       if (!localContext.mounted) return;
 //       goToFlashcardDetail(
 //         context: localContext,
@@ -5192,13 +5458,20 @@ void goToFlashcardDetail({
 //         detailRoute: widget.detailRoute,
 //       );
 //     } else {
-//       final firstCategory = getAllCategories().first;
-//       final firstFlashcards = getFlashcardsForCategory(firstCategory);
+//       // ✅ JSON: restart at the first JSON category
+//       final categories = await JsonFlashcardRepository.getAllCategories();
+//       if (categories.isEmpty) return;
+
+//       final firstCategory = categories.first;
+//       final firstCards = await JsonFlashcardRepository.getFlashcardsForCategory(
+//         firstCategory,
+//       );
 //       final renderItems =
-//           firstFlashcards.map((f) => RenderItem.fromFlashcard(f)).toList();
+//           firstCards.map((f) => RenderItem.fromFlashcard(f)).toList();
 
 //       if (renderItems.isEmpty) return;
 
+//       // ✅ Guard the exact BuildContext being used after awaits
 //       if (!localContext.mounted) return;
 //       goToFlashcardDetail(
 //         context: localContext,
@@ -5215,6 +5488,7 @@ void goToFlashcardDetail({
 //   }
 // }
 
+// // tiny navigator helper (unchanged)
 // void goToFlashcardDetail({
 //   required BuildContext context,
 //   required List<RenderItem> renderItems,
@@ -5236,6 +5510,612 @@ void goToFlashcardDetail({
 //     replace: true,
 //   );
 // }
+
+// // import 'dart:math' as math;
+// // import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+// // import 'package:bcc5/navigation/detail_route.dart';
+// // import 'package:bcc5/theme/slide_direction.dart';
+// // import 'package:bcc5/theme/transition_type.dart';
+// // import 'package:bcc5/utils/render_item_helpers.dart';
+// // import 'package:bcc5/utils/string_extensions.dart';
+// // import 'package:bcc5/widgets/learning_path_progress_bar.dart';
+// // import 'package:flutter/material.dart';
+// // import 'package:go_router/go_router.dart';
+
+// // import 'package:bcc5/data/models/render_item.dart';
+// // import 'package:bcc5/utils/logger.dart';
+// // import 'package:bcc5/widgets/flip_card_widget.dart';
+// // import 'package:bcc5/widgets/navigation_buttons.dart';
+// // import 'package:bcc5/theme/app_theme.dart';
+// // import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+// // import 'package:bcc5/utils/transition_manager.dart';
+// // import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
+
+// // import 'package:bcc5/widgets/navigation/last_group_button.dart';
+
+// // class FlashcardDetailScreen extends StatefulWidget {
+// //   final List<RenderItem> renderItems;
+// //   final int currentIndex;
+// //   final int branchIndex;
+// //   final String backDestination;
+// //   final Map<String, dynamic>? backExtra;
+// //   final DetailRoute detailRoute;
+// //   final String transitionKey;
+
+// //   const FlashcardDetailScreen({
+// //     super.key,
+// //     required this.renderItems,
+// //     required this.currentIndex,
+// //     required this.branchIndex,
+// //     required this.backDestination,
+// //     required this.backExtra,
+// //     required this.detailRoute,
+// //     required this.transitionKey,
+// //   });
+
+// //   @override
+// //   State<FlashcardDetailScreen> createState() => _FlashcardDetailScreenState();
+// // }
+
+// // class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
+// //     with SingleTickerProviderStateMixin {
+// //   late int currentIndex;
+// //   late AnimationController _controller;
+// //   late Animation<double> _flipAnimation;
+// //   bool showFront = true;
+
+// //   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
+// //   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
+// //   final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
+// //   final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey');
+
+// //   @override
+// //   void initState() {
+// //     super.initState();
+// //     currentIndex = widget.currentIndex;
+
+// //     if (widget.renderItems.isEmpty) {
+// //       logger.e('❌ FlashcardDetailScreen received empty renderItems');
+// //     } else {
+// //       final item = widget.renderItems[currentIndex];
+// //       logger.i(
+// //         '🟩 FlashcardDetailScreen Loaded:\n'
+// //         '  ├─ index: $currentIndex\n'
+// //         '  ├─ id: ${item.id}\n'
+// //         '  ├─ type: ${item.type}\n'
+// //         '  ├─ renderItems.length: ${widget.renderItems.length}\n'
+// //         '  ├─ branchIndex: ${widget.branchIndex}\n'
+// //         '  ├─ backDestination: ${widget.backDestination}\n'
+// //         '  └─ backExtra: ${widget.backExtra}',
+// //       );
+
+// //       if (item.type != RenderItemType.flashcard) {
+// //         logger.w(
+// //           '⚠️ Redirecting from non-flashcard type: ${item.id} (${item.type})',
+// //         );
+// //         WidgetsBinding.instance.addPostFrameCallback((_) {
+// //           TransitionManager.goToDetailScreen(
+// //             context: context,
+// //             screenType: item.type,
+// //             renderItems: widget.renderItems,
+// //             currentIndex: currentIndex,
+// //             branchIndex: widget.branchIndex,
+// //             backDestination: widget.backDestination,
+// //             backExtra: widget.backExtra,
+// //             detailRoute: widget.detailRoute,
+// //             direction: SlideDirection.none,
+// //             replace: true,
+// //           );
+// //         });
+// //       }
+// //     }
+
+// //     _controller = AnimationController(
+// //       vsync: this,
+// //       duration: const Duration(milliseconds: 400),
+// //     );
+
+// //     _flipAnimation = Tween<double>(
+// //       begin: 0,
+// //       end: 1,
+// //     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+// //   }
+
+// //   @override
+// //   void dispose() {
+// //     _controller.dispose();
+// //     super.dispose();
+// //   }
+
+// //   void flipCard() {
+// //     logger.i(showFront ? '🔃 Flipping to back' : '🔃 Flipping to front');
+// //     setState(() {
+// //       showFront = !showFront;
+// //       _controller.isCompleted || _controller.velocity > 0
+// //           ? _controller.reverse()
+// //           : _controller.forward();
+// //     });
+// //   }
+
+// //   void _navigateTo(int newIndex) {
+// //     if (newIndex < 0 || newIndex >= widget.renderItems.length) {
+// //       logger.w('⛔ Invalid navigation attempt: $newIndex');
+// //       return;
+// //     }
+
+// //     final target = widget.renderItems[newIndex];
+// //     TransitionManager.goToDetailScreen(
+// //       context: context,
+// //       screenType: target.type,
+// //       renderItems: widget.renderItems,
+// //       currentIndex: newIndex,
+// //       branchIndex: widget.branchIndex,
+// //       backDestination: widget.backDestination,
+// //       backExtra: widget.backExtra,
+// //       detailRoute: widget.detailRoute,
+// //       direction: SlideDirection.none,
+// //       transitionType: TransitionType.fadeScale,
+// //     );
+// //   }
+
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     if (widget.renderItems.isEmpty) {
+// //       return const Scaffold(
+// //         body: Center(child: Text('No flashcard content available')),
+// //       );
+// //     }
+
+// //     final item = widget.renderItems[currentIndex];
+// //     if (item.type != RenderItemType.flashcard || item.flashcards.isEmpty) {
+// //       return const Scaffold(
+// //         body: Center(child: Text('No flashcard content available')),
+// //       );
+// //     }
+
+// //     final flashcard = item.flashcards.first;
+// //     final title = flashcard.title;
+// //     final sideA = flashcard.sideA;
+// //     final sideB = flashcard.sideB;
+// //     // 📛 Customize breadcrumb title for flashcards from learning paths
+// //     final isFromPath = widget.detailRoute == DetailRoute.path;
+// //     final pathName = widget.backExtra?['pathName'] ?? '';
+// //     final chapterId = widget.backExtra?['chapterId'] ?? '';
+
+// //     final breadcrumbTitle =
+// //         isFromPath
+// //             ? '${pathName.toString().toTitleCase()} Review' // future-proof for paths like "Advanced Crew"
+// //             : 'Drills';
+
+// //     final chapterTitle =
+// //         isFromPath
+// //             ? PathRepositoryIndex.getChapterTitleForPath(
+// //                   pathName,
+// //                   chapterId,
+// //                 )?.toTitleCase() ??
+// //                 ''
+// //             : (widget.backExtra?['category'] as String?)?.toTitleCase() ?? '';
+// //     // final categoryId = widget.backExtra?['category'] as String?;
+
+// //     // logger.i(
+// //     //   '🖼️ Rendering Flashcard:\n'
+// //     //   '  ├─ title: $title\n'
+// //     //   '  ├─ sideA: ${sideA.length} blocks\n'
+// //     //   '  └─ sideB: ${sideB.length} blocks',
+// //     // );
+
+// //     return Scaffold(
+// //       key: ValueKey(widget.transitionKey),
+// //       body: Stack(
+// //         fit: StackFit.expand,
+// //         children: [
+// //           Opacity(
+// //             opacity: 0.2,
+// //             child: Image.asset(
+// //               'assets/images/sailboat_cartoon.jpg',
+// //               fit: BoxFit.cover,
+// //             ),
+// //           ),
+// //           Column(
+// //             children: [
+// //               CustomAppBarWidget(
+// //                 title: breadcrumbTitle,
+// //                 showBackButton: true,
+// //                 showSearchIcon: true,
+// //                 showSettingsIcon: true,
+// //                 mobKey: mobKey,
+// //                 settingsKey: settingsKey,
+// //                 searchKey: searchKey,
+// //                 titleKey: titleKey,
+// //                 onBack: () {
+// //                   logger.i('🔙 Back tapped → ${widget.backDestination}');
+// //                   context.go(
+// //                     widget.backDestination,
+// //                     extra: {
+// //                       ...?widget.backExtra,
+// //                       'transitionKey': UniqueKey().toString(),
+// //                       'slideFrom': SlideDirection.left,
+// //                       'transitionType': TransitionType.slide,
+// //                     },
+// //                   );
+// //                 },
+// //               ),
+// //               if (widget.detailRoute == DetailRoute.path)
+// //                 LearningPathProgressBar(
+// //                   pathName: widget.backExtra?['pathName'] ?? '',
+// //                 ),
+
+// //               const SizedBox(height: 12),
+// //               Align(
+// //                 alignment: Alignment.centerLeft,
+// //                 child: Padding(
+// //                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
+// //                   child: RichText(
+// //                     text: TextSpan(
+// //                       children: [
+// //                         TextSpan(
+// //                           text: breadcrumbTitle,
+// //                           style: AppTheme.branchBreadcrumbStyle,
+// //                         ),
+// //                         const TextSpan(
+// //                           text: ' / ',
+// //                           style: TextStyle(color: Colors.black87),
+// //                         ),
+// //                         TextSpan(
+// //                           text: chapterTitle,
+// //                           style: AppTheme.groupBreadcrumbStyle,
+// //                         ),
+// //                       ],
+// //                     ),
+// //                   ),
+// //                 ),
+// //               ),
+
+// //               const SizedBox(height: 4),
+// //               Text(
+// //                 title,
+// //                 style: AppTheme.scaledTextTheme.headlineMedium?.copyWith(
+// //                   color: AppTheme.primaryBlue,
+// //                 ),
+// //                 textAlign: TextAlign.center,
+// //               ),
+// //               const SizedBox(height: 12),
+
+// //               const SizedBox(height: 12),
+// //               Expanded(
+// //                 child: Center(
+// //                   child: Stack(
+// //                     alignment: Alignment.center,
+// //                     children: [
+// //                       Image.asset(
+// //                         'assets/images/index_card.png',
+// //                         width: 360,
+// //                         height: 420,
+// //                         fit: BoxFit.fill,
+// //                       ),
+// //                       SizedBox(
+// //                         width: 360,
+// //                         height: 420,
+// //                         child: AnimatedBuilder(
+// //                           animation: _flipAnimation,
+// //                           builder: (context, child) {
+// //                             final isFront = _flipAnimation.value < 0.5;
+// //                             return Transform(
+// //                               alignment: Alignment.center,
+// //                               transform: Matrix4.rotationY(
+// //                                 _flipAnimation.value * math.pi,
+// //                               ),
+// //                               child:
+// //                                   isFront
+// //                                       ? Padding(
+// //                                         padding: const EdgeInsets.only(top: 32),
+// //                                         child: FlipCardWidget(
+// //                                           front: sideA,
+// //                                           back: sideB,
+// //                                           showFront: true,
+// //                                           animation: _flipAnimation,
+// //                                         ),
+// //                                       )
+// //                                       : Transform(
+// //                                         alignment: Alignment.center,
+// //                                         transform: Matrix4.rotationY(math.pi),
+// //                                         child: Padding(
+// //                                           padding: const EdgeInsets.only(
+// //                                             top: 32,
+// //                                           ),
+// //                                           child: FlipCardWidget(
+// //                                             front: sideA,
+// //                                             back: sideB,
+// //                                             showFront: false,
+// //                                             animation: _flipAnimation,
+// //                                           ),
+// //                                         ),
+// //                                       ),
+// //                             );
+// //                           },
+// //                         ),
+// //                       ),
+// //                     ],
+// //                   ),
+// //                 ),
+// //               ),
+// //               Padding(
+// //                 padding: const EdgeInsets.symmetric(vertical: 8.0),
+// //                 child: ElevatedButton(
+// //                   onPressed: flipCard,
+// //                   style: AppTheme.navigationButton,
+// //                   child: Text(showFront ? 'Flip Over' : 'Flip Back'),
+// //                 ),
+// //               ),
+// //               NavigationButtons(
+// //                 isPreviousEnabled: currentIndex > 0,
+// //                 isNextEnabled: currentIndex < widget.renderItems.length - 1,
+// //                 onPrevious: () => _navigateTo(currentIndex - 1),
+// //                 onNext: () => _navigateTo(currentIndex + 1),
+// //                 customNextButton:
+// //                     currentIndex == widget.renderItems.length - 1
+// //                         ? LastGroupButton(
+// //                           type: RenderItemType.flashcard,
+// //                           detailRoute: widget.detailRoute,
+// //                           backExtra: widget.backExtra,
+// //                           branchIndex: widget.branchIndex,
+// //                           backDestination:
+// //                               widget.detailRoute == DetailRoute.path
+// //                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
+// //                                   : '/flashcards',
+// //                           label:
+// //                               widget.detailRoute == DetailRoute.path
+// //                                   ? 'chapter'
+// //                                   : 'category',
+// //                           getNextRenderItems: () async {
+// //                             if (widget.detailRoute == DetailRoute.path) {
+// //                               final pathName =
+// //                                   widget.backExtra?['pathName'] as String?;
+// //                               final chapterId =
+// //                                   widget.backExtra?['chapterId'] as String?;
+// //                               if (pathName == null || chapterId == null) {
+// //                                 return null;
+// //                               }
+
+// //                               final nextChapter =
+// //                                   PathRepositoryIndex.getNextChapter(
+// //                                     pathName,
+// //                                     chapterId,
+// //                                   );
+// //                               if (nextChapter == null) return null;
+
+// //                               return await buildRenderItems(
+// //                                 ids:
+// //                                     nextChapter.items
+// //                                         .map((e) => e.pathItemId)
+// //                                         .toList(),
+// //                               );
+// //                             } else {
+// //                               final currentCategory =
+// //                                   widget.backExtra?['category'] as String?;
+// //                               if (currentCategory == null) return null;
+
+// //                               final nextCategory = getNextCategory(
+// //                                 currentCategory,
+// //                               );
+// //                               if (nextCategory == null) return null;
+
+// //                               final nextFlashcards = getFlashcardsForCategory(
+// //                                 nextCategory,
+// //                               );
+// //                               if (nextFlashcards.isEmpty) return [];
+
+// //                               return nextFlashcards
+// //                                   .map(RenderItem.fromFlashcard)
+// //                                   .toList();
+// //                             }
+// //                           },
+// //                           onNavigateToNextGroup: (renderItems) {
+// //                             if (renderItems.isEmpty) return;
+
+// //                             final isPath =
+// //                                 widget.detailRoute == DetailRoute.path;
+// //                             final route =
+// //                                 isPath
+// //                                     ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
+// //                                     : '/flashcards/items';
+
+// //                             final backExtra = {
+// //                               if (isPath)
+// //                                 'chapterId':
+// //                                     PathRepositoryIndex.getNextChapter(
+// //                                       widget.backExtra?['pathName'],
+// //                                       widget.backExtra?['chapterId'],
+// //                                     )?.id,
+// //                               if (isPath)
+// //                                 'pathName': widget.backExtra?['pathName'],
+// //                               if (!isPath)
+// //                                 'category': getNextCategory(
+// //                                   widget.backExtra?['category'],
+// //                                 ),
+// //                               'branchIndex': widget.branchIndex,
+// //                             };
+
+// //                             TransitionManager.goToDetailScreen(
+// //                               context: context,
+// //                               screenType: RenderItemType.flashcard,
+// //                               renderItems: renderItems,
+// //                               currentIndex: 0,
+// //                               branchIndex: widget.branchIndex,
+// //                               backDestination: route,
+// //                               backExtra: backExtra,
+// //                               detailRoute: widget.detailRoute,
+// //                               direction: SlideDirection.right,
+// //                               replace: true,
+// //                             );
+// //                           },
+// //                           onRestartAtFirstGroup: () {
+// //                             if (!mounted) return;
+// //                             final localContext = context;
+// //                             _handleRestart(localContext);
+// //                           },
+
+// //                           // onRestartAtFirstGroup: () async {
+// //                           //   final localContext =
+// //                           //       context; // ✅ Moved to top before anything else
+// //                           //   if (!mounted) return;
+
+// //                           //   if (widget.detailRoute == DetailRoute.path) {
+// //                           //     final pathName =
+// //                           //         widget.backExtra?['pathName'] as String?;
+// //                           //     final chapters =
+// //                           //         pathName == null
+// //                           //             ? null
+// //                           //             : PathRepositoryIndex.getChaptersForPath(
+// //                           //               pathName,
+// //                           //             );
+
+// //                           //     if (pathName == null ||
+// //                           //         chapters == null ||
+// //                           //         chapters.isEmpty) {
+// //                           //       return;
+// //                           //     }
+// //                           //     final firstChapter = chapters.first;
+
+// //                           //     final renderItems = await buildRenderItems(
+// //                           //       ids:
+// //                           //           firstChapter.items
+// //                           //               .map((e) => e.pathItemId)
+// //                           //               .toList(),
+// //                           //     );
+// //                           //     if (renderItems.isEmpty) return;
+
+// //                           //     Future.microtask(() {
+// //                           //       if (!mounted) return;
+// //                           //       goToFlashcardDetail(
+// //                           //         context: localContext,
+// //                           //         renderItems: renderItems,
+// //                           //         branchIndex: widget.branchIndex,
+// //                           //         backDestination:
+// //                           //             '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+// //                           //         backExtra: {
+// //                           //           'chapterId': firstChapter.id,
+// //                           //           'pathName': pathName,
+// //                           //           'branchIndex': widget.branchIndex,
+// //                           //         },
+// //                           //         detailRoute: widget.detailRoute,
+// //                           //       );
+// //                           //     });
+// //                           //   } else {
+// //                           //     final firstCategory = getAllCategories().first;
+// //                           //     final firstFlashcards = getFlashcardsForCategory(
+// //                           //       firstCategory,
+// //                           //     );
+// //                           //     final renderItems =
+// //                           //         firstFlashcards
+// //                           //             .map((f) => RenderItem.fromFlashcard(f))
+// //                           //             .toList();
+
+// //                           //     if (renderItems.isEmpty) return;
+
+// //                           //     Future.microtask(() {
+// //                           //       if (!mounted) return;
+// //                           //       goToFlashcardDetail(
+// //                           //         context: localContext,
+// //                           //         renderItems: renderItems,
+// //                           //         branchIndex: widget.branchIndex,
+// //                           //         backDestination: '/flashcards/items',
+// //                           //         backExtra: {
+// //                           //           'category': firstCategory,
+// //                           //           'branchIndex': widget.branchIndex,
+// //                           //         },
+// //                           //         detailRoute: widget.detailRoute,
+// //                           //       );
+// //                           //     });
+// //                           //   }
+// //                           // },
+// //                         )
+// //                         : null,
+// //               ),
+// //             ],
+// //           ),
+// //         ],
+// //       ),
+// //     );
+// //   }
+
+// //   Future<void> _handleRestart(BuildContext localContext) async {
+// //     if (!mounted) return;
+
+// //     if (widget.detailRoute == DetailRoute.path) {
+// //       final pathName = widget.backExtra?['pathName'] as String?;
+// //       final chapters =
+// //           pathName == null
+// //               ? null
+// //               : PathRepositoryIndex.getChaptersForPath(pathName);
+
+// //       if (pathName == null || chapters == null || chapters.isEmpty) return;
+
+// //       final firstChapter = chapters.first;
+// //       final renderItems = await buildRenderItems(
+// //         ids: firstChapter.items.map((e) => e.pathItemId).toList(),
+// //       );
+// //       if (renderItems.isEmpty) return;
+
+// //       if (!localContext.mounted) return;
+// //       goToFlashcardDetail(
+// //         context: localContext,
+// //         renderItems: renderItems,
+// //         branchIndex: widget.branchIndex,
+// //         backDestination:
+// //             '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+// //         backExtra: {
+// //           'chapterId': firstChapter.id,
+// //           'pathName': pathName,
+// //           'branchIndex': widget.branchIndex,
+// //         },
+// //         detailRoute: widget.detailRoute,
+// //       );
+// //     } else {
+// //       final firstCategory = getAllCategories().first;
+// //       final firstFlashcards = getFlashcardsForCategory(firstCategory);
+// //       final renderItems =
+// //           firstFlashcards.map((f) => RenderItem.fromFlashcard(f)).toList();
+
+// //       if (renderItems.isEmpty) return;
+
+// //       if (!localContext.mounted) return;
+// //       goToFlashcardDetail(
+// //         context: localContext,
+// //         renderItems: renderItems,
+// //         branchIndex: widget.branchIndex,
+// //         backDestination: '/flashcards/items',
+// //         backExtra: {
+// //           'category': firstCategory,
+// //           'branchIndex': widget.branchIndex,
+// //         },
+// //         detailRoute: widget.detailRoute,
+// //       );
+// //     }
+// //   }
+// // }
+
+// // void goToFlashcardDetail({
+// //   required BuildContext context,
+// //   required List<RenderItem> renderItems,
+// //   required int branchIndex,
+// //   required String backDestination,
+// //   required Map<String, dynamic> backExtra,
+// //   required DetailRoute detailRoute,
+// // }) {
+// //   TransitionManager.goToDetailScreen(
+// //     context: context,
+// //     screenType: RenderItemType.flashcard,
+// //     renderItems: renderItems,
+// //     currentIndex: 0,
+// //     branchIndex: branchIndex,
+// //     backDestination: backDestination,
+// //     backExtra: backExtra,
+// //     detailRoute: detailRoute,
+// //     direction: SlideDirection.right,
+// //     replace: true,
+// //   );
+// // }
 
 
 
@@ -9137,23 +10017,6 @@ import 'package:bcc5/theme/app_theme.dart';
 class PartZoneScreen extends StatelessWidget {
   PartZoneScreen({super.key});
 
-  // String _zoneToModule(String zone) {
-  //   switch (zone.toLowerCase()) {
-  //     case 'hull':
-  //       return 'hull';
-  //     case 'deck':
-  //       return 'deck';
-  //     case 'rigging':
-  //       return 'rigging';
-  //     case 'sails':
-  //       return 'sails';
-  //     case 'interior':
-  //       return 'interior';
-  //     default:
-  //       return zone.toLowerCase(); // fallback
-  //   }
-  // }
-
   // ✅ Internal GlobalKeys (no longer passed via constructor)
   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
@@ -9326,24 +10189,6 @@ class PartZoneScreen extends StatelessWidget {
                   },
                 );
               },
-
-              // onPressed: () {
-              //   logger.i('🟦 Tapped zone: $zone');
-              //   final timestamp = DateTime.now().millisecondsSinceEpoch;
-
-              //   context.push(
-              //     '/parts/items',
-              //     extra: {
-              //       'zone': zone,
-              //       'transitionKey':
-              //           'part_items_${zone.toLowerCase()}_$timestamp',
-              //       'slideFrom': SlideDirection.right,
-              //       'transitionType': TransitionType.slide,
-              //       'detailRoute': DetailRoute.branch,
-              //       // 🚫 No GlobalKeys passed anymore
-              //     },
-              //   );
-              // },
               child: Text(zone, style: const TextStyle(fontSize: 15)),
             ),
           );
@@ -11970,29 +12815,76 @@ Secure the anchor and check it's seated properly before departure."
 
 
 File: lib/data/loaders/content_loader.dart
-import 'package:bcc5/data/models/lesson_model.dart';
-import 'package:bcc5/data/repositories/lessons/json_lesson_repository.dart';
-import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart'; // legacy fallback
+// lib/data/loaders/content_loader.dart
+//
+// JSON-only content loader. No legacy fallbacks.
+//
+// This utility centralizes "load X by id" calls so the rest of the app
+// doesn’t need to know which repository owns an ID. If an ID is unknown,
+// we log and return null.
+
 import 'package:bcc5/utils/logger.dart';
 
+// JSON-backed repositories
+import 'package:bcc5/data/repositories/lessons/json_lesson_repository.dart';
+import 'package:bcc5/data/repositories/parts/json_part_repository.dart';
+import 'package:bcc5/data/repositories/tools/json_tool_repository.dart';
+
 class ContentLoader {
-  static final _lessonCache = <String, Lesson?>{};
+  const ContentLoader._();
 
-  static Future<Lesson?> loadLessonById(String id) async {
-    if (_lessonCache.containsKey(id)) return _lessonCache[id];
-
-    final jsonLesson = await JsonLessonRepository.loadById(id);
-    if (jsonLesson != null) {
-      _lessonCache[id] = jsonLesson;
-      return jsonLesson;
+  /// Route to the proper JSON repo based on the ID prefix.
+  /// Returns the underlying model from the repo (lesson/part/tool) or null.
+  static Future<dynamic> loadById(String id) async {
+    if (id.startsWith('lesson_')) {
+      return await JsonLessonRepository.loadById(id);
     }
-
-    logger.w('⚠️ Falling back to Dart for $id');
-    final fallback = LessonRepositoryIndex.getLessonById(id);
-    _lessonCache[id] = fallback;
-    return fallback;
+    if (id.startsWith('part_')) {
+      return await JsonPartRepository.loadById(id);
+    }
+    if (id.startsWith('tool_')) {
+      return await JsonToolRepository.loadById(id);
+    }
+    logger.w('ContentLoader.loadById → unknown id prefix: $id');
+    return null;
+    // If you later add JSON-backed flashcards with ids like "flashcard_…",
+    // add a branch here that calls your JsonFlashcardRepository.
   }
+
+  /// Explicit JSON-only helpers (kept for call-sites that prefer them).
+  static Future<dynamic> loadLessonById(String id) =>
+      JsonLessonRepository.loadById(id);
+
+  static Future<dynamic> loadPartById(String id) =>
+      JsonPartRepository.loadById(id);
+
+  static Future<dynamic> loadToolById(String id) =>
+      JsonToolRepository.loadById(id);
 }
+
+// import 'package:bcc5/data/models/lesson_model.dart';
+// import 'package:bcc5/data/repositories/lessons/json_lesson_repository.dart';
+// import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart'; // legacy fallback
+// import 'package:bcc5/utils/logger.dart';
+
+// class ContentLoader {
+//   static final _lessonCache = <String, Lesson?>{};
+
+//   static Future<Lesson?> loadLessonById(String id) async {
+//     if (_lessonCache.containsKey(id)) return _lessonCache[id];
+
+//     final jsonLesson = await JsonLessonRepository.loadById(id);
+//     if (jsonLesson != null) {
+//       _lessonCache[id] = jsonLesson;
+//       return jsonLesson;
+//     }
+
+//     logger.w('⚠️ Falling back to Dart for $id');
+//     final fallback = LessonRepositoryIndex.getLessonById(id);
+//     _lessonCache[id] = fallback;
+//     return fallback;
+//   }
+// }
 
 
 
@@ -12920,6 +13812,10 @@ class ContentBlockRenderer extends StatelessWidget {
 File: lib/widgets/search_modal.dart
 // 📄 lib/widgets/search_modal.dart
 // JSON-only search index by scanning AssetManifest.json
+// - Supports single-item JSONs (lessons, parts, tools)
+// - Supports module JSONs with "tools": [ { id,title,keywords/tags,... }, ... ]
+// - Keywords from "keywords" or "tags" (List<String>); falls back to title
+// - No legacy indices; drop-in new JSONs and they are discoverable
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -12964,6 +13860,12 @@ class _SearchModalState extends State<SearchModal> {
     _buildSearchIndex(); // async JSON scan
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   // Build index by scanning AssetManifest.json for our JSON content files.
   Future<void> _buildSearchIndex() async {
     final results = <SearchResult>[];
@@ -12975,44 +13877,78 @@ class _SearchModalState extends State<SearchModal> {
 
       // Collect lesson/part/tool JSON asset paths
       final paths = manifest.keys.where((p) {
-        final isJson = p.endsWith('.json');
-        if (!isJson) return false;
-        // Adjust prefixes if your structure differs
-        final isLesson = p.contains('/json/lessons/');
-        final isPart = p.contains('/json/parts/');
-        final isTool = p.contains('/json/tools/');
-        return isLesson || isPart || isTool;
+        if (!p.endsWith('.json')) return false;
+        return p.contains('/json/lessons/') ||
+            p.contains('/json/parts/') ||
+            p.contains('/json/tools/');
       });
 
       for (final path in paths) {
         final type = _typeFromPath(path);
         if (type == null) continue;
 
-        // Load each JSON and read id/title/keywords
         final raw = await rootBundle.loadString(path);
-        final map = jsonDecode(raw) as Map<String, dynamic>;
+        final decoded = jsonDecode(raw);
 
-        final id = (map['id'] as String?) ?? _idFromPath(path);
-        if (id.isEmpty) continue;
+        // Tools can be "module" JSONs with an array of items at "tools".
+        if (type == RenderItemType.tool &&
+            decoded is Map<String, dynamic> &&
+            decoded['tools'] is List) {
+          final List list = decoded['tools'] as List;
+          for (final item in list) {
+            if (item is! Map<String, dynamic>) continue;
+            final id = _idFromMapOrPath(item, path);
+            if (id.isEmpty) continue;
 
-        final title = (map['title'] as String? ?? _titleFromId(id)).trim();
-        final kws =
-            (map['keywords'] as List<dynamic>?)?.whereType<String>().toList() ??
-            const <String>[];
+            final title = _titleFromMapOrId(item, id);
+            final kws = _keywordsFromMap(item);
+            for (final kw in kws) {
+              final k = kw.trim();
+              if (k.isEmpty) continue;
+              final key = '$id|$k|${type.name}';
+              if (seen.add(key)) {
+                results.add(
+                  SearchResult(
+                    id: id,
+                    keyword: k,
+                    displayTitle: title,
+                    type: type,
+                  ),
+                );
+              }
+            }
+          }
+        } else {
+          // Single-item JSON (lessons, parts, or single tool file)
+          final Map<String, dynamic>? map =
+              decoded is Map<String, dynamic> ? decoded : null;
+          if (map == null) continue;
 
-        for (final kw in kws) {
-          final k = kw.trim();
-          if (k.isEmpty) continue;
-          final deDupe = '$id|$k|${type.name}';
-          if (seen.add(deDupe)) {
-            results.add(
-              SearchResult(id: id, keyword: k, displayTitle: title, type: type),
-            );
+          final id = _idFromMapOrPath(map, path);
+          if (id.isEmpty) continue;
+
+          final title = _titleFromMapOrId(map, id);
+          final kws = _keywordsFromMap(map);
+
+          for (final kw in kws) {
+            final k = kw.trim();
+            if (k.isEmpty) continue;
+            final key = '$id|$k|${type.name}';
+            if (seen.add(key)) {
+              results.add(
+                SearchResult(
+                  id: id,
+                  keyword: k,
+                  displayTitle: title,
+                  type: type,
+                ),
+              );
+            }
           }
         }
       }
     } catch (_) {
-      // Swallow and show empty results; you can add logging if desired.
+      // Swallow and show empty results; add logging if you want.
     }
 
     if (!mounted) return;
@@ -13030,20 +13966,56 @@ class _SearchModalState extends State<SearchModal> {
     return null;
   }
 
+  // Prefer explicit "id" from the JSON; otherwise derive from filename.
+  String _idFromMapOrPath(Map<String, dynamic> map, String path) {
+    final raw = map['id'];
+    if (raw is String && raw.trim().isNotEmpty) return raw.trim();
+    return _idFromPath(path);
+  }
+
+  // e.g. assets/json/lessons/lesson_rules_of_road.json -> lesson_rules_of_road
   String _idFromPath(String path) {
-    // e.g. assets/json/lessons/lesson_rules_of_road.json -> lesson_rules_of_road
     final file = path.split('/').last;
     return file.replaceAll('.json', '');
   }
 
+  String _titleFromMapOrId(Map<String, dynamic> map, String fallbackId) {
+    final t = map['title'];
+    if (t is String && t.trim().isNotEmpty) return t.trim();
+    return _titleFromId(fallbackId);
+  }
+
+  // "lesson_rules_of_road" -> "Lesson Rules Of Road"
   String _titleFromId(String id) {
-    // Fallback title if JSON missing; turns "lesson_rules_of_road" -> "Lesson Rules Of Road"
     return id
         .replaceAll('_', ' ')
         .replaceAll('-', ' ')
         .split(' ')
         .map((w) => w.isEmpty ? w : '${w[0].toUpperCase()}${w.substring(1)}')
         .join(' ');
+  }
+
+  // Accept keywords from "keywords" or "tags" (both List<String>).
+  // Fallback to [title] if neither is present.
+  List<String> _keywordsFromMap(Map<String, dynamic> map) {
+    List<String> coerceList(dynamic v) {
+      if (v is List) {
+        return v
+            .map((e) => e is String ? e : e?.toString() ?? '')
+            .where((s) => s.trim().isNotEmpty)
+            .toList();
+      }
+      return const <String>[];
+    }
+
+    final kws = coerceList(map['keywords']);
+    if (kws.isNotEmpty) return kws;
+
+    final tags = coerceList(map['tags']);
+    if (tags.isNotEmpty) return tags;
+
+    final title = map['title'];
+    return title is String && title.trim().isNotEmpty ? [title.trim()] : [];
   }
 
   void _onSearchChanged(String query) {
@@ -13064,13 +14036,6 @@ class _SearchModalState extends State<SearchModal> {
     final renderItems = await buildRenderItems(ids: [result.id]);
     if (!mounted) return;
 
-    final detailRoute = switch (result.type) {
-      RenderItemType.lesson => DetailRoute.branch,
-      RenderItemType.part => DetailRoute.branch,
-      RenderItemType.tool => DetailRoute.branch,
-      RenderItemType.flashcard => DetailRoute.branch,
-    };
-
     final extra = {
       'renderItems': renderItems,
       'currentIndex': 0,
@@ -13078,7 +14043,7 @@ class _SearchModalState extends State<SearchModal> {
       'backDestination': '/',
       'transitionKey':
           'search_${result.id}_${DateTime.now().millisecondsSinceEpoch}',
-      'detailRoute': detailRoute,
+      'detailRoute': DetailRoute.branch,
     };
 
     switch (result.type) {
@@ -13092,6 +14057,7 @@ class _SearchModalState extends State<SearchModal> {
         context.go('/tools/detail', extra: extra);
         break;
       case RenderItemType.flashcard:
+        // Not indexed (flashcards are owned by lessons/parts/tools)
         context.go('/flashcards/detail', extra: extra);
         break;
     }
@@ -13122,7 +14088,8 @@ class _SearchModalState extends State<SearchModal> {
                     ? const Center(child: Text('No matches'))
                     : ListView.separated(
                       itemCount: _filteredResults.length,
-                      separatorBuilder: (_, _) => const Divider(height: 1),
+                      separatorBuilder:
+                          (context, index) => const Divider(height: 1),
                       itemBuilder: (context, index) {
                         final r = _filteredResults[index];
                         return ListTile(
@@ -13140,16 +14107,16 @@ class _SearchModalState extends State<SearchModal> {
 }
 
 // // 📄 lib/widgets/search_modal.dart
+// // JSON-only search index by scanning AssetManifest.json
 
-// import 'package:bcc5/navigation/detail_route.dart';
+// import 'dart:convert';
 // import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart' show rootBundle;
 // import 'package:go_router/go_router.dart';
+
 // import 'package:bcc5/data/models/render_item.dart';
 // import 'package:bcc5/utils/render_item_helpers.dart';
-// import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
-// import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
-
-// // 🚫 No need to import flashcards until keyword support is added
+// import 'package:bcc5/navigation/detail_route.dart';
 
 // class SearchResult {
 //   final String id;
@@ -13174,102 +14141,116 @@ class _SearchModalState extends State<SearchModal> {
 
 // class _SearchModalState extends State<SearchModal> {
 //   final TextEditingController _controller = TextEditingController();
-//   late List<SearchResult> _allResults;
-//   List<SearchResult> _filteredResults = [];
+
+//   List<SearchResult> _allResults = const [];
+//   List<SearchResult> _filteredResults = const [];
+//   bool _loading = true;
 
 //   @override
 //   void initState() {
 //     super.initState();
-//     _allResults = _buildSearchIndex();
-//     _filteredResults = _allResults;
+//     _buildSearchIndex(); // async JSON scan
 //   }
 
-//   List<SearchResult> _buildSearchIndex() {
+//   // Build index by scanning AssetManifest.json for our JSON content files.
+//   Future<void> _buildSearchIndex() async {
 //     final results = <SearchResult>[];
+//     final seen = <String>{}; // dedupe key: "$id|$keyword|$type"
 
-//     for (final lesson in LessonRepositoryIndex.getAllLessons()) {
-//       for (final keyword in lesson.keywords) {
-//         results.add(
-//           SearchResult(
-//             id: lesson.id,
-//             keyword: keyword,
-//             displayTitle: lesson.title,
-//             type: RenderItemType.lesson,
-//           ),
-//         );
+//     try {
+//       final manifestRaw = await rootBundle.loadString('AssetManifest.json');
+//       final Map<String, dynamic> manifest = jsonDecode(manifestRaw);
+
+//       // Collect lesson/part/tool JSON asset paths
+//       final paths = manifest.keys.where((p) {
+//         final isJson = p.endsWith('.json');
+//         if (!isJson) return false;
+//         // Adjust prefixes if your structure differs
+//         final isLesson = p.contains('/json/lessons/');
+//         final isPart = p.contains('/json/parts/');
+//         final isTool = p.contains('/json/tools/');
+//         return isLesson || isPart || isTool;
+//       });
+
+//       for (final path in paths) {
+//         final type = _typeFromPath(path);
+//         if (type == null) continue;
+
+//         // Load each JSON and read id/title/keywords
+//         final raw = await rootBundle.loadString(path);
+//         final map = jsonDecode(raw) as Map<String, dynamic>;
+
+//         final id = (map['id'] as String?) ?? _idFromPath(path);
+//         if (id.isEmpty) continue;
+
+//         final title = (map['title'] as String? ?? _titleFromId(id)).trim();
+//         final kws =
+//             (map['keywords'] as List<dynamic>?)?.whereType<String>().toList() ??
+//             const <String>[];
+
+//         for (final kw in kws) {
+//           final k = kw.trim();
+//           if (k.isEmpty) continue;
+//           final deDupe = '$id|$k|${type.name}';
+//           if (seen.add(deDupe)) {
+//             results.add(
+//               SearchResult(id: id, keyword: k, displayTitle: title, type: type),
+//             );
+//           }
+//         }
 //       }
+//     } catch (_) {
+//       // Swallow and show empty results; you can add logging if desired.
 //     }
 
-//     for (final part in PartRepositoryIndex.getAllParts()) {
-//       for (final keyword in part.keywords) {
-//         results.add(
-//           SearchResult(
-//             id: part.id,
-//             keyword: keyword,
-//             displayTitle: part.title,
-//             type: RenderItemType.part,
-//           ),
-//         );
-//       }
-//     }
-
-//     return results;
+//     if (!mounted) return;
+//     setState(() {
+//       _allResults = results;
+//       _filteredResults = results;
+//       _loading = false;
+//     });
 //   }
 
-//   // List<SearchResult> _buildSearchIndex() {
-//   //   final results = <SearchResult>[];
+//   RenderItemType? _typeFromPath(String path) {
+//     if (path.contains('/json/lessons/')) return RenderItemType.lesson;
+//     if (path.contains('/json/parts/')) return RenderItemType.part;
+//     if (path.contains('/json/tools/')) return RenderItemType.tool;
+//     return null;
+//   }
 
-//   //   for (final lesson in LessonRepositoryIndex.getAllLessons()) {
-//   //     for (final keyword in lesson.keywords) {
-//   //       results.add(
-//   //         SearchResult(
-//   //           id: lesson.id,
-//   //           title: keyword,
-//   //           type: RenderItemType.lesson,
-//   //         ),
-//   //       );
-//   //     }
-//   //   }
+//   String _idFromPath(String path) {
+//     // e.g. assets/json/lessons/lesson_rules_of_road.json -> lesson_rules_of_road
+//     final file = path.split('/').last;
+//     return file.replaceAll('.json', '');
+//   }
 
-//   //   for (final part in PartRepositoryIndex.getAllParts()) {
-//   //     for (final keyword in part.keywords) {
-//   //       results.add(
-//   //         SearchResult(id: part.id, title: keyword, type: RenderItemType.part),
-//   //       );
-//   //     }
-//   //   }
-
-//   //   // 🚧 Flashcard keywords not yet available in model
-//   //   // Future-proof logic:
-//   //   // for (final flashcard in FlashcardRepository.getAllFlashcards()) {
-//   //   //   for (final keyword in flashcard.keywords ?? []) {
-//   //   //     results.add(SearchResult(
-//   //   //       id: flashcard.id,
-//   //   //       title: keyword,
-//   //   //       type: RenderItemType.flashcard,
-//   //   //     ));
-//   //   //   }
-//   //   // }
-
-//   //   return results;
-//   // }
+//   String _titleFromId(String id) {
+//     // Fallback title if JSON missing; turns "lesson_rules_of_road" -> "Lesson Rules Of Road"
+//     return id
+//         .replaceAll('_', ' ')
+//         .replaceAll('-', ' ')
+//         .split(' ')
+//         .map((w) => w.isEmpty ? w : '${w[0].toUpperCase()}${w.substring(1)}')
+//         .join(' ');
+//   }
 
 //   void _onSearchChanged(String query) {
+//     final q = query.trim().toLowerCase();
+//     if (q.isEmpty) {
+//       setState(() => _filteredResults = _allResults);
+//       return;
+//     }
 //     setState(() {
 //       _filteredResults =
 //           _allResults
-//               .where(
-//                 (r) => r.keyword.toLowerCase().contains(query.toLowerCase()),
-//               )
+//               .where((r) => r.keyword.toLowerCase().contains(q))
 //               .toList();
 //     });
 //   }
 
 //   Future<void> _navigateToResult(SearchResult result) async {
 //     final renderItems = await buildRenderItems(ids: [result.id]);
-//     final timestamp = DateTime.now().millisecondsSinceEpoch;
-
-//     if (!mounted) return; // ✅ Dart-safe context use
+//     if (!mounted) return;
 
 //     final detailRoute = switch (result.type) {
 //       RenderItemType.lesson => DetailRoute.branch,
@@ -13283,8 +14264,9 @@ class _SearchModalState extends State<SearchModal> {
 //       'currentIndex': 0,
 //       'branchIndex': 0,
 //       'backDestination': '/',
-//       'transitionKey': 'search_${result.id}_$timestamp',
-//       'detailRoute': detailRoute, // ✅ Now safe for all routes
+//       'transitionKey':
+//           'search_${result.id}_${DateTime.now().millisecondsSinceEpoch}',
+//       'detailRoute': detailRoute,
 //     };
 
 //     switch (result.type) {
@@ -13321,24 +14303,230 @@ class _SearchModalState extends State<SearchModal> {
 //             ),
 //           ),
 //           Expanded(
-//             child: ListView.separated(
-//               itemCount: _filteredResults.length,
-//               separatorBuilder: (_, _) => const Divider(height: 1),
-//               itemBuilder: (context, index) {
-//                 final result = _filteredResults[index];
-//                 return ListTile(
-//                   title: Text(result.displayTitle),
-//                   subtitle: Text(result.type.name),
-//                   onTap: () => _navigateToResult(result),
-//                 );
-//               },
-//             ),
+//             child:
+//                 _loading
+//                     ? const Center(child: CircularProgressIndicator())
+//                     : _filteredResults.isEmpty
+//                     ? const Center(child: Text('No matches'))
+//                     : ListView.separated(
+//                       itemCount: _filteredResults.length,
+//                       separatorBuilder: (_, _) => const Divider(height: 1),
+//                       itemBuilder: (context, index) {
+//                         final r = _filteredResults[index];
+//                         return ListTile(
+//                           title: Text(r.displayTitle),
+//                           subtitle: Text('${r.type.name} • ${r.keyword}'),
+//                           onTap: () => _navigateToResult(r),
+//                         );
+//                       },
+//                     ),
 //           ),
 //         ],
 //       ),
 //     );
 //   }
 // }
+
+// // // 📄 lib/widgets/search_modal.dart
+
+// // import 'package:bcc5/navigation/detail_route.dart';
+// // import 'package:flutter/material.dart';
+// // import 'package:go_router/go_router.dart';
+// // import 'package:bcc5/data/models/render_item.dart';
+// // import 'package:bcc5/utils/render_item_helpers.dart';
+// // import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
+// // import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
+
+// // // 🚫 No need to import flashcards until keyword support is added
+
+// // class SearchResult {
+// //   final String id;
+// //   final String keyword;
+// //   final String displayTitle;
+// //   final RenderItemType type;
+
+// //   SearchResult({
+// //     required this.id,
+// //     required this.keyword,
+// //     required this.displayTitle,
+// //     required this.type,
+// //   });
+// // }
+
+// // class SearchModal extends StatefulWidget {
+// //   const SearchModal({super.key});
+
+// //   @override
+// //   State<SearchModal> createState() => _SearchModalState();
+// // }
+
+// // class _SearchModalState extends State<SearchModal> {
+// //   final TextEditingController _controller = TextEditingController();
+// //   late List<SearchResult> _allResults;
+// //   List<SearchResult> _filteredResults = [];
+
+// //   @override
+// //   void initState() {
+// //     super.initState();
+// //     _allResults = _buildSearchIndex();
+// //     _filteredResults = _allResults;
+// //   }
+
+// //   List<SearchResult> _buildSearchIndex() {
+// //     final results = <SearchResult>[];
+
+// //     for (final lesson in LessonRepositoryIndex.getAllLessons()) {
+// //       for (final keyword in lesson.keywords) {
+// //         results.add(
+// //           SearchResult(
+// //             id: lesson.id,
+// //             keyword: keyword,
+// //             displayTitle: lesson.title,
+// //             type: RenderItemType.lesson,
+// //           ),
+// //         );
+// //       }
+// //     }
+
+// //     for (final part in PartRepositoryIndex.getAllParts()) {
+// //       for (final keyword in part.keywords) {
+// //         results.add(
+// //           SearchResult(
+// //             id: part.id,
+// //             keyword: keyword,
+// //             displayTitle: part.title,
+// //             type: RenderItemType.part,
+// //           ),
+// //         );
+// //       }
+// //     }
+
+// //     return results;
+// //   }
+
+// //   // List<SearchResult> _buildSearchIndex() {
+// //   //   final results = <SearchResult>[];
+
+// //   //   for (final lesson in LessonRepositoryIndex.getAllLessons()) {
+// //   //     for (final keyword in lesson.keywords) {
+// //   //       results.add(
+// //   //         SearchResult(
+// //   //           id: lesson.id,
+// //   //           title: keyword,
+// //   //           type: RenderItemType.lesson,
+// //   //         ),
+// //   //       );
+// //   //     }
+// //   //   }
+
+// //   //   for (final part in PartRepositoryIndex.getAllParts()) {
+// //   //     for (final keyword in part.keywords) {
+// //   //       results.add(
+// //   //         SearchResult(id: part.id, title: keyword, type: RenderItemType.part),
+// //   //       );
+// //   //     }
+// //   //   }
+
+// //   //   // 🚧 Flashcard keywords not yet available in model
+// //   //   // Future-proof logic:
+// //   //   // for (final flashcard in FlashcardRepository.getAllFlashcards()) {
+// //   //   //   for (final keyword in flashcard.keywords ?? []) {
+// //   //   //     results.add(SearchResult(
+// //   //   //       id: flashcard.id,
+// //   //   //       title: keyword,
+// //   //   //       type: RenderItemType.flashcard,
+// //   //   //     ));
+// //   //   //   }
+// //   //   // }
+
+// //   //   return results;
+// //   // }
+
+// //   void _onSearchChanged(String query) {
+// //     setState(() {
+// //       _filteredResults =
+// //           _allResults
+// //               .where(
+// //                 (r) => r.keyword.toLowerCase().contains(query.toLowerCase()),
+// //               )
+// //               .toList();
+// //     });
+// //   }
+
+// //   Future<void> _navigateToResult(SearchResult result) async {
+// //     final renderItems = await buildRenderItems(ids: [result.id]);
+// //     final timestamp = DateTime.now().millisecondsSinceEpoch;
+
+// //     if (!mounted) return; // ✅ Dart-safe context use
+
+// //     final detailRoute = switch (result.type) {
+// //       RenderItemType.lesson => DetailRoute.branch,
+// //       RenderItemType.part => DetailRoute.branch,
+// //       RenderItemType.tool => DetailRoute.branch,
+// //       RenderItemType.flashcard => DetailRoute.branch,
+// //     };
+
+// //     final extra = {
+// //       'renderItems': renderItems,
+// //       'currentIndex': 0,
+// //       'branchIndex': 0,
+// //       'backDestination': '/',
+// //       'transitionKey': 'search_${result.id}_$timestamp',
+// //       'detailRoute': detailRoute, // ✅ Now safe for all routes
+// //     };
+
+// //     switch (result.type) {
+// //       case RenderItemType.lesson:
+// //         context.go('/lessons/detail', extra: extra);
+// //         break;
+// //       case RenderItemType.part:
+// //         context.go('/parts/detail', extra: extra);
+// //         break;
+// //       case RenderItemType.tool:
+// //         context.go('/tools/detail', extra: extra);
+// //         break;
+// //       case RenderItemType.flashcard:
+// //         context.go('/flashcards/detail', extra: extra);
+// //         break;
+// //     }
+// //   }
+
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     return Dialog(
+// //       backgroundColor: Colors.white,
+// //       child: Column(
+// //         children: [
+// //           Padding(
+// //             padding: const EdgeInsets.all(16.0),
+// //             child: TextField(
+// //               controller: _controller,
+// //               onChanged: _onSearchChanged,
+// //               decoration: const InputDecoration(
+// //                 labelText: 'Search...',
+// //                 border: OutlineInputBorder(),
+// //               ),
+// //             ),
+// //           ),
+// //           Expanded(
+// //             child: ListView.separated(
+// //               itemCount: _filteredResults.length,
+// //               separatorBuilder: (_, _) => const Divider(height: 1),
+// //               itemBuilder: (context, index) {
+// //                 final result = _filteredResults[index];
+// //                 return ListTile(
+// //                   title: Text(result.displayTitle),
+// //                   subtitle: Text(result.type.name),
+// //                   onTap: () => _navigateToResult(result),
+// //                 );
+// //               },
+// //             ),
+// //           ),
+// //         ],
+// //       ),
+// //     );
+// //   }
+// // }
 
 
 
@@ -13468,12 +14656,11 @@ import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/widgets/end_of_group_modal.dart';
 
-import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
-
-// ✅ JSON-backed flashcards
+// ✅ JSON-backed repos
+import 'package:bcc5/data/repositories/paths/json_path_repository.dart';
 import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart';
 
-// ✅ Your curated mapping (IDs per chapter)
+// ✅ Your curated mapping (IDs per chapter) — keep for now
 import 'package:bcc5/data/repositories/flashcards/competent_crew_flashards.dart';
 
 class LastGroupButton extends StatefulWidget {
@@ -13484,7 +14671,7 @@ class LastGroupButton extends StatefulWidget {
   final String backDestination;
   final String label;
 
-  /// Parent supplies “what’s next” (already JSON-only in your Detail screen).
+  /// Parent supplies “what’s next” items (already JSON-only upstream).
   final Future<List<RenderItem>?> Function() getNextRenderItems;
 
   /// Parent performs navigation to next group.
@@ -13517,7 +14704,8 @@ class _LastGroupButtonState extends State<LastGroupButton> {
       onPressed: () async {
         logger.i('⏭️ LastGroupButton tapped (${widget.label})');
 
-        final localContext = context; // ✅ capture BEFORE awaits
+        // Capture BEFORE awaits and use BuildContext.mounted to guard later.
+        final localContext = context;
 
         final isPath = widget.detailRoute == DetailRoute.path;
         final pathName = widget.backExtra?['pathName'] as String?;
@@ -13526,7 +14714,7 @@ class _LastGroupButtonState extends State<LastGroupButton> {
         // 1) Ask parent for the next group’s render items (JSON-only upstream).
         final nextRenderItems = await widget.getNextRenderItems();
 
-        // 2) Build curated flashcards (if any) using JSON repo by IDs.
+        // 2) Curated flashcards (if any) using JSON repo by IDs.
         final curated = <RenderItem>[];
         if (isPath && chapterId != null) {
           final curatedIds = curatedChapterFlashcards[chapterId];
@@ -13537,7 +14725,17 @@ class _LastGroupButtonState extends State<LastGroupButton> {
           }
         }
 
-        // ✅ Guard the exact BuildContext we’re about to use
+        // 3) Determine if a *next chapter* exists via JSON repo (no legacy).
+        bool hasNextChapter = false;
+        if (isPath && pathName != null && chapterId != null) {
+          final nextChapter = await JsonPathRepository.getNextChapter(
+            pathName,
+            chapterId,
+          );
+          hasNextChapter = nextChapter != null;
+        }
+
+        // ✅ Guard the exact BuildContext we’re about to use after awaits.
         if (!localContext.mounted) return;
 
         _showEndOfGroupModal(
@@ -13547,6 +14745,7 @@ class _LastGroupButtonState extends State<LastGroupButton> {
           isPath: isPath,
           pathName: pathName,
           chapterId: chapterId,
+          hasNextChapter: hasNextChapter,
         );
       },
       style: AppTheme.navigationButton,
@@ -13561,31 +14760,27 @@ class _LastGroupButtonState extends State<LastGroupButton> {
     required bool isPath,
     required String? pathName,
     required String? chapterId,
+    required bool hasNextChapter, // ← JSON-driven result
   }) {
-    final nextChapter =
-        (isPath && pathName != null && chapterId != null)
-            ? PathRepositoryIndex.getNextChapter(pathName, chapterId)
-            : null;
-
     final hasNextGroup = renderItems.isNotEmpty;
 
     final backRoute =
         isPath
-            ? (nextChapter != null
+            ? (hasNextChapter
                 ? '/learning-paths/${pathName!.toLowerCase().replaceAll(' ', '-')}'
                 : '/')
             : widget.backDestination;
 
     final backLabel =
         isPath
-            ? (nextChapter != null
+            ? (hasNextChapter
                 ? 'Back to ${pathName!.toTitleCase()} Chapters'
                 : '🎉 Congrats! Return to Home')
             : 'Back to ${_pluralize(widget.label.toTitleCase())}';
 
     final forwardLabel =
         isPath
-            ? (nextChapter != null
+            ? (hasNextChapter
                 ? 'Next ${pathName!.toTitleCase()} Chapter'
                 : 'Restart ${pathName!.toTitleCase()}')
             : (hasNextGroup
@@ -13594,7 +14789,7 @@ class _LastGroupButtonState extends State<LastGroupButton> {
 
     final backExtra = {
       if (isPath && pathName != null) 'pathName': pathName,
-      if (isPath && nextChapter != null) 'chapterId': chapterId,
+      if (isPath && hasNextChapter) 'chapterId': chapterId,
       if (!isPath && widget.backExtra != null) ...widget.backExtra!,
       'branchIndex': widget.branchIndex,
       'transitionKey': UniqueKey().toString(),
@@ -13609,18 +14804,18 @@ class _LastGroupButtonState extends State<LastGroupButton> {
       builder:
           (_) => EndOfGroupModal(
             title:
-                (nextChapter != null || hasNextGroup)
+                (hasNextChapter || hasNextGroup)
                     ? '📘 End of this ${widget.label}'
                     : '🎉 You’ve completed all ${_pluralize(widget.label)}!',
             message:
-                (nextChapter != null || hasNextGroup)
+                (hasNextChapter || hasNextGroup)
                     ? 'Nice job! Would you like to return to the main list or begin the next ${widget.label}?'
                     : 'You’ve completed the full path! Return to home or restart the first ${widget.label}.',
             backButtonLabel: backLabel,
             backRoute: backRoute,
             forwardButtonLabel: forwardLabel,
             onNextGroup:
-                (nextChapter != null || hasNextGroup)
+                (hasNextChapter || hasNextGroup)
                     ? () => widget.onNavigateToNextGroup?.call(renderItems)
                     : widget.onRestartAtFirstGroup,
             backExtra: backExtra,
@@ -13636,18 +14831,25 @@ class _LastGroupButtonState extends State<LastGroupButton> {
 
 // // lib/widgets/navigation/last_group_button.dart
 
-// import 'package:bcc5/data/repositories/flashcards/competent_crew_flashards.dart';
-// import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
-// import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+// import 'package:flutter/material.dart';
+
+// import 'package:bcc5/theme/app_theme.dart';
 // import 'package:bcc5/theme/slide_direction.dart';
 // import 'package:bcc5/theme/transition_type.dart';
-// import 'package:flutter/material.dart';
-// import 'package:bcc5/theme/app_theme.dart';
 // import 'package:bcc5/utils/logger.dart';
 // import 'package:bcc5/utils/string_extensions.dart';
+
 // import 'package:bcc5/data/models/render_item.dart';
 // import 'package:bcc5/navigation/detail_route.dart';
 // import 'package:bcc5/widgets/end_of_group_modal.dart';
+
+// import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+
+// // ✅ JSON-backed flashcards
+// import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart';
+
+// // ✅ Your curated mapping (IDs per chapter)
+// import 'package:bcc5/data/repositories/flashcards/competent_crew_flashards.dart';
 
 // class LastGroupButton extends StatefulWidget {
 //   final RenderItemType type;
@@ -13656,8 +14858,14 @@ class _LastGroupButtonState extends State<LastGroupButton> {
 //   final int branchIndex;
 //   final String backDestination;
 //   final String label;
+
+//   /// Parent supplies “what’s next” (already JSON-only in your Detail screen).
 //   final Future<List<RenderItem>?> Function() getNextRenderItems;
+
+//   /// Parent performs navigation to next group.
 //   final void Function(List<RenderItem> renderItems)? onNavigateToNextGroup;
+
+//   /// Parent restarts at the first group.
 //   final VoidCallback? onRestartAtFirstGroup;
 
 //   const LastGroupButton({
@@ -13682,53 +14890,53 @@ class _LastGroupButtonState extends State<LastGroupButton> {
 //   Widget build(BuildContext context) {
 //     return ElevatedButton(
 //       onPressed: () async {
+//         logger.i('⏭️ LastGroupButton tapped (${widget.label})');
+
+//         final localContext = context; // ✅ capture BEFORE awaits
+
 //         final isPath = widget.detailRoute == DetailRoute.path;
 //         final pathName = widget.backExtra?['pathName'] as String?;
 //         final chapterId = widget.backExtra?['chapterId'] as String?;
-//         logger.i('⏭️ LastGroupButton tapped (${widget.label})');
 
-//         final renderItems = await widget.getNextRenderItems();
+//         // 1) Ask parent for the next group’s render items (JSON-only upstream).
+//         final nextRenderItems = await widget.getNextRenderItems();
 
-//         WidgetsBinding.instance.addPostFrameCallback((_) {
-//           if (!mounted) return;
-
-//           final curatedFlashcards = <RenderItem>[];
-//           if (isPath && pathName != null && chapterId != null) {
-//             final curatedIds = curatedChapterFlashcards[chapterId];
-//             if (curatedIds != null && curatedIds.isNotEmpty) {
-//               curatedFlashcards.addAll(
-//                 curatedIds
-//                     .map(
-//                       (id) => getAllFlashcards().firstWhere((f) => f.id == id),
-//                     )
-//                     .map(RenderItem.fromFlashcard),
-//               );
-//             }
+//         // 2) Build curated flashcards (if any) using JSON repo by IDs.
+//         final curated = <RenderItem>[];
+//         if (isPath && chapterId != null) {
+//           final curatedIds = curatedChapterFlashcards[chapterId];
+//           if (curatedIds != null && curatedIds.isNotEmpty) {
+//             final curatedCards =
+//                 await JsonFlashcardRepository.getFlashcardsByIds(curatedIds);
+//             curated.addAll(curatedCards.map(RenderItem.fromFlashcard));
 //           }
+//         }
 
-//           _showEndOfGroupModal(
-//             context,
-//             renderItems ?? [],
-//             curatedFlashcards,
-//             isPath,
-//             pathName,
-//             chapterId,
-//           );
-//         });
+//         // ✅ Guard the exact BuildContext we’re about to use
+//         if (!localContext.mounted) return;
+
+//         _showEndOfGroupModal(
+//           context: localContext,
+//           renderItems: nextRenderItems ?? const <RenderItem>[],
+//           curatedFlashcards: curated,
+//           isPath: isPath,
+//           pathName: pathName,
+//           chapterId: chapterId,
+//         );
 //       },
 //       style: AppTheme.navigationButton,
 //       child: Text('Next ${widget.label.toTitleCase()}'),
 //     );
 //   }
 
-//   void _showEndOfGroupModal(
-//     BuildContext context,
-//     List<RenderItem> renderItems,
-//     List<RenderItem> curatedFlashcards,
-//     bool isPath,
-//     String? pathName,
-//     String? chapterId,
-//   ) {
+//   void _showEndOfGroupModal({
+//     required BuildContext context,
+//     required List<RenderItem> renderItems,
+//     required List<RenderItem> curatedFlashcards,
+//     required bool isPath,
+//     required String? pathName,
+//     required String? chapterId,
+//   }) {
 //     final nextChapter =
 //         (isPath && pathName != null && chapterId != null)
 //             ? PathRepositoryIndex.getNextChapter(pathName, chapterId)
@@ -13776,11 +14984,11 @@ class _LastGroupButtonState extends State<LastGroupButton> {
 //       builder:
 //           (_) => EndOfGroupModal(
 //             title:
-//                 nextChapter != null || hasNextGroup
+//                 (nextChapter != null || hasNextGroup)
 //                     ? '📘 End of this ${widget.label}'
 //                     : '🎉 You’ve completed all ${_pluralize(widget.label)}!',
 //             message:
-//                 nextChapter != null || hasNextGroup
+//                 (nextChapter != null || hasNextGroup)
 //                     ? 'Nice job! Would you like to return to the main list or begin the next ${widget.label}?'
 //                     : 'You’ve completed the full path! Return to home or restart the first ${widget.label}.',
 //             backButtonLabel: backLabel,
@@ -13793,23 +15001,190 @@ class _LastGroupButtonState extends State<LastGroupButton> {
 //             backExtra: backExtra,
 //             branchIndex: widget.branchIndex,
 //             detailRoute: widget.detailRoute,
-//             curatedFlashcards: curatedFlashcards, // ✅ add this correctly here
+//             curatedFlashcards: curatedFlashcards, // ✅ same UX, JSON-fed
 //           ),
 //     );
 //   }
 
-//   // String _normalizeToTopLevelRoute(String route) {
-//   //   if (route.startsWith('/learning-paths') && route.contains('/items')) {
-//   //     return route.replaceAll('/items', '');
-//   //   }
-//   //   if (route.endsWith('/items')) {
-//   //     return route.replaceAll('/items', '');
-//   //   }
-//   //   return route;
-//   // }
-
 //   String _pluralize(String word) => word.endsWith('s') ? word : '${word}s';
 // }
+
+// // // lib/widgets/navigation/last_group_button.dart
+
+// // import 'package:bcc5/data/repositories/flashcards/competent_crew_flashards.dart';
+// // import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
+// // import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+// // import 'package:bcc5/theme/slide_direction.dart';
+// // import 'package:bcc5/theme/transition_type.dart';
+// // import 'package:flutter/material.dart';
+// // import 'package:bcc5/theme/app_theme.dart';
+// // import 'package:bcc5/utils/logger.dart';
+// // import 'package:bcc5/utils/string_extensions.dart';
+// // import 'package:bcc5/data/models/render_item.dart';
+// // import 'package:bcc5/navigation/detail_route.dart';
+// // import 'package:bcc5/widgets/end_of_group_modal.dart';
+
+// // class LastGroupButton extends StatefulWidget {
+// //   final RenderItemType type;
+// //   final DetailRoute detailRoute;
+// //   final Map<String, dynamic>? backExtra;
+// //   final int branchIndex;
+// //   final String backDestination;
+// //   final String label;
+// //   final Future<List<RenderItem>?> Function() getNextRenderItems;
+// //   final void Function(List<RenderItem> renderItems)? onNavigateToNextGroup;
+// //   final VoidCallback? onRestartAtFirstGroup;
+
+// //   const LastGroupButton({
+// //     super.key,
+// //     required this.type,
+// //     required this.detailRoute,
+// //     required this.backExtra,
+// //     required this.branchIndex,
+// //     required this.backDestination,
+// //     required this.label,
+// //     required this.getNextRenderItems,
+// //     this.onNavigateToNextGroup,
+// //     this.onRestartAtFirstGroup,
+// //   });
+
+// //   @override
+// //   State<LastGroupButton> createState() => _LastGroupButtonState();
+// // }
+
+// // class _LastGroupButtonState extends State<LastGroupButton> {
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     return ElevatedButton(
+// //       onPressed: () async {
+// //         final isPath = widget.detailRoute == DetailRoute.path;
+// //         final pathName = widget.backExtra?['pathName'] as String?;
+// //         final chapterId = widget.backExtra?['chapterId'] as String?;
+// //         logger.i('⏭️ LastGroupButton tapped (${widget.label})');
+
+// //         final renderItems = await widget.getNextRenderItems();
+
+// //         WidgetsBinding.instance.addPostFrameCallback((_) {
+// //           if (!mounted) return;
+
+// //           final curatedFlashcards = <RenderItem>[];
+// //           if (isPath && pathName != null && chapterId != null) {
+// //             final curatedIds = curatedChapterFlashcards[chapterId];
+// //             if (curatedIds != null && curatedIds.isNotEmpty) {
+// //               curatedFlashcards.addAll(
+// //                 curatedIds
+// //                     .map(
+// //                       (id) => getAllFlashcards().firstWhere((f) => f.id == id),
+// //                     )
+// //                     .map(RenderItem.fromFlashcard),
+// //               );
+// //             }
+// //           }
+
+// //           _showEndOfGroupModal(
+// //             context,
+// //             renderItems ?? [],
+// //             curatedFlashcards,
+// //             isPath,
+// //             pathName,
+// //             chapterId,
+// //           );
+// //         });
+// //       },
+// //       style: AppTheme.navigationButton,
+// //       child: Text('Next ${widget.label.toTitleCase()}'),
+// //     );
+// //   }
+
+// //   void _showEndOfGroupModal(
+// //     BuildContext context,
+// //     List<RenderItem> renderItems,
+// //     List<RenderItem> curatedFlashcards,
+// //     bool isPath,
+// //     String? pathName,
+// //     String? chapterId,
+// //   ) {
+// //     final nextChapter =
+// //         (isPath && pathName != null && chapterId != null)
+// //             ? PathRepositoryIndex.getNextChapter(pathName, chapterId)
+// //             : null;
+
+// //     final hasNextGroup = renderItems.isNotEmpty;
+
+// //     final backRoute =
+// //         isPath
+// //             ? (nextChapter != null
+// //                 ? '/learning-paths/${pathName!.toLowerCase().replaceAll(' ', '-')}'
+// //                 : '/')
+// //             : widget.backDestination;
+
+// //     final backLabel =
+// //         isPath
+// //             ? (nextChapter != null
+// //                 ? 'Back to ${pathName!.toTitleCase()} Chapters'
+// //                 : '🎉 Congrats! Return to Home')
+// //             : 'Back to ${_pluralize(widget.label.toTitleCase())}';
+
+// //     final forwardLabel =
+// //         isPath
+// //             ? (nextChapter != null
+// //                 ? 'Next ${pathName!.toTitleCase()} Chapter'
+// //                 : 'Restart ${pathName!.toTitleCase()}')
+// //             : (hasNextGroup
+// //                 ? 'Next ${widget.label.toTitleCase()}'
+// //                 : 'Start Over at Beginning');
+
+// //     final backExtra = {
+// //       if (isPath && pathName != null) 'pathName': pathName,
+// //       if (isPath && nextChapter != null) 'chapterId': chapterId,
+// //       if (!isPath && widget.backExtra != null) ...widget.backExtra!,
+// //       'branchIndex': widget.branchIndex,
+// //       'transitionKey': UniqueKey().toString(),
+// //       'slideFrom': SlideDirection.left,
+// //       'transitionType': TransitionType.slide,
+// //       'detailRoute': widget.detailRoute,
+// //     };
+
+// //     showModalBottomSheet(
+// //       context: context,
+// //       showDragHandle: true,
+// //       builder:
+// //           (_) => EndOfGroupModal(
+// //             title:
+// //                 nextChapter != null || hasNextGroup
+// //                     ? '📘 End of this ${widget.label}'
+// //                     : '🎉 You’ve completed all ${_pluralize(widget.label)}!',
+// //             message:
+// //                 nextChapter != null || hasNextGroup
+// //                     ? 'Nice job! Would you like to return to the main list or begin the next ${widget.label}?'
+// //                     : 'You’ve completed the full path! Return to home or restart the first ${widget.label}.',
+// //             backButtonLabel: backLabel,
+// //             backRoute: backRoute,
+// //             forwardButtonLabel: forwardLabel,
+// //             onNextGroup:
+// //                 (nextChapter != null || hasNextGroup)
+// //                     ? () => widget.onNavigateToNextGroup?.call(renderItems)
+// //                     : widget.onRestartAtFirstGroup,
+// //             backExtra: backExtra,
+// //             branchIndex: widget.branchIndex,
+// //             detailRoute: widget.detailRoute,
+// //             curatedFlashcards: curatedFlashcards, // ✅ add this correctly here
+// //           ),
+// //     );
+// //   }
+
+// //   // String _normalizeToTopLevelRoute(String route) {
+// //   //   if (route.startsWith('/learning-paths') && route.contains('/items')) {
+// //   //     return route.replaceAll('/items', '');
+// //   //   }
+// //   //   if (route.endsWith('/items')) {
+// //   //     return route.replaceAll('/items', '');
+// //   //   }
+// //   //   return route;
+// //   // }
+
+// //   String _pluralize(String word) => word.endsWith('s') ? word : '${word}s';
+// // }
 
 
 

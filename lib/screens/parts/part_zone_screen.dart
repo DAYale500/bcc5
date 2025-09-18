@@ -10,23 +10,6 @@ import 'package:bcc5/theme/app_theme.dart';
 class PartZoneScreen extends StatelessWidget {
   PartZoneScreen({super.key});
 
-  // String _zoneToModule(String zone) {
-  //   switch (zone.toLowerCase()) {
-  //     case 'hull':
-  //       return 'hull';
-  //     case 'deck':
-  //       return 'deck';
-  //     case 'rigging':
-  //       return 'rigging';
-  //     case 'sails':
-  //       return 'sails';
-  //     case 'interior':
-  //       return 'interior';
-  //     default:
-  //       return zone.toLowerCase(); // fallback
-  //   }
-  // }
-
   // ✅ Internal GlobalKeys (no longer passed via constructor)
   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
@@ -199,24 +182,6 @@ class PartZoneScreen extends StatelessWidget {
                   },
                 );
               },
-
-              // onPressed: () {
-              //   logger.i('🟦 Tapped zone: $zone');
-              //   final timestamp = DateTime.now().millisecondsSinceEpoch;
-
-              //   context.push(
-              //     '/parts/items',
-              //     extra: {
-              //       'zone': zone,
-              //       'transitionKey':
-              //           'part_items_${zone.toLowerCase()}_$timestamp',
-              //       'slideFrom': SlideDirection.right,
-              //       'transitionType': TransitionType.slide,
-              //       'detailRoute': DetailRoute.branch,
-              //       // 🚫 No GlobalKeys passed anymore
-              //     },
-              //   );
-              // },
               child: Text(zone, style: const TextStyle(fontSize: 15)),
             ),
           );
