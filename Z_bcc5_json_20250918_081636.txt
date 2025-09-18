@@ -314,6 +314,8 @@ File: assets/json/tools/calculators.json
       "id": "tool_calc_gps_1.00",
       "title": "GPS Coordinate Conversion (DD ↔ DMS)-json",
       "content": [
+        { "type": "gpsConverter" },
+        { "type": "divider" },
         {
           "type": "text",
           "content": "Convert between Decimal Degrees (DD) and Degrees-Minutes-Seconds (DMS)."
@@ -394,6 +396,7 @@ File: assets/json/tools/calculators.json
     }
   ]
 }
+
 
 
 
