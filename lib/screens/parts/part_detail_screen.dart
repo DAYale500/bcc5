@@ -1,6 +1,9 @@
-// PartDetailScreen.dart
-
-// ✅ No import changes needed
+// ─────────────────────────────────────────────────────────────────────────────
+// lib/screens/parts/part_detail_screen.dart
+// Detail flow is list-bound; "next zone" pulls from JsonPartRepository only.
+// JSON-only for Paths as well (JsonPathRepository).
+// ─────────────────────────────────────────────────────────────────────────────
+import 'package:bcc5/data/repositories/parts/json_part_repository.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -18,12 +21,8 @@ import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/transition_manager.dart';
-
-import 'package:bcc5/data/repositories/parts/part_repository_index.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
-import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
-
-// import 'package:bcc5/widgets/end_of_group_modal.dart';
+import 'package:bcc5/data/repositories/paths/json_path_repository.dart';
 
 class PartDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -52,6 +51,9 @@ class PartDetailScreen extends StatefulWidget {
 class _PartDetailScreenState extends State<PartDetailScreen> {
   late int currentIndex;
 
+  // Async-loaded when launched from a path
+  String _chapterTitle = '';
+
   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
   final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
@@ -66,6 +68,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
     if (item.type != RenderItemType.part) {
       logger.w('⚠️ Redirecting from non-part type: ${item.id} (${item.type})');
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
         TransitionManager.goToDetailScreen(
           context: context,
           screenType: item.type,
@@ -80,14 +83,27 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
         );
       });
     }
+
+    _maybeLoadChapterTitle();
+  }
+
+  Future<void> _maybeLoadChapterTitle() async {
+    if (widget.detailRoute != DetailRoute.path) return;
+    final pathName = widget.backExtra?['pathName'] as String?;
+    final chapterId = widget.backExtra?['chapterId'] as String?;
+    if (pathName == null || chapterId == null) return;
+
+    final title =
+        await JsonPathRepository.getChapterTitleForPath(pathName, chapterId) ??
+        '';
+    if (!mounted) return;
+    setState(() {
+      _chapterTitle = title.toTitleCase();
+    });
   }
 
   void _navigateTo(int newIndex) {
-    if (newIndex < 0 || newIndex >= widget.renderItems.length) {
-      logger.w('⚠️ Navigation index out of bounds: $newIndex');
-      return;
-    }
-
+    if (newIndex < 0 || newIndex >= widget.renderItems.length) return;
     final targetItem = widget.renderItems[newIndex];
     TransitionManager.goToDetailScreen(
       context: context,
@@ -100,7 +116,15 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale,
+      replace: true,
     );
+  }
+
+  Future<String?> _nextZoneId(String currentZone) async {
+    final zones = await JsonPartRepository.getModuleNames();
+    final idx = zones.indexOf(currentZone);
+    if (idx == -1) return null;
+    return (idx + 1 < zones.length) ? zones[idx + 1] : null;
   }
 
   @override
@@ -118,7 +142,9 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
   }
 
   Widget _buildScaffold(RenderItem item, String partTitle, String zoneTitle) {
-    // final zoneId = widget.backExtra?['zone'] as String?;
+    final backZone =
+        (widget.backExtra?['module'] as String?) ??
+        (widget.backExtra?['zone'] as String?);
 
     return Scaffold(
       key: ValueKey(widget.transitionKey),
@@ -144,7 +170,6 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                 searchKey: searchKey,
                 titleKey: titleKey,
                 onBack: () {
-                  logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(
                     widget.backDestination,
                     extra: {
@@ -156,10 +181,12 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                   );
                 },
               ),
+
               if (widget.detailRoute == DetailRoute.path)
                 LearningPathProgressBar(
                   pathName: widget.backExtra?['pathName'] ?? '',
                 ),
+
               Padding(
                 padding: const EdgeInsets.only(top: 12.0),
                 child: Align(
@@ -183,16 +210,11 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                             style: TextStyle(color: Colors.black87),
                           ),
                           TextSpan(
+                            // Chapter title now comes from async JSON repo; rendered from state.
                             text:
                                 widget.detailRoute == DetailRoute.path
-                                    ? PathRepositoryIndex.getChapterTitleForPath(
-                                          widget.backExtra?['pathName'] ?? '',
-                                          widget.backExtra?['chapterId'] ?? '',
-                                        )?.toTitleCase() ??
-                                        ''
-                                    : (widget.backExtra?['zone'] as String?)
-                                            ?.toTitleCase() ??
-                                        '',
+                                    ? _chapterTitle
+                                    : backZone?.toTitleCase() ?? '',
                             style: AppTheme.groupBreadcrumbStyle,
                           ),
                         ],
@@ -222,6 +244,7 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                   ),
                 ),
               ),
+
               NavigationButtons(
                 isPreviousEnabled: currentIndex > 0,
                 isNextEnabled: currentIndex < widget.renderItems.length - 1,
@@ -253,95 +276,127 @@ class _PartDetailScreenState extends State<PartDetailScreen> {
                               }
 
                               final nextChapter =
-                                  PathRepositoryIndex.getNextChapter(
+                                  await JsonPathRepository.getNextChapter(
                                     pathName,
                                     chapterId,
                                   );
                               if (nextChapter == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     nextChapter.items
                                         .map((e) => e.pathItemId)
                                         .toList(),
                               );
                             } else {
-                              final currentZoneId =
-                                  widget.backExtra?['zone'] as String?;
-                              if (currentZoneId == null) return null;
+                              final currentZone = backZone;
+                              if (currentZone == null) return null;
 
-                              final nextZoneId =
-                                  PartRepositoryIndex.getNextZone(
-                                    currentZoneId,
-                                  );
+                              final nextZoneId = await _nextZoneId(currentZone);
                               if (nextZoneId == null) return null;
 
-                              return buildRenderItems(
-                                ids:
-                                    PartRepositoryIndex.getPartsForZone(
-                                      nextZoneId,
-                                    ).map((e) => e.id).toList(),
+                              final nextParts =
+                                  await JsonPartRepository.getPartsForModule(
+                                    nextZoneId,
+                                  );
+                              return await buildRenderItems(
+                                ids: nextParts.map((e) => e['id']!).toList(),
                               );
                             }
                           },
-                          onNavigateToNextGroup: (renderItems) {
+                          onNavigateToNextGroup: (renderItems) async {
                             if (renderItems.isEmpty) return;
 
-                            final nextBackExtra = {
-                              if (widget.detailRoute == DetailRoute.path)
-                                'chapterId':
-                                    PathRepositoryIndex.getNextChapter(
-                                      widget.backExtra?['pathName'],
-                                      widget.backExtra?['chapterId'],
-                                    )?.id,
-                              if (widget.detailRoute == DetailRoute.path)
-                                'pathName': widget.backExtra?['pathName'],
-                              if (widget.detailRoute == DetailRoute.branch)
-                                'zone': PartRepositoryIndex.getNextZone(
-                                  widget.backExtra?['zone'],
-                                ),
-                              'branchIndex': widget.branchIndex,
-                            };
+                            if (widget.detailRoute == DetailRoute.path) {
+                              final pathName =
+                                  widget.backExtra?['pathName'] as String?;
+                              final chapterId =
+                                  widget.backExtra?['chapterId'] as String?;
+                              if (pathName == null || chapterId == null) return;
 
-                            final route =
-                                widget.detailRoute == DetailRoute.path
-                                    ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
-                                    : '/parts/items';
+                              final nextChapter =
+                                  await JsonPathRepository.getNextChapter(
+                                    pathName,
+                                    chapterId,
+                                  );
+                              if (nextChapter == null) return;
 
-                            TransitionManager.goToDetailScreen(
-                              context: context,
-                              screenType: RenderItemType.part,
-                              renderItems: renderItems,
-                              currentIndex: 0,
-                              branchIndex: widget.branchIndex,
-                              backDestination: route,
-                              backExtra: nextBackExtra,
-                              detailRoute: widget.detailRoute,
-                              direction: SlideDirection.right,
-                              replace: true,
-                            );
+                              if (!mounted) return;
+
+                              final route =
+                                  '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items';
+
+                              TransitionManager.goToDetailScreen(
+                                context: context,
+                                screenType: RenderItemType.part,
+                                renderItems: renderItems,
+                                currentIndex: 0,
+                                branchIndex: widget.branchIndex,
+                                backDestination: route,
+                                backExtra: {
+                                  'pathName': pathName,
+                                  'chapterId': nextChapter.id,
+                                  'branchIndex': widget.branchIndex,
+                                },
+                                detailRoute: widget.detailRoute,
+                                direction: SlideDirection.right,
+                                replace: true,
+                              );
+                            } else {
+                              final currentZone =
+                                  (widget.backExtra?['module'] as String?) ??
+                                  (widget.backExtra?['zone'] as String?);
+                              if (currentZone == null) return;
+
+                              final nextZoneId = await _nextZoneId(currentZone);
+                              if (nextZoneId == null) return;
+
+                              if (!mounted) return;
+
+                              TransitionManager.goToDetailScreen(
+                                context: context,
+                                screenType: RenderItemType.part,
+                                renderItems: renderItems,
+                                currentIndex: 0,
+                                branchIndex: widget.branchIndex,
+                                backDestination: '/parts/items',
+                                backExtra: {
+                                  'module': nextZoneId, // prefer `module`
+                                  'zone': nextZoneId, // legacy crumb support
+                                  'branchIndex': widget.branchIndex,
+                                },
+                                detailRoute: widget.detailRoute,
+                                direction: SlideDirection.right,
+                                replace: true,
+                              );
+                            }
                           },
-                          onRestartAtFirstGroup: () {
-                            final firstZoneId =
-                                PartRepositoryIndex.getZoneNames().first;
+                          onRestartAtFirstGroup: () async {
+                            // Restart Parts flow at the first JSON zone
+                            final zones =
+                                await JsonPartRepository.getModuleNames();
+                            if (zones.isEmpty) return;
+                            final firstZoneId = zones.first;
+
                             final firstItems =
-                                PartRepositoryIndex.getPartsForZone(
+                                await JsonPartRepository.getPartsForModule(
                                   firstZoneId,
                                 );
-                            final renderItems = buildRenderItems(
-                              ids: firstItems.map((p) => p.id).toList(),
+                            final items = await buildRenderItems(
+                              ids: firstItems.map((e) => e['id']!).toList(),
                             );
 
-                            if (renderItems.isEmpty) return;
+                            if (!mounted || items.isEmpty) return;
 
                             TransitionManager.goToDetailScreen(
                               context: context,
                               screenType: RenderItemType.part,
-                              renderItems: renderItems,
+                              renderItems: items,
                               currentIndex: 0,
                               branchIndex: widget.branchIndex,
                               backDestination: '/parts/items',
                               backExtra: {
+                                'module': firstZoneId,
                                 'zone': firstZoneId,
                                 'branchIndex': widget.branchIndex,
                               },

@@ -1,0 +1,88 @@
+{
+  "module": "Test2-json",
+  "tools": [
+    {
+      "id": "tool_test_2_1.00",
+      "title": "Comm stuff-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Run these checks before leaving the dock."
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Weather & Notices to Mariners reviewed",
+            "Float plan filed; VHF operational check",
+            "Fuel, water, batteries, bilge, and engine fluids checked",
+            "Safety gear aboard: PFDs, fire extinguishers, flares, sound device",
+            "Anchors/rode secured; docklines & fenders stowed",
+            "Navigation lights & electronics functional"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Tip: assign responsibilities to crew and brief everyone."
+        }
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_check_preDeparture_1.00",
+          "title": "Pre-Departure Essentials-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "Name three critical pre-departure checks."
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Weather, safety gear, and engine/bilge/fuel systems."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tool_test2_2_1.00",
+      "title": "flares-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Checks for a tidy, safe return and shutdown."
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Secure lines & fenders; verify spring lines",
+            "Shut down engine per manual; close raw-water if required",
+            "Switch off non-essential electronics; shore power connected",
+            "Bilge check; trash/heads handled; decks tidied",
+            "Log times, engine hours, and any issues"
+          ]
+        }
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_test2_2_1.00_958dc950",
+          "title": "flares-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'flares'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Checks for a tidy, safe return and shutdown."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    }
+  ]
+}

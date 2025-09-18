@@ -1,0 +1,40 @@
+{
+  "module": "systems-json",
+  "lessons": [
+    {
+      "id": "lesson_syst_1.00",
+      "title": "Electrical Overview-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "House vs start battery, breakers, and safe usage at sea."
+        }
+      ],
+      "keywords": [
+        "systems",
+        "electrical"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_1.00_0357100a",
+          "title": "Electrical Overview-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Electrical Overview'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "House vs start battery, breakers, and safe usage at sea."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    }
+  ]
+}

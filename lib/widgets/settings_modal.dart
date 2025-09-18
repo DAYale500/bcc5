@@ -27,19 +27,49 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                    padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Text('Settings', style: AppTheme.headingStyle),
+                        Text(
+                          'Settings',
+                          textAlign: TextAlign.center,
+                          style: AppTheme.modalTitle.copyWith(
+                            fontSize: 24, // slightly larger for this sheet
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                         const SizedBox(height: 12),
                         const Divider(),
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 8),
 
-                  // 🚀 Restart Tour Button
+                  // 🚨 Emergency Information (primary action)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: AppTheme.navigationButton,
+                        onPressed: () {
+                          showEmergencyInfoModal(
+                            context,
+                            onChanged: () {
+                              // no-op; modal manages its own state
+                            },
+                          );
+                        },
+                        child: const Text('Emergency Information'),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // 🚀 Restart Tour (secondary top action)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: SizedBox(
@@ -89,57 +119,37 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                   ),
 
                   const SizedBox(height: 8),
+
+                  // 🧪 DEV Reset Resume Point (third top action)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        style: AppTheme.navigationButton,
+                        onPressed: () async {
+                          await ResumeManager.clearResumePoint();
+                          if (!context.mounted) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('✅ Resume point cleared'),
+                            ),
+                          );
+                        },
+                        child: const Text('Reset Resume Point'),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  // ▼ Scrollable settings list
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: ListView(
                         children: [
-                          // // 🚢 Vessel Name display button
-                          StatefulBuilder(
-                            builder: (context, setState) {
-                              return FutureBuilder<List<String>>(
-                                future: Future.wait([
-                                  SettingsManager.getBoatName(),
-                                  SettingsManager.getVesselType(),
-                                ]),
-                                builder: (context, snapshot) {
-                                  final name = snapshot.data?[0].trim() ?? '';
-                                  final type =
-                                      snapshot.data?[1].trim().isEmpty ?? true
-                                          ? 'Sailing'
-                                          : snapshot.data![1].trim();
-                                  final prefix =
-                                      (type == 'Sailing')
-                                          ? 'S/V'
-                                          : (type == 'Motor')
-                                          ? 'M/V'
-                                          : type;
-
-                                  final displayName =
-                                      name.isEmpty
-                                          ? 'Boat Information'
-                                          : '$prefix $name';
-
-                                  return ListTile(
-                                    contentPadding: EdgeInsets.zero,
-                                    title: Text(
-                                      displayName,
-                                      style: AppTheme.textTheme.bodyLarge,
-                                    ),
-                                    trailing: const Icon(Icons.chevron_right),
-                                    onTap: () {
-                                      showEmergencyInfoModal(
-                                        context,
-                                        onChanged: () => setState(() {}),
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                          ),
-
-                          _settingButton(context, 'Legal & Privacy Docs'),
+                          // Measurement settings
                           _settingDropdown('Units', ['Meters', 'Feet'], 'Feet'),
                           _settingDropdown('Wave Height', [
                             'Feet',
@@ -150,6 +160,7 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                             'Celsius',
                           ], 'Fahrenheit'),
 
+                          // GPS Format
                           StatefulBuilder(
                             builder: (context, setState) {
                               return FutureBuilder<GPSDisplayFormat>(
@@ -181,27 +192,18 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                           ),
 
                           const Divider(height: 24),
-                          const SizedBox(height: 8),
-                          const SizedBox(height: 12),
 
+                          // Dark mode switch
                           _settingSwitch('Dark Mode', false),
 
-                          // 🧪 DEV Reset Resume Point
-                          ElevatedButton(
-                            style: AppTheme.navigationButton,
-                            onPressed: () async {
-                              await ResumeManager.clearResumePoint();
-                              if (!context.mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('✅ Resume point cleared'),
-                                ),
-                              );
-                            },
-                            child: const Text('Reset Resume Point'),
-                          ),
+                          const SizedBox(height: 12),
+
+                          // Legal & Privacy (left-aligned tile)
+                          _settingButton(context, 'Legal & Privacy Docs'),
 
                           const SizedBox(height: 12),
+
+                          // Close Settings button
                           ElevatedButton(
                             style: AppTheme.navigationButton,
                             onPressed: () => Navigator.of(context).pop(),
@@ -211,6 +213,153 @@ void showSettingsModal(BuildContext context, String currentRouteName) {
                       ),
                     ),
                   ),
+
+                  // // 🚀 Restart Tour Button
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                  //   child: SizedBox(
+                  //     width: double.infinity,
+                  //     child: ElevatedButton(
+                  //       style: AppTheme.navigationButton,
+                  //       onPressed: () {
+                  //         logger.i(
+                  //           '🧭 SettingsModal tapped — route = $currentRouteName',
+                  //         );
+                  //         Navigator.of(context).pop();
+                  //         WidgetsBinding.instance.addPostFrameCallback((_) {
+                  //           if (currentRouteName == '/' ||
+                  //               currentRouteName == '/landing') {
+                  //             final state = LandingScreen.getState();
+                  //             if (state != null && state.mounted) {
+                  //               LandingScreenTour.restartNow(
+                  //                 landingScreenState: state,
+                  //                 mobKey: state.mobKey,
+                  //                 settingsKey: state.settingsKey,
+                  //                 titleKey: state.titleKey,
+                  //                 searchKey: state.searchKey,
+                  //                 harborKey: state.widget.harborKey,
+                  //                 coursesKey: state.widget.coursesKey,
+                  //                 partsKey: state.widget.partsKey,
+                  //                 toolsKey: state.widget.toolsKey,
+                  //                 drillsKey: state.widget.drillsKey,
+                  //                 newCrewKey: state.widget.newCrewKey,
+                  //                 advancedRefreshersKey:
+                  //                     state.widget.advancedRefreshersKey,
+                  //               );
+                  //             } else {
+                  //               logger.w(
+                  //                 '⚠️ LandingScreen not mounted — cannot restart tour',
+                  //               );
+                  //             }
+                  //           } else {
+                  //             GoRouter.of(
+                  //               context,
+                  //             ).go('/', extra: {'startTour': true});
+                  //           }
+                  //         });
+                  //       },
+                  //       child: const Text('Restart Tour'),
+                  //     ),
+                  //   ),
+                  // ),
+
+                  // const SizedBox(height: 8),
+                  // Expanded(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.symmetric(horizontal: 16),
+                  //     child: ListView(
+                  //       children: [
+                  //         // // 🚢 Vessel Name display button
+                  //         StatefulBuilder(
+                  //           builder: (context, setState) {
+                  //             return ListTile(
+                  //               contentPadding: EdgeInsets.zero,
+                  //               title: Text(
+                  //                 'Emergency Info',
+                  //                 style: AppTheme.textTheme.bodyLarge,
+                  //               ),
+                  //               trailing: const Icon(Icons.chevron_right),
+                  //               onTap: () {
+                  //                 showEmergencyInfoModal(
+                  //                   context,
+                  //                   onChanged: () => setState(() {}),
+                  //                 );
+                  //               },
+                  //             );
+                  //           },
+                  //         ),
+                  //         _settingButton(context, 'Legal & Privacy Docs'),
+                  //         _settingDropdown('Units', ['Meters', 'Feet'], 'Feet'),
+                  //         _settingDropdown('Wave Height', [
+                  //           'Feet',
+                  //           'Meters',
+                  //         ], 'Feet'),
+                  //         _settingDropdown('Temperature', [
+                  //           'Fahrenheit',
+                  //           'Celsius',
+                  //         ], 'Fahrenheit'),
+
+                  //         StatefulBuilder(
+                  //           builder: (context, setState) {
+                  //             return FutureBuilder<GPSDisplayFormat>(
+                  //               future: SettingsManager.getGPSDisplayFormat(),
+                  //               builder: (context, snapshot) {
+                  //                 final current =
+                  //                     snapshot.data ??
+                  //                     GPSDisplayFormat.marineCompact;
+                  //                 return _settingEnumDropdown(
+                  //                   'GPS Format',
+                  //                   {
+                  //                     'DMM (Marine Style)':
+                  //                         GPSDisplayFormat.marineCompact,
+                  //                     'DMS (Older Charts)':
+                  //                         GPSDisplayFormat.marineFull,
+                  //                     'DD (Decimal)': GPSDisplayFormat.decimal,
+                  //                   },
+                  //                   current,
+                  //                   (newFormat) async {
+                  //                     await SettingsManager.setGPSDisplayFormat(
+                  //                       newFormat,
+                  //                     );
+                  //                     setState(() {});
+                  //                   },
+                  //                 );
+                  //               },
+                  //             );
+                  //           },
+                  //         ),
+
+                  //         const Divider(height: 24),
+                  //         const SizedBox(height: 8),
+                  //         const SizedBox(height: 12),
+
+                  //         _settingSwitch('Dark Mode', false),
+
+                  //         // 🧪 DEV Reset Resume Point
+                  //         ElevatedButton(
+                  //           style: AppTheme.navigationButton,
+                  //           onPressed: () async {
+                  //             await ResumeManager.clearResumePoint();
+                  //             if (!context.mounted) return;
+                  //             ScaffoldMessenger.of(context).showSnackBar(
+                  //               const SnackBar(
+                  //                 content: Text('✅ Resume point cleared'),
+                  //               ),
+                  //             );
+                  //           },
+                  //           child: const Text('Reset Resume Point'),
+                  //         ),
+
+                  //         const SizedBox(height: 12),
+                  //         ElevatedButton(
+                  //           style: AppTheme.navigationButton,
+                  //           onPressed: () => Navigator.of(context).pop(),
+                  //           child: const Text('Close Settings'),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             );
@@ -286,6 +435,7 @@ Widget _settingEnumDropdown<T>(
 // 📄 Legal Docs Button
 Widget _settingButton(BuildContext context, String label) {
   return ListTile(
+    contentPadding: EdgeInsets.zero, // ⬅️ Add this to left-align text
     title: Text(label, style: AppTheme.textTheme.bodyLarge),
     trailing: const Icon(Icons.chevron_right),
     onTap: () {

@@ -19,4 +19,21 @@ class Flashcard {
     required this.showAFirst,
   }) : sideA = sideA ?? [],
        sideB = sideB ?? [];
+
+  factory Flashcard.fromJson(Map<String, dynamic> json) {
+    return Flashcard(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      sideA:
+          (json['sideA'] as List)
+              .map((item) => ContentBlock.fromJson(item))
+              .toList(),
+      sideB:
+          (json['sideB'] as List)
+              .map((item) => ContentBlock.fromJson(item))
+              .toList(),
+      isPaid: json['isPaid'] ?? false,
+      showAFirst: json['showAFirst'] ?? true,
+    );
+  }
 }

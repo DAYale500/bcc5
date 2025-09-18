@@ -1,24 +1,23 @@
 import 'dart:math' as math;
-import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
-import 'package:bcc5/navigation/detail_route.dart';
-import 'package:bcc5/theme/slide_direction.dart';
-import 'package:bcc5/theme/transition_type.dart';
-import 'package:bcc5/utils/render_item_helpers.dart';
-import 'package:bcc5/utils/string_extensions.dart';
-import 'package:bcc5/widgets/learning_path_progress_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:bcc5/data/models/render_item.dart';
-import 'package:bcc5/utils/logger.dart';
-import 'package:bcc5/widgets/flip_card_widget.dart';
-import 'package:bcc5/widgets/navigation_buttons.dart';
+import 'package:bcc5/data/repositories/paths/json_path_repository.dart';
+import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart'; // ✅ JSON only
+import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/app_theme.dart';
-import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/theme/slide_direction.dart';
+import 'package:bcc5/theme/transition_type.dart';
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/utils/render_item_helpers.dart'; // kept for PATH branch buildRenderItems(ids:...)
+import 'package:bcc5/utils/string_extensions.dart';
 import 'package:bcc5/utils/transition_manager.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
-
+import 'package:bcc5/widgets/custom_app_bar_widget.dart';
+import 'package:bcc5/widgets/flip_card_widget.dart';
+import 'package:bcc5/widgets/learning_path_progress_bar.dart';
 import 'package:bcc5/widgets/navigation/last_group_button.dart';
+import 'package:bcc5/widgets/navigation_buttons.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class FlashcardDetailScreen extends StatefulWidget {
   final List<RenderItem> renderItems;
@@ -51,6 +50,10 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
   late Animation<double> _flipAnimation;
   bool showFront = true;
 
+  // Async-loaded when launched from a path
+  String _chapterTitle = '';
+
+  // App bar keys
   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
   final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
@@ -77,10 +80,9 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       );
 
       if (item.type != RenderItemType.flashcard) {
-        logger.w(
-          '⚠️ Redirecting from non-flashcard type: ${item.id} (${item.type})',
-        );
+        // Defensive: auto-redirect if route was called with a non-flashcard
         WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
           TransitionManager.goToDetailScreen(
             context: context,
             screenType: item.type,
@@ -106,12 +108,65 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
+    // If launched from a path, fetch the chapter title via JSON repo.
+    _maybeLoadChapterTitle();
+  }
+
+  Future<void> _maybeLoadChapterTitle() async {
+    if (widget.detailRoute != DetailRoute.path) return;
+    final pathName = widget.backExtra?['pathName'] as String?;
+    final chapterId = widget.backExtra?['chapterId'] as String?;
+    if (pathName == null || chapterId == null) return;
+
+    final title =
+        await JsonPathRepository.getChapterTitleForPath(pathName, chapterId) ??
+        '';
+    if (!mounted) return;
+    setState(() {
+      _chapterTitle = title.toTitleCase();
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  // ---------- Helpers (JSON only for categories) ----------
+  String _slug(String raw) {
+    return raw
+        .trim()
+        .toLowerCase()
+        .replaceAll('&', 'and')
+        .replaceAll(RegExp(r'[^a-z0-9]+'), '_')
+        .replaceAll(RegExp(r'_+'), '_')
+        .replaceAll(RegExp(r'^_|_$'), '');
+  }
+
+  Future<List<String>> _sortedCategories() async {
+    // Keep 'all' and 'random' (if present) first, others after — matches your category screen
+    final cats = await JsonFlashcardRepository.getAllCategories();
+    final specials = cats.where((c) => c == 'all' || c == 'random');
+    final rest = cats.where((c) => c != 'all' && c != 'random');
+    return [...specials, ...rest].toList();
+  }
+
+  Future<String?> _nextCategory(String current) async {
+    final cats = await _sortedCategories();
+    if (cats.isEmpty) return null;
+    final curSlug = _slug(current);
+    final idx = cats.indexWhere((c) => _slug(c) == curSlug);
+    if (idx < 0) return null;
+    final nextIdx = idx + 1;
+    if (nextIdx >= cats.length) return null;
+    return cats[nextIdx];
+  }
+
+  bool _isTerminalCategory(String name) {
+    final s = _slug(name);
+    return s == 'all' || s == 'random';
   }
 
   void flipCard() {
@@ -129,7 +184,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       logger.w('⛔ Invalid navigation attempt: $newIndex');
       return;
     }
-
     final target = widget.renderItems[newIndex];
     TransitionManager.goToDetailScreen(
       context: context,
@@ -164,32 +218,18 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
     final title = flashcard.title;
     final sideA = flashcard.sideA;
     final sideB = flashcard.sideB;
-    // 📛 Customize breadcrumb title for flashcards from learning paths
+
     final isFromPath = widget.detailRoute == DetailRoute.path;
     final pathName = widget.backExtra?['pathName'] ?? '';
-    final chapterId = widget.backExtra?['chapterId'] ?? '';
 
     final breadcrumbTitle =
-        isFromPath
-            ? '${pathName.toString().toTitleCase()} Review' // future-proof for paths like "Advanced Crew"
-            : 'Drills';
+        isFromPath ? '${pathName.toString().toTitleCase()} Review' : 'Drills';
 
+    // Chapter title now comes from async JSON repo; rendered from state.
     final chapterTitle =
         isFromPath
-            ? PathRepositoryIndex.getChapterTitleForPath(
-                  pathName,
-                  chapterId,
-                )?.toTitleCase() ??
-                ''
+            ? _chapterTitle
             : (widget.backExtra?['category'] as String?)?.toTitleCase() ?? '';
-    // final categoryId = widget.backExtra?['category'] as String?;
-
-    // logger.i(
-    //   '🖼️ Rendering Flashcard:\n'
-    //   '  ├─ title: $title\n'
-    //   '  ├─ sideA: ${sideA.length} blocks\n'
-    //   '  └─ sideB: ${sideB.length} blocks',
-    // );
 
     return Scaffold(
       key: ValueKey(widget.transitionKey),
@@ -227,7 +267,8 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                   );
                 },
               ),
-              if (widget.detailRoute == DetailRoute.path)
+
+              if (isFromPath)
                 LearningPathProgressBar(
                   pathName: widget.backExtra?['pathName'] ?? '',
                 ),
@@ -268,7 +309,6 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
               ),
               const SizedBox(height: 12),
 
-              const SizedBox(height: 12),
               Expanded(
                 child: Center(
                   child: Stack(
@@ -326,6 +366,7 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                   ),
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: ElevatedButton(
@@ -334,11 +375,13 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                   child: Text(showFront ? 'Flip Over' : 'Flip Back'),
                 ),
               ),
+
               NavigationButtons(
                 isPreviousEnabled: currentIndex > 0,
                 isNextEnabled: currentIndex < widget.renderItems.length - 1,
                 onPrevious: () => _navigateTo(currentIndex - 1),
                 onNext: () => _navigateTo(currentIndex + 1),
+                // JSON-only custom button when we're at the last card
                 customNextButton:
                     currentIndex == widget.renderItems.length - 1
                         ? LastGroupButton(
@@ -347,31 +390,29 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                           backExtra: widget.backExtra,
                           branchIndex: widget.branchIndex,
                           backDestination:
-                              widget.detailRoute == DetailRoute.path
+                              isFromPath
                                   ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
                                   : '/flashcards',
-                          label:
-                              widget.detailRoute == DetailRoute.path
-                                  ? 'chapter'
-                                  : 'category',
-                          getNextRenderItems: () async {
-                            if (widget.detailRoute == DetailRoute.path) {
-                              final pathName =
-                                  widget.backExtra?['pathName'] as String?;
-                              final chapterId =
-                                  widget.backExtra?['chapterId'] as String?;
-                              if (pathName == null || chapterId == null) {
-                                return null;
-                              }
+                          label: isFromPath ? 'chapter' : 'category',
 
+                          // ✅ JSON-only “what’s next?” deck
+                          getNextRenderItems: () async {
+                            if (isFromPath) {
+                              final path =
+                                  widget.backExtra?['pathName'] as String?;
+                              final chapter =
+                                  widget.backExtra?['chapterId'] as String?;
+                              if (path == null || chapter == null) return null;
+
+                              // JSON Path repo (async)
                               final nextChapter =
-                                  PathRepositoryIndex.getNextChapter(
-                                    pathName,
-                                    chapterId,
+                                  await JsonPathRepository.getNextChapter(
+                                    path,
+                                    chapter,
                                   );
                               if (nextChapter == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     nextChapter.items
                                         .map((e) => e.pathItemId)
@@ -382,129 +423,95 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
                                   widget.backExtra?['category'] as String?;
                               if (currentCategory == null) return null;
 
-                              final nextCategory = getNextCategory(
+                              // ⛳️ Treat 'all' and 'random' as terminal: no "Next Category"
+                              if (_isTerminalCategory(currentCategory)) {
+                                return <RenderItem>[];
+                              }
+
+                              final nextCategory = await _nextCategory(
                                 currentCategory,
                               );
                               if (nextCategory == null) return null;
 
-                              final nextFlashcards = getFlashcardsForCategory(
-                                nextCategory,
-                              );
-                              if (nextFlashcards.isEmpty) return [];
+                              final nextCards =
+                                  await JsonFlashcardRepository.getFlashcardsForCategory(
+                                    nextCategory,
+                                  );
+                              if (nextCards.isEmpty) return <RenderItem>[];
 
-                              return nextFlashcards
+                              return nextCards
                                   .map(RenderItem.fromFlashcard)
                                   .toList();
                             }
                           },
-                          onNavigateToNextGroup: (renderItems) {
+
+                          // ✅ JSON-only navigation to that next deck
+                          onNavigateToNextGroup: (renderItems) async {
                             if (renderItems.isEmpty) return;
 
-                            final isPath =
-                                widget.detailRoute == DetailRoute.path;
-                            final route =
-                                isPath
+                            // Capture the actual context we will use and guard it later.
+                            final localContext = context;
+
+                            // Precompute route string (no await here)
+                            final String route =
+                                isFromPath
                                     ? '/learning-paths/${(widget.backExtra?['pathName'] as String).replaceAll(' ', '-').toLowerCase()}/items'
                                     : '/flashcards/items';
 
-                            final backExtra = {
-                              if (isPath)
-                                'chapterId':
-                                    PathRepositoryIndex.getNextChapter(
-                                      widget.backExtra?['pathName'],
-                                      widget.backExtra?['chapterId'],
-                                    )?.id,
-                              if (isPath)
-                                'pathName': widget.backExtra?['pathName'],
-                              if (!isPath)
-                                'category': getNextCategory(
-                                  widget.backExtra?['category'],
-                                ),
+                            // Build backExtra, doing awaits up front (no UI work yet)
+                            String? nextCategory;
+                            String? nextChapterId;
+
+                            if (isFromPath) {
+                              final p =
+                                  widget.backExtra?['pathName'] as String?;
+                              final c =
+                                  widget.backExtra?['chapterId'] as String?;
+                              if (p != null && c != null) {
+                                final next =
+                                    await JsonPathRepository.getNextChapter(
+                                      p,
+                                      c,
+                                    );
+                                nextChapterId = next?.id;
+                              }
+                            } else {
+                              final current =
+                                  widget.backExtra?['category'] ?? '';
+                              nextCategory = await _nextCategory(current);
+                            }
+
+                            // ✅ Guard the same BuildContext we will use after the awaits
+                            if (!localContext.mounted) return;
+
+                            final nextBackExtra = <String, dynamic>{
                               'branchIndex': widget.branchIndex,
+                              if (isFromPath) ...{
+                                'chapterId': nextChapterId,
+                                'pathName': widget.backExtra?['pathName'],
+                              } else ...{
+                                'category': nextCategory,
+                              },
                             };
 
                             TransitionManager.goToDetailScreen(
-                              context: context,
+                              context: localContext,
                               screenType: RenderItemType.flashcard,
                               renderItems: renderItems,
                               currentIndex: 0,
                               branchIndex: widget.branchIndex,
                               backDestination: route,
-                              backExtra: backExtra,
+                              backExtra: nextBackExtra,
                               detailRoute: widget.detailRoute,
                               direction: SlideDirection.right,
                               replace: true,
                             );
                           },
+
+                          // ✅ JSON-only “start over at the beginning”
                           onRestartAtFirstGroup: () {
-                            if (widget.detailRoute == DetailRoute.path) {
-                              final pathName =
-                                  widget.backExtra?['pathName'] as String?;
-                              final firstChapter =
-                                  pathName == null
-                                      ? null
-                                      : PathRepositoryIndex.getChaptersForPath(
-                                        pathName,
-                                      ).first;
-
-                              if (pathName == null || firstChapter == null) {
-                                return;
-                              }
-
-                              final renderItems = buildRenderItems(
-                                ids:
-                                    firstChapter.items
-                                        .map((e) => e.pathItemId)
-                                        .toList(),
-                              );
-
-                              if (renderItems.isEmpty) return;
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: RenderItemType.flashcard,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination:
-                                    '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
-                                backExtra: {
-                                  'chapterId': firstChapter.id,
-                                  'pathName': pathName,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            } else {
-                              final firstCategory = getAllCategories().first;
-                              final firstFlashcards = getFlashcardsForCategory(
-                                firstCategory,
-                              );
-                              final renderItems =
-                                  firstFlashcards
-                                      .map((f) => RenderItem.fromFlashcard(f))
-                                      .toList();
-
-                              if (renderItems.isEmpty) return;
-
-                              TransitionManager.goToDetailScreen(
-                                context: context,
-                                screenType: RenderItemType.flashcard,
-                                renderItems: renderItems,
-                                currentIndex: 0,
-                                branchIndex: widget.branchIndex,
-                                backDestination: '/flashcards/items',
-                                backExtra: {
-                                  'category': firstCategory,
-                                  'branchIndex': widget.branchIndex,
-                                },
-                                detailRoute: widget.detailRoute,
-                                direction: SlideDirection.right,
-                                replace: true,
-                              );
-                            }
+                            if (!mounted) return;
+                            _handleRestart(context);
                           },
                         )
                         : null,
@@ -515,4 +522,92 @@ class _FlashcardDetailScreenState extends State<FlashcardDetailScreen>
       ),
     );
   }
+
+  // JSON-only restart logic
+  Future<void> _handleRestart(BuildContext localContext) async {
+    // NOTE: Do not check `mounted` here; we will guard `localContext` right before using it.
+
+    if (widget.detailRoute == DetailRoute.path) {
+      final pathName = widget.backExtra?['pathName'] as String?;
+      final chapters =
+          pathName == null
+              ? null
+              : await JsonPathRepository.getChaptersForPath(pathName);
+
+      if (pathName == null || chapters == null || chapters.isEmpty) return;
+
+      final firstChapter = chapters.first;
+
+      final renderItems = await buildRenderItems(
+        ids: firstChapter.items.map((e) => e.pathItemId).toList(),
+      );
+      if (renderItems.isEmpty) return;
+
+      // ✅ Guard the exact BuildContext being used after awaits
+      if (!localContext.mounted) return;
+      goToFlashcardDetail(
+        context: localContext,
+        renderItems: renderItems,
+        branchIndex: widget.branchIndex,
+        backDestination:
+            '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items',
+        backExtra: {
+          'chapterId': firstChapter.id,
+          'pathName': pathName,
+          'branchIndex': widget.branchIndex,
+        },
+        detailRoute: widget.detailRoute,
+      );
+    } else {
+      // ✅ JSON: restart at the first JSON category
+      final categories = await JsonFlashcardRepository.getAllCategories();
+      if (categories.isEmpty) return;
+
+      final firstCategory = categories.first;
+      final firstCards = await JsonFlashcardRepository.getFlashcardsForCategory(
+        firstCategory,
+      );
+      final renderItems =
+          firstCards.map((f) => RenderItem.fromFlashcard(f)).toList();
+
+      if (renderItems.isEmpty) return;
+
+      // ✅ Guard the exact BuildContext being used after awaits
+      if (!localContext.mounted) return;
+      goToFlashcardDetail(
+        context: localContext,
+        renderItems: renderItems,
+        branchIndex: widget.branchIndex,
+        backDestination: '/flashcards/items',
+        backExtra: {
+          'category': firstCategory,
+          'branchIndex': widget.branchIndex,
+        },
+        detailRoute: widget.detailRoute,
+      );
+    }
+  }
+}
+
+// tiny navigator helper (unchanged)
+void goToFlashcardDetail({
+  required BuildContext context,
+  required List<RenderItem> renderItems,
+  required int branchIndex,
+  required String backDestination,
+  required Map<String, dynamic> backExtra,
+  required DetailRoute detailRoute,
+}) {
+  TransitionManager.goToDetailScreen(
+    context: context,
+    screenType: RenderItemType.flashcard,
+    renderItems: renderItems,
+    currentIndex: 0,
+    branchIndex: branchIndex,
+    backDestination: backDestination,
+    backExtra: backExtra,
+    detailRoute: detailRoute,
+    direction: SlideDirection.right,
+    replace: true,
+  );
 }

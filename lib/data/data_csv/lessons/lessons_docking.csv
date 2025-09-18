@@ -1,0 +1,88 @@
+module,id,title,keywords,isPaid,flashcard_ids,content_md
+docking,lesson_dock_1.00,"L1: Handling Dock Lines Repository","",FALSE,flashcard_lesson_dock_1.00,"Learn how to approach the dock methodically to ensure smooth arrivals.
+
+![](assets/images/fallback_image.jpeg)
+
+Use dock lines effectively to secure the boat in variable conditions.
+
+![](assets/images/fallback_image.jpeg)
+
+Crew coordination and preparation makes docking safer and easier."
+docking,lesson_dock_1.10,"Departing the Dock – What to Expect","departure; dock; crew roles; underway",FALSE,flashcard_lesson_dock_1.10,"As the boat prepares to leave the dock, your role may vary depending on experience and instruction. Understand what to expect and how to remain helpful and safe.
+
+- Departure may involve engine use, sailing off a mooring, or pushing off from a slip.
+- Crew may be assigned tasks like line handling, fender duty, or lookout.
+- If you're not given a job, stay alert and out of the way.
+- Once the boat is ‘clear of the dock,’ lines and fenders are stowed and we’re underway."
+docking,lesson_dock_2.00,"L2: Anchoring - Setting Up","",FALSE,flashcard_lesson_dock_2.00,"Anchoring starts with understanding the seabed and wind direction.
+
+![](assets/images/fallback_image.jpeg)
+
+Use visual cues and depth sounders to choose a safe location.
+
+![](assets/images/fallback_image.jpeg)
+
+Scope and anchor type are critical to holding strength."
+docking,lesson_dock_3.00,"Basics of Side Ties","",FALSE,flashcard_lesson_dock_3.00,"Side ties are useful when rafting up with other boats.
+
+![](assets/images/fallback_image.jpeg)
+
+Proper fender placement protects both vessels from contact damage.
+
+![](assets/images/fallback_image.jpeg)
+
+Choose knots that are secure but easy to untie under load."
+docking,lesson_dock_4.00,"Returning to Dock - Docking Procedure","",FALSE,flashcard_lesson_dock_4.00,"Slow and controlled movements are key when entering a slip.
+
+![](assets/images/fallback_image.jpeg)
+
+Crew should be briefed and in position before final approach.
+
+![](assets/images/fallback_image.jpeg)
+
+Use visual alignment with dock features to stay centered."
+docking,lesson_dock_5.00,"Basic Deck Safety and Boom Awareness","",FALSE,flashcard_lesson_dock_5.00,"Always maintain three points of contact while on deck.
+
+![](assets/images/fallback_image.jpeg)
+
+Watch the boom's position to avoid surprise jibes.
+
+![](assets/images/fallback_image.jpeg)
+
+Secure loose lines and gear to prevent trip hazards."
+docking,lesson_dock_6.00,"How to Assist in Docking","",FALSE,flashcard_lesson_dock_6.00,"Crew should be stationed and aware of their docking role.
+
+![](assets/images/fallback_image.jpeg)
+
+Lines should be coiled and ready to deploy quickly.
+
+![](assets/images/fallback_image.jpeg)
+
+Communication between helm and crew is essential for timing."
+docking,lesson_dock_7.00,"How to Assist in Anchoring","",FALSE,flashcard_lesson_dock_7.00,"Listen carefully to helm commands and anticipate needs.
+
+![](assets/images/fallback_image.jpeg)
+
+Ensure the anchor is free to drop and flaked correctly.
+
+![](assets/images/fallback_image.jpeg)
+
+Watch for signs of dragging or improper setting."
+docking,lesson_dock_8.00,"Lowering the Anchor Safely","",FALSE,flashcard_lesson_dock_8.00,"Approach into the wind and stop the boat before dropping anchor.
+
+![](assets/images/fallback_image.jpeg)
+
+Let the rode out steadily to avoid tangles.
+
+![](assets/images/fallback_image.jpeg)
+
+Observe how the anchor sets and adjust scope if necessary."
+docking,lesson_dock_9.00,"Raising the Anchor Safely","",FALSE,flashcard_lesson_dock_9.00,"Coordinate engine movement with winch operation to reduce strain.
+
+![](assets/images/fallback_image.jpeg)
+
+Ensure crew hands are clear of the windlass during retrieval.
+
+![](assets/images/fallback_image.jpeg)
+
+Secure the anchor and check it's seated properly before departure."

@@ -1,5 +1,10 @@
-import 'package:bcc5/data/repositories/lessons/lesson_repository_index.dart';
-import 'package:bcc5/data/repositories/paths/path_repository_index.dart';
+// ─────────────────────────────────────────────────────────────────────────────
+// lib/screens/lessons/lesson_detail_screen.dart
+// Detail flow is list-bound; "next module" pulls from JsonLessonRepository only.
+// JSON-only for Paths as well (JsonPathRepository).
+// ─────────────────────────────────────────────────────────────────────────────
+import 'package:bcc5/data/repositories/lessons/json_lesson_repository.dart';
+import 'package:bcc5/data/repositories/paths/json_path_repository.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -17,7 +22,6 @@ import 'package:bcc5/widgets/navigation_buttons.dart';
 import 'package:bcc5/widgets/content_block_renderer.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/transition_manager.dart';
-
 import 'package:bcc5/widgets/navigation/last_group_button.dart';
 
 class LessonDetailScreen extends StatefulWidget {
@@ -47,8 +51,9 @@ class LessonDetailScreen extends StatefulWidget {
 class _LessonDetailScreenState extends State<LessonDetailScreen> {
   late int currentIndex;
 
-  // 🔐 Local GlobalKeys preserved for onboarding tour targeting
-  // Avoid relying on internal AppBar key generation in this screen
+  // Async-loaded when launched from a path
+  String _chapterTitle = '';
+
   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
   final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey');
@@ -65,6 +70,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
         '⚠️ Redirecting from non-lesson type: ${item.id} (${item.type})',
       );
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
         TransitionManager.goToDetailScreen(
           context: context,
           screenType: item.type,
@@ -79,14 +85,27 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
         );
       });
     }
+
+    _maybeLoadChapterTitle();
+  }
+
+  Future<void> _maybeLoadChapterTitle() async {
+    if (widget.detailRoute != DetailRoute.path) return;
+    final pathName = widget.backExtra?['pathName'] as String?;
+    final chapterId = widget.backExtra?['chapterId'] as String?;
+    if (pathName == null || chapterId == null) return;
+
+    final title =
+        await JsonPathRepository.getChapterTitleForPath(pathName, chapterId) ??
+        '';
+    if (!mounted) return;
+    setState(() {
+      _chapterTitle = title.toTitleCase();
+    });
   }
 
   void _navigateTo(int newIndex) {
-    if (newIndex < 0 || newIndex >= widget.renderItems.length) {
-      logger.w('⚠️ Navigation index out of bounds: $newIndex');
-      return;
-    }
-
+    if (newIndex < 0 || newIndex >= widget.renderItems.length) return;
     final nextItem = widget.renderItems[newIndex];
     TransitionManager.goToDetailScreen(
       context: context,
@@ -99,13 +118,20 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
       detailRoute: widget.detailRoute,
       direction: SlideDirection.none,
       transitionType: TransitionType.fadeScale,
+      replace: true,
     );
+  }
+
+  Future<String?> _nextLessonModuleId(String current) async {
+    final modules = await JsonLessonRepository.getModuleNames();
+    final idx = modules.indexOf(current);
+    if (idx == -1) return null;
+    return (idx + 1 < modules.length) ? modules[idx + 1] : null;
   }
 
   @override
   Widget build(BuildContext context) {
     final item = widget.renderItems[currentIndex];
-
     if (item.type != RenderItemType.lesson) {
       return const Scaffold(body: SizedBox());
     }
@@ -114,8 +140,6 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     final lessonTitle = item.title;
 
     logger.i('📘 LessonDetailScreen: $lessonTitle');
-    logger.i('🧩 Content blocks: ${item.content.length}');
-    logger.i('🧠 Flashcards: ${item.flashcards.length}');
 
     return PageTransitionSwitcher(
       duration: const Duration(milliseconds: 250),
@@ -153,7 +177,6 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                 searchKey: searchKey,
                 titleKey: titleKey,
                 onBack: () {
-                  logger.i('🔙 Back tapped → ${widget.backDestination}');
                   context.go(
                     widget.backDestination,
                     extra: {
@@ -196,17 +219,13 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                           style: TextStyle(color: Colors.black87),
                         ),
                         TextSpan(
+                          // Chapter title now comes from async JSON repo; rendered from state.
                           text:
                               widget.detailRoute == DetailRoute.path
-                                  ? PathRepositoryIndex.getChapterTitleForPath(
-                                        widget.backExtra?['pathName'] ?? '',
-                                        widget.backExtra?['chapterId'] ?? '',
-                                      )?.toTitleCase() ??
-                                      ''
+                                  ? _chapterTitle
                                   : (widget.backExtra?['module'] as String?)
                                           ?.toTitleCase() ??
                                       '',
-
                           style: AppTheme.groupBreadcrumbStyle,
                         ),
                       ],
@@ -239,16 +258,8 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
               NavigationButtons(
                 isPreviousEnabled: currentIndex > 0,
                 isNextEnabled: currentIndex < widget.renderItems.length - 1,
-                onPrevious: () {
-                  logger.i('⬅️ Previous tapped on LessonDetailScreen');
-                  _navigateTo(currentIndex - 1);
-                },
-                onNext: () {
-                  if (currentIndex < widget.renderItems.length - 1) {
-                    logger.i('➡️ Next tapped on LessonDetailScreen');
-                    _navigateTo(currentIndex + 1);
-                  }
-                },
+                onPrevious: () => _navigateTo(currentIndex - 1),
+                onNext: () => _navigateTo(currentIndex + 1),
                 customNextButton:
                     (currentIndex == widget.renderItems.length - 1)
                         ? LastGroupButton(
@@ -275,13 +286,13 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                               }
 
                               final nextChapter =
-                                  PathRepositoryIndex.getNextChapter(
+                                  await JsonPathRepository.getNextChapter(
                                     pathName,
                                     chapterId,
                                   );
                               if (nextChapter == null) return null;
 
-                              return buildRenderItems(
+                              return await buildRenderItems(
                                 ids:
                                     nextChapter.items
                                         .map((e) => e.pathItemId)
@@ -292,22 +303,21 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                   widget.backExtra?['module'] as String?;
                               if (currentModuleId == null) return null;
 
-                              final nextModuleId =
-                                  LessonRepositoryIndex.getNextModule(
-                                    currentModuleId,
-                                  );
+                              final nextModuleId = await _nextLessonModuleId(
+                                currentModuleId,
+                              );
                               if (nextModuleId == null) return null;
 
-                              final nextLessons =
-                                  LessonRepositoryIndex.getLessonsForModule(
+                              final nextList =
+                                  await JsonLessonRepository.getLessonsForModule(
                                     nextModuleId,
                                   );
-                              return buildRenderItems(
-                                ids: nextLessons.map((l) => l.id).toList(),
+                              return await buildRenderItems(
+                                ids: nextList.map((e) => e['id']!).toList(),
                               );
                             }
                           },
-                          onNavigateToNextGroup: (renderItems) {
+                          onNavigateToNextGroup: (renderItems) async {
                             if (renderItems.isEmpty) return;
 
                             if (widget.detailRoute == DetailRoute.path) {
@@ -315,14 +325,18 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                   widget.backExtra?['pathName'] as String?;
                               final chapterId =
                                   widget.backExtra?['chapterId'] as String?;
-                              if (pathName == null || chapterId == null) return;
+                              if (pathName == null || chapterId == null) {
+                                return;
+                              }
 
                               final nextChapter =
-                                  PathRepositoryIndex.getNextChapter(
+                                  await JsonPathRepository.getNextChapter(
                                     pathName,
                                     chapterId,
                                   );
                               if (nextChapter == null) return;
+
+                              if (!mounted) return;
 
                               final route =
                                   '/learning-paths/${pathName.replaceAll(' ', '-').toLowerCase()}/items';
@@ -344,11 +358,16 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                                 replace: true,
                               );
                             } else {
-                              final nextModuleId =
-                                  LessonRepositoryIndex.getNextModule(
-                                    widget.backExtra?['module'],
-                                  );
+                              final currentModuleId =
+                                  widget.backExtra?['module'] as String?;
+                              if (currentModuleId == null) return;
+
+                              final nextModuleId = await _nextLessonModuleId(
+                                currentModuleId,
+                              );
                               if (nextModuleId == null) return;
+
+                              if (!mounted) return;
 
                               TransitionManager.goToDetailScreen(
                                 context: context,
@@ -367,23 +386,25 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                               );
                             }
                           },
-                          onRestartAtFirstGroup: () {
-                            final firstModuleId =
-                                LessonRepositoryIndex.getModuleNames().first;
+                          onRestartAtFirstGroup: () async {
+                            final modules =
+                                await JsonLessonRepository.getModuleNames();
+                            if (modules.isEmpty) return;
+                            final firstModuleId = modules.first;
+
                             final firstLessons =
-                                LessonRepositoryIndex.getLessonsForModule(
+                                await JsonLessonRepository.getLessonsForModule(
                                   firstModuleId,
                                 );
-                            final renderItems = buildRenderItems(
-                              ids: firstLessons.map((l) => l.id).toList(),
+                            final items = await buildRenderItems(
+                              ids: firstLessons.map((e) => e['id']!).toList(),
                             );
-
-                            if (renderItems.isEmpty) return;
+                            if (!mounted || items.isEmpty) return;
 
                             TransitionManager.goToDetailScreen(
                               context: context,
                               screenType: RenderItemType.lesson,
-                              renderItems: renderItems,
+                              renderItems: items,
                               currentIndex: 0,
                               branchIndex: widget.branchIndex,
                               backDestination: '/lessons/items',

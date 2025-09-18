@@ -1,5 +1,4 @@
 import 'package:bcc5/data/models/render_item.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -10,21 +9,85 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 
-class FlashcardCategoryScreen extends StatelessWidget {
+// ✅ JSON-backed repo (replaces legacy)
+import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart';
+
+class FlashcardCategoryScreen extends StatefulWidget {
   const FlashcardCategoryScreen({super.key});
 
   static const double appBarOffset = 80.0;
 
   @override
-  Widget build(BuildContext context) {
-    logger.i('🟦 Entered FlashcardCategoryScreen');
+  State<FlashcardCategoryScreen> createState() =>
+      _FlashcardCategoryScreenState();
+}
 
-    final categories = getAllCategories();
-    final sorted = [
-      ...categories.where((c) => c == 'all' || c == 'random'),
-      ...categories.where((c) => c != 'all' && c != 'random'),
-    ];
-    // logger.i('📇 Sorted flashcard categories: $sorted');
+class _FlashcardCategoryScreenState extends State<FlashcardCategoryScreen> {
+  late Future<List<String>> _futureCategories;
+
+  @override
+  void initState() {
+    super.initState();
+    _futureCategories = _loadCategories();
+  }
+
+  Future<List<String>> _loadCategories() async {
+    final categories = await JsonFlashcardRepository.getAllCategories();
+    // Keep 'all' and 'random' first, everything else after (preserves your UX)
+    final specials = categories.where((c) => c == 'all' || c == 'random');
+    final rest = categories.where((c) => c != 'all' && c != 'random');
+    final sorted = [...specials, ...rest].toList();
+    logger.i('📇 Sorted flashcard categories (JSON): $sorted');
+    return sorted;
+  }
+
+  Future<void> _refresh() async {
+    JsonFlashcardRepository.invalidateIndex();
+    setState(() {
+      _futureCategories = _loadCategories();
+    });
+    await _futureCategories;
+  }
+
+  Future<void> _onCategoryTap(BuildContext context, String category) async {
+    logger.i('🟥 Tapped flashcard category: $category (JSON)');
+    final flashcards = await JsonFlashcardRepository.getFlashcardsForCategory(
+      category,
+    );
+
+    if (!context.mounted) return; // ✅ guard the specific BuildContext
+
+    if (flashcards.isEmpty) {
+      logger.w('⚠️ No flashcards found in category: $category');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No flashcards found in this category.')),
+      );
+      return;
+    }
+
+    final renderItems = flashcards.map(RenderItem.fromFlashcard).toList();
+
+    if (!context.mounted) return; // ✅ guard before navigation
+    context.push(
+      '/flashcards/detail',
+      extra: {
+        'renderItems': renderItems,
+        'currentIndex': 0,
+        'branchIndex': 4,
+        'backDestination': '/flashcards',
+        'backExtra': {'category': category, 'branchIndex': 4},
+        'transitionKey':
+            'flashcards_detail_${category}_${DateTime.now().millisecondsSinceEpoch}',
+        'slideFrom': SlideDirection.right,
+        'transitionType': TransitionType.slide,
+        'detailRoute': DetailRoute.branch,
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    logger.i('🟦 Entered FlashcardCategoryScreen (JSON)');
 
     // 🔑 Internally managed GlobalKeys
     final mobKey = GlobalKey(debugLabel: 'MOBKey');
@@ -32,11 +95,11 @@ class FlashcardCategoryScreen extends StatelessWidget {
     final searchKey = GlobalKey(debugLabel: 'SearchKey');
     final titleKey = GlobalKey(debugLabel: 'TitleKey');
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
+    return FutureBuilder<List<String>>(
+      future: _futureCategories,
+      builder: (context, snap) {
         // AppBar
-        Positioned(
+        final appBar = Positioned(
           top: 0,
           left: 0,
           right: 0,
@@ -50,11 +113,11 @@ class FlashcardCategoryScreen extends StatelessWidget {
             searchKey: searchKey,
             titleKey: titleKey,
           ),
-        ),
+        );
 
-        // 🔽 Breadcrumb: Insert right here
-        const Positioned(
-          top: appBarOffset + 30,
+        // Breadcrumb
+        final crumb = const Positioned(
+          top: FlashcardCategoryScreen.appBarOffset + 30,
           left: 16,
           right: 16,
           child: Text(
@@ -62,11 +125,11 @@ class FlashcardCategoryScreen extends StatelessWidget {
             style: AppTheme.branchBreadcrumbStyle,
             textAlign: TextAlign.left,
           ),
-        ),
+        );
 
-        // Instruction text
-        Positioned(
-          top: appBarOffset + 32,
+        // Instruction chip
+        final instruction = Positioned(
+          top: FlashcardCategoryScreen.appBarOffset + 32,
           left: 62,
           right: 62,
           child: Container(
@@ -84,95 +147,100 @@ class FlashcardCategoryScreen extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        );
 
-        // Category buttons
-        Positioned.fill(
-          top: appBarOffset + 100,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Center(
-              child: Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                children:
-                    sorted.map((category) {
-                      final isSpecial =
-                          category == 'all' || category == 'random';
-                      final style =
-                          isSpecial
-                              ? AppTheme.highlightedGroupButtonStyle
-                              : ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.groupButtonUnselected,
-                                padding: AppTheme.groupButtonPadding,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    AppTheme.buttonCornerRadius,
-                                  ),
+        if (snap.connectionState != ConnectionState.done) {
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              appBar,
+              crumb,
+              instruction,
+              Positioned.fill(
+                top: FlashcardCategoryScreen.appBarOffset + 100,
+                child: const Center(child: CircularProgressIndicator()),
+              ),
+            ],
+          );
+        }
+
+        final categories = snap.data ?? const <String>[];
+        if (categories.isEmpty) {
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              appBar,
+              crumb,
+              instruction,
+              Positioned.fill(
+                top: FlashcardCategoryScreen.appBarOffset + 120,
+                child: const Center(
+                  child: Text('No flashcard categories found'),
+                ),
+              ),
+            ],
+          );
+        }
+
+        // Category buttons (unchanged layout & styling)
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            appBar,
+            crumb,
+            instruction,
+            Positioned.fill(
+              top: FlashcardCategoryScreen.appBarOffset + 100,
+              child: RefreshIndicator(
+                onRefresh: _refresh, // ← uses your method
+                child: SingleChildScrollView(
+                  physics:
+                      const AlwaysScrollableScrollPhysics(), // allows pull even if short
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Center(
+                    child: Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
+                      children:
+                          categories.map((category) {
+                            final isSpecial =
+                                category == 'all' || category == 'random';
+                            final style =
+                                isSpecial
+                                    ? AppTheme.highlightedGroupButtonStyle
+                                    : ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          AppTheme.groupButtonUnselected,
+                                      padding: AppTheme.groupButtonPadding,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          AppTheme.buttonCornerRadius,
+                                        ),
+                                      ),
+                                    );
+
+                            return SizedBox(
+                              width: 160,
+                              child: ElevatedButton(
+                                onPressed:
+                                    () => _onCategoryTap(context, category),
+                                style: style,
+                                child: Text(
+                                  category.toTitleCase(),
+                                  style: AppTheme.buttonTextStyle,
+                                  textAlign: TextAlign.center,
                                 ),
-                              );
-
-                      return SizedBox(
-                        width: 160,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            logger.i('🟥 Tapped flashcard category: $category');
-
-                            final flashcards = getFlashcardsForCategory(
-                              category,
+                              ),
                             );
-                            if (flashcards.isEmpty) {
-                              logger.w(
-                                '⚠️ No flashcards found in category: $category',
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'No flashcards found in this category.',
-                                  ),
-                                ),
-                              );
-                              return;
-                            }
-
-                            final renderItems =
-                                flashcards
-                                    .map(RenderItem.fromFlashcard)
-                                    .toList();
-
-                            context.push(
-                              '/flashcards/detail',
-                              extra: {
-                                'renderItems': renderItems,
-                                'currentIndex': 0,
-                                'branchIndex': 4,
-                                'backDestination': '/flashcards',
-                                'backExtra': {
-                                  'category': category,
-                                  'branchIndex': 4,
-                                },
-                                'transitionKey':
-                                    'flashcards_detail_${category}_${DateTime.now().millisecondsSinceEpoch}',
-                                'slideFrom': SlideDirection.right,
-                                'transitionType': TransitionType.slide,
-                                'detailRoute': DetailRoute.branch,
-                              },
-                            );
-                          },
-                          style: style,
-                          child: Text(
-                            category.toTitleCase(),
-                            style: AppTheme.buttonTextStyle,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                          }).toList(),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }

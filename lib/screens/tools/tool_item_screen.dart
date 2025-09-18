@@ -1,5 +1,5 @@
+// lib/screens/tools/tool_item_screen.dart
 import 'package:bcc5/data/models/render_item.dart';
-import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/screens/emergency/mob_emergency_screen.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
@@ -13,6 +13,7 @@ import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:go_router/go_router.dart';
+import 'package:bcc5/data/repositories/tools/json_tool_repository.dart';
 
 class ToolItemScreen extends StatefulWidget {
   final String toolbag;
@@ -62,25 +63,161 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // logger.i('🛠️ ToolItemScreen loaded for toolbag: ${widget.toolbag}');
-
-    return PopScope(
-      canPop: !widget.cameFromMob,
-      onPopInvokedWithResult: (didPop, _) {
-        if (!didPop || widget.cameFromMob) {
-          _handleBack(); // ⬅️ force fallback logic
-        }
-      },
-      child: _buildContent(context),
-    );
-  }
-
-  Widget _buildContent(BuildContext context) {
-    final tools = ToolRepositoryIndex.getToolsForBag(widget.toolbag);
-    final toolIds = tools.map((t) => t.id).toList();
-    final renderItems = buildRenderItems(ids: toolIds);
     final toolbagTitle = widget.toolbag.toTitleCase();
 
+    return FutureBuilder<List<Map<String, String>>>(
+      future: JsonToolRepository.getToolsForModule(widget.toolbag),
+      builder: (context, listSnap) {
+        if (listSnap.connectionState != ConnectionState.done) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+        if (listSnap.hasError) {
+          logger.e(
+            '🛠️ Error loading tools for ${widget.toolbag}: ${listSnap.error}',
+          );
+          return _ErrorState(onBack: _handleBack);
+        }
+
+        final items = (listSnap.data ?? const []);
+        if (items.isEmpty) {
+          logger.w('🛠️ No tools found for module: ${widget.toolbag}');
+          return _EmptyState(toolbagTitle: toolbagTitle, onBack: _handleBack);
+        }
+
+        final ids = items.map((e) => e['id']!).toList();
+
+        return FutureBuilder<List<RenderItem>>(
+          future: buildRenderItems(ids: ids),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Scaffold(
+                body: Center(child: CircularProgressIndicator()),
+              );
+            }
+            if (snapshot.hasError) {
+              logger.e('🛠️ Error building render items: ${snapshot.error}');
+              return _ErrorState(onBack: _handleBack);
+            }
+
+            final renderItems = snapshot.data ?? const <RenderItem>[];
+            if (renderItems.isEmpty) {
+              logger.w('🛠️ buildRenderItems returned empty for: $ids');
+              return _EmptyState(
+                toolbagTitle: toolbagTitle,
+                onBack: _handleBack,
+              );
+            }
+
+            return PopScope(
+              canPop: !widget.cameFromMob,
+              onPopInvokedWithResult: (didPop, _) {
+                if (!didPop || widget.cameFromMob) {
+                  _handleBack();
+                }
+              },
+              child: Column(
+                children: [
+                  CustomAppBarWidget(
+                    title: 'Tools',
+                    showBackButton: true,
+                    showSearchIcon: true,
+                    showSettingsIcon: true,
+                    mobKey: mobKey,
+                    settingsKey: settingsKey,
+                    searchKey: searchKey,
+                    titleKey: titleKey,
+                    onBack: _handleBack,
+                  ),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Tools',
+                              style: AppTheme.branchBreadcrumbStyle,
+                            ),
+                            const TextSpan(
+                              text: ' / ',
+                              style: TextStyle(color: Colors.black87),
+                            ),
+                            TextSpan(
+                              text: toolbagTitle,
+                              style: AppTheme.groupBreadcrumbStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Which ${toolbagTitle.replaceFirst(RegExp(r's$'), '')} would you like?',
+                    style: AppTheme.subheadingStyle.copyWith(
+                      color: AppTheme.primaryBlue,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ListView.builder(
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          final id = ids[index];
+                          final title = items[index]['title'] ?? id;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0),
+                            child: ItemButton(
+                              label: title,
+                              onTap: () {
+                                logger.i('🛠️ Tapped tool: $id');
+                                TransitionManager.goToDetailScreen(
+                                  context: context,
+                                  screenType: renderItems[index].type,
+                                  renderItems: renderItems,
+                                  currentIndex: index,
+                                  branchIndex: 3, // Tools branch index
+                                  backDestination: '/tools/items',
+                                  backExtra: {
+                                    'toolbag': widget.toolbag,
+                                    'cameFromMob': widget.cameFromMob,
+                                    'fromNext': true,
+                                  },
+                                  detailRoute: DetailRoute.branch,
+                                  direction: SlideDirection.right,
+                                  transitionType: TransitionType.slide,
+                                  replace: false,
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _ErrorState extends StatelessWidget {
+  final VoidCallback onBack;
+  const _ErrorState({required this.onBack});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         CustomAppBarWidget(
@@ -88,80 +225,36 @@ class _ToolItemScreenState extends State<ToolItemScreen> {
           showBackButton: true,
           showSearchIcon: true,
           showSettingsIcon: true,
-          mobKey: mobKey,
-          settingsKey: settingsKey,
-          searchKey: searchKey,
-          titleKey: titleKey,
-          onBack: _handleBack,
+          onBack: onBack,
         ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Tools',
-                    style: AppTheme.branchBreadcrumbStyle,
-                  ),
-                  const TextSpan(
-                    text: ' / ',
-                    style: TextStyle(color: Colors.black87),
-                  ),
-                  TextSpan(
-                    text: toolbagTitle,
-                    style: AppTheme.groupBreadcrumbStyle,
-                  ),
-                ],
-              ),
-            ),
+        const Expanded(
+          child: Center(
+            child: Text('There was a problem loading this toolbag.'),
           ),
         ),
-        const SizedBox(height: 8),
-        Text(
-          'Which ${toolbagTitle.replaceFirst(RegExp(r's$'), '')} would you like?',
-          style: AppTheme.subheadingStyle.copyWith(color: AppTheme.primaryBlue),
-          textAlign: TextAlign.center,
+      ],
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  final String toolbagTitle;
+  final VoidCallback onBack;
+  const _EmptyState({required this.toolbagTitle, required this.onBack});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CustomAppBarWidget(
+          title: 'Tools',
+          showBackButton: true,
+          showSearchIcon: true,
+          showSettingsIcon: true,
+          onBack: onBack,
         ),
-        const SizedBox(height: 16),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ListView.builder(
-              itemCount: tools.length,
-              itemBuilder: (context, index) {
-                final tool = tools[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                  child: ItemButton(
-                    label: tool.title,
-                    onTap: () {
-                      logger.i('🛠️ Tapped tool: ${tool.id}');
-                      TransitionManager.goToDetailScreen(
-                        context: context,
-                        screenType: RenderItemType.tool,
-                        renderItems: renderItems,
-                        currentIndex: index,
-                        branchIndex: 3,
-                        backDestination: '/tools/items',
-                        backExtra: {
-                          'toolbag': widget.toolbag,
-                          'cameFromMob': widget.cameFromMob,
-                          'fromNext': true,
-                        },
-                        detailRoute: DetailRoute.branch,
-                        direction: SlideDirection.right,
-                        transitionType: TransitionType.slide,
-                        replace: false,
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
-          ),
+          child: Center(child: Text('No tools found for "$toolbagTitle".')),
         ),
       ],
     );

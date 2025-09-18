@@ -1,0 +1,222 @@
+lib
+├── bcc5_app.dart
+├── data
+│   ├── data_csv
+│   │   └── lessons
+│   │       └── lessons_docking.csv
+│   ├── loaders
+│   │   └── content_loader.dart
+│   ├── models
+│   │   ├── content_block.dart
+│   │   ├── flashcard_model.dart
+│   │   ├── lesson_model.dart
+│   │   ├── part_model.dart
+│   │   ├── path_model.dart
+│   │   ├── render_item.dart
+│   │   └── tool_model.dart
+│   └── repositories
+│       ├── flashcards
+│       │   ├── competent_crew_flashards.dart
+│       │   └── json_flashcard_repository.dart
+│       ├── lessons
+│       │   ├── json_lesson_index.dart
+│       │   └── json_lesson_repository.dart
+│       ├── parts
+│       │   ├── json_part_index.dart
+│       │   └── json_part_repository.dart
+│       ├── paths
+│       │   └── json_path_repository.dart
+│       └── tools
+│           ├── json_tool_index.dart
+│           └── json_tool_repository.dart
+├── main.dart
+├── navigation
+│   ├── app_router.dart
+│   ├── detail_route.dart
+│   ├── main_scaffold.dart
+│   └── scaffold_helpers.dart
+├── screens
+│   ├── emergency
+│   │   ├── mob_emergency_screen.dart
+│   │   └── mob_radio_script_modal.dart
+│   ├── flashcards
+│   │   ├── flashcard_category_screen.dart
+│   │   ├── flashcard_detail_screen.dart
+│   │   └── flashcard_item_screen.dart
+│   ├── landing_screen
+│   │   └── landing_screen.dart
+│   ├── lessons
+│   │   ├── lesson_detail_screen.dart
+│   │   ├── lesson_item_screen.dart
+│   │   └── lesson_module_screen.dart
+│   ├── parts
+│   │   ├── part_detail_screen.dart
+│   │   ├── part_item_screen.dart
+│   │   ├── part_zone_screen.dart
+│   │   └── temp.dart
+│   ├── paths
+│   │   ├── path_chapter_screen.dart
+│   │   └── path_item_screen.dart
+│   └── tools
+│       ├── tool_bag_screen.dart
+│       ├── tool_detail_screen.dart
+│       └── tool_item_screen.dart
+├── theme
+│   ├── app_theme.dart
+│   ├── slide_direction.dart
+│   └── transition_type.dart
+├── utils
+│   ├── app_startup_tracker.dart
+│   ├── dev
+│   │   └── path_validator.dart
+│   ├── gps_formats.dart
+│   ├── id_parser.dart
+│   ├── location_helper.dart
+│   ├── logger.dart
+│   ├── radio_helper.dart
+│   ├── render_item_helpers.dart
+│   ├── resume_manager.dart
+│   ├── settings_manager.dart
+│   ├── string_extensions.dart
+│   ├── tour_manager.dart
+│   ├── transition_manager.dart
+│   └── vessel_formatting.dart
+└── widgets
+    ├── content_block_renderer.dart
+    ├── custom_app_bar_widget.dart
+    ├── custom_bottom_nav_bar.dart
+    ├── dialogs
+    │   └── emergency_reminder_dialog.dart
+    ├── disabled_item_button.dart
+    ├── emergency_info_modal.dart
+    ├── end_of_group_modal.dart
+    ├── flip_card_widget.dart
+    ├── gps_converter.dart
+    ├── gps_keypad.dart
+    ├── group_button.dart
+    ├── group_picker_dropdown.dart
+    ├── item_button.dart
+    ├── learning_path_progress_bar.dart
+    ├── mob_modal.dart
+    ├── navigation
+    │   ├── last_group_button.dart
+    │   └── path_ending_actions.dart
+    ├── navigation_buttons.dart
+    ├── search_modal.dart
+    ├── setting_depth_picker.dart
+    ├── setting_input_fields.dart
+    ├── setting_int_picker.dart
+    ├── setting_unit_picker.dart
+    ├── settings_modal.dart
+    └── tour
+        ├── landing_screen_tour.dart
+        └── tour_descriptions.dart
+assets
+├── images
+│   ├── anchor_windlass_image.png
+│   ├── anchoring_image.png
+│   ├── anti_fouling_paint.jpg
+│   ├── batten_pockets.png
+│   ├── bilge_pumps.jpg
+│   ├── blocks_pulleys.jpg
+│   ├── boat_overview_new.png
+│   ├── boat_overview_recent.png
+│   ├── boat_overview_tall_modified.png
+│   ├── boat_overview_tall.png
+│   ├── boat_overview_unused.png
+│   ├── boat_overview.png
+│   ├── bunks_berths.png
+│   ├── cleats.png
+│   ├── cockpit.jpg
+│   ├── compass_background.png
+│   ├── compass_overview_old.png
+│   ├── compass_rose.png
+│   ├── davits.png
+│   ├── deck_hardware.jpg
+│   ├── deck_parts_montage.webp
+│   ├── deck.png
+│   ├── DSC_radio.png
+│   ├── electrical_system.jpg
+│   ├── fallback_image.jpeg
+│   ├── flutter_logo.png
+│   ├── fresh_water_system.png
+│   ├── galley.jpg
+│   ├── Genoa-Trim-1.png
+│   ├── Genoa-Trim-2.png
+│   ├── hatches.png
+│   ├── helm.jpg
+│   ├── hull_materials.png
+│   ├── hull.png
+│   ├── images_list.txt
+│   ├── index_card.png
+│   ├── interior.png
+│   ├── jib.jpeg
+│   ├── keel.png
+│   ├── lifelines_stanchions.jpeg
+│   ├── lifelines_stanchions.png
+│   ├── main-parts-of-the-sailboat-1.jpg
+│   ├── Mainsail-Trim-1.png
+│   ├── Mainsail-Trim-2.png
+│   ├── mainsail.png
+│   ├── marine_toilet.png
+│   ├── mooring_lines.png
+│   ├── navigation_lights.png
+│   ├── navigation_station.jpg
+│   ├── parts-of-a-boat-overview.png
+│   ├── propeller.jpg
+│   ├── raising_anchor_image.jpg
+│   ├── reefing_sails.jpg
+│   ├── rigging_image1.jpg
+│   ├── rigging_image2.jpg
+│   ├── rigging.png
+│   ├── rudder_hull.jpg
+│   ├── rudder.gif
+│   ├── sail_trim.png
+│   ├── Sail-Trim-Article.png
+│   ├── sailboat_cartoon.jpg
+│   ├── sails_all.jpg
+│   ├── sails.jpg
+│   ├── Sextant.svg
+│   ├── spinnaker_pole.png
+│   ├── spinnaker.png
+│   ├── tell_tales.gif
+│   ├── tell_tales.png
+│   ├── thru_hull_fittings.jpg
+│   ├── turnbuckles.jpg
+│   ├── ventilation_system.jpg
+│   └── winches.jpg
+└── json
+    ├── june_effort
+    │   ├── dart_to_json_converter.py
+    │   └── json_csv_converter.py
+    ├── lessons
+    │   ├── docking.json
+    │   ├── emergencies.json
+    │   ├── knots.json
+    │   ├── navigation.json
+    │   ├── safety.json
+    │   ├── seamanship.json
+    │   ├── systems.json
+    │   ├── teamwork.json
+    │   └── terminology.json
+    ├── parts
+    │   ├── deck.json
+    │   ├── hull.json
+    │   ├── interior.json
+    │   ├── rigging.json
+    │   └── sails.json
+    ├── paths
+    │   └── competent_crew.json
+    └── tools
+        ├── calculators.json
+        ├── checklists.json
+        ├── colregs.json
+        ├── communications.json
+        ├── emergency.json
+        ├── engine.json
+        ├── navigation.json
+        ├── test_2.json
+        ├── test.json
+        └── vhf.json
+
+36 directories, 184 files

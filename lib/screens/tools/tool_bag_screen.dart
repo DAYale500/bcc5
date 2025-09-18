@@ -1,15 +1,14 @@
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/theme/slide_direction.dart';
 import 'package:bcc5/theme/transition_type.dart';
-import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:bcc5/data/repositories/tools/tool_repository_index.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/widgets/group_button.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:go_router/go_router.dart';
+import 'package:bcc5/data/repositories/tools/json_tool_repository.dart';
 
 class ToolBagScreen extends StatelessWidget {
   ToolBagScreen({super.key});
@@ -23,7 +22,7 @@ class ToolBagScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final toolbags = ToolRepositoryIndex.getToolbagNames();
+    // final toolbags = ToolRepositoryIndex.getToolbagNames();
     logger.i('🟦 Displaying ToolsScreen');
 
     return Stack(
@@ -45,6 +44,7 @@ class ToolBagScreen extends StatelessWidget {
             titleKey: titleKey,
           ),
         ),
+
         Positioned(
           top: appBarOffset + 26,
           left: 16,
@@ -83,54 +83,202 @@ class ToolBagScreen extends StatelessWidget {
           top: appBarOffset + 100,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ListView.builder(
-              itemCount: toolbags.length,
-              itemBuilder: (context, index) {
-                final toolbag = toolbags[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: GroupButton(
-                    label: toolbag.toTitleCase(),
-                    onTap: () {
-                      logger.d('🛠️ Selected toolbag: $toolbag');
-
-                      final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
-                      final renderItems = buildRenderItems(
-                        ids: tools.map((tool) => tool.id).toList(),
-                      );
-
-                      if (renderItems.isEmpty) {
-                        logger.w(
-                          '⚠️ No tools found in selected toolbag: $toolbag',
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('No tools found in this toolbag.'),
-                          ),
-                        );
-                        return;
-                      }
-
-                      // ✅ This is the fix: navigate to ToolItemScreen
-                      context.push(
-                        '/tools/items',
-                        extra: {
-                          'toolbag': toolbag,
-                          'transitionKey':
-                              'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
-                          'slideFrom': SlideDirection.right,
-                          'transitionType': TransitionType.slide,
-                          'detailRoute': DetailRoute.branch,
+            child: FutureBuilder<List<String>>(
+              future: JsonToolRepository.getModuleNames(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final modules = snapshot.data!;
+                if (modules.isEmpty) {
+                  return const Center(child: Text('No tool modules found.'));
+                }
+                return ListView.builder(
+                  itemCount: modules.length,
+                  itemBuilder: (context, index) {
+                    final module = modules[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: GroupButton(
+                        label: module.toTitleCase(),
+                        onTap: () {
+                          context.push(
+                            '/tools/items',
+                            extra: {
+                              'toolbag': module, // 👈 use 'toolbag'
+                              'transitionKey':
+                                  'tool_items_${module}_${DateTime.now().millisecondsSinceEpoch}',
+                              'slideFrom': SlideDirection.right,
+                              'transitionType': TransitionType.slide,
+                              'detailRoute': DetailRoute.branch,
+                            },
+                          );
+                          // context.push(
+                          //   '/tools/items',
+                          //   extra: {
+                          //     'module': module,
+                          //     'transitionKey': 'tool_items_${module}_$timestamp',
+                          //     'slideFrom': SlideDirection.right,
+                          //     'transitionType': TransitionType.slide,
+                          //     'detailRoute': DetailRoute.branch,
+                          //   },
+                          // );
                         },
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 );
               },
             ),
           ),
         ),
+
+        // Positioned.fill(
+        //   top: appBarOffset + 100,
+        //   child: Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 16),
+        //     child: ListView.builder(
+        //       itemCount: toolbags.length,
+        //       itemBuilder: (context, index) {
+        //         final toolbag = toolbags[index];
+        //         return Padding(
+        //           padding: const EdgeInsets.symmetric(vertical: 8),
+        //           child: GroupButton(
+        //             label: toolbag.toTitleCase(),
+        //             onTap: () {
+        //               final toolbagCopy = toolbag; // Avoid capture in async gap
+        //               final contextCopy = context; // Safe for closure
+
+        //               _handleToolbagTap(contextCopy, toolbagCopy);
+        //             },
+
+        //             // onTap: () async {
+        //             //   final localContext = context;
+        //             //   logger.d('🛠️ Selected toolbag: $toolbag');
+
+        //             //   final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+        //             //   final renderItems = await buildRenderItems(
+        //             //     ids: tools.map((tool) => tool.id).toList(),
+        //             //   );
+
+        //             //   if (renderItems.isEmpty) {
+        //             //     logger.w(
+        //             //       '⚠️ No tools found in selected toolbag: $toolbag',
+        //             //     );
+        //             //     ScaffoldMessenger.of(localContext).showSnackBar(
+        //             //       const SnackBar(
+        //             //         content: Text('No tools found in this toolbag.'),
+        //             //       ),
+        //             //     );
+        //             //     return;
+        //             //   }
+
+        //             //   // Just continue — no mounted check needed
+
+        //             //   // if (renderItems.isEmpty) {
+        //             //   //   logger.w(
+        //             //   //     '⚠️ No tools found in selected toolbag: $toolbag',
+        //             //   //   );
+
+        //             //   //   if (localContext.mounted) {
+        //             //   //     ScaffoldMessenger.of(localContext).showSnackBar(
+        //             //   //       const SnackBar(
+        //             //   //         content: Text('No tools found in this toolbag.'),
+        //             //   //       ),
+        //             //   //     );
+        //             //   //   }
+        //             //   //   return;
+        //             //   // }
+
+        //             //   // if (!localContext.mounted) return;
+
+        //             //   localContext.push(
+        //             //     '/tools/items',
+        //             //     extra: {
+        //             //       'toolbag': toolbag,
+        //             //       'transitionKey':
+        //             //           'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
+        //             //       'slideFrom': SlideDirection.right,
+        //             //       'transitionType': TransitionType.slide,
+        //             //       'detailRoute': DetailRoute.branch,
+        //             //     },
+        //             //   );
+        //             // },
+
+        //             // onTap: () async {
+        //             //   logger.d('🛠️ Selected toolbag: $toolbag');
+
+        //             //   final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+        //             //   final renderItems = await buildRenderItems(
+        //             //     ids: tools.map((tool) => tool.id).toList(),
+        //             //   );
+
+        //             //   if (renderItems.isEmpty) {
+        //             //     logger.w(
+        //             //       '⚠️ No tools found in selected toolbag: $toolbag',
+        //             //     );
+        //             //     ScaffoldMessenger.of(context).showSnackBar(
+        //             //       const SnackBar(
+        //             //         content: Text('No tools found in this toolbag.'),
+        //             //       ),
+        //             //     );
+        //             //     return;
+        //             //   }
+
+        //             //   // ✅ This is the fix: navigate to ToolItemScreen
+        //             //   context.push(
+        //             //     '/tools/items',
+        //             //     extra: {
+        //             //       'toolbag': toolbag,
+        //             //       'transitionKey':
+        //             //           'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
+        //             //       'slideFrom': SlideDirection.right,
+        //             //       'transitionType': TransitionType.slide,
+        //             //       'detailRoute': DetailRoute.branch,
+        //             //     },
+        //             //   );
+        //             // },
+        //           ),
+        //         );
+        //       },
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
+
+  // Future<void> _handleToolbagTap(BuildContext context, String toolbag) async {
+  //   logger.d('🛠️ Selected toolbag: $toolbag');
+
+  //   final tools = ToolRepositoryIndex.getToolsForBag(toolbag);
+  //   final renderItems = await buildRenderItems(
+  //     ids: tools.map((tool) => tool.id).toList(),
+  //   );
+
+  //   // ✅ Bail early if not valid
+  //   if (renderItems.isEmpty) {
+  //     logger.w('⚠️ No tools found in selected toolbag: $toolbag');
+  //     if (!context.mounted) return; // ✅ add this line
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text('No tools found in this toolbag.')),
+  //     );
+  //     return;
+  //   }
+
+  //   // ✅ Guard this too
+  //   if (!context.mounted) return;
+
+  //   context.push(
+  //     '/tools/items',
+  //     extra: {
+  //       'toolbag': toolbag,
+  //       'transitionKey':
+  //           'tool_items_${toolbag}_${DateTime.now().millisecondsSinceEpoch}',
+  //       'slideFrom': SlideDirection.right,
+  //       'transitionType': TransitionType.slide,
+  //       'detailRoute': DetailRoute.branch,
+  //     },
+  //   );
+  // }
 }

@@ -1,0 +1,81 @@
+{
+  "module": "engine-json",
+  "tools": [
+    {
+      "id": "tool_engine_1.00",
+      "title": "Pre-Start Checks-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Fast checklist before starting the diesel."
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Fuel valve open, no leaks",
+            "Raw water seacock open",
+            "Battery switch on, oil level OK"
+          ]
+        }
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_engine_1.00_b15bf2f5",
+          "title": "Pre-Start Checks-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Pre-Start Checks'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Fast checklist before starting the diesel."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "tool_mot_1.10",
+      "title": "Overheating — Immediate Actions-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "If the temp spikes or alarm sounds:"
+        },
+        {
+          "type": "bullets",
+          "items": [
+            "Throttle to idle, shift to neutral",
+            "Check raw water strainer / impeller",
+            "Verify water out exhaust"
+          ]
+        }
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_mot_1.10_1ac909eb",
+          "title": "Overheating — Immediate Actions-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Overheating — Immediate Actions'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "If the temp spikes or alarm sounds:"
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    }
+  ]
+}

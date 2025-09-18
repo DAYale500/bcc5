@@ -1,4 +1,3 @@
-// import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:bcc5/theme/app_theme.dart';

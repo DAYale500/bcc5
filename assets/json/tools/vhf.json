@@ -1,0 +1,40 @@
+{
+  "module": "vhf-json",
+  "tools": [
+    {
+      "id": "tool_vhf_1.00",
+      "title": "VHF Basics-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Turn on, set to channel 16, perform radio checks on working channels."
+        }
+      ],
+      "keywords": [
+        "vhf",
+        "radio"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_tool_vhf_1.00_cb9d4f32",
+          "title": "VHF Basics-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'VHF Basics'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Turn on, set to channel 16, perform radio checks on working channels."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    }
+  ]
+}

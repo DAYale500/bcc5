@@ -1,0 +1,76 @@
+{
+  "module": "interior-json",
+  "parts": [
+    {
+      "id": "part_intr_1.00",
+      "title": "Interior Safety & Stowage-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Secure gear, keep egress clear, and know where the essentials live."
+        }
+      ],
+      "keywords": [
+        "interior",
+        "stowage",
+        "safety"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_1.00_5966cfa5",
+          "title": "Interior Safety & Stowage-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Interior Safety & Stowage'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Secure gear, keep egress clear, and know where the essentials live."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_1.10",
+      "title": "Galley Basics-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Using the stove safely and managing water tanks underway."
+        }
+      ],
+      "keywords": [
+        "galley",
+        "water"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_1.10_c0aaccf3",
+          "title": "Galley Basics-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Galley Basics'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Using the stove safely and managing water tanks underway."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    }
+  ]
+}

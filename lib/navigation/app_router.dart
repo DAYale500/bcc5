@@ -1,5 +1,4 @@
 import 'package:bcc5/data/models/render_item.dart';
-import 'package:bcc5/data/repositories/flashcards/flashcard_repository_index.dart';
 import 'package:bcc5/navigation/detail_route.dart';
 import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:bcc5/theme/slide_direction.dart';
@@ -22,8 +21,14 @@ import 'package:bcc5/screens/flashcards/flashcard_category_screen.dart';
 import 'package:bcc5/screens/flashcards/flashcard_item_screen.dart';
 import 'package:bcc5/screens/flashcards/flashcard_detail_screen.dart';
 import 'package:bcc5/screens/paths/path_chapter_screen.dart';
-// import 'package:bcc5/screens/paths/path_item_screen.dart';
 import 'package:bcc5/utils/transition_manager.dart';
+import 'package:bcc5/data/repositories/flashcards/json_flashcard_repository.dart';
+
+// Helper to build RenderItems from JSON-backed flashcards
+Future<List<RenderItem>> _buildFlashcardRenderItems(List<String> ids) async {
+  final cards = await JsonFlashcardRepository.getFlashcardsByIds(ids);
+  return cards.map(RenderItem.fromFlashcard).toList();
+}
 
 GoRouter appRouter(bool showReminder) {
   return GoRouter(
@@ -356,8 +361,13 @@ GoRouter appRouter(bool showReminder) {
         path: '/parts/items',
         name: 'part-items',
         pageBuilder: (context, state) {
-          final extras = state.extra as Map<String, dynamic>? ?? {};
-          final zone = extras['zone'] as String? ?? '';
+          final extras = (state.extra as Map?) ?? const {};
+          // Prefer `module`, fall back to old `zone` for safety.
+          final module =
+              (extras['module'] as String?) ??
+              (extras['zone'] as String?)?.toLowerCase() ??
+              'hull';
+
           final slideFrom =
               extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
           final transitionType =
@@ -367,10 +377,10 @@ GoRouter appRouter(bool showReminder) {
               extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
 
           logger.i(
-            '🧩 Navigating to PartItemScreen for zone: $zone | detailRoute: $detailRoute',
+            '🧩 Navigating to PartItemScreen for module: $module | detailRoute: $detailRoute',
           );
 
-          // 🔑 GlobalKeys for BNB
+          // 🔑 GlobalKeys for BNB (unchanged)
           final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
           final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
           final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
@@ -390,7 +400,7 @@ GoRouter appRouter(bool showReminder) {
               partsKey: partsKey,
               toolsKey: toolsKey,
               drillsKey: drillsKey,
-              child: PartItemScreen(zone: zone),
+              child: PartItemScreen(module: module), // ⬅️ changed
             ),
           );
         },
@@ -482,8 +492,13 @@ GoRouter appRouter(bool showReminder) {
         path: '/tools/items',
         name: 'tool-items',
         pageBuilder: (context, state) {
-          final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
-          final toolbag = extras['toolbag'] as String? ?? '';
+          final extras = (state.extra as Map?) ?? const {};
+          // Prefer legacy 'toolbag'; allow 'module' as fallback.
+          final toolbag =
+              (extras['toolbag'] as String?) ??
+              (extras['module'] as String?) ??
+              '';
+
           final slideFrom =
               extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
           final transitionType =
@@ -496,7 +511,7 @@ GoRouter appRouter(bool showReminder) {
             '🛠️ Navigating to ToolItemScreen for toolbag: $toolbag | detailRoute: $detailRoute',
           );
 
-          // 🔑 GlobalKeys for BNB
+          // 🔑 GlobalKeys for BNB (required by MainScaffold)
           final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
           final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
           final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
@@ -522,6 +537,49 @@ GoRouter appRouter(bool showReminder) {
         },
       ),
 
+      // GoRoute(
+      //   path: '/tools/items',
+      //   name: 'tool-items',
+      //   pageBuilder: (context, state) {
+      //     final extras = state.extra as Map<String, dynamic>? ?? {}; // ✅
+      //     final toolbag = extras['toolbag'] as String? ?? '';
+      //     final slideFrom =
+      //         extras['slideFrom'] as SlideDirection? ?? SlideDirection.none;
+      //     final transitionType =
+      //         extras['transitionType'] as TransitionType? ??
+      //         TransitionType.instant;
+      //     final detailRoute =
+      //         extras['detailRoute'] as DetailRoute? ?? DetailRoute.branch;
+
+      //     logger.i(
+      //       '🛠️ Navigating to ToolItemScreen for toolbag: $toolbag | detailRoute: $detailRoute',
+      //     );
+
+      //     // 🔑 GlobalKeys for BNB
+      //     final harborKey = GlobalKey(debugLabel: 'HarborIconKey');
+      //     final coursesKey = GlobalKey(debugLabel: 'LessonsIconKey');
+      //     final partsKey = GlobalKey(debugLabel: 'PartsIconKey');
+      //     final toolsKey = GlobalKey(debugLabel: 'ToolsIconKey');
+      //     final drillsKey = GlobalKey(debugLabel: 'DrillsIconKey');
+
+      //     return TransitionManager.buildCustomTransition(
+      //       context: context,
+      //       state: state,
+      //       transitionKey: state.pageKey,
+      //       slideFrom: slideFrom,
+      //       transitionType: transitionType,
+      //       child: MainScaffold(
+      //         branchIndex: 3,
+      //         harborKey: harborKey,
+      //         coursesKey: coursesKey,
+      //         partsKey: partsKey,
+      //         toolsKey: toolsKey,
+      //         drillsKey: drillsKey,
+      //         child: ToolItemScreen(toolbag: toolbag),
+      //       ),
+      //     );
+      //   },
+      // ),
       GoRoute(
         path: '/tools/detail',
         pageBuilder: (context, state) {
@@ -707,24 +765,30 @@ GoRouter appRouter(bool showReminder) {
           final extras = state.extra as Map<String, dynamic>;
           final ids = extras['flashcardIds'] as List<String>;
 
-          final renderItems =
-              ids
-                  .map((id) => getAllFlashcards().firstWhere((c) => c.id == id))
-                  .map(RenderItem.fromFlashcard)
-                  .toList();
-
           return MaterialPage(
-            child: FlashcardDetailScreen(
-              renderItems: renderItems,
-              currentIndex: 0,
-              branchIndex: 0,
-              backDestination: '/learning-paths',
-              backExtra: {
-                'pathName': extras['pathName'] ?? 'competent crew',
-                'chapterId': extras['chapterId'],
+            child: FutureBuilder<List<RenderItem>>(
+              future: _buildFlashcardRenderItems(ids),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                  );
+                }
+                final renderItems = snapshot.data ?? const <RenderItem>[];
+
+                return FlashcardDetailScreen(
+                  renderItems: renderItems,
+                  currentIndex: 0,
+                  branchIndex: 0,
+                  backDestination: '/learning-paths',
+                  backExtra: {
+                    'pathName': extras['pathName'] ?? 'competent crew',
+                    'chapterId': extras['chapterId'],
+                  },
+                  detailRoute: DetailRoute.path,
+                  transitionKey: UniqueKey().toString(),
+                );
               },
-              detailRoute: DetailRoute.path,
-              transitionKey: UniqueKey().toString(),
             ),
           );
         },

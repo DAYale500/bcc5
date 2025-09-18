@@ -157,20 +157,28 @@ class PartZoneScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              onPressed: () {
-                logger.i('🟦 Tapped zone: $zone');
-                final timestamp = DateTime.now().millisecondsSinceEpoch;
 
+              onPressed: () {
+                final map = {
+                  'Hull': 'hull',
+                  'Sails': 'sails',
+                  'Deck': 'deck',
+                  'Rigging': 'rigging',
+                  'Interior': 'interior',
+                };
+                final module = map[zone] ?? zone.toLowerCase();
+
+                logger.i('🧩 Parts: zone "$zone" → module "$module"');
+
+                final timestamp = DateTime.now().millisecondsSinceEpoch;
                 context.push(
                   '/parts/items',
                   extra: {
-                    'zone': zone,
-                    'transitionKey':
-                        'part_items_${zone.toLowerCase()}_$timestamp',
+                    'module': module, // ⬅️ send module key here
+                    'transitionKey': 'part_items_${module}_$timestamp',
                     'slideFrom': SlideDirection.right,
                     'transitionType': TransitionType.slide,
                     'detailRoute': DetailRoute.branch,
-                    // 🚫 No GlobalKeys passed anymore
                   },
                 );
               },
