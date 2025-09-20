@@ -114,9 +114,7 @@
       ]
     },
     {
-  "module": "safety-json",
-  "lessons": [
-    {
+
       "id": "lesson_safety_1.30",
       "title": "Comfort & Seasickness: Staying Useful-json",
       "keywords": ["seasick","comfort","hydration"],
@@ -125,8 +123,7 @@
         { "type": "text", "content": "Hydration, horizon focus, light snacks, early disclosure to skipper; safe positions underway." }
       ],
       "flashcards": []
-    }
-  ]
+
 },
     {
       "id": "lesson_safety_1.35",

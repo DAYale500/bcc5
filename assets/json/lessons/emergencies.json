@@ -1,24 +1,10 @@
 {
   "module": "emergencies-json",
   "lessons": [
-    {
-  "module": "emergency-lessons-json",
-  "lessons": [
-    {
-      "id": "lesson_emerg_1.00",
-      "title": "Emergencies & Damage Control (Intro)-json",
-      "keywords": ["emergency","intro","fire","flooding"],
-      "isPaid": false,
-      "content": [
-        { "type": "text", "content": "Crew priorities: alert, assign roles, communicate on VHF, control immediate hazards, support skipper." }
-      ],
-      "flashcards": []
-    }
-  ]
-},
+
 
     {
-      "id": "lesson_emer_1.10",
+      "id": "lesson_emer_1.00",
       "title": "Mayday Basics-json",
       "content": [
         {
@@ -33,7 +19,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_emer_1.10_3d102ef6",
+          "id": "flashcard_lesson_emer_1.00_3d102ef6",
           "title": "Mayday Basics-json",
           "sideA": [
             {

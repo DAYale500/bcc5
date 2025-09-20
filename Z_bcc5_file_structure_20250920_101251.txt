@@ -186,9 +186,6 @@ assets
 │   ├── ventilation_system.jpg
 │   └── winches.jpg
 └── json
-    ├── june_effort
-    │   ├── dart_to_json_converter.py
-    │   └── json_csv_converter.py
     ├── lessons
     │   ├── docking.json
     │   ├── emergencies.json
@@ -220,4 +217,4 @@ assets
         ├── navigation.json
         └── vhf.json
 
-37 directories, 184 files
+36 directories, 182 files

@@ -39,9 +39,6 @@
     },
 
 {
-  "module": "terminology-json",
-  "lessons": [
-    {
       "id": "lesson_term_2.00",
       "title": "Commands & Language Quick Guide-json",
       "keywords": ["commands","language","calls"],
@@ -50,8 +47,6 @@
         { "type": "text", "content": "Ready about; Helm to lee; Ease/Trim; Made fast; Hold; Stand by; Lines vs sheets vs halyards." }
       ],
       "flashcards": []
-    }
-  ]
 },
 
     {

@@ -437,9 +437,6 @@
       ]
     },
     {
-  "module": "interior-json",
-  "lessons": [
-    {
       "id": "lesson_intr_2.00",
       "title": "Head & Galley Etiquette-json",
       "keywords": ["head","galley","etiquette","water"],
@@ -448,8 +445,6 @@
         { "type": "text", "content": "Marine toilet basics, conserve water, safe galley use when heeled, stowage & cleanup." }
       ],
       "flashcards": []
-    }
-  ]
 },
     {
       "id": "part_intr_2.05",
