@@ -37,25 +37,30 @@
         }
       ]
     },
-
-{
+    {
       "id": "lesson_term_2.00",
       "title": "Commands & Language Quick Guide-json",
-      "keywords": ["commands","language","calls"],
+      "keywords": [
+        "commands",
+        "language",
+        "calls"
+      ],
       "isPaid": false,
       "content": [
-        { "type": "text", "content": "Ready about; Helm to lee; Ease/Trim; Made fast; Hold; Stand by; Lines vs sheets vs halyards." }
+        {
+          "type": "text",
+          "content": "Ready about; Helm to lee; Ease/Trim; Made fast; Hold; Stand by; Lines vs sheets vs halyards."
+        }
       ],
       "flashcards": []
-},
-
+    },
     {
-      "id": "lesson_term_2.20",
+      "id": "lesson_term_18.00",
       "title": "Common Nautical Terms-json",
       "content": [
         {
           "type": "text",
-          "content": "Learn basic terms like \u201cport\u201d (left) and \u201cstarboard\u201d (right)."
+          "content": "Learn basic terms like “port” (left) and “starboard” (right)."
         }
       ],
       "keywords": [
@@ -66,7 +71,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_term_2.20",
+          "id": "flashcard_lesson_term_18.00",
           "title": "Common Nautical Terms-json",
           "sideA": [
             {
@@ -212,7 +217,7 @@
       "content": [
         {
           "type": "text",
-          "content": "Apparent wind angles from close\u2011hauled through beam, broad reach, to running; no\u2011go zone to windward."
+          "content": "Apparent wind angles from close‑hauled through beam, broad reach, to running; no‑go zone to windward."
         }
       ],
       "keywords": [
@@ -236,7 +241,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Apparent wind angles from close\u2011hauled through beam, broad reach, to running; no\u2011go zone to windward."
+              "content": "Apparent wind angles from close‑hauled through beam, broad reach, to running; no‑go zone to windward."
             }
           ],
           "isPaid": false,
@@ -250,7 +255,7 @@
       "content": [
         {
           "type": "text",
-          "content": "A tack brings the bow through the wind; a jibe brings the stern through\u2014manage boom control and preventers."
+          "content": "A tack brings the bow through the wind; a jibe brings the stern through—manage boom control and preventers."
         }
       ],
       "keywords": [
@@ -274,7 +279,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "A tack brings the bow through the wind; a jibe brings the stern through\u2014manage boom control and preventers."
+              "content": "A tack brings the bow through the wind; a jibe brings the stern through—manage boom control and preventers."
             }
           ],
           "isPaid": false,
@@ -325,7 +330,7 @@
       "content": [
         {
           "type": "text",
-          "content": "Primary sail\u2011shape controls: traveler sets angle, vang controls twist, outhaul adjusts foot depth."
+          "content": "Primary sail‑shape controls: traveler sets angle, vang controls twist, outhaul adjusts foot depth."
         }
       ],
       "keywords": [
@@ -348,7 +353,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Primary sail\u2011shape controls: traveler sets angle, vang controls twist, outhaul adjusts foot depth."
+              "content": "Primary sail‑shape controls: traveler sets angle, vang controls twist, outhaul adjusts foot depth."
             }
           ],
           "isPaid": false,
@@ -507,11 +512,11 @@
     },
     {
       "id": "lesson_term_14.00",
-      "title": "TSS, COLREGS & Stand\u2011On/Give\u2011Way-json",
+      "title": "TSS, COLREGS & Stand‑On/Give‑Way-json",
       "content": [
         {
           "type": "text",
-          "content": "Traffic Separation Schemes and collision regs define stand\u2011on/give\u2011way responsibilities to avoid collision."
+          "content": "Traffic Separation Schemes and collision regs define stand‑on/give‑way responsibilities to avoid collision."
         }
       ],
       "keywords": [
@@ -524,17 +529,17 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_14.00_850a7028",
-          "title": "TSS, COLREGS & Stand\u2011On/Give\u2011Way-json",
+          "title": "TSS, COLREGS & Stand‑On/Give‑Way-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'TSS, COLREGS & Stand\u2011On/Give\u2011Way'?"
+              "content": "What are the key points of 'TSS, COLREGS & Stand‑On/Give‑Way'?"
             }
           ],
           "sideB": [
             {
               "type": "text",
-              "content": "Traffic Separation Schemes and collision regs define stand\u2011on/give\u2011way responsibilities to avoid collision."
+              "content": "Traffic Separation Schemes and collision regs define stand‑on/give‑way responsibilities to avoid collision."
             }
           ],
           "isPaid": false,
@@ -585,7 +590,7 @@
       "content": [
         {
           "type": "text",
-          "content": "Heel is wind\u2011induced roll under way; trim is longitudinal attitude; list is static lean from imbalance."
+          "content": "Heel is wind‑induced roll under way; trim is longitudinal attitude; list is static lean from imbalance."
         }
       ],
       "keywords": [
@@ -608,7 +613,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Heel is wind\u2011induced roll under way; trim is longitudinal attitude; list is static lean from imbalance."
+              "content": "Heel is wind‑induced roll under way; trim is longitudinal attitude; list is static lean from imbalance."
             }
           ],
           "isPaid": false,

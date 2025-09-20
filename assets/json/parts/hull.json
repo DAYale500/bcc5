@@ -46,7 +46,7 @@
       ]
     },
     {
-      "id": "part_hull_1.10",
+      "id": "part_hull_03.00",
       "title": "Topsides & Deck-json",
       "content": [
         {
@@ -70,7 +70,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.10_ea6cd5c0",
+          "id": "flashcard_part_hull_03.00_ea6cd5c0",
           "title": "Topsides & Deck-json",
           "sideA": [
             {
@@ -90,7 +90,7 @@
       ]
     },
     {
-      "id": "part_hull_1.20",
+      "id": "part_hull_04.00",
       "title": "Keel & Rudder Check-json",
       "content": [
         {
@@ -113,7 +113,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.20_d2abc594",
+          "id": "flashcard_part_hull_04.00_d2abc594",
           "title": "Keel & Rudder Check-json",
           "sideA": [
             {
@@ -133,8 +133,8 @@
       ]
     },
     {
-      "id": "part_hull_1.30",
-      "title": "Through\u2011Hulls & Seacocks-json",
+      "id": "part_hull_05.00",
+      "title": "Through‑Hulls & Seacocks-json",
       "content": [
         {
           "type": "text",
@@ -144,8 +144,8 @@
           "type": "bulletList",
           "content": [
             "Exercise and lube seacocks; replace frozen valves",
-            "Double-clamp below\u2011waterline hoses (opposing screw heads)",
-            "Carry tapered softwood plugs at each through\u2011hull"
+            "Double-clamp below‑waterline hoses (opposing screw heads)",
+            "Carry tapered softwood plugs at each through‑hull"
           ]
         },
         {
@@ -163,12 +163,12 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.30_b72bf7ac",
-          "title": "Through\u2011Hulls & Seacocks-json",
+          "id": "flashcard_part_hull_05.00_b72bf7ac",
+          "title": "Through‑Hulls & Seacocks-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Through\u2011Hulls & Seacocks'?"
+              "content": "What are the key points of 'Through‑Hulls & Seacocks'?"
             }
           ],
           "sideB": [
@@ -183,12 +183,12 @@
       ]
     },
     {
-      "id": "part_hull_1.40",
+      "id": "part_hull_06.00",
       "title": "Keel Bolts & Stub Inspection-json",
       "content": [
         {
           "type": "text",
-          "content": "Assess structural connection. Look for weeping rust trails, cracking around the keel stub, and movement at the keel\u2011hull joint."
+          "content": "Assess structural connection. Look for weeping rust trails, cracking around the keel stub, and movement at the keel‑hull joint."
         },
         {
           "type": "bulletList",
@@ -208,7 +208,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.40_20bd6816",
+          "id": "flashcard_part_hull_06.00_20bd6816",
           "title": "Keel Bolts & Stub Inspection-json",
           "sideA": [
             {
@@ -219,7 +219,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Assess structural connection. Look for weeping rust trails, cracking around the keel stub, and movement at the keel\u2011hull joint."
+              "content": "Assess structural connection. Look for weeping rust trails, cracking around the keel stub, and movement at the keel‑hull joint."
             }
           ],
           "isPaid": false,
@@ -228,7 +228,7 @@
       ]
     },
     {
-      "id": "part_hull_1.50",
+      "id": "part_hull_07.00",
       "title": "Rudder Stock, Bearings & Gland-json",
       "content": [
         {
@@ -254,7 +254,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.50_de2d34e7",
+          "id": "flashcard_part_hull_07.00_de2d34e7",
           "title": "Rudder Stock, Bearings & Gland-json",
           "sideA": [
             {
@@ -274,7 +274,7 @@
       ]
     },
     {
-      "id": "part_hull_1.60",
+      "id": "part_hull_08.00",
       "title": "Propeller, Shaft & Cutlass Bearing-json",
       "content": [
         {
@@ -284,7 +284,7 @@
         {
           "type": "bulletList",
           "content": [
-            "Wiggle test at 6/12/3/9 o\u2019clock\u2014minimal play",
+            "Wiggle test at 6/12/3/9 o’clock—minimal play",
             "Remove barnacles/coralline; avoid gouging bronze",
             "Inspect shaft for scoring and straightness"
           ]
@@ -299,7 +299,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.60_6fc39b63",
+          "id": "flashcard_part_hull_08.00_6fc39b63",
           "title": "Propeller, Shaft & Cutlass Bearing-json",
           "sideA": [
             {
@@ -319,7 +319,7 @@
       ]
     },
     {
-      "id": "part_hull_1.70",
+      "id": "part_hull_09.00",
       "title": "Shaft Seal / Stuffing Box-json",
       "content": [
         {
@@ -329,7 +329,7 @@
         {
           "type": "bulletList",
           "content": [
-            "Packing gland: 1\u20133 drips/min under load (typical)",
+            "Packing gland: 1–3 drips/min under load (typical)",
             "Mechanical seal: inspect bellows age and set screws",
             "Check spare packing/mechanical seal kit aboard"
           ]
@@ -344,7 +344,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.70_637b9713",
+          "id": "flashcard_part_hull_09.00_637b9713",
           "title": "Shaft Seal / Stuffing Box-json",
           "sideA": [
             {
@@ -364,7 +364,7 @@
       ]
     },
     {
-      "id": "part_hull_1.80",
+      "id": "part_hull_10.00",
       "title": "Shaft Strut & Base-json",
       "content": [
         {
@@ -389,7 +389,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.80_1b9be326",
+          "id": "flashcard_part_hull_10.00_1b9be326",
           "title": "Shaft Strut & Base-json",
           "sideA": [
             {
@@ -409,7 +409,7 @@
       ]
     },
     {
-      "id": "part_hull_1.90",
+      "id": "part_hull_11.00",
       "title": "Anodes (Zincs) & Corrosion Survey-json",
       "content": [
         {
@@ -434,7 +434,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.90_0bfb47f9",
+          "id": "flashcard_part_hull_11.00_0bfb47f9",
           "title": "Anodes (Zincs) & Corrosion Survey-json",
           "sideA": [
             {
@@ -465,7 +465,7 @@
           "type": "bulletList",
           "content": [
             "Remove marine growth; spin log wheel freely",
-            "Check O\u2011rings and retaining clips",
+            "Check O‑rings and retaining clips",
             "Label cables and confirm data at the display"
           ]
         }
@@ -499,7 +499,7 @@
       ]
     },
     {
-      "id": "part_hull_2.10",
+      "id": "part_hull_12.00",
       "title": "Exhaust Outlet (Wet) & Water Discharge-json",
       "content": [
         {
@@ -511,7 +511,7 @@
           "content": [
             "Look for steady water flow with engine running",
             "Inspect outlet hose and clamps for heat or cracks",
-            "Verify anti\u2011siphon break function"
+            "Verify anti‑siphon break function"
           ]
         }
       ],
@@ -524,7 +524,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.10_a7d299ba",
+          "id": "flashcard_part_hull_12.00_a7d299ba",
           "title": "Exhaust Outlet (Wet) & Water Discharge-json",
           "sideA": [
             {
@@ -544,8 +544,8 @@
       ]
     },
     {
-      "id": "part_hull_2.20",
-      "title": "Cockpit Scupper Through\u2011Hulls-json",
+      "id": "part_hull_13.00",
+      "title": "Cockpit Scupper Through‑Hulls-json",
       "content": [
         {
           "type": "text",
@@ -569,12 +569,12 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.20_4dcd73c4",
-          "title": "Cockpit Scupper Through\u2011Hulls-json",
+          "id": "flashcard_part_hull_13.00_4dcd73c4",
+          "title": "Cockpit Scupper Through‑Hulls-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Cockpit Scupper Through\u2011Hulls'?"
+              "content": "What are the key points of 'Cockpit Scupper Through‑Hulls'?"
             }
           ],
           "sideB": [
@@ -589,8 +589,8 @@
       ]
     },
     {
-      "id": "part_hull_2.30",
-      "title": "Hull\u2011Deck Joint & Rub Rail-json",
+      "id": "part_hull_14.00",
+      "title": "Hull‑Deck Joint & Rub Rail-json",
       "content": [
         {
           "type": "text",
@@ -599,7 +599,7 @@
         {
           "type": "bulletList",
           "content": [
-            "Re\u2011bed sections showing leaks",
+            "Re‑bed sections showing leaks",
             "Confirm fastener spacing and torque",
             "Spot gelcoat cracking near fasteners"
           ]
@@ -614,12 +614,12 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.30_0ac01b5a",
-          "title": "Hull\u2011Deck Joint & Rub Rail-json",
+          "id": "flashcard_part_hull_14.00_0ac01b5a",
+          "title": "Hull‑Deck Joint & Rub Rail-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Hull\u2011Deck Joint & Rub Rail'?"
+              "content": "What are the key points of 'Hull‑Deck Joint & Rub Rail'?"
             }
           ],
           "sideB": [
@@ -634,7 +634,7 @@
       ]
     },
     {
-      "id": "part_hull_2.40",
+      "id": "part_hull_15.00",
       "title": "Osmosis & Blister Survey-json",
       "content": [
         {
@@ -646,7 +646,7 @@
           "content": [
             "Map blister fields and sizes",
             "Open and rinse a sample to assess fluid",
-            "Plan repair: peel, dry, barrier\u2011coat as required"
+            "Plan repair: peel, dry, barrier‑coat as required"
           ]
         }
       ],
@@ -659,7 +659,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.40_7834093a",
+          "id": "flashcard_part_hull_15.00_7834093a",
           "title": "Osmosis & Blister Survey-json",
           "sideA": [
             {
@@ -679,8 +679,8 @@
       ]
     },
     {
-      "id": "part_hull_2.50",
-      "title": "Chainplates & Hull\u2011Side Stress-json",
+      "id": "part_hull_16.00",
+      "title": "Chainplates & Hull‑Side Stress-json",
       "content": [
         {
           "type": "text",
@@ -691,7 +691,7 @@
           "content": [
             "Inspect sealant at penetrations",
             "Check for brown streaking or rust weeps",
-            "Verify tie\u2011rod/backing structure condition"
+            "Verify tie‑rod/backing structure condition"
           ]
         }
       ],
@@ -704,12 +704,12 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.50_5a74ec25",
-          "title": "Chainplates & Hull\u2011Side Stress-json",
+          "id": "flashcard_part_hull_16.00_5a74ec25",
+          "title": "Chainplates & Hull‑Side Stress-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Chainplates & Hull\u2011Side Stress'?"
+              "content": "What are the key points of 'Chainplates & Hull‑Side Stress'?"
             }
           ],
           "sideB": [
@@ -724,7 +724,7 @@
       ]
     },
     {
-      "id": "part_hull_2.60",
+      "id": "part_hull_17.00",
       "title": "Grounding Plate / Bonding Hardware-json",
       "content": [
         {
@@ -749,7 +749,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.60_5de36517",
+          "id": "flashcard_part_hull_17.00_5de36517",
           "title": "Grounding Plate / Bonding Hardware-json",
           "sideA": [
             {
@@ -769,7 +769,7 @@
       ]
     },
     {
-      "id": "part_hull_2.70",
+      "id": "part_hull_18.00",
       "title": "Transom Fittings & Drains-json",
       "content": [
         {
@@ -794,7 +794,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.70_cad59e64",
+          "id": "flashcard_part_hull_18.00_cad59e64",
           "title": "Transom Fittings & Drains-json",
           "sideA": [
             {

@@ -37,7 +37,7 @@
       ]
     },
     {
-      "id": "lesson_knot_1.10",
+      "id": "lesson_knot_03.00",
       "title": "Bowline Knot-json",
       "content": [
         {
@@ -58,7 +58,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.10_b0020d94",
+          "id": "flashcard_lesson_knot_03.00_b0020d94",
           "title": "Bowline-json",
           "sideA": [
             {
@@ -78,7 +78,7 @@
       ]
     },
     {
-      "id": "lesson_knot_1.20",
+      "id": "lesson_knot_04.00",
       "title": "Cleat Hitch-json",
       "content": [
         {
@@ -95,7 +95,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.20_c2fc53c5",
+          "id": "flashcard_lesson_knot_04.00_c2fc53c5",
           "title": "Cleat Hitch-json",
           "sideA": [
             {
@@ -115,12 +115,12 @@
       ]
     },
     {
-      "id": "lesson_knot_1.30",
+      "id": "lesson_knot_05.00",
       "title": "Clove Hitch-json",
       "content": [
         {
           "type": "text",
-          "content": "Quick, adjustable hitch for temporary attachment to a post or rail; add a half hitch to secure long\u2011term."
+          "content": "Quick, adjustable hitch for temporary attachment to a post or rail; add a half hitch to secure long‑term."
         }
       ],
       "keywords": [
@@ -132,7 +132,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.30_68f632db",
+          "id": "flashcard_lesson_knot_05.00_68f632db",
           "title": "Clove Hitch-json",
           "sideA": [
             {
@@ -143,7 +143,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Quick, adjustable hitch for temporary attachment to a post or rail; add a half hitch to secure long\u2011term."
+              "content": "Quick, adjustable hitch for temporary attachment to a post or rail; add a half hitch to secure long‑term."
             }
           ],
           "isPaid": false,
@@ -152,7 +152,7 @@
       ]
     },
     {
-      "id": "lesson_knot_1.40",
+      "id": "lesson_knot_06.00",
       "title": "Rolling Hitch-json",
       "content": [
         {
@@ -169,7 +169,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.40_e899b253",
+          "id": "flashcard_lesson_knot_06.00_e899b253",
           "title": "Rolling Hitch-json",
           "sideA": [
             {
@@ -189,7 +189,7 @@
       ]
     },
     {
-      "id": "lesson_knot_1.50",
+      "id": "lesson_knot_07.00",
       "title": "Round Turn & Two Half Hitches-json",
       "content": [
         {
@@ -206,7 +206,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.50_f530fc84",
+          "id": "flashcard_lesson_knot_07.00_f530fc84",
           "title": "Round Turn & Two Half Hitches-json",
           "sideA": [
             {
@@ -226,7 +226,7 @@
       ]
     },
     {
-      "id": "lesson_knot_1.60",
+      "id": "lesson_knot_08.00",
       "title": "Sheet Bend-json",
       "content": [
         {
@@ -243,7 +243,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.60_886d228c",
+          "id": "flashcard_lesson_knot_08.00_886d228c",
           "title": "Sheet Bend-json",
           "sideA": [
             {
@@ -263,7 +263,7 @@
       ]
     },
     {
-      "id": "lesson_knot_1.70",
+      "id": "lesson_knot_09.00",
       "title": "Double Sheet Bend-json",
       "content": [
         {
@@ -280,7 +280,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.70_ebae5f02",
+          "id": "flashcard_lesson_knot_09.00_ebae5f02",
           "title": "Double Sheet Bend-json",
           "sideA": [
             {
@@ -300,7 +300,7 @@
       ]
     },
     {
-      "id": "lesson_knot_1.80",
+      "id": "lesson_knot_10.00",
       "title": "Reef (Square) Knot-json",
       "content": [
         {
@@ -317,7 +317,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.80_9b23933c",
+          "id": "flashcard_lesson_knot_10.00_9b23933c",
           "title": "Reef (Square) Knot-json",
           "sideA": [
             {
@@ -337,8 +337,8 @@
       ]
     },
     {
-      "id": "lesson_knot_1.90",
-      "title": "Anchor Bend (Fisherman\u2019s Bend)-json",
+      "id": "lesson_knot_11.00",
+      "title": "Anchor Bend (Fisherman’s Bend)-json",
       "content": [
         {
           "type": "text",
@@ -347,19 +347,19 @@
       ],
       "keywords": [
         "anchor bend",
-        "fisherman\u2019s bend",
+        "fisherman’s bend",
         "rode",
         "anchor"
       ],
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.90_51c81c58",
-          "title": "Anchor Bend (Fisherman\u2019s Bend)-json",
+          "id": "flashcard_lesson_knot_11.00_51c81c58",
+          "title": "Anchor Bend (Fisherman’s Bend)-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Anchor Bend (Fisherman\u2019s Bend)'?"
+              "content": "What are the key points of 'Anchor Bend (Fisherman’s Bend)'?"
             }
           ],
           "sideB": [
@@ -375,7 +375,7 @@
     },
     {
       "id": "lesson_knot_2.00",
-      "title": "Trucker\u2019s Hitch-json",
+      "title": "Trucker’s Hitch-json",
       "content": [
         {
           "type": "text",
@@ -383,7 +383,7 @@
         }
       ],
       "keywords": [
-        "trucker\u2019s hitch",
+        "trucker’s hitch",
         "lashing",
         "purchase",
         "tie down"
@@ -392,11 +392,11 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_2.00_882d45c3",
-          "title": "Trucker\u2019s Hitch-json",
+          "title": "Trucker’s Hitch-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Trucker\u2019s Hitch'?"
+              "content": "What are the key points of 'Trucker’s Hitch'?"
             }
           ],
           "sideB": [
@@ -411,7 +411,7 @@
       ]
     },
     {
-      "id": "lesson_knot_2.10",
+      "id": "lesson_knot_12.00",
       "title": "Timber Hitch-json",
       "content": [
         {
@@ -428,7 +428,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_2.10_4a7fddf9",
+          "id": "flashcard_lesson_knot_12.00_4a7fddf9",
           "title": "Timber Hitch-json",
           "sideA": [
             {
@@ -448,35 +448,35 @@
       ]
     },
     {
-      "id": "lesson_knot_2.20",
-      "title": "Cow Hitch (Lark\u2019s Head)-json",
+      "id": "lesson_knot_13.00",
+      "title": "Cow Hitch (Lark’s Head)-json",
       "content": [
         {
           "type": "text",
-          "content": "Quick mid\u2011line attachment around a post or ring; often used with fenders (add a half hitch to secure)."
+          "content": "Quick mid‑line attachment around a post or ring; often used with fenders (add a half hitch to secure)."
         }
       ],
       "keywords": [
         "cow hitch",
-        "lark\u2019s head",
+        "lark’s head",
         "fender",
         "mid-line"
       ],
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_2.20_cb6cd544",
-          "title": "Cow Hitch (Lark\u2019s Head)-json",
+          "id": "flashcard_lesson_knot_13.00_cb6cd544",
+          "title": "Cow Hitch (Lark’s Head)-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Cow Hitch (Lark\u2019s Head)'?"
+              "content": "What are the key points of 'Cow Hitch (Lark’s Head)'?"
             }
           ],
           "sideB": [
             {
               "type": "text",
-              "content": "Quick mid\u2011line attachment around a post or ring; often used with fenders (add a half hitch to secure)."
+              "content": "Quick mid‑line attachment around a post or ring; often used with fenders (add a half hitch to secure)."
             }
           ],
           "isPaid": false,
@@ -485,7 +485,7 @@
       ]
     },
     {
-      "id": "lesson_knot_2.30",
+      "id": "lesson_knot_14.00",
       "title": "Heaving Line Knot-json",
       "content": [
         {
@@ -502,7 +502,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_2.30_98bd811c",
+          "id": "flashcard_lesson_knot_14.00_98bd811c",
           "title": "Heaving Line Knot-json",
           "sideA": [
             {
@@ -522,8 +522,8 @@
       ]
     },
     {
-      "id": "lesson_knot_2.40",
-      "title": "Sailmaker\u2019s Whipping-json",
+      "id": "lesson_knot_15.00",
+      "title": "Sailmaker’s Whipping-json",
       "content": [
         {
           "type": "text",
@@ -539,12 +539,12 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_2.40_184aef76",
-          "title": "Sailmaker\u2019s Whipping-json",
+          "id": "flashcard_lesson_knot_15.00_184aef76",
+          "title": "Sailmaker’s Whipping-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Sailmaker\u2019s Whipping'?"
+              "content": "What are the key points of 'Sailmaker’s Whipping'?"
             }
           ],
           "sideB": [
@@ -559,12 +559,12 @@
       ]
     },
     {
-      "id": "lesson_knot_2.50",
+      "id": "lesson_knot_16.00",
       "title": "Ashley Stopper Knot-json",
       "content": [
         {
           "type": "text",
-          "content": "Bulky stopper knot that won\u2019t pull through fairleads easily; alternative to figure eight."
+          "content": "Bulky stopper knot that won’t pull through fairleads easily; alternative to figure eight."
         }
       ],
       "keywords": [
@@ -576,7 +576,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_2.50_e10e9b91",
+          "id": "flashcard_lesson_knot_16.00_e10e9b91",
           "title": "Ashley Stopper Knot-json",
           "sideA": [
             {
@@ -587,7 +587,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Bulky stopper knot that won\u2019t pull through fairleads easily; alternative to figure eight."
+              "content": "Bulky stopper knot that won’t pull through fairleads easily; alternative to figure eight."
             }
           ],
           "isPaid": false,

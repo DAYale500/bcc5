@@ -46,7 +46,7 @@
       ]
     },
     {
-      "id": "part_deck_1.10",
+      "id": "part_deck_03.00",
       "title": "Cleats & Line Handling-json",
       "content": [
         {
@@ -65,7 +65,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.10_240d567b",
+          "id": "flashcard_part_deck_03.00_240d567b",
           "title": "Cleats & Line Handling-json",
           "sideA": [
             {
@@ -85,7 +85,7 @@
       ]
     },
     {
-      "id": "part_deck_1.20",
+      "id": "part_deck_04.00",
       "title": "Lifelines & Stanchions-json",
       "content": [
         {
@@ -110,7 +110,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.20_7373034f",
+          "id": "flashcard_part_deck_04.00_7373034f",
           "title": "Lifelines & Stanchions-json",
           "sideA": [
             {
@@ -130,7 +130,7 @@
       ]
     },
     {
-      "id": "part_deck_1.30",
+      "id": "part_deck_05.00",
       "title": "Jacklines & Tether Points-json",
       "content": [
         {
@@ -139,7 +139,7 @@
         },
         {
           "type": "text",
-          "content": "Fore\u2011and\u2011aft jacklines and robust padeyes keep crew clipped in. Rig before heavy weather and keep runs clear of tripping hazards."
+          "content": "Fore‑and‑aft jacklines and robust padeyes keep crew clipped in. Rig before heavy weather and keep runs clear of tripping hazards."
         }
       ],
       "keywords": [
@@ -151,7 +151,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.30_15dfe4f2",
+          "id": "flashcard_part_deck_05.00_15dfe4f2",
           "title": "Jacklines & Tether Points-json",
           "sideA": [
             {
@@ -162,7 +162,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Fore\u2011and\u2011aft jacklines and robust padeyes keep crew clipped in. Rig before heavy weather and keep runs clear of tripping hazards."
+              "content": "Fore‑and‑aft jacklines and robust padeyes keep crew clipped in. Rig before heavy weather and keep runs clear of tripping hazards."
             }
           ],
           "isPaid": false,
@@ -171,7 +171,7 @@
       ]
     },
     {
-      "id": "part_deck_1.40",
+      "id": "part_deck_06.00",
       "title": "Anchor System: Bow Roller & Windlass-json",
       "content": [
         {
@@ -192,7 +192,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.40_04b996e7",
+          "id": "flashcard_part_deck_06.00_04b996e7",
           "title": "Anchor System: Bow Roller & Windlass-json",
           "sideA": [
             {
@@ -212,7 +212,7 @@
       ]
     },
     {
-      "id": "part_deck_1.50",
+      "id": "part_deck_07.00",
       "title": "Chocks & Fairleads-json",
       "content": [
         {
@@ -233,7 +233,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.50_d4c83aa2",
+          "id": "flashcard_part_deck_07.00_d4c83aa2",
           "title": "Chocks & Fairleads-json",
           "sideA": [
             {
@@ -253,16 +253,16 @@
       ]
     },
     {
-      "id": "part_deck_1.60",
-      "title": "Handrails & Non\u2011Skid-json",
+      "id": "part_deck_08.00",
+      "title": "Handrails & Non‑Skid-json",
       "content": [
         {
           "type": "heading",
-          "content": "Handrails & Non\u2011Skid"
+          "content": "Handrails & Non‑Skid"
         },
         {
           "type": "text",
-          "content": "Maintain grippy decks and solid handholds: de-wax non\u2011skid, repair worn patches, tighten or re-bed teak/SS handrails."
+          "content": "Maintain grippy decks and solid handholds: de-wax non‑skid, repair worn patches, tighten or re-bed teak/SS handrails."
         }
       ],
       "keywords": [
@@ -274,18 +274,18 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.60_a6e0ed67",
-          "title": "Handrails & Non\u2011Skid-json",
+          "id": "flashcard_part_deck_08.00_a6e0ed67",
+          "title": "Handrails & Non‑Skid-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Handrails & Non\u2011Skid'?"
+              "content": "What are the key points of 'Handrails & Non‑Skid'?"
             }
           ],
           "sideB": [
             {
               "type": "text",
-              "content": "Maintain grippy decks and solid handholds: de-wax non\u2011skid, repair worn patches, tighten or re-bed teak/SS handrails."
+              "content": "Maintain grippy decks and solid handholds: de-wax non‑skid, repair worn patches, tighten or re-bed teak/SS handrails."
             }
           ],
           "isPaid": false,
@@ -294,7 +294,7 @@
       ]
     },
     {
-      "id": "part_deck_1.70",
+      "id": "part_deck_09.00",
       "title": "Primary Winches (Sheets/Halyards)-json",
       "content": [
         {
@@ -315,7 +315,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.70_f42eaa92",
+          "id": "flashcard_part_deck_09.00_f42eaa92",
           "title": "Primary Winches (Sheets/Halyards)-json",
           "sideA": [
             {
@@ -335,7 +335,7 @@
       ]
     },
     {
-      "id": "part_deck_1.80",
+      "id": "part_deck_10.00",
       "title": "Rope Clutches & Lead Organizers-json",
       "content": [
         {
@@ -356,7 +356,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.80_a035fad8",
+          "id": "flashcard_part_deck_10.00_a035fad8",
           "title": "Rope Clutches & Lead Organizers-json",
           "sideA": [
             {
@@ -376,7 +376,7 @@
       ]
     },
     {
-      "id": "part_deck_1.90",
+      "id": "part_deck_11.00",
       "title": "Mainsheet Traveler & Car-json",
       "content": [
         {
@@ -385,7 +385,7 @@
         },
         {
           "type": "text",
-          "content": "Traveler position controls power and heel. Inspect car bearings, traveler line stoppers, and end\u2011stop integrity."
+          "content": "Traveler position controls power and heel. Inspect car bearings, traveler line stoppers, and end‑stop integrity."
         }
       ],
       "keywords": [
@@ -397,7 +397,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.90_a0d9f850",
+          "id": "flashcard_part_deck_11.00_a0d9f850",
           "title": "Mainsheet Traveler & Car-json",
           "sideA": [
             {
@@ -408,7 +408,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Traveler position controls power and heel. Inspect car bearings, traveler line stoppers, and end\u2011stop integrity."
+              "content": "Traveler position controls power and heel. Inspect car bearings, traveler line stoppers, and end‑stop integrity."
             }
           ],
           "isPaid": false,
@@ -458,7 +458,7 @@
       ]
     },
     {
-      "id": "part_deck_2.10",
+      "id": "part_deck_12.00",
       "title": "Furling Drum & Forestay Fittings-json",
       "content": [
         {
@@ -479,7 +479,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.10_6ddb87d8",
+          "id": "flashcard_part_deck_12.00_6ddb87d8",
           "title": "Furling Drum & Forestay Fittings-json",
           "sideA": [
             {
@@ -499,7 +499,7 @@
       ]
     },
     {
-      "id": "part_deck_2.20",
+      "id": "part_deck_13.00",
       "title": "Pulpit & Pushpit (Bow/Stern Rails)-json",
       "content": [
         {
@@ -520,7 +520,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.20_1b23dacc",
+          "id": "flashcard_part_deck_13.00_1b23dacc",
           "title": "Pulpit & Pushpit (Bow/Stern Rails)-json",
           "sideA": [
             {
@@ -540,7 +540,7 @@
       ]
     },
     {
-      "id": "part_deck_2.30",
+      "id": "part_deck_14.00",
       "title": "Deck Hatches & Portlights-json",
       "content": [
         {
@@ -561,7 +561,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.30_88565710",
+          "id": "flashcard_part_deck_14.00_88565710",
           "title": "Deck Hatches & Portlights-json",
           "sideA": [
             {
@@ -581,7 +581,7 @@
       ]
     },
     {
-      "id": "part_deck_2.40",
+      "id": "part_deck_15.00",
       "title": "Dorade Vents & Cowls-json",
       "content": [
         {
@@ -590,7 +590,7 @@
         },
         {
           "type": "text",
-          "content": "All\u2011weather airflow. Confirm boxes drain and baffles are clear; secure cowls for heavy weather."
+          "content": "All‑weather airflow. Confirm boxes drain and baffles are clear; secure cowls for heavy weather."
         }
       ],
       "keywords": [
@@ -602,7 +602,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.40_d5f05c37",
+          "id": "flashcard_part_deck_15.00_d5f05c37",
           "title": "Dorade Vents & Cowls-json",
           "sideA": [
             {
@@ -613,7 +613,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "All\u2011weather airflow. Confirm boxes drain and baffles are clear; secure cowls for heavy weather."
+              "content": "All‑weather airflow. Confirm boxes drain and baffles are clear; secure cowls for heavy weather."
             }
           ],
           "isPaid": false,
@@ -622,7 +622,7 @@
       ]
     },
     {
-      "id": "part_deck_2.50",
+      "id": "part_deck_16.00",
       "title": "Deck Fills: Fuel/Water/Waste-json",
       "content": [
         {
@@ -631,7 +631,7 @@
         },
         {
           "type": "text",
-          "content": "Correctly labelled caps; wipe spills to protect non\u2011skid. Check O\u2011rings and keep keys aboard."
+          "content": "Correctly labelled caps; wipe spills to protect non‑skid. Check O‑rings and keep keys aboard."
         }
       ],
       "keywords": [
@@ -643,7 +643,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.50_b6a6ee8d",
+          "id": "flashcard_part_deck_16.00_b6a6ee8d",
           "title": "Deck Fills: Fuel/Water/Waste-json",
           "sideA": [
             {
@@ -654,7 +654,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Correctly labelled caps; wipe spills to protect non\u2011skid. Check O\u2011rings and keep keys aboard."
+              "content": "Correctly labelled caps; wipe spills to protect non‑skid. Check O‑rings and keep keys aboard."
             }
           ],
           "isPaid": false,
@@ -663,7 +663,7 @@
       ]
     },
     {
-      "id": "part_deck_2.60",
+      "id": "part_deck_17.00",
       "title": "Cockpit Scuppers & Drains-json",
       "content": [
         {
@@ -672,7 +672,7 @@
         },
         {
           "type": "text",
-          "content": "Fast drainage is critical. Keep hoses, seacocks, and strainers clear; test regularly and after debris\u2011heavy sailing."
+          "content": "Fast drainage is critical. Keep hoses, seacocks, and strainers clear; test regularly and after debris‑heavy sailing."
         }
       ],
       "keywords": [
@@ -684,7 +684,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.60_d42fc816",
+          "id": "flashcard_part_deck_17.00_d42fc816",
           "title": "Cockpit Scuppers & Drains-json",
           "sideA": [
             {
@@ -695,7 +695,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Fast drainage is critical. Keep hoses, seacocks, and strainers clear; test regularly and after debris\u2011heavy sailing."
+              "content": "Fast drainage is critical. Keep hoses, seacocks, and strainers clear; test regularly and after debris‑heavy sailing."
             }
           ],
           "isPaid": false,

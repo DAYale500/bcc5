@@ -38,7 +38,7 @@
     },
     {
       "id": "lesson_team_2.00",
-      "title": "Pre\u2011Departure Briefing & Cross\u2011Checks-json",
+      "title": "Pre‑Departure Briefing & Cross‑Checks-json",
       "content": [
         {
           "type": "text",
@@ -67,11 +67,11 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_2.00_ebcd68eb",
-          "title": "Pre\u2011Departure Briefing & Cross\u2011Checks-json",
+          "title": "Pre‑Departure Briefing & Cross‑Checks-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Pre\u2011Departure Briefing & Cross\u2011Checks'?"
+              "content": "What are the key points of 'Pre‑Departure Briefing & Cross‑Checks'?"
             }
           ],
           "sideB": [
@@ -85,67 +85,63 @@
         }
       ]
     },
-{
-  "id": "lesson_team_3.00",
-  "title": "Crew Mindset: Roles, Language, Etiquette-json",
-  "content": [
     {
-      "type": "text",
-      "content": "Safe sailing depends on clear roles, respectful communication, and tidy habits aboard. Each crewmember contributes by staying aware, using consistent language, and practicing seamanship etiquette."
-    },
-    {
-      "type": "bulletList",
-      "content": [
-        "Skipper vs. Crew: Skipper gives commands; crew executes and reports back.",
-        "Language: Use short, standard phrases — avoid slang or extra chatter during maneuvers.",
-        "Repeat-back: Confirm orders exactly as spoken to ensure accuracy.",
-        "Deck Etiquette: Keep lines coiled, gear stowed, and decks clear to prevent accidents.",
-        "Questions: If unsure, ask immediately — silence is riskier than speaking up.",
-        "Respect: Acknowledge each person’s task and avoid cross-talk when commands are active."
-      ]
-    }
-  ],
-  "keywords": [
-    "roles",
-    "communication",
-    "etiquette",
-    "crew",
-    "skipper",
-    "repeat-back"
-  ],
-  "isPaid": false,
-  "flashcards": [
-    {
-      "id": "flashcard_lesson_team_3.00_7f1e9c3a",
+      "id": "lesson_team_3.00",
       "title": "Crew Mindset: Roles, Language, Etiquette-json",
-      "sideA": [
+      "content": [
         {
           "type": "text",
-          "content": "What are the key points of 'Crew Mindset: Roles, Language, Etiquette'?"
+          "content": "Safe sailing depends on clear roles, respectful communication, and tidy habits aboard. Each crewmember contributes by staying aware, using consistent language, and practicing seamanship etiquette."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Skipper vs. Crew: Skipper gives commands; crew executes and reports back.",
+            "Language: Use short, standard phrases — avoid slang or extra chatter during maneuvers.",
+            "Repeat-back: Confirm orders exactly as spoken to ensure accuracy.",
+            "Deck Etiquette: Keep lines coiled, gear stowed, and decks clear to prevent accidents.",
+            "Questions: If unsure, ask immediately — silence is riskier than speaking up.",
+            "Respect: Acknowledge each person’s task and avoid cross-talk when commands are active."
+          ]
         }
       ],
-      "sideB": [
-        {
-          "type": "text",
-          "content": "Skipper gives commands, crew executes with repeat-back; use short, clear phrases; keep decks tidy; ask if unsure; respect roles and avoid cross-talk."
-        }
+      "keywords": [
+        "roles",
+        "communication",
+        "etiquette",
+        "crew",
+        "skipper",
+        "repeat-back"
       ],
       "isPaid": false,
-      "showAFirst": true
-    }
-  ]
-},
-
-
-
-    
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_3.00_7f1e9c3a",
+          "title": "Crew Mindset: Roles, Language, Etiquette-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Crew Mindset: Roles, Language, Etiquette'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Skipper gives commands, crew executes with repeat-back; use short, clear phrases; keep decks tidy; ask if unsure; respect roles and avoid cross-talk."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
     {
-      "id": "lesson_team_3.10",
-      "title": "Standard Commands & Closed\u2011Loop Comms-json",
+      "id": "lesson_team_18.00",
+      "title": "Standard Commands & Closed‑Loop Comms-json",
       "content": [
         {
           "type": "text",
-          "content": "Use simple, unambiguous commands acknowledged back word\u2011for\u2011word to reduce errors."
+          "content": "Use simple, unambiguous commands acknowledged back word‑for‑word to reduce errors."
         },
         {
           "type": "bulletList",
@@ -165,18 +161,18 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_team_3.10_32ff1f5e",
-          "title": "Standard Commands & Closed\u2011Loop Comms-json",
+          "id": "flashcard_lesson_team_18.00_32ff1f5e",
+          "title": "Standard Commands & Closed‑Loop Comms-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Standard Commands & Closed\u2011Loop Comms'?"
+              "content": "What are the key points of 'Standard Commands & Closed‑Loop Comms'?"
             }
           ],
           "sideB": [
             {
               "type": "text",
-              "content": "Use simple, unambiguous commands acknowledged back word\u2011for\u2011word to reduce errors."
+              "content": "Use simple, unambiguous commands acknowledged back word‑for‑word to reduce errors."
             }
           ],
           "isPaid": false,
@@ -275,7 +271,7 @@
     },
     {
       "id": "lesson_team_6.00",
-      "title": "Helm\u2013Trim Coordination-json",
+      "title": "Helm–Trim Coordination-json",
       "content": [
         {
           "type": "text",
@@ -300,11 +296,11 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_6.00_fff02a28",
-          "title": "Helm\u2013Trim Coordination-json",
+          "title": "Helm–Trim Coordination-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Helm\u2013Trim Coordination'?"
+              "content": "What are the key points of 'Helm–Trim Coordination'?"
             }
           ],
           "sideB": [
@@ -414,7 +410,7 @@
       "content": [
         {
           "type": "text",
-          "content": "Pre\u2011assigned spotter, helm, and recovery roles save seconds that save lives."
+          "content": "Pre‑assigned spotter, helm, and recovery roles save seconds that save lives."
         },
         {
           "type": "bulletList",
@@ -445,7 +441,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Pre\u2011assigned spotter, helm, and recovery roles save seconds that save lives."
+              "content": "Pre‑assigned spotter, helm, and recovery roles save seconds that save lives."
             }
           ],
           "isPaid": false,
@@ -459,7 +455,7 @@
       "content": [
         {
           "type": "text",
-          "content": "Shorter tasks, clipped\u2011in movement, and pre\u2011rigged preventers keep order in chaos."
+          "content": "Shorter tasks, clipped‑in movement, and pre‑rigged preventers keep order in chaos."
         },
         {
           "type": "bulletList",
@@ -489,7 +485,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Shorter tasks, clipped\u2011in movement, and pre\u2011rigged preventers keep order in chaos."
+              "content": "Shorter tasks, clipped‑in movement, and pre‑rigged preventers keep order in chaos."
             }
           ],
           "isPaid": false,
@@ -503,13 +499,13 @@
       "content": [
         {
           "type": "text",
-          "content": "Distribute tasks to avoid overloads at the helm or bow; rotate high\u2011stress jobs."
+          "content": "Distribute tasks to avoid overloads at the helm or bow; rotate high‑stress jobs."
         },
         {
           "type": "bulletList",
           "content": [
             "Use checklists for complex sequences",
-            "Build in micro\u2011breaks and hydration",
+            "Build in micro‑breaks and hydration",
             "Swap roles to maintain skill breadth"
           ]
         }
@@ -534,7 +530,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Distribute tasks to avoid overloads at the helm or bow; rotate high\u2011stress jobs."
+              "content": "Distribute tasks to avoid overloads at the helm or bow; rotate high‑stress jobs."
             }
           ],
           "isPaid": false,
@@ -548,7 +544,7 @@
       "content": [
         {
           "type": "text",
-          "content": "Make frequent, structured scans and share mental models aloud: 'I see\u2026 I plan\u2026'"
+          "content": "Make frequent, structured scans and share mental models aloud: 'I see… I plan…'"
         },
         {
           "type": "bulletList",
@@ -579,7 +575,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Make frequent, structured scans and share mental models aloud: 'I see\u2026 I plan\u2026'"
+              "content": "Make frequent, structured scans and share mental models aloud: 'I see… I plan…'"
             }
           ],
           "isPaid": false,
@@ -634,7 +630,7 @@
     },
     {
       "id": "lesson_team_14.00",
-      "title": "Post\u2011Maneuver Debriefs & Continuous Improvement-json",
+      "title": "Post‑Maneuver Debriefs & Continuous Improvement-json",
       "content": [
         {
           "type": "text",
@@ -658,11 +654,11 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_14.00_10b86f6b",
-          "title": "Post\u2011Maneuver Debriefs & Continuous Improvement-json",
+          "title": "Post‑Maneuver Debriefs & Continuous Improvement-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Post\u2011Maneuver Debriefs & Continuous Improvement'?"
+              "content": "What are the key points of 'Post‑Maneuver Debriefs & Continuous Improvement'?"
             }
           ],
           "sideB": [
@@ -687,7 +683,7 @@
         {
           "type": "bulletList",
           "content": [
-            "State who you\u2019re calling, who you are, and where",
+            "State who you’re calling, who you are, and where",
             "Use working channels after contact on 16",
             "Acknowledge and close with your vessel name"
           ]
@@ -727,14 +723,14 @@
       "content": [
         {
           "type": "text",
-          "content": "Pre\u2011printed role cards and a muster plan remove doubt when seconds matter."
+          "content": "Pre‑printed role cards and a muster plan remove doubt when seconds matter."
         },
         {
           "type": "bulletList",
           "content": [
             "Cards at nav and clipped to PFDs",
             "Muster points fore/aft with backups",
-            "Drill abandon\u2011ship kit handoffs"
+            "Drill abandon‑ship kit handoffs"
           ]
         }
       ],
@@ -758,7 +754,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Pre\u2011printed role cards and a muster plan remove doubt when seconds matter."
+              "content": "Pre‑printed role cards and a muster plan remove doubt when seconds matter."
             }
           ],
           "isPaid": false,
@@ -769,10 +765,17 @@
     {
       "id": "lesson_team_17.00",
       "title": "Pathways Forward: Day Skipper, Bareboat, Offshore-json",
-      "keywords": ["next steps","training","certs"],
+      "keywords": [
+        "next steps",
+        "training",
+        "certs"
+      ],
       "isPaid": false,
       "content": [
-        { "type": "text", "content": "Suggested progression and practice focus after Competent Crew." }
+        {
+          "type": "text",
+          "content": "Suggested progression and practice focus after Competent Crew."
+        }
       ],
       "flashcards": []
     }

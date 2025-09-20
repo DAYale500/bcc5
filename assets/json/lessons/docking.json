@@ -50,7 +50,7 @@
       ]
     },
     {
-      "id": "lesson_dock_1.10",
+      "id": "lesson_dock_10.00",
       "title": "Departing the Dock – What to Expect-json",
       "content": [
         {
@@ -71,7 +71,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_dock_1.10",
+          "id": "flashcard_lesson_dock_10.00",
           "title": "FC: What to Expect During Departure-json",
           "sideA": [
             {

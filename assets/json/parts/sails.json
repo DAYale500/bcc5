@@ -41,7 +41,7 @@
       ]
     },
     {
-      "id": "part_sail_1.10",
+      "id": "part_sail_03.00",
       "title": "Headsail & Furlers-json",
       "content": [
         {
@@ -56,7 +56,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.10_f2d651ea",
+          "id": "flashcard_part_sail_03.00_f2d651ea",
           "title": "Headsail & Furlers-json",
           "sideA": [
             {
@@ -76,7 +76,7 @@
       ]
     },
     {
-      "id": "part_sail_1.20",
+      "id": "part_sail_04.00",
       "title": "Reefing Strategy & Procedures-json",
       "content": [
         {
@@ -85,7 +85,7 @@
         },
         {
           "type": "bullets",
-          "content": "Call the reef before you must; slow the boat first\nEase halyard to marks; secure tack; tension clew; re\u2011tension halyard\nVerify leech line, luff tension, and vang/traveler settings"
+          "content": "Call the reef before you must; slow the boat first\nEase halyard to marks; secure tack; tension clew; re‑tension halyard\nVerify leech line, luff tension, and vang/traveler settings"
         },
         {
           "type": "image",
@@ -101,7 +101,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.20_34386018",
+          "id": "flashcard_part_sail_04.00_34386018",
           "title": "Reefing Strategy & Procedures-json",
           "sideA": [
             {
@@ -121,16 +121,16 @@
       ]
     },
     {
-      "id": "part_sail_1.30",
+      "id": "part_sail_05.00",
       "title": "Mainsail Reef Hardware & Lines-json",
       "content": [
         {
           "type": "text",
-          "content": "Keep reef lines fair and labeled. Inspect reef tacks, clew cringles, ram\u2019s horn/hooks, and blocks for chafe."
+          "content": "Keep reef lines fair and labeled. Inspect reef tacks, clew cringles, ram’s horn/hooks, and blocks for chafe."
         },
         {
           "type": "bullets",
-          "content": "Mouse and whip line ends; color\u2011code reefs (1/2/3)\nCheck cheek blocks, exit plates, and clutch wear\nStow excess tail to prevent snags during drops"
+          "content": "Mouse and whip line ends; color‑code reefs (1/2/3)\nCheck cheek blocks, exit plates, and clutch wear\nStow excess tail to prevent snags during drops"
         }
       ],
       "keywords": [
@@ -142,7 +142,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.30_2b1474c2",
+          "id": "flashcard_part_sail_05.00_2b1474c2",
           "title": "Mainsail Reef Hardware & Lines-json",
           "sideA": [
             {
@@ -153,7 +153,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Keep reef lines fair and labeled. Inspect reef tacks, clew cringles, ram\u2019s horn/hooks, and blocks for chafe."
+              "content": "Keep reef lines fair and labeled. Inspect reef tacks, clew cringles, ram’s horn/hooks, and blocks for chafe."
             }
           ],
           "isPaid": false,
@@ -162,7 +162,7 @@
       ]
     },
     {
-      "id": "part_sail_1.40",
+      "id": "part_sail_06.00",
       "title": "Headsail Selection & Roller Reefing-json",
       "content": [
         {
@@ -171,7 +171,7 @@
         },
         {
           "type": "bullets",
-          "content": "Reef to a flat shape; over\u2011roll for smaller area if needed\nKeep furling line on a clean single layer on drum\nUse halyard restrainer to avoid halyard wrap"
+          "content": "Reef to a flat shape; over‑roll for smaller area if needed\nKeep furling line on a clean single layer on drum\nUse halyard restrainer to avoid halyard wrap"
         }
       ],
       "keywords": [
@@ -183,7 +183,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.40_e12a8887",
+          "id": "flashcard_part_sail_06.00_e12a8887",
           "title": "Headsail Selection & Roller Reefing-json",
           "sideA": [
             {
@@ -203,7 +203,7 @@
       ]
     },
     {
-      "id": "part_sail_1.50",
+      "id": "part_sail_07.00",
       "title": "Sail Trim Fundamentals (Draft/Twist)-json",
       "content": [
         {
@@ -224,7 +224,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.50_adc7310c",
+          "id": "flashcard_part_sail_07.00_adc7310c",
           "title": "Sail Trim Fundamentals (Draft/Twist)-json",
           "sideA": [
             {
@@ -244,7 +244,7 @@
       ]
     },
     {
-      "id": "part_sail_1.60",
+      "id": "part_sail_08.00",
       "title": "Luff Tension & Cunningham Use-json",
       "content": [
         {
@@ -253,7 +253,7 @@
         },
         {
           "type": "bullets",
-          "content": "Mark halyard and Cunningham reference settings\nEase before reefing; re\u2011set after hoist\nAvoid over\u2011tension that creates vertical wrinkles"
+          "content": "Mark halyard and Cunningham reference settings\nEase before reefing; re‑set after hoist\nAvoid over‑tension that creates vertical wrinkles"
         }
       ],
       "keywords": [
@@ -265,7 +265,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.60_d8d8b064",
+          "id": "flashcard_part_sail_08.00_d8d8b064",
           "title": "Luff Tension & Cunningham Use-json",
           "sideA": [
             {
@@ -285,7 +285,7 @@
       ]
     },
     {
-      "id": "part_sail_1.70",
+      "id": "part_sail_09.00",
       "title": "Foot Tension & Outhaul Control-json",
       "content": [
         {
@@ -306,7 +306,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.70_ff749f35",
+          "id": "flashcard_part_sail_09.00_ff749f35",
           "title": "Foot Tension & Outhaul Control-json",
           "sideA": [
             {
@@ -326,12 +326,12 @@
       ]
     },
     {
-      "id": "part_sail_1.80",
+      "id": "part_sail_10.00",
       "title": "Preventing Luffing/Backwinding-json",
       "content": [
         {
           "type": "text",
-          "content": "Steer and trim together. Avoid over\u2011trim and maintain flow across both sails."
+          "content": "Steer and trim together. Avoid over‑trim and maintain flow across both sails."
         },
         {
           "type": "bullets",
@@ -347,7 +347,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.80_6ab3ff4b",
+          "id": "flashcard_part_sail_10.00_6ab3ff4b",
           "title": "Preventing Luffing/Backwinding-json",
           "sideA": [
             {
@@ -358,7 +358,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Steer and trim together. Avoid over\u2011trim and maintain flow across both sails."
+              "content": "Steer and trim together. Avoid over‑trim and maintain flow across both sails."
             }
           ],
           "isPaid": false,
@@ -367,7 +367,7 @@
       ]
     },
     {
-      "id": "part_sail_1.90",
+      "id": "part_sail_11.00",
       "title": "Downwind Control: Preventers & Pole Work-json",
       "content": [
         {
@@ -376,7 +376,7 @@
         },
         {
           "type": "bullets",
-          "content": "Rig a real preventer to bow/padeye, not lifelines\nWing\u2011on\u2011wing with whisker pole; top/foreguy secure\nEase vang for safe gybes; re\u2011set after turn"
+          "content": "Rig a real preventer to bow/padeye, not lifelines\nWing‑on‑wing with whisker pole; top/foreguy secure\nEase vang for safe gybes; re‑set after turn"
         }
       ],
       "keywords": [
@@ -388,7 +388,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.90_29ee5fe0",
+          "id": "flashcard_part_sail_11.00_29ee5fe0",
           "title": "Downwind Control: Preventers & Pole Work-json",
           "sideA": [
             {
@@ -413,7 +413,7 @@
       "content": [
         {
           "type": "text",
-          "content": "Set, trim, and douse with a snuffer if available. Keep loads manageable for short\u2011handed crews."
+          "content": "Set, trim, and douse with a snuffer if available. Keep loads manageable for short‑handed crews."
         },
         {
           "type": "bullets",
@@ -440,7 +440,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Set, trim, and douse with a snuffer if available. Keep loads manageable for short\u2011handed crews."
+              "content": "Set, trim, and douse with a snuffer if available. Keep loads manageable for short‑handed crews."
             }
           ],
           "isPaid": false,
@@ -449,12 +449,12 @@
       ]
     },
     {
-      "id": "part_sail_2.10",
+      "id": "part_sail_12.00",
       "title": "Storm Sails & Heavy Weather Options-json",
       "content": [
         {
           "type": "text",
-          "content": "Storm jib/tri\u2011sail plans keep control when conditions exceed normal reefing."
+          "content": "Storm jib/tri‑sail plans keep control when conditions exceed normal reefing."
         },
         {
           "type": "bullets",
@@ -470,7 +470,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.10_8192ea9c",
+          "id": "flashcard_part_sail_12.00_8192ea9c",
           "title": "Storm Sails & Heavy Weather Options-json",
           "sideA": [
             {
@@ -481,7 +481,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Storm jib/tri\u2011sail plans keep control when conditions exceed normal reefing."
+              "content": "Storm jib/tri‑sail plans keep control when conditions exceed normal reefing."
             }
           ],
           "isPaid": false,
@@ -490,7 +490,7 @@
       ]
     },
     {
-      "id": "part_sail_2.20",
+      "id": "part_sail_13.00",
       "title": "Dousing & Drop Techniques (Main/Headsail)-json",
       "content": [
         {
@@ -499,7 +499,7 @@
         },
         {
           "type": "bullets",
-          "content": "Head to wind or deep offwind to depower as appropriate\nFlake as you drop; control halyard speed\nSecure sail with ties to prevent re\u2011hoist in gusts"
+          "content": "Head to wind or deep offwind to depower as appropriate\nFlake as you drop; control halyard speed\nSecure sail with ties to prevent re‑hoist in gusts"
         }
       ],
       "keywords": [
@@ -511,7 +511,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.20_8c655292",
+          "id": "flashcard_part_sail_13.00_8c655292",
           "title": "Dousing & Drop Techniques (Main/Headsail)-json",
           "sideA": [
             {
@@ -531,7 +531,7 @@
       ]
     },
     {
-      "id": "part_sail_2.30",
+      "id": "part_sail_14.00",
       "title": "Sail Care, Chafe & UV Protection-json",
       "content": [
         {
@@ -540,7 +540,7 @@
         },
         {
           "type": "bullets",
-          "content": "Inspect leech/foot lines, batten pockets, and slides\nFresh\u2011water rinse salt; dry fully before stow\nRepair small tears early to prevent propagation"
+          "content": "Inspect leech/foot lines, batten pockets, and slides\nFresh‑water rinse salt; dry fully before stow\nRepair small tears early to prevent propagation"
         }
       ],
       "keywords": [
@@ -552,7 +552,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.30_264b7ec9",
+          "id": "flashcard_part_sail_14.00_264b7ec9",
           "title": "Sail Care, Chafe & UV Protection-json",
           "sideA": [
             {
@@ -572,16 +572,16 @@
       ]
     },
     {
-      "id": "part_sail_2.40",
+      "id": "part_sail_15.00",
       "title": "Slides, Slugs & Batten Car Systems-json",
       "content": [
         {
           "type": "text",
-          "content": "Smooth hoists depend on low\u2011friction luff hardware and maintained batten cars."
+          "content": "Smooth hoists depend on low‑friction luff hardware and maintained batten cars."
         },
         {
           "type": "bullets",
-          "content": "Lubricate with sail\u2011safe dry lube\nInspect cars, shackles, and track fasteners\nReplace cracked slugs before failure"
+          "content": "Lubricate with sail‑safe dry lube\nInspect cars, shackles, and track fasteners\nReplace cracked slugs before failure"
         }
       ],
       "keywords": [
@@ -593,7 +593,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.40_55d114b1",
+          "id": "flashcard_part_sail_15.00_55d114b1",
           "title": "Slides, Slugs & Batten Car Systems-json",
           "sideA": [
             {
@@ -604,7 +604,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Smooth hoists depend on low\u2011friction luff hardware and maintained batten cars."
+              "content": "Smooth hoists depend on low‑friction luff hardware and maintained batten cars."
             }
           ],
           "isPaid": false,
@@ -613,7 +613,7 @@
       ]
     },
     {
-      "id": "part_sail_2.50",
+      "id": "part_sail_16.00",
       "title": "Headsail Lead Position & Cars-json",
       "content": [
         {
@@ -634,7 +634,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.50_744355c5",
+          "id": "flashcard_part_sail_16.00_744355c5",
           "title": "Headsail Lead Position & Cars-json",
           "sideA": [
             {
@@ -654,8 +654,8 @@
       ]
     },
     {
-      "id": "part_sail_2.60",
-      "title": "Heaving\u2011To with Sails-json",
+      "id": "part_sail_17.00",
+      "title": "Heaving‑To with Sails-json",
       "content": [
         {
           "type": "text",
@@ -675,12 +675,12 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.60_195a84ec",
-          "title": "Heaving\u2011To with Sails-json",
+          "id": "flashcard_part_sail_17.00_195a84ec",
+          "title": "Heaving‑To with Sails-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Heaving\u2011To with Sails'?"
+              "content": "What are the key points of 'Heaving‑To with Sails'?"
             }
           ],
           "sideB": [

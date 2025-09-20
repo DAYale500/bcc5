@@ -38,7 +38,7 @@
       ]
     },
     {
-      "id": "lesson_safety_1.10",
+      "id": "lesson_safety_03.00",
       "title": "Man Overboard Overview-json",
       "content": [
         {
@@ -53,7 +53,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.10_3bd483de",
+          "id": "flashcard_lesson_safety_03.00_3bd483de",
           "title": "Man Overboard Overview-json",
           "sideA": [
             {
@@ -73,12 +73,12 @@
       ]
     },
     {
-      "id": "lesson_safety_1.20",
+      "id": "lesson_safety_04.00",
       "title": "PFD Selection & Proper Fit-json",
       "content": [
         {
           "type": "text",
-          "content": "Choose Coast Guard\u2013approved lifejackets appropriate to crew, ensure correct size and buoyancy, and fit snugly with all closures fastened."
+          "content": "Choose Coast Guard–approved lifejackets appropriate to crew, ensure correct size and buoyancy, and fit snugly with all closures fastened."
         },
         {
           "type": "image",
@@ -94,7 +94,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.20_2d33d0f5",
+          "id": "flashcard_lesson_safety_04.00_2d33d0f5",
           "title": "PFD Selection & Proper Fit-json",
           "sideA": [
             {
@@ -105,7 +105,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Choose Coast Guard\u2013approved lifejackets appropriate to crew, ensure correct size and buoyancy, and fit snugly with all closures fastened."
+              "content": "Choose Coast Guard–approved lifejackets appropriate to crew, ensure correct size and buoyancy, and fit snugly with all closures fastened."
             }
           ],
           "isPaid": false,
@@ -114,20 +114,25 @@
       ]
     },
     {
-
-      "id": "lesson_safety_1.30",
+      "id": "lesson_safety_05.00",
       "title": "Comfort & Seasickness: Staying Useful-json",
-      "keywords": ["seasick","comfort","hydration"],
+      "keywords": [
+        "seasick",
+        "comfort",
+        "hydration"
+      ],
       "isPaid": false,
       "content": [
-        { "type": "text", "content": "Hydration, horizon focus, light snacks, early disclosure to skipper; safe positions underway." }
+        {
+          "type": "text",
+          "content": "Hydration, horizon focus, light snacks, early disclosure to skipper; safe positions underway."
+        }
       ],
       "flashcards": []
-
-},
+    },
     {
-      "id": "lesson_safety_1.35",
-      "title": "Jacklines, Tethers & Clip\u2011In Protocol-json",
+      "id": "lesson_safety_06.00",
+      "title": "Jacklines, Tethers & Clip‑In Protocol-json",
       "content": [
         {
           "type": "text",
@@ -143,12 +148,12 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.35_a32356b0",
-          "title": "Jacklines, Tethers & Clip\u2011In Protocol-json",
+          "id": "flashcard_lesson_safety_06.00_a32356b0",
+          "title": "Jacklines, Tethers & Clip‑In Protocol-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Jacklines, Tethers & Clip\u2011In Protocol'?"
+              "content": "What are the key points of 'Jacklines, Tethers & Clip‑In Protocol'?"
             }
           ],
           "sideB": [
@@ -163,7 +168,7 @@
       ]
     },
     {
-      "id": "lesson_safety_1.40",
+      "id": "lesson_safety_07.00",
       "title": "Night Safety & Watchstanding-json",
       "content": [
         {
@@ -180,7 +185,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.40_ef045273",
+          "id": "flashcard_lesson_safety_07.00_ef045273",
           "title": "Night Safety & Watchstanding-json",
           "sideA": [
             {
@@ -200,7 +205,7 @@
       ]
     },
     {
-      "id": "lesson_safety_1.50",
+      "id": "lesson_safety_08.00",
       "title": "Winch & Line Handling Safety-json",
       "content": [
         {
@@ -217,7 +222,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.50_cb74fa82",
+          "id": "flashcard_lesson_safety_08.00_cb74fa82",
           "title": "Winch & Line Handling Safety-json",
           "sideA": [
             {
@@ -237,7 +242,7 @@
       ]
     },
     {
-      "id": "lesson_safety_1.60",
+      "id": "lesson_safety_09.00",
       "title": "Knife & Cutting Tool Readiness-json",
       "content": [
         {
@@ -254,7 +259,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.60_9ed57560",
+          "id": "flashcard_lesson_safety_09.00_9ed57560",
           "title": "Knife & Cutting Tool Readiness-json",
           "sideA": [
             {
@@ -274,7 +279,7 @@
       ]
     },
     {
-      "id": "lesson_safety_1.70",
+      "id": "lesson_safety_10.00",
       "title": "Flares & Visual Distress Signals-json",
       "content": [
         {
@@ -291,7 +296,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.70_52eb7a88",
+          "id": "flashcard_lesson_safety_10.00_52eb7a88",
           "title": "Flares & Visual Distress Signals-json",
           "sideA": [
             {
@@ -311,12 +316,12 @@
       ]
     },
     {
-      "id": "lesson_safety_1.80",
+      "id": "lesson_safety_11.00",
       "title": "VHF/DSC Mayday & Comms Discipline-json",
       "content": [
         {
           "type": "text",
-          "content": "Know Mayday/Pan\u2011Pan formats, DSC distress button use, and maintain clear, brief communications on Ch16."
+          "content": "Know Mayday/Pan‑Pan formats, DSC distress button use, and maintain clear, brief communications on Ch16."
         }
       ],
       "keywords": [
@@ -328,7 +333,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.80_a3001eb8",
+          "id": "flashcard_lesson_safety_11.00_a3001eb8",
           "title": "VHF/DSC Mayday & Comms Discipline-json",
           "sideA": [
             {
@@ -339,7 +344,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Know Mayday/Pan\u2011Pan formats, DSC distress button use, and maintain clear, brief communications on Ch16."
+              "content": "Know Mayday/Pan‑Pan formats, DSC distress button use, and maintain clear, brief communications on Ch16."
             }
           ],
           "isPaid": false,
@@ -348,7 +353,7 @@
       ]
     },
     {
-      "id": "lesson_safety_1.90",
+      "id": "lesson_safety_12.00",
       "title": "Fire Prevention & Extinguishers-json",
       "content": [
         {
@@ -365,7 +370,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.90_615b41c2",
+          "id": "flashcard_lesson_safety_12.00_615b41c2",
           "title": "Fire Prevention & Extinguishers-json",
           "sideA": [
             {
@@ -422,12 +427,12 @@
       ]
     },
     {
-      "id": "lesson_safety_2.10",
+      "id": "lesson_safety_13.00",
       "title": "Propane/LP Gas Safety-json",
       "content": [
         {
           "type": "text",
-          "content": "Leak\u2011check regularly, keep locker drains clear, shut solenoid and cylinder when not in use, and test the sniffer."
+          "content": "Leak‑check regularly, keep locker drains clear, shut solenoid and cylinder when not in use, and test the sniffer."
         }
       ],
       "keywords": [
@@ -439,7 +444,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.10_f5ccf8c0",
+          "id": "flashcard_lesson_safety_13.00_f5ccf8c0",
           "title": "Propane/LP Gas Safety-json",
           "sideA": [
             {
@@ -450,7 +455,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Leak\u2011check regularly, keep locker drains clear, shut solenoid and cylinder when not in use, and test the sniffer."
+              "content": "Leak‑check regularly, keep locker drains clear, shut solenoid and cylinder when not in use, and test the sniffer."
             }
           ],
           "isPaid": false,
@@ -459,8 +464,8 @@
       ]
     },
     {
-      "id": "lesson_safety_2.20",
-      "title": "Going Aloft: Bosun\u2019s Chair & Redundancy-json",
+      "id": "lesson_safety_14.00",
+      "title": "Going Aloft: Bosun’s Chair & Redundancy-json",
       "content": [
         {
           "type": "text",
@@ -476,12 +481,12 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.20_131241b8",
-          "title": "Going Aloft: Bosun\u2019s Chair & Redundancy-json",
+          "id": "flashcard_lesson_safety_14.00_131241b8",
+          "title": "Going Aloft: Bosun’s Chair & Redundancy-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Going Aloft: Bosun\u2019s Chair & Redundancy'?"
+              "content": "What are the key points of 'Going Aloft: Bosun’s Chair & Redundancy'?"
             }
           ],
           "sideB": [
@@ -496,7 +501,7 @@
       ]
     },
     {
-      "id": "lesson_safety_2.30",
+      "id": "lesson_safety_15.00",
       "title": "Hypothermia & Cold Shock Response-json",
       "content": [
         {
@@ -513,7 +518,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.30_fe22213d",
+          "id": "flashcard_lesson_safety_15.00_fe22213d",
           "title": "Hypothermia & Cold Shock Response-json",
           "sideA": [
             {
@@ -533,7 +538,7 @@
       ]
     },
     {
-      "id": "lesson_safety_2.40",
+      "id": "lesson_safety_16.00",
       "title": "Heat Stress, Sun & Hydration-json",
       "content": [
         {
@@ -550,7 +555,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.40_7578affd",
+          "id": "flashcard_lesson_safety_16.00_7578affd",
           "title": "Heat Stress, Sun & Hydration-json",
           "sideA": [
             {
@@ -570,12 +575,12 @@
       ]
     },
     {
-      "id": "lesson_safety_2.50",
+      "id": "lesson_safety_17.00",
       "title": "Flood Response & Seacock Drills-json",
       "content": [
         {
           "type": "text",
-          "content": "Assign roles to find/plug leaks, start pumps, and close valves; keep tapered plugs on lanyards at each through\u2011hull."
+          "content": "Assign roles to find/plug leaks, start pumps, and close valves; keep tapered plugs on lanyards at each through‑hull."
         }
       ],
       "keywords": [
@@ -587,7 +592,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.50_e7d920d9",
+          "id": "flashcard_lesson_safety_17.00_e7d920d9",
           "title": "Flood Response & Seacock Drills-json",
           "sideA": [
             {
@@ -598,7 +603,7 @@
           "sideB": [
             {
               "type": "text",
-              "content": "Assign roles to find/plug leaks, start pumps, and close valves; keep tapered plugs on lanyards at each through\u2011hull."
+              "content": "Assign roles to find/plug leaks, start pumps, and close valves; keep tapered plugs on lanyards at each through‑hull."
             }
           ],
           "isPaid": false,
@@ -607,7 +612,7 @@
       ]
     },
     {
-      "id": "lesson_safety_2.60",
+      "id": "lesson_safety_18.00",
       "title": "Personal Medical Kit & Allergies-json",
       "content": [
         {
@@ -624,7 +629,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.60_e1931390",
+          "id": "flashcard_lesson_safety_18.00_e1931390",
           "title": "Personal Medical Kit & Allergies-json",
           "sideA": [
             {
