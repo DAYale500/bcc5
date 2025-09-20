@@ -35,6 +35,746 @@
           "showAFirst": true
         }
       ]
+    },
+    {
+      "id": "lesson_team_2.00",
+      "title": "Pre\u2011Departure Briefing & Cross\u2011Checks-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Align the crew before lines off: roles, route, hazards, comms, and contingencies."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Risk scan (weather, traffic, gear status)",
+            "Who does what on departure and first maneuver",
+            "Confirm radios, PFDs, tethers, knives, lights"
+          ]
+        },
+        {
+          "type": "image",
+          "content": "assets/images/boat_overview_new.png"
+        }
+      ],
+      "keywords": [
+        "briefing",
+        "cross-check",
+        "roles",
+        "risk"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_2.00_ebcd68eb",
+          "title": "Pre\u2011Departure Briefing & Cross\u2011Checks-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Pre\u2011Departure Briefing & Cross\u2011Checks'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Align the crew before lines off: roles, route, hazards, comms, and contingencies."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+{
+  "id": "lesson_team_3.00",
+  "title": "Crew Mindset: Roles, Language, Etiquette-json",
+  "content": [
+    {
+      "type": "text",
+      "content": "Safe sailing depends on clear roles, respectful communication, and tidy habits aboard. Each crewmember contributes by staying aware, using consistent language, and practicing seamanship etiquette."
+    },
+    {
+      "type": "bulletList",
+      "content": [
+        "Skipper vs. Crew: Skipper gives commands; crew executes and reports back.",
+        "Language: Use short, standard phrases — avoid slang or extra chatter during maneuvers.",
+        "Repeat-back: Confirm orders exactly as spoken to ensure accuracy.",
+        "Deck Etiquette: Keep lines coiled, gear stowed, and decks clear to prevent accidents.",
+        "Questions: If unsure, ask immediately — silence is riskier than speaking up.",
+        "Respect: Acknowledge each person’s task and avoid cross-talk when commands are active."
+      ]
+    }
+  ],
+  "keywords": [
+    "roles",
+    "communication",
+    "etiquette",
+    "crew",
+    "skipper",
+    "repeat-back"
+  ],
+  "isPaid": false,
+  "flashcards": [
+    {
+      "id": "flashcard_lesson_team_3.00_7f1e9c3a",
+      "title": "Crew Mindset: Roles, Language, Etiquette-json",
+      "sideA": [
+        {
+          "type": "text",
+          "content": "What are the key points of 'Crew Mindset: Roles, Language, Etiquette'?"
+        }
+      ],
+      "sideB": [
+        {
+          "type": "text",
+          "content": "Skipper gives commands, crew executes with repeat-back; use short, clear phrases; keep decks tidy; ask if unsure; respect roles and avoid cross-talk."
+        }
+      ],
+      "isPaid": false,
+      "showAFirst": true
+    }
+  ]
+},
+
+
+
+    
+    {
+      "id": "lesson_team_3.10",
+      "title": "Standard Commands & Closed\u2011Loop Comms-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Use simple, unambiguous commands acknowledged back word\u2011for\u2011word to reduce errors."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Helm: 'Ready to tack?' Crew: 'Ready.' Helm: 'Tacking.'",
+            "Acknowledge with the task + name: 'Line made fast, Alex.'",
+            "One voice in charge; others report status only"
+          ]
+        }
+      ],
+      "keywords": [
+        "commands",
+        "closed-loop",
+        "acknowledge",
+        "helm"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_3.10_32ff1f5e",
+          "title": "Standard Commands & Closed\u2011Loop Comms-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Standard Commands & Closed\u2011Loop Comms'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Use simple, unambiguous commands acknowledged back word\u2011for\u2011word to reduce errors."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_4.00",
+      "title": "Hand Signals & Nonverbal Cues-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "When voices fail, standardized hand signals prevent confusion at distance or in wind."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Stop/hold, slack/take, heave, cast off, make fast",
+            "Pointing for hazards and intended direction",
+            "Night: add red/white light signals where safe"
+          ]
+        }
+      ],
+      "keywords": [
+        "hand signals",
+        "nonverbal",
+        "night signals"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_4.00_745202e4",
+          "title": "Hand Signals & Nonverbal Cues-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Hand Signals & Nonverbal Cues'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "When voices fail, standardized hand signals prevent confusion at distance or in wind."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_5.00",
+      "title": "Watch Rotation & Handover Protocol-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Fatigue kills judgment. Structured watches with formal handovers keep awareness high."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Handover: course, traffic, sail plan, alarms, weather",
+            "Agree wake criteria and escalation rules",
+            "Record log entries at each change of watch"
+          ]
+        }
+      ],
+      "keywords": [
+        "watch",
+        "handover",
+        "fatigue",
+        "log"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_5.00_049819bf",
+          "title": "Watch Rotation & Handover Protocol-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Watch Rotation & Handover Protocol'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Fatigue kills judgment. Structured watches with formal handovers keep awareness high."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_6.00",
+      "title": "Helm\u2013Trim Coordination-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Boat speed and control depend on tight timing between helm and trimmers."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Call puffs/lulls; helm feathers, trimmer eases/trims",
+            "On maneuvers: countdown and confirm ready states",
+            "After action: 'trim set', 'helm steady' check"
+          ]
+        }
+      ],
+      "keywords": [
+        "helm",
+        "trim",
+        "timing",
+        "maneuvers"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_6.00_fff02a28",
+          "title": "Helm\u2013Trim Coordination-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Helm\u2013Trim Coordination'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Boat speed and control depend on tight timing between helm and trimmers."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_7.00",
+      "title": "Reefing & Sail Change Roles-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Assign tack/clew/halyard responsibilities and practice the sequence at dock speed first."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Skipper calls, timekeeper counts, each role confirms",
+            "Secure flogging cloth before people move forward",
+            "Final check: halyard, reef line, luff/leech tension"
+          ]
+        }
+      ],
+      "keywords": [
+        "reefing",
+        "sail change",
+        "roles",
+        "sequence"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_7.00_2b265964",
+          "title": "Reefing & Sail Change Roles-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Reefing & Sail Change Roles'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Assign tack/clew/halyard responsibilities and practice the sequence at dock speed first."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_8.00",
+      "title": "Docking Team Choreography-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Clear positions and lines reduce risk around props and pilings."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Assign spring line first; control boat with engine",
+            "Fender checks and heights before approach",
+            "Abort plan agreed and briefed"
+          ]
+        }
+      ],
+      "keywords": [
+        "docking",
+        "springs",
+        "fenders",
+        "abort"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_8.00_1c872615",
+          "title": "Docking Team Choreography-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Docking Team Choreography'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Clear positions and lines reduce risk around props and pilings."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_9.00",
+      "title": "Man Overboard Team Roles & Drills-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Pre\u2011assigned spotter, helm, and recovery roles save seconds that save lives."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Spotter points/announces, never looks away",
+            "Helm executes chosen recovery, crew rigs retrieval",
+            "Practice regularly in varied conditions"
+          ]
+        }
+      ],
+      "keywords": [
+        "MOB",
+        "spotter",
+        "recovery",
+        "drill"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_9.00_658e3ebc",
+          "title": "Man Overboard Team Roles & Drills-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Man Overboard Team Roles & Drills'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Pre\u2011assigned spotter, helm, and recovery roles save seconds that save lives."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_10.00",
+      "title": "Heavy Weather Crew Management-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Shorter tasks, clipped\u2011in movement, and pre\u2011rigged preventers keep order in chaos."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Reduce deck work; assign buddy pairs",
+            "Warm/dry cycle plan and seasickness backups",
+            "Secure cabin for motion; handholds briefed"
+          ]
+        }
+      ],
+      "keywords": [
+        "heavy weather",
+        "preventer",
+        "buddy system"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_10.00_e1405566",
+          "title": "Heavy Weather Crew Management-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Heavy Weather Crew Management'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Shorter tasks, clipped\u2011in movement, and pre\u2011rigged preventers keep order in chaos."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_11.00",
+      "title": "Task Loading & Fatigue Management-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Distribute tasks to avoid overloads at the helm or bow; rotate high\u2011stress jobs."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Use checklists for complex sequences",
+            "Build in micro\u2011breaks and hydration",
+            "Swap roles to maintain skill breadth"
+          ]
+        }
+      ],
+      "keywords": [
+        "task load",
+        "fatigue",
+        "checklist",
+        "rotation"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_11.00_13460442",
+          "title": "Task Loading & Fatigue Management-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Task Loading & Fatigue Management'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Distribute tasks to avoid overloads at the helm or bow; rotate high\u2011stress jobs."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_12.00",
+      "title": "Situational Awareness & 360 Scans-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Make frequent, structured scans and share mental models aloud: 'I see\u2026 I plan\u2026'"
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Traffic, sail plan, trim, instruments, sky/sea state",
+            "Call out CPA/TCPA and hazard bearings",
+            "Use timers to cue periodic scans"
+          ]
+        }
+      ],
+      "keywords": [
+        "situational awareness",
+        "scan",
+        "CPA",
+        "TCPA"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_12.00_caccd779",
+          "title": "Situational Awareness & 360 Scans-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Situational Awareness & 360 Scans'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Make frequent, structured scans and share mental models aloud: 'I see\u2026 I plan\u2026'"
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_13.00",
+      "title": "Conflict Resolution & Psychological Safety-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Debrief with curiosity, not blame. Encourage speaking up, especially for safety concerns."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Use 'I' statements; state facts and impacts",
+            "Agree reset words to cool down",
+            "Capture learnings into SOPs/checklists"
+          ]
+        }
+      ],
+      "keywords": [
+        "conflict",
+        "psych safety",
+        "debrief",
+        "SOP"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_13.00_ca7de895",
+          "title": "Conflict Resolution & Psychological Safety-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Conflict Resolution & Psychological Safety'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Debrief with curiosity, not blame. Encourage speaking up, especially for safety concerns."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_14.00",
+      "title": "Post\u2011Maneuver Debriefs & Continuous Improvement-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Short, structured debriefs turn every maneuver into a lesson."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "What went well / what to change / who owns action",
+            "Keep to 90 seconds unless safety critical",
+            "Update line labels, marks, or call language"
+          ]
+        }
+      ],
+      "keywords": [
+        "debrief",
+        "continuous improvement",
+        "SOP"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_14.00_10b86f6b",
+          "title": "Post\u2011Maneuver Debriefs & Continuous Improvement-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Post\u2011Maneuver Debriefs & Continuous Improvement'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Short, structured debriefs turn every maneuver into a lesson."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_15.00",
+      "title": "Radio Discipline & Hailing Etiquette-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Concise, professional radio calls build credibility and reduce channel clutter."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "State who you\u2019re calling, who you are, and where",
+            "Use working channels after contact on 16",
+            "Acknowledge and close with your vessel name"
+          ]
+        }
+      ],
+      "keywords": [
+        "radio",
+        "VHF",
+        "etiquette",
+        "channel 16"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_15.00_17cb3cf3",
+          "title": "Radio Discipline & Hailing Etiquette-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Radio Discipline & Hailing Etiquette'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Concise, professional radio calls build credibility and reduce channel clutter."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_16.00",
+      "title": "Emergency Muster & Role Cards-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Pre\u2011printed role cards and a muster plan remove doubt when seconds matter."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Cards at nav and clipped to PFDs",
+            "Muster points fore/aft with backups",
+            "Drill abandon\u2011ship kit handoffs"
+          ]
+        }
+      ],
+      "keywords": [
+        "muster",
+        "role cards",
+        "abandon ship",
+        "drill"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_16.00_f81b5077",
+          "title": "Emergency Muster & Role Cards-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Emergency Muster & Role Cards'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Pre\u2011printed role cards and a muster plan remove doubt when seconds matter."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_team_17.00",
+      "title": "Pathways Forward: Day Skipper, Bareboat, Offshore-json",
+      "keywords": ["next steps","training","certs"],
+      "isPaid": false,
+      "content": [
+        { "type": "text", "content": "Suggested progression and practice focus after Competent Crew." }
+      ],
+      "flashcards": []
     }
   ]
 }

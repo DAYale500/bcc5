@@ -71,6 +71,700 @@
           "showAFirst": true
         }
       ]
+    },
+    {
+      "id": "part_intr_1.20",
+      "title": "Fire Safety: Extinguishers & Blanket-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Locate and service ABC extinguishers and a galley fire blanket. Mount within easy reach and check gauges/dates."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Place one at galley, one near companionway, one aft cabin/engine space",
+            "Monthly gauge check; shake dry chemical units to prevent caking",
+            "Train crew on PASS and blanket smother technique"
+          ]
+        },
+        {
+          "type": "image",
+          "content": "assets/images/boat_overview_new.png"
+        }
+      ],
+      "keywords": [
+        "fire",
+        "extinguisher",
+        "blanket",
+        "safety"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_1.20_b5b92461",
+          "title": "Fire Safety: Extinguishers & Blanket-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Fire Safety: Extinguishers & Blanket'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Locate and service ABC extinguishers and a galley fire blanket. Mount within easy reach and check gauges/dates."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_1.30",
+      "title": "Propane System: Solenoid, Sniffer & Shutoffs-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Propane demands vigilance: test solenoid operation, leak-check lines, and confirm detector/sniffer alarms."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Sniffer test and alarm verification before cooking",
+            "Close cylinder valve when not in use",
+            "Inspect locker drains and regulator for corrosion"
+          ]
+        }
+      ],
+      "keywords": [
+        "propane",
+        "solenoid",
+        "sniffer",
+        "locker"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_1.30_7894e431",
+          "title": "Propane System: Solenoid, Sniffer & Shutoffs-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Propane System: Solenoid, Sniffer & Shutoffs'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Propane demands vigilance: test solenoid operation, leak-check lines, and confirm detector/sniffer alarms."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_1.40",
+      "title": "Electrical Panel & Main Breakers-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Label circuits, keep a clean panel, and know how to isolate faults quickly with mains and sub-breakers."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Spare fuses taped inside panel door",
+            "Document normal operating currents",
+            "Train crew: 'shore/off/gen' selector and inverter"
+          ]
+        }
+      ],
+      "keywords": [
+        "electrical",
+        "panel",
+        "breakers",
+        "fuse"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_1.40_5f0a55b3",
+          "title": "Electrical Panel & Main Breakers-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Electrical Panel & Main Breakers'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Label circuits, keep a clean panel, and know how to isolate faults quickly with mains and sub-breakers."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_1.50",
+      "title": "Battery Compartment & Master Switch-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Inspect hold-downs, venting, and cabling. Know where the master switch is and when to use it."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Tight, corrosion-free terminals with strain relief",
+            "Correct venting/clearances per battery type",
+            "Post a one-line diagram near the switch"
+          ]
+        }
+      ],
+      "keywords": [
+        "battery",
+        "master switch",
+        "cables",
+        "vent"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_1.50_cb78853a",
+          "title": "Battery Compartment & Master Switch-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Battery Compartment & Master Switch'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Inspect hold-downs, venting, and cabling. Know where the master switch is and when to use it."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_1.60",
+      "title": "CO/Smoke/LP Detectors-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Fit and test carbon monoxide, smoke, and propane detectors. Replace sensors per manufacturer intervals."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Monthly test and annual battery replacement",
+            "Mount CO detectors at berth height",
+            "Log test dates on a sticker"
+          ]
+        }
+      ],
+      "keywords": [
+        "detector",
+        "CO",
+        "smoke",
+        "LP"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_1.60_e0446b31",
+          "title": "CO/Smoke/LP Detectors-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'CO/Smoke/LP Detectors'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Fit and test carbon monoxide, smoke, and propane detectors. Replace sensors per manufacturer intervals."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_1.70",
+      "title": "Bilge Access & Pumps-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Fast water removal saves boats. Keep access clear and pumps operational (automatic & manual)."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Test float switches and high-water alarm",
+            "Clean strainers; backflush discharge lines",
+            "Stow a large manual pump and bucket"
+          ]
+        }
+      ],
+      "keywords": [
+        "bilge",
+        "pump",
+        "float switch",
+        "alarm"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_1.70_fa04c8bd",
+          "title": "Bilge Access & Pumps-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Bilge Access & Pumps'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Fast water removal saves boats. Keep access clear and pumps operational (automatic & manual)."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_1.80",
+      "title": "Seacock Access Map (Interior)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Every crew should know where to find and operate each seacock under the sole and in lockers."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Color-code handles and hang tapered plugs on lanyards",
+            "Exercise quarterly; lube per valve type",
+            "Post a laminated map at nav station"
+          ]
+        }
+      ],
+      "keywords": [
+        "seacock",
+        "through-hull",
+        "map",
+        "plugs"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_1.80_b94cedbe",
+          "title": "Seacock Access Map (Interior)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Seacock Access Map (Interior)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Every crew should know where to find and operate each seacock under the sole and in lockers."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_1.90",
+      "title": "First Aid & Medical Locker-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Stock to the voyage profile. Make contents accessible and labeled, with med guides handy."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Gloves, CPR mask, trauma supplies, seasickness meds",
+            "Waterproof inventory sheet with expiry dates",
+            "Train crew: basic first aid & comms plan"
+          ]
+        }
+      ],
+      "keywords": [
+        "first aid",
+        "medical",
+        "trauma",
+        "CPR"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_1.90_f02165fe",
+          "title": "First Aid & Medical Locker-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'First Aid & Medical Locker'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Stock to the voyage profile. Make contents accessible and labeled, with med guides handy."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+  "module": "interior-json",
+  "lessons": [
+    {
+      "id": "lesson_intr_2.00",
+      "title": "Head & Galley Etiquette-json",
+      "keywords": ["head","galley","etiquette","water"],
+      "isPaid": false,
+      "content": [
+        { "type": "text", "content": "Marine toilet basics, conserve water, safe galley use when heeled, stowage & cleanup." }
+      ],
+      "flashcards": []
+    }
+  ]
+},
+    {
+      "id": "part_intr_2.05",
+      "title": "Emergency Egress: Hatches & Ports-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Ensure hatches/ports open freely from inside and are not obstructed by stowage or add-ons."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Test latches and keep a safety knife nearby",
+            "Anti-rattle mods must not jam egress",
+            "Keep bug screens removable in seconds"
+          ]
+        }
+      ],
+      "keywords": [
+        "egress",
+        "hatch",
+        "portlight",
+        "safety"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_2.05_072bed3e",
+          "title": "Emergency Egress: Hatches & Ports-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Emergency Egress: Hatches & Ports'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Ensure hatches/ports open freely from inside and are not obstructed by stowage or add-ons."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_2.10",
+      "title": "Freshwater System: Pump/Accumulator/Filters-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Quiet, reliable water delivery depends on secure hoses, accumulator pressure, and clean filters."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Set accumulator to ~2 psi below cut-in",
+            "Sanitize tanks periodically",
+            "Carry spare pump head & strainer"
+          ]
+        }
+      ],
+      "keywords": [
+        "freshwater",
+        "pump",
+        "accumulator",
+        "filter"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_2.10_df39d8df",
+          "title": "Freshwater System: Pump/Accumulator/Filters-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Freshwater System: Pump/Accumulator/Filters'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Quiet, reliable water delivery depends on secure hoses, accumulator pressure, and clean filters."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_2.20",
+      "title": "Sanitation: Head, Y-Valve & Holding Tank-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Keep odors and failures at bay with correct hose routing, venting, and disciplined use."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Exercise Y-valve; lock when required by law",
+            "Vent line clear; charcoal filter service",
+            "Use bio treatments compatible with hoses"
+          ]
+        }
+      ],
+      "keywords": [
+        "sanitation",
+        "head",
+        "holding tank",
+        "Y-valve"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_2.20_f9d4ce4b",
+          "title": "Sanitation: Head, Y-Valve & Holding Tank-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Sanitation: Head, Y-Valve & Holding Tank'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Keep odors and failures at bay with correct hose routing, venting, and disciplined use."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_2.30",
+      "title": "Heating & Ventilation-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Safe heat and airflow reduce moisture and mold. Inspect heaters, ducts, fans, and CO risk."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Service diesel heater annually; check exhaust integrity",
+            "Run dehumidifier/vent fans when idle",
+            "Keep condensate drains clear"
+          ]
+        }
+      ],
+      "keywords": [
+        "heating",
+        "ventilation",
+        "diesel heater",
+        "fans"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_2.30_06a1e936",
+          "title": "Heating & Ventilation-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Heating & Ventilation'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Safe heat and airflow reduce moisture and mold. Inspect heaters, ducts, fans, and CO risk."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_2.40",
+      "title": "Tools, Spares & Repair Kits-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "A tidy toolkit speeds fixes underway. Standardize fasteners and label kits."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Spare belts, filters, impellers, hose, clamps, wire",
+            "Dedicated electrical and plumbing kits",
+            "Inventory list taped to locker lid"
+          ]
+        }
+      ],
+      "keywords": [
+        "tools",
+        "spares",
+        "kits",
+        "maintenance"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_2.40_d22cd1fe",
+          "title": "Tools, Spares & Repair Kits-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Tools, Spares & Repair Kits'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "A tidy toolkit speeds fixes underway. Standardize fasteners and label kits."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_2.50",
+      "title": "Interior Lighting: Red/White/Night-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Good lighting prevents injury and preserves night vision. Plan red/white modes and task lights."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Install red mode near companionway/nav",
+            "Stick-on touch lights for lockers",
+            "Spare bulbs/LED drivers aboard"
+          ]
+        }
+      ],
+      "keywords": [
+        "lighting",
+        "red",
+        "night vision",
+        "LED"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_2.50_354005e5",
+          "title": "Interior Lighting: Red/White/Night-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Interior Lighting: Red/White/Night'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Good lighting prevents injury and preserves night vision. Plan red/white modes and task lights."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_intr_2.60",
+      "title": "Companionway & Sole Board Security-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Prevent falls and access-panel surprises by securing ladder, washboards, and sole latches."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Check hinges/latches; add tethers to boards",
+            "Non-skid tape on steps and high-traffic sole",
+            "Keep washboards within reach in an emergency"
+          ]
+        }
+      ],
+      "keywords": [
+        "companionway",
+        "sole",
+        "latch",
+        "non-skid"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_intr_2.60_97f975f5",
+          "title": "Companionway & Sole Board Security-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Companionway & Sole Board Security'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Prevent falls and access-panel surprises by securing ladder, washboards, and sole latches."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

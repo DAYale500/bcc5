@@ -1,0 +1,15 @@
+{
+  "module": "prep-json",
+  "lessons": [
+    {
+      "id": "lesson_prep_1.00",
+      "title": "What to Wear & Bring-json",
+      "keywords": ["layers","shoes","sun","water","snacks","meds","bag"],
+      "isPaid": false,
+      "content": [
+        { "type": "text", "content": "Soft bag; non-marking shoes; sun protection; warm layers; water & snacks; personal meds." }
+      ],
+      "flashcards": []
+    }
+  ]
+}

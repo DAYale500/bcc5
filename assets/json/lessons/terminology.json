@@ -37,13 +37,30 @@
         }
       ]
     },
+
+{
+  "module": "terminology-json",
+  "lessons": [
     {
       "id": "lesson_term_2.00",
+      "title": "Commands & Language Quick Guide-json",
+      "keywords": ["commands","language","calls"],
+      "isPaid": false,
+      "content": [
+        { "type": "text", "content": "Ready about; Helm to lee; Ease/Trim; Made fast; Hold; Stand by; Lines vs sheets vs halyards." }
+      ],
+      "flashcards": []
+    }
+  ]
+},
+
+    {
+      "id": "lesson_term_2.20",
       "title": "Common Nautical Terms-json",
       "content": [
         {
           "type": "text",
-          "content": "Learn basic terms like “port” (left) and “starboard” (right)."
+          "content": "Learn basic terms like \u201cport\u201d (left) and \u201cstarboard\u201d (right)."
         }
       ],
       "keywords": [
@@ -54,7 +71,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_term_2.00",
+          "id": "flashcard_lesson_term_2.20",
           "title": "Common Nautical Terms-json",
           "sideA": [
             {
@@ -66,6 +83,575 @@
             {
               "type": "text",
               "content": "'Port' is left; 'starboard' is right."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_3.00",
+      "title": "Hull & Deck Anatomy-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Define bow/stern, beam, freeboard, draft, topsides, and transom; locate chainplates, toerail, and rub rail."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/boat_overview_new.png"
+        }
+      ],
+      "keywords": [
+        "hull",
+        "deck",
+        "bow",
+        "stern",
+        "beam",
+        "draft"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_3.00_00e91882",
+          "title": "Hull & Deck Anatomy-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Hull & Deck Anatomy'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Define bow/stern, beam, freeboard, draft, topsides, and transom; locate chainplates, toerail, and rub rail."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_4.00",
+      "title": "Rigging Basics: Standing vs. Running-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Standing rigging holds the mast (shrouds, stays); running rigging moves (halyards, sheets, control lines)."
+        }
+      ],
+      "keywords": [
+        "standing rigging",
+        "running rigging",
+        "shroud",
+        "stay",
+        "halyard",
+        "sheet"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_4.00_b6e3fd43",
+          "title": "Rigging Basics: Standing vs. Running-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Rigging Basics: Standing vs. Running'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Standing rigging holds the mast (shrouds, stays); running rigging moves (halyards, sheets, control lines)."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_5.00",
+      "title": "Sail Geometry: Luff, Leech, Foot & Clew-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Know each edge and corner: luff to mast/forestay, leech aft edge, foot along boom; head, tack, and clew corners."
+        }
+      ],
+      "keywords": [
+        "luff",
+        "leech",
+        "foot",
+        "head",
+        "tack",
+        "clew"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_5.00_145a623b",
+          "title": "Sail Geometry: Luff, Leech, Foot & Clew-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Sail Geometry: Luff, Leech, Foot & Clew'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Know each edge and corner: luff to mast/forestay, leech aft edge, foot along boom; head, tack, and clew corners."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_6.00",
+      "title": "Points of Sail-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Apparent wind angles from close\u2011hauled through beam, broad reach, to running; no\u2011go zone to windward."
+        }
+      ],
+      "keywords": [
+        "points of sail",
+        "close-hauled",
+        "beam reach",
+        "broad reach",
+        "run"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_6.00_24fe03ba",
+          "title": "Points of Sail-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Points of Sail'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Apparent wind angles from close\u2011hauled through beam, broad reach, to running; no\u2011go zone to windward."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_7.00",
+      "title": "Tack vs. Jibe (Gybe)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "A tack brings the bow through the wind; a jibe brings the stern through\u2014manage boom control and preventers."
+        }
+      ],
+      "keywords": [
+        "tack",
+        "jibe",
+        "gybe",
+        "boom control",
+        "preventer"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_7.00_2eb17fe2",
+          "title": "Tack vs. Jibe (Gybe)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Tack vs. Jibe (Gybe)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "A tack brings the bow through the wind; a jibe brings the stern through\u2014manage boom control and preventers."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_8.00",
+      "title": "Sheets vs. Halyards-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Sheets trim sails; halyards hoist and set luff tension. Do not confuse their roles when calling commands."
+        }
+      ],
+      "keywords": [
+        "sheets",
+        "halyards",
+        "trim",
+        "hoist"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_8.00_4868bd4e",
+          "title": "Sheets vs. Halyards-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Sheets vs. Halyards'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Sheets trim sails; halyards hoist and set luff tension. Do not confuse their roles when calling commands."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_9.00",
+      "title": "Traveler, Vang & Outhaul-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Primary sail\u2011shape controls: traveler sets angle, vang controls twist, outhaul adjusts foot depth."
+        }
+      ],
+      "keywords": [
+        "traveler",
+        "vang",
+        "outhaul",
+        "sail trim"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_9.00_74660e68",
+          "title": "Traveler, Vang & Outhaul-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Traveler, Vang & Outhaul'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Primary sail\u2011shape controls: traveler sets angle, vang controls twist, outhaul adjusts foot depth."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_10.00",
+      "title": "Weather Helm & Lee Helm-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Weather helm = tendency to round up; lee helm = bear off. Balance sail plan and mast rake to manage."
+        }
+      ],
+      "keywords": [
+        "weather helm",
+        "lee helm",
+        "balance",
+        "mast rake"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_10.00_7d0ce319",
+          "title": "Weather Helm & Lee Helm-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Weather Helm & Lee Helm'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Weather helm = tendency to round up; lee helm = bear off. Balance sail plan and mast rake to manage."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_11.00",
+      "title": "Leeway & Set/Drift-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Leeway is sideways wind slip; current adds set (direction) and drift (speed). Both alter course made good."
+        }
+      ],
+      "keywords": [
+        "leeway",
+        "set",
+        "drift",
+        "current",
+        "CMG"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_11.00_23992871",
+          "title": "Leeway & Set/Drift-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Leeway & Set/Drift'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Leeway is sideways wind slip; current adds set (direction) and drift (speed). Both alter course made good."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_12.00",
+      "title": "Scope, Rode & Snubber-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Scope is rode length vs. depth; rode is chain/rope; a snubber elastically protects fittings under load."
+        }
+      ],
+      "keywords": [
+        "scope",
+        "rode",
+        "snubber",
+        "anchoring"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_12.00_e74f3279",
+          "title": "Scope, Rode & Snubber-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Scope, Rode & Snubber'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Scope is rode length vs. depth; rode is chain/rope; a snubber elastically protects fittings under load."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_13.00",
+      "title": "COG, SOG & HDG-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "COG = course over ground; SOG = speed over ground; HDG = compass heading through the water."
+        }
+      ],
+      "keywords": [
+        "COG",
+        "SOG",
+        "heading",
+        "navigation"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_13.00_8fa5d9af",
+          "title": "COG, SOG & HDG-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'COG, SOG & HDG'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "COG = course over ground; SOG = speed over ground; HDG = compass heading through the water."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_14.00",
+      "title": "TSS, COLREGS & Stand\u2011On/Give\u2011Way-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Traffic Separation Schemes and collision regs define stand\u2011on/give\u2011way responsibilities to avoid collision."
+        }
+      ],
+      "keywords": [
+        "TSS",
+        "COLREGS",
+        "stand-on",
+        "give-way"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_14.00_850a7028",
+          "title": "TSS, COLREGS & Stand\u2011On/Give\u2011Way-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'TSS, COLREGS & Stand\u2011On/Give\u2011Way'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Traffic Separation Schemes and collision regs define stand\u2011on/give\u2011way responsibilities to avoid collision."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_15.00",
+      "title": "Apparent vs. True Wind-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Apparent wind is what you feel moving through air; true wind is the wind over the ground."
+        }
+      ],
+      "keywords": [
+        "apparent wind",
+        "true wind",
+        "AWA",
+        "TWA"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_15.00_8e164486",
+          "title": "Apparent vs. True Wind-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Apparent vs. True Wind'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Apparent wind is what you feel moving through air; true wind is the wind over the ground."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_16.00",
+      "title": "Heel, Trim & List-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Heel is wind\u2011induced roll under way; trim is longitudinal attitude; list is static lean from imbalance."
+        }
+      ],
+      "keywords": [
+        "heel",
+        "trim",
+        "list",
+        "attitude"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_16.00_3d083614",
+          "title": "Heel, Trim & List-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Heel, Trim & List'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Heel is wind\u2011induced roll under way; trim is longitudinal attitude; list is static lean from imbalance."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_term_17.00",
+      "title": "Aground, Abeam, Abaft & Ahead-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Relative bearings and positions: abeam at right angles; abaft behind the beam; ahead forward; aground touching bottom."
+        }
+      ],
+      "keywords": [
+        "abeam",
+        "abaft",
+        "ahead",
+        "aground",
+        "relative bearing"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_term_17.00_3ffacf10",
+          "title": "Aground, Abeam, Abaft & Ahead-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Aground, Abeam, Abaft & Ahead'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Relative bearings and positions: abeam at right angles; abaft behind the beam; ahead forward; aground touching bottom."
             }
           ],
           "isPaid": false,

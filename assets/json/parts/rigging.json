@@ -75,6 +75,625 @@
           "showAFirst": true
         }
       ]
+    },
+    {
+      "id": "part_rigg_1.30",
+      "title": "Chainplates, Turnbuckles & Cotter Pins-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Primary mast security. Inspect chainplates, turnbuckles, pins and cotters for cracks, corrosion, and proper seizing."
+        },
+        {
+          "type": "bullets",
+          "content": "Replace bent/missing cotter pins; tape sharp ends\nCheck for crevice corrosion at deck penetrations\nTurnbuckle collars/locknuts secure; threads clean"
+        },
+        {
+          "type": "image",
+          "content": "assets/images/boat_overview_new.png"
+        }
+      ],
+      "keywords": [
+        "chainplates",
+        "turnbuckle",
+        "cotter pin",
+        "standing rigging"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_1.30_14f7054d",
+          "title": "Chainplates, Turnbuckles & Cotter Pins-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Chainplates, Turnbuckles & Cotter Pins'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Primary mast security. Inspect chainplates, turnbuckles, pins and cotters for cracks, corrosion, and proper seizing."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_1.40",
+      "title": "Shrouds & Stays Tension (LOA Check)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Correct tension maintains mast column. Sight up the mast for straightness and tune leeward/ windward tensions evenly."
+        },
+        {
+          "type": "bullets",
+          "content": "Use a rig tension gauge or builder\u2019s guide\nAfter sailing, adjust until leeward shrouds just slack\nRe-check after new wire/seasonal changes"
+        }
+      ],
+      "keywords": [
+        "shrouds",
+        "stays",
+        "tension",
+        "tuning"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_1.40_9a3a3a94",
+          "title": "Shrouds & Stays Tension (LOA Check)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Shrouds & Stays Tension (LOA Check)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Correct tension maintains mast column. Sight up the mast for straightness and tune leeward/ windward tensions evenly."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_1.50",
+      "title": "Mast Step, Partners & Compression Post-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Structural interfaces take high loads. Look for cracking, movement, or leaks at step and partners."
+        },
+        {
+          "type": "bullets",
+          "content": "Verify partners wedges/chocks snug and sealed\nCheck step fasteners, mast boot or sealant\nInspect compression post/base for crushing"
+        }
+      ],
+      "keywords": [
+        "mast step",
+        "partners",
+        "compression post",
+        "seal"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_1.50_3133ae6d",
+          "title": "Mast Step, Partners & Compression Post-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Mast Step, Partners & Compression Post'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Structural interfaces take high loads. Look for cracking, movement, or leaks at step and partners."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_1.60",
+      "title": "Halyards (Main/Headsail/Spinnaker)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Reliable hoists depend on sound halyards, sheaves, and terminations."
+        },
+        {
+          "type": "bullets",
+          "content": "Inspect cover wear at clutches and sheaves\nMouse/tag ends before unreeving\nSwap ends seasonally to spread wear"
+        }
+      ],
+      "keywords": [
+        "halyard",
+        "sheave",
+        "splice",
+        "cover wear"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_1.60_bb5b0f0b",
+          "title": "Halyards (Main/Headsail/Spinnaker)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Halyards (Main/Headsail/Spinnaker)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Reliable hoists depend on sound halyards, sheaves, and terminations."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_1.70",
+      "title": "Sheets (Main/Genoa/Jib) & Tails-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Primary control lines for trim; keep fair, labeled, and managed."
+        },
+        {
+          "type": "bullets",
+          "content": "Check chafe at clew rings and blocks\nWhip or heat-seal bitter ends; add labels\nFlake/stow tails clear of winches and pedals"
+        }
+      ],
+      "keywords": [
+        "sheets",
+        "trim",
+        "chafe",
+        "tails"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_1.70_45f329ee",
+          "title": "Sheets (Main/Genoa/Jib) & Tails-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Sheets (Main/Genoa/Jib) & Tails'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Primary control lines for trim; keep fair, labeled, and managed."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_1.80",
+      "title": "Reefing System (Slab/In\u2011Boom)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Fast, clean reefing protects rig and crew when wind builds."
+        },
+        {
+          "type": "bullets",
+          "content": "Lead reef lines cleanly; mark tack/clew positions\nCunningham/halyard ease coordinated with reef\nKeep reefing hooks/ram\u2019s horn accessible"
+        }
+      ],
+      "keywords": [
+        "reefing",
+        "reef line",
+        "cunningham",
+        "reef tack"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_1.80_5bf3d9fd",
+          "title": "Reefing System (Slab/In\u2011Boom)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Reefing System (Slab/In\u2011Boom)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Fast, clean reefing protects rig and crew when wind builds."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_1.90",
+      "title": "Boom Vang (Rigid/Line)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Controls leech tension and twist; prevents boom lift offwind."
+        },
+        {
+          "type": "bullets",
+          "content": "Inspect tackle, cascades, or gas strut integrity\nAttachment points sound at boom and mast base\nEase before heavy gybes; re-tension after"
+        }
+      ],
+      "keywords": [
+        "boom vang",
+        "twist",
+        "leech",
+        "rig control"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_1.90_3e3fba1a",
+          "title": "Boom Vang (Rigid/Line)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Boom Vang (Rigid/Line)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Controls leech tension and twist; prevents boom lift offwind."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_2.00",
+      "title": "Mainsheet Traveler & Car (Rigging)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Traveler controls angle of attack; maintain bearings and controls."
+        },
+        {
+          "type": "bullets",
+          "content": "Traveler control lines free; stops intact\nCar bearings smooth under load\nCenter and lock before dock/anchor"
+        }
+      ],
+      "keywords": [
+        "traveler",
+        "mainsheet",
+        "car",
+        "bearings"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_2.00_31650dbc",
+          "title": "Mainsheet Traveler & Car (Rigging)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Mainsheet Traveler & Car (Rigging)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Traveler controls angle of attack; maintain bearings and controls."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_2.10",
+      "title": "Genoa/Jib Cars & Tracks (Rigging)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Proper lead angle shapes the headsail and protects the sail."
+        },
+        {
+          "type": "bullets",
+          "content": "Pins fully seated; cars locked before tacks\nAdjust lead to split luff telltales evenly\nLube track fasteners lightly to deter seizure"
+        }
+      ],
+      "keywords": [
+        "genoa car",
+        "jib track",
+        "lead angle",
+        "telltales"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_2.10_bbcb36a0",
+          "title": "Genoa/Jib Cars & Tracks (Rigging)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Genoa/Jib Cars & Tracks (Rigging)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Proper lead angle shapes the headsail and protects the sail."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_2.20",
+      "title": "Headsail Furler & Extrusions-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Smooth furling reduces deck work and risk in breeze."
+        },
+        {
+          "type": "bullets",
+          "content": "Fair lead to drum; no overrides on the furling line\nHalyard restrainer to prevent halyard wrap\nToggle/pins/cotters secured; spins freely"
+        }
+      ],
+      "keywords": [
+        "furler",
+        "drum",
+        "extrusion",
+        "halyard wrap"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_2.20_db0dc813",
+          "title": "Headsail Furler & Extrusions-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Headsail Furler & Extrusions'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Smooth furling reduces deck work and risk in breeze."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_2.30",
+      "title": "Preventer System (Gybe Control)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Pre-rig preventers to control the boom on deep angles."
+        },
+        {
+          "type": "bullets",
+          "content": "Rig outboard to bow/stanchion base padeyes\nQuick-release at cockpit; never to lifelines\nEase before turning up; re-set on new jibe"
+        }
+      ],
+      "keywords": [
+        "preventer",
+        "boom control",
+        "gybe",
+        "safety"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_2.30_e9e6a374",
+          "title": "Preventer System (Gybe Control)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Preventer System (Gybe Control)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Pre-rig preventers to control the boom on deep angles."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_2.40",
+      "title": "Backstay / Adjuster (or Running Backs)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Fore\u2011and\u2011aft rig tension tool; also supports masthead."
+        },
+        {
+          "type": "bullets",
+          "content": "Hydraulic/mechanical adjuster operates smoothly\nInspect split/rod terminals and toggles\nEase in light air; tension for upwind/flat main"
+        }
+      ],
+      "keywords": [
+        "backstay",
+        "adjuster",
+        "running backstays",
+        "tension"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_2.40_dace4426",
+          "title": "Backstay / Adjuster (or Running Backs)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Backstay / Adjuster (or Running Backs)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Fore\u2011and\u2011aft rig tension tool; also supports masthead."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_2.50",
+      "title": "Outhaul & Foot Tension-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Controls draft along the foot of the main."
+        },
+        {
+          "type": "bullets",
+          "content": "Check clew slug/shackle and boom sheaves\nLead minimizes friction; mark reference settings\nEase for power offwind; tension for pointing"
+        }
+      ],
+      "keywords": [
+        "outhaul",
+        "clew",
+        "draft",
+        "boom"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_2.50_be2a14bc",
+          "title": "Outhaul & Foot Tension-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Outhaul & Foot Tension'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Controls draft along the foot of the main."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_2.60",
+      "title": "Cunningham / Downhaul-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Fine-tunes luff tension for shape and depower."
+        },
+        {
+          "type": "bullets",
+          "content": "Hook or ring secured near the tack\nLead clear of spreaders/instruments\nUse as first depower with vang/traveler"
+        }
+      ],
+      "keywords": [
+        "cunningham",
+        "downhaul",
+        "luff tension",
+        "depower"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_2.60_2139455e",
+          "title": "Cunningham / Downhaul-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Cunningham / Downhaul'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Fine-tunes luff tension for shape and depower."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_rigg_2.70",
+      "title": "Lazy Jacks / Topping Lift-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Simplify hoists and drops; manage chafe where lines cross the sail."
+        },
+        {
+          "type": "bullets",
+          "content": "Set spread to avoid batten snag\nEase topping lift under sail; tension at anchor\nChafe patches where lines contact sail"
+        }
+      ],
+      "keywords": [
+        "lazy jacks",
+        "topping lift",
+        "batten",
+        "chafe"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_rigg_2.70_cbc741a6",
+          "title": "Lazy Jacks / Topping Lift-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Lazy Jacks / Topping Lift'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Simplify hoists and drops; manage chafe where lines cross the sail."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

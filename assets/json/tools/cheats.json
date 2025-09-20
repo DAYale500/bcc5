@@ -1,0 +1,31 @@
+{
+  "module": "cheats-json",
+  "tools": [
+    {
+      "id": "tool_rules_cheat_1.00",
+      "title": "One-Page Rules Recap (Crew Cheat Sheet)-json",
+      "content": [
+        { "type": "text", "content": "If you forget everything else:" },
+        {
+          "type": "bullets",
+          "items": [
+            "One hand for the boat; move low & slow",
+            "Don’t fall in; clip in at night/heavy weather",
+            "Don’t block helm or winches; keep lines tidy",
+            "Repeat back commands; ask if unsure"
+          ]
+        }
+      ],
+      "flashcards": [
+        {
+          "id": "flashcard_tool_rules_cheat_1.00",
+          "title": "Crew Cheat Sheet-json",
+          "sideA": [{ "type": "text", "content": "Four golden crew rules?" }],
+          "sideB": [{ "type": "text", "content": "One hand for the boat; don’t fall in; don’t block helm/winches; repeat back & ask." }],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    }
+  ]
+}

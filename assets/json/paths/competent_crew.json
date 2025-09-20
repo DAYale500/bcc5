@@ -6,66 +6,175 @@
       "title": "Home: Before You Board-json",
       "showFlashcardEnding": true,
       "items": [
-        {
-          "id": "part_hull_1.00"
-        },
-        {
-          "id": "tool_check_preDeparture_1.00"
-        }
+        { "id": "lesson_term_1.00" },
+        { "id": "lesson_term_3.00" },
+        { "id": "lesson_safety_1.20" },
+        { "id": "lesson_team_2.00" },
+        { "id": "tool_check_preDeparture_1.00" },
+        { "id": "lesson_prep_1.00" },
+        { "id": "lesson_team_3.00" },
+        { "id": "lesson_safety_1.30" },
+        { "id": "lesson_intr_2.00" }
       ]
     },
     {
       "id": "path_competentCrew_2.00",
-      "title": "Dockside: Boarding-json",
+      "title": "Dockside: Lines, Fenders & Boarding-json",
       "items": [
-        {
-          "id": "part_hull_1.10"
-        },
-        {
-          "id": "part_hull_1.20"
-        },
-        {
-          "id": "tool_nav_1.00"
-        },
-        {
-          "id": "tool_gps_1.10"
-        },
-        {
-          "id": "tool_check_returnToDock_1.00"
-        }
+        { "id": "lesson_seam_1.00" },
+        { "id": "lesson_seam_3.00" },
+        { "id": "part_hull_1.10" },
+        { "id": "part_hull_1.20" },
+        { "id": "lesson_team_8.00" },
+        { "id": "lesson_term_2.00" }
       ]
     },
     {
       "id": "path_competentCrew_3.00",
-      "title": "Onboard: Basic Systems-json",
+      "title": "Safety Foundations & MOB-json",
       "items": [
-        {
-          "id": "part_rigg_1.00"
-        },
-        {
-          "id": "part_rigg_1.20"
-        },
-        {
-          "id": "tool_engine_1.00"
-        },
-        {
-          "id": "tool_mot_1.10"
-        }
+        { "id": "lesson_safety_1.10" },
+        { "id": "lesson_team_9.00" },
+        { "id": "lesson_safety_1.80" },
+        { "id": "lesson_safety_1.70" },
+        { "id": "lesson_emerg_1.00" }
       ]
     },
     {
       "id": "path_competentCrew_4.00",
-      "title": "Rules & Quick Calcs-json",
+      "title": "Boat Tour: Hull, Interior, Rigging-json",
       "items": [
-        {
-          "id": "tool_colregs_1.00"
-        },
-        {
-          "id": "tool_rules_1.10"
-        },
-        {
-          "id": "tool_calc_gps_1.00"
-        }
+        { "id": "part_hull_1.00" },
+        { "id": "part_intr_1.00" },
+        { "id": "part_rigg_1.00" },
+        { "id": "part_rigg_1.20" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_5.00",
+      "title": "Knots You’ll Use Every Day-json",
+      "showFlashcardEnding": true,
+      "items": [
+        { "id": "lesson_knot_1.10" },
+        { "id": "lesson_knot_1.20" },
+        { "id": "lesson_knot_1.30" },
+        { "id": "lesson_knot_1.50" },
+        { "id": "lesson_knot_1.60" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_6.00",
+      "title": "Getting Underway (Engine & Motoring)-json",
+      "items": [
+        { "id": "lesson_syst_15.00" },
+        { "id": "lesson_syst_11.00" },
+        { "id": "tool_engine_1.00" },
+        { "id": "tool_mot_1.10" },
+        { "id": "lesson_seam_17.00" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_7.00",
+      "title": "Sail Handling Basics-json",
+      "items": [
+        { "id": "part_sail_1.20" },
+        { "id": "part_rigg_1.80" },
+        { "id": "part_sail_1.50" },
+        { "id": "part_sail_1.60" },
+        { "id": "part_sail_1.70" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_8.00",
+      "title": "Sail Control & Maneuvers-json",
+      "items": [
+        { "id": "lesson_team_6.00" },
+        { "id": "lesson_term_7.00" },
+        { "id": "part_rigg_2.00" },
+        { "id": "part_rigg_1.90" },
+        { "id": "part_sail_2.20" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_9.00",
+      "title": "Navigation: Buoys, Lights & Basics-json",
+      "items": [
+        { "id": "lesson_nav_1.00" },
+        { "id": "lesson_nav_13.00" },
+        { "id": "lesson_nav_14.00" },
+        { "id": "tool_colregs_1.00" },
+        { "id": "tool_rules_1.10" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_10.00",
+      "title": "Navigation: Position & Piloting-json",
+      "items": [
+        { "id": "lesson_nav_3.00" },
+        { "id": "lesson_nav_5.00" },
+        { "id": "lesson_nav_6.00" },
+        { "id": "lesson_nav_8.00" },
+        { "id": "tool_calc_gps_1.00" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_11.00",
+      "title": "Tides, Currents & Course to Steer-json",
+      "items": [
+        { "id": "lesson_nav_11.00" },
+        { "id": "lesson_nav_12.00" },
+        { "id": "lesson_nav_9.00" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_12.00",
+      "title": "Anchoring & Mooring-json",
+      "items": [
+        { "id": "lesson_term_12.00" },
+        { "id": "lesson_seam_8.00" },
+        { "id": "lesson_seam_6.00" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_13.00",
+      "title": "Heavy Weather & Night Ops-json",
+      "items": [
+        { "id": "lesson_safety_1.40" },
+        { "id": "lesson_team_10.00" },
+        { "id": "part_sail_2.10" },
+        { "id": "lesson_nav_15.00" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_14.00",
+      "title": "Emergencies & Damage Control-json",
+      "items": [
+        { "id": "lesson_safety_2.50" },
+        { "id": "lesson_syst_9.00" },
+        { "id": "lesson_safety_1.80" },
+        { "id": "lesson_team_16.00" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_15.00",
+      "title": "Docking & Close-Quarters Mastery-json",
+      "items": [
+        { "id": "lesson_seam_2.00" },
+        { "id": "lesson_seam_9.00" },
+        { "id": "lesson_seam_10.00" },
+        { "id": "lesson_seam_12.00" }
+      ]
+    },
+    {
+      "id": "path_competentCrew_16.00",
+      "title": "Wrap-Up: Debrief & Next Steps-json",
+      "showFlashcardEnding": true,
+      "items": [
+        { "id": "lesson_team_14.00" },
+        { "id": "lesson_nav_16.00" },
+        { "id": "tool_check_returnToDock_1.00" },
+        { "id": "lesson_team_17.00" },          
+        { "id": "tool_rules_cheat_1.00" }
       ]
     }
   ]

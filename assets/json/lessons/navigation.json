@@ -35,6 +35,564 @@
           "showAFirst": true
         }
       ]
+    },
+    {
+      "id": "lesson_nav_2.00",
+      "title": "Paper Chart Fundamentals-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Scales, symbols, and chart datum. Read soundings/contours, recognize hazards, and note scale limits before plotting."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/boat_overview_new.png"
+        }
+      ],
+      "keywords": [
+        "charts",
+        "symbols",
+        "datum",
+        "soundings"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_2.00_731c25ed",
+          "title": "Paper Chart Fundamentals-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Paper Chart Fundamentals'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Scales, symbols, and chart datum. Read soundings/contours, recognize hazards, and note scale limits before plotting."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_3.00",
+      "title": "Latitude/Longitude & Plotting a Position-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Plot positions precisely; use latitude scales for distance and longitude for time. Keep neat DR track and time stamps."
+        }
+      ],
+      "keywords": [
+        "latitude",
+        "longitude",
+        "plotting",
+        "position"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_3.00_e6adf273",
+          "title": "Latitude/Longitude & Plotting a Position-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Latitude/Longitude & Plotting a Position'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Plot positions precisely; use latitude scales for distance and longitude for time. Keep neat DR track and time stamps."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_4.00",
+      "title": "Variation/Deviation & TVMDC-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Convert between True, Magnetic, and Compass using local variation and your boat's deviation card (TVMDC)."
+        }
+      ],
+      "keywords": [
+        "variation",
+        "deviation",
+        "TVMDC",
+        "magnetic"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_4.00_4b8a182c",
+          "title": "Variation/Deviation & TVMDC-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Variation/Deviation & TVMDC'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Convert between True, Magnetic, and Compass using local variation and your boat's deviation card (TVMDC)."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_5.00",
+      "title": "Bearings: Hand\u2011Bearing Compass & Relative Bearings-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Take accurate bearings; label with time and 'T/M/C'. Understand relative vs. true bearings and danger bearings."
+        }
+      ],
+      "keywords": [
+        "bearing",
+        "hand-bearing",
+        "relative",
+        "true"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_5.00_9385703d",
+          "title": "Bearings: Hand\u2011Bearing Compass & Relative Bearings-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Bearings: Hand\u2011Bearing Compass & Relative Bearings'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Take accurate bearings; label with time and 'T/M/C'. Understand relative vs. true bearings and danger bearings."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_6.00",
+      "title": "Two\u2011/Three\u2011Bearing Fix-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Obtain crossing lines of position for a fix. Prefer ~60\u00b0 spacing; plot quickly and label time."
+        }
+      ],
+      "keywords": [
+        "fix",
+        "cross bearings",
+        "LOP",
+        "position"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_6.00_2ca6704d",
+          "title": "Two\u2011/Three\u2011Bearing Fix-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Two\u2011/Three\u2011Bearing Fix'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Obtain crossing lines of position for a fix. Prefer ~60\u00b0 spacing; plot quickly and label time."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_7.00",
+      "title": "Running Fix-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Advance an earlier LOP by DR to intersect a new LOP. Useful when a second bearing is delayed."
+        }
+      ],
+      "keywords": [
+        "running fix",
+        "LOP",
+        "dead reckoning"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_7.00_635a9959",
+          "title": "Running Fix-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Running Fix'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Advance an earlier LOP by DR to intersect a new LOP. Useful when a second bearing is delayed."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_8.00",
+      "title": "Dead Reckoning & Estimated Position-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Use course steered and speed through water with time to project position. Update EP with leeway and current."
+        }
+      ],
+      "keywords": [
+        "dead reckoning",
+        "EP",
+        "course",
+        "speed"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_8.00_85de5dd7",
+          "title": "Dead Reckoning & Estimated Position-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Dead Reckoning & Estimated Position'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Use course steered and speed through water with time to project position. Update EP with leeway and current."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_9.00",
+      "title": "Course to Steer (Leeway Included)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Compute a CTS by adjusting for leeway based on wind/sea state and your boat\u2019s behavior."
+        }
+      ],
+      "keywords": [
+        "course to steer",
+        "leeway",
+        "helm",
+        "wind"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_9.00_24dda892",
+          "title": "Course to Steer (Leeway Included)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Course to Steer (Leeway Included)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Compute a CTS by adjusting for leeway based on wind/sea state and your boat\u2019s behavior."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_10.00",
+      "title": "Set & Drift (Current Triangle)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Determine set and drift from fixes or predict from tables; solve current triangles for CTS/ETA."
+        }
+      ],
+      "keywords": [
+        "set",
+        "drift",
+        "current triangle",
+        "ETA"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_10.00_9fa466ed",
+          "title": "Set & Drift (Current Triangle)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Set & Drift (Current Triangle)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Determine set and drift from fixes or predict from tables; solve current triangles for CTS/ETA."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_11.00",
+      "title": "Tide Basics: Heights & Datums-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Use tide tables and chart datums to ensure clearance and depth; interpolate between times and heights."
+        }
+      ],
+      "keywords": [
+        "tide",
+        "height",
+        "datum",
+        "clearance"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_11.00_e64906c6",
+          "title": "Tide Basics: Heights & Datums-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Tide Basics: Heights & Datums'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Use tide tables and chart datums to ensure clearance and depth; interpolate between times and heights."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_12.00",
+      "title": "Currents: Tables, Slack & Max-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Predict direction and strength through the cycle; avoid over-focusing on max\u2014slack and timing often matter more."
+        }
+      ],
+      "keywords": [
+        "currents",
+        "slack",
+        "max",
+        "prediction"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_12.00_9db8ab6a",
+          "title": "Currents: Tables, Slack & Max-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Currents: Tables, Slack & Max'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Predict direction and strength through the cycle; avoid over-focusing on max\u2014slack and timing often matter more."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_13.00",
+      "title": "IALA\u2011B Buoyage Details-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "US system: red right returning. Recognize nuns, cans, preferred channels, safe water, isolated danger, specials."
+        }
+      ],
+      "keywords": [
+        "IALA-B",
+        "buoys",
+        "preferred channel",
+        "safe water"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_13.00_9f63d623",
+          "title": "IALA\u2011B Buoyage Details-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'IALA\u2011B Buoyage Details'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "US system: red right returning. Recognize nuns, cans, preferred channels, safe water, isolated danger, specials."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_14.00",
+      "title": "Lights & Day Shapes-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Identify characteristics (Fl, Oc, Iso) and colors/sectors; memorize common day shapes for vessel status."
+        }
+      ],
+      "keywords": [
+        "lights",
+        "day shapes",
+        "characteristics",
+        "sectors"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_14.00_c4c303e2",
+          "title": "Lights & Day Shapes-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Lights & Day Shapes'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Identify characteristics (Fl, Oc, Iso) and colors/sectors; memorize common day shapes for vessel status."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_15.00",
+      "title": "Radar Piloting: VRM/EBL & Ranges-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Use VRM/EBL to create clearing ranges and transits; understand rain/sea clutter and target trails."
+        }
+      ],
+      "keywords": [
+        "radar",
+        "VRM",
+        "EBL",
+        "piloting"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_15.00_27fbd2e6",
+          "title": "Radar Piloting: VRM/EBL & Ranges-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Radar Piloting: VRM/EBL & Ranges'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Use VRM/EBL to create clearing ranges and transits; understand rain/sea clutter and target trails."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_nav_16.00",
+      "title": "Electronic Nav: GPS/Plotter/AIS Limits-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Great tools with caveats: chart accuracy, GNSS errors, sensor offsets. Cross\u2011check with visual/radar fixes."
+        }
+      ],
+      "keywords": [
+        "GPS",
+        "plotter",
+        "AIS",
+        "limits"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_nav_16.00_6a19a1ec",
+          "title": "Electronic Nav: GPS/Plotter/AIS Limits-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Electronic Nav: GPS/Plotter/AIS Limits'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Great tools with caveats: chart accuracy, GNSS errors, sensor offsets. Cross\u2011check with visual/radar fixes."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

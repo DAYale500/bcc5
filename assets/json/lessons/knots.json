@@ -35,6 +35,565 @@
           "showAFirst": true
         }
       ]
+    },
+    {
+      "id": "lesson_knot_1.10",
+      "title": "Bowline Knot-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Creates a fixed loop that will not slip; secure and easy to untie after load. Primary loop knot for sheets, mooring, and rescue."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/boat_overview_new.png"
+        }
+      ],
+      "keywords": [
+        "bowline",
+        "loop",
+        "rescue",
+        "sheets"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_1.10_b0020d94",
+          "title": "Bowline-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Bowline'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Creates a fixed loop that will not slip; secure and easy to untie after load. Primary loop knot for sheets, mooring, and rescue."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_1.20",
+      "title": "Cleat Hitch-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Standard method of securing a line to a horn cleat; fast, secure, and easy to inspect."
+        }
+      ],
+      "keywords": [
+        "cleat hitch",
+        "dock line",
+        "mooring",
+        "cleat"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_1.20_c2fc53c5",
+          "title": "Cleat Hitch-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Cleat Hitch'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Standard method of securing a line to a horn cleat; fast, secure, and easy to inspect."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_1.30",
+      "title": "Clove Hitch-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Quick, adjustable hitch for temporary attachment to a post or rail; add a half hitch to secure long\u2011term."
+        }
+      ],
+      "keywords": [
+        "clove hitch",
+        "rail",
+        "temporary",
+        "hitch"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_1.30_68f632db",
+          "title": "Clove Hitch-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Clove Hitch'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Quick, adjustable hitch for temporary attachment to a post or rail; add a half hitch to secure long\u2011term."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_1.40",
+      "title": "Rolling Hitch-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Friction hitch to take load on a tensioned line or stop a line from slipping; ideal for rigging an emergency preventer or easing a jammed sheet."
+        }
+      ],
+      "keywords": [
+        "rolling hitch",
+        "friction",
+        "jammed sheet",
+        "preventer"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_1.40_e899b253",
+          "title": "Rolling Hitch-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Rolling Hitch'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Friction hitch to take load on a tensioned line or stop a line from slipping; ideal for rigging an emergency preventer or easing a jammed sheet."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_1.50",
+      "title": "Round Turn & Two Half Hitches-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Reliable, simple way to secure a line to a ring or post under load. The round turn reduces chafe and friction."
+        }
+      ],
+      "keywords": [
+        "round turn",
+        "half hitches",
+        "ring",
+        "secure"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_1.50_f530fc84",
+          "title": "Round Turn & Two Half Hitches-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Round Turn & Two Half Hitches'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Reliable, simple way to secure a line to a ring or post under load. The round turn reduces chafe and friction."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_1.60",
+      "title": "Sheet Bend-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Join two lines of unequal size; fast to tie and untie. Use double version for security on slippery rope."
+        }
+      ],
+      "keywords": [
+        "sheet bend",
+        "join lines",
+        "unequal",
+        "bend"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_1.60_886d228c",
+          "title": "Sheet Bend-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Sheet Bend'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Join two lines of unequal size; fast to tie and untie. Use double version for security on slippery rope."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_1.70",
+      "title": "Double Sheet Bend-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Adds a second turn for extra security when joining lines of different size or slick materials."
+        }
+      ],
+      "keywords": [
+        "double sheet bend",
+        "join lines",
+        "security",
+        "slick rope"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_1.70_ebae5f02",
+          "title": "Double Sheet Bend-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Double Sheet Bend'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Adds a second turn for extra security when joining lines of different size or slick materials."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_1.80",
+      "title": "Reef (Square) Knot-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "For binding only (e.g., reefing ties). Do not use as a bend under load; it can capsize."
+        }
+      ],
+      "keywords": [
+        "reef knot",
+        "square knot",
+        "binding",
+        "reef ties"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_1.80_9b23933c",
+          "title": "Reef (Square) Knot-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Reef (Square) Knot'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "For binding only (e.g., reefing ties). Do not use as a bend under load; it can capsize."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_1.90",
+      "title": "Anchor Bend (Fisherman\u2019s Bend)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Secure a rode to an anchor or ring; strong and reliable with an extra half hitch for safety."
+        }
+      ],
+      "keywords": [
+        "anchor bend",
+        "fisherman\u2019s bend",
+        "rode",
+        "anchor"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_1.90_51c81c58",
+          "title": "Anchor Bend (Fisherman\u2019s Bend)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Anchor Bend (Fisherman\u2019s Bend)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Secure a rode to an anchor or ring; strong and reliable with an extra half hitch for safety."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_2.00",
+      "title": "Trucker\u2019s Hitch-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Creates a mechanical advantage for tightening lashings; useful for securing dinghies and deck loads."
+        }
+      ],
+      "keywords": [
+        "trucker\u2019s hitch",
+        "lashing",
+        "purchase",
+        "tie down"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_2.00_882d45c3",
+          "title": "Trucker\u2019s Hitch-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Trucker\u2019s Hitch'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Creates a mechanical advantage for tightening lashings; useful for securing dinghies and deck loads."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_2.10",
+      "title": "Timber Hitch-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Simple hitch for towing or lifting a spar or log; easy to untie after loading."
+        }
+      ],
+      "keywords": [
+        "timber hitch",
+        "tow",
+        "spar",
+        "log"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_2.10_4a7fddf9",
+          "title": "Timber Hitch-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Timber Hitch'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Simple hitch for towing or lifting a spar or log; easy to untie after loading."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_2.20",
+      "title": "Cow Hitch (Lark\u2019s Head)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Quick mid\u2011line attachment around a post or ring; often used with fenders (add a half hitch to secure)."
+        }
+      ],
+      "keywords": [
+        "cow hitch",
+        "lark\u2019s head",
+        "fender",
+        "mid-line"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_2.20_cb6cd544",
+          "title": "Cow Hitch (Lark\u2019s Head)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Cow Hitch (Lark\u2019s Head)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Quick mid\u2011line attachment around a post or ring; often used with fenders (add a half hitch to secure)."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_2.30",
+      "title": "Heaving Line Knot-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "A weighted stopper at the end of a heaving line to aid throwing; avoid excessive mass."
+        }
+      ],
+      "keywords": [
+        "heaving line",
+        "throw",
+        "stopper",
+        "weight"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_2.30_98bd811c",
+          "title": "Heaving Line Knot-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Heaving Line Knot'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "A weighted stopper at the end of a heaving line to aid throwing; avoid excessive mass."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_2.40",
+      "title": "Sailmaker\u2019s Whipping-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Durable end finishing to prevent rope from fraying; preferred over tape on working lines."
+        }
+      ],
+      "keywords": [
+        "whipping",
+        "rope end",
+        "fray",
+        "sailmaker"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_2.40_184aef76",
+          "title": "Sailmaker\u2019s Whipping-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Sailmaker\u2019s Whipping'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Durable end finishing to prevent rope from fraying; preferred over tape on working lines."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_knot_2.50",
+      "title": "Ashley Stopper Knot-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Bulky stopper knot that won\u2019t pull through fairleads easily; alternative to figure eight."
+        }
+      ],
+      "keywords": [
+        "ashley stopper",
+        "stopper knot",
+        "fairlead",
+        "bulky"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_knot_2.50_e10e9b91",
+          "title": "Ashley Stopper Knot-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Ashley Stopper Knot'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Bulky stopper knot that won\u2019t pull through fairleads easily; alternative to figure eight."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

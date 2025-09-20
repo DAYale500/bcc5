@@ -1,24 +1,8 @@
 {
-  "module": "emergencies-json",
+  "file": "lib/data/repositories/lessons/lesson_emergencies_repository.dart",
   "lessons": [
     {
-  "module": "emergency-lessons-json",
-  "lessons": [
-    {
-      "id": "lesson_emerg_1.00",
-      "title": "Emergencies & Damage Control (Intro)-json",
-      "keywords": ["emergency","intro","fire","flooding"],
-      "isPaid": false,
-      "content": [
-        { "type": "text", "content": "Crew priorities: alert, assign roles, communicate on VHF, control immediate hazards, support skipper." }
-      ],
-      "flashcards": []
-    }
-  ]
-},
-
-    {
-      "id": "lesson_emer_1.10",
+      "id": "lesson_emer_1.00",
       "title": "Mayday Basics-json",
       "content": [
         {
@@ -33,7 +17,7 @@
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_emer_1.10_3d102ef6",
+          "id": "flashcard_lesson_emer_1.00_3d102ef6",
           "title": "Mayday Basics-json",
           "sideA": [
             {
@@ -53,248 +37,8 @@
       ]
     },
     {
-      "id": "lesson_emer_2.00",
-      "title": "Crew Overboard (MOB): Immediate Actions-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Shout 'Man Overboard', press MOB on GPS if available, and maintain visual contact."
-        },
-        {
-          "type": "image",
-          "content": "assets/images/fallback_image.jpeg"
-        },
-        {
-          "type": "text",
-          "content": "Throw flotation and a marker, then execute the preferred recovery maneuver for conditions."
-        },
-        {
-          "type": "image",
-          "content": "assets/images/fallback_image.jpeg"
-        },
-        {
-          "type": "text",
-          "content": "Assign roles: spotter points continuously; helm controls speed and approach; crew prepares recovery gear."
-        }
-      ],
-      "keywords": [],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_lesson_emer_2.00",
-          "title": "FC: Crew Overboard (MOB): Immediate Actions-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the first three steps in a MOB event?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Raise the alarm and mark the position, throw flotation/marker, and keep constant visual while maneuvering for recovery."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "lesson_emer_3.00",
-      "title": "Loss of Steering: Tiller/Rudder Failure-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Reduce speed and balance sails to stabilize course while troubleshooting."
-        },
-        {
-          "type": "image",
-          "content": "assets/images/fallback_image.jpeg"
-        },
-        {
-          "type": "text",
-          "content": "Inspect linkage, quadrant, and cables; rig an emergency tiller if possible."
-        },
-        {
-          "type": "image",
-          "content": "assets/images/fallback_image.jpeg"
-        },
-        {
-          "type": "text",
-          "content": "Use drogues, warps, or sail trim to maintain heading until repairs or refuge."
-        }
-      ],
-      "keywords": [],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_lesson_emer_3.00",
-          "title": "FC: Loss of Steering: Tiller/Rudder Failure-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "How can you control heading after steering failure?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Balance sails, reduce speed, and use an emergency tiller or drag devices (drogue/warps)."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "lesson_emer_4.00",
-      "title": "Distress Traffic: PAN-PAN & SECURITÉ-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Use PAN-PAN for urgent but not life-threatening help; SECURITÉ for safety broadcasts (e.g., hazards)."
-        },
-        {
-          "type": "image",
-          "content": "assets/images/fallback_image.jpeg"
-        },
-        {
-          "type": "text",
-          "content": "State vessel name/callsign, position, nature of problem, and intentions on VHF Ch. 16."
-        },
-        {
-          "type": "image",
-          "content": "assets/images/fallback_image.jpeg"
-        },
-        {
-          "type": "text",
-          "content": "Shift to a working channel when directed; keep transmissions short and clear."
-        }
-      ],
-      "keywords": [],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_lesson_emer_4.00",
-          "title": "FC: Distress Traffic: PAN-PAN & SECURITÉ-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "When do you use PAN-PAN vs SECURITÉ?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "PAN-PAN is for urgent assistance; SECURITÉ is a safety broadcast about hazards or navigation warnings."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "lesson_emer_5.00",
-      "title": "Line in Prop / Fouled Propeller-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Shift to neutral immediately to minimize damage; avoid restarting until cleared."
-        },
-        {
-          "type": "image",
-          "content": "assets/images/fallback_image.jpeg"
-        },
-        {
-          "type": "text",
-          "content": "If conditions allow, heave-to or anchor; use a hook/knife on a pole or dive only with proper safety."
-        },
-        {
-          "type": "image",
-          "content": "assets/images/fallback_image.jpeg"
-        },
-        {
-          "type": "text",
-          "content": "After clearing, inspect for vibration, leaks, or steering issues before resuming passage."
-        }
-      ],
-      "keywords": [],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_lesson_emer_5.00",
-          "title": "FC: Line in Prop / Fouled Propeller-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "Why should you avoid restarting after a foul?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Restarting can wrap tighter, damage the shaft, cutlass bearing, or transmission."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "lesson_emer_6.00",
-      "title": "Electrical Failure / Power Loss-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Triage loads: switch to essential circuits and check main fuses/breakers and battery switches."
-        },
-        {
-          "type": "image",
-          "content": "assets/images/fallback_image.jpeg"
-        },
-        {
-          "type": "text",
-          "content": "Inspect for burning smells, hot wires, or loose connections; isolate the faulted branch."
-        },
-        {
-          "type": "image",
-          "content": "assets/images/fallback_image.jpeg"
-        },
-        {
-          "type": "text",
-          "content": "Use backup nav/comm gear (handheld VHF, paper charts) and plan for charging or diversion."
-        }
-      ],
-      "keywords": [],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_lesson_emer_6.00",
-          "title": "FC: Electrical Failure / Power Loss-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What is your first step during sudden power loss?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Secure non-essentials and check main fuses/breakers and battery/bus connections."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
       "id": "lesson_emer_7.00",
-      "title": "Engine Failure at Sea-json",
+      "title": "Engine Failure at Sea",
       "content": [
         {
           "type": "text",
@@ -312,7 +56,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_7.00_ca6ae82e",
-          "title": "Engine Failure at Sea-json",
+          "title": "Engine Failure at Sea",
           "sideA": [
             {
               "type": "text",
@@ -332,7 +76,7 @@
     },
     {
       "id": "lesson_emer_8.00",
-      "title": "Rigging or Sail Damage-json",
+      "title": "Rigging or Sail Damage",
       "content": [
         {
           "type": "text",
@@ -350,7 +94,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_8.00_c00601e1",
-          "title": "Rigging or Sail Damage-json",
+          "title": "Rigging or Sail Damage",
           "sideA": [
             {
               "type": "text",
@@ -370,7 +114,7 @@
     },
     {
       "id": "lesson_emer_9.00",
-      "title": "Fire Onboard-json",
+      "title": "Fire Onboard",
       "content": [
         {
           "type": "text",
@@ -388,7 +132,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_9.00_5690ed51",
-          "title": "Fire Onboard-json",
+          "title": "Fire Onboard",
           "sideA": [
             {
               "type": "text",
@@ -408,7 +152,7 @@
     },
     {
       "id": "lesson_emer_10.00",
-      "title": "Flooding / Taking on Water-json",
+      "title": "Flooding / Taking on Water",
       "content": [
         {
           "type": "text",
@@ -426,7 +170,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_10.00_eea49725",
-          "title": "Flooding / Taking on Water-json",
+          "title": "Flooding / Taking on Water",
           "sideA": [
             {
               "type": "text",
@@ -446,7 +190,7 @@
     },
     {
       "id": "lesson_emer_11.00",
-      "title": "Grounding / Running Aground-json",
+      "title": "Grounding / Running Aground",
       "content": [
         {
           "type": "text",
@@ -464,7 +208,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_11.00_60927868",
-          "title": "Grounding / Running Aground-json",
+          "title": "Grounding / Running Aground",
           "sideA": [
             {
               "type": "text",
@@ -484,7 +228,7 @@
     },
     {
       "id": "lesson_emer_12.00",
-      "title": "Emergency Anchoring-json",
+      "title": "Emergency Anchoring",
       "content": [
         {
           "type": "text",
@@ -502,7 +246,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_12.00_d2ce8441",
-          "title": "Emergency Anchoring-json",
+          "title": "Emergency Anchoring",
           "sideA": [
             {
               "type": "text",
@@ -522,7 +266,7 @@
     },
     {
       "id": "lesson_emer_13.00",
-      "title": "Heavy Weather Survival (Squall)-json",
+      "title": "Heavy Weather Survival (Squall)",
       "content": [
         {
           "type": "text",
@@ -540,7 +284,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_13.00_209b5a71",
-          "title": "Heavy Weather Survival (Squall)-json",
+          "title": "Heavy Weather Survival (Squall)",
           "sideA": [
             {
               "type": "text",
@@ -560,7 +304,7 @@
     },
     {
       "id": "lesson_emer_14.00",
-      "title": "Medical Emergency (Serious Injury/Illness)-json",
+      "title": "Medical Emergency (Serious Injury/Illness)",
       "content": [
         {
           "type": "text",
@@ -578,7 +322,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_14.00_21d0aa8e",
-          "title": "Medical Emergency (Serious Injury/Illness)-json",
+          "title": "Medical Emergency (Serious Injury/Illness)",
           "sideA": [
             {
               "type": "text",
@@ -596,5 +340,6 @@
         }
       ]
     }
-  ]
+  ],
+  "module": "emergencies-json"
 }

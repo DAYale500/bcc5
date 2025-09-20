@@ -131,6 +131,687 @@
           "showAFirst": true
         }
       ]
+    },
+    {
+      "id": "part_hull_1.30",
+      "title": "Through\u2011Hulls & Seacocks-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Critical water ingress control points. Operate each valve, confirm smooth motion and full closure, inspect hoses, clamps, and backing pads."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Exercise and lube seacocks; replace frozen valves",
+            "Double-clamp below\u2011waterline hoses (opposing screw heads)",
+            "Carry tapered softwood plugs at each through\u2011hull"
+          ]
+        },
+        {
+          "type": "image",
+          "content": "assets/images/boat_overview_new.png"
+        }
+      ],
+      "keywords": [
+        "through-hull",
+        "seacock",
+        "hose",
+        "clamp",
+        "backing pad"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_1.30_b72bf7ac",
+          "title": "Through\u2011Hulls & Seacocks-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Through\u2011Hulls & Seacocks'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Critical water ingress control points. Operate each valve, confirm smooth motion and full closure, inspect hoses, clamps, and backing pads."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_1.40",
+      "title": "Keel Bolts & Stub Inspection-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Assess structural connection. Look for weeping rust trails, cracking around the keel stub, and movement at the keel\u2011hull joint."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Torque-check bolts per builder spec (if accessible)",
+            "Mark witness lines across joint to detect movement",
+            "Document any 'smiles' or fairing cracks for monitoring"
+          ]
+        }
+      ],
+      "keywords": [
+        "keel bolts",
+        "keel stub",
+        "joint",
+        "structure"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_1.40_20bd6816",
+          "title": "Keel Bolts & Stub Inspection-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Keel Bolts & Stub Inspection'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Assess structural connection. Look for weeping rust trails, cracking around the keel stub, and movement at the keel\u2011hull joint."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_1.50",
+      "title": "Rudder Stock, Bearings & Gland-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Verify free, smooth helm with minimal play. Inspect upper/lower bearings and packing gland (or lip seal) for leaks or wear."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Check for vertical/lateral play at quadrant and heel",
+            "Grease or service bearings per manufacturer guidance",
+            "Inspect tiller head or quadrant fasteners and keyways"
+          ]
+        }
+      ],
+      "keywords": [
+        "rudder",
+        "bearing",
+        "gland",
+        "quadrant",
+        "play"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_1.50_de2d34e7",
+          "title": "Rudder Stock, Bearings & Gland-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Rudder Stock, Bearings & Gland'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Verify free, smooth helm with minimal play. Inspect upper/lower bearings and packing gland (or lip seal) for leaks or wear."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_1.60",
+      "title": "Propeller, Shaft & Cutlass Bearing-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Efficient propulsion depends on clean prop blades, true shaft, and a snug cutlass bearing."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Wiggle test at 6/12/3/9 o\u2019clock\u2014minimal play",
+            "Remove barnacles/coralline; avoid gouging bronze",
+            "Inspect shaft for scoring and straightness"
+          ]
+        }
+      ],
+      "keywords": [
+        "propeller",
+        "shaft",
+        "cutlass",
+        "bronze"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_1.60_6fc39b63",
+          "title": "Propeller, Shaft & Cutlass Bearing-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Propeller, Shaft & Cutlass Bearing'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Efficient propulsion depends on clean prop blades, true shaft, and a snug cutlass bearing."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_1.70",
+      "title": "Shaft Seal / Stuffing Box-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Primary shaft watertight seal. Confirm proper drip rate (packing) or dryness (mechanical seal) and secure clamps."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Packing gland: 1\u20133 drips/min under load (typical)",
+            "Mechanical seal: inspect bellows age and set screws",
+            "Check spare packing/mechanical seal kit aboard"
+          ]
+        }
+      ],
+      "keywords": [
+        "stuffing box",
+        "shaft seal",
+        "packing",
+        "mechanical seal"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_1.70_637b9713",
+          "title": "Shaft Seal / Stuffing Box-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Shaft Seal / Stuffing Box'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Primary shaft watertight seal. Confirm proper drip rate (packing) or dryness (mechanical seal) and secure clamps."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_1.80",
+      "title": "Shaft Strut & Base-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Aligns and supports the shaft. Inspect strut base, bolts, and bonding for cracks or movement."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Sight shaft alignment after haulout set",
+            "Confirm fairing around base is intact",
+            "Verify bonding/ground leads are secure"
+          ]
+        }
+      ],
+      "keywords": [
+        "strut",
+        "alignment",
+        "bonding",
+        "base"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_1.80_1b9be326",
+          "title": "Shaft Strut & Base-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Shaft Strut & Base'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Aligns and supports the shaft. Inspect strut base, bolts, and bonding for cracks or movement."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_1.90",
+      "title": "Anodes (Zincs) & Corrosion Survey-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Sacrificial anodes protect underwater metals. Replace when ~50% depleted and ensure tight, clean contact."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Prop, shaft, and hull plate anodes inspected",
+            "Check for stray current pitting and paint blisters",
+            "Record replacement dates in maintenance log"
+          ]
+        }
+      ],
+      "keywords": [
+        "anode",
+        "zinc",
+        "corrosion",
+        "electrolysis"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_1.90_0bfb47f9",
+          "title": "Anodes (Zincs) & Corrosion Survey-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Anodes (Zincs) & Corrosion Survey'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Sacrificial anodes protect underwater metals. Replace when ~50% depleted and ensure tight, clean contact."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_2.00",
+      "title": "Transducers & Blanking Plugs-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Speed/depth/fishfinder transducers must be clean and seated. Keep blanking plugs and caps ready aboard."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Remove marine growth; spin log wheel freely",
+            "Check O\u2011rings and retaining clips",
+            "Label cables and confirm data at the display"
+          ]
+        }
+      ],
+      "keywords": [
+        "transducer",
+        "speed",
+        "depth",
+        "blanking plug"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_2.00_e6b0b16a",
+          "title": "Transducers & Blanking Plugs-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Transducers & Blanking Plugs'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Speed/depth/fishfinder transducers must be clean and seated. Keep blanking plugs and caps ready aboard."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_2.10",
+      "title": "Exhaust Outlet (Wet) & Water Discharge-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Confirm exhaust mixing elbow discharges water and outlet is clear. Soot or salt buildup signals issues."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Look for steady water flow with engine running",
+            "Inspect outlet hose and clamps for heat or cracks",
+            "Verify anti\u2011siphon break function"
+          ]
+        }
+      ],
+      "keywords": [
+        "exhaust",
+        "outlet",
+        "waterlock",
+        "anti-siphon"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_2.10_a7d299ba",
+          "title": "Exhaust Outlet (Wet) & Water Discharge-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Exhaust Outlet (Wet) & Water Discharge'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Confirm exhaust mixing elbow discharges water and outlet is clear. Soot or salt buildup signals issues."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_2.20",
+      "title": "Cockpit Scupper Through\u2011Hulls-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Rapid drainage prevents cockpit flooding. Ensure hoses, seacocks, and strainers are clear and secure."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Flush drains; test for full flow",
+            "Inspect hose runs for low spots and kinks",
+            "Back plates sound, bolts tight and sealed"
+          ]
+        }
+      ],
+      "keywords": [
+        "scupper",
+        "drain",
+        "through-hull",
+        "cockpit"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_2.20_4dcd73c4",
+          "title": "Cockpit Scupper Through\u2011Hulls-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Cockpit Scupper Through\u2011Hulls'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Rapid drainage prevents cockpit flooding. Ensure hoses, seacocks, and strainers are clear and secure."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_2.30",
+      "title": "Hull\u2011Deck Joint & Rub Rail-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Structural and watertight seam. Inspect for gaps, loose fasteners, and impact damage along the rub rail."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Re\u2011bed sections showing leaks",
+            "Confirm fastener spacing and torque",
+            "Spot gelcoat cracking near fasteners"
+          ]
+        }
+      ],
+      "keywords": [
+        "hull-deck joint",
+        "rub rail",
+        "sealant",
+        "fasteners"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_2.30_0ac01b5a",
+          "title": "Hull\u2011Deck Joint & Rub Rail-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Hull\u2011Deck Joint & Rub Rail'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Structural and watertight seam. Inspect for gaps, loose fasteners, and impact damage along the rub rail."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_2.40",
+      "title": "Osmosis & Blister Survey-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Identify and log blisters below the waterline. Monitor for weeping, vinegar smell, or laminate softness."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Map blister fields and sizes",
+            "Open and rinse a sample to assess fluid",
+            "Plan repair: peel, dry, barrier\u2011coat as required"
+          ]
+        }
+      ],
+      "keywords": [
+        "osmosis",
+        "blister",
+        "barrier coat",
+        "laminate"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_2.40_7834093a",
+          "title": "Osmosis & Blister Survey-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Osmosis & Blister Survey'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Identify and log blisters below the waterline. Monitor for weeping, vinegar smell, or laminate softness."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_2.50",
+      "title": "Chainplates & Hull\u2011Side Stress-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Look for stress crazing or leaks where chainplates pass through deck/hull. Water intrusion indicates hidden corrosion."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Inspect sealant at penetrations",
+            "Check for brown streaking or rust weeps",
+            "Verify tie\u2011rod/backing structure condition"
+          ]
+        }
+      ],
+      "keywords": [
+        "chainplate",
+        "hull side",
+        "leak",
+        "stress"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_2.50_5a74ec25",
+          "title": "Chainplates & Hull\u2011Side Stress-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Chainplates & Hull\u2011Side Stress'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Look for stress crazing or leaks where chainplates pass through deck/hull. Water intrusion indicates hidden corrosion."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_2.60",
+      "title": "Grounding Plate / Bonding Hardware-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Provides RF/lighting/engine bonding path. Ensure mechanical integrity and corrosion control."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Inspect Dynaplate/ground plate fasteners",
+            "Verify bonding lugs and continuity",
+            "Clean marine growth lightly"
+          ]
+        }
+      ],
+      "keywords": [
+        "grounding plate",
+        "bonding",
+        "RF ground",
+        "dynaplate"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_2.60_5de36517",
+          "title": "Grounding Plate / Bonding Hardware-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Grounding Plate / Bonding Hardware'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Provides RF/lighting/engine bonding path. Ensure mechanical integrity and corrosion control."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_hull_2.70",
+      "title": "Transom Fittings & Drains-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Swim ladder mounts, drain plugs, and fittings live hard lives. Keep sealed and tight to avoid water ingress."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Reseal loose fasteners and bedding",
+            "Confirm transom drains are clear",
+            "Check dinghy/tow eye and backing plates"
+          ]
+        }
+      ],
+      "keywords": [
+        "transom",
+        "drain",
+        "ladder",
+        "tow eye"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_hull_2.70_cad59e64",
+          "title": "Transom Fittings & Drains-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Transom Fittings & Drains'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Swim ladder mounts, drain plugs, and fittings live hard lives. Keep sealed and tight to avoid water ingress."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

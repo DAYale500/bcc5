@@ -1,0 +1,1517 @@
+
+
+
+
+
+
+
+
+
+
+File: lib/data/repositories/tools/json_tool_repository.dart
+// lib/data/repositories/tools/json_tool_repository.dart
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/data/models/tool_model.dart';
+
+class JsonToolRepository {
+  // Cache: tool id -> asset path (e.g. "tool_vhf_x" -> "assets/json/tools/vhf.json")
+  static Map<String, String>? _idToPath;
+  // Cache: all tool module files in the bundle
+  static List<String>? _toolFiles;
+  static bool _isIndexing = false;
+
+  static Future<void> _ensureIndex() async {
+    if ((_idToPath != null && _toolFiles != null) || _isIndexing) return;
+    _isIndexing = true;
+    try {
+      final manifestRaw = await rootBundle.loadString('AssetManifest.json');
+      final Map<String, dynamic> manifest = jsonDecode(manifestRaw);
+
+      final files =
+          manifest.keys
+              .where(
+                (k) =>
+                    k.startsWith('assets/json/tools/') && k.endsWith('.json'),
+              )
+              .toList()
+            ..sort();
+
+      _toolFiles = files;
+
+      final map = <String, String>{};
+      for (final path in files) {
+        try {
+          final raw = await rootBundle.loadString(path);
+          final data = jsonDecode(raw) as Map<String, dynamic>;
+          final List tools = (data['tools'] as List?) ?? const [];
+          for (final t in tools) {
+            if (t is Map && t['id'] != null && t['id'].toString().isNotEmpty) {
+              map[t['id'].toString()] = path;
+            }
+          }
+        } catch (e, st) {
+          logger.w('❌ Indexing tools: failed to read $path → $e\n$st');
+        }
+      }
+
+      _idToPath = map;
+      logger.i('🧰 Tool index: ${map.length} ids across ${files.length} files');
+    } catch (e, st) {
+      logger.e('❌ Building tool index failed → $e\n$st');
+      _toolFiles = const [];
+      _idToPath = const {};
+    } finally {
+      _isIndexing = false;
+    }
+  }
+
+  /// Public: list module names discovered from assets (e.g. ["vhf", "communications", ...])
+  static Future<List<String>> getModuleNames() async {
+    await _ensureIndex();
+    final modules = <String>{};
+    for (final p in _toolFiles ?? const <String>[]) {
+      final fileName = p.split('/').last; // e.g., vhf.json
+      modules.add(fileName.substring(0, fileName.length - 5)); // strip ".json"
+    }
+    final list = modules.toList()..sort();
+    logger.i('🧭 Tool modules: ${list.join(', ')}');
+    return list;
+  }
+
+  /// Public: lightweight list for UI: [{id,title}, ...] for a given module.
+  static Future<List<Map<String, String>>> getToolsForModule(
+    String module,
+  ) async {
+    final path = 'assets/json/tools/$module.json';
+    logger.i('📄 Loading tools list from: $path');
+    try {
+      final raw = await rootBundle.loadString(path);
+      final Map<String, dynamic> map = jsonDecode(raw);
+      final List tools = (map['tools'] as List?) ?? const [];
+      logger.i('✅ $module.json parsed → ${tools.length} tools');
+      return tools
+          .map<Map<String, String>>(
+            (e) => {
+              'id': (e['id'] ?? '').toString(),
+              'title': (e['title'] ?? e['id'] ?? '').toString(),
+            },
+          )
+          .toList();
+    } catch (e, st) {
+      logger.w('❌ Could not load $path → $e\n$st');
+      return [];
+    }
+  }
+
+  /// Public: get the full ToolItem by id (works for any file dropped under assets/json/tools/)
+  static Future<ToolItem?> loadById(String id) async {
+    await _ensureIndex();
+    final path = _idToPath?[id];
+    if (path == null) {
+      logger.w('🧩 Tool id not in index: $id');
+      return null;
+    }
+    try {
+      final raw = await rootBundle.loadString(path);
+      final Map<String, dynamic> map = jsonDecode(raw);
+      final List tools = (map['tools'] as List?) ?? const [];
+      final match = tools.cast<Map>().firstWhere(
+        (e) => (e['id'] ?? '').toString() == id,
+        orElse: () => const <String, dynamic>{},
+      );
+      if (match.isNotEmpty) {
+        logger.i('📘 Tools: $id loaded from $path');
+        return ToolItem.fromJson(Map<String, dynamic>.from(match));
+      }
+    } catch (e, st) {
+      logger.w('❌ Tools: failed to parse $path for $id → $e\n$st');
+    }
+    return null;
+  }
+
+  /// If you need to force a rebuild after file changes without app restart.
+  static void invalidateIndex() {
+    _idToPath = null;
+    _toolFiles = null;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/repositories/flashcards/json_flashcard_repository.dart
+// lib/data/repositories/flashcards/json_flashcard_repository.dart
+// lib/data/repositories/flashcards/json_flashcard_repository.dart
+import 'dart:convert';
+import 'dart:math';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:bcc5/data/models/flashcard_model.dart';
+import 'package:bcc5/utils/logger.dart';
+
+/// JSON-backed flashcard discovery (filename-agnostic):
+/// - Scans AssetManifest for JSON under:
+///     • assets/json/tools/**
+///     • assets/json/lessons/**
+///     • assets/json/parts/**
+/// - Extracts any embedded `flashcards` from:
+///     • tools:   { "tools":   [ { ..., "flashcards":[...] }, ... ] }
+///     • lessons: { "lessons": [ { ..., "flashcards":[...] }, ... ] }
+///     • parts:   { "parts":   [ { ..., "flashcards":[...] }, ... ] }
+///     • single-object top-level: { "flashcards":[...] }
+/// - Groups by *category*:
+///     • Prefer top-level "module" from the JSON (common in our files)
+///     • Else, use the immediate folder name under the root directory
+///     • Else, fall back to the file stem
+/// - Public API:
+///     • getAllCategories() → ["category-a", "category-b", ..., "all", "random"]
+///     • getFlashcardsForCategory("category") → List`<Flashcard>`
+///        (special: "all" returns all, "random" returns a small random sample)
+///     • getFlashcardsByIds([...]) → List`<Flashcard>`
+/// - Caches results in-memory; call invalidateIndex() to rebuild.
+/// - Ignores obvious backup files (e.g., *.bak, *_deprecated.json, etc.).
+class JsonFlashcardRepository {
+  static const String _kToolsDir = 'assets/json/tools/';
+  static const String _kLessonsDir = 'assets/json/lessons/';
+  static const String _kPartsDir = 'assets/json/parts/';
+
+  static const int _kRandomSampleDefault = 10;
+
+  // Caches
+  static bool _isIndexing = false;
+  static Map<String, List<Flashcard>>?
+  _categoryToCards; // category (lowercase) -> cards
+  static Map<String, Flashcard>? _idToCard; // id -> card
+  static Set<String>? _categories; // discovered categories (lowercase)
+  static List<String>? _allFiles; // all JSON files we scanned
+
+  /// Force a rebuild after asset changes (useful during authoring / hot restart).
+  static void invalidateIndex() {
+    _categoryToCards = null;
+    _idToCard = null;
+    _categories = null;
+    _allFiles = null;
+    _isIndexing = false;
+  }
+
+  // ────────────────────────────────────────────────────────────────────────────
+  // Discovery / Indexing
+  // ────────────────────────────────────────────────────────────────────────────
+
+  static Future<void> _ensureIndex() async {
+    if ((_categoryToCards != null &&
+            _idToCard != null &&
+            _categories != null &&
+            _allFiles != null) ||
+        _isIndexing) {
+      return;
+    }
+    _isIndexing = true;
+
+    final categoryToCards = <String, List<Flashcard>>{};
+    final idToCard = <String, Flashcard>{};
+    final categories = <String>{};
+    final files = <String>[];
+
+    try {
+      final manifestRaw = await rootBundle.loadString('AssetManifest.json');
+      final Map<String, dynamic> manifest = jsonDecode(manifestRaw);
+
+      // Collect all candidate JSON files under our three roots
+      final jsonFiles =
+          manifest.keys
+              .where(
+                (k) =>
+                    (k.startsWith(_kToolsDir) ||
+                        k.startsWith(_kLessonsDir) ||
+                        k.startsWith(_kPartsDir)) &&
+                    k.endsWith('.json') &&
+                    !_looksLikeBackup(k),
+              )
+              .toList()
+            ..sort();
+
+      files.addAll(jsonFiles);
+
+      for (final path in jsonFiles) {
+        try {
+          final raw = await rootBundle.loadString(path);
+          final dynamic data = jsonDecode(raw);
+
+          // Determine category
+          final category = _inferCategory(path, data);
+          if (category.isEmpty) {
+            // No sensible category → skip but log
+            logger.w('⚠️ Flashcard index: could not infer category for $path');
+            continue;
+          }
+
+          // Extract flashcards from known containers
+          final cards = _extractFlashcards(data);
+          if (cards.isEmpty) continue;
+
+          final lcCategory = category.toLowerCase();
+          categories.add(lcCategory);
+
+          final bucket = categoryToCards.putIfAbsent(
+            lcCategory,
+            () => <Flashcard>[],
+          );
+
+          for (final c in cards) {
+            // First writer wins to avoid flicker; log duplicates
+            if (!idToCard.containsKey(c.id)) {
+              idToCard[c.id] = c;
+              bucket.add(c);
+            } else {
+              logger.w(
+                '⚠️ Duplicate flashcard id "${c.id}" encountered; keeping the first.',
+              );
+            }
+          }
+        } catch (e, st) {
+          logger.w('❌ Flashcard index: failed to parse $path → $e\n$st');
+        }
+      }
+
+      // Sort categories and cards for stable UI
+      for (final entry in categoryToCards.entries) {
+        entry.value.sort(
+          (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()),
+        );
+      }
+
+      _categoryToCards = categoryToCards;
+      _idToCard = idToCard;
+      _categories = categories;
+      _allFiles = files;
+
+      logger.i(
+        '🃏 Flashcards indexed: ${idToCard.length} cards across ${categories.length} categories from ${files.length} files',
+      );
+    } catch (e, st) {
+      logger.e('❌ Building flashcard index failed → $e\n$st');
+      _categoryToCards = <String, List<Flashcard>>{};
+      _idToCard = <String, Flashcard>{};
+      _categories = <String>{};
+      _allFiles = <String>[];
+    } finally {
+      _isIndexing = false;
+    }
+  }
+
+  static bool _looksLikeBackup(String path) {
+    final name = path.split('/').last.toLowerCase();
+    // Ignore common backup/temporary patterns
+    return name.contains('.bak') ||
+        name.endsWith('~') ||
+        name.startsWith('_') ||
+        name.contains('deprecated') ||
+        name.contains('backup') ||
+        name.endsWith('.tmp') ||
+        name.contains('.orig') ||
+        name.contains('.old');
+  }
+
+  /// Prefer top-level "module" (nice human label) when available;
+  /// else use immediate folder under the root; else fallback to file stem.
+  static String _inferCategory(String path, dynamic data) {
+    String? module;
+    if (data is Map<String, dynamic>) {
+      final m = data['module'];
+      if (m is String && m.trim().isNotEmpty) {
+        module = m.trim();
+      }
+    }
+    if (module != null) return module;
+
+    if (path.startsWith(_kToolsDir)) {
+      // tools/<file>.json → "file"
+      return _fileStem(path);
+    }
+    if (path.startsWith(_kLessonsDir)) {
+      final folder = _immediateChildFolder(_kLessonsDir, path);
+      return folder.isNotEmpty ? folder : _fileStem(path);
+    }
+    if (path.startsWith(_kPartsDir)) {
+      final folder = _immediateChildFolder(_kPartsDir, path);
+      return folder.isNotEmpty ? folder : _fileStem(path);
+    }
+    return '';
+  }
+
+  static String _fileStem(String path) {
+    final file = path.split('/').last; // e.g., vhf.json
+    return file.endsWith('.json') ? file.substring(0, file.length - 5) : file;
+  }
+
+  static String _immediateChildFolder(String root, String path) {
+    // root: "assets/json/lessons/", path: "assets/json/lessons/safety/lesson_....json"
+    if (!path.startsWith(root)) return '';
+    final rest = path.substring(root.length); // e.g., "safety/lesson_....json"
+    final idx = rest.indexOf('/');
+    return idx > 0 ? rest.substring(0, idx) : '';
+  }
+
+  /// Extracts flashcards from the common container shapes.
+  /// Delegates parsing of the card itself to Flashcard.fromJson.
+  static List<Flashcard> _extractFlashcards(dynamic data) {
+    final cards = <Flashcard>[];
+    if (data is! Map<String, dynamic>) return cards;
+
+    // Tools container
+    final tools = data['tools'];
+    if (tools is List) {
+      for (final t in tools) {
+        if (t is Map<String, dynamic>) {
+          final fc = t['flashcards'];
+          if (fc is List) {
+            for (final j in fc) {
+              if (j is Map<String, dynamic>) {
+                try {
+                  cards.add(Flashcard.fromJson(j));
+                } catch (e) {
+                  // Ignore ill-formed cards in a batch; we'll log once per file in ensureIndex
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Lessons container
+    final lessons = data['lessons'];
+    if (lessons is List) {
+      for (final l in lessons) {
+        if (l is Map<String, dynamic>) {
+          final fc = l['flashcards'];
+          if (fc is List) {
+            for (final j in fc) {
+              if (j is Map<String, dynamic>) {
+                try {
+                  cards.add(Flashcard.fromJson(j));
+                } catch (e) {
+                  // ignore individual bad card
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Parts container
+    final parts = data['parts'];
+    if (parts is List) {
+      for (final p in parts) {
+        if (p is Map<String, dynamic>) {
+          final fc = p['flashcards'];
+          if (fc is List) {
+            for (final j in fc) {
+              if (j is Map<String, dynamic>) {
+                try {
+                  cards.add(Flashcard.fromJson(j));
+                } catch (e) {
+                  // ignore individual bad card
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Single-object top-level
+    final top = data['flashcards'];
+    if (top is List) {
+      for (final j in top) {
+        if (j is Map<String, dynamic>) {
+          try {
+            cards.add(Flashcard.fromJson(j));
+          } catch (e) {
+            // ignore individual bad card
+          }
+        }
+      }
+    }
+
+    return cards;
+  }
+
+  // ────────────────────────────────────────────────────────────────────────────
+  // Public API
+  // ────────────────────────────────────────────────────────────────────────────
+
+  /// All discovered categories (lowercase), plus "all" and "random".
+  static Future<List<String>> getAllCategories() async {
+    await _ensureIndex();
+    final base = (_categories ?? const {}).toList()..sort();
+    // Ensure reserved items come last and aren’t duplicated by content names
+    final filteredBase =
+        base.where((c) => c != 'all' && c != 'random').toList();
+    return [...filteredBase, 'all', 'random'];
+  }
+
+  /// Cards for a given category.
+  /// Special:
+  ///  - "all": returns every discovered card
+  ///  - "random": returns a random sample (default 10)
+  static Future<List<Flashcard>> getFlashcardsForCategory(
+    String category, {
+    int randomSampleSize = _kRandomSampleDefault,
+  }) async {
+    await _ensureIndex();
+    final lc = category.toLowerCase();
+
+    if (lc == 'all') {
+      return _idToCard!.values.toList();
+    }
+    if (lc == 'random') {
+      final all = _idToCard!.values.toList();
+      if (all.isEmpty) return const <Flashcard>[];
+      final rng = Random();
+      // Simple reservoir-style sample without bias
+      all.shuffle(rng);
+      final n = randomSampleSize.clamp(1, all.length);
+      return all.take(n).toList();
+    }
+
+    return _categoryToCards![lc] ?? const <Flashcard>[];
+  }
+
+  /// Cards by exact ids (order preserved as provided).
+  static Future<List<Flashcard>> getFlashcardsByIds(List<String> ids) async {
+    await _ensureIndex();
+    final out = <Flashcard>[];
+    for (final id in ids) {
+      final c = _idToCard![id];
+      if (c != null) out.add(c);
+    }
+    return out;
+  }
+
+  /// (Optional) Introspection helpers for debugging authoring issues.
+
+  /// Returns the list of asset JSON files scanned the last time the index was built.
+  static Future<List<String>> getIndexedFiles() async {
+    await _ensureIndex();
+    return List<String>.from(_allFiles ?? const <String>[]);
+  }
+
+  /// Returns a map of category -> number of cards (for quick sanity checks).
+  static Future<Map<String, int>> getCategorySizes() async {
+    await _ensureIndex();
+    final out = <String, int>{};
+    for (final e in _categoryToCards!.entries) {
+      out[e.key] = e.value.length;
+    }
+    return out;
+  }
+}
+
+// import 'dart:convert';
+// import 'package:flutter/services.dart' show rootBundle;
+// import 'package:bcc5/data/models/flashcard_model.dart';
+// import 'package:bcc5/utils/logger.dart';
+
+// /// JSON-backed flashcard discovery:
+// /// - Scans AssetManifest for JSON under assets/json/tools/**, assets/json/lessons/**, assets/json/parts/**
+// /// - Extracts any embedded `flashcards` and groups them by category:
+// ///     • Tools: category from top-level "module" (fallback: file stem)
+// ///     • Lessons: category from folder name under lessons/ (e.g., safety, docking)
+// ///     • Parts: category from folder or file stem under parts/
+// /// - Provides: categories, by-category lists, and by-ids lookup.
+// /// No hard-coded data. Editing/adding/removing JSON files updates the app automatically.
+// class JsonFlashcardRepository {
+//   static const _kToolsDir = 'assets/json/tools/';
+//   static const _kLessonsDir = 'assets/json/lessons/';
+//   static const _kPartsDir = 'assets/json/parts/';
+
+//   // Caches
+//   static bool _isIndexing = false;
+//   static Map<String, List<Flashcard>>? _categoryToCards; // category -> cards
+//   static Map<String, Flashcard>? _idToCard; // id -> card
+//   static Set<String>? _categories; // discovered categories (lowercase)
+
+//   /// Force a rebuild after asset changes (useful during authoring / hot restart).
+//   static void invalidateIndex() {
+//     _categoryToCards = null;
+//     _idToCard = null;
+//     _categories = null;
+//     _isIndexing = false;
+//   }
+
+//   static Future<void> _ensureIndex() async {
+//     if ((_categoryToCards != null &&
+//             _idToCard != null &&
+//             _categories != null) ||
+//         _isIndexing) {
+//       return;
+//     }
+//     _isIndexing = true;
+
+//     final categoryToCards = <String, List<Flashcard>>{};
+//     final idToCard = <String, Flashcard>{};
+//     final categories = <String>{};
+
+//     try {
+//       final manifestRaw = await rootBundle.loadString('AssetManifest.json');
+//       final Map<String, dynamic> manifest = jsonDecode(manifestRaw);
+
+//       // Collect all candidate JSON files
+//       final jsonFiles =
+//           manifest.keys
+//               .where(
+//                 (k) =>
+//                     (k.startsWith(_kToolsDir) ||
+//                         k.startsWith(_kLessonsDir) ||
+//                         k.startsWith(_kPartsDir)) &&
+//                     k.endsWith('.json'),
+//               )
+//               .toList()
+//             ..sort();
+
+//       for (final path in jsonFiles) {
+//         try {
+//           final raw = await rootBundle.loadString(path);
+//           final data = jsonDecode(raw);
+
+//           // Determine category based on location/metadata
+//           final category = _inferCategory(path, data);
+//           if (category.isEmpty) continue;
+
+//           // Extract any flashcards from plausible containers
+//           final cards = _extractFlashcards(data);
+//           if (cards.isEmpty) continue;
+
+//           categories.add(category);
+
+//           final bucket = categoryToCards.putIfAbsent(
+//             category,
+//             () => <Flashcard>[],
+//           );
+//           for (final c in cards) {
+//             // Deduplicate by id across files
+//             if (!idToCard.containsKey(c.id)) {
+//               idToCard[c.id] = c;
+//               bucket.add(c);
+//             }
+//           }
+//         } catch (e, st) {
+//           logger.w('❌ Flashcard index: failed to parse $path → $e\n$st');
+//         }
+//       }
+
+//       // Sort categories and (optionally) cards by title for stable UI
+//       for (final entry in categoryToCards.entries) {
+//         entry.value.sort(
+//           (a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()),
+//         );
+//       }
+
+//       _categoryToCards = categoryToCards;
+//       _idToCard = idToCard;
+//       _categories = categories.map((e) => e.toLowerCase()).toSet();
+
+//       logger.i(
+//         '🃏 Flashcards indexed: ${idToCard.length} cards across ${categories.length} categories',
+//       );
+//     } catch (e, st) {
+//       logger.e('❌ Building flashcard index failed → $e\n$st');
+//       _categoryToCards = <String, List<Flashcard>>{};
+//       _idToCard = <String, Flashcard>{};
+//       _categories = <String>{};
+//     } finally {
+//       _isIndexing = false;
+//     }
+//   }
+
+//   /// Public: all categories discovered, plus special "all" and "random" (to match legacy UX).
+//   static Future<List<String>> getAllCategories() async {
+//     await _ensureIndex();
+//     final base = (_categories ?? const {}).toList()..sort();
+//     return [...base, 'all', 'random'];
+//   }
+
+//   /// Public: list of cards for a given category.
+//   /// Special cases:
+//   ///  - "all": every discovered card
+//   ///  - "random": a random small sample (e.g., 10)
+//   static Future<List<Flashcard>> getFlashcardsForCategory(
+//     String category,
+//   ) async {
+//     await _ensureIndex();
+//     final lc = category.toLowerCase();
+
+//     if (lc == 'all') {
+//       return _idToCard!.values.toList();
+//     }
+//     if (lc == 'random') {
+//       final all = _idToCard!.values.toList()..shuffle();
+//       return all.take(10).toList();
+//     }
+
+//     return _categoryToCards![lc] ?? const <Flashcard>[];
+//   }
+
+//   /// Public: get cards by IDs (used by /flashcards/custom in router).
+//   static Future<List<Flashcard>> getFlashcardsByIds(List<String> ids) async {
+//     await _ensureIndex();
+//     final out = <Flashcard>[];
+//     for (final id in ids) {
+//       final c = _idToCard![id];
+//       if (c != null) out.add(c);
+//     }
+//     return out;
+//   }
+
+//   // ────────────────────────────────────────────────────────────────────────────
+//   // Helpers
+//   // ────────────────────────────────────────────────────────────────────────────
+
+//   /// Infer a category for the file:
+//   ///  - Tools: use top-level "module" if present; fallback to file stem
+//   ///  - Lessons: use the immediate folder under assets/json/lessons/ (e.g., "safety")
+//   ///  - Parts: use the immediate folder under assets/json/parts/ OR file stem
+//   static String _inferCategory(String path, dynamic data) {
+//     if (path.startsWith(_kToolsDir)) {
+//       // Tools JSON shape like: {"module": "vhf", "tools": [ {..., "flashcards":[...] } ]}
+//       final module =
+//           (data is Map<String, dynamic>)
+//               ? (data['module']?.toString() ?? '')
+//               : '';
+//       if (module.isNotEmpty) return module.toLowerCase();
+//       return _fileStem(path).toLowerCase();
+//     }
+
+//     if (path.startsWith(_kLessonsDir)) {
+//       // e.g., assets/json/lessons/safety/lesson_safe_4.00.json → "safety"
+//       final folder = _immediateChildFolder(_kLessonsDir, path);
+//       if (folder.isNotEmpty) return folder.toLowerCase();
+//       return _fileStem(path).toLowerCase();
+//     }
+
+//     if (path.startsWith(_kPartsDir)) {
+//       // Prefer folder name; fallback to file stem.
+//       final folder = _immediateChildFolder(_kPartsDir, path);
+//       if (folder.isNotEmpty) return folder.toLowerCase();
+//       return _fileStem(path).toLowerCase();
+//     }
+
+//     return '';
+//   }
+
+//   static String _fileStem(String path) {
+//     final file = path.split('/').last; // e.g., vhf.json
+//     return file.endsWith('.json') ? file.substring(0, file.length - 5) : file;
+//   }
+
+//   static String _immediateChildFolder(String root, String path) {
+//     // root: "assets/json/lessons/" ; path: "assets/json/lessons/safety/lesson_safe_4.00.json"
+//     final rest = path.substring(root.length); // "safety/lesson_safe_4.00.json"
+//     final idx = rest.indexOf('/');
+//     return idx > 0 ? rest.substring(0, idx) : '';
+//   }
+
+//   /// Extracts flashcards from a variety of JSON shapes:
+//   ///  - Tools: { "tools": [ { "flashcards": [...] }, ... ] }
+//   ///  - Lessons: a single lesson object or a folder of lesson files, each with "flashcards"
+//   ///  - Parts: similar to lessons, each item JSON may include "flashcards"
+//   static List<Flashcard> _extractFlashcards(dynamic data) {
+//     final cards = <Flashcard>[];
+
+//     // Tools container
+//     if (data is Map<String, dynamic>) {
+//       // tools array
+//       final tools = data['tools'];
+//       if (tools is List) {
+//         for (final t in tools) {
+//           if (t is Map<String, dynamic>) {
+//             final fc = t['flashcards'];
+//             if (fc is List) {
+//               for (final j in fc) {
+//                 if (j is Map<String, dynamic>) {
+//                   try {
+//                     cards.add(Flashcard.fromJson(j));
+//                   } catch (_) {}
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+
+//       // lesson/part single-object shape
+//       // (Some lesson/part JSON are individual files with "flashcards":[...])
+//       final fc = data['flashcards'];
+//       if (fc is List) {
+//         for (final j in fc) {
+//           if (j is Map<String, dynamic>) {
+//             try {
+//               cards.add(Flashcard.fromJson(j));
+//             } catch (_) {}
+//           }
+//         }
+//       }
+//     }
+
+//     return cards;
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+File: lib/data/repositories/paths/json_path_repository.dart
+// lib/data/repositories/paths/json_path_repository.dart
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/data/models/path_model.dart';
+
+/// Loads learning paths from assets/json/paths/*.json
+/// File schema:
+/// {
+///   "path": "competent crew",
+///   "chapters": [
+///     { "id": "...", "title": "...", "showFlashcardEnding": true,
+///       "items": [ { "id": "lesson_xxx" }, { "id": "tool_yyy" } ] }
+///   ]
+/// }
+class JsonPathRepository {
+  static Map<String, List<LearningPathChapter>> _cache = {};
+  static Map<String, dynamic>? _manifest;
+
+  static Future<Map<String, dynamic>> _loadManifest() async {
+    if (_manifest != null) return _manifest!;
+    final raw = await rootBundle.loadString('AssetManifest.json');
+    _manifest = jsonDecode(raw) as Map<String, dynamic>;
+    return _manifest!;
+  }
+
+  static String _slug(String s, String sep) {
+    return s.trim().toLowerCase().replaceAll(RegExp(r'\s+'), sep);
+  }
+
+  static String _normalizeBase(String s) {
+    // normalize filename base (no extension) for fuzzy matching
+    return s.toLowerCase().replaceAll(RegExp(r'[_\-\s]'), '');
+  }
+
+  static Future<String?> _resolveAssetForPath(String pathName) async {
+    final manifest = await _loadManifest();
+    final keys = manifest.keys;
+
+    final cand1 = 'assets/json/paths/${_slug(pathName, "_")}.json';
+    final cand2 = 'assets/json/paths/${_slug(pathName, "-")}.json';
+    if (keys.contains(cand1)) return cand1;
+    if (keys.contains(cand2)) return cand2;
+
+    // Fallback: fuzzy match by filename base
+    final wanted = _normalizeBase(pathName);
+    final candidates =
+        keys
+            .where(
+              (k) => k.startsWith('assets/json/paths/') && k.endsWith('.json'),
+            )
+            .toList();
+    for (final k in candidates) {
+      final base = k.split('/').last.replaceAll('.json', '');
+      if (_normalizeBase(base) == wanted) return k;
+    }
+
+    // Last resort: open each and check the "path" field
+    for (final k in candidates) {
+      try {
+        final raw = await rootBundle.loadString(k);
+        final map = jsonDecode(raw) as Map<String, dynamic>;
+        final p = (map['path'] ?? '').toString().toLowerCase().trim();
+        if (p == pathName.toLowerCase().trim()) return k;
+      } catch (_) {
+        // ignore parse errors here; we'll log when actually loading
+      }
+    }
+
+    return null;
+  }
+
+  /// Returns path keys discovered in assets/json/paths/*.json.
+  /// The "key" is the value of the "path" field if present, else the filename base.
+  static Future<List<String>> getPathKeys() async {
+    final manifest = await _loadManifest();
+    final keys =
+        manifest.keys
+            .where(
+              (k) => k.startsWith('assets/json/paths/') && k.endsWith('.json'),
+            )
+            .toList()
+          ..sort();
+
+    final result = <String>[];
+    for (final asset in keys) {
+      try {
+        final raw = await rootBundle.loadString(asset);
+        final map = jsonDecode(raw) as Map<String, dynamic>;
+        final pathName = (map['path'] ?? '').toString().trim();
+        if (pathName.isNotEmpty) {
+          result.add(pathName);
+        } else {
+          // fall back to filename
+          final base = asset.split('/').last.replaceAll('.json', '');
+          result.add(base.replaceAll('_', ' ').replaceAll('-', ' '));
+        }
+      } catch (e, st) {
+        logger.w('❌ Failed to read $asset → $e\n$st');
+      }
+    }
+    return result..sort();
+  }
+
+  /// Load all chapters for a given path (by human name, e.g., "competent crew").
+  static Future<List<LearningPathChapter>> getChaptersForPath(
+    String pathName,
+  ) async {
+    final key = pathName.toLowerCase().trim();
+    if (_cache.containsKey(key)) return _cache[key]!;
+
+    final asset = await _resolveAssetForPath(pathName);
+    if (asset == null) {
+      logger.e('🧭 Path asset not found for "$pathName"');
+      _cache[key] = const [];
+      return const [];
+    }
+
+    try {
+      final raw = await rootBundle.loadString(asset);
+      final map = jsonDecode(raw) as Map<String, dynamic>;
+      final List chaptersJson = (map['chapters'] as List?) ?? const [];
+      final chapters =
+          chaptersJson.map<LearningPathChapter>((c) {
+            final cid = (c['id'] ?? '').toString();
+            final title = (c['title'] ?? '').toString();
+            final show = (c['showFlashcardEnding'] as bool?) ?? true;
+            final List itemsJson = (c['items'] as List?) ?? const [];
+            final items =
+                itemsJson.map<PathItem>((it) {
+                  final id = (it['id'] ?? it['pathItemId'] ?? '').toString();
+                  return PathItem(pathItemId: id);
+                }).toList();
+            return LearningPathChapter(
+              id: cid,
+              title: title,
+              items: items,
+              showFlashcardEnding: show,
+            );
+          }).toList();
+
+      _cache[key] = chapters;
+      logger.i(
+        '📚 Loaded ${chapters.length} chapters for "$pathName" from $asset',
+      );
+      return chapters;
+    } catch (e, st) {
+      logger.e('❌ Failed to parse path file for "$pathName" → $e\n$st');
+      _cache[key] = const [];
+      return const [];
+    }
+  }
+
+  static Future<List<String>> getChapterTitles(String pathName) async {
+    final chapters = await getChaptersForPath(pathName);
+    return chapters.map((c) => c.title).toList();
+  }
+
+  static Future<LearningPathChapter?> getChapterById(
+    String pathName,
+    String chapterId,
+  ) async {
+    final chapters = await getChaptersForPath(pathName);
+    try {
+      return chapters.firstWhere((c) => c.id == chapterId);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static Future<String?> getChapterTitleForPath(
+    String pathName,
+    String chapterId,
+  ) async {
+    final chapter = await getChapterById(pathName, chapterId);
+    return chapter?.title;
+  }
+
+  static Future<LearningPathChapter?> getNextChapter(
+    String pathName,
+    String currentChapterId,
+  ) async {
+    final chapters = await getChaptersForPath(pathName);
+    for (var i = 0; i < chapters.length - 1; i++) {
+      if (chapters[i].id == currentChapterId) {
+        return chapters[i + 1];
+      }
+    }
+    return null;
+  }
+
+  /// Optional: clear caches (e.g., during hot reload)
+  static void clearCache() {
+    _cache = {};
+    _manifest = null;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+File: lib/data/repositories/parts/json_part_repository.dart
+// lib/data/repositories/parts/json_part_repository.dart
+// lib/data/repositories/parts/json_part_repository.dart
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/data/models/part_model.dart';
+
+class JsonPartRepository {
+  static Map<String, String>? _idToModule; // partId -> module (file stem)
+  static List<String>? _partFiles; // all parts files (asset paths)
+  static bool _isIndexing = false;
+
+  static Future<void> _ensureIndex() async {
+    if ((_idToModule != null && _partFiles != null) || _isIndexing) return;
+    _isIndexing = true;
+    try {
+      final manifestRaw = await rootBundle.loadString('AssetManifest.json');
+      final Map<String, dynamic> manifest = jsonDecode(manifestRaw);
+
+      final files =
+          manifest.keys
+              .where(
+                (k) =>
+                    k.startsWith('assets/json/parts/') && k.endsWith('.json'),
+              )
+              .toList()
+            ..sort();
+
+      _partFiles = files;
+
+      final map = <String, String>{};
+      for (final path in files) {
+        try {
+          final raw = await rootBundle.loadString(path);
+          final data = jsonDecode(raw) as Map<String, dynamic>;
+          final List parts = (data['parts'] as List?) ?? const [];
+          final module = path
+              .split('/')
+              .last
+              .replaceAll('.json', ''); // file stem
+          for (final p in parts) {
+            if (p is Map && p['id'] != null) {
+              final id = p['id'].toString();
+              // first writer wins; log duplicates
+              if (!map.containsKey(id)) {
+                map[id] = module;
+              } else {
+                logger.w(
+                  '⚠️ Duplicate part id "$id" in ${map[id]}.json and $module.json; keeping the first.',
+                );
+              }
+            }
+          }
+        } catch (e, st) {
+          logger.w('❌ Indexing parts: failed to read $path → $e\n$st');
+        }
+      }
+
+      _idToModule = map;
+      logger.i('🧩 Part index: ${map.length} ids across ${files.length} files');
+    } catch (e, st) {
+      logger.e('❌ Building parts index failed → $e\n$st');
+      _partFiles = const [];
+      _idToModule = const {};
+    } finally {
+      _isIndexing = false;
+    }
+  }
+
+  /// Auto-discovers part modules (file stems).
+  static Future<List<String>> getModuleNames() async {
+    await _ensureIndex();
+    final modules = <String>{};
+    for (final p in _partFiles ?? const <String>[]) {
+      modules.add(p.split('/').last.replaceAll('.json', ''));
+    }
+    final list = modules.toList()..sort();
+    logger.i('🧩 Discovered part modules: ${list.join(', ')}');
+    return list;
+  }
+
+  /// Lightweight rows for a module.
+  static Future<List<Map<String, String>>> getPartsForModule(
+    String module,
+  ) async {
+    final path = 'assets/json/parts/$module.json';
+    logger.i('📄 Loading parts list from: $path');
+    try {
+      final raw = await rootBundle.loadString(path);
+      final Map<String, dynamic> map = jsonDecode(raw);
+      final List parts = (map['parts'] as List?) ?? const [];
+      logger.i('✅ $module.json parsed → ${parts.length} parts');
+      return parts
+          .map<Map<String, String>>(
+            (e) => {
+              'id': (e['id'] ?? '').toString(),
+              'title': (e['title'] ?? e['id'] ?? '').toString(),
+            },
+          )
+          .toList();
+    } catch (e, st) {
+      logger.w('❌ Could not load $path → $e\n$st');
+      return [];
+    }
+  }
+
+  /// Look up a single part by id from whichever file contains it.
+  static Future<PartItem?> loadById(String id) async {
+    await _ensureIndex();
+    final module = _idToModule?[id];
+    if (module == null) {
+      logger.w('🕵️‍♂️ Part id not indexed: $id');
+      return null;
+    }
+    final path = 'assets/json/parts/$module.json';
+    try {
+      logger.i('🔎 Parts: searching $id in $path');
+      final raw = await rootBundle.loadString(path);
+      final Map<String, dynamic> map = jsonDecode(raw);
+      final List parts = (map['parts'] as List?) ?? const [];
+      final match = parts.cast<Map>().firstWhere(
+        (e) => (e['id'] ?? '').toString() == id,
+        orElse: () => const <String, dynamic>{},
+      );
+      if (match.isNotEmpty) {
+        logger.i('📘 Parts: found $id in $path');
+        return PartItem.fromJson(Map<String, dynamic>.from(match));
+      }
+    } catch (e, st) {
+      logger.w('❌ Parts: failed to read $path → $e\n$st');
+    }
+    return null;
+  }
+
+  /// If you add/remove JSONs at runtime and want to rebuild without a full restart.
+  static void invalidateIndex() {
+    _idToModule = null;
+    _partFiles = null;
+  }
+}
+
+// import 'dart:convert';
+// import 'package:flutter/services.dart' show rootBundle;
+// import 'package:bcc5/utils/logger.dart';
+// import 'package:bcc5/data/models/part_model.dart';
+
+// class JsonPartRepository {
+//   /// Auto-discovers part modules from the asset bundle.
+//   /// Looks for: `assets/json/parts/<module>.json`
+//   static Future<List<String>> getModuleNames() async {
+//     final manifestRaw = await rootBundle.loadString('AssetManifest.json');
+//     final Map<String, dynamic> manifest = jsonDecode(manifestRaw);
+
+//     final partModulePaths =
+//         manifest.keys
+//             .where(
+//               (k) => k.startsWith('assets/json/parts/') && k.endsWith('.json'),
+//             )
+//             .toList()
+//           ..sort();
+
+//     final modules = <String>{};
+//     for (final p in partModulePaths) {
+//       final fileName = p.split('/').last; // e.g., hull.json
+//       final module = fileName.substring(0, fileName.length - '.json'.length);
+//       modules.add(module);
+//     }
+
+//     final list = modules.toList()..sort();
+//     logger.i('🧩 Discovered part modules: ${list.join(', ')}');
+//     return list;
+//   }
+
+//   /// Returns lightweight rows for the module’s list UI: [{id, title}, ...]
+//   /// Expects: `assets/json/parts/<module>.json` with a top-level "parts": [...]
+//   static Future<List<Map<String, String>>> getPartsForModule(
+//     String module,
+//   ) async {
+//     final path = 'assets/json/parts/$module.json';
+//     logger.i('📄 Loading parts list from: $path');
+
+//     try {
+//       final raw = await rootBundle.loadString(path);
+//       final Map<String, dynamic> map = jsonDecode(raw);
+//       final List parts = (map['parts'] as List?) ?? const [];
+//       logger.i('✅ $module.json parsed → ${parts.length} parts');
+
+//       return parts
+//           .map<Map<String, String>>(
+//             (e) => {
+//               'id': (e['id'] ?? '').toString(),
+//               'title': (e['title'] ?? e['id'] ?? '').toString(),
+//             },
+//           )
+//           .toList();
+//     } catch (e, st) {
+//       logger.w('❌ Could not load $path → $e\n$st');
+//       return [];
+//     }
+//   }
+
+//   static String? _moduleFor(String id) {
+//     if (id.startsWith('part_hull_')) return 'hull';
+//     if (id.startsWith('part_deck_')) return 'deck';
+//     if (id.startsWith('part_rigg_') || id.startsWith('part_rigging_')) {
+//       return 'rigging';
+//     }
+//     {}
+//     if (id.startsWith('part_sail_') || id.startsWith('part_sails_')) {
+//       return 'sails';
+//     }
+//     if (id.startsWith('part_intr_') || id.startsWith('part_interior_')) {
+//       return 'interior';
+//     }
+//     return null;
+//   }
+
+//   /// Look up a single part by id from `assets/json/parts/<module>.json`
+//   static Future<PartItem?> loadById(String id) async {
+//     final module = _moduleFor(id);
+//     if (module == null) {
+//       logger.w('🕵️‍♂️ No module mapping for part id: $id');
+//       return null;
+//     }
+
+//     final path = 'assets/json/parts/$module.json';
+//     try {
+//       logger.i('🔎 Parts: searching $id in $path');
+//       final raw = await rootBundle.loadString(path);
+//       final Map<String, dynamic> map = jsonDecode(raw);
+//       final List parts = (map['parts'] as List?) ?? const [];
+
+//       final match = parts.cast<Map>().firstWhere(
+//         (e) => (e['id'] ?? '').toString() == id,
+//         orElse: () => const <String, dynamic>{},
+//       );
+//       if (match.isNotEmpty) {
+//         logger.i('📘 Parts: found $id in $path');
+//         return PartItem.fromJson(Map<String, dynamic>.from(match));
+//       }
+//     } catch (e, st) {
+//       logger.w('❌ Parts: failed to read $path → $e\n$st');
+//     }
+//     return null;
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+File: lib/data/repositories/lessons/json_lesson_repository.dart
+// lib/data/repositories/lessons/json_lesson_repository.dart
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:bcc5/utils/logger.dart';
+import 'package:bcc5/data/models/lesson_model.dart';
+
+class JsonLessonRepository {
+  // In-memory, rebuilt on hot restart
+  static final Map<String, List<Map<String, String>>> _moduleToRows = {};
+  static final Map<String, String> _idToModule = {};
+  static bool _built = false;
+
+  // ------------------------------ Discovery ------------------------------
+
+  static Future<List<String>> getModuleNames() async {
+    final manifestRaw = await rootBundle.loadString('AssetManifest.json');
+    final Map<String, dynamic> manifest = jsonDecode(manifestRaw);
+
+    // Only lesson JSONs, ignore obvious backups
+    final paths =
+        manifest.keys
+            .where(
+              (k) =>
+                  k.startsWith('assets/json/lessons/') &&
+                  k.endsWith('.json') &&
+                  !_looksLikeBackup(k),
+            )
+            .toList()
+          ..sort();
+
+    final modules = <String>{};
+    for (final p in paths) {
+      final fileName = p.split('/').last; // e.g., emergencies.json
+      final module = fileName.substring(0, fileName.length - '.json'.length);
+      modules.add(module);
+    }
+
+    final list = modules.toList()..sort();
+    logger.i('📦 Discovered lesson modules: ${list.join(', ')}');
+    return list;
+  }
+
+  static bool _looksLikeBackup(String path) {
+    final name = path.split('/').last.toLowerCase();
+    return name.contains('.bak') ||
+        name.endsWith('~') ||
+        name.startsWith('_') ||
+        name.contains('deprecated') ||
+        name.contains('backup');
+  }
+
+  // ------------------------------ Indexing ------------------------------
+
+  static Future<void> _buildIndex() async {
+    if (_built) return;
+    _moduleToRows.clear();
+    _idToModule.clear();
+
+    final modules = await getModuleNames();
+    for (final module in modules) {
+      final rows = await _readModuleRows(module);
+      _moduleToRows[module] = rows;
+      for (final row in rows) {
+        final id = row['id'];
+        if (id == null || id.isEmpty) continue;
+        // Keep first occurrence; warn on duplicates
+        if (_idToModule.containsKey(id)) {
+          logger.w(
+            '⚠️ Duplicate lesson id "$id" in ${_idToModule[id]} and $module; keeping the first.',
+          );
+          continue;
+        }
+        _idToModule[id] = module;
+      }
+    }
+    _built = true;
+  }
+
+  static Future<List<Map<String, String>>> _readModuleRows(
+    String module,
+  ) async {
+    final path = 'assets/json/lessons/$module.json';
+    try {
+      final raw = await rootBundle.loadString(path);
+      final Map<String, dynamic> map = jsonDecode(raw);
+      final List lessons = (map['lessons'] as List?) ?? const [];
+      return lessons.map<Map<String, String>>((e) {
+        final m = Map<String, dynamic>.from(e as Map);
+        return {
+          'id': (m['id'] ?? '').toString(),
+          'title': (m['title'] ?? m['id'] ?? '').toString(),
+        };
+      }).toList();
+    } catch (e, st) {
+      logger.w('❌ Could not load $path → $e\n$st');
+      return const [];
+    }
+  }
+
+  // ------------------------------ Public API ------------------------------
+
+  /// Lightweight rows for the list UI
+  static Future<List<Map<String, String>>> getLessonsForModule(
+    String module,
+  ) async {
+    await _buildIndex();
+    final cached = _moduleToRows[module];
+    if (cached != null) return cached;
+    // If not indexed (new file added after first call), read it now.
+    final rows = await _readModuleRows(module);
+    _moduleToRows[module] = rows;
+    for (final r in rows) {
+      final id = r['id'];
+      if (id != null && id.isNotEmpty && !_idToModule.containsKey(id)) {
+        _idToModule[id] = module;
+      }
+    }
+    return rows;
+  }
+
+  /// Find a single lesson by id in whichever file contains it.
+  static Future<Lesson?> loadById(String id) async {
+    await _buildIndex();
+
+    // If the id is known, go straight to the right file.
+    final knownModule = _idToModule[id];
+    final searchModules =
+        (knownModule != null)
+            ? <String>[knownModule]
+            : _moduleToRows.keys.toList();
+
+    // Fallback: if index is empty (e.g., manifest edge cases), scan all modules we can find now.
+    if (searchModules.isEmpty) {
+      searchModules.addAll(await getModuleNames());
+    }
+
+    for (final module in searchModules) {
+      final path = 'assets/json/lessons/$module.json';
+      try {
+        final raw = await rootBundle.loadString(path);
+        final Map<String, dynamic> map = jsonDecode(raw);
+        final List lessons = (map['lessons'] as List?) ?? const [];
+        final match = lessons.cast<Map>().firstWhere(
+          (e) => (e['id'] ?? '').toString() == id,
+          orElse: () => const <String, dynamic>{},
+        );
+        if (match.isNotEmpty) {
+          // Update index in case this was a fallback find
+          _idToModule[id] = module;
+          return Lesson.fromJson(Map<String, dynamic>.from(match));
+        }
+      } catch (e, st) {
+        logger.w('❌ Lessons: failed to read $path → $e\n$st');
+      }
+    }
+
+    logger.w('❌ Lesson not found in any module for id: $id');
+    return null;
+  }
+
+  /// Call this if you add/remove JSONs at runtime and want to rebuild.
+  static Future<void> rebuildIndex() async {
+    _built = false;
+    await _buildIndex();
+  }
+}
+
+// import 'dart:convert';
+// import 'package:flutter/services.dart' show rootBundle;
+// import 'package:bcc5/utils/logger.dart';
+// import 'package:bcc5/data/models/lesson_model.dart';
+
+// class JsonLessonRepository {
+//   /// Auto-discovers lesson modules from the asset bundle.
+//   /// Looks for: `assets/json/lessons/<module>.json`
+//   static Future<List<String>> getModuleNames() async {
+//     final manifestRaw = await rootBundle.loadString('AssetManifest.json');
+//     final Map<String, dynamic> manifest = jsonDecode(manifestRaw);
+
+//     final lessonModulePaths =
+//         manifest.keys
+//             .where(
+//               (k) =>
+//                   k.startsWith('assets/json/lessons/') && k.endsWith('.json'),
+//             )
+//             .toList()
+//           ..sort();
+
+//     final modules = <String>{};
+//     for (final p in lessonModulePaths) {
+//       final fileName = p.split('/').last; // e.g., terminology.json
+//       final module = fileName.substring(0, fileName.length - '.json'.length);
+//       modules.add(module);
+//     }
+
+//     final list = modules.toList()..sort();
+//     logger.i('📦 Discovered lesson modules: ${list.join(', ')}');
+//     return list;
+//   }
+
+//   /// Returns lightweight rows for the module’s list UI: [{id, title}, ...]
+//   /// Expects: `assets/json/lessons/<module>.json` with a top-level "lessons": [...]
+//   static Future<List<Map<String, String>>> getLessonsForModule(
+//     String module,
+//   ) async {
+//     final path = 'assets/json/lessons/$module.json';
+//     logger.i('📄 Loading lessons list from: $path');
+
+//     try {
+//       final raw = await rootBundle.loadString(path);
+//       final Map<String, dynamic> map = jsonDecode(raw);
+//       final List lessons = (map['lessons'] as List?) ?? const [];
+//       logger.i('✅ $module.json parsed → ${lessons.length} lessons');
+
+//       return lessons
+//           .map<Map<String, String>>(
+//             (e) => {
+//               'id': (e['id'] ?? '').toString(),
+//               'title': (e['title'] ?? e['id'] ?? '').toString(),
+//             },
+//           )
+//           .toList();
+//     } catch (e, st) {
+//       logger.w('❌ Could not load $path → $e\n$st');
+//       return [];
+//     }
+//   }
+
+//   static String? _moduleFor(String id) {
+//     if (id.startsWith('lesson_dock_')) return 'docking';
+//     if (id.startsWith('lesson_safety_')) return 'safety';
+//     if (id.startsWith('lesson_emer_')) return 'emergencies';
+//     if (id.startsWith('lesson_seam_')) return 'seamanship';
+//     if (id.startsWith('lesson_term_')) return 'terminology';
+//     if (id.startsWith('lesson_syst_')) return 'systems';
+//     if (id.startsWith('lesson_team_')) return 'teamwork';
+//     if (id.startsWith('lesson_knot_') || id.startsWith('lesson_knots_')) {
+//       return 'knots';
+//     }
+//     if (id.startsWith('lesson_nav_')) return 'navigation';
+//     return null;
+//   }
+
+//   /// Finds a single lesson by id inside its module file.
+//   /// Expects: `assets/json/lessons/<module>.json`
+//   static Future<Lesson?> loadById(String id) async {
+//     final module = _moduleFor(id);
+//     if (module == null) {
+//       logger.w('🕵️‍♂️ No module mapping for lesson id: $id');
+//       return null;
+//     }
+
+//     final path = 'assets/json/lessons/$module.json';
+//     try {
+//       logger.i('🔎 Lessons: searching $id in $path');
+//       final raw = await rootBundle.loadString(path);
+//       final Map<String, dynamic> map = jsonDecode(raw);
+//       final List lessons = (map['lessons'] as List?) ?? const [];
+
+//       final match = lessons.cast<Map>().firstWhere(
+//         (e) => (e['id'] ?? '').toString() == id,
+//         orElse: () => const <String, dynamic>{},
+//       );
+//       if (match.isNotEmpty) {
+//         logger.i('📘 Lessons: found $id in $path');
+//         return Lesson.fromJson(Map<String, dynamic>.from(match));
+//       }
+//     } catch (e, st) {
+//       logger.w('❌ Lessons: failed to read $path → $e\n$st');
+//     }
+//     return null;
+//   }
+// }

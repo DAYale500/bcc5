@@ -83,6 +83,625 @@
           "showAFirst": true
         }
       ]
+    },
+    {
+      "id": "part_deck_1.20",
+      "title": "Lifelines & Stanchions-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Lifelines & Stanchions"
+        },
+        {
+          "type": "text",
+          "content": "Primary fall protection on deck; inspect for corrosion, tight terminals, and secure gates. Replace damaged wire, check stanchion bases for leaks and cracks."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/boat_overview_new.png"
+        }
+      ],
+      "keywords": [
+        "lifelines",
+        "stanchions",
+        "safety",
+        "guardwire"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_1.20_7373034f",
+          "title": "Lifelines & Stanchions-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Lifelines & Stanchions'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Primary fall protection on deck; inspect for corrosion, tight terminals, and secure gates. Replace damaged wire, check stanchion bases for leaks and cracks."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_1.30",
+      "title": "Jacklines & Tether Points-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Jacklines & Tether Points"
+        },
+        {
+          "type": "text",
+          "content": "Fore\u2011and\u2011aft jacklines and robust padeyes keep crew clipped in. Rig before heavy weather and keep runs clear of tripping hazards."
+        }
+      ],
+      "keywords": [
+        "jacklines",
+        "tether",
+        "padeye",
+        "safety"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_1.30_15dfe4f2",
+          "title": "Jacklines & Tether Points-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Jacklines & Tether Points'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Fore\u2011and\u2011aft jacklines and robust padeyes keep crew clipped in. Rig before heavy weather and keep runs clear of tripping hazards."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_1.40",
+      "title": "Anchor System: Bow Roller & Windlass-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Anchor System: Bow Roller & Windlass"
+        },
+        {
+          "type": "text",
+          "content": "Ground tackle readiness: anchor secured, safety pin/strap on, chain stopper set, windlass breaker off when sailing; on, tested when anchoring."
+        }
+      ],
+      "keywords": [
+        "anchor",
+        "windlass",
+        "bow roller",
+        "ground tackle"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_1.40_04b996e7",
+          "title": "Anchor System: Bow Roller & Windlass-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Anchor System: Bow Roller & Windlass'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Ground tackle readiness: anchor secured, safety pin/strap on, chain stopper set, windlass breaker off when sailing; on, tested when anchoring."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_1.50",
+      "title": "Chocks & Fairleads-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Chocks & Fairleads"
+        },
+        {
+          "type": "text",
+          "content": "Lead dock lines cleanly to cleats to reduce chafe. Inspect radiused surfaces and add chafe gear when needed."
+        }
+      ],
+      "keywords": [
+        "chocks",
+        "fairleads",
+        "mooring",
+        "chafe"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_1.50_d4c83aa2",
+          "title": "Chocks & Fairleads-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Chocks & Fairleads'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Lead dock lines cleanly to cleats to reduce chafe. Inspect radiused surfaces and add chafe gear when needed."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_1.60",
+      "title": "Handrails & Non\u2011Skid-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Handrails & Non\u2011Skid"
+        },
+        {
+          "type": "text",
+          "content": "Maintain grippy decks and solid handholds: de-wax non\u2011skid, repair worn patches, tighten or re-bed teak/SS handrails."
+        }
+      ],
+      "keywords": [
+        "handrails",
+        "nonskid",
+        "anti-slip",
+        "safety"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_1.60_a6e0ed67",
+          "title": "Handrails & Non\u2011Skid-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Handrails & Non\u2011Skid'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Maintain grippy decks and solid handholds: de-wax non\u2011skid, repair worn patches, tighten or re-bed teak/SS handrails."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_1.70",
+      "title": "Primary Winches (Sheets/Halyards)-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Primary Winches (Sheets/Halyards)"
+        },
+        {
+          "type": "text",
+          "content": "Service pawls and springs, lube lightly, and confirm mounting bolts. Keep tails flaked and winch handles tethered."
+        }
+      ],
+      "keywords": [
+        "winch",
+        "sheets",
+        "halyards",
+        "maintenance"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_1.70_f42eaa92",
+          "title": "Primary Winches (Sheets/Halyards)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Primary Winches (Sheets/Halyards)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Service pawls and springs, lube lightly, and confirm mounting bolts. Keep tails flaked and winch handles tethered."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_1.80",
+      "title": "Rope Clutches & Lead Organizers-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Rope Clutches & Lead Organizers"
+        },
+        {
+          "type": "text",
+          "content": "Label clutches, check cam wear, ensure fair leads from deck organizers to prevent cover damage on loaded lines."
+        }
+      ],
+      "keywords": [
+        "clutch",
+        "organizer",
+        "leads",
+        "labels"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_1.80_a035fad8",
+          "title": "Rope Clutches & Lead Organizers-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Rope Clutches & Lead Organizers'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Label clutches, check cam wear, ensure fair leads from deck organizers to prevent cover damage on loaded lines."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_1.90",
+      "title": "Mainsheet Traveler & Car-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Mainsheet Traveler & Car"
+        },
+        {
+          "type": "text",
+          "content": "Traveler position controls power and heel. Inspect car bearings, traveler line stoppers, and end\u2011stop integrity."
+        }
+      ],
+      "keywords": [
+        "traveler",
+        "mainsheet",
+        "car",
+        "end stops"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_1.90_a0d9f850",
+          "title": "Mainsheet Traveler & Car-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Mainsheet Traveler & Car'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Traveler position controls power and heel. Inspect car bearings, traveler line stoppers, and end\u2011stop integrity."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_2.00",
+      "title": "Genoa/Jib Tracks & Cars-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Genoa/Jib Tracks & Cars"
+        },
+        {
+          "type": "text",
+          "content": "Adjust sheeting angle for sail shape; lock pins fully engaged. Grease fasteners to avoid galvanic seizure."
+        }
+      ],
+      "keywords": [
+        "genoa",
+        "jib tracks",
+        "cars",
+        "sheeting angle"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_2.00_a26c652e",
+          "title": "Genoa/Jib Tracks & Cars-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Genoa/Jib Tracks & Cars'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Adjust sheeting angle for sail shape; lock pins fully engaged. Grease fasteners to avoid galvanic seizure."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_2.10",
+      "title": "Furling Drum & Forestay Fittings-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Furling Drum & Forestay Fittings"
+        },
+        {
+          "type": "text",
+          "content": "Verify smooth furl/unfurl, fair lead to drum, and halyard restrainer. Inspect toggle, pins, and cotters for security."
+        }
+      ],
+      "keywords": [
+        "furler",
+        "forestay",
+        "drum",
+        "toggle"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_2.10_6ddb87d8",
+          "title": "Furling Drum & Forestay Fittings-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Furling Drum & Forestay Fittings'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Verify smooth furl/unfurl, fair lead to drum, and halyard restrainer. Inspect toggle, pins, and cotters for security."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_2.20",
+      "title": "Pulpit & Pushpit (Bow/Stern Rails)-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Pulpit & Pushpit (Bow/Stern Rails)"
+        },
+        {
+          "type": "text",
+          "content": "Structural rails for crew safety and gear mounting. Check bases for movement and sealant integrity."
+        }
+      ],
+      "keywords": [
+        "pulpit",
+        "pushpit",
+        "rails",
+        "bases"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_2.20_1b23dacc",
+          "title": "Pulpit & Pushpit (Bow/Stern Rails)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Pulpit & Pushpit (Bow/Stern Rails)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Structural rails for crew safety and gear mounting. Check bases for movement and sealant integrity."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_2.30",
+      "title": "Deck Hatches & Portlights-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Deck Hatches & Portlights"
+        },
+        {
+          "type": "text",
+          "content": "Ventilation and egress. Inspect gaskets, hinges, and dogs; keep gutters clear to prevent leaks."
+        }
+      ],
+      "keywords": [
+        "hatches",
+        "portlights",
+        "gaskets",
+        "leaks"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_2.30_88565710",
+          "title": "Deck Hatches & Portlights-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Deck Hatches & Portlights'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Ventilation and egress. Inspect gaskets, hinges, and dogs; keep gutters clear to prevent leaks."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_2.40",
+      "title": "Dorade Vents & Cowls-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Dorade Vents & Cowls"
+        },
+        {
+          "type": "text",
+          "content": "All\u2011weather airflow. Confirm boxes drain and baffles are clear; secure cowls for heavy weather."
+        }
+      ],
+      "keywords": [
+        "dorade",
+        "vents",
+        "cowls",
+        "ventilation"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_2.40_d5f05c37",
+          "title": "Dorade Vents & Cowls-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Dorade Vents & Cowls'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "All\u2011weather airflow. Confirm boxes drain and baffles are clear; secure cowls for heavy weather."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_2.50",
+      "title": "Deck Fills: Fuel/Water/Waste-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Deck Fills: Fuel/Water/Waste"
+        },
+        {
+          "type": "text",
+          "content": "Correctly labelled caps; wipe spills to protect non\u2011skid. Check O\u2011rings and keep keys aboard."
+        }
+      ],
+      "keywords": [
+        "deck fills",
+        "fuel",
+        "water",
+        "waste"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_2.50_b6a6ee8d",
+          "title": "Deck Fills: Fuel/Water/Waste-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Deck Fills: Fuel/Water/Waste'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Correctly labelled caps; wipe spills to protect non\u2011skid. Check O\u2011rings and keep keys aboard."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "part_deck_2.60",
+      "title": "Cockpit Scuppers & Drains-json",
+      "content": [
+        {
+          "type": "heading",
+          "content": "Cockpit Scuppers & Drains"
+        },
+        {
+          "type": "text",
+          "content": "Fast drainage is critical. Keep hoses, seacocks, and strainers clear; test regularly and after debris\u2011heavy sailing."
+        }
+      ],
+      "keywords": [
+        "scuppers",
+        "drains",
+        "cockpit",
+        "seacocks"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_part_deck_2.60_d42fc816",
+          "title": "Cockpit Scuppers & Drains-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Cockpit Scuppers & Drains'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Fast drainage is critical. Keep hoses, seacocks, and strainers clear; test regularly and after debris\u2011heavy sailing."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

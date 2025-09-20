@@ -31,10 +31,17 @@ class ItemButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         alignment: Alignment.center,
-        child: Text(
-          label,
-          textAlign: TextAlign.center,
-          style: AppTheme.buttonTextStyle.copyWith(color: Colors.white),
+
+        child: FittedBox(
+          fit: BoxFit.scaleDown, // shrink text if it would overflow
+          child: Text(
+            label,
+            maxLines: 1,
+            softWrap: false,
+            overflow: TextOverflow.fade, // extra safety
+            style: AppTheme.buttonTextStyle.copyWith(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

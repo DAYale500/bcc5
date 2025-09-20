@@ -71,6 +71,580 @@
           "showAFirst": true
         }
       ]
+    },
+    {
+      "id": "lesson_safety_1.20",
+      "title": "PFD Selection & Proper Fit-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Choose Coast Guard\u2013approved lifejackets appropriate to crew, ensure correct size and buoyancy, and fit snugly with all closures fastened."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/boat_overview_new.png"
+        }
+      ],
+      "keywords": [
+        "pfd",
+        "lifejacket",
+        "fit",
+        "buoyancy"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_1.20_2d33d0f5",
+          "title": "PFD Selection & Proper Fit-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'PFD Selection & Proper Fit'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Choose Coast Guard\u2013approved lifejackets appropriate to crew, ensure correct size and buoyancy, and fit snugly with all closures fastened."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+  "module": "safety-json",
+  "lessons": [
+    {
+      "id": "lesson_safety_1.30",
+      "title": "Comfort & Seasickness: Staying Useful-json",
+      "keywords": ["seasick","comfort","hydration"],
+      "isPaid": false,
+      "content": [
+        { "type": "text", "content": "Hydration, horizon focus, light snacks, early disclosure to skipper; safe positions underway." }
+      ],
+      "flashcards": []
+    }
+  ]
+},
+    {
+      "id": "lesson_safety_1.35",
+      "title": "Jacklines, Tethers & Clip\u2011In Protocol-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Rig jacklines before departure, keep tethers short on deck, and always clip in at night or in rough conditions."
+        }
+      ],
+      "keywords": [
+        "jacklines",
+        "tether",
+        "clip in",
+        "night"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_1.35_a32356b0",
+          "title": "Jacklines, Tethers & Clip\u2011In Protocol-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Jacklines, Tethers & Clip\u2011In Protocol'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Rig jacklines before departure, keep tethers short on deck, and always clip in at night or in rough conditions."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_1.40",
+      "title": "Night Safety & Watchstanding-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Use red lights, maintain situational awareness, rotate watches, and brief handover with course/traffic/weather updates."
+        }
+      ],
+      "keywords": [
+        "night",
+        "watch",
+        "red light",
+        "handover"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_1.40_ef045273",
+          "title": "Night Safety & Watchstanding-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Night Safety & Watchstanding'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Use red lights, maintain situational awareness, rotate watches, and brief handover with course/traffic/weather updates."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_1.50",
+      "title": "Winch & Line Handling Safety-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Keep fingers clear, never cross wraps, tail smoothly, and remove loose clothing; use the right handle and direction."
+        }
+      ],
+      "keywords": [
+        "winch",
+        "line handling",
+        "wraps",
+        "tailing"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_1.50_cb74fa82",
+          "title": "Winch & Line Handling Safety-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Winch & Line Handling Safety'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Keep fingers clear, never cross wraps, tail smoothly, and remove loose clothing; use the right handle and direction."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_1.60",
+      "title": "Knife & Cutting Tool Readiness-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Carry a sharp, accessible knife; know emergency cut points for sheets, tethers, and jacklines if entangled."
+        }
+      ],
+      "keywords": [
+        "knife",
+        "cutting",
+        "entanglement",
+        "safety"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_1.60_9ed57560",
+          "title": "Knife & Cutting Tool Readiness-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Knife & Cutting Tool Readiness'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Carry a sharp, accessible knife; know emergency cut points for sheets, tethers, and jacklines if entangled."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_1.70",
+      "title": "Flares & Visual Distress Signals-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Store dry, within dates; practice with inert trainers; deploy downwind and away from sails/hull."
+        }
+      ],
+      "keywords": [
+        "flares",
+        "pyrotechnics",
+        "distress",
+        "signals"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_1.70_52eb7a88",
+          "title": "Flares & Visual Distress Signals-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Flares & Visual Distress Signals'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Store dry, within dates; practice with inert trainers; deploy downwind and away from sails/hull."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_1.80",
+      "title": "VHF/DSC Mayday & Comms Discipline-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Know Mayday/Pan\u2011Pan formats, DSC distress button use, and maintain clear, brief communications on Ch16."
+        }
+      ],
+      "keywords": [
+        "VHF",
+        "DSC",
+        "mayday",
+        "pan-pan"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_1.80_a3001eb8",
+          "title": "VHF/DSC Mayday & Comms Discipline-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'VHF/DSC Mayday & Comms Discipline'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Know Mayday/Pan\u2011Pan formats, DSC distress button use, and maintain clear, brief communications on Ch16."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_1.90",
+      "title": "Fire Prevention & Extinguishers-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Eliminate ignition sources, secure fuel systems, and place ABC extinguishers where reachable; practice PASS."
+        }
+      ],
+      "keywords": [
+        "fire",
+        "extinguisher",
+        "PASS",
+        "prevention"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_1.90_615b41c2",
+          "title": "Fire Prevention & Extinguishers-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Fire Prevention & Extinguishers'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Eliminate ignition sources, secure fuel systems, and place ABC extinguishers where reachable; practice PASS."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_2.00",
+      "title": "Galley Safety: Burns & Scalds-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Use gimballed stove restraints, pot retainers, and oven rails; keep handles inboard and wear shoes."
+        }
+      ],
+      "keywords": [
+        "galley",
+        "burns",
+        "scalds",
+        "stove"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_2.00_84820216",
+          "title": "Galley Safety: Burns & Scalds-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Galley Safety: Burns & Scalds'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Use gimballed stove restraints, pot retainers, and oven rails; keep handles inboard and wear shoes."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_2.10",
+      "title": "Propane/LP Gas Safety-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Leak\u2011check regularly, keep locker drains clear, shut solenoid and cylinder when not in use, and test the sniffer."
+        }
+      ],
+      "keywords": [
+        "propane",
+        "LP",
+        "sniffer",
+        "solenoid"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_2.10_f5ccf8c0",
+          "title": "Propane/LP Gas Safety-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Propane/LP Gas Safety'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Leak\u2011check regularly, keep locker drains clear, shut solenoid and cylinder when not in use, and test the sniffer."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_2.20",
+      "title": "Going Aloft: Bosun\u2019s Chair & Redundancy-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Use two independent halyards, dedicated belay, and ascender/backups; clear deck crew comms before ascent."
+        }
+      ],
+      "keywords": [
+        "bosun chair",
+        "aloft",
+        "redundancy",
+        "halyard"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_2.20_131241b8",
+          "title": "Going Aloft: Bosun\u2019s Chair & Redundancy-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Going Aloft: Bosun\u2019s Chair & Redundancy'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Use two independent halyards, dedicated belay, and ascender/backups; clear deck crew comms before ascent."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_2.30",
+      "title": "Hypothermia & Cold Shock Response-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Protect against rapid cooling; recover gently, remove wet clothing, insulate, and monitor for afterdrop."
+        }
+      ],
+      "keywords": [
+        "hypothermia",
+        "cold shock",
+        "immersion",
+        "afterdrop"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_2.30_fe22213d",
+          "title": "Hypothermia & Cold Shock Response-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Hypothermia & Cold Shock Response'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Protect against rapid cooling; recover gently, remove wet clothing, insulate, and monitor for afterdrop."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_2.40",
+      "title": "Heat Stress, Sun & Hydration-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Manage heat with shade, SPF, electrolytes, and scheduled breaks; watch for signs of heat exhaustion."
+        }
+      ],
+      "keywords": [
+        "heat",
+        "sun",
+        "hydration",
+        "heat exhaustion"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_2.40_7578affd",
+          "title": "Heat Stress, Sun & Hydration-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Heat Stress, Sun & Hydration'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Manage heat with shade, SPF, electrolytes, and scheduled breaks; watch for signs of heat exhaustion."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_2.50",
+      "title": "Flood Response & Seacock Drills-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Assign roles to find/plug leaks, start pumps, and close valves; keep tapered plugs on lanyards at each through\u2011hull."
+        }
+      ],
+      "keywords": [
+        "flooding",
+        "seacock",
+        "drill",
+        "plugs"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_2.50_e7d920d9",
+          "title": "Flood Response & Seacock Drills-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Flood Response & Seacock Drills'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Assign roles to find/plug leaks, start pumps, and close valves; keep tapered plugs on lanyards at each through\u2011hull."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_safety_2.60",
+      "title": "Personal Medical Kit & Allergies-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Carry personal meds and EpiPen if prescribed; share allergy info with skipper and note in the log."
+        }
+      ],
+      "keywords": [
+        "medical",
+        "allergy",
+        "epipen",
+        "log"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_safety_2.60_e1931390",
+          "title": "Personal Medical Kit & Allergies-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Personal Medical Kit & Allergies'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Carry personal meds and EpiPen if prescribed; share allergy info with skipper and note in the log."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

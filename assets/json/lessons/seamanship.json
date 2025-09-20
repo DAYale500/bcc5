@@ -36,6 +36,575 @@
           "showAFirst": true
         }
       ]
+    },
+    {
+      "id": "lesson_seam_2.00",
+      "title": "Docking Approach & Departure (Wind/Current/Prop Walk)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Plan your approach with wind and current in mind. Use short engine bursts, commit to a safe abort path, and account for prop walk in reverse."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/boat_overview_new.png"
+        }
+      ],
+      "keywords": [
+        "docking",
+        "approach",
+        "prop walk",
+        "current"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_2.00_d604eb6f",
+          "title": "Docking Approach & Departure (Wind/Current/Prop Walk)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Docking Approach & Departure (Wind/Current/Prop Walk)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Plan your approach with wind and current in mind. Use short engine bursts, commit to a safe abort path, and account for prop walk in reverse."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_3.00",
+      "title": "Spring Lines: Breast & Spring for Control-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Use forward/aft springs to pivot and hold position. Power gently against the spring to walk the boat along the dock."
+        }
+      ],
+      "keywords": [
+        "spring line",
+        "breast line",
+        "control",
+        "pivot"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_3.00_a20ec33e",
+          "title": "Spring Lines: Breast & Spring for Control-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Spring Lines: Breast & Spring for Control'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Use forward/aft springs to pivot and hold position. Power gently against the spring to walk the boat along the dock."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_4.00",
+      "title": "Fendering Strategy & Placement-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Rig adequate fenders at correct height for the pier/raft partner; use a fender board on rough pilings."
+        }
+      ],
+      "keywords": [
+        "fenders",
+        "protection",
+        "heights",
+        "board"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_4.00_ce024cb0",
+          "title": "Fendering Strategy & Placement-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Fendering Strategy & Placement'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Rig adequate fenders at correct height for the pier/raft partner; use a fender board on rough pilings."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_5.00",
+      "title": "Heaving Line: Coils & Throws-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Prepare neat coils, call the catch, and use a weighted heaving knot (not metal). Avoid entangling crew/props."
+        }
+      ],
+      "keywords": [
+        "heaving line",
+        "throw",
+        "knot",
+        "coils"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_5.00_b4fa66e7",
+          "title": "Heaving Line: Coils & Throws-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Heaving Line: Coils & Throws'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Prepare neat coils, call the catch, and use a weighted heaving knot (not metal). Avoid entangling crew/props."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_6.00",
+      "title": "Mooring Ball Pickup & Bridle Setup-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Approach from downwind/current, snag with boat hook, secure a bridle to two bow cleats, and confirm chafe protection."
+        }
+      ],
+      "keywords": [
+        "mooring",
+        "bridle",
+        "pickup",
+        "boat hook"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_6.00_4f7cee6e",
+          "title": "Mooring Ball Pickup & Bridle Setup-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Mooring Ball Pickup & Bridle Setup'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Approach from downwind/current, snag with boat hook, secure a bridle to two bow cleats, and confirm chafe protection."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_7.00",
+      "title": "Rafting Up: Lines, Fenders & Etiquette-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Fender both boats, set bow/stern lines and at least one spring each way. Coordinate skippers; minimize wake and swing."
+        }
+      ],
+      "keywords": [
+        "rafting up",
+        "etiquette",
+        "fenders",
+        "springs"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_7.00_a6e5bae0",
+          "title": "Rafting Up: Lines, Fenders & Etiquette-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Rafting Up: Lines, Fenders & Etiquette'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Fender both boats, set bow/stern lines and at least one spring each way. Coordinate skippers; minimize wake and swing."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_8.00",
+      "title": "Anchoring Basics: Scope, Set & Snub-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Choose holding ground, pay 5\u20137:1 scope (more in blow), back down to set, and add a snubber to protect fittings."
+        }
+      ],
+      "keywords": [
+        "anchoring",
+        "scope",
+        "set",
+        "snubber"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_8.00_1958079f",
+          "title": "Anchoring Basics: Scope, Set & Snub-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Anchoring Basics: Scope, Set & Snub'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Choose holding ground, pay 5\u20137:1 scope (more in blow), back down to set, and add a snubber to protect fittings."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_9.00",
+      "title": "Close\u2011Quarters Maneuvering: Bursts & Pivots-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Use short, decisive throttle bursts with tiller/wheel centered between moves; allow the boat to respond before the next input."
+        }
+      ],
+      "keywords": [
+        "close quarters",
+        "maneuvering",
+        "bursts",
+        "pivot"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_9.00_75a294bc",
+          "title": "Close\u2011Quarters Maneuvering: Bursts & Pivots-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Close\u2011Quarters Maneuvering: Bursts & Pivots'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Use short, decisive throttle bursts with tiller/wheel centered between moves; allow the boat to respond before the next input."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_10.00",
+      "title": "Reverse Handling & Prop Walk Mastery-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Align the stern first, then engage reverse. Let prop walk help you; use brief bursts to maintain steering authority."
+        }
+      ],
+      "keywords": [
+        "reverse",
+        "prop walk",
+        "stern",
+        "handling"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_10.00_c61455d7",
+          "title": "Reverse Handling & Prop Walk Mastery-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Reverse Handling & Prop Walk Mastery'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Align the stern first, then engage reverse. Let prop walk help you; use brief bursts to maintain steering authority."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_11.00",
+      "title": "Crew Comms: Hand Signals & Roles-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Keep commands simple and confirm with hand signals. Assign roles for lines, fenders, and helm before arrival."
+        }
+      ],
+      "keywords": [
+        "communication",
+        "signals",
+        "roles",
+        "crew"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_11.00_25a7790d",
+          "title": "Crew Comms: Hand Signals & Roles-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Crew Comms: Hand Signals & Roles'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Keep commands simple and confirm with hand signals. Assign roles for lines, fenders, and helm before arrival."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_12.00",
+      "title": "Sound Signals & VHF in Harbors-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Use proper whistle signals near docks and bridges; hail marinas succinctly on working channels after listening first."
+        }
+      ],
+      "keywords": [
+        "VHF",
+        "sound signals",
+        "harbor",
+        "bridge"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_12.00_499552cc",
+          "title": "Sound Signals & VHF in Harbors-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Sound Signals & VHF in Harbors'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Use proper whistle signals near docks and bridges; hail marinas succinctly on working channels after listening first."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_13.00",
+      "title": "Fueling Procedures & Spill Control-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Secure the boat, use absorbent pads, fill slowly, and cap promptly. Keep a spill kit ready and report incidents as required."
+        }
+      ],
+      "keywords": [
+        "fueling",
+        "spill",
+        "absorbent",
+        "kit"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_13.00_e8833457",
+          "title": "Fueling Procedures & Spill Control-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Fueling Procedures & Spill Control'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Secure the boat, use absorbent pads, fill slowly, and cap promptly. Keep a spill kit ready and report incidents as required."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_14.00",
+      "title": "Dinghy Operations: Towing, Ties & Lifts-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Choose proper tow length, bridle attachment, and quick\u2011release knots. Secure davits/lifts and remove drain plugs when stowed."
+        }
+      ],
+      "keywords": [
+        "dinghy",
+        "towing",
+        "davits",
+        "bridle"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_14.00_8578a811",
+          "title": "Dinghy Operations: Towing, Ties & Lifts-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Dinghy Operations: Towing, Ties & Lifts'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Choose proper tow length, bridle attachment, and quick\u2011release knots. Secure davits/lifts and remove drain plugs when stowed."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_15.00",
+      "title": "Line Care & Stowage: Coils, Flakes, Kink Avoidance-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Flake for quick runs, coil for storage, and reverse lay periodically. Avoid tight bends around small hardware."
+        }
+      ],
+      "keywords": [
+        "line care",
+        "coil",
+        "flake",
+        "kink"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_15.00_d15ce4d7",
+          "title": "Line Care & Stowage: Coils, Flakes, Kink Avoidance-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Line Care & Stowage: Coils, Flakes, Kink Avoidance'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Flake for quick runs, coil for storage, and reverse lay periodically. Avoid tight bends around small hardware."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_16.00",
+      "title": "Boat Hook Techniques & Retrieval-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Push, pull, and snag safely: lead with the hook closed, mind footing, and never overreach from the rail."
+        }
+      ],
+      "keywords": [
+        "boat hook",
+        "retrieval",
+        "safety",
+        "snag"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_seam_16.00_dc16c671",
+          "title": "Boat Hook Techniques & Retrieval-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Boat Hook Techniques & Retrieval'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Push, pull, and snag safely: lead with the hook closed, mind footing, and never overreach from the rail."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_seam_17.00",
+      "title": "Watchstanding Basics-json",
+      "keywords": ["watch","lookout","night"],
+      "isPaid": false,
+      "content": [
+        { "type": "text", "content": "Scan sectors, call traffic/CPA, maintain light discipline, when to call the skipper." }
+      ],
+      "flashcards": []
     }
   ]
 }

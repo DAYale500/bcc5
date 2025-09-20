@@ -16,18 +16,14 @@ lib
 │   │   └── tool_model.dart
 │   └── repositories
 │       ├── flashcards
-│       │   ├── competent_crew_flashards.dart
 │       │   └── json_flashcard_repository.dart
 │       ├── lessons
-│       │   ├── json_lesson_index.dart
 │       │   └── json_lesson_repository.dart
 │       ├── parts
-│       │   ├── json_part_index.dart
 │       │   └── json_part_repository.dart
 │       ├── paths
 │       │   └── json_path_repository.dart
 │       └── tools
-│           ├── json_tool_index.dart
 │           └── json_tool_repository.dart
 ├── main.dart
 ├── navigation
@@ -52,8 +48,7 @@ lib
 │   ├── parts
 │   │   ├── part_detail_screen.dart
 │   │   ├── part_item_screen.dart
-│   │   ├── part_zone_screen.dart
-│   │   └── temp.dart
+│   │   └── part_zone_screen.dart
 │   ├── paths
 │   │   ├── path_chapter_screen.dart
 │   │   └── path_item_screen.dart
@@ -112,6 +107,11 @@ lib
         ├── landing_screen_tour.dart
         └── tour_descriptions.dart
 assets
+├── dupes
+│   ├── emergencies_fixed.json
+│   ├── emergencies_updated.json
+│   ├── emergencies.json
+│   └── emergencies.json.bak.json
 ├── images
 │   ├── anchor_windlass_image.png
 │   ├── anchoring_image.png
@@ -194,6 +194,7 @@ assets
     │   ├── emergencies.json
     │   ├── knots.json
     │   ├── navigation.json
+    │   ├── prep.json
     │   ├── safety.json
     │   ├── seamanship.json
     │   ├── systems.json
@@ -204,19 +205,19 @@ assets
     │   ├── hull.json
     │   ├── interior.json
     │   ├── rigging.json
+    │   ├── sail.json
     │   └── sails.json
     ├── paths
     │   └── competent_crew.json
     └── tools
         ├── calculators.json
+        ├── cheats.json
         ├── checklists.json
         ├── colregs.json
         ├── communications.json
         ├── emergency.json
         ├── engine.json
         ├── navigation.json
-        ├── test_2.json
-        ├── test.json
         └── vhf.json
 
-36 directories, 184 files
+37 directories, 184 files

@@ -26,6 +26,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocalNetworkUsageDescription</key>
+    <string>Allow the app to discover and connect to the Flutter/Dart debug service on your local network.</string>
+    <key>NSBonjourServices</key>
+    <array>
+    <string>_dartobservatory._tcp</string>
+    <string>_flutterobservatory._tcp</string>
+   </array>
+
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We use location to help with man overboard and emergency safety features.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

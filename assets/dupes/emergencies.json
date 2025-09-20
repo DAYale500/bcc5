@@ -1,0 +1,344 @@
+{
+  "file": "lib/data/repositories/lessons/lesson_emergencies_repository.dart",
+  "lessons": [
+    {
+      "id": "lesson_emer_1.00",
+      "title": "Mayday Basics-json",
+      "content": [
+        {
+          "type": "text",
+          "text": "Learn when and how to issue a Mayday and what info to include."
+        }
+      ],
+      "keywords": [
+        "emergency",
+        "mayday"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_emer_1.00_3d102ef6",
+          "title": "Mayday Basics-json",
+          "sideA": [
+            {
+              "type": "text",
+              "text": "What are the key points of 'Mayday Basics'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "text": "Learn when and how to issue a Mayday and what info to include."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_emer_7.00",
+      "title": "Engine Failure at Sea",
+      "content": [
+        {
+          "type": "text",
+          "text": "Engine quits underway: Shift to neutral; hoist/trim sails to maintain control. Check fuel (valves, filters, water in separator), air (intake), and electrical (kill switch, battery, connections). If near a lee shore, prepare to **emergency anchor** early. Broadcast S\u00e9curit\u00e9/Pan-Pan as appropriate and troubleshoot systematically."
+        }
+      ],
+      "keywords": [
+        "engine",
+        "propulsion",
+        "restart",
+        "sail",
+        "VHF"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_emer_7.00_ca6ae82e",
+          "title": "Engine Failure at Sea",
+          "sideA": [
+            {
+              "type": "text",
+              "text": "First steps when the engine dies underway?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "text": "Establish sail control, check fuel/air/electrical, prepare to emergency anchor if drifting toward hazards, and call for help as needed."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_emer_8.00",
+      "title": "Rigging or Sail Damage",
+      "content": [
+        {
+          "type": "text",
+          "text": "Torn sail or failed line/fitting: Head downwind to depower. Reef or drop the affected sail. Secure flogging cloth; use sail ties/tape. Consider a temporary **jury rig** (e.g., spare halyard as shroud, reef to reduce load). Avoid shock loads. Sail conservatively to safe harbor."
+        }
+      ],
+      "keywords": [
+        "rigging",
+        "torn sail",
+        "halyard",
+        "jury rig",
+        "reef"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_emer_8.00_c00601e1",
+          "title": "Rigging or Sail Damage",
+          "sideA": [
+            {
+              "type": "text",
+              "text": "What do you do after a sail or rigging failure?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "text": "Head downwind to depower, secure/reef or drop the sail, jury-rig if safe, then sail conservatively to shelter."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_emer_9.00",
+      "title": "Fire Onboard",
+      "content": [
+        {
+          "type": "text",
+          "text": "Raise the alarm; all hands to stations. Identify type (electrical, fuel, galley). Shut down fuel/electrical sources if safe. Use appropriate **ABC extinguisher** with PASS (Pull, Aim, Squeeze, Sweep). Keep low, avoid smoke; prepare for abandon ship if uncontrollable. Make a Mayday if life/boat at risk."
+        }
+      ],
+      "keywords": [
+        "fire",
+        "extinguisher",
+        "fuel",
+        "electrical",
+        "shutdown"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_emer_9.00_5690ed51",
+          "title": "Fire Onboard",
+          "sideA": [
+            {
+              "type": "text",
+              "text": "How do you fight a boat fire safely?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "text": "Raise the alarm, shut down fuel/electrics, use an ABC extinguisher with PASS, avoid smoke, and issue a Mayday if the fire is uncontrolled."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_emer_10.00",
+      "title": "Flooding / Taking on Water",
+      "content": [
+        {
+          "type": "text",
+          "text": "Water ingress: Start all **bilge pumps**, assign a bailer. Find source (through-hull, shaft seal, hose, hull). Close seacocks; apply softwood plugs, clamps, tape, or collision mat. Lighten ship and head to nearest safe water. Call for help early (Pan-Pan/Mayday)."
+        }
+      ],
+      "keywords": [
+        "flooding",
+        "bilge",
+        "leak",
+        "damage control",
+        "pumps"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_emer_10.00_eea49725",
+          "title": "Flooding / Taking on Water",
+          "sideA": [
+            {
+              "type": "text",
+              "text": "How do you respond to flooding?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "text": "Start bilge pumps, locate the leak, plug/secure it (plugs, clamps, mat), close seacocks, and call for help early."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_emer_11.00",
+      "title": "Grounding / Running Aground",
+      "content": [
+        {
+          "type": "text",
+          "text": "Stop engine if sand/mud ingestion risk. Check hull/keel for damage and rising water. Note position/tide; attempt to float off with rising tide, heeling, or weight shift. Try **kedging**: carry anchor to deeper water and winch off. Call for assistance if needed."
+        }
+      ],
+      "keywords": [
+        "grounding",
+        "charts",
+        "tide",
+        "kedging",
+        "heeling"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_emer_11.00_60927868",
+          "title": "Grounding / Running Aground",
+          "sideA": [
+            {
+              "type": "text",
+              "text": "Key steps after running aground?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "text": "Check for damage/flooding, assess tide, reduce loads, try heeling or kedging to deeper water, and seek assistance if needed."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_emer_12.00",
+      "title": "Emergency Anchoring",
+      "content": [
+        {
+          "type": "text",
+          "text": "Loss of propulsion/control near hazards: Drop anchor **early** to arrest drift. Pay out 5\u20137:1 scope (more in heavy weather), snub to set. Use chain leader if available. Monitor position; be ready to re-set or add a second anchor. Communicate with traffic on VHF."
+        }
+      ],
+      "keywords": [
+        "emergency anchor",
+        "lee shore",
+        "scope",
+        "set",
+        "chain"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_emer_12.00_d2ce8441",
+          "title": "Emergency Anchoring",
+          "sideA": [
+            {
+              "type": "text",
+              "text": "When and how to perform an emergency anchoring?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "text": "Drop early before hazards, use 5\u20137:1 scope (more in heavy weather), snub to set, monitor position, and be ready to re-set or add a second anchor."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_emer_13.00",
+      "title": "Heavy Weather Survival (Squall)",
+      "content": [
+        {
+          "type": "text",
+          "text": "When a squall hits: Reef **before** you must. Steer a safe course to reduce heel and loads. Consider **heaving-to** or running off under control. Keep crew clipped in; close hatches; rig preventer carefully. Track lightning and avoid metal contact if nearby."
+        }
+      ],
+      "keywords": [
+        "squall",
+        "heavy weather",
+        "reef",
+        "heave-to",
+        "control"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_emer_13.00_209b5a71",
+          "title": "Heavy Weather Survival (Squall)",
+          "sideA": [
+            {
+              "type": "text",
+              "text": "What are immediate actions in a sudden squall?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "text": "Reef early, steer to reduce loads, consider heaving-to or running off, clip in crew, secure hatches, and manage preventers carefully."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_emer_14.00",
+      "title": "Medical Emergency (Serious Injury/Illness)",
+      "content": [
+        {
+          "type": "text",
+          "text": "Ensure scene safety; don gloves. Conduct primary survey (Airway, Breathing, Circulation). Control bleeding, immobilize fractures, treat for shock. Call for medical advice/evac (VHF Ch16 / DSC). Log vitals and interventions; head to nearest port if needed."
+        }
+      ],
+      "keywords": [
+        "medical",
+        "trauma",
+        "CPR",
+        "first aid",
+        "VHF"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_emer_14.00_21d0aa8e",
+          "title": "Medical Emergency (Serious Injury/Illness)",
+          "sideA": [
+            {
+              "type": "text",
+              "text": "First priorities in a medical emergency aboard?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "text": "Scene safety, ABCs, control bleeding, immobilize, treat for shock, call for medical help, and record vitals while heading to port if needed."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    }
+  ]
+}

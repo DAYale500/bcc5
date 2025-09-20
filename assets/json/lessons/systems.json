@@ -35,6 +35,572 @@
           "showAFirst": true
         }
       ]
+    },
+    {
+      "id": "lesson_syst_2.00",
+      "title": "Battery Banks & Isolation-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Understand house vs. start banks, master switches, and automatic charge relays (ACR/VSR) to avoid stranding the engine battery."
+        },
+        {
+          "type": "image",
+          "content": "assets/images/boat_overview_new.png"
+        }
+      ],
+      "keywords": [
+        "battery",
+        "house",
+        "start",
+        "ACR",
+        "VSR"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_2.00_e941943a",
+          "title": "Battery Banks & Isolation-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Battery Banks & Isolation'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Understand house vs. start banks, master switches, and automatic charge relays (ACR/VSR) to avoid stranding the engine battery."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_3.00",
+      "title": "Alternator & Regulator (Bulk/Absorb/Float)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Match alternator output and smart regulation to your bank. Know target voltages, temperature sensing, and belt load."
+        }
+      ],
+      "keywords": [
+        "alternator",
+        "regulator",
+        "charging",
+        "bulk",
+        "absorb",
+        "float"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_3.00_ccf0a434",
+          "title": "Alternator & Regulator (Bulk/Absorb/Float)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Alternator & Regulator (Bulk/Absorb/Float)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Match alternator output and smart regulation to your bank. Know target voltages, temperature sensing, and belt load."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_4.00",
+      "title": "Shore Power: ELCI/GFCI & Galvanic Isolator-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Verify ELCI/GFCI protection, proper polarity, and bonding. Use a galvanic isolator or isolation transformer at the inlet."
+        }
+      ],
+      "keywords": [
+        "shore power",
+        "ELCI",
+        "GFCI",
+        "galvanic isolator",
+        "bonding"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_4.00_1aad7c8b",
+          "title": "Shore Power: ELCI/GFCI & Galvanic Isolator-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Shore Power: ELCI/GFCI & Galvanic Isolator'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Verify ELCI/GFCI protection, proper polarity, and bonding. Use a galvanic isolator or isolation transformer at the inlet."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_5.00",
+      "title": "Inverter/Charger & Transfer Switching-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Know what circuits are on the inverter, transfer priority, and charger settings. Avoid running heavy AC loads off batteries."
+        }
+      ],
+      "keywords": [
+        "inverter",
+        "charger",
+        "transfer switch",
+        "AC loads"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_5.00_1e65284c",
+          "title": "Inverter/Charger & Transfer Switching-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Inverter/Charger & Transfer Switching'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Know what circuits are on the inverter, transfer priority, and charger settings. Avoid running heavy AC loads off batteries."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_6.00",
+      "title": "DC Distribution & ABYC Fusing-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Protect conductors with correctly sized fuses/breakers and observe ABYC distances from positive terminals."
+        }
+      ],
+      "keywords": [
+        "DC",
+        "distribution",
+        "fuse",
+        "breaker",
+        "ABYC"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_6.00_310abbe8",
+          "title": "DC Distribution & ABYC Fusing-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'DC Distribution & ABYC Fusing'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Protect conductors with correctly sized fuses/breakers and observe ABYC distances from positive terminals."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_7.00",
+      "title": "Battery Monitoring (Shunt/SOC Calibration)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Install and calibrate a shunt-based monitor. Sync state of charge at full; track amps, volts, and history."
+        }
+      ],
+      "keywords": [
+        "monitor",
+        "shunt",
+        "SOC",
+        "calibration"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_7.00_6efbd7b3",
+          "title": "Battery Monitoring (Shunt/SOC Calibration)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Battery Monitoring (Shunt/SOC Calibration)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Install and calibrate a shunt-based monitor. Sync state of charge at full; track amps, volts, and history."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_8.00",
+      "title": "Solar (and Wind) Charging: MPPT Basics-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Use MPPT controllers sized to array voltage/current. Wire safely with proper fuses and disconnects."
+        }
+      ],
+      "keywords": [
+        "solar",
+        "MPPT",
+        "renewables",
+        "controller"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_8.00_a75262cc",
+          "title": "Solar (and Wind) Charging: MPPT Basics-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Solar (and Wind) Charging: MPPT Basics'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Use MPPT controllers sized to array voltage/current. Wire safely with proper fuses and disconnects."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_9.00",
+      "title": "Bilge Pump System & High\u2011Water Alarm-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Primary/secondary pumps, float switches, and alarms save boats. Test auto/manual modes and backflow prevention."
+        }
+      ],
+      "keywords": [
+        "bilge pump",
+        "float switch",
+        "alarm",
+        "check valve"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_9.00_2e4e17c6",
+          "title": "Bilge Pump System & High\u2011Water Alarm-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Bilge Pump System & High\u2011Water Alarm'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Primary/secondary pumps, float switches, and alarms save boats. Test auto/manual modes and backflow prevention."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_10.00",
+      "title": "Freshwater Pump, Accumulator & Filters-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Quiet operation and steady pressure require secure hoses, correct accumulator pre\u2011charge, and clean strainers."
+        }
+      ],
+      "keywords": [
+        "freshwater",
+        "pump",
+        "accumulator",
+        "filter"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_10.00_9f021932",
+          "title": "Freshwater Pump, Accumulator & Filters-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Freshwater Pump, Accumulator & Filters'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Quiet operation and steady pressure require secure hoses, correct accumulator pre\u2011charge, and clean strainers."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_11.00",
+      "title": "Raw Water Cooling & Strainer-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Confirm clear intake and strainer, sound impeller, and no air leaks. Watch for exhaust water and temperature trends."
+        }
+      ],
+      "keywords": [
+        "raw water",
+        "strainer",
+        "impeller",
+        "cooling"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_11.00_f64f731a",
+          "title": "Raw Water Cooling & Strainer-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Raw Water Cooling & Strainer'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Confirm clear intake and strainer, sound impeller, and no air leaks. Watch for exhaust water and temperature trends."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_12.00",
+      "title": "Fuel System & Filters (Bleeding)-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Inspect tank, lines, and primary/secondary filters. Know how to bleed air after filter changes or stalls."
+        }
+      ],
+      "keywords": [
+        "fuel",
+        "filters",
+        "bleed",
+        "lift pump"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_12.00_8bc24885",
+          "title": "Fuel System & Filters (Bleeding)-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Fuel System & Filters (Bleeding)'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Inspect tank, lines, and primary/secondary filters. Know how to bleed air after filter changes or stalls."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_13.00",
+      "title": "Propane System: Solenoid, Locker & Sniffer-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Lockers must drain overboard; solenoid should be closed when not in use. Test the detector regularly."
+        }
+      ],
+      "keywords": [
+        "propane",
+        "solenoid",
+        "sniffer",
+        "locker"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_13.00_9b643676",
+          "title": "Propane System: Solenoid, Locker & Sniffer-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Propane System: Solenoid, Locker & Sniffer'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Lockers must drain overboard; solenoid should be closed when not in use. Test the detector regularly."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_14.00",
+      "title": "Steering System & Autopilot Drive-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Inspect cables/chain or hydraulic rams, quadrant fasteners, and emergency tiller fit. Test pilot under load."
+        }
+      ],
+      "keywords": [
+        "steering",
+        "autopilot",
+        "quadrant",
+        "cable",
+        "hydraulic"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_14.00_4b56c603",
+          "title": "Steering System & Autopilot Drive-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Steering System & Autopilot Drive'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Inspect cables/chain or hydraulic rams, quadrant fasteners, and emergency tiller fit. Test pilot under load."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_15.00",
+      "title": "Engine Panel & Alarms-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Understand oil pressure, coolant temperature, charge warning, and preheat/glow controls. Test buzzer and lamps."
+        }
+      ],
+      "keywords": [
+        "engine panel",
+        "alarms",
+        "oil pressure",
+        "temperature",
+        "charge"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_15.00_2af1fc69",
+          "title": "Engine Panel & Alarms-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Engine Panel & Alarms'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Understand oil pressure, coolant temperature, charge warning, and preheat/glow controls. Test buzzer and lamps."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
+    {
+      "id": "lesson_syst_16.00",
+      "title": "Refrigeration: Compressor, Condenser & Budget-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Check condenser flow (air or keel\u2011cooler), door seals, and insulation. Track amp\u2011hours and thermostat behavior."
+        }
+      ],
+      "keywords": [
+        "refrigeration",
+        "compressor",
+        "condenser",
+        "amp-hours"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_syst_16.00_f2824928",
+          "title": "Refrigeration: Compressor, Condenser & Budget-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Refrigeration: Compressor, Condenser & Budget'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Check condenser flow (air or keel\u2011cooler), door seals, and insulation. Track amp\u2011hours and thermostat behavior."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
     }
   ]
 }

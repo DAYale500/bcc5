@@ -1,0 +1,40 @@
+{
+  "module": "emergencies-json",
+  "lessons": [
+    {
+      "id": "lesson_emer_1.00",
+      "title": "Mayday Basics-json",
+      "content": [
+        {
+          "type": "text",
+          "content": "Learn when and how to issue a Mayday and what info to include."
+        }
+      ],
+      "keywords": [
+        "emergency",
+        "mayday"
+      ],
+      "isPaid": false,
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_emer_1.00_3d102ef6",
+          "title": "Mayday Basics-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Mayday Basics'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Learn when and how to issue a Mayday and what info to include."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    }
+  ]
+}
