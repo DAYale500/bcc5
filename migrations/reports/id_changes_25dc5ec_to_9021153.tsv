@@ -1,0 +1,114 @@
+file	title	old_id	new_id
+assets/json/lessons/docking.json	Departing the Dock – What to Expect-json	lesson_dock_1.10	lesson_dock_10.00
+assets/json/lessons/knots.json	Bowline Knot-json	lesson_knot_1.10	lesson_knot_03.00
+assets/json/lessons/knots.json	Cleat Hitch-json	lesson_knot_1.20	lesson_knot_04.00
+assets/json/lessons/knots.json	Clove Hitch-json	lesson_knot_1.30	lesson_knot_05.00
+assets/json/lessons/knots.json	Rolling Hitch-json	lesson_knot_1.40	lesson_knot_06.00
+assets/json/lessons/knots.json	Round Turn & Two Half Hitches-json	lesson_knot_1.50	lesson_knot_07.00
+assets/json/lessons/knots.json	Sheet Bend-json	lesson_knot_1.60	lesson_knot_08.00
+assets/json/lessons/knots.json	Double Sheet Bend-json	lesson_knot_1.70	lesson_knot_09.00
+assets/json/lessons/knots.json	Reef (Square) Knot-json	lesson_knot_1.80	lesson_knot_10.00
+assets/json/lessons/knots.json	Anchor Bend (Fisherman’s Bend)-json	lesson_knot_1.90	lesson_knot_11.00
+assets/json/lessons/knots.json	Timber Hitch-json	lesson_knot_2.10	lesson_knot_12.00
+assets/json/lessons/knots.json	Cow Hitch (Lark’s Head)-json	lesson_knot_2.20	lesson_knot_13.00
+assets/json/lessons/knots.json	Heaving Line Knot-json	lesson_knot_2.30	lesson_knot_14.00
+assets/json/lessons/knots.json	Sailmaker’s Whipping-json	lesson_knot_2.40	lesson_knot_15.00
+assets/json/lessons/knots.json	Ashley Stopper Knot-json	lesson_knot_2.50	lesson_knot_16.00
+assets/json/lessons/safety.json	Man Overboard Overview-json	lesson_safety_1.10	lesson_safety_03.00
+assets/json/lessons/safety.json	PFD Selection & Proper Fit-json	lesson_safety_1.20	lesson_safety_04.00
+assets/json/lessons/safety.json	Comfort & Seasickness: Staying Useful-json	lesson_safety_1.30	lesson_safety_05.00
+assets/json/lessons/safety.json	Jacklines, Tethers & Clip‑In Protocol-json	lesson_safety_1.35	lesson_safety_06.00
+assets/json/lessons/safety.json	Night Safety & Watchstanding-json	lesson_safety_1.40	lesson_safety_07.00
+assets/json/lessons/safety.json	Winch & Line Handling Safety-json	lesson_safety_1.50	lesson_safety_08.00
+assets/json/lessons/safety.json	Knife & Cutting Tool Readiness-json	lesson_safety_1.60	lesson_safety_09.00
+assets/json/lessons/safety.json	Flares & Visual Distress Signals-json	lesson_safety_1.70	lesson_safety_10.00
+assets/json/lessons/safety.json	VHF/DSC Mayday & Comms Discipline-json	lesson_safety_1.80	lesson_safety_11.00
+assets/json/lessons/safety.json	Fire Prevention & Extinguishers-json	lesson_safety_1.90	lesson_safety_12.00
+assets/json/lessons/safety.json	Propane/LP Gas Safety-json	lesson_safety_2.10	lesson_safety_13.00
+assets/json/lessons/safety.json	Going Aloft: Bosun’s Chair & Redundancy-json	lesson_safety_2.20	lesson_safety_14.00
+assets/json/lessons/safety.json	Hypothermia & Cold Shock Response-json	lesson_safety_2.30	lesson_safety_15.00
+assets/json/lessons/safety.json	Heat Stress, Sun & Hydration-json	lesson_safety_2.40	lesson_safety_16.00
+assets/json/lessons/safety.json	Flood Response & Seacock Drills-json	lesson_safety_2.50	lesson_safety_17.00
+assets/json/lessons/safety.json	Personal Medical Kit & Allergies-json	lesson_safety_2.60	lesson_safety_18.00
+assets/json/lessons/teamwork.json	Standard Commands & Closed‑Loop Comms-json	lesson_team_3.10	lesson_team_18.00
+assets/json/lessons/terminology.json	Common Nautical Terms-json	lesson_term_2.20	lesson_term_18.00
+assets/json/parts/deck.json	Cleats & Line Handling-json	part_deck_1.10	part_deck_03.00
+assets/json/parts/deck.json	Lifelines & Stanchions-json	part_deck_1.20	part_deck_04.00
+assets/json/parts/deck.json	Jacklines & Tether Points-json	part_deck_1.30	part_deck_05.00
+assets/json/parts/deck.json	Anchor System: Bow Roller & Windlass-json	part_deck_1.40	part_deck_06.00
+assets/json/parts/deck.json	Chocks & Fairleads-json	part_deck_1.50	part_deck_07.00
+assets/json/parts/deck.json	Handrails & Non‑Skid-json	part_deck_1.60	part_deck_08.00
+assets/json/parts/deck.json	Primary Winches (Sheets/Halyards)-json	part_deck_1.70	part_deck_09.00
+assets/json/parts/deck.json	Rope Clutches & Lead Organizers-json	part_deck_1.80	part_deck_10.00
+assets/json/parts/deck.json	Mainsheet Traveler & Car-json	part_deck_1.90	part_deck_11.00
+assets/json/parts/deck.json	Furling Drum & Forestay Fittings-json	part_deck_2.10	part_deck_12.00
+assets/json/parts/deck.json	Pulpit & Pushpit (Bow/Stern Rails)-json	part_deck_2.20	part_deck_13.00
+assets/json/parts/deck.json	Deck Hatches & Portlights-json	part_deck_2.30	part_deck_14.00
+assets/json/parts/deck.json	Dorade Vents & Cowls-json	part_deck_2.40	part_deck_15.00
+assets/json/parts/deck.json	Deck Fills: Fuel/Water/Waste-json	part_deck_2.50	part_deck_16.00
+assets/json/parts/deck.json	Cockpit Scuppers & Drains-json	part_deck_2.60	part_deck_17.00
+assets/json/parts/hull.json	Topsides & Deck-json	part_hull_1.10	part_hull_03.00
+assets/json/parts/hull.json	Keel & Rudder Check-json	part_hull_1.20	part_hull_04.00
+assets/json/parts/hull.json	Through‑Hulls & Seacocks-json	part_hull_1.30	part_hull_05.00
+assets/json/parts/hull.json	Keel Bolts & Stub Inspection-json	part_hull_1.40	part_hull_06.00
+assets/json/parts/hull.json	Rudder Stock, Bearings & Gland-json	part_hull_1.50	part_hull_07.00
+assets/json/parts/hull.json	Propeller, Shaft & Cutlass Bearing-json	part_hull_1.60	part_hull_08.00
+assets/json/parts/hull.json	Shaft Seal / Stuffing Box-json	part_hull_1.70	part_hull_09.00
+assets/json/parts/hull.json	Shaft Strut & Base-json	part_hull_1.80	part_hull_10.00
+assets/json/parts/hull.json	Anodes (Zincs) & Corrosion Survey-json	part_hull_1.90	part_hull_11.00
+assets/json/parts/hull.json	Exhaust Outlet (Wet) & Water Discharge-json	part_hull_2.10	part_hull_12.00
+assets/json/parts/hull.json	Cockpit Scupper Through‑Hulls-json	part_hull_2.20	part_hull_13.00
+assets/json/parts/hull.json	Hull‑Deck Joint & Rub Rail-json	part_hull_2.30	part_hull_14.00
+assets/json/parts/hull.json	Osmosis & Blister Survey-json	part_hull_2.40	part_hull_15.00
+assets/json/parts/hull.json	Chainplates & Hull‑Side Stress-json	part_hull_2.50	part_hull_16.00
+assets/json/parts/hull.json	Grounding Plate / Bonding Hardware-json	part_hull_2.60	part_hull_17.00
+assets/json/parts/hull.json	Transom Fittings & Drains-json	part_hull_2.70	part_hull_18.00
+assets/json/parts/interior.json	Galley Basics-json	part_intr_1.10	part_intr_03.00
+assets/json/parts/interior.json	Fire Safety: Extinguishers & Blanket-json	part_intr_1.20	part_intr_04.00
+assets/json/parts/interior.json	Propane System: Solenoid, Sniffer & Shutoffs-json	part_intr_1.30	part_intr_05.00
+assets/json/parts/interior.json	Electrical Panel & Main Breakers-json	part_intr_1.40	part_intr_06.00
+assets/json/parts/interior.json	Battery Compartment & Master Switch-json	part_intr_1.50	part_intr_07.00
+assets/json/parts/interior.json	CO/Smoke/LP Detectors-json	part_intr_1.60	part_intr_08.00
+assets/json/parts/interior.json	Bilge Access & Pumps-json	part_intr_1.70	part_intr_09.00
+assets/json/parts/interior.json	Seacock Access Map (Interior)-json	part_intr_1.80	part_intr_10.00
+assets/json/parts/interior.json	First Aid & Medical Locker-json	part_intr_1.90	part_intr_11.00
+assets/json/parts/interior.json	Emergency Egress: Hatches & Ports-json	part_intr_2.05	part_intr_12.00
+assets/json/parts/interior.json	Freshwater System: Pump/Accumulator/Filters-json	part_intr_2.10	part_intr_13.00
+assets/json/parts/interior.json	Sanitation: Head, Y-Valve & Holding Tank-json	part_intr_2.20	part_intr_14.00
+assets/json/parts/interior.json	Heating & Ventilation-json	part_intr_2.30	part_intr_15.00
+assets/json/parts/interior.json	Tools, Spares & Repair Kits-json	part_intr_2.40	part_intr_16.00
+assets/json/parts/interior.json	Interior Lighting: Red/White/Night-json	part_intr_2.50	part_intr_17.00
+assets/json/parts/interior.json	Companionway & Sole Board Security-json	part_intr_2.60	part_intr_18.00
+assets/json/parts/rigging.json	Winches & Clutches-json	part_rigg_1.20	part_rigg_03.00
+assets/json/parts/rigging.json	Chainplates, Turnbuckles & Cotter Pins-json	part_rigg_1.30	part_rigg_04.00
+assets/json/parts/rigging.json	Shrouds & Stays Tension (LOA Check)-json	part_rigg_1.40	part_rigg_05.00
+assets/json/parts/rigging.json	Mast Step, Partners & Compression Post-json	part_rigg_1.50	part_rigg_06.00
+assets/json/parts/rigging.json	Halyards (Main/Headsail/Spinnaker)-json	part_rigg_1.60	part_rigg_07.00
+assets/json/parts/rigging.json	Sheets (Main/Genoa/Jib) & Tails-json	part_rigg_1.70	part_rigg_08.00
+assets/json/parts/rigging.json	Reefing System (Slab/In‑Boom)-json	part_rigg_1.80	part_rigg_09.00
+assets/json/parts/rigging.json	Boom Vang (Rigid/Line)-json	part_rigg_1.90	part_rigg_10.00
+assets/json/parts/rigging.json	Genoa/Jib Cars & Tracks (Rigging)-json	part_rigg_2.10	part_rigg_11.00
+assets/json/parts/rigging.json	Headsail Furler & Extrusions-json	part_rigg_2.20	part_rigg_12.00
+assets/json/parts/rigging.json	Preventer System (Gybe Control)-json	part_rigg_2.30	part_rigg_13.00
+assets/json/parts/rigging.json	Backstay / Adjuster (or Running Backs)-json	part_rigg_2.40	part_rigg_14.00
+assets/json/parts/rigging.json	Outhaul & Foot Tension-json	part_rigg_2.50	part_rigg_15.00
+assets/json/parts/rigging.json	Cunningham / Downhaul-json	part_rigg_2.60	part_rigg_16.00
+assets/json/parts/rigging.json	Lazy Jacks / Topping Lift-json	part_rigg_2.70	part_rigg_17.00
+assets/json/parts/sails.json	Headsail & Furlers-json	part_sail_1.10	part_sail_03.00
+assets/json/parts/sails.json	Reefing Strategy & Procedures-json	part_sail_1.20	part_sail_04.00
+assets/json/parts/sails.json	Mainsail Reef Hardware & Lines-json	part_sail_1.30	part_sail_05.00
+assets/json/parts/sails.json	Headsail Selection & Roller Reefing-json	part_sail_1.40	part_sail_06.00
+assets/json/parts/sails.json	Sail Trim Fundamentals (Draft/Twist)-json	part_sail_1.50	part_sail_07.00
+assets/json/parts/sails.json	Luff Tension & Cunningham Use-json	part_sail_1.60	part_sail_08.00
+assets/json/parts/sails.json	Foot Tension & Outhaul Control-json	part_sail_1.70	part_sail_09.00
+assets/json/parts/sails.json	Preventing Luffing/Backwinding-json	part_sail_1.80	part_sail_10.00
+assets/json/parts/sails.json	Downwind Control: Preventers & Pole Work-json	part_sail_1.90	part_sail_11.00
+assets/json/parts/sails.json	Storm Sails & Heavy Weather Options-json	part_sail_2.10	part_sail_12.00
+assets/json/parts/sails.json	Dousing & Drop Techniques (Main/Headsail)-json	part_sail_2.20	part_sail_13.00
+assets/json/parts/sails.json	Sail Care, Chafe & UV Protection-json	part_sail_2.30	part_sail_14.00
+assets/json/parts/sails.json	Slides, Slugs & Batten Car Systems-json	part_sail_2.40	part_sail_15.00
+assets/json/parts/sails.json	Headsail Lead Position & Cars-json	part_sail_2.50	part_sail_16.00
+assets/json/parts/sails.json	Heaving‑To with Sails-json	part_sail_2.60	part_sail_17.00
+assets/json/tools/colregs.json	Right of Way — Overview-json	tool_rules_1.10	tool_rules_02.00
+assets/json/tools/engine.json	Overheating — Immediate Actions-json	tool_mot_1.10	tool_mot_02.00
+assets/json/tools/navigation.json	Man-Overboard (MOB) Mark-json	tool_gps_1.10	tool_gps_02.00
