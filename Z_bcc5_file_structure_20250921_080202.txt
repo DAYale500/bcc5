@@ -202,7 +202,6 @@ assets
     │   ├── hull.json
     │   ├── interior.json
     │   ├── rigging.json
-    │   ├── sail.json
     │   └── sails.json
     ├── paths
     │   └── competent_crew.json
@@ -217,4 +216,4 @@ assets
         ├── navigation.json
         └── vhf.json
 
-36 directories, 182 files
+36 directories, 181 files

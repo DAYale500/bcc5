@@ -43,7 +43,7 @@ File: assets/json/tools/navigation.json
       ]
     },
     {
-      "id": "tool_gps_1.10",
+      "id": "tool_gps_02.00",
       "title": "Man-Overboard (MOB) Mark-json",
       "content": [
         {
@@ -53,7 +53,7 @@ File: assets/json/tools/navigation.json
       ],
       "flashcards": [
         {
-          "id": "flashcard_tool_gps_1.10_e4e1b4f5",
+          "id": "flashcard_tool_gps_02.00_e4e1b4f5",
           "title": "Man-Overboard (MOB) Mark-json",
           "sideA": [
             {
@@ -336,7 +336,7 @@ File: assets/json/tools/emergency.json
   "module": "emergency-json",
   "tools": [
     {
-      "id": "tool_emerg_mob_1.00",
+      "id": "tool_emer_mob_1.00",
       "title": "Man Overboard (MOB) — Immediate Actions-json",
       "content": [
         {
@@ -360,7 +360,7 @@ File: assets/json/tools/emergency.json
       ],
       "flashcards": [
         {
-          "id": "flashcard_tool_emerg_mob_1.00",
+          "id": "flashcard_tool_emer_mob_1.00",
           "title": "MOB Priorities-json",
           "sideA": [
             {
@@ -378,7 +378,7 @@ File: assets/json/tools/emergency.json
       ]
     },
     {
-      "id": "tool_emerg_fire_1.00",
+      "id": "tool_emer_fire_1.00",
       "title": "Onboard Fire — Response-json",
       "content": [
         {
@@ -397,7 +397,7 @@ File: assets/json/tools/emergency.json
       ],
       "flashcards": [
         {
-          "id": "flashcard_tool_emerg_fire_1.00_cad285c8",
+          "id": "flashcard_tool_emer_fire_1.00_cad285c8",
           "title": "Onboard Fire — Response-json",
           "sideA": [
             {
@@ -470,7 +470,7 @@ File: assets/json/tools/engine.json
       ]
     },
     {
-      "id": "tool_mot_1.10",
+      "id": "tool_mot_02.00",
       "title": "Overheating — Immediate Actions-json",
       "content": [
         {
@@ -488,7 +488,7 @@ File: assets/json/tools/engine.json
       ],
       "flashcards": [
         {
-          "id": "flashcard_tool_mot_1.10_1ac909eb",
+          "id": "flashcard_tool_mot_02.00_1ac909eb",
           "title": "Overheating — Immediate Actions-json",
           "sideA": [
             {
@@ -699,7 +699,7 @@ File: assets/json/tools/colregs.json
       ]
     },
     {
-      "id": "tool_rules_1.10",
+      "id": "tool_rules_02.00",
       "title": "Right of Way — Overview-json",
       "content": [
         {
@@ -717,7 +717,7 @@ File: assets/json/tools/colregs.json
       ],
       "flashcards": [
         {
-          "id": "flashcard_tool_rules_1.10_e5692016",
+          "id": "flashcard_tool_rules_02.00_e5692016",
           "title": "Right of Way — Overview-json",
           "sideA": [
             {
@@ -756,48 +756,96 @@ File: assets/json/paths/competent_crew.json
       "title": "Home: Before You Board-json",
       "showFlashcardEnding": true,
       "items": [
-        { "id": "lesson_term_1.00" },
-        { "id": "lesson_term_3.00" },
-        { "id": "lesson_safety_1.20" },
-        { "id": "lesson_team_2.00" },
-        { "id": "tool_check_preDeparture_1.00" },
-        { "id": "lesson_prep_1.00" },
-        { "id": "lesson_team_3.00" },
-        { "id": "lesson_safety_1.30" },
-        { "id": "lesson_intr_2.00" }
+        {
+          "id": "lesson_term_1.00"
+        },
+        {
+          "id": "lesson_term_3.00"
+        },
+        {
+          "id": "lesson_safety_04.00"
+        },
+        {
+          "id": "lesson_team_2.00"
+        },
+        {
+          "id": "tool_check_preDeparture_1.00"
+        },
+        {
+          "id": "lesson_prep_1.00"
+        },
+        {
+          "id": "lesson_team_3.00"
+        },
+        {
+          "id": "lesson_safety_05.00"
+        },
+        {
+          "id": "lesson_intr_2.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_2.00",
       "title": "Dockside: Lines, Fenders & Boarding-json",
       "items": [
-        { "id": "lesson_seam_1.00" },
-        { "id": "lesson_seam_3.00" },
-        { "id": "part_hull_1.10" },
-        { "id": "part_hull_1.20" },
-        { "id": "lesson_team_8.00" },
-        { "id": "lesson_term_2.00" }
+        {
+          "id": "lesson_seam_1.00"
+        },
+        {
+          "id": "lesson_seam_3.00"
+        },
+        {
+          "id": "part_hull_03.00"
+        },
+        {
+          "id": "part_hull_04.00"
+        },
+        {
+          "id": "lesson_team_8.00"
+        },
+        {
+          "id": "lesson_term_2.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_3.00",
       "title": "Safety Foundations & MOB-json",
       "items": [
-        { "id": "lesson_safety_1.10" },
-        { "id": "lesson_team_9.00" },
-        { "id": "lesson_safety_1.80" },
-        { "id": "lesson_safety_1.70" },
-        { "id": "lesson_emerg_1.00" }
+        {
+          "id": "lesson_safety_03.00"
+        },
+        {
+          "id": "lesson_team_9.00"
+        },
+        {
+          "id": "lesson_safety_11.00"
+        },
+        {
+          "id": "lesson_safety_10.00"
+        },
+        {
+          "id": "lesson_emer_1.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_4.00",
       "title": "Boat Tour: Hull, Interior, Rigging-json",
       "items": [
-        { "id": "part_hull_1.00" },
-        { "id": "part_intr_1.00" },
-        { "id": "part_rigg_1.00" },
-        { "id": "part_rigg_1.20" }
+        {
+          "id": "part_hull_1.00"
+        },
+        {
+          "id": "part_intr_1.00"
+        },
+        {
+          "id": "part_rigg_1.00"
+        },
+        {
+          "id": "part_rigg_03.00"
+        }
       ]
     },
     {
@@ -805,114 +853,210 @@ File: assets/json/paths/competent_crew.json
       "title": "Knots You’ll Use Every Day-json",
       "showFlashcardEnding": true,
       "items": [
-        { "id": "lesson_knot_1.10" },
-        { "id": "lesson_knot_1.20" },
-        { "id": "lesson_knot_1.30" },
-        { "id": "lesson_knot_1.50" },
-        { "id": "lesson_knot_1.60" }
+        {
+          "id": "lesson_knot_03.00"
+        },
+        {
+          "id": "lesson_knot_04.00"
+        },
+        {
+          "id": "lesson_knot_05.00"
+        },
+        {
+          "id": "lesson_knot_07.00"
+        },
+        {
+          "id": "lesson_knot_08.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_6.00",
       "title": "Getting Underway (Engine & Motoring)-json",
       "items": [
-        { "id": "lesson_syst_15.00" },
-        { "id": "lesson_syst_11.00" },
-        { "id": "tool_engine_1.00" },
-        { "id": "tool_mot_1.10" },
-        { "id": "lesson_seam_17.00" }
+        {
+          "id": "lesson_syst_15.00"
+        },
+        {
+          "id": "lesson_syst_11.00"
+        },
+        {
+          "id": "tool_engine_1.00"
+        },
+        {
+          "id": "tool_mot_02.00"
+        },
+        {
+          "id": "lesson_seam_17.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_7.00",
       "title": "Sail Handling Basics-json",
       "items": [
-        { "id": "part_sail_1.20" },
-        { "id": "part_rigg_1.80" },
-        { "id": "part_sail_1.50" },
-        { "id": "part_sail_1.60" },
-        { "id": "part_sail_1.70" }
+        {
+          "id": "part_sail_04.00"
+        },
+        {
+          "id": "part_rigg_09.00"
+        },
+        {
+          "id": "part_sail_07.00"
+        },
+        {
+          "id": "part_sail_08.00"
+        },
+        {
+          "id": "part_sail_09.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_8.00",
       "title": "Sail Control & Maneuvers-json",
       "items": [
-        { "id": "lesson_team_6.00" },
-        { "id": "lesson_term_7.00" },
-        { "id": "part_rigg_2.00" },
-        { "id": "part_rigg_1.90" },
-        { "id": "part_sail_2.20" }
+        {
+          "id": "lesson_team_6.00"
+        },
+        {
+          "id": "lesson_term_7.00"
+        },
+        {
+          "id": "part_rigg_2.00"
+        },
+        {
+          "id": "part_rigg_10.00"
+        },
+        {
+          "id": "part_sail_13.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_9.00",
       "title": "Navigation: Buoys, Lights & Basics-json",
       "items": [
-        { "id": "lesson_nav_1.00" },
-        { "id": "lesson_nav_13.00" },
-        { "id": "lesson_nav_14.00" },
-        { "id": "tool_colregs_1.00" },
-        { "id": "tool_rules_1.10" }
+        {
+          "id": "lesson_nav_1.00"
+        },
+        {
+          "id": "lesson_nav_13.00"
+        },
+        {
+          "id": "lesson_nav_14.00"
+        },
+        {
+          "id": "tool_colregs_1.00"
+        },
+        {
+          "id": "tool_rules_02.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_10.00",
       "title": "Navigation: Position & Piloting-json",
       "items": [
-        { "id": "lesson_nav_3.00" },
-        { "id": "lesson_nav_5.00" },
-        { "id": "lesson_nav_6.00" },
-        { "id": "lesson_nav_8.00" },
-        { "id": "tool_calc_gps_1.00" }
+        {
+          "id": "lesson_nav_3.00"
+        },
+        {
+          "id": "lesson_nav_5.00"
+        },
+        {
+          "id": "lesson_nav_6.00"
+        },
+        {
+          "id": "lesson_nav_8.00"
+        },
+        {
+          "id": "tool_calc_gps_1.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_11.00",
       "title": "Tides, Currents & Course to Steer-json",
       "items": [
-        { "id": "lesson_nav_11.00" },
-        { "id": "lesson_nav_12.00" },
-        { "id": "lesson_nav_9.00" }
+        {
+          "id": "lesson_nav_11.00"
+        },
+        {
+          "id": "lesson_nav_12.00"
+        },
+        {
+          "id": "lesson_nav_9.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_12.00",
       "title": "Anchoring & Mooring-json",
       "items": [
-        { "id": "lesson_term_12.00" },
-        { "id": "lesson_seam_8.00" },
-        { "id": "lesson_seam_6.00" }
+        {
+          "id": "lesson_term_12.00"
+        },
+        {
+          "id": "lesson_seam_8.00"
+        },
+        {
+          "id": "lesson_seam_6.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_13.00",
       "title": "Heavy Weather & Night Ops-json",
       "items": [
-        { "id": "lesson_safety_1.40" },
-        { "id": "lesson_team_10.00" },
-        { "id": "part_sail_2.10" },
-        { "id": "lesson_nav_15.00" }
+        {
+          "id": "lesson_safety_07.00"
+        },
+        {
+          "id": "lesson_team_10.00"
+        },
+        {
+          "id": "part_sail_12.00"
+        },
+        {
+          "id": "lesson_nav_15.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_14.00",
       "title": "Emergencies & Damage Control-json",
       "items": [
-        { "id": "lesson_safety_2.50" },
-        { "id": "lesson_syst_9.00" },
-        { "id": "lesson_safety_1.80" },
-        { "id": "lesson_team_16.00" }
+        {
+          "id": "lesson_safety_17.00"
+        },
+        {
+          "id": "lesson_syst_9.00"
+        },
+        {
+          "id": "lesson_safety_11.00"
+        },
+        {
+          "id": "lesson_team_16.00"
+        }
       ]
     },
     {
       "id": "path_competentCrew_15.00",
       "title": "Docking & Close-Quarters Mastery-json",
       "items": [
-        { "id": "lesson_seam_2.00" },
-        { "id": "lesson_seam_9.00" },
-        { "id": "lesson_seam_10.00" },
-        { "id": "lesson_seam_12.00" }
+        {
+          "id": "lesson_seam_2.00"
+        },
+        {
+          "id": "lesson_seam_9.00"
+        },
+        {
+          "id": "lesson_seam_10.00"
+        },
+        {
+          "id": "lesson_seam_12.00"
+        }
       ]
     },
     {
@@ -920,16 +1064,25 @@ File: assets/json/paths/competent_crew.json
       "title": "Wrap-Up: Debrief & Next Steps-json",
       "showFlashcardEnding": true,
       "items": [
-        { "id": "lesson_team_14.00" },
-        { "id": "lesson_nav_16.00" },
-        { "id": "tool_check_returnToDock_1.00" },
-        { "id": "lesson_team_17.00" },          
-        { "id": "tool_rules_cheat_1.00" }
+        {
+          "id": "lesson_team_14.00"
+        },
+        {
+          "id": "lesson_nav_16.00"
+        },
+        {
+          "id": "tool_check_returnToDock_1.00"
+        },
+        {
+          "id": "lesson_team_17.00"
+        },
+        {
+          "id": "tool_rules_cheat_1.00"
+        }
       ]
     }
   ]
 }
-
 
 
 
@@ -988,7 +1141,7 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_1.10",
+      "id": "part_hull_03.00",
       "title": "Topsides & Deck-json",
       "content": [
         {
@@ -1012,7 +1165,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.10_ea6cd5c0",
+          "id": "flashcard_part_hull_03.00_ea6cd5c0",
           "title": "Topsides & Deck-json",
           "sideA": [
             {
@@ -1032,7 +1185,7 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_1.20",
+      "id": "part_hull_04.00",
       "title": "Keel & Rudder Check-json",
       "content": [
         {
@@ -1055,7 +1208,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.20_d2abc594",
+          "id": "flashcard_part_hull_04.00_d2abc594",
           "title": "Keel & Rudder Check-json",
           "sideA": [
             {
@@ -1075,8 +1228,8 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_1.30",
-      "title": "Through\u2011Hulls & Seacocks-json",
+      "id": "part_hull_05.00",
+      "title": "Through‑Hulls & Seacocks-json",
       "content": [
         {
           "type": "text",
@@ -1086,8 +1239,8 @@ File: assets/json/parts/hull.json
           "type": "bulletList",
           "content": [
             "Exercise and lube seacocks; replace frozen valves",
-            "Double-clamp below\u2011waterline hoses (opposing screw heads)",
-            "Carry tapered softwood plugs at each through\u2011hull"
+            "Double-clamp below‑waterline hoses (opposing screw heads)",
+            "Carry tapered softwood plugs at each through‑hull"
           ]
         },
         {
@@ -1105,12 +1258,12 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.30_b72bf7ac",
-          "title": "Through\u2011Hulls & Seacocks-json",
+          "id": "flashcard_part_hull_05.00_b72bf7ac",
+          "title": "Through‑Hulls & Seacocks-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Through\u2011Hulls & Seacocks'?"
+              "content": "What are the key points of 'Through‑Hulls & Seacocks'?"
             }
           ],
           "sideB": [
@@ -1125,12 +1278,12 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_1.40",
+      "id": "part_hull_06.00",
       "title": "Keel Bolts & Stub Inspection-json",
       "content": [
         {
           "type": "text",
-          "content": "Assess structural connection. Look for weeping rust trails, cracking around the keel stub, and movement at the keel\u2011hull joint."
+          "content": "Assess structural connection. Look for weeping rust trails, cracking around the keel stub, and movement at the keel‑hull joint."
         },
         {
           "type": "bulletList",
@@ -1150,7 +1303,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.40_20bd6816",
+          "id": "flashcard_part_hull_06.00_20bd6816",
           "title": "Keel Bolts & Stub Inspection-json",
           "sideA": [
             {
@@ -1161,7 +1314,7 @@ File: assets/json/parts/hull.json
           "sideB": [
             {
               "type": "text",
-              "content": "Assess structural connection. Look for weeping rust trails, cracking around the keel stub, and movement at the keel\u2011hull joint."
+              "content": "Assess structural connection. Look for weeping rust trails, cracking around the keel stub, and movement at the keel‑hull joint."
             }
           ],
           "isPaid": false,
@@ -1170,7 +1323,7 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_1.50",
+      "id": "part_hull_07.00",
       "title": "Rudder Stock, Bearings & Gland-json",
       "content": [
         {
@@ -1196,7 +1349,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.50_de2d34e7",
+          "id": "flashcard_part_hull_07.00_de2d34e7",
           "title": "Rudder Stock, Bearings & Gland-json",
           "sideA": [
             {
@@ -1216,7 +1369,7 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_1.60",
+      "id": "part_hull_08.00",
       "title": "Propeller, Shaft & Cutlass Bearing-json",
       "content": [
         {
@@ -1226,7 +1379,7 @@ File: assets/json/parts/hull.json
         {
           "type": "bulletList",
           "content": [
-            "Wiggle test at 6/12/3/9 o\u2019clock\u2014minimal play",
+            "Wiggle test at 6/12/3/9 o’clock—minimal play",
             "Remove barnacles/coralline; avoid gouging bronze",
             "Inspect shaft for scoring and straightness"
           ]
@@ -1241,7 +1394,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.60_6fc39b63",
+          "id": "flashcard_part_hull_08.00_6fc39b63",
           "title": "Propeller, Shaft & Cutlass Bearing-json",
           "sideA": [
             {
@@ -1261,7 +1414,7 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_1.70",
+      "id": "part_hull_09.00",
       "title": "Shaft Seal / Stuffing Box-json",
       "content": [
         {
@@ -1271,7 +1424,7 @@ File: assets/json/parts/hull.json
         {
           "type": "bulletList",
           "content": [
-            "Packing gland: 1\u20133 drips/min under load (typical)",
+            "Packing gland: 1–3 drips/min under load (typical)",
             "Mechanical seal: inspect bellows age and set screws",
             "Check spare packing/mechanical seal kit aboard"
           ]
@@ -1286,7 +1439,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.70_637b9713",
+          "id": "flashcard_part_hull_09.00_637b9713",
           "title": "Shaft Seal / Stuffing Box-json",
           "sideA": [
             {
@@ -1306,7 +1459,7 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_1.80",
+      "id": "part_hull_10.00",
       "title": "Shaft Strut & Base-json",
       "content": [
         {
@@ -1331,7 +1484,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.80_1b9be326",
+          "id": "flashcard_part_hull_10.00_1b9be326",
           "title": "Shaft Strut & Base-json",
           "sideA": [
             {
@@ -1351,7 +1504,7 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_1.90",
+      "id": "part_hull_11.00",
       "title": "Anodes (Zincs) & Corrosion Survey-json",
       "content": [
         {
@@ -1376,7 +1529,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_1.90_0bfb47f9",
+          "id": "flashcard_part_hull_11.00_0bfb47f9",
           "title": "Anodes (Zincs) & Corrosion Survey-json",
           "sideA": [
             {
@@ -1407,7 +1560,7 @@ File: assets/json/parts/hull.json
           "type": "bulletList",
           "content": [
             "Remove marine growth; spin log wheel freely",
-            "Check O\u2011rings and retaining clips",
+            "Check O‑rings and retaining clips",
             "Label cables and confirm data at the display"
           ]
         }
@@ -1441,7 +1594,7 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_2.10",
+      "id": "part_hull_12.00",
       "title": "Exhaust Outlet (Wet) & Water Discharge-json",
       "content": [
         {
@@ -1453,7 +1606,7 @@ File: assets/json/parts/hull.json
           "content": [
             "Look for steady water flow with engine running",
             "Inspect outlet hose and clamps for heat or cracks",
-            "Verify anti\u2011siphon break function"
+            "Verify anti‑siphon break function"
           ]
         }
       ],
@@ -1466,7 +1619,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.10_a7d299ba",
+          "id": "flashcard_part_hull_12.00_a7d299ba",
           "title": "Exhaust Outlet (Wet) & Water Discharge-json",
           "sideA": [
             {
@@ -1486,8 +1639,8 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_2.20",
-      "title": "Cockpit Scupper Through\u2011Hulls-json",
+      "id": "part_hull_13.00",
+      "title": "Cockpit Scupper Through‑Hulls-json",
       "content": [
         {
           "type": "text",
@@ -1511,12 +1664,12 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.20_4dcd73c4",
-          "title": "Cockpit Scupper Through\u2011Hulls-json",
+          "id": "flashcard_part_hull_13.00_4dcd73c4",
+          "title": "Cockpit Scupper Through‑Hulls-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Cockpit Scupper Through\u2011Hulls'?"
+              "content": "What are the key points of 'Cockpit Scupper Through‑Hulls'?"
             }
           ],
           "sideB": [
@@ -1531,8 +1684,8 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_2.30",
-      "title": "Hull\u2011Deck Joint & Rub Rail-json",
+      "id": "part_hull_14.00",
+      "title": "Hull‑Deck Joint & Rub Rail-json",
       "content": [
         {
           "type": "text",
@@ -1541,7 +1694,7 @@ File: assets/json/parts/hull.json
         {
           "type": "bulletList",
           "content": [
-            "Re\u2011bed sections showing leaks",
+            "Re‑bed sections showing leaks",
             "Confirm fastener spacing and torque",
             "Spot gelcoat cracking near fasteners"
           ]
@@ -1556,12 +1709,12 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.30_0ac01b5a",
-          "title": "Hull\u2011Deck Joint & Rub Rail-json",
+          "id": "flashcard_part_hull_14.00_0ac01b5a",
+          "title": "Hull‑Deck Joint & Rub Rail-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Hull\u2011Deck Joint & Rub Rail'?"
+              "content": "What are the key points of 'Hull‑Deck Joint & Rub Rail'?"
             }
           ],
           "sideB": [
@@ -1576,7 +1729,7 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_2.40",
+      "id": "part_hull_15.00",
       "title": "Osmosis & Blister Survey-json",
       "content": [
         {
@@ -1588,7 +1741,7 @@ File: assets/json/parts/hull.json
           "content": [
             "Map blister fields and sizes",
             "Open and rinse a sample to assess fluid",
-            "Plan repair: peel, dry, barrier\u2011coat as required"
+            "Plan repair: peel, dry, barrier‑coat as required"
           ]
         }
       ],
@@ -1601,7 +1754,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.40_7834093a",
+          "id": "flashcard_part_hull_15.00_7834093a",
           "title": "Osmosis & Blister Survey-json",
           "sideA": [
             {
@@ -1621,8 +1774,8 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_2.50",
-      "title": "Chainplates & Hull\u2011Side Stress-json",
+      "id": "part_hull_16.00",
+      "title": "Chainplates & Hull‑Side Stress-json",
       "content": [
         {
           "type": "text",
@@ -1633,7 +1786,7 @@ File: assets/json/parts/hull.json
           "content": [
             "Inspect sealant at penetrations",
             "Check for brown streaking or rust weeps",
-            "Verify tie\u2011rod/backing structure condition"
+            "Verify tie‑rod/backing structure condition"
           ]
         }
       ],
@@ -1646,12 +1799,12 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.50_5a74ec25",
-          "title": "Chainplates & Hull\u2011Side Stress-json",
+          "id": "flashcard_part_hull_16.00_5a74ec25",
+          "title": "Chainplates & Hull‑Side Stress-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Chainplates & Hull\u2011Side Stress'?"
+              "content": "What are the key points of 'Chainplates & Hull‑Side Stress'?"
             }
           ],
           "sideB": [
@@ -1666,7 +1819,7 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_2.60",
+      "id": "part_hull_17.00",
       "title": "Grounding Plate / Bonding Hardware-json",
       "content": [
         {
@@ -1691,7 +1844,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.60_5de36517",
+          "id": "flashcard_part_hull_17.00_5de36517",
           "title": "Grounding Plate / Bonding Hardware-json",
           "sideA": [
             {
@@ -1711,7 +1864,7 @@ File: assets/json/parts/hull.json
       ]
     },
     {
-      "id": "part_hull_2.70",
+      "id": "part_hull_18.00",
       "title": "Transom Fittings & Drains-json",
       "content": [
         {
@@ -1736,7 +1889,7 @@ File: assets/json/parts/hull.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_hull_2.70_cad59e64",
+          "id": "flashcard_part_hull_18.00_cad59e64",
           "title": "Transom Fittings & Drains-json",
           "sideA": [
             {
@@ -1811,7 +1964,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_1.20",
+      "id": "part_rigg_03.00",
       "title": "Winches & Clutches-json",
       "content": [
         {
@@ -1826,7 +1979,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_1.20_35b0fe92",
+          "id": "flashcard_part_rigg_03.00_35b0fe92",
           "title": "Winches & Clutches-json",
           "sideA": [
             {
@@ -1846,7 +1999,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_1.30",
+      "id": "part_rigg_04.00",
       "title": "Chainplates, Turnbuckles & Cotter Pins-json",
       "content": [
         {
@@ -1871,7 +2024,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_1.30_14f7054d",
+          "id": "flashcard_part_rigg_04.00_14f7054d",
           "title": "Chainplates, Turnbuckles & Cotter Pins-json",
           "sideA": [
             {
@@ -1891,7 +2044,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_1.40",
+      "id": "part_rigg_05.00",
       "title": "Shrouds & Stays Tension (LOA Check)-json",
       "content": [
         {
@@ -1900,7 +2053,7 @@ File: assets/json/parts/rigging.json
         },
         {
           "type": "bullets",
-          "content": "Use a rig tension gauge or builder\u2019s guide\nAfter sailing, adjust until leeward shrouds just slack\nRe-check after new wire/seasonal changes"
+          "content": "Use a rig tension gauge or builder’s guide\nAfter sailing, adjust until leeward shrouds just slack\nRe-check after new wire/seasonal changes"
         }
       ],
       "keywords": [
@@ -1912,7 +2065,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_1.40_9a3a3a94",
+          "id": "flashcard_part_rigg_05.00_9a3a3a94",
           "title": "Shrouds & Stays Tension (LOA Check)-json",
           "sideA": [
             {
@@ -1932,7 +2085,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_1.50",
+      "id": "part_rigg_06.00",
       "title": "Mast Step, Partners & Compression Post-json",
       "content": [
         {
@@ -1953,7 +2106,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_1.50_3133ae6d",
+          "id": "flashcard_part_rigg_06.00_3133ae6d",
           "title": "Mast Step, Partners & Compression Post-json",
           "sideA": [
             {
@@ -1973,7 +2126,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_1.60",
+      "id": "part_rigg_07.00",
       "title": "Halyards (Main/Headsail/Spinnaker)-json",
       "content": [
         {
@@ -1994,7 +2147,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_1.60_bb5b0f0b",
+          "id": "flashcard_part_rigg_07.00_bb5b0f0b",
           "title": "Halyards (Main/Headsail/Spinnaker)-json",
           "sideA": [
             {
@@ -2014,7 +2167,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_1.70",
+      "id": "part_rigg_08.00",
       "title": "Sheets (Main/Genoa/Jib) & Tails-json",
       "content": [
         {
@@ -2035,7 +2188,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_1.70_45f329ee",
+          "id": "flashcard_part_rigg_08.00_45f329ee",
           "title": "Sheets (Main/Genoa/Jib) & Tails-json",
           "sideA": [
             {
@@ -2055,8 +2208,8 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_1.80",
-      "title": "Reefing System (Slab/In\u2011Boom)-json",
+      "id": "part_rigg_09.00",
+      "title": "Reefing System (Slab/In‑Boom)-json",
       "content": [
         {
           "type": "text",
@@ -2064,7 +2217,7 @@ File: assets/json/parts/rigging.json
         },
         {
           "type": "bullets",
-          "content": "Lead reef lines cleanly; mark tack/clew positions\nCunningham/halyard ease coordinated with reef\nKeep reefing hooks/ram\u2019s horn accessible"
+          "content": "Lead reef lines cleanly; mark tack/clew positions\nCunningham/halyard ease coordinated with reef\nKeep reefing hooks/ram’s horn accessible"
         }
       ],
       "keywords": [
@@ -2076,12 +2229,12 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_1.80_5bf3d9fd",
-          "title": "Reefing System (Slab/In\u2011Boom)-json",
+          "id": "flashcard_part_rigg_09.00_5bf3d9fd",
+          "title": "Reefing System (Slab/In‑Boom)-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Reefing System (Slab/In\u2011Boom)'?"
+              "content": "What are the key points of 'Reefing System (Slab/In‑Boom)'?"
             }
           ],
           "sideB": [
@@ -2096,7 +2249,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_1.90",
+      "id": "part_rigg_10.00",
       "title": "Boom Vang (Rigid/Line)-json",
       "content": [
         {
@@ -2117,7 +2270,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_1.90_3e3fba1a",
+          "id": "flashcard_part_rigg_10.00_3e3fba1a",
           "title": "Boom Vang (Rigid/Line)-json",
           "sideA": [
             {
@@ -2178,7 +2331,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_2.10",
+      "id": "part_rigg_11.00",
       "title": "Genoa/Jib Cars & Tracks (Rigging)-json",
       "content": [
         {
@@ -2199,7 +2352,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_2.10_bbcb36a0",
+          "id": "flashcard_part_rigg_11.00_bbcb36a0",
           "title": "Genoa/Jib Cars & Tracks (Rigging)-json",
           "sideA": [
             {
@@ -2219,7 +2372,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_2.20",
+      "id": "part_rigg_12.00",
       "title": "Headsail Furler & Extrusions-json",
       "content": [
         {
@@ -2240,7 +2393,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_2.20_db0dc813",
+          "id": "flashcard_part_rigg_12.00_db0dc813",
           "title": "Headsail Furler & Extrusions-json",
           "sideA": [
             {
@@ -2260,7 +2413,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_2.30",
+      "id": "part_rigg_13.00",
       "title": "Preventer System (Gybe Control)-json",
       "content": [
         {
@@ -2281,7 +2434,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_2.30_e9e6a374",
+          "id": "flashcard_part_rigg_13.00_e9e6a374",
           "title": "Preventer System (Gybe Control)-json",
           "sideA": [
             {
@@ -2301,12 +2454,12 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_2.40",
+      "id": "part_rigg_14.00",
       "title": "Backstay / Adjuster (or Running Backs)-json",
       "content": [
         {
           "type": "text",
-          "content": "Fore\u2011and\u2011aft rig tension tool; also supports masthead."
+          "content": "Fore‑and‑aft rig tension tool; also supports masthead."
         },
         {
           "type": "bullets",
@@ -2322,7 +2475,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_2.40_dace4426",
+          "id": "flashcard_part_rigg_14.00_dace4426",
           "title": "Backstay / Adjuster (or Running Backs)-json",
           "sideA": [
             {
@@ -2333,7 +2486,7 @@ File: assets/json/parts/rigging.json
           "sideB": [
             {
               "type": "text",
-              "content": "Fore\u2011and\u2011aft rig tension tool; also supports masthead."
+              "content": "Fore‑and‑aft rig tension tool; also supports masthead."
             }
           ],
           "isPaid": false,
@@ -2342,7 +2495,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_2.50",
+      "id": "part_rigg_15.00",
       "title": "Outhaul & Foot Tension-json",
       "content": [
         {
@@ -2363,7 +2516,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_2.50_be2a14bc",
+          "id": "flashcard_part_rigg_15.00_be2a14bc",
           "title": "Outhaul & Foot Tension-json",
           "sideA": [
             {
@@ -2383,7 +2536,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_2.60",
+      "id": "part_rigg_16.00",
       "title": "Cunningham / Downhaul-json",
       "content": [
         {
@@ -2404,7 +2557,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_2.60_2139455e",
+          "id": "flashcard_part_rigg_16.00_2139455e",
           "title": "Cunningham / Downhaul-json",
           "sideA": [
             {
@@ -2424,7 +2577,7 @@ File: assets/json/parts/rigging.json
       ]
     },
     {
-      "id": "part_rigg_2.70",
+      "id": "part_rigg_17.00",
       "title": "Lazy Jacks / Topping Lift-json",
       "content": [
         {
@@ -2445,7 +2598,7 @@ File: assets/json/parts/rigging.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_rigg_2.70_cbc741a6",
+          "id": "flashcard_part_rigg_17.00_cbc741a6",
           "title": "Lazy Jacks / Topping Lift-json",
           "sideA": [
             {
@@ -2524,7 +2677,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_1.10",
+      "id": "part_deck_03.00",
       "title": "Cleats & Line Handling-json",
       "content": [
         {
@@ -2543,7 +2696,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.10_240d567b",
+          "id": "flashcard_part_deck_03.00_240d567b",
           "title": "Cleats & Line Handling-json",
           "sideA": [
             {
@@ -2563,7 +2716,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_1.20",
+      "id": "part_deck_04.00",
       "title": "Lifelines & Stanchions-json",
       "content": [
         {
@@ -2588,7 +2741,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.20_7373034f",
+          "id": "flashcard_part_deck_04.00_7373034f",
           "title": "Lifelines & Stanchions-json",
           "sideA": [
             {
@@ -2608,7 +2761,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_1.30",
+      "id": "part_deck_05.00",
       "title": "Jacklines & Tether Points-json",
       "content": [
         {
@@ -2617,7 +2770,7 @@ File: assets/json/parts/deck.json
         },
         {
           "type": "text",
-          "content": "Fore\u2011and\u2011aft jacklines and robust padeyes keep crew clipped in. Rig before heavy weather and keep runs clear of tripping hazards."
+          "content": "Fore‑and‑aft jacklines and robust padeyes keep crew clipped in. Rig before heavy weather and keep runs clear of tripping hazards."
         }
       ],
       "keywords": [
@@ -2629,7 +2782,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.30_15dfe4f2",
+          "id": "flashcard_part_deck_05.00_15dfe4f2",
           "title": "Jacklines & Tether Points-json",
           "sideA": [
             {
@@ -2640,7 +2793,7 @@ File: assets/json/parts/deck.json
           "sideB": [
             {
               "type": "text",
-              "content": "Fore\u2011and\u2011aft jacklines and robust padeyes keep crew clipped in. Rig before heavy weather and keep runs clear of tripping hazards."
+              "content": "Fore‑and‑aft jacklines and robust padeyes keep crew clipped in. Rig before heavy weather and keep runs clear of tripping hazards."
             }
           ],
           "isPaid": false,
@@ -2649,7 +2802,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_1.40",
+      "id": "part_deck_06.00",
       "title": "Anchor System: Bow Roller & Windlass-json",
       "content": [
         {
@@ -2670,7 +2823,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.40_04b996e7",
+          "id": "flashcard_part_deck_06.00_04b996e7",
           "title": "Anchor System: Bow Roller & Windlass-json",
           "sideA": [
             {
@@ -2690,7 +2843,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_1.50",
+      "id": "part_deck_07.00",
       "title": "Chocks & Fairleads-json",
       "content": [
         {
@@ -2711,7 +2864,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.50_d4c83aa2",
+          "id": "flashcard_part_deck_07.00_d4c83aa2",
           "title": "Chocks & Fairleads-json",
           "sideA": [
             {
@@ -2731,16 +2884,16 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_1.60",
-      "title": "Handrails & Non\u2011Skid-json",
+      "id": "part_deck_08.00",
+      "title": "Handrails & Non‑Skid-json",
       "content": [
         {
           "type": "heading",
-          "content": "Handrails & Non\u2011Skid"
+          "content": "Handrails & Non‑Skid"
         },
         {
           "type": "text",
-          "content": "Maintain grippy decks and solid handholds: de-wax non\u2011skid, repair worn patches, tighten or re-bed teak/SS handrails."
+          "content": "Maintain grippy decks and solid handholds: de-wax non‑skid, repair worn patches, tighten or re-bed teak/SS handrails."
         }
       ],
       "keywords": [
@@ -2752,18 +2905,18 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.60_a6e0ed67",
-          "title": "Handrails & Non\u2011Skid-json",
+          "id": "flashcard_part_deck_08.00_a6e0ed67",
+          "title": "Handrails & Non‑Skid-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Handrails & Non\u2011Skid'?"
+              "content": "What are the key points of 'Handrails & Non‑Skid'?"
             }
           ],
           "sideB": [
             {
               "type": "text",
-              "content": "Maintain grippy decks and solid handholds: de-wax non\u2011skid, repair worn patches, tighten or re-bed teak/SS handrails."
+              "content": "Maintain grippy decks and solid handholds: de-wax non‑skid, repair worn patches, tighten or re-bed teak/SS handrails."
             }
           ],
           "isPaid": false,
@@ -2772,7 +2925,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_1.70",
+      "id": "part_deck_09.00",
       "title": "Primary Winches (Sheets/Halyards)-json",
       "content": [
         {
@@ -2793,7 +2946,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.70_f42eaa92",
+          "id": "flashcard_part_deck_09.00_f42eaa92",
           "title": "Primary Winches (Sheets/Halyards)-json",
           "sideA": [
             {
@@ -2813,7 +2966,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_1.80",
+      "id": "part_deck_10.00",
       "title": "Rope Clutches & Lead Organizers-json",
       "content": [
         {
@@ -2834,7 +2987,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.80_a035fad8",
+          "id": "flashcard_part_deck_10.00_a035fad8",
           "title": "Rope Clutches & Lead Organizers-json",
           "sideA": [
             {
@@ -2854,7 +3007,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_1.90",
+      "id": "part_deck_11.00",
       "title": "Mainsheet Traveler & Car-json",
       "content": [
         {
@@ -2863,7 +3016,7 @@ File: assets/json/parts/deck.json
         },
         {
           "type": "text",
-          "content": "Traveler position controls power and heel. Inspect car bearings, traveler line stoppers, and end\u2011stop integrity."
+          "content": "Traveler position controls power and heel. Inspect car bearings, traveler line stoppers, and end‑stop integrity."
         }
       ],
       "keywords": [
@@ -2875,7 +3028,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_1.90_a0d9f850",
+          "id": "flashcard_part_deck_11.00_a0d9f850",
           "title": "Mainsheet Traveler & Car-json",
           "sideA": [
             {
@@ -2886,7 +3039,7 @@ File: assets/json/parts/deck.json
           "sideB": [
             {
               "type": "text",
-              "content": "Traveler position controls power and heel. Inspect car bearings, traveler line stoppers, and end\u2011stop integrity."
+              "content": "Traveler position controls power and heel. Inspect car bearings, traveler line stoppers, and end‑stop integrity."
             }
           ],
           "isPaid": false,
@@ -2936,7 +3089,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_2.10",
+      "id": "part_deck_12.00",
       "title": "Furling Drum & Forestay Fittings-json",
       "content": [
         {
@@ -2957,7 +3110,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.10_6ddb87d8",
+          "id": "flashcard_part_deck_12.00_6ddb87d8",
           "title": "Furling Drum & Forestay Fittings-json",
           "sideA": [
             {
@@ -2977,7 +3130,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_2.20",
+      "id": "part_deck_13.00",
       "title": "Pulpit & Pushpit (Bow/Stern Rails)-json",
       "content": [
         {
@@ -2998,7 +3151,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.20_1b23dacc",
+          "id": "flashcard_part_deck_13.00_1b23dacc",
           "title": "Pulpit & Pushpit (Bow/Stern Rails)-json",
           "sideA": [
             {
@@ -3018,7 +3171,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_2.30",
+      "id": "part_deck_14.00",
       "title": "Deck Hatches & Portlights-json",
       "content": [
         {
@@ -3039,7 +3192,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.30_88565710",
+          "id": "flashcard_part_deck_14.00_88565710",
           "title": "Deck Hatches & Portlights-json",
           "sideA": [
             {
@@ -3059,7 +3212,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_2.40",
+      "id": "part_deck_15.00",
       "title": "Dorade Vents & Cowls-json",
       "content": [
         {
@@ -3068,7 +3221,7 @@ File: assets/json/parts/deck.json
         },
         {
           "type": "text",
-          "content": "All\u2011weather airflow. Confirm boxes drain and baffles are clear; secure cowls for heavy weather."
+          "content": "All‑weather airflow. Confirm boxes drain and baffles are clear; secure cowls for heavy weather."
         }
       ],
       "keywords": [
@@ -3080,7 +3233,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.40_d5f05c37",
+          "id": "flashcard_part_deck_15.00_d5f05c37",
           "title": "Dorade Vents & Cowls-json",
           "sideA": [
             {
@@ -3091,7 +3244,7 @@ File: assets/json/parts/deck.json
           "sideB": [
             {
               "type": "text",
-              "content": "All\u2011weather airflow. Confirm boxes drain and baffles are clear; secure cowls for heavy weather."
+              "content": "All‑weather airflow. Confirm boxes drain and baffles are clear; secure cowls for heavy weather."
             }
           ],
           "isPaid": false,
@@ -3100,7 +3253,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_2.50",
+      "id": "part_deck_16.00",
       "title": "Deck Fills: Fuel/Water/Waste-json",
       "content": [
         {
@@ -3109,7 +3262,7 @@ File: assets/json/parts/deck.json
         },
         {
           "type": "text",
-          "content": "Correctly labelled caps; wipe spills to protect non\u2011skid. Check O\u2011rings and keep keys aboard."
+          "content": "Correctly labelled caps; wipe spills to protect non‑skid. Check O‑rings and keep keys aboard."
         }
       ],
       "keywords": [
@@ -3121,7 +3274,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.50_b6a6ee8d",
+          "id": "flashcard_part_deck_16.00_b6a6ee8d",
           "title": "Deck Fills: Fuel/Water/Waste-json",
           "sideA": [
             {
@@ -3132,7 +3285,7 @@ File: assets/json/parts/deck.json
           "sideB": [
             {
               "type": "text",
-              "content": "Correctly labelled caps; wipe spills to protect non\u2011skid. Check O\u2011rings and keep keys aboard."
+              "content": "Correctly labelled caps; wipe spills to protect non‑skid. Check O‑rings and keep keys aboard."
             }
           ],
           "isPaid": false,
@@ -3141,7 +3294,7 @@ File: assets/json/parts/deck.json
       ]
     },
     {
-      "id": "part_deck_2.60",
+      "id": "part_deck_17.00",
       "title": "Cockpit Scuppers & Drains-json",
       "content": [
         {
@@ -3150,7 +3303,7 @@ File: assets/json/parts/deck.json
         },
         {
           "type": "text",
-          "content": "Fast drainage is critical. Keep hoses, seacocks, and strainers clear; test regularly and after debris\u2011heavy sailing."
+          "content": "Fast drainage is critical. Keep hoses, seacocks, and strainers clear; test regularly and after debris‑heavy sailing."
         }
       ],
       "keywords": [
@@ -3162,7 +3315,7 @@ File: assets/json/parts/deck.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_deck_2.60_d42fc816",
+          "id": "flashcard_part_deck_17.00_d42fc816",
           "title": "Cockpit Scuppers & Drains-json",
           "sideA": [
             {
@@ -3173,7 +3326,7 @@ File: assets/json/parts/deck.json
           "sideB": [
             {
               "type": "text",
-              "content": "Fast drainage is critical. Keep hoses, seacocks, and strainers clear; test regularly and after debris\u2011heavy sailing."
+              "content": "Fast drainage is critical. Keep hoses, seacocks, and strainers clear; test regularly and after debris‑heavy sailing."
             }
           ],
           "isPaid": false,
@@ -3233,7 +3386,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_1.10",
+      "id": "part_intr_03.00",
       "title": "Galley Basics-json",
       "content": [
         {
@@ -3248,7 +3401,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_1.10_c0aaccf3",
+          "id": "flashcard_part_intr_03.00_c0aaccf3",
           "title": "Galley Basics-json",
           "sideA": [
             {
@@ -3268,7 +3421,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_1.20",
+      "id": "part_intr_04.00",
       "title": "Fire Safety: Extinguishers & Blanket-json",
       "content": [
         {
@@ -3297,7 +3450,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_1.20_b5b92461",
+          "id": "flashcard_part_intr_04.00_b5b92461",
           "title": "Fire Safety: Extinguishers & Blanket-json",
           "sideA": [
             {
@@ -3317,7 +3470,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_1.30",
+      "id": "part_intr_05.00",
       "title": "Propane System: Solenoid, Sniffer & Shutoffs-json",
       "content": [
         {
@@ -3342,7 +3495,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_1.30_7894e431",
+          "id": "flashcard_part_intr_05.00_7894e431",
           "title": "Propane System: Solenoid, Sniffer & Shutoffs-json",
           "sideA": [
             {
@@ -3362,7 +3515,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_1.40",
+      "id": "part_intr_06.00",
       "title": "Electrical Panel & Main Breakers-json",
       "content": [
         {
@@ -3387,7 +3540,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_1.40_5f0a55b3",
+          "id": "flashcard_part_intr_06.00_5f0a55b3",
           "title": "Electrical Panel & Main Breakers-json",
           "sideA": [
             {
@@ -3407,7 +3560,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_1.50",
+      "id": "part_intr_07.00",
       "title": "Battery Compartment & Master Switch-json",
       "content": [
         {
@@ -3432,7 +3585,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_1.50_cb78853a",
+          "id": "flashcard_part_intr_07.00_cb78853a",
           "title": "Battery Compartment & Master Switch-json",
           "sideA": [
             {
@@ -3452,7 +3605,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_1.60",
+      "id": "part_intr_08.00",
       "title": "CO/Smoke/LP Detectors-json",
       "content": [
         {
@@ -3477,7 +3630,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_1.60_e0446b31",
+          "id": "flashcard_part_intr_08.00_e0446b31",
           "title": "CO/Smoke/LP Detectors-json",
           "sideA": [
             {
@@ -3497,7 +3650,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_1.70",
+      "id": "part_intr_09.00",
       "title": "Bilge Access & Pumps-json",
       "content": [
         {
@@ -3522,7 +3675,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_1.70_fa04c8bd",
+          "id": "flashcard_part_intr_09.00_fa04c8bd",
           "title": "Bilge Access & Pumps-json",
           "sideA": [
             {
@@ -3542,7 +3695,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_1.80",
+      "id": "part_intr_10.00",
       "title": "Seacock Access Map (Interior)-json",
       "content": [
         {
@@ -3567,7 +3720,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_1.80_b94cedbe",
+          "id": "flashcard_part_intr_10.00_b94cedbe",
           "title": "Seacock Access Map (Interior)-json",
           "sideA": [
             {
@@ -3587,7 +3740,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_1.90",
+      "id": "part_intr_11.00",
       "title": "First Aid & Medical Locker-json",
       "content": [
         {
@@ -3612,7 +3765,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_1.90_f02165fe",
+          "id": "flashcard_part_intr_11.00_f02165fe",
           "title": "First Aid & Medical Locker-json",
           "sideA": [
             {
@@ -3632,22 +3785,25 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-  "module": "interior-json",
-  "lessons": [
-    {
       "id": "lesson_intr_2.00",
       "title": "Head & Galley Etiquette-json",
-      "keywords": ["head","galley","etiquette","water"],
+      "keywords": [
+        "head",
+        "galley",
+        "etiquette",
+        "water"
+      ],
       "isPaid": false,
       "content": [
-        { "type": "text", "content": "Marine toilet basics, conserve water, safe galley use when heeled, stowage & cleanup." }
+        {
+          "type": "text",
+          "content": "Marine toilet basics, conserve water, safe galley use when heeled, stowage & cleanup."
+        }
       ],
       "flashcards": []
-    }
-  ]
-},
+    },
     {
-      "id": "part_intr_2.05",
+      "id": "part_intr_12.00",
       "title": "Emergency Egress: Hatches & Ports-json",
       "content": [
         {
@@ -3672,7 +3828,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_2.05_072bed3e",
+          "id": "flashcard_part_intr_12.00_072bed3e",
           "title": "Emergency Egress: Hatches & Ports-json",
           "sideA": [
             {
@@ -3692,7 +3848,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_2.10",
+      "id": "part_intr_13.00",
       "title": "Freshwater System: Pump/Accumulator/Filters-json",
       "content": [
         {
@@ -3717,7 +3873,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_2.10_df39d8df",
+          "id": "flashcard_part_intr_13.00_df39d8df",
           "title": "Freshwater System: Pump/Accumulator/Filters-json",
           "sideA": [
             {
@@ -3737,7 +3893,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_2.20",
+      "id": "part_intr_14.00",
       "title": "Sanitation: Head, Y-Valve & Holding Tank-json",
       "content": [
         {
@@ -3762,7 +3918,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_2.20_f9d4ce4b",
+          "id": "flashcard_part_intr_14.00_f9d4ce4b",
           "title": "Sanitation: Head, Y-Valve & Holding Tank-json",
           "sideA": [
             {
@@ -3782,7 +3938,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_2.30",
+      "id": "part_intr_15.00",
       "title": "Heating & Ventilation-json",
       "content": [
         {
@@ -3807,7 +3963,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_2.30_06a1e936",
+          "id": "flashcard_part_intr_15.00_06a1e936",
           "title": "Heating & Ventilation-json",
           "sideA": [
             {
@@ -3827,7 +3983,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_2.40",
+      "id": "part_intr_16.00",
       "title": "Tools, Spares & Repair Kits-json",
       "content": [
         {
@@ -3852,7 +4008,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_2.40_d22cd1fe",
+          "id": "flashcard_part_intr_16.00_d22cd1fe",
           "title": "Tools, Spares & Repair Kits-json",
           "sideA": [
             {
@@ -3872,7 +4028,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_2.50",
+      "id": "part_intr_17.00",
       "title": "Interior Lighting: Red/White/Night-json",
       "content": [
         {
@@ -3897,7 +4053,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_2.50_354005e5",
+          "id": "flashcard_part_intr_17.00_354005e5",
           "title": "Interior Lighting: Red/White/Night-json",
           "sideA": [
             {
@@ -3917,7 +4073,7 @@ File: assets/json/parts/interior.json
       ]
     },
     {
-      "id": "part_intr_2.60",
+      "id": "part_intr_18.00",
       "title": "Companionway & Sole Board Security-json",
       "content": [
         {
@@ -3942,7 +4098,7 @@ File: assets/json/parts/interior.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_intr_2.60_97f975f5",
+          "id": "flashcard_part_intr_18.00_97f975f5",
           "title": "Companionway & Sole Board Security-json",
           "sideA": [
             {
@@ -3954,714 +4110,6 @@ File: assets/json/parts/interior.json
             {
               "type": "text",
               "content": "Prevent falls and access-panel surprises by securing ladder, washboards, and sole latches."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    }
-  ]
-}
-
-
-
-
-
-
-
-
-
-File: assets/json/parts/sail.json
-{
-  "module": "sails-json",
-  "parts": [
-    {
-      "id": "part_sail_1.00",
-      "title": "Mainsail Essentials-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Key parts: luff, leech, foot, tack, clew, head."
-        },
-        {
-          "type": "bullets",
-          "content": "Batten pockets\nReef points\nCunningham\nOuthaul"
-        }
-      ],
-      "keywords": [
-        "mainsail",
-        "controls"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_1.00_dff9d984",
-          "title": "Mainsail Essentials-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Mainsail Essentials'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Key parts: luff, leech, foot, tack, clew, head."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_1.10",
-      "title": "Headsail & Furlers-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "How furlers work and what to look for before sailing."
-        }
-      ],
-      "keywords": [
-        "headsail",
-        "furling"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_1.10_f2d651ea",
-          "title": "Headsail & Furlers-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Headsail & Furlers'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "How furlers work and what to look for before sailing."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_1.20",
-      "title": "Reefing Strategy & Procedures-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Reef early. Establish crew roles, marks on lines, and a clear sequence for tack/clew, halyard, and reefing lines."
-        },
-        {
-          "type": "bullets",
-          "content": "Call the reef before you must; slow the boat first\nEase halyard to marks; secure tack; tension clew; re\u2011tension halyard\nVerify leech line, luff tension, and vang/traveler settings"
-        },
-        {
-          "type": "image",
-          "content": "assets/images/boat_overview_new.png"
-        }
-      ],
-      "keywords": [
-        "reefing",
-        "procedure",
-        "crew roles",
-        "marks"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_1.20_34386018",
-          "title": "Reefing Strategy & Procedures-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Reefing Strategy & Procedures'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Reef early. Establish crew roles, marks on lines, and a clear sequence for tack/clew, halyard, and reefing lines."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_1.30",
-      "title": "Mainsail Reef Hardware & Lines-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Keep reef lines fair and labeled. Inspect reef tacks, clew cringles, ram\u2019s horn/hooks, and blocks for chafe."
-        },
-        {
-          "type": "bullets",
-          "content": "Mouse and whip line ends; color\u2011code reefs (1/2/3)\nCheck cheek blocks, exit plates, and clutch wear\nStow excess tail to prevent snags during drops"
-        }
-      ],
-      "keywords": [
-        "reef lines",
-        "reef tack",
-        "clew",
-        "blocks"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_1.30_2b1474c2",
-          "title": "Mainsail Reef Hardware & Lines-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Mainsail Reef Hardware & Lines'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Keep reef lines fair and labeled. Inspect reef tacks, clew cringles, ram\u2019s horn/hooks, and blocks for chafe."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_1.40",
-      "title": "Headsail Selection & Roller Reefing-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Choose the right headsail/reef for conditions. Roller reef to draft aft; maintain UV cover and proper halyard tension."
-        },
-        {
-          "type": "bullets",
-          "content": "Reef to a flat shape; over\u2011roll for smaller area if needed\nKeep furling line on a clean single layer on drum\nUse halyard restrainer to avoid halyard wrap"
-        }
-      ],
-      "keywords": [
-        "headsail",
-        "roller reefing",
-        "UV cover",
-        "halyard tension"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_1.40_e12a8887",
-          "title": "Headsail Selection & Roller Reefing-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Headsail Selection & Roller Reefing'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Choose the right headsail/reef for conditions. Roller reef to draft aft; maintain UV cover and proper halyard tension."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_1.50",
-      "title": "Sail Trim Fundamentals (Draft/Twist)-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Balance power and helm by managing draft depth/position and leech twist with sheet, traveler, vang, outhaul, and Cunningham."
-        },
-        {
-          "type": "bullets",
-          "content": "Use telltales: inside/outside luff for headsail, leech telltales on main\nFlatten in breeze; add depth in light air\nAdjust traveler for angle, sheet/vang for twist"
-        }
-      ],
-      "keywords": [
-        "sail trim",
-        "draft",
-        "twist",
-        "telltales"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_1.50_adc7310c",
-          "title": "Sail Trim Fundamentals (Draft/Twist)-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Sail Trim Fundamentals (Draft/Twist)'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Balance power and helm by managing draft depth/position and leech twist with sheet, traveler, vang, outhaul, and Cunningham."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_1.60",
-      "title": "Luff Tension & Cunningham Use-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Cunningham moves draft forward and opens the leech when tensioned. Relieve in light air."
-        },
-        {
-          "type": "bullets",
-          "content": "Mark halyard and Cunningham reference settings\nEase before reefing; re\u2011set after hoist\nAvoid over\u2011tension that creates vertical wrinkles"
-        }
-      ],
-      "keywords": [
-        "cunningham",
-        "luff tension",
-        "halyard",
-        "wrinkles"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_1.60_d8d8b064",
-          "title": "Luff Tension & Cunningham Use-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Luff Tension & Cunningham Use'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Cunningham moves draft forward and opens the leech when tensioned. Relieve in light air."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_1.70",
-      "title": "Foot Tension & Outhaul Control-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Outhaul flattens or deepens the lower main; critical for pointing and depower."
-        },
-        {
-          "type": "bullets",
-          "content": "Tight for upwind/breeze; ease for power offwind\nCheck clew slug/shackle and boom sheaves\nRecord base, light, and heavy settings"
-        }
-      ],
-      "keywords": [
-        "outhaul",
-        "foot tension",
-        "clew",
-        "boom"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_1.70_ff749f35",
-          "title": "Foot Tension & Outhaul Control-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Foot Tension & Outhaul Control'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Outhaul flattens or deepens the lower main; critical for pointing and depower."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_1.80",
-      "title": "Preventing Luffing/Backwinding-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Steer and trim together. Avoid over\u2011trim and maintain flow across both sails."
-        },
-        {
-          "type": "bullets",
-          "content": "Feather in puffs; ease sheet/traveler preemptively\nWatch slot: headsail lead and main twist coordination\nIf backwinding, ease main or move traveler down"
-        }
-      ],
-      "keywords": [
-        "luffing",
-        "backwind",
-        "slot",
-        "coordination"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_1.80_6ab3ff4b",
-          "title": "Preventing Luffing/Backwinding-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Preventing Luffing/Backwinding'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Steer and trim together. Avoid over\u2011trim and maintain flow across both sails."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_1.90",
-      "title": "Downwind Control: Preventers & Pole Work-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Control the boom and headsail downwind to avoid accidental gybes and collapse."
-        },
-        {
-          "type": "bullets",
-          "content": "Rig a real preventer to bow/padeye, not lifelines\nWing\u2011on\u2011wing with whisker pole; top/foreguy secure\nEase vang for safe gybes; re\u2011set after turn"
-        }
-      ],
-      "keywords": [
-        "downwind",
-        "preventer",
-        "whisker pole",
-        "gybe"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_1.90_29ee5fe0",
-          "title": "Downwind Control: Preventers & Pole Work-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Downwind Control: Preventers & Pole Work'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Control the boom and headsail downwind to avoid accidental gybes and collapse."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_2.00",
-      "title": "Asymmetric Spinnaker Basics-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Set, trim, and douse with a snuffer if available. Keep loads manageable for short\u2011handed crews."
-        },
-        {
-          "type": "bullets",
-          "content": "Hoist at deep reach; bear away to fill\nTrim tack and sheet to project luff\nPractice douses: leeward, windward, or letterbox"
-        }
-      ],
-      "keywords": [
-        "asymmetric",
-        "spinnaker",
-        "snuffer",
-        "douse"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_2.00_31872d8d",
-          "title": "Asymmetric Spinnaker Basics-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Asymmetric Spinnaker Basics'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Set, trim, and douse with a snuffer if available. Keep loads manageable for short\u2011handed crews."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_2.10",
-      "title": "Storm Sails & Heavy Weather Options-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Storm jib/tri\u2011sail plans keep control when conditions exceed normal reefing."
-        },
-        {
-          "type": "bullets",
-          "content": "Dedicated tracks/attachment points verified\nPractice setting on a calm day\nSecure unused sails and lazy jacks"
-        }
-      ],
-      "keywords": [
-        "storm jib",
-        "tri-sail",
-        "heavy weather",
-        "attachment"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_2.10_8192ea9c",
-          "title": "Storm Sails & Heavy Weather Options-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Storm Sails & Heavy Weather Options'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Storm jib/tri\u2011sail plans keep control when conditions exceed normal reefing."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_2.20",
-      "title": "Dousing & Drop Techniques (Main/Headsail)-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Plan safe, quick drops to reduce deck time and flogging risk."
-        },
-        {
-          "type": "bullets",
-          "content": "Head to wind or deep offwind to depower as appropriate\nFlake as you drop; control halyard speed\nSecure sail with ties to prevent re\u2011hoist in gusts"
-        }
-      ],
-      "keywords": [
-        "douse",
-        "drop",
-        "flake",
-        "depower"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_2.20_8c655292",
-          "title": "Dousing & Drop Techniques (Main/Headsail)-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Dousing & Drop Techniques (Main/Headsail)'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Plan safe, quick drops to reduce deck time and flogging risk."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_2.30",
-      "title": "Sail Care, Chafe & UV Protection-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Extend life with regular inspections, UV cover maintenance, and chafe patches."
-        },
-        {
-          "type": "bullets",
-          "content": "Inspect leech/foot lines, batten pockets, and slides\nFresh\u2011water rinse salt; dry fully before stow\nRepair small tears early to prevent propagation"
-        }
-      ],
-      "keywords": [
-        "sail care",
-        "chafe",
-        "UV",
-        "repair"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_2.30_264b7ec9",
-          "title": "Sail Care, Chafe & UV Protection-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Sail Care, Chafe & UV Protection'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Extend life with regular inspections, UV cover maintenance, and chafe patches."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_2.40",
-      "title": "Slides, Slugs & Batten Car Systems-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Smooth hoists depend on low\u2011friction luff hardware and maintained batten cars."
-        },
-        {
-          "type": "bullets",
-          "content": "Lubricate with sail\u2011safe dry lube\nInspect cars, shackles, and track fasteners\nReplace cracked slugs before failure"
-        }
-      ],
-      "keywords": [
-        "slides",
-        "slugs",
-        "batten car",
-        "track"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_2.40_55d114b1",
-          "title": "Slides, Slugs & Batten Car Systems-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Slides, Slugs & Batten Car Systems'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Smooth hoists depend on low\u2011friction luff hardware and maintained batten cars."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_2.50",
-      "title": "Headsail Lead Position & Cars-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "Lead controls twist/draft. Adjust for even luff telltales and proper sheeting angle."
-        },
-        {
-          "type": "bullets",
-          "content": "Forward for power/closed leech; aft for twist/depwer\nLock pins fully; avoid moving cars under load\nMark common lead positions"
-        }
-      ],
-      "keywords": [
-        "lead",
-        "cars",
-        "twist",
-        "sheeting angle"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_2.50_744355c5",
-          "title": "Headsail Lead Position & Cars-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Headsail Lead Position & Cars'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "Lead controls twist/draft. Adjust for even luff telltales and proper sheeting angle."
-            }
-          ],
-          "isPaid": false,
-          "showAFirst": true
-        }
-      ]
-    },
-    {
-      "id": "part_sail_2.60",
-      "title": "Heaving\u2011To with Sails-json",
-      "content": [
-        {
-          "type": "text",
-          "content": "A controlled stop using backed headsail and eased main; reduces motion and buys time."
-        },
-        {
-          "type": "bullets",
-          "content": "Tack without releasing headsail; back it to windward\nTraveler up, main eased; rudder slightly to windward\nBalance trim until leeway and drift are steady"
-        }
-      ],
-      "keywords": [
-        "heave-to",
-        "stop",
-        "balance",
-        "drift"
-      ],
-      "isPaid": false,
-      "flashcards": [
-        {
-          "id": "flashcard_part_sail_2.60_195a84ec",
-          "title": "Heaving\u2011To with Sails-json",
-          "sideA": [
-            {
-              "type": "text",
-              "content": "What are the key points of 'Heaving\u2011To with Sails'?"
-            }
-          ],
-          "sideB": [
-            {
-              "type": "text",
-              "content": "A controlled stop using backed headsail and eased main; reduces motion and buys time."
             }
           ],
           "isPaid": false,
@@ -4724,7 +4172,7 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_1.10",
+      "id": "part_sail_03.00",
       "title": "Headsail & Furlers-json",
       "content": [
         {
@@ -4739,7 +4187,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.10_f2d651ea",
+          "id": "flashcard_part_sail_03.00_f2d651ea",
           "title": "Headsail & Furlers-json",
           "sideA": [
             {
@@ -4759,7 +4207,7 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_1.20",
+      "id": "part_sail_04.00",
       "title": "Reefing Strategy & Procedures-json",
       "content": [
         {
@@ -4768,7 +4216,7 @@ File: assets/json/parts/sails.json
         },
         {
           "type": "bullets",
-          "content": "Call the reef before you must; slow the boat first\nEase halyard to marks; secure tack; tension clew; re\u2011tension halyard\nVerify leech line, luff tension, and vang/traveler settings"
+          "content": "Call the reef before you must; slow the boat first\nEase halyard to marks; secure tack; tension clew; re‑tension halyard\nVerify leech line, luff tension, and vang/traveler settings"
         },
         {
           "type": "image",
@@ -4784,7 +4232,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.20_34386018",
+          "id": "flashcard_part_sail_04.00_34386018",
           "title": "Reefing Strategy & Procedures-json",
           "sideA": [
             {
@@ -4804,16 +4252,16 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_1.30",
+      "id": "part_sail_05.00",
       "title": "Mainsail Reef Hardware & Lines-json",
       "content": [
         {
           "type": "text",
-          "content": "Keep reef lines fair and labeled. Inspect reef tacks, clew cringles, ram\u2019s horn/hooks, and blocks for chafe."
+          "content": "Keep reef lines fair and labeled. Inspect reef tacks, clew cringles, ram’s horn/hooks, and blocks for chafe."
         },
         {
           "type": "bullets",
-          "content": "Mouse and whip line ends; color\u2011code reefs (1/2/3)\nCheck cheek blocks, exit plates, and clutch wear\nStow excess tail to prevent snags during drops"
+          "content": "Mouse and whip line ends; color‑code reefs (1/2/3)\nCheck cheek blocks, exit plates, and clutch wear\nStow excess tail to prevent snags during drops"
         }
       ],
       "keywords": [
@@ -4825,7 +4273,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.30_2b1474c2",
+          "id": "flashcard_part_sail_05.00_2b1474c2",
           "title": "Mainsail Reef Hardware & Lines-json",
           "sideA": [
             {
@@ -4836,7 +4284,7 @@ File: assets/json/parts/sails.json
           "sideB": [
             {
               "type": "text",
-              "content": "Keep reef lines fair and labeled. Inspect reef tacks, clew cringles, ram\u2019s horn/hooks, and blocks for chafe."
+              "content": "Keep reef lines fair and labeled. Inspect reef tacks, clew cringles, ram’s horn/hooks, and blocks for chafe."
             }
           ],
           "isPaid": false,
@@ -4845,7 +4293,7 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_1.40",
+      "id": "part_sail_06.00",
       "title": "Headsail Selection & Roller Reefing-json",
       "content": [
         {
@@ -4854,7 +4302,7 @@ File: assets/json/parts/sails.json
         },
         {
           "type": "bullets",
-          "content": "Reef to a flat shape; over\u2011roll for smaller area if needed\nKeep furling line on a clean single layer on drum\nUse halyard restrainer to avoid halyard wrap"
+          "content": "Reef to a flat shape; over‑roll for smaller area if needed\nKeep furling line on a clean single layer on drum\nUse halyard restrainer to avoid halyard wrap"
         }
       ],
       "keywords": [
@@ -4866,7 +4314,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.40_e12a8887",
+          "id": "flashcard_part_sail_06.00_e12a8887",
           "title": "Headsail Selection & Roller Reefing-json",
           "sideA": [
             {
@@ -4886,7 +4334,7 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_1.50",
+      "id": "part_sail_07.00",
       "title": "Sail Trim Fundamentals (Draft/Twist)-json",
       "content": [
         {
@@ -4907,7 +4355,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.50_adc7310c",
+          "id": "flashcard_part_sail_07.00_adc7310c",
           "title": "Sail Trim Fundamentals (Draft/Twist)-json",
           "sideA": [
             {
@@ -4927,7 +4375,7 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_1.60",
+      "id": "part_sail_08.00",
       "title": "Luff Tension & Cunningham Use-json",
       "content": [
         {
@@ -4936,7 +4384,7 @@ File: assets/json/parts/sails.json
         },
         {
           "type": "bullets",
-          "content": "Mark halyard and Cunningham reference settings\nEase before reefing; re\u2011set after hoist\nAvoid over\u2011tension that creates vertical wrinkles"
+          "content": "Mark halyard and Cunningham reference settings\nEase before reefing; re‑set after hoist\nAvoid over‑tension that creates vertical wrinkles"
         }
       ],
       "keywords": [
@@ -4948,7 +4396,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.60_d8d8b064",
+          "id": "flashcard_part_sail_08.00_d8d8b064",
           "title": "Luff Tension & Cunningham Use-json",
           "sideA": [
             {
@@ -4968,7 +4416,7 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_1.70",
+      "id": "part_sail_09.00",
       "title": "Foot Tension & Outhaul Control-json",
       "content": [
         {
@@ -4989,7 +4437,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.70_ff749f35",
+          "id": "flashcard_part_sail_09.00_ff749f35",
           "title": "Foot Tension & Outhaul Control-json",
           "sideA": [
             {
@@ -5009,12 +4457,12 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_1.80",
+      "id": "part_sail_10.00",
       "title": "Preventing Luffing/Backwinding-json",
       "content": [
         {
           "type": "text",
-          "content": "Steer and trim together. Avoid over\u2011trim and maintain flow across both sails."
+          "content": "Steer and trim together. Avoid over‑trim and maintain flow across both sails."
         },
         {
           "type": "bullets",
@@ -5030,7 +4478,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.80_6ab3ff4b",
+          "id": "flashcard_part_sail_10.00_6ab3ff4b",
           "title": "Preventing Luffing/Backwinding-json",
           "sideA": [
             {
@@ -5041,7 +4489,7 @@ File: assets/json/parts/sails.json
           "sideB": [
             {
               "type": "text",
-              "content": "Steer and trim together. Avoid over\u2011trim and maintain flow across both sails."
+              "content": "Steer and trim together. Avoid over‑trim and maintain flow across both sails."
             }
           ],
           "isPaid": false,
@@ -5050,7 +4498,7 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_1.90",
+      "id": "part_sail_11.00",
       "title": "Downwind Control: Preventers & Pole Work-json",
       "content": [
         {
@@ -5059,7 +4507,7 @@ File: assets/json/parts/sails.json
         },
         {
           "type": "bullets",
-          "content": "Rig a real preventer to bow/padeye, not lifelines\nWing\u2011on\u2011wing with whisker pole; top/foreguy secure\nEase vang for safe gybes; re\u2011set after turn"
+          "content": "Rig a real preventer to bow/padeye, not lifelines\nWing‑on‑wing with whisker pole; top/foreguy secure\nEase vang for safe gybes; re‑set after turn"
         }
       ],
       "keywords": [
@@ -5071,7 +4519,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_1.90_29ee5fe0",
+          "id": "flashcard_part_sail_11.00_29ee5fe0",
           "title": "Downwind Control: Preventers & Pole Work-json",
           "sideA": [
             {
@@ -5096,7 +4544,7 @@ File: assets/json/parts/sails.json
       "content": [
         {
           "type": "text",
-          "content": "Set, trim, and douse with a snuffer if available. Keep loads manageable for short\u2011handed crews."
+          "content": "Set, trim, and douse with a snuffer if available. Keep loads manageable for short‑handed crews."
         },
         {
           "type": "bullets",
@@ -5123,7 +4571,7 @@ File: assets/json/parts/sails.json
           "sideB": [
             {
               "type": "text",
-              "content": "Set, trim, and douse with a snuffer if available. Keep loads manageable for short\u2011handed crews."
+              "content": "Set, trim, and douse with a snuffer if available. Keep loads manageable for short‑handed crews."
             }
           ],
           "isPaid": false,
@@ -5132,12 +4580,12 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_2.10",
+      "id": "part_sail_12.00",
       "title": "Storm Sails & Heavy Weather Options-json",
       "content": [
         {
           "type": "text",
-          "content": "Storm jib/tri\u2011sail plans keep control when conditions exceed normal reefing."
+          "content": "Storm jib/tri‑sail plans keep control when conditions exceed normal reefing."
         },
         {
           "type": "bullets",
@@ -5153,7 +4601,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.10_8192ea9c",
+          "id": "flashcard_part_sail_12.00_8192ea9c",
           "title": "Storm Sails & Heavy Weather Options-json",
           "sideA": [
             {
@@ -5164,7 +4612,7 @@ File: assets/json/parts/sails.json
           "sideB": [
             {
               "type": "text",
-              "content": "Storm jib/tri\u2011sail plans keep control when conditions exceed normal reefing."
+              "content": "Storm jib/tri‑sail plans keep control when conditions exceed normal reefing."
             }
           ],
           "isPaid": false,
@@ -5173,7 +4621,7 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_2.20",
+      "id": "part_sail_13.00",
       "title": "Dousing & Drop Techniques (Main/Headsail)-json",
       "content": [
         {
@@ -5182,7 +4630,7 @@ File: assets/json/parts/sails.json
         },
         {
           "type": "bullets",
-          "content": "Head to wind or deep offwind to depower as appropriate\nFlake as you drop; control halyard speed\nSecure sail with ties to prevent re\u2011hoist in gusts"
+          "content": "Head to wind or deep offwind to depower as appropriate\nFlake as you drop; control halyard speed\nSecure sail with ties to prevent re‑hoist in gusts"
         }
       ],
       "keywords": [
@@ -5194,7 +4642,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.20_8c655292",
+          "id": "flashcard_part_sail_13.00_8c655292",
           "title": "Dousing & Drop Techniques (Main/Headsail)-json",
           "sideA": [
             {
@@ -5214,7 +4662,7 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_2.30",
+      "id": "part_sail_14.00",
       "title": "Sail Care, Chafe & UV Protection-json",
       "content": [
         {
@@ -5223,7 +4671,7 @@ File: assets/json/parts/sails.json
         },
         {
           "type": "bullets",
-          "content": "Inspect leech/foot lines, batten pockets, and slides\nFresh\u2011water rinse salt; dry fully before stow\nRepair small tears early to prevent propagation"
+          "content": "Inspect leech/foot lines, batten pockets, and slides\nFresh‑water rinse salt; dry fully before stow\nRepair small tears early to prevent propagation"
         }
       ],
       "keywords": [
@@ -5235,7 +4683,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.30_264b7ec9",
+          "id": "flashcard_part_sail_14.00_264b7ec9",
           "title": "Sail Care, Chafe & UV Protection-json",
           "sideA": [
             {
@@ -5255,16 +4703,16 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_2.40",
+      "id": "part_sail_15.00",
       "title": "Slides, Slugs & Batten Car Systems-json",
       "content": [
         {
           "type": "text",
-          "content": "Smooth hoists depend on low\u2011friction luff hardware and maintained batten cars."
+          "content": "Smooth hoists depend on low‑friction luff hardware and maintained batten cars."
         },
         {
           "type": "bullets",
-          "content": "Lubricate with sail\u2011safe dry lube\nInspect cars, shackles, and track fasteners\nReplace cracked slugs before failure"
+          "content": "Lubricate with sail‑safe dry lube\nInspect cars, shackles, and track fasteners\nReplace cracked slugs before failure"
         }
       ],
       "keywords": [
@@ -5276,7 +4724,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.40_55d114b1",
+          "id": "flashcard_part_sail_15.00_55d114b1",
           "title": "Slides, Slugs & Batten Car Systems-json",
           "sideA": [
             {
@@ -5287,7 +4735,7 @@ File: assets/json/parts/sails.json
           "sideB": [
             {
               "type": "text",
-              "content": "Smooth hoists depend on low\u2011friction luff hardware and maintained batten cars."
+              "content": "Smooth hoists depend on low‑friction luff hardware and maintained batten cars."
             }
           ],
           "isPaid": false,
@@ -5296,7 +4744,7 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_2.50",
+      "id": "part_sail_16.00",
       "title": "Headsail Lead Position & Cars-json",
       "content": [
         {
@@ -5317,7 +4765,7 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.50_744355c5",
+          "id": "flashcard_part_sail_16.00_744355c5",
           "title": "Headsail Lead Position & Cars-json",
           "sideA": [
             {
@@ -5337,8 +4785,8 @@ File: assets/json/parts/sails.json
       ]
     },
     {
-      "id": "part_sail_2.60",
-      "title": "Heaving\u2011To with Sails-json",
+      "id": "part_sail_17.00",
+      "title": "Heaving‑To with Sails-json",
       "content": [
         {
           "type": "text",
@@ -5358,12 +4806,12 @@ File: assets/json/parts/sails.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_part_sail_2.60_195a84ec",
-          "title": "Heaving\u2011To with Sails-json",
+          "id": "flashcard_part_sail_17.00_195a84ec",
+          "title": "Heaving‑To with Sails-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Heaving\u2011To with Sails'?"
+              "content": "What are the key points of 'Heaving‑To with Sails'?"
             }
           ],
           "sideB": [
@@ -6036,30 +5484,30 @@ File: assets/json/lessons/terminology.json
         }
       ]
     },
-
-{
-  "module": "terminology-json",
-  "lessons": [
     {
       "id": "lesson_term_2.00",
       "title": "Commands & Language Quick Guide-json",
-      "keywords": ["commands","language","calls"],
+      "keywords": [
+        "commands",
+        "language",
+        "calls"
+      ],
       "isPaid": false,
       "content": [
-        { "type": "text", "content": "Ready about; Helm to lee; Ease/Trim; Made fast; Hold; Stand by; Lines vs sheets vs halyards." }
+        {
+          "type": "text",
+          "content": "Ready about; Helm to lee; Ease/Trim; Made fast; Hold; Stand by; Lines vs sheets vs halyards."
+        }
       ],
       "flashcards": []
-    }
-  ]
-},
-
+    },
     {
-      "id": "lesson_term_2.20",
+      "id": "lesson_term_18.00",
       "title": "Common Nautical Terms-json",
       "content": [
         {
           "type": "text",
-          "content": "Learn basic terms like \u201cport\u201d (left) and \u201cstarboard\u201d (right)."
+          "content": "Learn basic terms like “port” (left) and “starboard” (right)."
         }
       ],
       "keywords": [
@@ -6070,7 +5518,7 @@ File: assets/json/lessons/terminology.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_term_2.20",
+          "id": "flashcard_lesson_term_18.00",
           "title": "Common Nautical Terms-json",
           "sideA": [
             {
@@ -6216,7 +5664,7 @@ File: assets/json/lessons/terminology.json
       "content": [
         {
           "type": "text",
-          "content": "Apparent wind angles from close\u2011hauled through beam, broad reach, to running; no\u2011go zone to windward."
+          "content": "Apparent wind angles from close‑hauled through beam, broad reach, to running; no‑go zone to windward."
         }
       ],
       "keywords": [
@@ -6240,7 +5688,7 @@ File: assets/json/lessons/terminology.json
           "sideB": [
             {
               "type": "text",
-              "content": "Apparent wind angles from close\u2011hauled through beam, broad reach, to running; no\u2011go zone to windward."
+              "content": "Apparent wind angles from close‑hauled through beam, broad reach, to running; no‑go zone to windward."
             }
           ],
           "isPaid": false,
@@ -6254,7 +5702,7 @@ File: assets/json/lessons/terminology.json
       "content": [
         {
           "type": "text",
-          "content": "A tack brings the bow through the wind; a jibe brings the stern through\u2014manage boom control and preventers."
+          "content": "A tack brings the bow through the wind; a jibe brings the stern through—manage boom control and preventers."
         }
       ],
       "keywords": [
@@ -6278,7 +5726,7 @@ File: assets/json/lessons/terminology.json
           "sideB": [
             {
               "type": "text",
-              "content": "A tack brings the bow through the wind; a jibe brings the stern through\u2014manage boom control and preventers."
+              "content": "A tack brings the bow through the wind; a jibe brings the stern through—manage boom control and preventers."
             }
           ],
           "isPaid": false,
@@ -6329,7 +5777,7 @@ File: assets/json/lessons/terminology.json
       "content": [
         {
           "type": "text",
-          "content": "Primary sail\u2011shape controls: traveler sets angle, vang controls twist, outhaul adjusts foot depth."
+          "content": "Primary sail‑shape controls: traveler sets angle, vang controls twist, outhaul adjusts foot depth."
         }
       ],
       "keywords": [
@@ -6352,7 +5800,7 @@ File: assets/json/lessons/terminology.json
           "sideB": [
             {
               "type": "text",
-              "content": "Primary sail\u2011shape controls: traveler sets angle, vang controls twist, outhaul adjusts foot depth."
+              "content": "Primary sail‑shape controls: traveler sets angle, vang controls twist, outhaul adjusts foot depth."
             }
           ],
           "isPaid": false,
@@ -6511,11 +5959,11 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_14.00",
-      "title": "TSS, COLREGS & Stand\u2011On/Give\u2011Way-json",
+      "title": "TSS, COLREGS & Stand‑On/Give‑Way-json",
       "content": [
         {
           "type": "text",
-          "content": "Traffic Separation Schemes and collision regs define stand\u2011on/give\u2011way responsibilities to avoid collision."
+          "content": "Traffic Separation Schemes and collision regs define stand‑on/give‑way responsibilities to avoid collision."
         }
       ],
       "keywords": [
@@ -6528,17 +5976,17 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_14.00_850a7028",
-          "title": "TSS, COLREGS & Stand\u2011On/Give\u2011Way-json",
+          "title": "TSS, COLREGS & Stand‑On/Give‑Way-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'TSS, COLREGS & Stand\u2011On/Give\u2011Way'?"
+              "content": "What are the key points of 'TSS, COLREGS & Stand‑On/Give‑Way'?"
             }
           ],
           "sideB": [
             {
               "type": "text",
-              "content": "Traffic Separation Schemes and collision regs define stand\u2011on/give\u2011way responsibilities to avoid collision."
+              "content": "Traffic Separation Schemes and collision regs define stand‑on/give‑way responsibilities to avoid collision."
             }
           ],
           "isPaid": false,
@@ -6589,7 +6037,7 @@ File: assets/json/lessons/terminology.json
       "content": [
         {
           "type": "text",
-          "content": "Heel is wind\u2011induced roll under way; trim is longitudinal attitude; list is static lean from imbalance."
+          "content": "Heel is wind‑induced roll under way; trim is longitudinal attitude; list is static lean from imbalance."
         }
       ],
       "keywords": [
@@ -6612,7 +6060,7 @@ File: assets/json/lessons/terminology.json
           "sideB": [
             {
               "type": "text",
-              "content": "Heel is wind\u2011induced roll under way; trim is longitudinal attitude; list is static lean from imbalance."
+              "content": "Heel is wind‑induced roll under way; trim is longitudinal attitude; list is static lean from imbalance."
             }
           ],
           "isPaid": false,
@@ -6709,7 +6157,7 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_1.10",
+      "id": "lesson_knot_03.00",
       "title": "Bowline Knot-json",
       "content": [
         {
@@ -6730,7 +6178,7 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.10_b0020d94",
+          "id": "flashcard_lesson_knot_03.00_b0020d94",
           "title": "Bowline-json",
           "sideA": [
             {
@@ -6750,7 +6198,7 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_1.20",
+      "id": "lesson_knot_04.00",
       "title": "Cleat Hitch-json",
       "content": [
         {
@@ -6767,7 +6215,7 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.20_c2fc53c5",
+          "id": "flashcard_lesson_knot_04.00_c2fc53c5",
           "title": "Cleat Hitch-json",
           "sideA": [
             {
@@ -6787,12 +6235,12 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_1.30",
+      "id": "lesson_knot_05.00",
       "title": "Clove Hitch-json",
       "content": [
         {
           "type": "text",
-          "content": "Quick, adjustable hitch for temporary attachment to a post or rail; add a half hitch to secure long\u2011term."
+          "content": "Quick, adjustable hitch for temporary attachment to a post or rail; add a half hitch to secure long‑term."
         }
       ],
       "keywords": [
@@ -6804,7 +6252,7 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.30_68f632db",
+          "id": "flashcard_lesson_knot_05.00_68f632db",
           "title": "Clove Hitch-json",
           "sideA": [
             {
@@ -6815,7 +6263,7 @@ File: assets/json/lessons/knots.json
           "sideB": [
             {
               "type": "text",
-              "content": "Quick, adjustable hitch for temporary attachment to a post or rail; add a half hitch to secure long\u2011term."
+              "content": "Quick, adjustable hitch for temporary attachment to a post or rail; add a half hitch to secure long‑term."
             }
           ],
           "isPaid": false,
@@ -6824,7 +6272,7 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_1.40",
+      "id": "lesson_knot_06.00",
       "title": "Rolling Hitch-json",
       "content": [
         {
@@ -6841,7 +6289,7 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.40_e899b253",
+          "id": "flashcard_lesson_knot_06.00_e899b253",
           "title": "Rolling Hitch-json",
           "sideA": [
             {
@@ -6861,7 +6309,7 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_1.50",
+      "id": "lesson_knot_07.00",
       "title": "Round Turn & Two Half Hitches-json",
       "content": [
         {
@@ -6878,7 +6326,7 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.50_f530fc84",
+          "id": "flashcard_lesson_knot_07.00_f530fc84",
           "title": "Round Turn & Two Half Hitches-json",
           "sideA": [
             {
@@ -6898,7 +6346,7 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_1.60",
+      "id": "lesson_knot_08.00",
       "title": "Sheet Bend-json",
       "content": [
         {
@@ -6915,7 +6363,7 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.60_886d228c",
+          "id": "flashcard_lesson_knot_08.00_886d228c",
           "title": "Sheet Bend-json",
           "sideA": [
             {
@@ -6935,7 +6383,7 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_1.70",
+      "id": "lesson_knot_09.00",
       "title": "Double Sheet Bend-json",
       "content": [
         {
@@ -6952,7 +6400,7 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.70_ebae5f02",
+          "id": "flashcard_lesson_knot_09.00_ebae5f02",
           "title": "Double Sheet Bend-json",
           "sideA": [
             {
@@ -6972,7 +6420,7 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_1.80",
+      "id": "lesson_knot_10.00",
       "title": "Reef (Square) Knot-json",
       "content": [
         {
@@ -6989,7 +6437,7 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.80_9b23933c",
+          "id": "flashcard_lesson_knot_10.00_9b23933c",
           "title": "Reef (Square) Knot-json",
           "sideA": [
             {
@@ -7009,8 +6457,8 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_1.90",
-      "title": "Anchor Bend (Fisherman\u2019s Bend)-json",
+      "id": "lesson_knot_11.00",
+      "title": "Anchor Bend (Fisherman’s Bend)-json",
       "content": [
         {
           "type": "text",
@@ -7019,19 +6467,19 @@ File: assets/json/lessons/knots.json
       ],
       "keywords": [
         "anchor bend",
-        "fisherman\u2019s bend",
+        "fisherman’s bend",
         "rode",
         "anchor"
       ],
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_1.90_51c81c58",
-          "title": "Anchor Bend (Fisherman\u2019s Bend)-json",
+          "id": "flashcard_lesson_knot_11.00_51c81c58",
+          "title": "Anchor Bend (Fisherman’s Bend)-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Anchor Bend (Fisherman\u2019s Bend)'?"
+              "content": "What are the key points of 'Anchor Bend (Fisherman’s Bend)'?"
             }
           ],
           "sideB": [
@@ -7047,7 +6495,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_2.00",
-      "title": "Trucker\u2019s Hitch-json",
+      "title": "Trucker’s Hitch-json",
       "content": [
         {
           "type": "text",
@@ -7055,7 +6503,7 @@ File: assets/json/lessons/knots.json
         }
       ],
       "keywords": [
-        "trucker\u2019s hitch",
+        "trucker’s hitch",
         "lashing",
         "purchase",
         "tie down"
@@ -7064,11 +6512,11 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_2.00_882d45c3",
-          "title": "Trucker\u2019s Hitch-json",
+          "title": "Trucker’s Hitch-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Trucker\u2019s Hitch'?"
+              "content": "What are the key points of 'Trucker’s Hitch'?"
             }
           ],
           "sideB": [
@@ -7083,7 +6531,7 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_2.10",
+      "id": "lesson_knot_12.00",
       "title": "Timber Hitch-json",
       "content": [
         {
@@ -7100,7 +6548,7 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_2.10_4a7fddf9",
+          "id": "flashcard_lesson_knot_12.00_4a7fddf9",
           "title": "Timber Hitch-json",
           "sideA": [
             {
@@ -7120,35 +6568,35 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_2.20",
-      "title": "Cow Hitch (Lark\u2019s Head)-json",
+      "id": "lesson_knot_13.00",
+      "title": "Cow Hitch (Lark’s Head)-json",
       "content": [
         {
           "type": "text",
-          "content": "Quick mid\u2011line attachment around a post or ring; often used with fenders (add a half hitch to secure)."
+          "content": "Quick mid‑line attachment around a post or ring; often used with fenders (add a half hitch to secure)."
         }
       ],
       "keywords": [
         "cow hitch",
-        "lark\u2019s head",
+        "lark’s head",
         "fender",
         "mid-line"
       ],
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_2.20_cb6cd544",
-          "title": "Cow Hitch (Lark\u2019s Head)-json",
+          "id": "flashcard_lesson_knot_13.00_cb6cd544",
+          "title": "Cow Hitch (Lark’s Head)-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Cow Hitch (Lark\u2019s Head)'?"
+              "content": "What are the key points of 'Cow Hitch (Lark’s Head)'?"
             }
           ],
           "sideB": [
             {
               "type": "text",
-              "content": "Quick mid\u2011line attachment around a post or ring; often used with fenders (add a half hitch to secure)."
+              "content": "Quick mid‑line attachment around a post or ring; often used with fenders (add a half hitch to secure)."
             }
           ],
           "isPaid": false,
@@ -7157,7 +6605,7 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_2.30",
+      "id": "lesson_knot_14.00",
       "title": "Heaving Line Knot-json",
       "content": [
         {
@@ -7174,7 +6622,7 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_2.30_98bd811c",
+          "id": "flashcard_lesson_knot_14.00_98bd811c",
           "title": "Heaving Line Knot-json",
           "sideA": [
             {
@@ -7194,8 +6642,8 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_2.40",
-      "title": "Sailmaker\u2019s Whipping-json",
+      "id": "lesson_knot_15.00",
+      "title": "Sailmaker’s Whipping-json",
       "content": [
         {
           "type": "text",
@@ -7211,12 +6659,12 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_2.40_184aef76",
-          "title": "Sailmaker\u2019s Whipping-json",
+          "id": "flashcard_lesson_knot_15.00_184aef76",
+          "title": "Sailmaker’s Whipping-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Sailmaker\u2019s Whipping'?"
+              "content": "What are the key points of 'Sailmaker’s Whipping'?"
             }
           ],
           "sideB": [
@@ -7231,12 +6679,12 @@ File: assets/json/lessons/knots.json
       ]
     },
     {
-      "id": "lesson_knot_2.50",
+      "id": "lesson_knot_16.00",
       "title": "Ashley Stopper Knot-json",
       "content": [
         {
           "type": "text",
-          "content": "Bulky stopper knot that won\u2019t pull through fairleads easily; alternative to figure eight."
+          "content": "Bulky stopper knot that won’t pull through fairleads easily; alternative to figure eight."
         }
       ],
       "keywords": [
@@ -7248,7 +6696,7 @@ File: assets/json/lessons/knots.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_knot_2.50_e10e9b91",
+          "id": "flashcard_lesson_knot_16.00_e10e9b91",
           "title": "Ashley Stopper Knot-json",
           "sideA": [
             {
@@ -7259,7 +6707,7 @@ File: assets/json/lessons/knots.json
           "sideB": [
             {
               "type": "text",
-              "content": "Bulky stopper knot that won\u2019t pull through fairleads easily; alternative to figure eight."
+              "content": "Bulky stopper knot that won’t pull through fairleads easily; alternative to figure eight."
             }
           ],
           "isPaid": false,
@@ -7331,7 +6779,7 @@ File: assets/json/lessons/docking.json
       ]
     },
     {
-      "id": "lesson_dock_1.10",
+      "id": "lesson_dock_10.00",
       "title": "Departing the Dock – What to Expect-json",
       "content": [
         {
@@ -7352,7 +6800,7 @@ File: assets/json/lessons/docking.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_dock_1.10",
+          "id": "flashcard_lesson_dock_10.00",
           "title": "FC: What to Expect During Departure-json",
           "sideA": [
             {
@@ -8448,7 +7896,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_2.00",
-      "title": "Pre\u2011Departure Briefing & Cross\u2011Checks-json",
+      "title": "Pre‑Departure Briefing & Cross‑Checks-json",
       "content": [
         {
           "type": "text",
@@ -8477,11 +7925,11 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_2.00_ebcd68eb",
-          "title": "Pre\u2011Departure Briefing & Cross\u2011Checks-json",
+          "title": "Pre‑Departure Briefing & Cross‑Checks-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Pre\u2011Departure Briefing & Cross\u2011Checks'?"
+              "content": "What are the key points of 'Pre‑Departure Briefing & Cross‑Checks'?"
             }
           ],
           "sideB": [
@@ -8495,67 +7943,63 @@ File: assets/json/lessons/teamwork.json
         }
       ]
     },
-{
-  "id": "lesson_team_3.00",
-  "title": "Crew Mindset: Roles, Language, Etiquette-json",
-  "content": [
     {
-      "type": "text",
-      "content": "Safe sailing depends on clear roles, respectful communication, and tidy habits aboard. Each crewmember contributes by staying aware, using consistent language, and practicing seamanship etiquette."
-    },
-    {
-      "type": "bulletList",
-      "content": [
-        "Skipper vs. Crew: Skipper gives commands; crew executes and reports back.",
-        "Language: Use short, standard phrases — avoid slang or extra chatter during maneuvers.",
-        "Repeat-back: Confirm orders exactly as spoken to ensure accuracy.",
-        "Deck Etiquette: Keep lines coiled, gear stowed, and decks clear to prevent accidents.",
-        "Questions: If unsure, ask immediately — silence is riskier than speaking up.",
-        "Respect: Acknowledge each person’s task and avoid cross-talk when commands are active."
-      ]
-    }
-  ],
-  "keywords": [
-    "roles",
-    "communication",
-    "etiquette",
-    "crew",
-    "skipper",
-    "repeat-back"
-  ],
-  "isPaid": false,
-  "flashcards": [
-    {
-      "id": "flashcard_lesson_team_3.00_7f1e9c3a",
+      "id": "lesson_team_3.00",
       "title": "Crew Mindset: Roles, Language, Etiquette-json",
-      "sideA": [
+      "content": [
         {
           "type": "text",
-          "content": "What are the key points of 'Crew Mindset: Roles, Language, Etiquette'?"
+          "content": "Safe sailing depends on clear roles, respectful communication, and tidy habits aboard. Each crewmember contributes by staying aware, using consistent language, and practicing seamanship etiquette."
+        },
+        {
+          "type": "bulletList",
+          "content": [
+            "Skipper vs. Crew: Skipper gives commands; crew executes and reports back.",
+            "Language: Use short, standard phrases — avoid slang or extra chatter during maneuvers.",
+            "Repeat-back: Confirm orders exactly as spoken to ensure accuracy.",
+            "Deck Etiquette: Keep lines coiled, gear stowed, and decks clear to prevent accidents.",
+            "Questions: If unsure, ask immediately — silence is riskier than speaking up.",
+            "Respect: Acknowledge each person’s task and avoid cross-talk when commands are active."
+          ]
         }
       ],
-      "sideB": [
-        {
-          "type": "text",
-          "content": "Skipper gives commands, crew executes with repeat-back; use short, clear phrases; keep decks tidy; ask if unsure; respect roles and avoid cross-talk."
-        }
+      "keywords": [
+        "roles",
+        "communication",
+        "etiquette",
+        "crew",
+        "skipper",
+        "repeat-back"
       ],
       "isPaid": false,
-      "showAFirst": true
-    }
-  ]
-},
-
-
-
-    
+      "flashcards": [
+        {
+          "id": "flashcard_lesson_team_3.00_7f1e9c3a",
+          "title": "Crew Mindset: Roles, Language, Etiquette-json",
+          "sideA": [
+            {
+              "type": "text",
+              "content": "What are the key points of 'Crew Mindset: Roles, Language, Etiquette'?"
+            }
+          ],
+          "sideB": [
+            {
+              "type": "text",
+              "content": "Skipper gives commands, crew executes with repeat-back; use short, clear phrases; keep decks tidy; ask if unsure; respect roles and avoid cross-talk."
+            }
+          ],
+          "isPaid": false,
+          "showAFirst": true
+        }
+      ]
+    },
     {
-      "id": "lesson_team_3.10",
-      "title": "Standard Commands & Closed\u2011Loop Comms-json",
+      "id": "lesson_team_18.00",
+      "title": "Standard Commands & Closed‑Loop Comms-json",
       "content": [
         {
           "type": "text",
-          "content": "Use simple, unambiguous commands acknowledged back word\u2011for\u2011word to reduce errors."
+          "content": "Use simple, unambiguous commands acknowledged back word‑for‑word to reduce errors."
         },
         {
           "type": "bulletList",
@@ -8575,18 +8019,18 @@ File: assets/json/lessons/teamwork.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_team_3.10_32ff1f5e",
-          "title": "Standard Commands & Closed\u2011Loop Comms-json",
+          "id": "flashcard_lesson_team_18.00_32ff1f5e",
+          "title": "Standard Commands & Closed‑Loop Comms-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Standard Commands & Closed\u2011Loop Comms'?"
+              "content": "What are the key points of 'Standard Commands & Closed‑Loop Comms'?"
             }
           ],
           "sideB": [
             {
               "type": "text",
-              "content": "Use simple, unambiguous commands acknowledged back word\u2011for\u2011word to reduce errors."
+              "content": "Use simple, unambiguous commands acknowledged back word‑for‑word to reduce errors."
             }
           ],
           "isPaid": false,
@@ -8685,7 +8129,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_6.00",
-      "title": "Helm\u2013Trim Coordination-json",
+      "title": "Helm–Trim Coordination-json",
       "content": [
         {
           "type": "text",
@@ -8710,11 +8154,11 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_6.00_fff02a28",
-          "title": "Helm\u2013Trim Coordination-json",
+          "title": "Helm–Trim Coordination-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Helm\u2013Trim Coordination'?"
+              "content": "What are the key points of 'Helm–Trim Coordination'?"
             }
           ],
           "sideB": [
@@ -8824,7 +8268,7 @@ File: assets/json/lessons/teamwork.json
       "content": [
         {
           "type": "text",
-          "content": "Pre\u2011assigned spotter, helm, and recovery roles save seconds that save lives."
+          "content": "Pre‑assigned spotter, helm, and recovery roles save seconds that save lives."
         },
         {
           "type": "bulletList",
@@ -8855,7 +8299,7 @@ File: assets/json/lessons/teamwork.json
           "sideB": [
             {
               "type": "text",
-              "content": "Pre\u2011assigned spotter, helm, and recovery roles save seconds that save lives."
+              "content": "Pre‑assigned spotter, helm, and recovery roles save seconds that save lives."
             }
           ],
           "isPaid": false,
@@ -8869,7 +8313,7 @@ File: assets/json/lessons/teamwork.json
       "content": [
         {
           "type": "text",
-          "content": "Shorter tasks, clipped\u2011in movement, and pre\u2011rigged preventers keep order in chaos."
+          "content": "Shorter tasks, clipped‑in movement, and pre‑rigged preventers keep order in chaos."
         },
         {
           "type": "bulletList",
@@ -8899,7 +8343,7 @@ File: assets/json/lessons/teamwork.json
           "sideB": [
             {
               "type": "text",
-              "content": "Shorter tasks, clipped\u2011in movement, and pre\u2011rigged preventers keep order in chaos."
+              "content": "Shorter tasks, clipped‑in movement, and pre‑rigged preventers keep order in chaos."
             }
           ],
           "isPaid": false,
@@ -8913,13 +8357,13 @@ File: assets/json/lessons/teamwork.json
       "content": [
         {
           "type": "text",
-          "content": "Distribute tasks to avoid overloads at the helm or bow; rotate high\u2011stress jobs."
+          "content": "Distribute tasks to avoid overloads at the helm or bow; rotate high‑stress jobs."
         },
         {
           "type": "bulletList",
           "content": [
             "Use checklists for complex sequences",
-            "Build in micro\u2011breaks and hydration",
+            "Build in micro‑breaks and hydration",
             "Swap roles to maintain skill breadth"
           ]
         }
@@ -8944,7 +8388,7 @@ File: assets/json/lessons/teamwork.json
           "sideB": [
             {
               "type": "text",
-              "content": "Distribute tasks to avoid overloads at the helm or bow; rotate high\u2011stress jobs."
+              "content": "Distribute tasks to avoid overloads at the helm or bow; rotate high‑stress jobs."
             }
           ],
           "isPaid": false,
@@ -8958,7 +8402,7 @@ File: assets/json/lessons/teamwork.json
       "content": [
         {
           "type": "text",
-          "content": "Make frequent, structured scans and share mental models aloud: 'I see\u2026 I plan\u2026'"
+          "content": "Make frequent, structured scans and share mental models aloud: 'I see… I plan…'"
         },
         {
           "type": "bulletList",
@@ -8989,7 +8433,7 @@ File: assets/json/lessons/teamwork.json
           "sideB": [
             {
               "type": "text",
-              "content": "Make frequent, structured scans and share mental models aloud: 'I see\u2026 I plan\u2026'"
+              "content": "Make frequent, structured scans and share mental models aloud: 'I see… I plan…'"
             }
           ],
           "isPaid": false,
@@ -9044,7 +8488,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_14.00",
-      "title": "Post\u2011Maneuver Debriefs & Continuous Improvement-json",
+      "title": "Post‑Maneuver Debriefs & Continuous Improvement-json",
       "content": [
         {
           "type": "text",
@@ -9068,11 +8512,11 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_14.00_10b86f6b",
-          "title": "Post\u2011Maneuver Debriefs & Continuous Improvement-json",
+          "title": "Post‑Maneuver Debriefs & Continuous Improvement-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Post\u2011Maneuver Debriefs & Continuous Improvement'?"
+              "content": "What are the key points of 'Post‑Maneuver Debriefs & Continuous Improvement'?"
             }
           ],
           "sideB": [
@@ -9097,7 +8541,7 @@ File: assets/json/lessons/teamwork.json
         {
           "type": "bulletList",
           "content": [
-            "State who you\u2019re calling, who you are, and where",
+            "State who you’re calling, who you are, and where",
             "Use working channels after contact on 16",
             "Acknowledge and close with your vessel name"
           ]
@@ -9137,14 +8581,14 @@ File: assets/json/lessons/teamwork.json
       "content": [
         {
           "type": "text",
-          "content": "Pre\u2011printed role cards and a muster plan remove doubt when seconds matter."
+          "content": "Pre‑printed role cards and a muster plan remove doubt when seconds matter."
         },
         {
           "type": "bulletList",
           "content": [
             "Cards at nav and clipped to PFDs",
             "Muster points fore/aft with backups",
-            "Drill abandon\u2011ship kit handoffs"
+            "Drill abandon‑ship kit handoffs"
           ]
         }
       ],
@@ -9168,7 +8612,7 @@ File: assets/json/lessons/teamwork.json
           "sideB": [
             {
               "type": "text",
-              "content": "Pre\u2011printed role cards and a muster plan remove doubt when seconds matter."
+              "content": "Pre‑printed role cards and a muster plan remove doubt when seconds matter."
             }
           ],
           "isPaid": false,
@@ -9179,10 +8623,17 @@ File: assets/json/lessons/teamwork.json
     {
       "id": "lesson_team_17.00",
       "title": "Pathways Forward: Day Skipper, Bareboat, Offshore-json",
-      "keywords": ["next steps","training","certs"],
+      "keywords": [
+        "next steps",
+        "training",
+        "certs"
+      ],
       "isPaid": false,
       "content": [
-        { "type": "text", "content": "Suggested progression and practice focus after Competent Crew." }
+        {
+          "type": "text",
+          "content": "Suggested progression and practice focus after Competent Crew."
+        }
       ],
       "flashcards": []
     }
@@ -9238,7 +8689,7 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_1.10",
+      "id": "lesson_safety_03.00",
       "title": "Man Overboard Overview-json",
       "content": [
         {
@@ -9253,7 +8704,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.10_3bd483de",
+          "id": "flashcard_lesson_safety_03.00_3bd483de",
           "title": "Man Overboard Overview-json",
           "sideA": [
             {
@@ -9273,12 +8724,12 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_1.20",
+      "id": "lesson_safety_04.00",
       "title": "PFD Selection & Proper Fit-json",
       "content": [
         {
           "type": "text",
-          "content": "Choose Coast Guard\u2013approved lifejackets appropriate to crew, ensure correct size and buoyancy, and fit snugly with all closures fastened."
+          "content": "Choose Coast Guard–approved lifejackets appropriate to crew, ensure correct size and buoyancy, and fit snugly with all closures fastened."
         },
         {
           "type": "image",
@@ -9294,7 +8745,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.20_2d33d0f5",
+          "id": "flashcard_lesson_safety_04.00_2d33d0f5",
           "title": "PFD Selection & Proper Fit-json",
           "sideA": [
             {
@@ -9305,7 +8756,7 @@ File: assets/json/lessons/safety.json
           "sideB": [
             {
               "type": "text",
-              "content": "Choose Coast Guard\u2013approved lifejackets appropriate to crew, ensure correct size and buoyancy, and fit snugly with all closures fastened."
+              "content": "Choose Coast Guard–approved lifejackets appropriate to crew, ensure correct size and buoyancy, and fit snugly with all closures fastened."
             }
           ],
           "isPaid": false,
@@ -9314,23 +8765,25 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-  "module": "safety-json",
-  "lessons": [
-    {
-      "id": "lesson_safety_1.30",
+      "id": "lesson_safety_05.00",
       "title": "Comfort & Seasickness: Staying Useful-json",
-      "keywords": ["seasick","comfort","hydration"],
+      "keywords": [
+        "seasick",
+        "comfort",
+        "hydration"
+      ],
       "isPaid": false,
       "content": [
-        { "type": "text", "content": "Hydration, horizon focus, light snacks, early disclosure to skipper; safe positions underway." }
+        {
+          "type": "text",
+          "content": "Hydration, horizon focus, light snacks, early disclosure to skipper; safe positions underway."
+        }
       ],
       "flashcards": []
-    }
-  ]
-},
+    },
     {
-      "id": "lesson_safety_1.35",
-      "title": "Jacklines, Tethers & Clip\u2011In Protocol-json",
+      "id": "lesson_safety_06.00",
+      "title": "Jacklines, Tethers & Clip‑In Protocol-json",
       "content": [
         {
           "type": "text",
@@ -9346,12 +8799,12 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.35_a32356b0",
-          "title": "Jacklines, Tethers & Clip\u2011In Protocol-json",
+          "id": "flashcard_lesson_safety_06.00_a32356b0",
+          "title": "Jacklines, Tethers & Clip‑In Protocol-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Jacklines, Tethers & Clip\u2011In Protocol'?"
+              "content": "What are the key points of 'Jacklines, Tethers & Clip‑In Protocol'?"
             }
           ],
           "sideB": [
@@ -9366,7 +8819,7 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_1.40",
+      "id": "lesson_safety_07.00",
       "title": "Night Safety & Watchstanding-json",
       "content": [
         {
@@ -9383,7 +8836,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.40_ef045273",
+          "id": "flashcard_lesson_safety_07.00_ef045273",
           "title": "Night Safety & Watchstanding-json",
           "sideA": [
             {
@@ -9403,7 +8856,7 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_1.50",
+      "id": "lesson_safety_08.00",
       "title": "Winch & Line Handling Safety-json",
       "content": [
         {
@@ -9420,7 +8873,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.50_cb74fa82",
+          "id": "flashcard_lesson_safety_08.00_cb74fa82",
           "title": "Winch & Line Handling Safety-json",
           "sideA": [
             {
@@ -9440,7 +8893,7 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_1.60",
+      "id": "lesson_safety_09.00",
       "title": "Knife & Cutting Tool Readiness-json",
       "content": [
         {
@@ -9457,7 +8910,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.60_9ed57560",
+          "id": "flashcard_lesson_safety_09.00_9ed57560",
           "title": "Knife & Cutting Tool Readiness-json",
           "sideA": [
             {
@@ -9477,7 +8930,7 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_1.70",
+      "id": "lesson_safety_10.00",
       "title": "Flares & Visual Distress Signals-json",
       "content": [
         {
@@ -9494,7 +8947,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.70_52eb7a88",
+          "id": "flashcard_lesson_safety_10.00_52eb7a88",
           "title": "Flares & Visual Distress Signals-json",
           "sideA": [
             {
@@ -9514,12 +8967,12 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_1.80",
+      "id": "lesson_safety_11.00",
       "title": "VHF/DSC Mayday & Comms Discipline-json",
       "content": [
         {
           "type": "text",
-          "content": "Know Mayday/Pan\u2011Pan formats, DSC distress button use, and maintain clear, brief communications on Ch16."
+          "content": "Know Mayday/Pan‑Pan formats, DSC distress button use, and maintain clear, brief communications on Ch16."
         }
       ],
       "keywords": [
@@ -9531,7 +8984,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.80_a3001eb8",
+          "id": "flashcard_lesson_safety_11.00_a3001eb8",
           "title": "VHF/DSC Mayday & Comms Discipline-json",
           "sideA": [
             {
@@ -9542,7 +8995,7 @@ File: assets/json/lessons/safety.json
           "sideB": [
             {
               "type": "text",
-              "content": "Know Mayday/Pan\u2011Pan formats, DSC distress button use, and maintain clear, brief communications on Ch16."
+              "content": "Know Mayday/Pan‑Pan formats, DSC distress button use, and maintain clear, brief communications on Ch16."
             }
           ],
           "isPaid": false,
@@ -9551,7 +9004,7 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_1.90",
+      "id": "lesson_safety_12.00",
       "title": "Fire Prevention & Extinguishers-json",
       "content": [
         {
@@ -9568,7 +9021,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_1.90_615b41c2",
+          "id": "flashcard_lesson_safety_12.00_615b41c2",
           "title": "Fire Prevention & Extinguishers-json",
           "sideA": [
             {
@@ -9625,12 +9078,12 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_2.10",
+      "id": "lesson_safety_13.00",
       "title": "Propane/LP Gas Safety-json",
       "content": [
         {
           "type": "text",
-          "content": "Leak\u2011check regularly, keep locker drains clear, shut solenoid and cylinder when not in use, and test the sniffer."
+          "content": "Leak‑check regularly, keep locker drains clear, shut solenoid and cylinder when not in use, and test the sniffer."
         }
       ],
       "keywords": [
@@ -9642,7 +9095,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.10_f5ccf8c0",
+          "id": "flashcard_lesson_safety_13.00_f5ccf8c0",
           "title": "Propane/LP Gas Safety-json",
           "sideA": [
             {
@@ -9653,7 +9106,7 @@ File: assets/json/lessons/safety.json
           "sideB": [
             {
               "type": "text",
-              "content": "Leak\u2011check regularly, keep locker drains clear, shut solenoid and cylinder when not in use, and test the sniffer."
+              "content": "Leak‑check regularly, keep locker drains clear, shut solenoid and cylinder when not in use, and test the sniffer."
             }
           ],
           "isPaid": false,
@@ -9662,8 +9115,8 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_2.20",
-      "title": "Going Aloft: Bosun\u2019s Chair & Redundancy-json",
+      "id": "lesson_safety_14.00",
+      "title": "Going Aloft: Bosun’s Chair & Redundancy-json",
       "content": [
         {
           "type": "text",
@@ -9679,12 +9132,12 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.20_131241b8",
-          "title": "Going Aloft: Bosun\u2019s Chair & Redundancy-json",
+          "id": "flashcard_lesson_safety_14.00_131241b8",
+          "title": "Going Aloft: Bosun’s Chair & Redundancy-json",
           "sideA": [
             {
               "type": "text",
-              "content": "What are the key points of 'Going Aloft: Bosun\u2019s Chair & Redundancy'?"
+              "content": "What are the key points of 'Going Aloft: Bosun’s Chair & Redundancy'?"
             }
           ],
           "sideB": [
@@ -9699,7 +9152,7 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_2.30",
+      "id": "lesson_safety_15.00",
       "title": "Hypothermia & Cold Shock Response-json",
       "content": [
         {
@@ -9716,7 +9169,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.30_fe22213d",
+          "id": "flashcard_lesson_safety_15.00_fe22213d",
           "title": "Hypothermia & Cold Shock Response-json",
           "sideA": [
             {
@@ -9736,7 +9189,7 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_2.40",
+      "id": "lesson_safety_16.00",
       "title": "Heat Stress, Sun & Hydration-json",
       "content": [
         {
@@ -9753,7 +9206,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.40_7578affd",
+          "id": "flashcard_lesson_safety_16.00_7578affd",
           "title": "Heat Stress, Sun & Hydration-json",
           "sideA": [
             {
@@ -9773,12 +9226,12 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_2.50",
+      "id": "lesson_safety_17.00",
       "title": "Flood Response & Seacock Drills-json",
       "content": [
         {
           "type": "text",
-          "content": "Assign roles to find/plug leaks, start pumps, and close valves; keep tapered plugs on lanyards at each through\u2011hull."
+          "content": "Assign roles to find/plug leaks, start pumps, and close valves; keep tapered plugs on lanyards at each through‑hull."
         }
       ],
       "keywords": [
@@ -9790,7 +9243,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.50_e7d920d9",
+          "id": "flashcard_lesson_safety_17.00_e7d920d9",
           "title": "Flood Response & Seacock Drills-json",
           "sideA": [
             {
@@ -9801,7 +9254,7 @@ File: assets/json/lessons/safety.json
           "sideB": [
             {
               "type": "text",
-              "content": "Assign roles to find/plug leaks, start pumps, and close valves; keep tapered plugs on lanyards at each through\u2011hull."
+              "content": "Assign roles to find/plug leaks, start pumps, and close valves; keep tapered plugs on lanyards at each through‑hull."
             }
           ],
           "isPaid": false,
@@ -9810,7 +9263,7 @@ File: assets/json/lessons/safety.json
       ]
     },
     {
-      "id": "lesson_safety_2.60",
+      "id": "lesson_safety_18.00",
       "title": "Personal Medical Kit & Allergies-json",
       "content": [
         {
@@ -9827,7 +9280,7 @@ File: assets/json/lessons/safety.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_safety_2.60_e1931390",
+          "id": "flashcard_lesson_safety_18.00_e1931390",
           "title": "Personal Medical Kit & Allergies-json",
           "sideA": [
             {
@@ -9861,24 +9314,10 @@ File: assets/json/lessons/emergencies.json
 {
   "module": "emergencies-json",
   "lessons": [
-    {
-  "module": "emergency-lessons-json",
-  "lessons": [
-    {
-      "id": "lesson_emerg_1.00",
-      "title": "Emergencies & Damage Control (Intro)-json",
-      "keywords": ["emergency","intro","fire","flooding"],
-      "isPaid": false,
-      "content": [
-        { "type": "text", "content": "Crew priorities: alert, assign roles, communicate on VHF, control immediate hazards, support skipper." }
-      ],
-      "flashcards": []
-    }
-  ]
-},
+
 
     {
-      "id": "lesson_emer_1.10",
+      "id": "lesson_emer_1.00",
       "title": "Mayday Basics-json",
       "content": [
         {
@@ -9893,7 +9332,7 @@ File: assets/json/lessons/emergencies.json
       "isPaid": false,
       "flashcards": [
         {
-          "id": "flashcard_lesson_emer_1.10_3d102ef6",
+          "id": "flashcard_lesson_emer_1.00_3d102ef6",
           "title": "Mayday Basics-json",
           "sideA": [
             {

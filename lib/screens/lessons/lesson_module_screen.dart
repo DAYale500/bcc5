@@ -9,6 +9,7 @@ import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/theme/app_theme.dart';
 import 'package:bcc5/utils/string_extensions.dart'; // ✅ for toTitleCase
+import 'package:bcc5/widgets/search_modal.dart'; // for SearchModal + SearchMemory
 
 class LessonModuleScreen extends StatefulWidget {
   // ✅ Converted to StatefulWidget
@@ -24,6 +25,25 @@ class _LessonModuleScreenState extends State<LessonModuleScreen> {
   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey'); // ✅
   final GlobalKey searchKey = GlobalKey(debugLabel: 'SearchKey'); // ✅
   final GlobalKey titleKey = GlobalKey(debugLabel: 'TitleKey'); // ✅
+
+  bool _handledReopen = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_handledReopen) return;
+
+    final state = GoRouterState.of(context);
+    final extra = state.extra;
+    if (extra is Map && extra['reopenSearch'] == true) {
+      _handledReopen = true;
+      final q = (extra['query'] as String?) ?? '';
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        SearchMemory.lastQuery = q; // prime last query
+        showDialog(context: context, builder: (_) => const SearchModal());
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

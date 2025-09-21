@@ -6,10 +6,16 @@ import 'package:go_router/go_router.dart';
 import 'package:bcc5/utils/logger.dart';
 import 'package:bcc5/widgets/custom_app_bar_widget.dart';
 import 'package:bcc5/theme/app_theme.dart';
+import 'package:bcc5/widgets/search_modal.dart'; // SearchModal + SearchMemory
 
-class PartZoneScreen extends StatelessWidget {
-  PartZoneScreen({super.key});
+class PartZoneScreen extends StatefulWidget {
+  const PartZoneScreen({super.key});
 
+  @override
+  State<PartZoneScreen> createState() => _PartZoneScreenState();
+}
+
+class _PartZoneScreenState extends State<PartZoneScreen> {
   // ✅ Internal GlobalKeys (no longer passed via constructor)
   final GlobalKey mobKey = GlobalKey(debugLabel: 'MOBKey');
   final GlobalKey settingsKey = GlobalKey(debugLabel: 'SettingsKey');
@@ -23,7 +29,6 @@ class PartZoneScreen extends StatelessWidget {
     'Interior',
     'Hull',
   ];
-
   final Map<String, Offset> zonePositions = const {
     'Deck': Offset(0.17, 0.57),
     'Hull': Offset(0.39, 0.69),
@@ -31,7 +36,6 @@ class PartZoneScreen extends StatelessWidget {
     'Sails': Offset(0.32, 0.49),
     'Interior': Offset(0.7, 0.63),
   };
-
   final Map<String, String> zoneDescriptions = const {
     'Sails': 'Sails -- Harness the Wind',
     'Rigging': 'Rigging -- Manage the sails',
@@ -41,6 +45,25 @@ class PartZoneScreen extends StatelessWidget {
   };
 
   final double appBarOffset = 80.0;
+
+  bool _handledReopen = false; // 👈 add this
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_handledReopen) return;
+
+    final state = GoRouterState.of(context);
+    final extra = state.extra;
+    if (extra is Map && extra['reopenSearch'] == true) {
+      _handledReopen = true;
+      final q = (extra['query'] as String?) ?? '';
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        SearchMemory.lastQuery = q;
+        showDialog(context: context, builder: (_) => const SearchModal());
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
