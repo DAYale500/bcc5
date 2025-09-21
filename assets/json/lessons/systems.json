@@ -1,9 +1,9 @@
 {
-  "module": "systems-json",
+  "module": "systems",
   "lessons": [
     {
       "id": "lesson_syst_1.00",
-      "title": "Electrical Overview-json",
+      "title": "Electrical Overview",
       "content": [
         {
           "type": "text",
@@ -18,7 +18,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_1.00_0357100a",
-          "title": "Electrical Overview-json",
+          "title": "Electrical Overview",
           "sideA": [
             {
               "type": "text",
@@ -38,7 +38,7 @@
     },
     {
       "id": "lesson_syst_2.00",
-      "title": "Battery Banks & Isolation-json",
+      "title": "Battery Banks & Isolation",
       "content": [
         {
           "type": "text",
@@ -60,7 +60,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_2.00_e941943a",
-          "title": "Battery Banks & Isolation-json",
+          "title": "Battery Banks & Isolation",
           "sideA": [
             {
               "type": "text",
@@ -80,7 +80,7 @@
     },
     {
       "id": "lesson_syst_3.00",
-      "title": "Alternator & Regulator (Bulk/Absorb/Float)-json",
+      "title": "Alternator & Regulator (Bulk/Absorb/Float)",
       "content": [
         {
           "type": "text",
@@ -99,7 +99,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_3.00_ccf0a434",
-          "title": "Alternator & Regulator (Bulk/Absorb/Float)-json",
+          "title": "Alternator & Regulator (Bulk/Absorb/Float)",
           "sideA": [
             {
               "type": "text",
@@ -119,7 +119,7 @@
     },
     {
       "id": "lesson_syst_4.00",
-      "title": "Shore Power: ELCI/GFCI & Galvanic Isolator-json",
+      "title": "Shore Power: ELCI/GFCI & Galvanic Isolator",
       "content": [
         {
           "type": "text",
@@ -137,7 +137,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_4.00_1aad7c8b",
-          "title": "Shore Power: ELCI/GFCI & Galvanic Isolator-json",
+          "title": "Shore Power: ELCI/GFCI & Galvanic Isolator",
           "sideA": [
             {
               "type": "text",
@@ -157,7 +157,7 @@
     },
     {
       "id": "lesson_syst_5.00",
-      "title": "Inverter/Charger & Transfer Switching-json",
+      "title": "Inverter/Charger & Transfer Switching",
       "content": [
         {
           "type": "text",
@@ -174,7 +174,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_5.00_1e65284c",
-          "title": "Inverter/Charger & Transfer Switching-json",
+          "title": "Inverter/Charger & Transfer Switching",
           "sideA": [
             {
               "type": "text",
@@ -194,7 +194,7 @@
     },
     {
       "id": "lesson_syst_6.00",
-      "title": "DC Distribution & ABYC Fusing-json",
+      "title": "DC Distribution & ABYC Fusing",
       "content": [
         {
           "type": "text",
@@ -212,7 +212,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_6.00_310abbe8",
-          "title": "DC Distribution & ABYC Fusing-json",
+          "title": "DC Distribution & ABYC Fusing",
           "sideA": [
             {
               "type": "text",
@@ -232,7 +232,7 @@
     },
     {
       "id": "lesson_syst_7.00",
-      "title": "Battery Monitoring (Shunt/SOC Calibration)-json",
+      "title": "Battery Monitoring (Shunt/SOC Calibration)",
       "content": [
         {
           "type": "text",
@@ -249,7 +249,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_7.00_6efbd7b3",
-          "title": "Battery Monitoring (Shunt/SOC Calibration)-json",
+          "title": "Battery Monitoring (Shunt/SOC Calibration)",
           "sideA": [
             {
               "type": "text",
@@ -269,7 +269,7 @@
     },
     {
       "id": "lesson_syst_8.00",
-      "title": "Solar (and Wind) Charging: MPPT Basics-json",
+      "title": "Solar (and Wind) Charging: MPPT Basics",
       "content": [
         {
           "type": "text",
@@ -286,7 +286,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_8.00_a75262cc",
-          "title": "Solar (and Wind) Charging: MPPT Basics-json",
+          "title": "Solar (and Wind) Charging: MPPT Basics",
           "sideA": [
             {
               "type": "text",
@@ -306,7 +306,7 @@
     },
     {
       "id": "lesson_syst_9.00",
-      "title": "Bilge Pump System & High\u2011Water Alarm-json",
+      "title": "Bilge Pump System & High\u2011Water Alarm",
       "content": [
         {
           "type": "text",
@@ -323,7 +323,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_9.00_2e4e17c6",
-          "title": "Bilge Pump System & High\u2011Water Alarm-json",
+          "title": "Bilge Pump System & High\u2011Water Alarm",
           "sideA": [
             {
               "type": "text",
@@ -343,7 +343,7 @@
     },
     {
       "id": "lesson_syst_10.00",
-      "title": "Freshwater Pump, Accumulator & Filters-json",
+      "title": "Freshwater Pump, Accumulator & Filters",
       "content": [
         {
           "type": "text",
@@ -360,7 +360,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_10.00_9f021932",
-          "title": "Freshwater Pump, Accumulator & Filters-json",
+          "title": "Freshwater Pump, Accumulator & Filters",
           "sideA": [
             {
               "type": "text",
@@ -380,7 +380,7 @@
     },
     {
       "id": "lesson_syst_11.00",
-      "title": "Raw Water Cooling & Strainer-json",
+      "title": "Raw Water Cooling & Strainer",
       "content": [
         {
           "type": "text",
@@ -397,7 +397,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_11.00_f64f731a",
-          "title": "Raw Water Cooling & Strainer-json",
+          "title": "Raw Water Cooling & Strainer",
           "sideA": [
             {
               "type": "text",
@@ -417,7 +417,7 @@
     },
     {
       "id": "lesson_syst_12.00",
-      "title": "Fuel System & Filters (Bleeding)-json",
+      "title": "Fuel System & Filters (Bleeding)",
       "content": [
         {
           "type": "text",
@@ -434,7 +434,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_12.00_8bc24885",
-          "title": "Fuel System & Filters (Bleeding)-json",
+          "title": "Fuel System & Filters (Bleeding)",
           "sideA": [
             {
               "type": "text",
@@ -454,7 +454,7 @@
     },
     {
       "id": "lesson_syst_13.00",
-      "title": "Propane System: Solenoid, Locker & Sniffer-json",
+      "title": "Propane System: Solenoid, Locker & Sniffer",
       "content": [
         {
           "type": "text",
@@ -471,7 +471,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_13.00_9b643676",
-          "title": "Propane System: Solenoid, Locker & Sniffer-json",
+          "title": "Propane System: Solenoid, Locker & Sniffer",
           "sideA": [
             {
               "type": "text",
@@ -491,7 +491,7 @@
     },
     {
       "id": "lesson_syst_14.00",
-      "title": "Steering System & Autopilot Drive-json",
+      "title": "Steering System & Autopilot Drive",
       "content": [
         {
           "type": "text",
@@ -509,7 +509,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_14.00_4b56c603",
-          "title": "Steering System & Autopilot Drive-json",
+          "title": "Steering System & Autopilot Drive",
           "sideA": [
             {
               "type": "text",
@@ -529,7 +529,7 @@
     },
     {
       "id": "lesson_syst_15.00",
-      "title": "Engine Panel & Alarms-json",
+      "title": "Engine Panel & Alarms",
       "content": [
         {
           "type": "text",
@@ -547,7 +547,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_15.00_2af1fc69",
-          "title": "Engine Panel & Alarms-json",
+          "title": "Engine Panel & Alarms",
           "sideA": [
             {
               "type": "text",
@@ -567,7 +567,7 @@
     },
     {
       "id": "lesson_syst_16.00",
-      "title": "Refrigeration: Compressor, Condenser & Budget-json",
+      "title": "Refrigeration: Compressor, Condenser & Budget",
       "content": [
         {
           "type": "text",
@@ -584,7 +584,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_16.00_f2824928",
-          "title": "Refrigeration: Compressor, Condenser & Budget-json",
+          "title": "Refrigeration: Compressor, Condenser & Budget",
           "sideA": [
             {
               "type": "text",

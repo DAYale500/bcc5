@@ -1,9 +1,9 @@
 {
-  "module": "navigation-json",
+  "module": "navigation",
   "lessons": [
     {
       "id": "lesson_nav_1.00",
-      "title": "Intro to Aids to Navigation-json",
+      "title": "Intro to Aids to Navigation",
       "content": [
         {
           "type": "text",
@@ -18,7 +18,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_1.00_5c7f4df3",
-          "title": "Intro to Aids to Navigation-json",
+          "title": "Intro to Aids to Navigation",
           "sideA": [
             {
               "type": "text",
@@ -38,7 +38,7 @@
     },
     {
       "id": "lesson_nav_2.00",
-      "title": "Paper Chart Fundamentals-json",
+      "title": "Paper Chart Fundamentals",
       "content": [
         {
           "type": "text",
@@ -59,7 +59,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_2.00_731c25ed",
-          "title": "Paper Chart Fundamentals-json",
+          "title": "Paper Chart Fundamentals",
           "sideA": [
             {
               "type": "text",
@@ -79,7 +79,7 @@
     },
     {
       "id": "lesson_nav_3.00",
-      "title": "Latitude/Longitude & Plotting a Position-json",
+      "title": "Latitude/Longitude & Plotting a Position",
       "content": [
         {
           "type": "text",
@@ -96,7 +96,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_3.00_e6adf273",
-          "title": "Latitude/Longitude & Plotting a Position-json",
+          "title": "Latitude/Longitude & Plotting a Position",
           "sideA": [
             {
               "type": "text",
@@ -116,7 +116,7 @@
     },
     {
       "id": "lesson_nav_4.00",
-      "title": "Variation/Deviation & TVMDC-json",
+      "title": "Variation/Deviation & TVMDC",
       "content": [
         {
           "type": "text",
@@ -133,7 +133,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_4.00_4b8a182c",
-          "title": "Variation/Deviation & TVMDC-json",
+          "title": "Variation/Deviation & TVMDC",
           "sideA": [
             {
               "type": "text",
@@ -153,7 +153,7 @@
     },
     {
       "id": "lesson_nav_5.00",
-      "title": "Bearings: Hand\u2011Bearing Compass & Relative Bearings-json",
+      "title": "Bearings: Hand\u2011Bearing Compass & Relative Bearings",
       "content": [
         {
           "type": "text",
@@ -170,7 +170,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_5.00_9385703d",
-          "title": "Bearings: Hand\u2011Bearing Compass & Relative Bearings-json",
+          "title": "Bearings: Hand\u2011Bearing Compass & Relative Bearings",
           "sideA": [
             {
               "type": "text",
@@ -190,7 +190,7 @@
     },
     {
       "id": "lesson_nav_6.00",
-      "title": "Two\u2011/Three\u2011Bearing Fix-json",
+      "title": "Two\u2011/Three\u2011Bearing Fix",
       "content": [
         {
           "type": "text",
@@ -207,7 +207,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_6.00_2ca6704d",
-          "title": "Two\u2011/Three\u2011Bearing Fix-json",
+          "title": "Two\u2011/Three\u2011Bearing Fix",
           "sideA": [
             {
               "type": "text",
@@ -227,7 +227,7 @@
     },
     {
       "id": "lesson_nav_7.00",
-      "title": "Running Fix-json",
+      "title": "Running Fix",
       "content": [
         {
           "type": "text",
@@ -243,7 +243,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_7.00_635a9959",
-          "title": "Running Fix-json",
+          "title": "Running Fix",
           "sideA": [
             {
               "type": "text",
@@ -263,7 +263,7 @@
     },
     {
       "id": "lesson_nav_8.00",
-      "title": "Dead Reckoning & Estimated Position-json",
+      "title": "Dead Reckoning & Estimated Position",
       "content": [
         {
           "type": "text",
@@ -280,7 +280,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_8.00_85de5dd7",
-          "title": "Dead Reckoning & Estimated Position-json",
+          "title": "Dead Reckoning & Estimated Position",
           "sideA": [
             {
               "type": "text",
@@ -300,7 +300,7 @@
     },
     {
       "id": "lesson_nav_9.00",
-      "title": "Course to Steer (Leeway Included)-json",
+      "title": "Course to Steer (Leeway Included)",
       "content": [
         {
           "type": "text",
@@ -317,7 +317,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_9.00_24dda892",
-          "title": "Course to Steer (Leeway Included)-json",
+          "title": "Course to Steer (Leeway Included)",
           "sideA": [
             {
               "type": "text",
@@ -337,7 +337,7 @@
     },
     {
       "id": "lesson_nav_10.00",
-      "title": "Set & Drift (Current Triangle)-json",
+      "title": "Set & Drift (Current Triangle)",
       "content": [
         {
           "type": "text",
@@ -354,7 +354,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_10.00_9fa466ed",
-          "title": "Set & Drift (Current Triangle)-json",
+          "title": "Set & Drift (Current Triangle)",
           "sideA": [
             {
               "type": "text",
@@ -374,7 +374,7 @@
     },
     {
       "id": "lesson_nav_11.00",
-      "title": "Tide Basics: Heights & Datums-json",
+      "title": "Tide Basics: Heights & Datums",
       "content": [
         {
           "type": "text",
@@ -391,7 +391,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_11.00_e64906c6",
-          "title": "Tide Basics: Heights & Datums-json",
+          "title": "Tide Basics: Heights & Datums",
           "sideA": [
             {
               "type": "text",
@@ -411,7 +411,7 @@
     },
     {
       "id": "lesson_nav_12.00",
-      "title": "Currents: Tables, Slack & Max-json",
+      "title": "Currents: Tables, Slack & Max",
       "content": [
         {
           "type": "text",
@@ -428,7 +428,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_12.00_9db8ab6a",
-          "title": "Currents: Tables, Slack & Max-json",
+          "title": "Currents: Tables, Slack & Max",
           "sideA": [
             {
               "type": "text",
@@ -448,7 +448,7 @@
     },
     {
       "id": "lesson_nav_13.00",
-      "title": "IALA\u2011B Buoyage Details-json",
+      "title": "IALA\u2011B Buoyage Details",
       "content": [
         {
           "type": "text",
@@ -465,7 +465,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_13.00_9f63d623",
-          "title": "IALA\u2011B Buoyage Details-json",
+          "title": "IALA\u2011B Buoyage Details",
           "sideA": [
             {
               "type": "text",
@@ -485,7 +485,7 @@
     },
     {
       "id": "lesson_nav_14.00",
-      "title": "Lights & Day Shapes-json",
+      "title": "Lights & Day Shapes",
       "content": [
         {
           "type": "text",
@@ -502,7 +502,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_14.00_c4c303e2",
-          "title": "Lights & Day Shapes-json",
+          "title": "Lights & Day Shapes",
           "sideA": [
             {
               "type": "text",
@@ -522,7 +522,7 @@
     },
     {
       "id": "lesson_nav_15.00",
-      "title": "Radar Piloting: VRM/EBL & Ranges-json",
+      "title": "Radar Piloting: VRM/EBL & Ranges",
       "content": [
         {
           "type": "text",
@@ -539,7 +539,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_15.00_27fbd2e6",
-          "title": "Radar Piloting: VRM/EBL & Ranges-json",
+          "title": "Radar Piloting: VRM/EBL & Ranges",
           "sideA": [
             {
               "type": "text",
@@ -559,7 +559,7 @@
     },
     {
       "id": "lesson_nav_16.00",
-      "title": "Electronic Nav: GPS/Plotter/AIS Limits-json",
+      "title": "Electronic Nav: GPS/Plotter/AIS Limits",
       "content": [
         {
           "type": "text",
@@ -576,7 +576,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_16.00_6a19a1ec",
-          "title": "Electronic Nav: GPS/Plotter/AIS Limits-json",
+          "title": "Electronic Nav: GPS/Plotter/AIS Limits",
           "sideA": [
             {
               "type": "text",

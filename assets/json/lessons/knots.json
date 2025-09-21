@@ -1,9 +1,9 @@
 {
-  "module": "knots-json",
+  "module": "knots",
   "lessons": [
     {
       "id": "lesson_knot_1.00",
-      "title": "Figure Eight Knot-json",
+      "title": "Figure Eight Knot",
       "content": [
         {
           "type": "text",
@@ -18,7 +18,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_1.00_8f281a6f",
-          "title": "Figure Eight Knot-json",
+          "title": "Figure Eight Knot",
           "sideA": [
             {
               "type": "text",
@@ -38,7 +38,7 @@
     },
     {
       "id": "lesson_knot_03.00",
-      "title": "Bowline Knot-json",
+      "title": "Bowline Knot",
       "content": [
         {
           "type": "text",
@@ -59,7 +59,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_03.00_b0020d94",
-          "title": "Bowline-json",
+          "title": "Bowline",
           "sideA": [
             {
               "type": "text",
@@ -79,7 +79,7 @@
     },
     {
       "id": "lesson_knot_04.00",
-      "title": "Cleat Hitch-json",
+      "title": "Cleat Hitch",
       "content": [
         {
           "type": "text",
@@ -96,7 +96,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_04.00_c2fc53c5",
-          "title": "Cleat Hitch-json",
+          "title": "Cleat Hitch",
           "sideA": [
             {
               "type": "text",
@@ -116,7 +116,7 @@
     },
     {
       "id": "lesson_knot_05.00",
-      "title": "Clove Hitch-json",
+      "title": "Clove Hitch",
       "content": [
         {
           "type": "text",
@@ -133,7 +133,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_05.00_68f632db",
-          "title": "Clove Hitch-json",
+          "title": "Clove Hitch",
           "sideA": [
             {
               "type": "text",
@@ -153,7 +153,7 @@
     },
     {
       "id": "lesson_knot_06.00",
-      "title": "Rolling Hitch-json",
+      "title": "Rolling Hitch",
       "content": [
         {
           "type": "text",
@@ -170,7 +170,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_06.00_e899b253",
-          "title": "Rolling Hitch-json",
+          "title": "Rolling Hitch",
           "sideA": [
             {
               "type": "text",
@@ -190,7 +190,7 @@
     },
     {
       "id": "lesson_knot_07.00",
-      "title": "Round Turn & Two Half Hitches-json",
+      "title": "Round Turn & Two Half Hitches",
       "content": [
         {
           "type": "text",
@@ -207,7 +207,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_07.00_f530fc84",
-          "title": "Round Turn & Two Half Hitches-json",
+          "title": "Round Turn & Two Half Hitches",
           "sideA": [
             {
               "type": "text",
@@ -227,7 +227,7 @@
     },
     {
       "id": "lesson_knot_08.00",
-      "title": "Sheet Bend-json",
+      "title": "Sheet Bend",
       "content": [
         {
           "type": "text",
@@ -244,7 +244,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_08.00_886d228c",
-          "title": "Sheet Bend-json",
+          "title": "Sheet Bend",
           "sideA": [
             {
               "type": "text",
@@ -264,7 +264,7 @@
     },
     {
       "id": "lesson_knot_09.00",
-      "title": "Double Sheet Bend-json",
+      "title": "Double Sheet Bend",
       "content": [
         {
           "type": "text",
@@ -281,7 +281,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_09.00_ebae5f02",
-          "title": "Double Sheet Bend-json",
+          "title": "Double Sheet Bend",
           "sideA": [
             {
               "type": "text",
@@ -301,7 +301,7 @@
     },
     {
       "id": "lesson_knot_10.00",
-      "title": "Reef (Square) Knot-json",
+      "title": "Reef (Square) Knot",
       "content": [
         {
           "type": "text",
@@ -318,7 +318,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_10.00_9b23933c",
-          "title": "Reef (Square) Knot-json",
+          "title": "Reef (Square) Knot",
           "sideA": [
             {
               "type": "text",
@@ -338,7 +338,7 @@
     },
     {
       "id": "lesson_knot_11.00",
-      "title": "Anchor Bend (Fisherman’s Bend)-json",
+      "title": "Anchor Bend (Fisherman’s Bend)",
       "content": [
         {
           "type": "text",
@@ -355,7 +355,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_11.00_51c81c58",
-          "title": "Anchor Bend (Fisherman’s Bend)-json",
+          "title": "Anchor Bend (Fisherman’s Bend)",
           "sideA": [
             {
               "type": "text",
@@ -375,7 +375,7 @@
     },
     {
       "id": "lesson_knot_2.00",
-      "title": "Trucker’s Hitch-json",
+      "title": "Trucker’s Hitch",
       "content": [
         {
           "type": "text",
@@ -392,7 +392,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_2.00_882d45c3",
-          "title": "Trucker’s Hitch-json",
+          "title": "Trucker’s Hitch",
           "sideA": [
             {
               "type": "text",
@@ -412,7 +412,7 @@
     },
     {
       "id": "lesson_knot_12.00",
-      "title": "Timber Hitch-json",
+      "title": "Timber Hitch",
       "content": [
         {
           "type": "text",
@@ -429,7 +429,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_12.00_4a7fddf9",
-          "title": "Timber Hitch-json",
+          "title": "Timber Hitch",
           "sideA": [
             {
               "type": "text",
@@ -449,7 +449,7 @@
     },
     {
       "id": "lesson_knot_13.00",
-      "title": "Cow Hitch (Lark’s Head)-json",
+      "title": "Cow Hitch (Lark’s Head)",
       "content": [
         {
           "type": "text",
@@ -466,7 +466,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_13.00_cb6cd544",
-          "title": "Cow Hitch (Lark’s Head)-json",
+          "title": "Cow Hitch (Lark’s Head)",
           "sideA": [
             {
               "type": "text",
@@ -486,7 +486,7 @@
     },
     {
       "id": "lesson_knot_14.00",
-      "title": "Heaving Line Knot-json",
+      "title": "Heaving Line Knot",
       "content": [
         {
           "type": "text",
@@ -503,7 +503,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_14.00_98bd811c",
-          "title": "Heaving Line Knot-json",
+          "title": "Heaving Line Knot",
           "sideA": [
             {
               "type": "text",
@@ -523,7 +523,7 @@
     },
     {
       "id": "lesson_knot_15.00",
-      "title": "Sailmaker’s Whipping-json",
+      "title": "Sailmaker’s Whipping",
       "content": [
         {
           "type": "text",
@@ -540,7 +540,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_15.00_184aef76",
-          "title": "Sailmaker’s Whipping-json",
+          "title": "Sailmaker’s Whipping",
           "sideA": [
             {
               "type": "text",
@@ -560,7 +560,7 @@
     },
     {
       "id": "lesson_knot_16.00",
-      "title": "Ashley Stopper Knot-json",
+      "title": "Ashley Stopper Knot",
       "content": [
         {
           "type": "text",
@@ -577,7 +577,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_16.00_e10e9b91",
-          "title": "Ashley Stopper Knot-json",
+          "title": "Ashley Stopper Knot",
           "sideA": [
             {
               "type": "text",

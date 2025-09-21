@@ -1,9 +1,9 @@
 {
-  "module": "seamanship-json",
+  "module": "seamanship",
   "lessons": [
     {
       "id": "lesson_seam_1.00",
-      "title": "Lines & Fenders-json",
+      "title": "Lines & Fenders",
       "content": [
         {
           "type": "text",
@@ -19,7 +19,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_1.00_f8515257",
-          "title": "Lines & Fenders-json",
+          "title": "Lines & Fenders",
           "sideA": [
             {
               "type": "text",
@@ -39,7 +39,7 @@
     },
     {
       "id": "lesson_seam_2.00",
-      "title": "Docking Approach & Departure (Wind/Current/Prop Walk)-json",
+      "title": "Docking Approach & Departure (Wind/Current/Prop Walk)",
       "content": [
         {
           "type": "text",
@@ -60,7 +60,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_2.00_d604eb6f",
-          "title": "Docking Approach & Departure (Wind/Current/Prop Walk)-json",
+          "title": "Docking Approach & Departure (Wind/Current/Prop Walk)",
           "sideA": [
             {
               "type": "text",
@@ -80,7 +80,7 @@
     },
     {
       "id": "lesson_seam_3.00",
-      "title": "Spring Lines: Breast & Spring for Control-json",
+      "title": "Spring Lines: Breast & Spring for Control",
       "content": [
         {
           "type": "text",
@@ -97,7 +97,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_3.00_a20ec33e",
-          "title": "Spring Lines: Breast & Spring for Control-json",
+          "title": "Spring Lines: Breast & Spring for Control",
           "sideA": [
             {
               "type": "text",
@@ -117,7 +117,7 @@
     },
     {
       "id": "lesson_seam_4.00",
-      "title": "Fendering Strategy & Placement-json",
+      "title": "Fendering Strategy & Placement",
       "content": [
         {
           "type": "text",
@@ -134,7 +134,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_4.00_ce024cb0",
-          "title": "Fendering Strategy & Placement-json",
+          "title": "Fendering Strategy & Placement",
           "sideA": [
             {
               "type": "text",
@@ -154,7 +154,7 @@
     },
     {
       "id": "lesson_seam_5.00",
-      "title": "Heaving Line: Coils & Throws-json",
+      "title": "Heaving Line: Coils & Throws",
       "content": [
         {
           "type": "text",
@@ -171,7 +171,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_5.00_b4fa66e7",
-          "title": "Heaving Line: Coils & Throws-json",
+          "title": "Heaving Line: Coils & Throws",
           "sideA": [
             {
               "type": "text",
@@ -191,7 +191,7 @@
     },
     {
       "id": "lesson_seam_6.00",
-      "title": "Mooring Ball Pickup & Bridle Setup-json",
+      "title": "Mooring Ball Pickup & Bridle Setup",
       "content": [
         {
           "type": "text",
@@ -208,7 +208,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_6.00_4f7cee6e",
-          "title": "Mooring Ball Pickup & Bridle Setup-json",
+          "title": "Mooring Ball Pickup & Bridle Setup",
           "sideA": [
             {
               "type": "text",
@@ -228,7 +228,7 @@
     },
     {
       "id": "lesson_seam_7.00",
-      "title": "Rafting Up: Lines, Fenders & Etiquette-json",
+      "title": "Rafting Up: Lines, Fenders & Etiquette",
       "content": [
         {
           "type": "text",
@@ -245,7 +245,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_7.00_a6e5bae0",
-          "title": "Rafting Up: Lines, Fenders & Etiquette-json",
+          "title": "Rafting Up: Lines, Fenders & Etiquette",
           "sideA": [
             {
               "type": "text",
@@ -265,7 +265,7 @@
     },
     {
       "id": "lesson_seam_8.00",
-      "title": "Anchoring Basics: Scope, Set & Snub-json",
+      "title": "Anchoring Basics: Scope, Set & Snub",
       "content": [
         {
           "type": "text",
@@ -282,7 +282,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_8.00_1958079f",
-          "title": "Anchoring Basics: Scope, Set & Snub-json",
+          "title": "Anchoring Basics: Scope, Set & Snub",
           "sideA": [
             {
               "type": "text",
@@ -302,7 +302,7 @@
     },
     {
       "id": "lesson_seam_9.00",
-      "title": "Close\u2011Quarters Maneuvering: Bursts & Pivots-json",
+      "title": "Close\u2011Quarters Maneuvering: Bursts & Pivots",
       "content": [
         {
           "type": "text",
@@ -319,7 +319,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_9.00_75a294bc",
-          "title": "Close\u2011Quarters Maneuvering: Bursts & Pivots-json",
+          "title": "Close\u2011Quarters Maneuvering: Bursts & Pivots",
           "sideA": [
             {
               "type": "text",
@@ -339,7 +339,7 @@
     },
     {
       "id": "lesson_seam_10.00",
-      "title": "Reverse Handling & Prop Walk Mastery-json",
+      "title": "Reverse Handling & Prop Walk Mastery",
       "content": [
         {
           "type": "text",
@@ -356,7 +356,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_10.00_c61455d7",
-          "title": "Reverse Handling & Prop Walk Mastery-json",
+          "title": "Reverse Handling & Prop Walk Mastery",
           "sideA": [
             {
               "type": "text",
@@ -376,7 +376,7 @@
     },
     {
       "id": "lesson_seam_11.00",
-      "title": "Crew Comms: Hand Signals & Roles-json",
+      "title": "Crew Comms: Hand Signals & Roles",
       "content": [
         {
           "type": "text",
@@ -393,7 +393,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_11.00_25a7790d",
-          "title": "Crew Comms: Hand Signals & Roles-json",
+          "title": "Crew Comms: Hand Signals & Roles",
           "sideA": [
             {
               "type": "text",
@@ -413,7 +413,7 @@
     },
     {
       "id": "lesson_seam_12.00",
-      "title": "Sound Signals & VHF in Harbors-json",
+      "title": "Sound Signals & VHF in Harbors",
       "content": [
         {
           "type": "text",
@@ -430,7 +430,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_12.00_499552cc",
-          "title": "Sound Signals & VHF in Harbors-json",
+          "title": "Sound Signals & VHF in Harbors",
           "sideA": [
             {
               "type": "text",
@@ -450,7 +450,7 @@
     },
     {
       "id": "lesson_seam_13.00",
-      "title": "Fueling Procedures & Spill Control-json",
+      "title": "Fueling Procedures & Spill Control",
       "content": [
         {
           "type": "text",
@@ -467,7 +467,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_13.00_e8833457",
-          "title": "Fueling Procedures & Spill Control-json",
+          "title": "Fueling Procedures & Spill Control",
           "sideA": [
             {
               "type": "text",
@@ -487,7 +487,7 @@
     },
     {
       "id": "lesson_seam_14.00",
-      "title": "Dinghy Operations: Towing, Ties & Lifts-json",
+      "title": "Dinghy Operations: Towing, Ties & Lifts",
       "content": [
         {
           "type": "text",
@@ -504,7 +504,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_14.00_8578a811",
-          "title": "Dinghy Operations: Towing, Ties & Lifts-json",
+          "title": "Dinghy Operations: Towing, Ties & Lifts",
           "sideA": [
             {
               "type": "text",
@@ -524,7 +524,7 @@
     },
     {
       "id": "lesson_seam_15.00",
-      "title": "Line Care & Stowage: Coils, Flakes, Kink Avoidance-json",
+      "title": "Line Care & Stowage: Coils, Flakes, Kink Avoidance",
       "content": [
         {
           "type": "text",
@@ -541,7 +541,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_15.00_d15ce4d7",
-          "title": "Line Care & Stowage: Coils, Flakes, Kink Avoidance-json",
+          "title": "Line Care & Stowage: Coils, Flakes, Kink Avoidance",
           "sideA": [
             {
               "type": "text",
@@ -561,7 +561,7 @@
     },
     {
       "id": "lesson_seam_16.00",
-      "title": "Boat Hook Techniques & Retrieval-json",
+      "title": "Boat Hook Techniques & Retrieval",
       "content": [
         {
           "type": "text",
@@ -578,7 +578,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_16.00_dc16c671",
-          "title": "Boat Hook Techniques & Retrieval-json",
+          "title": "Boat Hook Techniques & Retrieval",
           "sideA": [
             {
               "type": "text",
@@ -598,7 +598,7 @@
     },
     {
       "id": "lesson_seam_17.00",
-      "title": "Watchstanding Basics-json",
+      "title": "Watchstanding Basics",
       "keywords": ["watch","lookout","night"],
       "isPaid": false,
       "content": [

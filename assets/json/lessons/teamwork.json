@@ -1,9 +1,9 @@
 {
-  "module": "teamwork-json",
+  "module": "teamwork",
   "lessons": [
     {
       "id": "lesson_team_1.00",
-      "title": "Roles & Communication-json",
+      "title": "Roles & Communication",
       "content": [
         {
           "type": "text",
@@ -18,7 +18,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_1.00_01ea19a4",
-          "title": "Roles & Communication-json",
+          "title": "Roles & Communication",
           "sideA": [
             {
               "type": "text",
@@ -38,7 +38,7 @@
     },
     {
       "id": "lesson_team_2.00",
-      "title": "Pre‑Departure Briefing & Cross‑Checks-json",
+      "title": "Pre‑Departure Briefing & Cross‑Checks",
       "content": [
         {
           "type": "text",
@@ -67,7 +67,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_2.00_ebcd68eb",
-          "title": "Pre‑Departure Briefing & Cross‑Checks-json",
+          "title": "Pre‑Departure Briefing & Cross‑Checks",
           "sideA": [
             {
               "type": "text",
@@ -87,7 +87,7 @@
     },
     {
       "id": "lesson_team_3.00",
-      "title": "Crew Mindset: Roles, Language, Etiquette-json",
+      "title": "Crew Mindset: Roles, Language, Etiquette",
       "content": [
         {
           "type": "text",
@@ -117,7 +117,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_3.00_7f1e9c3a",
-          "title": "Crew Mindset: Roles, Language, Etiquette-json",
+          "title": "Crew Mindset: Roles, Language, Etiquette",
           "sideA": [
             {
               "type": "text",
@@ -137,7 +137,7 @@
     },
     {
       "id": "lesson_team_18.00",
-      "title": "Standard Commands & Closed‑Loop Comms-json",
+      "title": "Standard Commands & Closed‑Loop Comms",
       "content": [
         {
           "type": "text",
@@ -162,7 +162,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_18.00_32ff1f5e",
-          "title": "Standard Commands & Closed‑Loop Comms-json",
+          "title": "Standard Commands & Closed‑Loop Comms",
           "sideA": [
             {
               "type": "text",
@@ -182,7 +182,7 @@
     },
     {
       "id": "lesson_team_4.00",
-      "title": "Hand Signals & Nonverbal Cues-json",
+      "title": "Hand Signals & Nonverbal Cues",
       "content": [
         {
           "type": "text",
@@ -206,7 +206,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_4.00_745202e4",
-          "title": "Hand Signals & Nonverbal Cues-json",
+          "title": "Hand Signals & Nonverbal Cues",
           "sideA": [
             {
               "type": "text",
@@ -226,7 +226,7 @@
     },
     {
       "id": "lesson_team_5.00",
-      "title": "Watch Rotation & Handover Protocol-json",
+      "title": "Watch Rotation & Handover Protocol",
       "content": [
         {
           "type": "text",
@@ -251,7 +251,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_5.00_049819bf",
-          "title": "Watch Rotation & Handover Protocol-json",
+          "title": "Watch Rotation & Handover Protocol",
           "sideA": [
             {
               "type": "text",
@@ -271,7 +271,7 @@
     },
     {
       "id": "lesson_team_6.00",
-      "title": "Helm–Trim Coordination-json",
+      "title": "Helm–Trim Coordination",
       "content": [
         {
           "type": "text",
@@ -296,7 +296,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_6.00_fff02a28",
-          "title": "Helm–Trim Coordination-json",
+          "title": "Helm–Trim Coordination",
           "sideA": [
             {
               "type": "text",
@@ -316,7 +316,7 @@
     },
     {
       "id": "lesson_team_7.00",
-      "title": "Reefing & Sail Change Roles-json",
+      "title": "Reefing & Sail Change Roles",
       "content": [
         {
           "type": "text",
@@ -341,7 +341,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_7.00_2b265964",
-          "title": "Reefing & Sail Change Roles-json",
+          "title": "Reefing & Sail Change Roles",
           "sideA": [
             {
               "type": "text",
@@ -361,7 +361,7 @@
     },
     {
       "id": "lesson_team_8.00",
-      "title": "Docking Team Choreography-json",
+      "title": "Docking Team Choreography",
       "content": [
         {
           "type": "text",
@@ -386,7 +386,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_8.00_1c872615",
-          "title": "Docking Team Choreography-json",
+          "title": "Docking Team Choreography",
           "sideA": [
             {
               "type": "text",
@@ -406,7 +406,7 @@
     },
     {
       "id": "lesson_team_9.00",
-      "title": "Man Overboard Team Roles & Drills-json",
+      "title": "Man Overboard Team Roles & Drills",
       "content": [
         {
           "type": "text",
@@ -431,7 +431,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_9.00_658e3ebc",
-          "title": "Man Overboard Team Roles & Drills-json",
+          "title": "Man Overboard Team Roles & Drills",
           "sideA": [
             {
               "type": "text",
@@ -451,7 +451,7 @@
     },
     {
       "id": "lesson_team_10.00",
-      "title": "Heavy Weather Crew Management-json",
+      "title": "Heavy Weather Crew Management",
       "content": [
         {
           "type": "text",
@@ -475,7 +475,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_10.00_e1405566",
-          "title": "Heavy Weather Crew Management-json",
+          "title": "Heavy Weather Crew Management",
           "sideA": [
             {
               "type": "text",
@@ -495,7 +495,7 @@
     },
     {
       "id": "lesson_team_11.00",
-      "title": "Task Loading & Fatigue Management-json",
+      "title": "Task Loading & Fatigue Management",
       "content": [
         {
           "type": "text",
@@ -520,7 +520,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_11.00_13460442",
-          "title": "Task Loading & Fatigue Management-json",
+          "title": "Task Loading & Fatigue Management",
           "sideA": [
             {
               "type": "text",
@@ -540,7 +540,7 @@
     },
     {
       "id": "lesson_team_12.00",
-      "title": "Situational Awareness & 360 Scans-json",
+      "title": "Situational Awareness & 360 Scans",
       "content": [
         {
           "type": "text",
@@ -565,7 +565,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_12.00_caccd779",
-          "title": "Situational Awareness & 360 Scans-json",
+          "title": "Situational Awareness & 360 Scans",
           "sideA": [
             {
               "type": "text",
@@ -585,7 +585,7 @@
     },
     {
       "id": "lesson_team_13.00",
-      "title": "Conflict Resolution & Psychological Safety-json",
+      "title": "Conflict Resolution & Psychological Safety",
       "content": [
         {
           "type": "text",
@@ -610,7 +610,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_13.00_ca7de895",
-          "title": "Conflict Resolution & Psychological Safety-json",
+          "title": "Conflict Resolution & Psychological Safety",
           "sideA": [
             {
               "type": "text",
@@ -630,7 +630,7 @@
     },
     {
       "id": "lesson_team_14.00",
-      "title": "Post‑Maneuver Debriefs & Continuous Improvement-json",
+      "title": "Post‑Maneuver Debriefs & Continuous Improvement",
       "content": [
         {
           "type": "text",
@@ -654,7 +654,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_14.00_10b86f6b",
-          "title": "Post‑Maneuver Debriefs & Continuous Improvement-json",
+          "title": "Post‑Maneuver Debriefs & Continuous Improvement",
           "sideA": [
             {
               "type": "text",
@@ -674,7 +674,7 @@
     },
     {
       "id": "lesson_team_15.00",
-      "title": "Radio Discipline & Hailing Etiquette-json",
+      "title": "Radio Discipline & Hailing Etiquette",
       "content": [
         {
           "type": "text",
@@ -699,7 +699,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_15.00_17cb3cf3",
-          "title": "Radio Discipline & Hailing Etiquette-json",
+          "title": "Radio Discipline & Hailing Etiquette",
           "sideA": [
             {
               "type": "text",
@@ -719,7 +719,7 @@
     },
     {
       "id": "lesson_team_16.00",
-      "title": "Emergency Muster & Role Cards-json",
+      "title": "Emergency Muster & Role Cards",
       "content": [
         {
           "type": "text",
@@ -744,7 +744,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_team_16.00_f81b5077",
-          "title": "Emergency Muster & Role Cards-json",
+          "title": "Emergency Muster & Role Cards",
           "sideA": [
             {
               "type": "text",
@@ -764,7 +764,7 @@
     },
     {
       "id": "lesson_team_17.00",
-      "title": "Pathways Forward: Day Skipper, Bareboat, Offshore-json",
+      "title": "Pathways Forward: Day Skipper, Bareboat, Offshore",
       "keywords": [
         "next steps",
         "training",

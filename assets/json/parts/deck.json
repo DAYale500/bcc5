@@ -1,9 +1,9 @@
 {
-  "module": "deck-json",
+  "module": "deck",
   "parts": [
     {
       "id": "part_deck_1.00",
-      "title": "Deck Layout Overview-json",
+      "title": "Deck Layout Overview",
       "content": [
         {
           "type": "text",
@@ -27,7 +27,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_1.00_94accef2",
-          "title": "Deck Layout Overview-json",
+          "title": "Deck Layout Overview",
           "sideA": [
             {
               "type": "text",
@@ -47,7 +47,7 @@
     },
     {
       "id": "part_deck_03.00",
-      "title": "Cleats & Line Handling-json",
+      "title": "Cleats & Line Handling",
       "content": [
         {
           "type": "heading",
@@ -66,7 +66,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_03.00_240d567b",
-          "title": "Cleats & Line Handling-json",
+          "title": "Cleats & Line Handling",
           "sideA": [
             {
               "type": "text",
@@ -86,7 +86,7 @@
     },
     {
       "id": "part_deck_04.00",
-      "title": "Lifelines & Stanchions-json",
+      "title": "Lifelines & Stanchions",
       "content": [
         {
           "type": "heading",
@@ -111,7 +111,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_04.00_7373034f",
-          "title": "Lifelines & Stanchions-json",
+          "title": "Lifelines & Stanchions",
           "sideA": [
             {
               "type": "text",
@@ -131,7 +131,7 @@
     },
     {
       "id": "part_deck_05.00",
-      "title": "Jacklines & Tether Points-json",
+      "title": "Jacklines & Tether Points",
       "content": [
         {
           "type": "heading",
@@ -152,7 +152,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_05.00_15dfe4f2",
-          "title": "Jacklines & Tether Points-json",
+          "title": "Jacklines & Tether Points",
           "sideA": [
             {
               "type": "text",
@@ -172,7 +172,7 @@
     },
     {
       "id": "part_deck_06.00",
-      "title": "Anchor System: Bow Roller & Windlass-json",
+      "title": "Anchor System: Bow Roller & Windlass",
       "content": [
         {
           "type": "heading",
@@ -193,7 +193,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_06.00_04b996e7",
-          "title": "Anchor System: Bow Roller & Windlass-json",
+          "title": "Anchor System: Bow Roller & Windlass",
           "sideA": [
             {
               "type": "text",
@@ -213,7 +213,7 @@
     },
     {
       "id": "part_deck_07.00",
-      "title": "Chocks & Fairleads-json",
+      "title": "Chocks & Fairleads",
       "content": [
         {
           "type": "heading",
@@ -234,7 +234,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_07.00_d4c83aa2",
-          "title": "Chocks & Fairleads-json",
+          "title": "Chocks & Fairleads",
           "sideA": [
             {
               "type": "text",
@@ -254,7 +254,7 @@
     },
     {
       "id": "part_deck_08.00",
-      "title": "Handrails & Non‑Skid-json",
+      "title": "Handrails & Non‑Skid",
       "content": [
         {
           "type": "heading",
@@ -275,7 +275,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_08.00_a6e0ed67",
-          "title": "Handrails & Non‑Skid-json",
+          "title": "Handrails & Non‑Skid",
           "sideA": [
             {
               "type": "text",
@@ -295,7 +295,7 @@
     },
     {
       "id": "part_deck_09.00",
-      "title": "Primary Winches (Sheets/Halyards)-json",
+      "title": "Primary Winches (Sheets/Halyards)",
       "content": [
         {
           "type": "heading",
@@ -316,7 +316,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_09.00_f42eaa92",
-          "title": "Primary Winches (Sheets/Halyards)-json",
+          "title": "Primary Winches (Sheets/Halyards)",
           "sideA": [
             {
               "type": "text",
@@ -336,7 +336,7 @@
     },
     {
       "id": "part_deck_10.00",
-      "title": "Rope Clutches & Lead Organizers-json",
+      "title": "Rope Clutches & Lead Organizers",
       "content": [
         {
           "type": "heading",
@@ -357,7 +357,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_10.00_a035fad8",
-          "title": "Rope Clutches & Lead Organizers-json",
+          "title": "Rope Clutches & Lead Organizers",
           "sideA": [
             {
               "type": "text",
@@ -377,7 +377,7 @@
     },
     {
       "id": "part_deck_11.00",
-      "title": "Mainsheet Traveler & Car-json",
+      "title": "Mainsheet Traveler & Car",
       "content": [
         {
           "type": "heading",
@@ -398,7 +398,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_11.00_a0d9f850",
-          "title": "Mainsheet Traveler & Car-json",
+          "title": "Mainsheet Traveler & Car",
           "sideA": [
             {
               "type": "text",
@@ -418,7 +418,7 @@
     },
     {
       "id": "part_deck_2.00",
-      "title": "Genoa/Jib Tracks & Cars-json",
+      "title": "Genoa/Jib Tracks & Cars",
       "content": [
         {
           "type": "heading",
@@ -439,7 +439,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_2.00_a26c652e",
-          "title": "Genoa/Jib Tracks & Cars-json",
+          "title": "Genoa/Jib Tracks & Cars",
           "sideA": [
             {
               "type": "text",
@@ -459,7 +459,7 @@
     },
     {
       "id": "part_deck_12.00",
-      "title": "Furling Drum & Forestay Fittings-json",
+      "title": "Furling Drum & Forestay Fittings",
       "content": [
         {
           "type": "heading",
@@ -480,7 +480,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_12.00_6ddb87d8",
-          "title": "Furling Drum & Forestay Fittings-json",
+          "title": "Furling Drum & Forestay Fittings",
           "sideA": [
             {
               "type": "text",
@@ -500,7 +500,7 @@
     },
     {
       "id": "part_deck_13.00",
-      "title": "Pulpit & Pushpit (Bow/Stern Rails)-json",
+      "title": "Pulpit & Pushpit (Bow/Stern Rails)",
       "content": [
         {
           "type": "heading",
@@ -521,7 +521,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_13.00_1b23dacc",
-          "title": "Pulpit & Pushpit (Bow/Stern Rails)-json",
+          "title": "Pulpit & Pushpit (Bow/Stern Rails)",
           "sideA": [
             {
               "type": "text",
@@ -541,7 +541,7 @@
     },
     {
       "id": "part_deck_14.00",
-      "title": "Deck Hatches & Portlights-json",
+      "title": "Deck Hatches & Portlights",
       "content": [
         {
           "type": "heading",
@@ -562,7 +562,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_14.00_88565710",
-          "title": "Deck Hatches & Portlights-json",
+          "title": "Deck Hatches & Portlights",
           "sideA": [
             {
               "type": "text",
@@ -582,7 +582,7 @@
     },
     {
       "id": "part_deck_15.00",
-      "title": "Dorade Vents & Cowls-json",
+      "title": "Dorade Vents & Cowls",
       "content": [
         {
           "type": "heading",
@@ -603,7 +603,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_15.00_d5f05c37",
-          "title": "Dorade Vents & Cowls-json",
+          "title": "Dorade Vents & Cowls",
           "sideA": [
             {
               "type": "text",
@@ -623,7 +623,7 @@
     },
     {
       "id": "part_deck_16.00",
-      "title": "Deck Fills: Fuel/Water/Waste-json",
+      "title": "Deck Fills: Fuel/Water/Waste",
       "content": [
         {
           "type": "heading",
@@ -644,7 +644,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_16.00_b6a6ee8d",
-          "title": "Deck Fills: Fuel/Water/Waste-json",
+          "title": "Deck Fills: Fuel/Water/Waste",
           "sideA": [
             {
               "type": "text",
@@ -664,7 +664,7 @@
     },
     {
       "id": "part_deck_17.00",
-      "title": "Cockpit Scuppers & Drains-json",
+      "title": "Cockpit Scuppers & Drains",
       "content": [
         {
           "type": "heading",
@@ -685,7 +685,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_deck_17.00_d42fc816",
-          "title": "Cockpit Scuppers & Drains-json",
+          "title": "Cockpit Scuppers & Drains",
           "sideA": [
             {
               "type": "text",

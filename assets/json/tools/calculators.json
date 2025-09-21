@@ -1,9 +1,9 @@
 {
-  "module": "calculators-json",
+  "module": "calculators",
   "tools": [
     {
       "id": "tool_calc_gps_1.00",
-      "title": "GPS Coordinate Conversion (DD ↔ DMS)-json",
+      "title": "GPS Coordinate Conversion (DD ↔ DMS)",
       "content": [
         { "type": "gpsConverter" },
         { "type": "divider" },
@@ -27,7 +27,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_calc_gps_1.00",
-          "title": "DD ↔ DMS Basics-json",
+          "title": "DD ↔ DMS Basics",
           "sideA": [
             {
               "type": "text",
@@ -45,7 +45,7 @@
     },
     {
       "id": "tool_calc_dst_1.00",
-      "title": "Speed / Time / Distance-json",
+      "title": "Speed / Time / Distance",
       "content": [
         {
           "type": "text",
@@ -67,7 +67,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_calc_dst_1.00_a4ea62fa",
-          "title": "Speed / Time / Distance-json",
+          "title": "Speed / Time / Distance",
           "sideA": [
             {
               "type": "text",

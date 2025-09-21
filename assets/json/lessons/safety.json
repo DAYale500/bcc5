@@ -1,9 +1,9 @@
 {
-  "module": "safety-json",
+  "module": "safety",
   "lessons": [
     {
       "id": "lesson_safety_1.00",
-      "title": "Personal Safety Basics-json",
+      "title": "Personal Safety Basics",
       "content": [
         {
           "type": "text",
@@ -19,7 +19,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_1.00_3e7b5aa0",
-          "title": "Personal Safety Basics-json",
+          "title": "Personal Safety Basics",
           "sideA": [
             {
               "type": "text",
@@ -39,7 +39,7 @@
     },
     {
       "id": "lesson_safety_03.00",
-      "title": "Man Overboard Overview-json",
+      "title": "Man Overboard Overview",
       "content": [
         {
           "type": "text",
@@ -54,7 +54,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_03.00_3bd483de",
-          "title": "Man Overboard Overview-json",
+          "title": "Man Overboard Overview",
           "sideA": [
             {
               "type": "text",
@@ -74,7 +74,7 @@
     },
     {
       "id": "lesson_safety_04.00",
-      "title": "PFD Selection & Proper Fit-json",
+      "title": "PFD Selection & Proper Fit",
       "content": [
         {
           "type": "text",
@@ -95,7 +95,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_04.00_2d33d0f5",
-          "title": "PFD Selection & Proper Fit-json",
+          "title": "PFD Selection & Proper Fit",
           "sideA": [
             {
               "type": "text",
@@ -115,7 +115,7 @@
     },
     {
       "id": "lesson_safety_05.00",
-      "title": "Comfort & Seasickness: Staying Useful-json",
+      "title": "Comfort & Seasickness: Staying Useful",
       "keywords": [
         "seasick",
         "comfort",
@@ -132,7 +132,7 @@
     },
     {
       "id": "lesson_safety_06.00",
-      "title": "Jacklines, Tethers & Clip‑In Protocol-json",
+      "title": "Jacklines, Tethers & Clip‑In Protocol",
       "content": [
         {
           "type": "text",
@@ -149,7 +149,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_06.00_a32356b0",
-          "title": "Jacklines, Tethers & Clip‑In Protocol-json",
+          "title": "Jacklines, Tethers & Clip‑In Protocol",
           "sideA": [
             {
               "type": "text",
@@ -169,7 +169,7 @@
     },
     {
       "id": "lesson_safety_07.00",
-      "title": "Night Safety & Watchstanding-json",
+      "title": "Night Safety & Watchstanding",
       "content": [
         {
           "type": "text",
@@ -186,7 +186,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_07.00_ef045273",
-          "title": "Night Safety & Watchstanding-json",
+          "title": "Night Safety & Watchstanding",
           "sideA": [
             {
               "type": "text",
@@ -206,7 +206,7 @@
     },
     {
       "id": "lesson_safety_08.00",
-      "title": "Winch & Line Handling Safety-json",
+      "title": "Winch & Line Handling Safety",
       "content": [
         {
           "type": "text",
@@ -223,7 +223,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_08.00_cb74fa82",
-          "title": "Winch & Line Handling Safety-json",
+          "title": "Winch & Line Handling Safety",
           "sideA": [
             {
               "type": "text",
@@ -243,7 +243,7 @@
     },
     {
       "id": "lesson_safety_09.00",
-      "title": "Knife & Cutting Tool Readiness-json",
+      "title": "Knife & Cutting Tool Readiness",
       "content": [
         {
           "type": "text",
@@ -260,7 +260,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_09.00_9ed57560",
-          "title": "Knife & Cutting Tool Readiness-json",
+          "title": "Knife & Cutting Tool Readiness",
           "sideA": [
             {
               "type": "text",
@@ -280,7 +280,7 @@
     },
     {
       "id": "lesson_safety_10.00",
-      "title": "Flares & Visual Distress Signals-json",
+      "title": "Flares & Visual Distress Signals",
       "content": [
         {
           "type": "text",
@@ -297,7 +297,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_10.00_52eb7a88",
-          "title": "Flares & Visual Distress Signals-json",
+          "title": "Flares & Visual Distress Signals",
           "sideA": [
             {
               "type": "text",
@@ -317,7 +317,7 @@
     },
     {
       "id": "lesson_safety_11.00",
-      "title": "VHF/DSC Mayday & Comms Discipline-json",
+      "title": "VHF/DSC Mayday & Comms Discipline",
       "content": [
         {
           "type": "text",
@@ -334,7 +334,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_11.00_a3001eb8",
-          "title": "VHF/DSC Mayday & Comms Discipline-json",
+          "title": "VHF/DSC Mayday & Comms Discipline",
           "sideA": [
             {
               "type": "text",
@@ -354,7 +354,7 @@
     },
     {
       "id": "lesson_safety_12.00",
-      "title": "Fire Prevention & Extinguishers-json",
+      "title": "Fire Prevention & Extinguishers",
       "content": [
         {
           "type": "text",
@@ -371,7 +371,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_12.00_615b41c2",
-          "title": "Fire Prevention & Extinguishers-json",
+          "title": "Fire Prevention & Extinguishers",
           "sideA": [
             {
               "type": "text",
@@ -391,7 +391,7 @@
     },
     {
       "id": "lesson_safety_2.00",
-      "title": "Galley Safety: Burns & Scalds-json",
+      "title": "Galley Safety: Burns & Scalds",
       "content": [
         {
           "type": "text",
@@ -408,7 +408,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_2.00_84820216",
-          "title": "Galley Safety: Burns & Scalds-json",
+          "title": "Galley Safety: Burns & Scalds",
           "sideA": [
             {
               "type": "text",
@@ -428,7 +428,7 @@
     },
     {
       "id": "lesson_safety_13.00",
-      "title": "Propane/LP Gas Safety-json",
+      "title": "Propane/LP Gas Safety",
       "content": [
         {
           "type": "text",
@@ -445,7 +445,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_13.00_f5ccf8c0",
-          "title": "Propane/LP Gas Safety-json",
+          "title": "Propane/LP Gas Safety",
           "sideA": [
             {
               "type": "text",
@@ -465,7 +465,7 @@
     },
     {
       "id": "lesson_safety_14.00",
-      "title": "Going Aloft: Bosun’s Chair & Redundancy-json",
+      "title": "Going Aloft: Bosun’s Chair & Redundancy",
       "content": [
         {
           "type": "text",
@@ -482,7 +482,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_14.00_131241b8",
-          "title": "Going Aloft: Bosun’s Chair & Redundancy-json",
+          "title": "Going Aloft: Bosun’s Chair & Redundancy",
           "sideA": [
             {
               "type": "text",
@@ -502,7 +502,7 @@
     },
     {
       "id": "lesson_safety_15.00",
-      "title": "Hypothermia & Cold Shock Response-json",
+      "title": "Hypothermia & Cold Shock Response",
       "content": [
         {
           "type": "text",
@@ -519,7 +519,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_15.00_fe22213d",
-          "title": "Hypothermia & Cold Shock Response-json",
+          "title": "Hypothermia & Cold Shock Response",
           "sideA": [
             {
               "type": "text",
@@ -539,7 +539,7 @@
     },
     {
       "id": "lesson_safety_16.00",
-      "title": "Heat Stress, Sun & Hydration-json",
+      "title": "Heat Stress, Sun & Hydration",
       "content": [
         {
           "type": "text",
@@ -556,7 +556,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_16.00_7578affd",
-          "title": "Heat Stress, Sun & Hydration-json",
+          "title": "Heat Stress, Sun & Hydration",
           "sideA": [
             {
               "type": "text",
@@ -576,7 +576,7 @@
     },
     {
       "id": "lesson_safety_17.00",
-      "title": "Flood Response & Seacock Drills-json",
+      "title": "Flood Response & Seacock Drills",
       "content": [
         {
           "type": "text",
@@ -593,7 +593,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_17.00_e7d920d9",
-          "title": "Flood Response & Seacock Drills-json",
+          "title": "Flood Response & Seacock Drills",
           "sideA": [
             {
               "type": "text",
@@ -613,7 +613,7 @@
     },
     {
       "id": "lesson_safety_18.00",
-      "title": "Personal Medical Kit & Allergies-json",
+      "title": "Personal Medical Kit & Allergies",
       "content": [
         {
           "type": "text",
@@ -630,7 +630,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_18.00_e1931390",
-          "title": "Personal Medical Kit & Allergies-json",
+          "title": "Personal Medical Kit & Allergies",
           "sideA": [
             {
               "type": "text",

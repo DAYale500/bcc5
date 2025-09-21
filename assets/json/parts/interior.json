@@ -1,9 +1,9 @@
 {
-  "module": "interior-json",
+  "module": "interior",
   "parts": [
     {
       "id": "part_intr_1.00",
-      "title": "Interior Safety & Stowage-json",
+      "title": "Interior Safety & Stowage",
       "content": [
         {
           "type": "text",
@@ -19,7 +19,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_1.00_5966cfa5",
-          "title": "Interior Safety & Stowage-json",
+          "title": "Interior Safety & Stowage",
           "sideA": [
             {
               "type": "text",
@@ -39,7 +39,7 @@
     },
     {
       "id": "part_intr_03.00",
-      "title": "Galley Basics-json",
+      "title": "Galley Basics",
       "content": [
         {
           "type": "text",
@@ -54,7 +54,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_03.00_c0aaccf3",
-          "title": "Galley Basics-json",
+          "title": "Galley Basics",
           "sideA": [
             {
               "type": "text",
@@ -74,7 +74,7 @@
     },
     {
       "id": "part_intr_04.00",
-      "title": "Fire Safety: Extinguishers & Blanket-json",
+      "title": "Fire Safety: Extinguishers & Blanket",
       "content": [
         {
           "type": "text",
@@ -103,7 +103,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_04.00_b5b92461",
-          "title": "Fire Safety: Extinguishers & Blanket-json",
+          "title": "Fire Safety: Extinguishers & Blanket",
           "sideA": [
             {
               "type": "text",
@@ -123,7 +123,7 @@
     },
     {
       "id": "part_intr_05.00",
-      "title": "Propane System: Solenoid, Sniffer & Shutoffs-json",
+      "title": "Propane System: Solenoid, Sniffer & Shutoffs",
       "content": [
         {
           "type": "text",
@@ -148,7 +148,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_05.00_7894e431",
-          "title": "Propane System: Solenoid, Sniffer & Shutoffs-json",
+          "title": "Propane System: Solenoid, Sniffer & Shutoffs",
           "sideA": [
             {
               "type": "text",
@@ -168,7 +168,7 @@
     },
     {
       "id": "part_intr_06.00",
-      "title": "Electrical Panel & Main Breakers-json",
+      "title": "Electrical Panel & Main Breakers",
       "content": [
         {
           "type": "text",
@@ -193,7 +193,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_06.00_5f0a55b3",
-          "title": "Electrical Panel & Main Breakers-json",
+          "title": "Electrical Panel & Main Breakers",
           "sideA": [
             {
               "type": "text",
@@ -213,7 +213,7 @@
     },
     {
       "id": "part_intr_07.00",
-      "title": "Battery Compartment & Master Switch-json",
+      "title": "Battery Compartment & Master Switch",
       "content": [
         {
           "type": "text",
@@ -238,7 +238,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_07.00_cb78853a",
-          "title": "Battery Compartment & Master Switch-json",
+          "title": "Battery Compartment & Master Switch",
           "sideA": [
             {
               "type": "text",
@@ -258,7 +258,7 @@
     },
     {
       "id": "part_intr_08.00",
-      "title": "CO/Smoke/LP Detectors-json",
+      "title": "CO/Smoke/LP Detectors",
       "content": [
         {
           "type": "text",
@@ -283,7 +283,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_08.00_e0446b31",
-          "title": "CO/Smoke/LP Detectors-json",
+          "title": "CO/Smoke/LP Detectors",
           "sideA": [
             {
               "type": "text",
@@ -303,7 +303,7 @@
     },
     {
       "id": "part_intr_09.00",
-      "title": "Bilge Access & Pumps-json",
+      "title": "Bilge Access & Pumps",
       "content": [
         {
           "type": "text",
@@ -328,7 +328,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_09.00_fa04c8bd",
-          "title": "Bilge Access & Pumps-json",
+          "title": "Bilge Access & Pumps",
           "sideA": [
             {
               "type": "text",
@@ -348,7 +348,7 @@
     },
     {
       "id": "part_intr_10.00",
-      "title": "Seacock Access Map (Interior)-json",
+      "title": "Seacock Access Map (Interior)",
       "content": [
         {
           "type": "text",
@@ -373,7 +373,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_10.00_b94cedbe",
-          "title": "Seacock Access Map (Interior)-json",
+          "title": "Seacock Access Map (Interior)",
           "sideA": [
             {
               "type": "text",
@@ -393,7 +393,7 @@
     },
     {
       "id": "part_intr_11.00",
-      "title": "First Aid & Medical Locker-json",
+      "title": "First Aid & Medical Locker",
       "content": [
         {
           "type": "text",
@@ -418,7 +418,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_11.00_f02165fe",
-          "title": "First Aid & Medical Locker-json",
+          "title": "First Aid & Medical Locker",
           "sideA": [
             {
               "type": "text",
@@ -438,7 +438,7 @@
     },
     {
       "id": "lesson_intr_2.00",
-      "title": "Head & Galley Etiquette-json",
+      "title": "Head & Galley Etiquette",
       "keywords": [
         "head",
         "galley",
@@ -456,7 +456,7 @@
     },
     {
       "id": "part_intr_12.00",
-      "title": "Emergency Egress: Hatches & Ports-json",
+      "title": "Emergency Egress: Hatches & Ports",
       "content": [
         {
           "type": "text",
@@ -481,7 +481,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_12.00_072bed3e",
-          "title": "Emergency Egress: Hatches & Ports-json",
+          "title": "Emergency Egress: Hatches & Ports",
           "sideA": [
             {
               "type": "text",
@@ -501,7 +501,7 @@
     },
     {
       "id": "part_intr_13.00",
-      "title": "Freshwater System: Pump/Accumulator/Filters-json",
+      "title": "Freshwater System: Pump/Accumulator/Filters",
       "content": [
         {
           "type": "text",
@@ -526,7 +526,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_13.00_df39d8df",
-          "title": "Freshwater System: Pump/Accumulator/Filters-json",
+          "title": "Freshwater System: Pump/Accumulator/Filters",
           "sideA": [
             {
               "type": "text",
@@ -546,7 +546,7 @@
     },
     {
       "id": "part_intr_14.00",
-      "title": "Sanitation: Head, Y-Valve & Holding Tank-json",
+      "title": "Sanitation: Head, Y-Valve & Holding Tank",
       "content": [
         {
           "type": "text",
@@ -571,7 +571,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_14.00_f9d4ce4b",
-          "title": "Sanitation: Head, Y-Valve & Holding Tank-json",
+          "title": "Sanitation: Head, Y-Valve & Holding Tank",
           "sideA": [
             {
               "type": "text",
@@ -591,7 +591,7 @@
     },
     {
       "id": "part_intr_15.00",
-      "title": "Heating & Ventilation-json",
+      "title": "Heating & Ventilation",
       "content": [
         {
           "type": "text",
@@ -616,7 +616,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_15.00_06a1e936",
-          "title": "Heating & Ventilation-json",
+          "title": "Heating & Ventilation",
           "sideA": [
             {
               "type": "text",
@@ -636,7 +636,7 @@
     },
     {
       "id": "part_intr_16.00",
-      "title": "Tools, Spares & Repair Kits-json",
+      "title": "Tools, Spares & Repair Kits",
       "content": [
         {
           "type": "text",
@@ -661,7 +661,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_16.00_d22cd1fe",
-          "title": "Tools, Spares & Repair Kits-json",
+          "title": "Tools, Spares & Repair Kits",
           "sideA": [
             {
               "type": "text",
@@ -681,7 +681,7 @@
     },
     {
       "id": "part_intr_17.00",
-      "title": "Interior Lighting: Red/White/Night-json",
+      "title": "Interior Lighting: Red/White/Night",
       "content": [
         {
           "type": "text",
@@ -706,7 +706,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_17.00_354005e5",
-          "title": "Interior Lighting: Red/White/Night-json",
+          "title": "Interior Lighting: Red/White/Night",
           "sideA": [
             {
               "type": "text",
@@ -726,7 +726,7 @@
     },
     {
       "id": "part_intr_18.00",
-      "title": "Companionway & Sole Board Security-json",
+      "title": "Companionway & Sole Board Security",
       "content": [
         {
           "type": "text",
@@ -751,7 +751,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_intr_18.00_97f975f5",
-          "title": "Companionway & Sole Board Security-json",
+          "title": "Companionway & Sole Board Security",
           "sideA": [
             {
               "type": "text",

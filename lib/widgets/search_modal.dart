@@ -4,14 +4,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:go_router/go_router.dart';
-
 import 'package:bcc5/data/models/render_item.dart';
 import 'package:bcc5/utils/render_item_helpers.dart';
 import 'package:bcc5/navigation/detail_route.dart';
+import 'package:bcc5/theme/app_theme.dart';
+
+enum SearchFilter { all, lesson, part, tool }
 
 /// 🔁 Simple, in-memory persistence for the search modal.
 class SearchMemory {
   static String lastQuery = '';
+  static SearchFilter lastFilter = SearchFilter.all;
 }
 
 class SearchDoc {
@@ -53,6 +56,8 @@ class _SearchModalState extends State<SearchModal> {
   List<SearchDoc> _index = const [];
   List<SearchHit> _hits = const [];
   bool _loading = true;
+
+  SearchFilter _filter = SearchFilter.all; // 👈 current UI filter
 
   @override
   void initState() {
@@ -145,6 +150,7 @@ class _SearchModalState extends State<SearchModal> {
       _loading = false;
 
       // 🔁 Restore previous query (if any) and run search
+      _filter = SearchMemory.lastFilter;
       _controller.text = SearchMemory.lastQuery;
       _controller.selection = TextSelection.fromPosition(
         TextPosition(offset: _controller.text.length),
@@ -239,10 +245,14 @@ class _SearchModalState extends State<SearchModal> {
     return buf.toString();
   }
 
+  // Before you had [title, kws, text]. Drop title so the snippet never sees it.
   String _buildHaystack(Map<String, dynamic> map, String title, String id) {
     final kws = _keywordsFromMap(map).join(' ');
     final text = _extractTextContent(map);
-    return [title, id, kws, text].where((s) => s.trim().isNotEmpty).join(' • ');
+    return [kws, text]
+        .where((s) => s.trim().isNotEmpty)
+        .join(' • ')
+        .toLowerCase(); // keep as lc for match/search speed
   }
 
   String _buildPreview(Map<String, dynamic> map, String title) {
@@ -255,20 +265,66 @@ class _SearchModalState extends State<SearchModal> {
     return title;
   }
 
+  String _sanitizeExcerpt(String s, String title) {
+    if (s.isEmpty) return s;
+
+    var out = s;
+
+    // Remove obvious paths/URLs (assets/, http…)
+    out = out.replaceAll(
+      RegExp(r'\bassets\/[^\s,;]+', caseSensitive: false),
+      '',
+    );
+    out = out.replaceAll(RegExp(r'https?:\/\/\S+', caseSensitive: false), '');
+
+    // Strip simple markdown markers
+    out = out.replaceAll(RegExp(r'(\*\*|__|`|~~)'), '');
+    out = out.replaceAll(
+      RegExp(r'(^|\s)[*_]([^\s][^*_]*?)\1'),
+      r' $2',
+    ); // _word_ or *word*
+
+    // Remove the title if it sneaks back in (case-insensitive)
+    if (title.isNotEmpty) {
+      final esc = RegExp.escape(title);
+      out = out.replaceAll(RegExp(esc, caseSensitive: false), '');
+    }
+
+    // Collapse whitespace / trim punctuation clutter
+    out = out.replaceAll(RegExp(r'\s{2,}'), ' ').trim();
+    out = out.replaceAll(RegExp(r'^[•\-\–\—\.\,;\s]+'), '');
+
+    return out;
+  }
+
   // ───────────────── Search / Scoring ─────────────────
 
   void _onQueryChanged(String q) {
     _debouncer?.cancel();
+
+    // If query is empty, reset filter to All immediately (per-query behavior)
+    if (q.trim().isEmpty && _filter != SearchFilter.all) {
+      setState(() {
+        _filter = SearchFilter.all;
+      });
+      SearchMemory.lastFilter = SearchFilter.all; // keep memory in sync
+    }
+
     _debouncer = Timer(_debounce, () => _runSearch(q));
   }
 
   void _runSearch(String query) {
     final q = query.trim().toLowerCase();
     SearchMemory.lastQuery = q; // 🔁 persist the current query
+    SearchMemory.lastFilter = _filter;
 
     if (q.isEmpty) {
       setState(() {
-        _hits = _index.map((d) => SearchHit(d, 0, d.preview)).toList();
+        _hits =
+            _index
+                .where(_matchesFilter)
+                .map((d) => SearchHit(d, 0, d.preview))
+                .toList();
       });
       return;
     }
@@ -305,21 +361,62 @@ class _SearchModalState extends State<SearchModal> {
     }
 
     String makeSnippet(SearchDoc d) {
+      // Haystack (lowercased), with possible 'keywords • text' split
       final h = d.haystack;
+      final firstSep = h.indexOf(' • ');
+      final afterTitleIdx = firstSep >= 0 ? firstSep + 3 : 0;
+
+      // Helper: crop around idx with a provided lower bound for start
+      String crop(String source, int idx, int minStart) {
+        final start = (idx - 50).clamp(minStart, source.length);
+        final end = (idx + 80).clamp(0, source.length);
+        return source.substring(start, end).trim();
+      }
+
+      // 1) Prefer preview (original casing) if it contains any term
+      final prev = d.preview;
+      final prevLc = prev.toLowerCase();
       for (final t in terms) {
-        final i = h.indexOf(t);
+        final i = prevLc.indexOf(t);
         if (i >= 0) {
-          final start = (i - 50).clamp(0, h.length);
-          final end = (i + t.length + 80).clamp(0, h.length);
-          final slice = d.haystack.substring(start, end).trim();
-          if (slice.isNotEmpty) return slice;
+          final slice = crop(prev, i, 0); // ⬅️ clamp to 0 for preview
+          final clean = _sanitizeExcerpt(slice, d.title);
+          if (clean.isNotEmpty) return clean;
         }
       }
-      return d.preview;
+
+      // 2) Fall back to haystack (lowercased), then sanitize and return
+      int bestIdx = -1;
+      for (final t in terms) {
+        final i = h.indexOf(t, afterTitleIdx); // stay out of keywords segment
+        if (i >= 0 && (bestIdx == -1 || i < bestIdx)) bestIdx = i;
+      }
+
+      if (bestIdx >= 0) {
+        // Crop from haystack with afterTitleIdx bound
+        var slice = crop(h, bestIdx, afterTitleIdx);
+
+        // Try to re-case from preview if the same window appears there
+        final loose = prev.toLowerCase();
+        final win = slice.toLowerCase();
+        final j = loose.indexOf(win);
+        if (j >= 0) {
+          slice =
+              prev.substring(j, (j + win.length).clamp(0, prev.length)).trim();
+        }
+
+        final clean = _sanitizeExcerpt(slice, d.title);
+        if (clean.isNotEmpty) return clean;
+      }
+
+      // 3) Last resort
+      final fallback = _sanitizeExcerpt(prev, d.title);
+      return fallback.isEmpty ? '' : fallback;
     }
 
     final hits = <SearchHit>[];
     for (final d in _index) {
+      if (!_matchesFilter(d)) continue; // 👈 skip non-matching types early
       final s = scoreFor(d);
       if (s > 0) hits.add(SearchHit(d, s, makeSnippet(d)));
     }
@@ -362,15 +459,45 @@ class _SearchModalState extends State<SearchModal> {
         context.go('/flashcards/detail', extra: extra);
         break;
     }
-
-    // OPTIONAL: if you later want the branch screen to auto-reopen the search
-    // on Back, you can pass:
-    // extra['backExtra'] = {'reopenSearch': true, 'query': SearchMemory.lastQuery};
-    // Then, in those branch screens, check extras and showDialog(SearchModal()).
-    // The router already supports `backExtra` on detail routes. :contentReference[oaicite:0]{index=0}
   }
 
   // ───────────────── UI (with highlights) ─────────────────
+
+  Widget _buildHeaderChip(String query, int count, List<String> terms) {
+    final typeLabel =
+        _filter == SearchFilter.all
+            ? 'results'
+            : (_filter == SearchFilter.lesson
+                ? (count == 1 ? 'lesson result' : 'lesson results')
+                : _filter == SearchFilter.part
+                ? (count == 1 ? 'part result' : 'part results')
+                : (count == 1 ? 'tool result' : 'tool results'));
+
+    final raw =
+        query.isEmpty
+            ? 'Showing $count $typeLabel'
+            : 'Showing $count $typeLabel for “$query”';
+
+    final base =
+        Theme.of(
+          context,
+        ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600) ??
+        const TextStyle(fontWeight: FontWeight.w600);
+
+    final hi = base.copyWith(fontWeight: FontWeight.w800);
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: RichText(text: _highlight(raw, terms, base, hi)),
+      ),
+    );
+  }
 
   TextSpan _highlight(
     String text,
@@ -414,6 +541,50 @@ class _SearchModalState extends State<SearchModal> {
     return TextSpan(children: spans);
   }
 
+  Color _typeTint(RenderItemType t, BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final alpha = isDark ? 0.22 : 0.10;
+
+    switch (t) {
+      case RenderItemType.lesson:
+        // blue → brand primary
+        return AppTheme.primaryBlue.withValues(alpha: alpha);
+
+      case RenderItemType.part:
+        // green → unified keypad accent green
+        return AppTheme.keypadAccentGreen.withValues(alpha: alpha);
+
+      case RenderItemType.tool:
+        // red → brand primary red
+        return AppTheme.primaryRed.withValues(alpha: alpha);
+
+      case RenderItemType.flashcard:
+        // neutral fallback (not used in list, but theme-aware)
+        return AppTheme.disabledGray.withValues(alpha: isDark ? 0.20 : 0.08);
+    }
+  }
+
+  // Color _typeTint(RenderItemType t, BuildContext context) {
+  //   final isDark = Theme.of(context).brightness == Brightness.dark;
+  //   switch (t) {
+  //     case RenderItemType.lesson:
+  //       // blue
+  //       return (isDark ? const Color(0xFF0D47A1) : const Color(0xFF2196F3))
+  //           .withOpacity(isDark ? 0.22 : 0.10);
+  //     case RenderItemType.part:
+  //       // green
+  //       return (isDark ? const Color(0xFF1B5E20) : const Color(0xFF4CAF50))
+  //           .withOpacity(isDark ? 0.22 : 0.10);
+  //     case RenderItemType.tool:
+  //       // red
+  //       return (isDark ? const Color(0xFFB71C1C) : const Color(0xFFF44336))
+  //           .withOpacity(isDark ? 0.22 : 0.10);
+  //     case RenderItemType.flashcard:
+  //       // not used in search list; keep neutral just in case
+  //       return Colors.grey.withOpacity(isDark ? 0.20 : 0.08);
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     final query = _controller.text.trim().toLowerCase();
@@ -432,12 +603,18 @@ class _SearchModalState extends State<SearchModal> {
               controller: _controller,
               autofocus: true,
               onChanged: _onQueryChanged,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Search…',
                 border: OutlineInputBorder(),
+                suffixIcon: _buildFilterButton(), // 👈 here’s the dropdown
               ),
             ),
           ),
+
+          // ⬇️ Header chip goes here
+          if (!_loading && _hits.isNotEmpty)
+            _buildHeaderChip(_controller.text.trim(), _hits.length, terms),
+
           if (_loading)
             const Expanded(child: Center(child: CircularProgressIndicator()))
           else if (_hits.isEmpty)
@@ -447,27 +624,185 @@ class _SearchModalState extends State<SearchModal> {
               child: ListView.separated(
                 itemCount: _hits.length,
                 separatorBuilder: (_, _) => const Divider(height: 1),
+
                 itemBuilder: (context, i) {
                   final h = _hits[i];
-                  final subtitle =
-                      '${h.doc.type.name} • ${h.snippet.isEmpty ? h.doc.preview : h.snippet}';
                   final base = Theme.of(context).textTheme.bodyMedium!;
                   final hi = base.copyWith(fontWeight: FontWeight.w700);
 
-                  return ListTile(
-                    title: Text(h.doc.title),
-                    subtitle: RichText(
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      text: _highlight(subtitle, terms, base, hi),
+                  final titleBase =
+                      Theme.of(context).textTheme.titleMedium ??
+                      Theme.of(context).textTheme.bodyLarge ??
+                      const TextStyle(fontSize: 16);
+                  final titleHi = titleBase.copyWith(
+                    fontWeight: FontWeight.w700,
+                  );
+
+                  // ⬇️ no more "lesson/part/tool • " prefix — snippet only
+                  final subRaw = h.snippet.isEmpty ? h.doc.preview : h.snippet;
+
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      color: _typeTint(h.doc.type, context),
+                      child: ListTile(
+                        title: RichText(
+                          text: _highlight(
+                            h.doc.title,
+                            terms,
+                            titleBase,
+                            titleHi,
+                          ),
+                        ),
+                        subtitle: RichText(
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          text: _highlight(subRaw, terms, base, hi),
+                        ),
+                        onTap: () => _navigateTo(h.doc),
+                      ),
                     ),
-                    onTap: () => _navigateTo(h.doc),
                   );
                 },
+
+                // itemBuilder: (context, i) {
+                //   final h = _hits[i];
+                //   final subtitle =
+                //       '${h.doc.type.name} • ${h.snippet.isEmpty ? h.doc.preview : h.snippet}';
+                //   final titleBase =
+                //       Theme.of(context).textTheme.titleMedium ??
+                //       Theme.of(context).textTheme.bodyLarge ??
+                //       const TextStyle(fontSize: 16);
+                //   final titleHi = titleBase.copyWith(
+                //     fontWeight: FontWeight.w700,
+                //   );
+
+                //   return ListTile(
+                //     title: RichText(
+                //       text: _highlight(h.doc.title, terms, titleBase, titleHi),
+                //     ),
+                //     subtitle: RichText(
+                //       maxLines: 3,
+                //       overflow: TextOverflow.ellipsis,
+                //       text: _highlight(subtitle, terms, titleBase, titleHi),
+                //     ),
+                //     onTap: () => _navigateTo(h.doc),
+                //   );
+                // },
               ),
             ),
         ],
       ),
     );
+  }
+
+  //  for drop down filter
+  Widget _buildFilterButton() {
+    String labelFor(SearchFilter f) {
+      switch (f) {
+        case SearchFilter.all:
+          return 'All';
+        case SearchFilter.lesson:
+          return 'Lessons';
+        case SearchFilter.part:
+          return 'Parts';
+        case SearchFilter.tool:
+          return 'Tools';
+      }
+    }
+
+    IconData iconFor(SearchFilter f) {
+      switch (f) {
+        case SearchFilter.all:
+          return Icons.filter_list;
+        case SearchFilter.lesson:
+          return Icons.menu_book_outlined;
+        case SearchFilter.part:
+          return Icons.directions_boat_outlined;
+        case SearchFilter.tool:
+          return Icons.build_outlined;
+      }
+    }
+
+    return PopupMenuButton<SearchFilter>(
+      tooltip: 'Filter results',
+      icon: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(iconFor(_filter)),
+          const SizedBox(width: 4),
+          Text(labelFor(_filter), style: const TextStyle(fontSize: 12)),
+          const Icon(Icons.arrow_drop_down),
+        ],
+      ),
+      onSelected: (f) {
+        setState(() => _filter = f);
+        _runSearch(_controller.text); // re-run with new filter
+      },
+      itemBuilder:
+          (context) => <PopupMenuEntry<SearchFilter>>[
+            PopupMenuItem(
+              value: SearchFilter.all,
+              child: Row(
+                children: [
+                  Icon(iconFor(SearchFilter.all)),
+                  const SizedBox(width: 8),
+                  const Text('All'),
+                  const Spacer(),
+                  if (_filter == SearchFilter.all) const Icon(Icons.check),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: SearchFilter.lesson,
+              child: Row(
+                children: [
+                  Icon(iconFor(SearchFilter.lesson)),
+                  const SizedBox(width: 8),
+                  const Text('Lessons'),
+                  const Spacer(),
+                  if (_filter == SearchFilter.lesson) const Icon(Icons.check),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: SearchFilter.part,
+              child: Row(
+                children: [
+                  Icon(iconFor(SearchFilter.part)),
+                  const SizedBox(width: 8),
+                  const Text('Parts'),
+                  const Spacer(),
+                  if (_filter == SearchFilter.part) const Icon(Icons.check),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: SearchFilter.tool,
+              child: Row(
+                children: [
+                  Icon(iconFor(SearchFilter.tool)),
+                  const SizedBox(width: 8),
+                  const Text('Tools'),
+                  const Spacer(),
+                  if (_filter == SearchFilter.tool) const Icon(Icons.check),
+                ],
+              ),
+            ),
+          ],
+    );
+  }
+
+  bool _matchesFilter(SearchDoc d) {
+    switch (_filter) {
+      case SearchFilter.all:
+        return true;
+      case SearchFilter.lesson:
+        return d.type == RenderItemType.lesson;
+      case SearchFilter.part:
+        return d.type == RenderItemType.part;
+      case SearchFilter.tool:
+        return d.type == RenderItemType.tool;
+    }
   }
 }

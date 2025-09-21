@@ -39,7 +39,7 @@ def iter_repo_objects(doc: Dict[str, Any]) -> List[Tuple[str, Dict[str, Any], st
     return out
 
 def normalize_title(title: str) -> str:
-    # Lowercase, strip trailing "-json", collapse whitespace/punctuation runs
+    # Lowercase, strip trailing "", collapse whitespace/punctuation runs
     t = title or ""
     t = t.lower().strip()
     t = re.sub(r"-json$", "", t)
@@ -83,7 +83,7 @@ def main():
     ap.add_argument("--base", required=True, help="older commit (e.g. 25dc5ec)")
     ap.add_argument("--tip",  required=True, help="newer commit (e.g. 9021153)")
     ap.add_argument("--tsv",  default="migrations/reports/id_changes.tsv")
-    ap.add_argument("--json", default="migrations/reports/id_map.json")
+    ap.add_argument("-", default="migrations/reports/id_map.json")
     args = ap.parse_args()
 
     Path("migrations/reports").mkdir(parents=True, exist_ok=True)

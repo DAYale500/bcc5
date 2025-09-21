@@ -1,9 +1,9 @@
 {
-  "module": "prep-json",
+  "module": "prep",
   "lessons": [
     {
       "id": "lesson_prep_1.00",
-      "title": "What to Wear & Bring-json",
+      "title": "What to Wear & Bring",
       "keywords": ["layers","shoes","sun","water","snacks","meds","bag"],
       "isPaid": false,
       "content": [

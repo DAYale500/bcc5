@@ -1,9 +1,9 @@
 {
-  "module": "terminology-json",
+  "module": "terminology",
   "lessons": [
     {
       "id": "lesson_term_1.00",
-      "title": "Essential Terms-json",
+      "title": "Essential Terms",
       "content": [
         {
           "type": "text",
@@ -19,7 +19,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_1.00",
-          "title": "Essential Terms-json",
+          "title": "Essential Terms",
           "sideA": [
             {
               "type": "text",
@@ -39,7 +39,7 @@
     },
     {
       "id": "lesson_term_2.00",
-      "title": "Commands & Language Quick Guide-json",
+      "title": "Commands & Language Quick Guide",
       "keywords": [
         "commands",
         "language",
@@ -56,7 +56,7 @@
     },
     {
       "id": "lesson_term_18.00",
-      "title": "Common Nautical Terms-json",
+      "title": "Common Nautical Terms",
       "content": [
         {
           "type": "text",
@@ -72,7 +72,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_18.00",
-          "title": "Common Nautical Terms-json",
+          "title": "Common Nautical Terms",
           "sideA": [
             {
               "type": "text",
@@ -92,7 +92,7 @@
     },
     {
       "id": "lesson_term_3.00",
-      "title": "Hull & Deck Anatomy-json",
+      "title": "Hull & Deck Anatomy",
       "content": [
         {
           "type": "text",
@@ -115,7 +115,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_3.00_00e91882",
-          "title": "Hull & Deck Anatomy-json",
+          "title": "Hull & Deck Anatomy",
           "sideA": [
             {
               "type": "text",
@@ -135,7 +135,7 @@
     },
     {
       "id": "lesson_term_4.00",
-      "title": "Rigging Basics: Standing vs. Running-json",
+      "title": "Rigging Basics: Standing vs. Running",
       "content": [
         {
           "type": "text",
@@ -154,7 +154,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_4.00_b6e3fd43",
-          "title": "Rigging Basics: Standing vs. Running-json",
+          "title": "Rigging Basics: Standing vs. Running",
           "sideA": [
             {
               "type": "text",
@@ -174,7 +174,7 @@
     },
     {
       "id": "lesson_term_5.00",
-      "title": "Sail Geometry: Luff, Leech, Foot & Clew-json",
+      "title": "Sail Geometry: Luff, Leech, Foot & Clew",
       "content": [
         {
           "type": "text",
@@ -193,7 +193,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_5.00_145a623b",
-          "title": "Sail Geometry: Luff, Leech, Foot & Clew-json",
+          "title": "Sail Geometry: Luff, Leech, Foot & Clew",
           "sideA": [
             {
               "type": "text",
@@ -213,7 +213,7 @@
     },
     {
       "id": "lesson_term_6.00",
-      "title": "Points of Sail-json",
+      "title": "Points of Sail",
       "content": [
         {
           "type": "text",
@@ -231,7 +231,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_6.00_24fe03ba",
-          "title": "Points of Sail-json",
+          "title": "Points of Sail",
           "sideA": [
             {
               "type": "text",
@@ -251,7 +251,7 @@
     },
     {
       "id": "lesson_term_7.00",
-      "title": "Tack vs. Jibe (Gybe)-json",
+      "title": "Tack vs. Jibe (Gybe)",
       "content": [
         {
           "type": "text",
@@ -269,7 +269,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_7.00_2eb17fe2",
-          "title": "Tack vs. Jibe (Gybe)-json",
+          "title": "Tack vs. Jibe (Gybe)",
           "sideA": [
             {
               "type": "text",
@@ -289,7 +289,7 @@
     },
     {
       "id": "lesson_term_8.00",
-      "title": "Sheets vs. Halyards-json",
+      "title": "Sheets vs. Halyards",
       "content": [
         {
           "type": "text",
@@ -306,7 +306,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_8.00_4868bd4e",
-          "title": "Sheets vs. Halyards-json",
+          "title": "Sheets vs. Halyards",
           "sideA": [
             {
               "type": "text",
@@ -326,7 +326,7 @@
     },
     {
       "id": "lesson_term_9.00",
-      "title": "Traveler, Vang & Outhaul-json",
+      "title": "Traveler, Vang & Outhaul",
       "content": [
         {
           "type": "text",
@@ -343,7 +343,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_9.00_74660e68",
-          "title": "Traveler, Vang & Outhaul-json",
+          "title": "Traveler, Vang & Outhaul",
           "sideA": [
             {
               "type": "text",
@@ -363,7 +363,7 @@
     },
     {
       "id": "lesson_term_10.00",
-      "title": "Weather Helm & Lee Helm-json",
+      "title": "Weather Helm & Lee Helm",
       "content": [
         {
           "type": "text",
@@ -380,7 +380,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_10.00_7d0ce319",
-          "title": "Weather Helm & Lee Helm-json",
+          "title": "Weather Helm & Lee Helm",
           "sideA": [
             {
               "type": "text",
@@ -400,7 +400,7 @@
     },
     {
       "id": "lesson_term_11.00",
-      "title": "Leeway & Set/Drift-json",
+      "title": "Leeway & Set/Drift",
       "content": [
         {
           "type": "text",
@@ -418,7 +418,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_11.00_23992871",
-          "title": "Leeway & Set/Drift-json",
+          "title": "Leeway & Set/Drift",
           "sideA": [
             {
               "type": "text",
@@ -438,7 +438,7 @@
     },
     {
       "id": "lesson_term_12.00",
-      "title": "Scope, Rode & Snubber-json",
+      "title": "Scope, Rode & Snubber",
       "content": [
         {
           "type": "text",
@@ -455,7 +455,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_12.00_e74f3279",
-          "title": "Scope, Rode & Snubber-json",
+          "title": "Scope, Rode & Snubber",
           "sideA": [
             {
               "type": "text",
@@ -475,7 +475,7 @@
     },
     {
       "id": "lesson_term_13.00",
-      "title": "COG, SOG & HDG-json",
+      "title": "COG, SOG & HDG",
       "content": [
         {
           "type": "text",
@@ -492,7 +492,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_13.00_8fa5d9af",
-          "title": "COG, SOG & HDG-json",
+          "title": "COG, SOG & HDG",
           "sideA": [
             {
               "type": "text",
@@ -512,7 +512,7 @@
     },
     {
       "id": "lesson_term_14.00",
-      "title": "TSS, COLREGS & Stand‑On/Give‑Way-json",
+      "title": "TSS, COLREGS & Stand‑On/Give‑Way",
       "content": [
         {
           "type": "text",
@@ -529,7 +529,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_14.00_850a7028",
-          "title": "TSS, COLREGS & Stand‑On/Give‑Way-json",
+          "title": "TSS, COLREGS & Stand‑On/Give‑Way",
           "sideA": [
             {
               "type": "text",
@@ -549,7 +549,7 @@
     },
     {
       "id": "lesson_term_15.00",
-      "title": "Apparent vs. True Wind-json",
+      "title": "Apparent vs. True Wind",
       "content": [
         {
           "type": "text",
@@ -566,7 +566,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_15.00_8e164486",
-          "title": "Apparent vs. True Wind-json",
+          "title": "Apparent vs. True Wind",
           "sideA": [
             {
               "type": "text",
@@ -586,7 +586,7 @@
     },
     {
       "id": "lesson_term_16.00",
-      "title": "Heel, Trim & List-json",
+      "title": "Heel, Trim & List",
       "content": [
         {
           "type": "text",
@@ -603,7 +603,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_16.00_3d083614",
-          "title": "Heel, Trim & List-json",
+          "title": "Heel, Trim & List",
           "sideA": [
             {
               "type": "text",
@@ -623,7 +623,7 @@
     },
     {
       "id": "lesson_term_17.00",
-      "title": "Aground, Abeam, Abaft & Ahead-json",
+      "title": "Aground, Abeam, Abaft & Ahead",
       "content": [
         {
           "type": "text",
@@ -641,7 +641,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_term_17.00_3ffacf10",
-          "title": "Aground, Abeam, Abaft & Ahead-json",
+          "title": "Aground, Abeam, Abaft & Ahead",
           "sideA": [
             {
               "type": "text",

@@ -1,9 +1,9 @@
 {
-  "module": "emergencies-json",
+  "module": "emergencies",
   "lessons": [
     {
       "id": "lesson_emer_1.00",
-      "title": "Mayday Basics-json",
+      "title": "Mayday Basics",
       "content": [
         {
           "type": "text",
@@ -18,7 +18,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_1.00_3d102ef6",
-          "title": "Mayday Basics-json",
+          "title": "Mayday Basics",
           "sideA": [
             {
               "type": "text",

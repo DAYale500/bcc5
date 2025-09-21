@@ -1,9 +1,9 @@
 {
-  "module": "sails-json",
+  "module": "sails",
   "parts": [
     {
       "id": "part_sail_1.00",
-      "title": "Mainsail Essentials-json",
+      "title": "Mainsail Essentials",
       "content": [
         {
           "type": "text",
@@ -22,7 +22,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_1.00_dff9d984",
-          "title": "Mainsail Essentials-json",
+          "title": "Mainsail Essentials",
           "sideA": [
             {
               "type": "text",
@@ -42,7 +42,7 @@
     },
     {
       "id": "part_sail_03.00",
-      "title": "Headsail & Furlers-json",
+      "title": "Headsail & Furlers",
       "content": [
         {
           "type": "text",
@@ -57,7 +57,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_03.00_f2d651ea",
-          "title": "Headsail & Furlers-json",
+          "title": "Headsail & Furlers",
           "sideA": [
             {
               "type": "text",
@@ -77,7 +77,7 @@
     },
     {
       "id": "part_sail_04.00",
-      "title": "Reefing Strategy & Procedures-json",
+      "title": "Reefing Strategy & Procedures",
       "content": [
         {
           "type": "text",
@@ -102,7 +102,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_04.00_34386018",
-          "title": "Reefing Strategy & Procedures-json",
+          "title": "Reefing Strategy & Procedures",
           "sideA": [
             {
               "type": "text",
@@ -122,7 +122,7 @@
     },
     {
       "id": "part_sail_05.00",
-      "title": "Mainsail Reef Hardware & Lines-json",
+      "title": "Mainsail Reef Hardware & Lines",
       "content": [
         {
           "type": "text",
@@ -143,7 +143,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_05.00_2b1474c2",
-          "title": "Mainsail Reef Hardware & Lines-json",
+          "title": "Mainsail Reef Hardware & Lines",
           "sideA": [
             {
               "type": "text",
@@ -163,7 +163,7 @@
     },
     {
       "id": "part_sail_06.00",
-      "title": "Headsail Selection & Roller Reefing-json",
+      "title": "Headsail Selection & Roller Reefing",
       "content": [
         {
           "type": "text",
@@ -184,7 +184,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_06.00_e12a8887",
-          "title": "Headsail Selection & Roller Reefing-json",
+          "title": "Headsail Selection & Roller Reefing",
           "sideA": [
             {
               "type": "text",
@@ -204,7 +204,7 @@
     },
     {
       "id": "part_sail_07.00",
-      "title": "Sail Trim Fundamentals (Draft/Twist)-json",
+      "title": "Sail Trim Fundamentals (Draft/Twist)",
       "content": [
         {
           "type": "text",
@@ -225,7 +225,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_07.00_adc7310c",
-          "title": "Sail Trim Fundamentals (Draft/Twist)-json",
+          "title": "Sail Trim Fundamentals (Draft/Twist)",
           "sideA": [
             {
               "type": "text",
@@ -245,7 +245,7 @@
     },
     {
       "id": "part_sail_08.00",
-      "title": "Luff Tension & Cunningham Use-json",
+      "title": "Luff Tension & Cunningham Use",
       "content": [
         {
           "type": "text",
@@ -266,7 +266,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_08.00_d8d8b064",
-          "title": "Luff Tension & Cunningham Use-json",
+          "title": "Luff Tension & Cunningham Use",
           "sideA": [
             {
               "type": "text",
@@ -286,7 +286,7 @@
     },
     {
       "id": "part_sail_09.00",
-      "title": "Foot Tension & Outhaul Control-json",
+      "title": "Foot Tension & Outhaul Control",
       "content": [
         {
           "type": "text",
@@ -307,7 +307,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_09.00_ff749f35",
-          "title": "Foot Tension & Outhaul Control-json",
+          "title": "Foot Tension & Outhaul Control",
           "sideA": [
             {
               "type": "text",
@@ -327,7 +327,7 @@
     },
     {
       "id": "part_sail_10.00",
-      "title": "Preventing Luffing/Backwinding-json",
+      "title": "Preventing Luffing/Backwinding",
       "content": [
         {
           "type": "text",
@@ -348,7 +348,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_10.00_6ab3ff4b",
-          "title": "Preventing Luffing/Backwinding-json",
+          "title": "Preventing Luffing/Backwinding",
           "sideA": [
             {
               "type": "text",
@@ -368,7 +368,7 @@
     },
     {
       "id": "part_sail_11.00",
-      "title": "Downwind Control: Preventers & Pole Work-json",
+      "title": "Downwind Control: Preventers & Pole Work",
       "content": [
         {
           "type": "text",
@@ -389,7 +389,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_11.00_29ee5fe0",
-          "title": "Downwind Control: Preventers & Pole Work-json",
+          "title": "Downwind Control: Preventers & Pole Work",
           "sideA": [
             {
               "type": "text",
@@ -409,7 +409,7 @@
     },
     {
       "id": "part_sail_2.00",
-      "title": "Asymmetric Spinnaker Basics-json",
+      "title": "Asymmetric Spinnaker Basics",
       "content": [
         {
           "type": "text",
@@ -430,7 +430,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_2.00_31872d8d",
-          "title": "Asymmetric Spinnaker Basics-json",
+          "title": "Asymmetric Spinnaker Basics",
           "sideA": [
             {
               "type": "text",
@@ -450,7 +450,7 @@
     },
     {
       "id": "part_sail_12.00",
-      "title": "Storm Sails & Heavy Weather Options-json",
+      "title": "Storm Sails & Heavy Weather Options",
       "content": [
         {
           "type": "text",
@@ -471,7 +471,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_12.00_8192ea9c",
-          "title": "Storm Sails & Heavy Weather Options-json",
+          "title": "Storm Sails & Heavy Weather Options",
           "sideA": [
             {
               "type": "text",
@@ -491,7 +491,7 @@
     },
     {
       "id": "part_sail_13.00",
-      "title": "Dousing & Drop Techniques (Main/Headsail)-json",
+      "title": "Dousing & Drop Techniques (Main/Headsail)",
       "content": [
         {
           "type": "text",
@@ -512,7 +512,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_13.00_8c655292",
-          "title": "Dousing & Drop Techniques (Main/Headsail)-json",
+          "title": "Dousing & Drop Techniques (Main/Headsail)",
           "sideA": [
             {
               "type": "text",
@@ -532,7 +532,7 @@
     },
     {
       "id": "part_sail_14.00",
-      "title": "Sail Care, Chafe & UV Protection-json",
+      "title": "Sail Care, Chafe & UV Protection",
       "content": [
         {
           "type": "text",
@@ -553,7 +553,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_14.00_264b7ec9",
-          "title": "Sail Care, Chafe & UV Protection-json",
+          "title": "Sail Care, Chafe & UV Protection",
           "sideA": [
             {
               "type": "text",
@@ -573,7 +573,7 @@
     },
     {
       "id": "part_sail_15.00",
-      "title": "Slides, Slugs & Batten Car Systems-json",
+      "title": "Slides, Slugs & Batten Car Systems",
       "content": [
         {
           "type": "text",
@@ -594,7 +594,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_15.00_55d114b1",
-          "title": "Slides, Slugs & Batten Car Systems-json",
+          "title": "Slides, Slugs & Batten Car Systems",
           "sideA": [
             {
               "type": "text",
@@ -614,7 +614,7 @@
     },
     {
       "id": "part_sail_16.00",
-      "title": "Headsail Lead Position & Cars-json",
+      "title": "Headsail Lead Position & Cars",
       "content": [
         {
           "type": "text",
@@ -635,7 +635,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_16.00_744355c5",
-          "title": "Headsail Lead Position & Cars-json",
+          "title": "Headsail Lead Position & Cars",
           "sideA": [
             {
               "type": "text",
@@ -655,7 +655,7 @@
     },
     {
       "id": "part_sail_17.00",
-      "title": "Heaving‑To with Sails-json",
+      "title": "Heaving‑To with Sails",
       "content": [
         {
           "type": "text",
@@ -676,7 +676,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_sail_17.00_195a84ec",
-          "title": "Heaving‑To with Sails-json",
+          "title": "Heaving‑To with Sails",
           "sideA": [
             {
               "type": "text",

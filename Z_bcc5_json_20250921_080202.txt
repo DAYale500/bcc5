@@ -10,11 +10,11 @@
 
 File: assets/json/tools/navigation.json
 {
-  "module": "navigation-json",
+  "module": "navigation",
   "tools": [
     {
       "id": "tool_nav_1.00",
-      "title": "GPS Basics-json",
+      "title": "GPS Basics",
       "content": [
         {
           "type": "text",
@@ -24,7 +24,7 @@ File: assets/json/tools/navigation.json
       "flashcards": [
         {
           "id": "flashcard_tool_nav_1.00_d533e111",
-          "title": "GPS Basics-json",
+          "title": "GPS Basics",
           "sideA": [
             {
               "type": "text",
@@ -44,7 +44,7 @@ File: assets/json/tools/navigation.json
     },
     {
       "id": "tool_gps_02.00",
-      "title": "Man-Overboard (MOB) Mark-json",
+      "title": "Man-Overboard (MOB) Mark",
       "content": [
         {
           "type": "text",
@@ -54,7 +54,7 @@ File: assets/json/tools/navigation.json
       "flashcards": [
         {
           "id": "flashcard_tool_gps_02.00_e4e1b4f5",
-          "title": "Man-Overboard (MOB) Mark-json",
+          "title": "Man-Overboard (MOB) Mark",
           "sideA": [
             {
               "type": "text",
@@ -85,11 +85,11 @@ File: assets/json/tools/navigation.json
 
 File: assets/json/tools/checklists.json
 {
-  "module": "checklists-json",
+  "module": "checklists",
   "tools": [
     {
       "id": "tool_check_preDeparture_1.00",
-      "title": "Pre-Departure Checklist-json",
+      "title": "Pre-Departure Checklist",
       "content": [
         {
           "type": "text",
@@ -114,7 +114,7 @@ File: assets/json/tools/checklists.json
       "flashcards": [
         {
           "id": "flashcard_tool_check_preDeparture_1.00",
-          "title": "Pre-Departure Essentials-json",
+          "title": "Pre-Departure Essentials",
           "sideA": [
             {
               "type": "text",
@@ -132,7 +132,7 @@ File: assets/json/tools/checklists.json
     },
     {
       "id": "tool_check_returnToDock_1.00",
-      "title": "Return-to-Dock Checklist-json",
+      "title": "Return-to-Dock Checklist",
       "content": [
         {
           "type": "text",
@@ -152,7 +152,7 @@ File: assets/json/tools/checklists.json
       "flashcards": [
         {
           "id": "flashcard_tool_check_returnToDock_1.00_20536672",
-          "title": "Return-to-Dock Checklist-json",
+          "title": "Return-to-Dock Checklist",
           "sideA": [
             {
               "type": "text",
@@ -183,11 +183,11 @@ File: assets/json/tools/checklists.json
 
 File: assets/json/tools/calculators.json
 {
-  "module": "calculators-json",
+  "module": "calculators",
   "tools": [
     {
       "id": "tool_calc_gps_1.00",
-      "title": "GPS Coordinate Conversion (DD ↔ DMS)-json",
+      "title": "GPS Coordinate Conversion (DD ↔ DMS)",
       "content": [
         { "type": "gpsConverter" },
         { "type": "divider" },
@@ -211,7 +211,7 @@ File: assets/json/tools/calculators.json
       "flashcards": [
         {
           "id": "flashcard_tool_calc_gps_1.00",
-          "title": "DD ↔ DMS Basics-json",
+          "title": "DD ↔ DMS Basics",
           "sideA": [
             {
               "type": "text",
@@ -229,7 +229,7 @@ File: assets/json/tools/calculators.json
     },
     {
       "id": "tool_calc_dst_1.00",
-      "title": "Speed / Time / Distance-json",
+      "title": "Speed / Time / Distance",
       "content": [
         {
           "type": "text",
@@ -251,7 +251,7 @@ File: assets/json/tools/calculators.json
       "flashcards": [
         {
           "id": "flashcard_tool_calc_dst_1.00_a4ea62fa",
-          "title": "Speed / Time / Distance-json",
+          "title": "Speed / Time / Distance",
           "sideA": [
             {
               "type": "text",
@@ -283,11 +283,11 @@ File: assets/json/tools/calculators.json
 
 File: assets/json/tools/vhf.json
 {
-  "module": "vhf-json",
+  "module": "vhf",
   "tools": [
     {
       "id": "tool_vhf_1.00",
-      "title": "VHF Basics-json",
+      "title": "VHF Basics",
       "content": [
         {
           "type": "text",
@@ -302,7 +302,7 @@ File: assets/json/tools/vhf.json
       "flashcards": [
         {
           "id": "flashcard_tool_vhf_1.00_cb9d4f32",
-          "title": "VHF Basics-json",
+          "title": "VHF Basics",
           "sideA": [
             {
               "type": "text",
@@ -333,11 +333,11 @@ File: assets/json/tools/vhf.json
 
 File: assets/json/tools/emergency.json
 {
-  "module": "emergency-json",
+  "module": "emergency",
   "tools": [
     {
       "id": "tool_emer_mob_1.00",
-      "title": "Man Overboard (MOB) — Immediate Actions-json",
+      "title": "Man Overboard (MOB) — Immediate Actions",
       "content": [
         {
           "type": "text",
@@ -361,7 +361,7 @@ File: assets/json/tools/emergency.json
       "flashcards": [
         {
           "id": "flashcard_tool_emer_mob_1.00",
-          "title": "MOB Priorities-json",
+          "title": "MOB Priorities",
           "sideA": [
             {
               "type": "text",
@@ -379,7 +379,7 @@ File: assets/json/tools/emergency.json
     },
     {
       "id": "tool_emer_fire_1.00",
-      "title": "Onboard Fire — Response-json",
+      "title": "Onboard Fire — Response",
       "content": [
         {
           "type": "text",
@@ -398,7 +398,7 @@ File: assets/json/tools/emergency.json
       "flashcards": [
         {
           "id": "flashcard_tool_emer_fire_1.00_cad285c8",
-          "title": "Onboard Fire — Response-json",
+          "title": "Onboard Fire — Response",
           "sideA": [
             {
               "type": "text",
@@ -429,11 +429,11 @@ File: assets/json/tools/emergency.json
 
 File: assets/json/tools/engine.json
 {
-  "module": "engine-json",
+  "module": "engine",
   "tools": [
     {
       "id": "tool_engine_1.00",
-      "title": "Pre-Start Checks-json",
+      "title": "Pre-Start Checks",
       "content": [
         {
           "type": "text",
@@ -451,7 +451,7 @@ File: assets/json/tools/engine.json
       "flashcards": [
         {
           "id": "flashcard_tool_engine_1.00_b15bf2f5",
-          "title": "Pre-Start Checks-json",
+          "title": "Pre-Start Checks",
           "sideA": [
             {
               "type": "text",
@@ -471,7 +471,7 @@ File: assets/json/tools/engine.json
     },
     {
       "id": "tool_mot_02.00",
-      "title": "Overheating — Immediate Actions-json",
+      "title": "Overheating — Immediate Actions",
       "content": [
         {
           "type": "text",
@@ -489,7 +489,7 @@ File: assets/json/tools/engine.json
       "flashcards": [
         {
           "id": "flashcard_tool_mot_02.00_1ac909eb",
-          "title": "Overheating — Immediate Actions-json",
+          "title": "Overheating — Immediate Actions",
           "sideA": [
             {
               "type": "text",
@@ -520,11 +520,11 @@ File: assets/json/tools/engine.json
 
 File: assets/json/tools/cheats.json
 {
-  "module": "cheats-json",
+  "module": "cheats",
   "tools": [
     {
       "id": "tool_rules_cheat_1.00",
-      "title": "One-Page Rules Recap (Crew Cheat Sheet)-json",
+      "title": "One-Page Rules Recap (Crew Cheat Sheet)",
       "content": [
         { "type": "text", "content": "If you forget everything else:" },
         {
@@ -540,7 +540,7 @@ File: assets/json/tools/cheats.json
       "flashcards": [
         {
           "id": "flashcard_tool_rules_cheat_1.00",
-          "title": "Crew Cheat Sheet-json",
+          "title": "Crew Cheat Sheet",
           "sideA": [{ "type": "text", "content": "Four golden crew rules?" }],
           "sideB": [{ "type": "text", "content": "One hand for the boat; don’t fall in; don’t block helm/winches; repeat back & ask." }],
           "isPaid": false,
@@ -562,11 +562,11 @@ File: assets/json/tools/cheats.json
 
 File: assets/json/tools/communications.json
 {
-  "module": "Communications-json",
+  "module": "Communications",
   "tools": [
     {
       "id": "tool_comm_preDeparture_1.00",
-      "title": "Comm stuff-json",
+      "title": "Comm stuff",
       "content": [
         {
           "type": "text",
@@ -591,7 +591,7 @@ File: assets/json/tools/communications.json
       "flashcards": [
         {
           "id": "flashcard_tool_check_preDeparture_1.00",
-          "title": "Pre-Departure Essentials-json",
+          "title": "Pre-Departure Essentials",
           "sideA": [
             {
               "type": "text",
@@ -609,7 +609,7 @@ File: assets/json/tools/communications.json
     },
     {
       "id": "tool_comm_flares_1.00",
-      "title": "flares-json",
+      "title": "flares",
       "content": [
         {
           "type": "text",
@@ -629,7 +629,7 @@ File: assets/json/tools/communications.json
       "flashcards": [
         {
           "id": "flashcard_tool_comm_flares_1.00_b73ca0c9",
-          "title": "flares-json",
+          "title": "flares",
           "sideA": [
             {
               "type": "text",
@@ -660,11 +660,11 @@ File: assets/json/tools/communications.json
 
 File: assets/json/tools/colregs.json
 {
-  "module": "colregs-json",
+  "module": "colregs",
   "tools": [
     {
       "id": "tool_colregs_1.00",
-      "title": "Nav Lights — Basics-json",
+      "title": "Nav Lights — Basics",
       "content": [
         {
           "type": "text",
@@ -682,7 +682,7 @@ File: assets/json/tools/colregs.json
       "flashcards": [
         {
           "id": "flashcard_tool_colregs_1.00",
-          "title": "Nav Lights — Basics-json",
+          "title": "Nav Lights — Basics",
           "sideA": [
             {
               "type": "text",
@@ -700,7 +700,7 @@ File: assets/json/tools/colregs.json
     },
     {
       "id": "tool_rules_02.00",
-      "title": "Right of Way — Overview-json",
+      "title": "Right of Way — Overview",
       "content": [
         {
           "type": "text",
@@ -718,7 +718,7 @@ File: assets/json/tools/colregs.json
       "flashcards": [
         {
           "id": "flashcard_tool_rules_02.00_e5692016",
-          "title": "Right of Way — Overview-json",
+          "title": "Right of Way — Overview",
           "sideA": [
             {
               "type": "text",
@@ -753,7 +753,7 @@ File: assets/json/paths/competent_crew.json
   "chapters": [
     {
       "id": "path_competentCrew_1.00",
-      "title": "Home: Before You Board-json",
+      "title": "Home: Before You Board",
       "showFlashcardEnding": true,
       "items": [
         {
@@ -787,7 +787,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_2.00",
-      "title": "Dockside: Lines, Fenders & Boarding-json",
+      "title": "Dockside: Lines, Fenders & Boarding",
       "items": [
         {
           "id": "lesson_seam_1.00"
@@ -811,7 +811,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_3.00",
-      "title": "Safety Foundations & MOB-json",
+      "title": "Safety Foundations & MOB",
       "items": [
         {
           "id": "lesson_safety_03.00"
@@ -832,7 +832,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_4.00",
-      "title": "Boat Tour: Hull, Interior, Rigging-json",
+      "title": "Boat Tour: Hull, Interior, Rigging",
       "items": [
         {
           "id": "part_hull_1.00"
@@ -850,7 +850,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_5.00",
-      "title": "Knots You’ll Use Every Day-json",
+      "title": "Knots You’ll Use Every Day",
       "showFlashcardEnding": true,
       "items": [
         {
@@ -872,7 +872,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_6.00",
-      "title": "Getting Underway (Engine & Motoring)-json",
+      "title": "Getting Underway (Engine & Motoring)",
       "items": [
         {
           "id": "lesson_syst_15.00"
@@ -893,7 +893,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_7.00",
-      "title": "Sail Handling Basics-json",
+      "title": "Sail Handling Basics",
       "items": [
         {
           "id": "part_sail_04.00"
@@ -914,7 +914,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_8.00",
-      "title": "Sail Control & Maneuvers-json",
+      "title": "Sail Control & Maneuvers",
       "items": [
         {
           "id": "lesson_team_6.00"
@@ -935,7 +935,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_9.00",
-      "title": "Navigation: Buoys, Lights & Basics-json",
+      "title": "Navigation: Buoys, Lights & Basics",
       "items": [
         {
           "id": "lesson_nav_1.00"
@@ -956,7 +956,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_10.00",
-      "title": "Navigation: Position & Piloting-json",
+      "title": "Navigation: Position & Piloting",
       "items": [
         {
           "id": "lesson_nav_3.00"
@@ -977,7 +977,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_11.00",
-      "title": "Tides, Currents & Course to Steer-json",
+      "title": "Tides, Currents & Course to Steer",
       "items": [
         {
           "id": "lesson_nav_11.00"
@@ -992,7 +992,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_12.00",
-      "title": "Anchoring & Mooring-json",
+      "title": "Anchoring & Mooring",
       "items": [
         {
           "id": "lesson_term_12.00"
@@ -1007,7 +1007,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_13.00",
-      "title": "Heavy Weather & Night Ops-json",
+      "title": "Heavy Weather & Night Ops",
       "items": [
         {
           "id": "lesson_safety_07.00"
@@ -1025,7 +1025,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_14.00",
-      "title": "Emergencies & Damage Control-json",
+      "title": "Emergencies & Damage Control",
       "items": [
         {
           "id": "lesson_safety_17.00"
@@ -1043,7 +1043,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_15.00",
-      "title": "Docking & Close-Quarters Mastery-json",
+      "title": "Docking & Close-Quarters Mastery",
       "items": [
         {
           "id": "lesson_seam_2.00"
@@ -1061,7 +1061,7 @@ File: assets/json/paths/competent_crew.json
     },
     {
       "id": "path_competentCrew_16.00",
-      "title": "Wrap-Up: Debrief & Next Steps-json",
+      "title": "Wrap-Up: Debrief & Next Steps",
       "showFlashcardEnding": true,
       "items": [
         {
@@ -1094,11 +1094,11 @@ File: assets/json/paths/competent_crew.json
 
 File: assets/json/parts/hull.json
 {
-  "module": "hull-json",
+  "module": "hull",
   "parts": [
     {
       "id": "part_hull_1.00",
-      "title": "Hull Inspection Basics jan the cat-json",
+      "title": "Hull Inspection Basics jan the cat",
       "content": [
         {
           "type": "text",
@@ -1122,7 +1122,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_1.00_32619487",
-          "title": "Hull Inspection Basics jan the cat-json",
+          "title": "Hull Inspection Basics jan the cat",
           "sideA": [
             {
               "type": "text",
@@ -1142,7 +1142,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_03.00",
-      "title": "Topsides & Deck-json",
+      "title": "Topsides & Deck",
       "content": [
         {
           "type": "text",
@@ -1166,7 +1166,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_03.00_ea6cd5c0",
-          "title": "Topsides & Deck-json",
+          "title": "Topsides & Deck",
           "sideA": [
             {
               "type": "text",
@@ -1186,7 +1186,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_04.00",
-      "title": "Keel & Rudder Check-json",
+      "title": "Keel & Rudder Check",
       "content": [
         {
           "type": "text",
@@ -1209,7 +1209,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_04.00_d2abc594",
-          "title": "Keel & Rudder Check-json",
+          "title": "Keel & Rudder Check",
           "sideA": [
             {
               "type": "text",
@@ -1229,7 +1229,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_05.00",
-      "title": "Through‑Hulls & Seacocks-json",
+      "title": "Through‑Hulls & Seacocks",
       "content": [
         {
           "type": "text",
@@ -1259,7 +1259,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_05.00_b72bf7ac",
-          "title": "Through‑Hulls & Seacocks-json",
+          "title": "Through‑Hulls & Seacocks",
           "sideA": [
             {
               "type": "text",
@@ -1279,7 +1279,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_06.00",
-      "title": "Keel Bolts & Stub Inspection-json",
+      "title": "Keel Bolts & Stub Inspection",
       "content": [
         {
           "type": "text",
@@ -1304,7 +1304,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_06.00_20bd6816",
-          "title": "Keel Bolts & Stub Inspection-json",
+          "title": "Keel Bolts & Stub Inspection",
           "sideA": [
             {
               "type": "text",
@@ -1324,7 +1324,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_07.00",
-      "title": "Rudder Stock, Bearings & Gland-json",
+      "title": "Rudder Stock, Bearings & Gland",
       "content": [
         {
           "type": "text",
@@ -1350,7 +1350,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_07.00_de2d34e7",
-          "title": "Rudder Stock, Bearings & Gland-json",
+          "title": "Rudder Stock, Bearings & Gland",
           "sideA": [
             {
               "type": "text",
@@ -1370,7 +1370,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_08.00",
-      "title": "Propeller, Shaft & Cutlass Bearing-json",
+      "title": "Propeller, Shaft & Cutlass Bearing",
       "content": [
         {
           "type": "text",
@@ -1395,7 +1395,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_08.00_6fc39b63",
-          "title": "Propeller, Shaft & Cutlass Bearing-json",
+          "title": "Propeller, Shaft & Cutlass Bearing",
           "sideA": [
             {
               "type": "text",
@@ -1415,7 +1415,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_09.00",
-      "title": "Shaft Seal / Stuffing Box-json",
+      "title": "Shaft Seal / Stuffing Box",
       "content": [
         {
           "type": "text",
@@ -1440,7 +1440,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_09.00_637b9713",
-          "title": "Shaft Seal / Stuffing Box-json",
+          "title": "Shaft Seal / Stuffing Box",
           "sideA": [
             {
               "type": "text",
@@ -1460,7 +1460,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_10.00",
-      "title": "Shaft Strut & Base-json",
+      "title": "Shaft Strut & Base",
       "content": [
         {
           "type": "text",
@@ -1485,7 +1485,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_10.00_1b9be326",
-          "title": "Shaft Strut & Base-json",
+          "title": "Shaft Strut & Base",
           "sideA": [
             {
               "type": "text",
@@ -1505,7 +1505,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_11.00",
-      "title": "Anodes (Zincs) & Corrosion Survey-json",
+      "title": "Anodes (Zincs) & Corrosion Survey",
       "content": [
         {
           "type": "text",
@@ -1530,7 +1530,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_11.00_0bfb47f9",
-          "title": "Anodes (Zincs) & Corrosion Survey-json",
+          "title": "Anodes (Zincs) & Corrosion Survey",
           "sideA": [
             {
               "type": "text",
@@ -1550,7 +1550,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_2.00",
-      "title": "Transducers & Blanking Plugs-json",
+      "title": "Transducers & Blanking Plugs",
       "content": [
         {
           "type": "text",
@@ -1575,7 +1575,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_2.00_e6b0b16a",
-          "title": "Transducers & Blanking Plugs-json",
+          "title": "Transducers & Blanking Plugs",
           "sideA": [
             {
               "type": "text",
@@ -1595,7 +1595,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_12.00",
-      "title": "Exhaust Outlet (Wet) & Water Discharge-json",
+      "title": "Exhaust Outlet (Wet) & Water Discharge",
       "content": [
         {
           "type": "text",
@@ -1620,7 +1620,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_12.00_a7d299ba",
-          "title": "Exhaust Outlet (Wet) & Water Discharge-json",
+          "title": "Exhaust Outlet (Wet) & Water Discharge",
           "sideA": [
             {
               "type": "text",
@@ -1640,7 +1640,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_13.00",
-      "title": "Cockpit Scupper Through‑Hulls-json",
+      "title": "Cockpit Scupper Through‑Hulls",
       "content": [
         {
           "type": "text",
@@ -1665,7 +1665,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_13.00_4dcd73c4",
-          "title": "Cockpit Scupper Through‑Hulls-json",
+          "title": "Cockpit Scupper Through‑Hulls",
           "sideA": [
             {
               "type": "text",
@@ -1685,7 +1685,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_14.00",
-      "title": "Hull‑Deck Joint & Rub Rail-json",
+      "title": "Hull‑Deck Joint & Rub Rail",
       "content": [
         {
           "type": "text",
@@ -1710,7 +1710,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_14.00_0ac01b5a",
-          "title": "Hull‑Deck Joint & Rub Rail-json",
+          "title": "Hull‑Deck Joint & Rub Rail",
           "sideA": [
             {
               "type": "text",
@@ -1730,7 +1730,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_15.00",
-      "title": "Osmosis & Blister Survey-json",
+      "title": "Osmosis & Blister Survey",
       "content": [
         {
           "type": "text",
@@ -1755,7 +1755,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_15.00_7834093a",
-          "title": "Osmosis & Blister Survey-json",
+          "title": "Osmosis & Blister Survey",
           "sideA": [
             {
               "type": "text",
@@ -1775,7 +1775,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_16.00",
-      "title": "Chainplates & Hull‑Side Stress-json",
+      "title": "Chainplates & Hull‑Side Stress",
       "content": [
         {
           "type": "text",
@@ -1800,7 +1800,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_16.00_5a74ec25",
-          "title": "Chainplates & Hull‑Side Stress-json",
+          "title": "Chainplates & Hull‑Side Stress",
           "sideA": [
             {
               "type": "text",
@@ -1820,7 +1820,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_17.00",
-      "title": "Grounding Plate / Bonding Hardware-json",
+      "title": "Grounding Plate / Bonding Hardware",
       "content": [
         {
           "type": "text",
@@ -1845,7 +1845,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_17.00_5de36517",
-          "title": "Grounding Plate / Bonding Hardware-json",
+          "title": "Grounding Plate / Bonding Hardware",
           "sideA": [
             {
               "type": "text",
@@ -1865,7 +1865,7 @@ File: assets/json/parts/hull.json
     },
     {
       "id": "part_hull_18.00",
-      "title": "Transom Fittings & Drains-json",
+      "title": "Transom Fittings & Drains",
       "content": [
         {
           "type": "text",
@@ -1890,7 +1890,7 @@ File: assets/json/parts/hull.json
       "flashcards": [
         {
           "id": "flashcard_part_hull_18.00_cad59e64",
-          "title": "Transom Fittings & Drains-json",
+          "title": "Transom Fittings & Drains",
           "sideA": [
             {
               "type": "text",
@@ -1921,11 +1921,11 @@ File: assets/json/parts/hull.json
 
 File: assets/json/parts/rigging.json
 {
-  "module": "rigging-json",
+  "module": "rigging",
   "parts": [
     {
       "id": "part_rigg_1.00",
-      "title": "Standing vs Running Rigging-json",
+      "title": "Standing vs Running Rigging",
       "content": [
         {
           "type": "text",
@@ -1945,7 +1945,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_1.00_cd597338",
-          "title": "Standing vs Running Rigging-json",
+          "title": "Standing vs Running Rigging",
           "sideA": [
             {
               "type": "text",
@@ -1965,7 +1965,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_03.00",
-      "title": "Winches & Clutches-json",
+      "title": "Winches & Clutches",
       "content": [
         {
           "type": "text",
@@ -1980,7 +1980,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_03.00_35b0fe92",
-          "title": "Winches & Clutches-json",
+          "title": "Winches & Clutches",
           "sideA": [
             {
               "type": "text",
@@ -2000,7 +2000,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_04.00",
-      "title": "Chainplates, Turnbuckles & Cotter Pins-json",
+      "title": "Chainplates, Turnbuckles & Cotter Pins",
       "content": [
         {
           "type": "text",
@@ -2025,7 +2025,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_04.00_14f7054d",
-          "title": "Chainplates, Turnbuckles & Cotter Pins-json",
+          "title": "Chainplates, Turnbuckles & Cotter Pins",
           "sideA": [
             {
               "type": "text",
@@ -2045,7 +2045,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_05.00",
-      "title": "Shrouds & Stays Tension (LOA Check)-json",
+      "title": "Shrouds & Stays Tension (LOA Check)",
       "content": [
         {
           "type": "text",
@@ -2066,7 +2066,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_05.00_9a3a3a94",
-          "title": "Shrouds & Stays Tension (LOA Check)-json",
+          "title": "Shrouds & Stays Tension (LOA Check)",
           "sideA": [
             {
               "type": "text",
@@ -2086,7 +2086,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_06.00",
-      "title": "Mast Step, Partners & Compression Post-json",
+      "title": "Mast Step, Partners & Compression Post",
       "content": [
         {
           "type": "text",
@@ -2107,7 +2107,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_06.00_3133ae6d",
-          "title": "Mast Step, Partners & Compression Post-json",
+          "title": "Mast Step, Partners & Compression Post",
           "sideA": [
             {
               "type": "text",
@@ -2127,7 +2127,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_07.00",
-      "title": "Halyards (Main/Headsail/Spinnaker)-json",
+      "title": "Halyards (Main/Headsail/Spinnaker)",
       "content": [
         {
           "type": "text",
@@ -2148,7 +2148,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_07.00_bb5b0f0b",
-          "title": "Halyards (Main/Headsail/Spinnaker)-json",
+          "title": "Halyards (Main/Headsail/Spinnaker)",
           "sideA": [
             {
               "type": "text",
@@ -2168,7 +2168,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_08.00",
-      "title": "Sheets (Main/Genoa/Jib) & Tails-json",
+      "title": "Sheets (Main/Genoa/Jib) & Tails",
       "content": [
         {
           "type": "text",
@@ -2189,7 +2189,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_08.00_45f329ee",
-          "title": "Sheets (Main/Genoa/Jib) & Tails-json",
+          "title": "Sheets (Main/Genoa/Jib) & Tails",
           "sideA": [
             {
               "type": "text",
@@ -2209,7 +2209,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_09.00",
-      "title": "Reefing System (Slab/In‑Boom)-json",
+      "title": "Reefing System (Slab/In‑Boom)",
       "content": [
         {
           "type": "text",
@@ -2230,7 +2230,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_09.00_5bf3d9fd",
-          "title": "Reefing System (Slab/In‑Boom)-json",
+          "title": "Reefing System (Slab/In‑Boom)",
           "sideA": [
             {
               "type": "text",
@@ -2250,7 +2250,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_10.00",
-      "title": "Boom Vang (Rigid/Line)-json",
+      "title": "Boom Vang (Rigid/Line)",
       "content": [
         {
           "type": "text",
@@ -2271,7 +2271,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_10.00_3e3fba1a",
-          "title": "Boom Vang (Rigid/Line)-json",
+          "title": "Boom Vang (Rigid/Line)",
           "sideA": [
             {
               "type": "text",
@@ -2291,7 +2291,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_2.00",
-      "title": "Mainsheet Traveler & Car (Rigging)-json",
+      "title": "Mainsheet Traveler & Car (Rigging)",
       "content": [
         {
           "type": "text",
@@ -2312,7 +2312,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_2.00_31650dbc",
-          "title": "Mainsheet Traveler & Car (Rigging)-json",
+          "title": "Mainsheet Traveler & Car (Rigging)",
           "sideA": [
             {
               "type": "text",
@@ -2332,7 +2332,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_11.00",
-      "title": "Genoa/Jib Cars & Tracks (Rigging)-json",
+      "title": "Genoa/Jib Cars & Tracks (Rigging)",
       "content": [
         {
           "type": "text",
@@ -2353,7 +2353,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_11.00_bbcb36a0",
-          "title": "Genoa/Jib Cars & Tracks (Rigging)-json",
+          "title": "Genoa/Jib Cars & Tracks (Rigging)",
           "sideA": [
             {
               "type": "text",
@@ -2373,7 +2373,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_12.00",
-      "title": "Headsail Furler & Extrusions-json",
+      "title": "Headsail Furler & Extrusions",
       "content": [
         {
           "type": "text",
@@ -2394,7 +2394,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_12.00_db0dc813",
-          "title": "Headsail Furler & Extrusions-json",
+          "title": "Headsail Furler & Extrusions",
           "sideA": [
             {
               "type": "text",
@@ -2414,7 +2414,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_13.00",
-      "title": "Preventer System (Gybe Control)-json",
+      "title": "Preventer System (Gybe Control)",
       "content": [
         {
           "type": "text",
@@ -2435,7 +2435,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_13.00_e9e6a374",
-          "title": "Preventer System (Gybe Control)-json",
+          "title": "Preventer System (Gybe Control)",
           "sideA": [
             {
               "type": "text",
@@ -2455,7 +2455,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_14.00",
-      "title": "Backstay / Adjuster (or Running Backs)-json",
+      "title": "Backstay / Adjuster (or Running Backs)",
       "content": [
         {
           "type": "text",
@@ -2476,7 +2476,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_14.00_dace4426",
-          "title": "Backstay / Adjuster (or Running Backs)-json",
+          "title": "Backstay / Adjuster (or Running Backs)",
           "sideA": [
             {
               "type": "text",
@@ -2496,7 +2496,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_15.00",
-      "title": "Outhaul & Foot Tension-json",
+      "title": "Outhaul & Foot Tension",
       "content": [
         {
           "type": "text",
@@ -2517,7 +2517,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_15.00_be2a14bc",
-          "title": "Outhaul & Foot Tension-json",
+          "title": "Outhaul & Foot Tension",
           "sideA": [
             {
               "type": "text",
@@ -2537,7 +2537,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_16.00",
-      "title": "Cunningham / Downhaul-json",
+      "title": "Cunningham / Downhaul",
       "content": [
         {
           "type": "text",
@@ -2558,7 +2558,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_16.00_2139455e",
-          "title": "Cunningham / Downhaul-json",
+          "title": "Cunningham / Downhaul",
           "sideA": [
             {
               "type": "text",
@@ -2578,7 +2578,7 @@ File: assets/json/parts/rigging.json
     },
     {
       "id": "part_rigg_17.00",
-      "title": "Lazy Jacks / Topping Lift-json",
+      "title": "Lazy Jacks / Topping Lift",
       "content": [
         {
           "type": "text",
@@ -2599,7 +2599,7 @@ File: assets/json/parts/rigging.json
       "flashcards": [
         {
           "id": "flashcard_part_rigg_17.00_cbc741a6",
-          "title": "Lazy Jacks / Topping Lift-json",
+          "title": "Lazy Jacks / Topping Lift",
           "sideA": [
             {
               "type": "text",
@@ -2630,11 +2630,11 @@ File: assets/json/parts/rigging.json
 
 File: assets/json/parts/deck.json
 {
-  "module": "deck-json",
+  "module": "deck",
   "parts": [
     {
       "id": "part_deck_1.00",
-      "title": "Deck Layout Overview-json",
+      "title": "Deck Layout Overview",
       "content": [
         {
           "type": "text",
@@ -2658,7 +2658,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_1.00_94accef2",
-          "title": "Deck Layout Overview-json",
+          "title": "Deck Layout Overview",
           "sideA": [
             {
               "type": "text",
@@ -2678,7 +2678,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_03.00",
-      "title": "Cleats & Line Handling-json",
+      "title": "Cleats & Line Handling",
       "content": [
         {
           "type": "heading",
@@ -2697,7 +2697,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_03.00_240d567b",
-          "title": "Cleats & Line Handling-json",
+          "title": "Cleats & Line Handling",
           "sideA": [
             {
               "type": "text",
@@ -2717,7 +2717,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_04.00",
-      "title": "Lifelines & Stanchions-json",
+      "title": "Lifelines & Stanchions",
       "content": [
         {
           "type": "heading",
@@ -2742,7 +2742,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_04.00_7373034f",
-          "title": "Lifelines & Stanchions-json",
+          "title": "Lifelines & Stanchions",
           "sideA": [
             {
               "type": "text",
@@ -2762,7 +2762,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_05.00",
-      "title": "Jacklines & Tether Points-json",
+      "title": "Jacklines & Tether Points",
       "content": [
         {
           "type": "heading",
@@ -2783,7 +2783,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_05.00_15dfe4f2",
-          "title": "Jacklines & Tether Points-json",
+          "title": "Jacklines & Tether Points",
           "sideA": [
             {
               "type": "text",
@@ -2803,7 +2803,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_06.00",
-      "title": "Anchor System: Bow Roller & Windlass-json",
+      "title": "Anchor System: Bow Roller & Windlass",
       "content": [
         {
           "type": "heading",
@@ -2824,7 +2824,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_06.00_04b996e7",
-          "title": "Anchor System: Bow Roller & Windlass-json",
+          "title": "Anchor System: Bow Roller & Windlass",
           "sideA": [
             {
               "type": "text",
@@ -2844,7 +2844,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_07.00",
-      "title": "Chocks & Fairleads-json",
+      "title": "Chocks & Fairleads",
       "content": [
         {
           "type": "heading",
@@ -2865,7 +2865,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_07.00_d4c83aa2",
-          "title": "Chocks & Fairleads-json",
+          "title": "Chocks & Fairleads",
           "sideA": [
             {
               "type": "text",
@@ -2885,7 +2885,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_08.00",
-      "title": "Handrails & Non‑Skid-json",
+      "title": "Handrails & Non‑Skid",
       "content": [
         {
           "type": "heading",
@@ -2906,7 +2906,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_08.00_a6e0ed67",
-          "title": "Handrails & Non‑Skid-json",
+          "title": "Handrails & Non‑Skid",
           "sideA": [
             {
               "type": "text",
@@ -2926,7 +2926,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_09.00",
-      "title": "Primary Winches (Sheets/Halyards)-json",
+      "title": "Primary Winches (Sheets/Halyards)",
       "content": [
         {
           "type": "heading",
@@ -2947,7 +2947,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_09.00_f42eaa92",
-          "title": "Primary Winches (Sheets/Halyards)-json",
+          "title": "Primary Winches (Sheets/Halyards)",
           "sideA": [
             {
               "type": "text",
@@ -2967,7 +2967,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_10.00",
-      "title": "Rope Clutches & Lead Organizers-json",
+      "title": "Rope Clutches & Lead Organizers",
       "content": [
         {
           "type": "heading",
@@ -2988,7 +2988,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_10.00_a035fad8",
-          "title": "Rope Clutches & Lead Organizers-json",
+          "title": "Rope Clutches & Lead Organizers",
           "sideA": [
             {
               "type": "text",
@@ -3008,7 +3008,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_11.00",
-      "title": "Mainsheet Traveler & Car-json",
+      "title": "Mainsheet Traveler & Car",
       "content": [
         {
           "type": "heading",
@@ -3029,7 +3029,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_11.00_a0d9f850",
-          "title": "Mainsheet Traveler & Car-json",
+          "title": "Mainsheet Traveler & Car",
           "sideA": [
             {
               "type": "text",
@@ -3049,7 +3049,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_2.00",
-      "title": "Genoa/Jib Tracks & Cars-json",
+      "title": "Genoa/Jib Tracks & Cars",
       "content": [
         {
           "type": "heading",
@@ -3070,7 +3070,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_2.00_a26c652e",
-          "title": "Genoa/Jib Tracks & Cars-json",
+          "title": "Genoa/Jib Tracks & Cars",
           "sideA": [
             {
               "type": "text",
@@ -3090,7 +3090,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_12.00",
-      "title": "Furling Drum & Forestay Fittings-json",
+      "title": "Furling Drum & Forestay Fittings",
       "content": [
         {
           "type": "heading",
@@ -3111,7 +3111,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_12.00_6ddb87d8",
-          "title": "Furling Drum & Forestay Fittings-json",
+          "title": "Furling Drum & Forestay Fittings",
           "sideA": [
             {
               "type": "text",
@@ -3131,7 +3131,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_13.00",
-      "title": "Pulpit & Pushpit (Bow/Stern Rails)-json",
+      "title": "Pulpit & Pushpit (Bow/Stern Rails)",
       "content": [
         {
           "type": "heading",
@@ -3152,7 +3152,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_13.00_1b23dacc",
-          "title": "Pulpit & Pushpit (Bow/Stern Rails)-json",
+          "title": "Pulpit & Pushpit (Bow/Stern Rails)",
           "sideA": [
             {
               "type": "text",
@@ -3172,7 +3172,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_14.00",
-      "title": "Deck Hatches & Portlights-json",
+      "title": "Deck Hatches & Portlights",
       "content": [
         {
           "type": "heading",
@@ -3193,7 +3193,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_14.00_88565710",
-          "title": "Deck Hatches & Portlights-json",
+          "title": "Deck Hatches & Portlights",
           "sideA": [
             {
               "type": "text",
@@ -3213,7 +3213,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_15.00",
-      "title": "Dorade Vents & Cowls-json",
+      "title": "Dorade Vents & Cowls",
       "content": [
         {
           "type": "heading",
@@ -3234,7 +3234,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_15.00_d5f05c37",
-          "title": "Dorade Vents & Cowls-json",
+          "title": "Dorade Vents & Cowls",
           "sideA": [
             {
               "type": "text",
@@ -3254,7 +3254,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_16.00",
-      "title": "Deck Fills: Fuel/Water/Waste-json",
+      "title": "Deck Fills: Fuel/Water/Waste",
       "content": [
         {
           "type": "heading",
@@ -3275,7 +3275,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_16.00_b6a6ee8d",
-          "title": "Deck Fills: Fuel/Water/Waste-json",
+          "title": "Deck Fills: Fuel/Water/Waste",
           "sideA": [
             {
               "type": "text",
@@ -3295,7 +3295,7 @@ File: assets/json/parts/deck.json
     },
     {
       "id": "part_deck_17.00",
-      "title": "Cockpit Scuppers & Drains-json",
+      "title": "Cockpit Scuppers & Drains",
       "content": [
         {
           "type": "heading",
@@ -3316,7 +3316,7 @@ File: assets/json/parts/deck.json
       "flashcards": [
         {
           "id": "flashcard_part_deck_17.00_d42fc816",
-          "title": "Cockpit Scuppers & Drains-json",
+          "title": "Cockpit Scuppers & Drains",
           "sideA": [
             {
               "type": "text",
@@ -3347,11 +3347,11 @@ File: assets/json/parts/deck.json
 
 File: assets/json/parts/interior.json
 {
-  "module": "interior-json",
+  "module": "interior",
   "parts": [
     {
       "id": "part_intr_1.00",
-      "title": "Interior Safety & Stowage-json",
+      "title": "Interior Safety & Stowage",
       "content": [
         {
           "type": "text",
@@ -3367,7 +3367,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_1.00_5966cfa5",
-          "title": "Interior Safety & Stowage-json",
+          "title": "Interior Safety & Stowage",
           "sideA": [
             {
               "type": "text",
@@ -3387,7 +3387,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_03.00",
-      "title": "Galley Basics-json",
+      "title": "Galley Basics",
       "content": [
         {
           "type": "text",
@@ -3402,7 +3402,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_03.00_c0aaccf3",
-          "title": "Galley Basics-json",
+          "title": "Galley Basics",
           "sideA": [
             {
               "type": "text",
@@ -3422,7 +3422,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_04.00",
-      "title": "Fire Safety: Extinguishers & Blanket-json",
+      "title": "Fire Safety: Extinguishers & Blanket",
       "content": [
         {
           "type": "text",
@@ -3451,7 +3451,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_04.00_b5b92461",
-          "title": "Fire Safety: Extinguishers & Blanket-json",
+          "title": "Fire Safety: Extinguishers & Blanket",
           "sideA": [
             {
               "type": "text",
@@ -3471,7 +3471,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_05.00",
-      "title": "Propane System: Solenoid, Sniffer & Shutoffs-json",
+      "title": "Propane System: Solenoid, Sniffer & Shutoffs",
       "content": [
         {
           "type": "text",
@@ -3496,7 +3496,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_05.00_7894e431",
-          "title": "Propane System: Solenoid, Sniffer & Shutoffs-json",
+          "title": "Propane System: Solenoid, Sniffer & Shutoffs",
           "sideA": [
             {
               "type": "text",
@@ -3516,7 +3516,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_06.00",
-      "title": "Electrical Panel & Main Breakers-json",
+      "title": "Electrical Panel & Main Breakers",
       "content": [
         {
           "type": "text",
@@ -3541,7 +3541,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_06.00_5f0a55b3",
-          "title": "Electrical Panel & Main Breakers-json",
+          "title": "Electrical Panel & Main Breakers",
           "sideA": [
             {
               "type": "text",
@@ -3561,7 +3561,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_07.00",
-      "title": "Battery Compartment & Master Switch-json",
+      "title": "Battery Compartment & Master Switch",
       "content": [
         {
           "type": "text",
@@ -3586,7 +3586,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_07.00_cb78853a",
-          "title": "Battery Compartment & Master Switch-json",
+          "title": "Battery Compartment & Master Switch",
           "sideA": [
             {
               "type": "text",
@@ -3606,7 +3606,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_08.00",
-      "title": "CO/Smoke/LP Detectors-json",
+      "title": "CO/Smoke/LP Detectors",
       "content": [
         {
           "type": "text",
@@ -3631,7 +3631,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_08.00_e0446b31",
-          "title": "CO/Smoke/LP Detectors-json",
+          "title": "CO/Smoke/LP Detectors",
           "sideA": [
             {
               "type": "text",
@@ -3651,7 +3651,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_09.00",
-      "title": "Bilge Access & Pumps-json",
+      "title": "Bilge Access & Pumps",
       "content": [
         {
           "type": "text",
@@ -3676,7 +3676,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_09.00_fa04c8bd",
-          "title": "Bilge Access & Pumps-json",
+          "title": "Bilge Access & Pumps",
           "sideA": [
             {
               "type": "text",
@@ -3696,7 +3696,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_10.00",
-      "title": "Seacock Access Map (Interior)-json",
+      "title": "Seacock Access Map (Interior)",
       "content": [
         {
           "type": "text",
@@ -3721,7 +3721,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_10.00_b94cedbe",
-          "title": "Seacock Access Map (Interior)-json",
+          "title": "Seacock Access Map (Interior)",
           "sideA": [
             {
               "type": "text",
@@ -3741,7 +3741,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_11.00",
-      "title": "First Aid & Medical Locker-json",
+      "title": "First Aid & Medical Locker",
       "content": [
         {
           "type": "text",
@@ -3766,7 +3766,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_11.00_f02165fe",
-          "title": "First Aid & Medical Locker-json",
+          "title": "First Aid & Medical Locker",
           "sideA": [
             {
               "type": "text",
@@ -3786,7 +3786,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "lesson_intr_2.00",
-      "title": "Head & Galley Etiquette-json",
+      "title": "Head & Galley Etiquette",
       "keywords": [
         "head",
         "galley",
@@ -3804,7 +3804,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_12.00",
-      "title": "Emergency Egress: Hatches & Ports-json",
+      "title": "Emergency Egress: Hatches & Ports",
       "content": [
         {
           "type": "text",
@@ -3829,7 +3829,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_12.00_072bed3e",
-          "title": "Emergency Egress: Hatches & Ports-json",
+          "title": "Emergency Egress: Hatches & Ports",
           "sideA": [
             {
               "type": "text",
@@ -3849,7 +3849,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_13.00",
-      "title": "Freshwater System: Pump/Accumulator/Filters-json",
+      "title": "Freshwater System: Pump/Accumulator/Filters",
       "content": [
         {
           "type": "text",
@@ -3874,7 +3874,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_13.00_df39d8df",
-          "title": "Freshwater System: Pump/Accumulator/Filters-json",
+          "title": "Freshwater System: Pump/Accumulator/Filters",
           "sideA": [
             {
               "type": "text",
@@ -3894,7 +3894,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_14.00",
-      "title": "Sanitation: Head, Y-Valve & Holding Tank-json",
+      "title": "Sanitation: Head, Y-Valve & Holding Tank",
       "content": [
         {
           "type": "text",
@@ -3919,7 +3919,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_14.00_f9d4ce4b",
-          "title": "Sanitation: Head, Y-Valve & Holding Tank-json",
+          "title": "Sanitation: Head, Y-Valve & Holding Tank",
           "sideA": [
             {
               "type": "text",
@@ -3939,7 +3939,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_15.00",
-      "title": "Heating & Ventilation-json",
+      "title": "Heating & Ventilation",
       "content": [
         {
           "type": "text",
@@ -3964,7 +3964,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_15.00_06a1e936",
-          "title": "Heating & Ventilation-json",
+          "title": "Heating & Ventilation",
           "sideA": [
             {
               "type": "text",
@@ -3984,7 +3984,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_16.00",
-      "title": "Tools, Spares & Repair Kits-json",
+      "title": "Tools, Spares & Repair Kits",
       "content": [
         {
           "type": "text",
@@ -4009,7 +4009,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_16.00_d22cd1fe",
-          "title": "Tools, Spares & Repair Kits-json",
+          "title": "Tools, Spares & Repair Kits",
           "sideA": [
             {
               "type": "text",
@@ -4029,7 +4029,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_17.00",
-      "title": "Interior Lighting: Red/White/Night-json",
+      "title": "Interior Lighting: Red/White/Night",
       "content": [
         {
           "type": "text",
@@ -4054,7 +4054,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_17.00_354005e5",
-          "title": "Interior Lighting: Red/White/Night-json",
+          "title": "Interior Lighting: Red/White/Night",
           "sideA": [
             {
               "type": "text",
@@ -4074,7 +4074,7 @@ File: assets/json/parts/interior.json
     },
     {
       "id": "part_intr_18.00",
-      "title": "Companionway & Sole Board Security-json",
+      "title": "Companionway & Sole Board Security",
       "content": [
         {
           "type": "text",
@@ -4099,7 +4099,7 @@ File: assets/json/parts/interior.json
       "flashcards": [
         {
           "id": "flashcard_part_intr_18.00_97f975f5",
-          "title": "Companionway & Sole Board Security-json",
+          "title": "Companionway & Sole Board Security",
           "sideA": [
             {
               "type": "text",
@@ -4130,11 +4130,11 @@ File: assets/json/parts/interior.json
 
 File: assets/json/parts/sails.json
 {
-  "module": "sails-json",
+  "module": "sails",
   "parts": [
     {
       "id": "part_sail_1.00",
-      "title": "Mainsail Essentials-json",
+      "title": "Mainsail Essentials",
       "content": [
         {
           "type": "text",
@@ -4153,7 +4153,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_1.00_dff9d984",
-          "title": "Mainsail Essentials-json",
+          "title": "Mainsail Essentials",
           "sideA": [
             {
               "type": "text",
@@ -4173,7 +4173,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_03.00",
-      "title": "Headsail & Furlers-json",
+      "title": "Headsail & Furlers",
       "content": [
         {
           "type": "text",
@@ -4188,7 +4188,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_03.00_f2d651ea",
-          "title": "Headsail & Furlers-json",
+          "title": "Headsail & Furlers",
           "sideA": [
             {
               "type": "text",
@@ -4208,7 +4208,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_04.00",
-      "title": "Reefing Strategy & Procedures-json",
+      "title": "Reefing Strategy & Procedures",
       "content": [
         {
           "type": "text",
@@ -4233,7 +4233,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_04.00_34386018",
-          "title": "Reefing Strategy & Procedures-json",
+          "title": "Reefing Strategy & Procedures",
           "sideA": [
             {
               "type": "text",
@@ -4253,7 +4253,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_05.00",
-      "title": "Mainsail Reef Hardware & Lines-json",
+      "title": "Mainsail Reef Hardware & Lines",
       "content": [
         {
           "type": "text",
@@ -4274,7 +4274,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_05.00_2b1474c2",
-          "title": "Mainsail Reef Hardware & Lines-json",
+          "title": "Mainsail Reef Hardware & Lines",
           "sideA": [
             {
               "type": "text",
@@ -4294,7 +4294,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_06.00",
-      "title": "Headsail Selection & Roller Reefing-json",
+      "title": "Headsail Selection & Roller Reefing",
       "content": [
         {
           "type": "text",
@@ -4315,7 +4315,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_06.00_e12a8887",
-          "title": "Headsail Selection & Roller Reefing-json",
+          "title": "Headsail Selection & Roller Reefing",
           "sideA": [
             {
               "type": "text",
@@ -4335,7 +4335,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_07.00",
-      "title": "Sail Trim Fundamentals (Draft/Twist)-json",
+      "title": "Sail Trim Fundamentals (Draft/Twist)",
       "content": [
         {
           "type": "text",
@@ -4356,7 +4356,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_07.00_adc7310c",
-          "title": "Sail Trim Fundamentals (Draft/Twist)-json",
+          "title": "Sail Trim Fundamentals (Draft/Twist)",
           "sideA": [
             {
               "type": "text",
@@ -4376,7 +4376,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_08.00",
-      "title": "Luff Tension & Cunningham Use-json",
+      "title": "Luff Tension & Cunningham Use",
       "content": [
         {
           "type": "text",
@@ -4397,7 +4397,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_08.00_d8d8b064",
-          "title": "Luff Tension & Cunningham Use-json",
+          "title": "Luff Tension & Cunningham Use",
           "sideA": [
             {
               "type": "text",
@@ -4417,7 +4417,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_09.00",
-      "title": "Foot Tension & Outhaul Control-json",
+      "title": "Foot Tension & Outhaul Control",
       "content": [
         {
           "type": "text",
@@ -4438,7 +4438,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_09.00_ff749f35",
-          "title": "Foot Tension & Outhaul Control-json",
+          "title": "Foot Tension & Outhaul Control",
           "sideA": [
             {
               "type": "text",
@@ -4458,7 +4458,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_10.00",
-      "title": "Preventing Luffing/Backwinding-json",
+      "title": "Preventing Luffing/Backwinding",
       "content": [
         {
           "type": "text",
@@ -4479,7 +4479,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_10.00_6ab3ff4b",
-          "title": "Preventing Luffing/Backwinding-json",
+          "title": "Preventing Luffing/Backwinding",
           "sideA": [
             {
               "type": "text",
@@ -4499,7 +4499,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_11.00",
-      "title": "Downwind Control: Preventers & Pole Work-json",
+      "title": "Downwind Control: Preventers & Pole Work",
       "content": [
         {
           "type": "text",
@@ -4520,7 +4520,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_11.00_29ee5fe0",
-          "title": "Downwind Control: Preventers & Pole Work-json",
+          "title": "Downwind Control: Preventers & Pole Work",
           "sideA": [
             {
               "type": "text",
@@ -4540,7 +4540,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_2.00",
-      "title": "Asymmetric Spinnaker Basics-json",
+      "title": "Asymmetric Spinnaker Basics",
       "content": [
         {
           "type": "text",
@@ -4561,7 +4561,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_2.00_31872d8d",
-          "title": "Asymmetric Spinnaker Basics-json",
+          "title": "Asymmetric Spinnaker Basics",
           "sideA": [
             {
               "type": "text",
@@ -4581,7 +4581,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_12.00",
-      "title": "Storm Sails & Heavy Weather Options-json",
+      "title": "Storm Sails & Heavy Weather Options",
       "content": [
         {
           "type": "text",
@@ -4602,7 +4602,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_12.00_8192ea9c",
-          "title": "Storm Sails & Heavy Weather Options-json",
+          "title": "Storm Sails & Heavy Weather Options",
           "sideA": [
             {
               "type": "text",
@@ -4622,7 +4622,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_13.00",
-      "title": "Dousing & Drop Techniques (Main/Headsail)-json",
+      "title": "Dousing & Drop Techniques (Main/Headsail)",
       "content": [
         {
           "type": "text",
@@ -4643,7 +4643,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_13.00_8c655292",
-          "title": "Dousing & Drop Techniques (Main/Headsail)-json",
+          "title": "Dousing & Drop Techniques (Main/Headsail)",
           "sideA": [
             {
               "type": "text",
@@ -4663,7 +4663,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_14.00",
-      "title": "Sail Care, Chafe & UV Protection-json",
+      "title": "Sail Care, Chafe & UV Protection",
       "content": [
         {
           "type": "text",
@@ -4684,7 +4684,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_14.00_264b7ec9",
-          "title": "Sail Care, Chafe & UV Protection-json",
+          "title": "Sail Care, Chafe & UV Protection",
           "sideA": [
             {
               "type": "text",
@@ -4704,7 +4704,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_15.00",
-      "title": "Slides, Slugs & Batten Car Systems-json",
+      "title": "Slides, Slugs & Batten Car Systems",
       "content": [
         {
           "type": "text",
@@ -4725,7 +4725,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_15.00_55d114b1",
-          "title": "Slides, Slugs & Batten Car Systems-json",
+          "title": "Slides, Slugs & Batten Car Systems",
           "sideA": [
             {
               "type": "text",
@@ -4745,7 +4745,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_16.00",
-      "title": "Headsail Lead Position & Cars-json",
+      "title": "Headsail Lead Position & Cars",
       "content": [
         {
           "type": "text",
@@ -4766,7 +4766,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_16.00_744355c5",
-          "title": "Headsail Lead Position & Cars-json",
+          "title": "Headsail Lead Position & Cars",
           "sideA": [
             {
               "type": "text",
@@ -4786,7 +4786,7 @@ File: assets/json/parts/sails.json
     },
     {
       "id": "part_sail_17.00",
-      "title": "Heaving‑To with Sails-json",
+      "title": "Heaving‑To with Sails",
       "content": [
         {
           "type": "text",
@@ -4807,7 +4807,7 @@ File: assets/json/parts/sails.json
       "flashcards": [
         {
           "id": "flashcard_part_sail_17.00_195a84ec",
-          "title": "Heaving‑To with Sails-json",
+          "title": "Heaving‑To with Sails",
           "sideA": [
             {
               "type": "text",
@@ -4838,11 +4838,11 @@ File: assets/json/parts/sails.json
 
 File: assets/json/lessons/navigation.json
 {
-  "module": "navigation-json",
+  "module": "navigation",
   "lessons": [
     {
       "id": "lesson_nav_1.00",
-      "title": "Intro to Aids to Navigation-json",
+      "title": "Intro to Aids to Navigation",
       "content": [
         {
           "type": "text",
@@ -4857,7 +4857,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_1.00_5c7f4df3",
-          "title": "Intro to Aids to Navigation-json",
+          "title": "Intro to Aids to Navigation",
           "sideA": [
             {
               "type": "text",
@@ -4877,7 +4877,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_2.00",
-      "title": "Paper Chart Fundamentals-json",
+      "title": "Paper Chart Fundamentals",
       "content": [
         {
           "type": "text",
@@ -4898,7 +4898,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_2.00_731c25ed",
-          "title": "Paper Chart Fundamentals-json",
+          "title": "Paper Chart Fundamentals",
           "sideA": [
             {
               "type": "text",
@@ -4918,7 +4918,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_3.00",
-      "title": "Latitude/Longitude & Plotting a Position-json",
+      "title": "Latitude/Longitude & Plotting a Position",
       "content": [
         {
           "type": "text",
@@ -4935,7 +4935,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_3.00_e6adf273",
-          "title": "Latitude/Longitude & Plotting a Position-json",
+          "title": "Latitude/Longitude & Plotting a Position",
           "sideA": [
             {
               "type": "text",
@@ -4955,7 +4955,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_4.00",
-      "title": "Variation/Deviation & TVMDC-json",
+      "title": "Variation/Deviation & TVMDC",
       "content": [
         {
           "type": "text",
@@ -4972,7 +4972,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_4.00_4b8a182c",
-          "title": "Variation/Deviation & TVMDC-json",
+          "title": "Variation/Deviation & TVMDC",
           "sideA": [
             {
               "type": "text",
@@ -4992,7 +4992,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_5.00",
-      "title": "Bearings: Hand\u2011Bearing Compass & Relative Bearings-json",
+      "title": "Bearings: Hand\u2011Bearing Compass & Relative Bearings",
       "content": [
         {
           "type": "text",
@@ -5009,7 +5009,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_5.00_9385703d",
-          "title": "Bearings: Hand\u2011Bearing Compass & Relative Bearings-json",
+          "title": "Bearings: Hand\u2011Bearing Compass & Relative Bearings",
           "sideA": [
             {
               "type": "text",
@@ -5029,7 +5029,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_6.00",
-      "title": "Two\u2011/Three\u2011Bearing Fix-json",
+      "title": "Two\u2011/Three\u2011Bearing Fix",
       "content": [
         {
           "type": "text",
@@ -5046,7 +5046,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_6.00_2ca6704d",
-          "title": "Two\u2011/Three\u2011Bearing Fix-json",
+          "title": "Two\u2011/Three\u2011Bearing Fix",
           "sideA": [
             {
               "type": "text",
@@ -5066,7 +5066,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_7.00",
-      "title": "Running Fix-json",
+      "title": "Running Fix",
       "content": [
         {
           "type": "text",
@@ -5082,7 +5082,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_7.00_635a9959",
-          "title": "Running Fix-json",
+          "title": "Running Fix",
           "sideA": [
             {
               "type": "text",
@@ -5102,7 +5102,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_8.00",
-      "title": "Dead Reckoning & Estimated Position-json",
+      "title": "Dead Reckoning & Estimated Position",
       "content": [
         {
           "type": "text",
@@ -5119,7 +5119,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_8.00_85de5dd7",
-          "title": "Dead Reckoning & Estimated Position-json",
+          "title": "Dead Reckoning & Estimated Position",
           "sideA": [
             {
               "type": "text",
@@ -5139,7 +5139,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_9.00",
-      "title": "Course to Steer (Leeway Included)-json",
+      "title": "Course to Steer (Leeway Included)",
       "content": [
         {
           "type": "text",
@@ -5156,7 +5156,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_9.00_24dda892",
-          "title": "Course to Steer (Leeway Included)-json",
+          "title": "Course to Steer (Leeway Included)",
           "sideA": [
             {
               "type": "text",
@@ -5176,7 +5176,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_10.00",
-      "title": "Set & Drift (Current Triangle)-json",
+      "title": "Set & Drift (Current Triangle)",
       "content": [
         {
           "type": "text",
@@ -5193,7 +5193,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_10.00_9fa466ed",
-          "title": "Set & Drift (Current Triangle)-json",
+          "title": "Set & Drift (Current Triangle)",
           "sideA": [
             {
               "type": "text",
@@ -5213,7 +5213,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_11.00",
-      "title": "Tide Basics: Heights & Datums-json",
+      "title": "Tide Basics: Heights & Datums",
       "content": [
         {
           "type": "text",
@@ -5230,7 +5230,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_11.00_e64906c6",
-          "title": "Tide Basics: Heights & Datums-json",
+          "title": "Tide Basics: Heights & Datums",
           "sideA": [
             {
               "type": "text",
@@ -5250,7 +5250,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_12.00",
-      "title": "Currents: Tables, Slack & Max-json",
+      "title": "Currents: Tables, Slack & Max",
       "content": [
         {
           "type": "text",
@@ -5267,7 +5267,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_12.00_9db8ab6a",
-          "title": "Currents: Tables, Slack & Max-json",
+          "title": "Currents: Tables, Slack & Max",
           "sideA": [
             {
               "type": "text",
@@ -5287,7 +5287,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_13.00",
-      "title": "IALA\u2011B Buoyage Details-json",
+      "title": "IALA\u2011B Buoyage Details",
       "content": [
         {
           "type": "text",
@@ -5304,7 +5304,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_13.00_9f63d623",
-          "title": "IALA\u2011B Buoyage Details-json",
+          "title": "IALA\u2011B Buoyage Details",
           "sideA": [
             {
               "type": "text",
@@ -5324,7 +5324,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_14.00",
-      "title": "Lights & Day Shapes-json",
+      "title": "Lights & Day Shapes",
       "content": [
         {
           "type": "text",
@@ -5341,7 +5341,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_14.00_c4c303e2",
-          "title": "Lights & Day Shapes-json",
+          "title": "Lights & Day Shapes",
           "sideA": [
             {
               "type": "text",
@@ -5361,7 +5361,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_15.00",
-      "title": "Radar Piloting: VRM/EBL & Ranges-json",
+      "title": "Radar Piloting: VRM/EBL & Ranges",
       "content": [
         {
           "type": "text",
@@ -5378,7 +5378,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_15.00_27fbd2e6",
-          "title": "Radar Piloting: VRM/EBL & Ranges-json",
+          "title": "Radar Piloting: VRM/EBL & Ranges",
           "sideA": [
             {
               "type": "text",
@@ -5398,7 +5398,7 @@ File: assets/json/lessons/navigation.json
     },
     {
       "id": "lesson_nav_16.00",
-      "title": "Electronic Nav: GPS/Plotter/AIS Limits-json",
+      "title": "Electronic Nav: GPS/Plotter/AIS Limits",
       "content": [
         {
           "type": "text",
@@ -5415,7 +5415,7 @@ File: assets/json/lessons/navigation.json
       "flashcards": [
         {
           "id": "flashcard_lesson_nav_16.00_6a19a1ec",
-          "title": "Electronic Nav: GPS/Plotter/AIS Limits-json",
+          "title": "Electronic Nav: GPS/Plotter/AIS Limits",
           "sideA": [
             {
               "type": "text",
@@ -5446,11 +5446,11 @@ File: assets/json/lessons/navigation.json
 
 File: assets/json/lessons/terminology.json
 {
-  "module": "terminology-json",
+  "module": "terminology",
   "lessons": [
     {
       "id": "lesson_term_1.00",
-      "title": "Essential Terms-json",
+      "title": "Essential Terms",
       "content": [
         {
           "type": "text",
@@ -5466,7 +5466,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_1.00",
-          "title": "Essential Terms-json",
+          "title": "Essential Terms",
           "sideA": [
             {
               "type": "text",
@@ -5486,7 +5486,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_2.00",
-      "title": "Commands & Language Quick Guide-json",
+      "title": "Commands & Language Quick Guide",
       "keywords": [
         "commands",
         "language",
@@ -5503,7 +5503,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_18.00",
-      "title": "Common Nautical Terms-json",
+      "title": "Common Nautical Terms",
       "content": [
         {
           "type": "text",
@@ -5519,7 +5519,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_18.00",
-          "title": "Common Nautical Terms-json",
+          "title": "Common Nautical Terms",
           "sideA": [
             {
               "type": "text",
@@ -5539,7 +5539,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_3.00",
-      "title": "Hull & Deck Anatomy-json",
+      "title": "Hull & Deck Anatomy",
       "content": [
         {
           "type": "text",
@@ -5562,7 +5562,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_3.00_00e91882",
-          "title": "Hull & Deck Anatomy-json",
+          "title": "Hull & Deck Anatomy",
           "sideA": [
             {
               "type": "text",
@@ -5582,7 +5582,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_4.00",
-      "title": "Rigging Basics: Standing vs. Running-json",
+      "title": "Rigging Basics: Standing vs. Running",
       "content": [
         {
           "type": "text",
@@ -5601,7 +5601,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_4.00_b6e3fd43",
-          "title": "Rigging Basics: Standing vs. Running-json",
+          "title": "Rigging Basics: Standing vs. Running",
           "sideA": [
             {
               "type": "text",
@@ -5621,7 +5621,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_5.00",
-      "title": "Sail Geometry: Luff, Leech, Foot & Clew-json",
+      "title": "Sail Geometry: Luff, Leech, Foot & Clew",
       "content": [
         {
           "type": "text",
@@ -5640,7 +5640,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_5.00_145a623b",
-          "title": "Sail Geometry: Luff, Leech, Foot & Clew-json",
+          "title": "Sail Geometry: Luff, Leech, Foot & Clew",
           "sideA": [
             {
               "type": "text",
@@ -5660,7 +5660,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_6.00",
-      "title": "Points of Sail-json",
+      "title": "Points of Sail",
       "content": [
         {
           "type": "text",
@@ -5678,7 +5678,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_6.00_24fe03ba",
-          "title": "Points of Sail-json",
+          "title": "Points of Sail",
           "sideA": [
             {
               "type": "text",
@@ -5698,7 +5698,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_7.00",
-      "title": "Tack vs. Jibe (Gybe)-json",
+      "title": "Tack vs. Jibe (Gybe)",
       "content": [
         {
           "type": "text",
@@ -5716,7 +5716,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_7.00_2eb17fe2",
-          "title": "Tack vs. Jibe (Gybe)-json",
+          "title": "Tack vs. Jibe (Gybe)",
           "sideA": [
             {
               "type": "text",
@@ -5736,7 +5736,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_8.00",
-      "title": "Sheets vs. Halyards-json",
+      "title": "Sheets vs. Halyards",
       "content": [
         {
           "type": "text",
@@ -5753,7 +5753,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_8.00_4868bd4e",
-          "title": "Sheets vs. Halyards-json",
+          "title": "Sheets vs. Halyards",
           "sideA": [
             {
               "type": "text",
@@ -5773,7 +5773,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_9.00",
-      "title": "Traveler, Vang & Outhaul-json",
+      "title": "Traveler, Vang & Outhaul",
       "content": [
         {
           "type": "text",
@@ -5790,7 +5790,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_9.00_74660e68",
-          "title": "Traveler, Vang & Outhaul-json",
+          "title": "Traveler, Vang & Outhaul",
           "sideA": [
             {
               "type": "text",
@@ -5810,7 +5810,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_10.00",
-      "title": "Weather Helm & Lee Helm-json",
+      "title": "Weather Helm & Lee Helm",
       "content": [
         {
           "type": "text",
@@ -5827,7 +5827,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_10.00_7d0ce319",
-          "title": "Weather Helm & Lee Helm-json",
+          "title": "Weather Helm & Lee Helm",
           "sideA": [
             {
               "type": "text",
@@ -5847,7 +5847,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_11.00",
-      "title": "Leeway & Set/Drift-json",
+      "title": "Leeway & Set/Drift",
       "content": [
         {
           "type": "text",
@@ -5865,7 +5865,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_11.00_23992871",
-          "title": "Leeway & Set/Drift-json",
+          "title": "Leeway & Set/Drift",
           "sideA": [
             {
               "type": "text",
@@ -5885,7 +5885,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_12.00",
-      "title": "Scope, Rode & Snubber-json",
+      "title": "Scope, Rode & Snubber",
       "content": [
         {
           "type": "text",
@@ -5902,7 +5902,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_12.00_e74f3279",
-          "title": "Scope, Rode & Snubber-json",
+          "title": "Scope, Rode & Snubber",
           "sideA": [
             {
               "type": "text",
@@ -5922,7 +5922,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_13.00",
-      "title": "COG, SOG & HDG-json",
+      "title": "COG, SOG & HDG",
       "content": [
         {
           "type": "text",
@@ -5939,7 +5939,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_13.00_8fa5d9af",
-          "title": "COG, SOG & HDG-json",
+          "title": "COG, SOG & HDG",
           "sideA": [
             {
               "type": "text",
@@ -5959,7 +5959,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_14.00",
-      "title": "TSS, COLREGS & Stand‑On/Give‑Way-json",
+      "title": "TSS, COLREGS & Stand‑On/Give‑Way",
       "content": [
         {
           "type": "text",
@@ -5976,7 +5976,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_14.00_850a7028",
-          "title": "TSS, COLREGS & Stand‑On/Give‑Way-json",
+          "title": "TSS, COLREGS & Stand‑On/Give‑Way",
           "sideA": [
             {
               "type": "text",
@@ -5996,7 +5996,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_15.00",
-      "title": "Apparent vs. True Wind-json",
+      "title": "Apparent vs. True Wind",
       "content": [
         {
           "type": "text",
@@ -6013,7 +6013,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_15.00_8e164486",
-          "title": "Apparent vs. True Wind-json",
+          "title": "Apparent vs. True Wind",
           "sideA": [
             {
               "type": "text",
@@ -6033,7 +6033,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_16.00",
-      "title": "Heel, Trim & List-json",
+      "title": "Heel, Trim & List",
       "content": [
         {
           "type": "text",
@@ -6050,7 +6050,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_16.00_3d083614",
-          "title": "Heel, Trim & List-json",
+          "title": "Heel, Trim & List",
           "sideA": [
             {
               "type": "text",
@@ -6070,7 +6070,7 @@ File: assets/json/lessons/terminology.json
     },
     {
       "id": "lesson_term_17.00",
-      "title": "Aground, Abeam, Abaft & Ahead-json",
+      "title": "Aground, Abeam, Abaft & Ahead",
       "content": [
         {
           "type": "text",
@@ -6088,7 +6088,7 @@ File: assets/json/lessons/terminology.json
       "flashcards": [
         {
           "id": "flashcard_lesson_term_17.00_3ffacf10",
-          "title": "Aground, Abeam, Abaft & Ahead-json",
+          "title": "Aground, Abeam, Abaft & Ahead",
           "sideA": [
             {
               "type": "text",
@@ -6119,11 +6119,11 @@ File: assets/json/lessons/terminology.json
 
 File: assets/json/lessons/knots.json
 {
-  "module": "knots-json",
+  "module": "knots",
   "lessons": [
     {
       "id": "lesson_knot_1.00",
-      "title": "Figure Eight Knot-json",
+      "title": "Figure Eight Knot",
       "content": [
         {
           "type": "text",
@@ -6138,7 +6138,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_1.00_8f281a6f",
-          "title": "Figure Eight Knot-json",
+          "title": "Figure Eight Knot",
           "sideA": [
             {
               "type": "text",
@@ -6158,7 +6158,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_03.00",
-      "title": "Bowline Knot-json",
+      "title": "Bowline Knot",
       "content": [
         {
           "type": "text",
@@ -6179,7 +6179,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_03.00_b0020d94",
-          "title": "Bowline-json",
+          "title": "Bowline",
           "sideA": [
             {
               "type": "text",
@@ -6199,7 +6199,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_04.00",
-      "title": "Cleat Hitch-json",
+      "title": "Cleat Hitch",
       "content": [
         {
           "type": "text",
@@ -6216,7 +6216,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_04.00_c2fc53c5",
-          "title": "Cleat Hitch-json",
+          "title": "Cleat Hitch",
           "sideA": [
             {
               "type": "text",
@@ -6236,7 +6236,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_05.00",
-      "title": "Clove Hitch-json",
+      "title": "Clove Hitch",
       "content": [
         {
           "type": "text",
@@ -6253,7 +6253,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_05.00_68f632db",
-          "title": "Clove Hitch-json",
+          "title": "Clove Hitch",
           "sideA": [
             {
               "type": "text",
@@ -6273,7 +6273,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_06.00",
-      "title": "Rolling Hitch-json",
+      "title": "Rolling Hitch",
       "content": [
         {
           "type": "text",
@@ -6290,7 +6290,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_06.00_e899b253",
-          "title": "Rolling Hitch-json",
+          "title": "Rolling Hitch",
           "sideA": [
             {
               "type": "text",
@@ -6310,7 +6310,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_07.00",
-      "title": "Round Turn & Two Half Hitches-json",
+      "title": "Round Turn & Two Half Hitches",
       "content": [
         {
           "type": "text",
@@ -6327,7 +6327,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_07.00_f530fc84",
-          "title": "Round Turn & Two Half Hitches-json",
+          "title": "Round Turn & Two Half Hitches",
           "sideA": [
             {
               "type": "text",
@@ -6347,7 +6347,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_08.00",
-      "title": "Sheet Bend-json",
+      "title": "Sheet Bend",
       "content": [
         {
           "type": "text",
@@ -6364,7 +6364,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_08.00_886d228c",
-          "title": "Sheet Bend-json",
+          "title": "Sheet Bend",
           "sideA": [
             {
               "type": "text",
@@ -6384,7 +6384,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_09.00",
-      "title": "Double Sheet Bend-json",
+      "title": "Double Sheet Bend",
       "content": [
         {
           "type": "text",
@@ -6401,7 +6401,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_09.00_ebae5f02",
-          "title": "Double Sheet Bend-json",
+          "title": "Double Sheet Bend",
           "sideA": [
             {
               "type": "text",
@@ -6421,7 +6421,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_10.00",
-      "title": "Reef (Square) Knot-json",
+      "title": "Reef (Square) Knot",
       "content": [
         {
           "type": "text",
@@ -6438,7 +6438,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_10.00_9b23933c",
-          "title": "Reef (Square) Knot-json",
+          "title": "Reef (Square) Knot",
           "sideA": [
             {
               "type": "text",
@@ -6458,7 +6458,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_11.00",
-      "title": "Anchor Bend (Fisherman’s Bend)-json",
+      "title": "Anchor Bend (Fisherman’s Bend)",
       "content": [
         {
           "type": "text",
@@ -6475,7 +6475,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_11.00_51c81c58",
-          "title": "Anchor Bend (Fisherman’s Bend)-json",
+          "title": "Anchor Bend (Fisherman’s Bend)",
           "sideA": [
             {
               "type": "text",
@@ -6495,7 +6495,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_2.00",
-      "title": "Trucker’s Hitch-json",
+      "title": "Trucker’s Hitch",
       "content": [
         {
           "type": "text",
@@ -6512,7 +6512,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_2.00_882d45c3",
-          "title": "Trucker’s Hitch-json",
+          "title": "Trucker’s Hitch",
           "sideA": [
             {
               "type": "text",
@@ -6532,7 +6532,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_12.00",
-      "title": "Timber Hitch-json",
+      "title": "Timber Hitch",
       "content": [
         {
           "type": "text",
@@ -6549,7 +6549,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_12.00_4a7fddf9",
-          "title": "Timber Hitch-json",
+          "title": "Timber Hitch",
           "sideA": [
             {
               "type": "text",
@@ -6569,7 +6569,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_13.00",
-      "title": "Cow Hitch (Lark’s Head)-json",
+      "title": "Cow Hitch (Lark’s Head)",
       "content": [
         {
           "type": "text",
@@ -6586,7 +6586,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_13.00_cb6cd544",
-          "title": "Cow Hitch (Lark’s Head)-json",
+          "title": "Cow Hitch (Lark’s Head)",
           "sideA": [
             {
               "type": "text",
@@ -6606,7 +6606,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_14.00",
-      "title": "Heaving Line Knot-json",
+      "title": "Heaving Line Knot",
       "content": [
         {
           "type": "text",
@@ -6623,7 +6623,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_14.00_98bd811c",
-          "title": "Heaving Line Knot-json",
+          "title": "Heaving Line Knot",
           "sideA": [
             {
               "type": "text",
@@ -6643,7 +6643,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_15.00",
-      "title": "Sailmaker’s Whipping-json",
+      "title": "Sailmaker’s Whipping",
       "content": [
         {
           "type": "text",
@@ -6660,7 +6660,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_15.00_184aef76",
-          "title": "Sailmaker’s Whipping-json",
+          "title": "Sailmaker’s Whipping",
           "sideA": [
             {
               "type": "text",
@@ -6680,7 +6680,7 @@ File: assets/json/lessons/knots.json
     },
     {
       "id": "lesson_knot_16.00",
-      "title": "Ashley Stopper Knot-json",
+      "title": "Ashley Stopper Knot",
       "content": [
         {
           "type": "text",
@@ -6697,7 +6697,7 @@ File: assets/json/lessons/knots.json
       "flashcards": [
         {
           "id": "flashcard_lesson_knot_16.00_e10e9b91",
-          "title": "Ashley Stopper Knot-json",
+          "title": "Ashley Stopper Knot",
           "sideA": [
             {
               "type": "text",
@@ -6728,11 +6728,11 @@ File: assets/json/lessons/knots.json
 
 File: assets/json/lessons/docking.json
 {
-  "module": "docking-json",
+  "module": "docking",
   "lessons": [
     {
       "id": "lesson_dock_1.00",
-      "title": "L1: Handling Dock Lines Repository-json",
+      "title": "L1: Handling Dock Lines Repository",
       "content": [
         {
           "type": "text",
@@ -6760,7 +6760,7 @@ File: assets/json/lessons/docking.json
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_1.00",
-          "title": "Using Dock Lines-json",
+          "title": "Using Dock Lines",
           "sideA": [
             {
               "type": "text",
@@ -6780,7 +6780,7 @@ File: assets/json/lessons/docking.json
     },
     {
       "id": "lesson_dock_10.00",
-      "title": "Departing the Dock – What to Expect-json",
+      "title": "Departing the Dock – What to Expect",
       "content": [
         {
           "type": "text",
@@ -6801,7 +6801,7 @@ File: assets/json/lessons/docking.json
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_10.00",
-          "title": "FC: What to Expect During Departure-json",
+          "title": "FC: What to Expect During Departure",
           "sideA": [
             {
               "type": "text",
@@ -6821,7 +6821,7 @@ File: assets/json/lessons/docking.json
     },
     {
       "id": "lesson_dock_2.00",
-      "title": "L2: Anchoring - Setting Up-json",
+      "title": "L2: Anchoring - Setting Up",
       "content": [
         {
           "type": "text",
@@ -6849,7 +6849,7 @@ File: assets/json/lessons/docking.json
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_2.00",
-          "title": "Choosing Anchor Location-json",
+          "title": "Choosing Anchor Location",
           "sideA": [
             {
               "type": "text",
@@ -6869,7 +6869,7 @@ File: assets/json/lessons/docking.json
     },
     {
       "id": "lesson_dock_3.00",
-      "title": "Basics of Side Ties-json",
+      "title": "Basics of Side Ties",
       "content": [
         {
           "type": "text",
@@ -6897,7 +6897,7 @@ File: assets/json/lessons/docking.json
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_3.00",
-          "title": "Side Tie Basics-json",
+          "title": "Side Tie Basics",
           "sideA": [
             {
               "type": "text",
@@ -6917,7 +6917,7 @@ File: assets/json/lessons/docking.json
     },
     {
       "id": "lesson_dock_4.00",
-      "title": "Returning to Dock - Docking Procedure-json",
+      "title": "Returning to Dock - Docking Procedure",
       "content": [
         {
           "type": "text",
@@ -6945,7 +6945,7 @@ File: assets/json/lessons/docking.json
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_4.00",
-          "title": "Final Docking Steps-json",
+          "title": "Final Docking Steps",
           "sideA": [
             {
               "type": "text",
@@ -6965,7 +6965,7 @@ File: assets/json/lessons/docking.json
     },
     {
       "id": "lesson_dock_5.00",
-      "title": "Basic Deck Safety and Boom Awareness-json",
+      "title": "Basic Deck Safety and Boom Awareness",
       "content": [
         {
           "type": "text",
@@ -6993,7 +6993,7 @@ File: assets/json/lessons/docking.json
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_5.00",
-          "title": "Deck Safety-json",
+          "title": "Deck Safety",
           "sideA": [
             {
               "type": "text",
@@ -7013,7 +7013,7 @@ File: assets/json/lessons/docking.json
     },
     {
       "id": "lesson_dock_6.00",
-      "title": "How to Assist in Docking-json",
+      "title": "How to Assist in Docking",
       "content": [
         {
           "type": "text",
@@ -7041,7 +7041,7 @@ File: assets/json/lessons/docking.json
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_6.00",
-          "title": "Assisting Docking-json",
+          "title": "Assisting Docking",
           "sideA": [
             {
               "type": "text",
@@ -7061,7 +7061,7 @@ File: assets/json/lessons/docking.json
     },
     {
       "id": "lesson_dock_7.00",
-      "title": "How to Assist in Anchoring-json",
+      "title": "How to Assist in Anchoring",
       "content": [
         {
           "type": "text",
@@ -7089,7 +7089,7 @@ File: assets/json/lessons/docking.json
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_7.00",
-          "title": "Assisting Anchoring-json",
+          "title": "Assisting Anchoring",
           "sideA": [
             {
               "type": "text",
@@ -7109,7 +7109,7 @@ File: assets/json/lessons/docking.json
     },
     {
       "id": "lesson_dock_8.00",
-      "title": "Lowering the Anchor Safely-json",
+      "title": "Lowering the Anchor Safely",
       "content": [
         {
           "type": "text",
@@ -7137,7 +7137,7 @@ File: assets/json/lessons/docking.json
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_8.00",
-          "title": "Lowering Anchor-json",
+          "title": "Lowering Anchor",
           "sideA": [
             {
               "type": "text",
@@ -7157,7 +7157,7 @@ File: assets/json/lessons/docking.json
     },
     {
       "id": "lesson_dock_9.00",
-      "title": "Raising the Anchor Safely-json",
+      "title": "Raising the Anchor Safely",
       "content": [
         {
           "type": "text",
@@ -7185,7 +7185,7 @@ File: assets/json/lessons/docking.json
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_9.00",
-          "title": "Raising Anchor-json",
+          "title": "Raising Anchor",
           "sideA": [
             {
               "type": "text",
@@ -7216,11 +7216,11 @@ File: assets/json/lessons/docking.json
 
 File: assets/json/lessons/prep.json
 {
-  "module": "prep-json",
+  "module": "prep",
   "lessons": [
     {
       "id": "lesson_prep_1.00",
-      "title": "What to Wear & Bring-json",
+      "title": "What to Wear & Bring",
       "keywords": ["layers","shoes","sun","water","snacks","meds","bag"],
       "isPaid": false,
       "content": [
@@ -7241,11 +7241,11 @@ File: assets/json/lessons/prep.json
 
 File: assets/json/lessons/systems.json
 {
-  "module": "systems-json",
+  "module": "systems",
   "lessons": [
     {
       "id": "lesson_syst_1.00",
-      "title": "Electrical Overview-json",
+      "title": "Electrical Overview",
       "content": [
         {
           "type": "text",
@@ -7260,7 +7260,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_1.00_0357100a",
-          "title": "Electrical Overview-json",
+          "title": "Electrical Overview",
           "sideA": [
             {
               "type": "text",
@@ -7280,7 +7280,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_2.00",
-      "title": "Battery Banks & Isolation-json",
+      "title": "Battery Banks & Isolation",
       "content": [
         {
           "type": "text",
@@ -7302,7 +7302,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_2.00_e941943a",
-          "title": "Battery Banks & Isolation-json",
+          "title": "Battery Banks & Isolation",
           "sideA": [
             {
               "type": "text",
@@ -7322,7 +7322,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_3.00",
-      "title": "Alternator & Regulator (Bulk/Absorb/Float)-json",
+      "title": "Alternator & Regulator (Bulk/Absorb/Float)",
       "content": [
         {
           "type": "text",
@@ -7341,7 +7341,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_3.00_ccf0a434",
-          "title": "Alternator & Regulator (Bulk/Absorb/Float)-json",
+          "title": "Alternator & Regulator (Bulk/Absorb/Float)",
           "sideA": [
             {
               "type": "text",
@@ -7361,7 +7361,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_4.00",
-      "title": "Shore Power: ELCI/GFCI & Galvanic Isolator-json",
+      "title": "Shore Power: ELCI/GFCI & Galvanic Isolator",
       "content": [
         {
           "type": "text",
@@ -7379,7 +7379,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_4.00_1aad7c8b",
-          "title": "Shore Power: ELCI/GFCI & Galvanic Isolator-json",
+          "title": "Shore Power: ELCI/GFCI & Galvanic Isolator",
           "sideA": [
             {
               "type": "text",
@@ -7399,7 +7399,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_5.00",
-      "title": "Inverter/Charger & Transfer Switching-json",
+      "title": "Inverter/Charger & Transfer Switching",
       "content": [
         {
           "type": "text",
@@ -7416,7 +7416,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_5.00_1e65284c",
-          "title": "Inverter/Charger & Transfer Switching-json",
+          "title": "Inverter/Charger & Transfer Switching",
           "sideA": [
             {
               "type": "text",
@@ -7436,7 +7436,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_6.00",
-      "title": "DC Distribution & ABYC Fusing-json",
+      "title": "DC Distribution & ABYC Fusing",
       "content": [
         {
           "type": "text",
@@ -7454,7 +7454,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_6.00_310abbe8",
-          "title": "DC Distribution & ABYC Fusing-json",
+          "title": "DC Distribution & ABYC Fusing",
           "sideA": [
             {
               "type": "text",
@@ -7474,7 +7474,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_7.00",
-      "title": "Battery Monitoring (Shunt/SOC Calibration)-json",
+      "title": "Battery Monitoring (Shunt/SOC Calibration)",
       "content": [
         {
           "type": "text",
@@ -7491,7 +7491,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_7.00_6efbd7b3",
-          "title": "Battery Monitoring (Shunt/SOC Calibration)-json",
+          "title": "Battery Monitoring (Shunt/SOC Calibration)",
           "sideA": [
             {
               "type": "text",
@@ -7511,7 +7511,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_8.00",
-      "title": "Solar (and Wind) Charging: MPPT Basics-json",
+      "title": "Solar (and Wind) Charging: MPPT Basics",
       "content": [
         {
           "type": "text",
@@ -7528,7 +7528,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_8.00_a75262cc",
-          "title": "Solar (and Wind) Charging: MPPT Basics-json",
+          "title": "Solar (and Wind) Charging: MPPT Basics",
           "sideA": [
             {
               "type": "text",
@@ -7548,7 +7548,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_9.00",
-      "title": "Bilge Pump System & High\u2011Water Alarm-json",
+      "title": "Bilge Pump System & High\u2011Water Alarm",
       "content": [
         {
           "type": "text",
@@ -7565,7 +7565,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_9.00_2e4e17c6",
-          "title": "Bilge Pump System & High\u2011Water Alarm-json",
+          "title": "Bilge Pump System & High\u2011Water Alarm",
           "sideA": [
             {
               "type": "text",
@@ -7585,7 +7585,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_10.00",
-      "title": "Freshwater Pump, Accumulator & Filters-json",
+      "title": "Freshwater Pump, Accumulator & Filters",
       "content": [
         {
           "type": "text",
@@ -7602,7 +7602,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_10.00_9f021932",
-          "title": "Freshwater Pump, Accumulator & Filters-json",
+          "title": "Freshwater Pump, Accumulator & Filters",
           "sideA": [
             {
               "type": "text",
@@ -7622,7 +7622,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_11.00",
-      "title": "Raw Water Cooling & Strainer-json",
+      "title": "Raw Water Cooling & Strainer",
       "content": [
         {
           "type": "text",
@@ -7639,7 +7639,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_11.00_f64f731a",
-          "title": "Raw Water Cooling & Strainer-json",
+          "title": "Raw Water Cooling & Strainer",
           "sideA": [
             {
               "type": "text",
@@ -7659,7 +7659,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_12.00",
-      "title": "Fuel System & Filters (Bleeding)-json",
+      "title": "Fuel System & Filters (Bleeding)",
       "content": [
         {
           "type": "text",
@@ -7676,7 +7676,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_12.00_8bc24885",
-          "title": "Fuel System & Filters (Bleeding)-json",
+          "title": "Fuel System & Filters (Bleeding)",
           "sideA": [
             {
               "type": "text",
@@ -7696,7 +7696,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_13.00",
-      "title": "Propane System: Solenoid, Locker & Sniffer-json",
+      "title": "Propane System: Solenoid, Locker & Sniffer",
       "content": [
         {
           "type": "text",
@@ -7713,7 +7713,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_13.00_9b643676",
-          "title": "Propane System: Solenoid, Locker & Sniffer-json",
+          "title": "Propane System: Solenoid, Locker & Sniffer",
           "sideA": [
             {
               "type": "text",
@@ -7733,7 +7733,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_14.00",
-      "title": "Steering System & Autopilot Drive-json",
+      "title": "Steering System & Autopilot Drive",
       "content": [
         {
           "type": "text",
@@ -7751,7 +7751,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_14.00_4b56c603",
-          "title": "Steering System & Autopilot Drive-json",
+          "title": "Steering System & Autopilot Drive",
           "sideA": [
             {
               "type": "text",
@@ -7771,7 +7771,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_15.00",
-      "title": "Engine Panel & Alarms-json",
+      "title": "Engine Panel & Alarms",
       "content": [
         {
           "type": "text",
@@ -7789,7 +7789,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_15.00_2af1fc69",
-          "title": "Engine Panel & Alarms-json",
+          "title": "Engine Panel & Alarms",
           "sideA": [
             {
               "type": "text",
@@ -7809,7 +7809,7 @@ File: assets/json/lessons/systems.json
     },
     {
       "id": "lesson_syst_16.00",
-      "title": "Refrigeration: Compressor, Condenser & Budget-json",
+      "title": "Refrigeration: Compressor, Condenser & Budget",
       "content": [
         {
           "type": "text",
@@ -7826,7 +7826,7 @@ File: assets/json/lessons/systems.json
       "flashcards": [
         {
           "id": "flashcard_lesson_syst_16.00_f2824928",
-          "title": "Refrigeration: Compressor, Condenser & Budget-json",
+          "title": "Refrigeration: Compressor, Condenser & Budget",
           "sideA": [
             {
               "type": "text",
@@ -7857,11 +7857,11 @@ File: assets/json/lessons/systems.json
 
 File: assets/json/lessons/teamwork.json
 {
-  "module": "teamwork-json",
+  "module": "teamwork",
   "lessons": [
     {
       "id": "lesson_team_1.00",
-      "title": "Roles & Communication-json",
+      "title": "Roles & Communication",
       "content": [
         {
           "type": "text",
@@ -7876,7 +7876,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_1.00_01ea19a4",
-          "title": "Roles & Communication-json",
+          "title": "Roles & Communication",
           "sideA": [
             {
               "type": "text",
@@ -7896,7 +7896,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_2.00",
-      "title": "Pre‑Departure Briefing & Cross‑Checks-json",
+      "title": "Pre‑Departure Briefing & Cross‑Checks",
       "content": [
         {
           "type": "text",
@@ -7925,7 +7925,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_2.00_ebcd68eb",
-          "title": "Pre‑Departure Briefing & Cross‑Checks-json",
+          "title": "Pre‑Departure Briefing & Cross‑Checks",
           "sideA": [
             {
               "type": "text",
@@ -7945,7 +7945,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_3.00",
-      "title": "Crew Mindset: Roles, Language, Etiquette-json",
+      "title": "Crew Mindset: Roles, Language, Etiquette",
       "content": [
         {
           "type": "text",
@@ -7975,7 +7975,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_3.00_7f1e9c3a",
-          "title": "Crew Mindset: Roles, Language, Etiquette-json",
+          "title": "Crew Mindset: Roles, Language, Etiquette",
           "sideA": [
             {
               "type": "text",
@@ -7995,7 +7995,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_18.00",
-      "title": "Standard Commands & Closed‑Loop Comms-json",
+      "title": "Standard Commands & Closed‑Loop Comms",
       "content": [
         {
           "type": "text",
@@ -8020,7 +8020,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_18.00_32ff1f5e",
-          "title": "Standard Commands & Closed‑Loop Comms-json",
+          "title": "Standard Commands & Closed‑Loop Comms",
           "sideA": [
             {
               "type": "text",
@@ -8040,7 +8040,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_4.00",
-      "title": "Hand Signals & Nonverbal Cues-json",
+      "title": "Hand Signals & Nonverbal Cues",
       "content": [
         {
           "type": "text",
@@ -8064,7 +8064,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_4.00_745202e4",
-          "title": "Hand Signals & Nonverbal Cues-json",
+          "title": "Hand Signals & Nonverbal Cues",
           "sideA": [
             {
               "type": "text",
@@ -8084,7 +8084,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_5.00",
-      "title": "Watch Rotation & Handover Protocol-json",
+      "title": "Watch Rotation & Handover Protocol",
       "content": [
         {
           "type": "text",
@@ -8109,7 +8109,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_5.00_049819bf",
-          "title": "Watch Rotation & Handover Protocol-json",
+          "title": "Watch Rotation & Handover Protocol",
           "sideA": [
             {
               "type": "text",
@@ -8129,7 +8129,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_6.00",
-      "title": "Helm–Trim Coordination-json",
+      "title": "Helm–Trim Coordination",
       "content": [
         {
           "type": "text",
@@ -8154,7 +8154,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_6.00_fff02a28",
-          "title": "Helm–Trim Coordination-json",
+          "title": "Helm–Trim Coordination",
           "sideA": [
             {
               "type": "text",
@@ -8174,7 +8174,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_7.00",
-      "title": "Reefing & Sail Change Roles-json",
+      "title": "Reefing & Sail Change Roles",
       "content": [
         {
           "type": "text",
@@ -8199,7 +8199,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_7.00_2b265964",
-          "title": "Reefing & Sail Change Roles-json",
+          "title": "Reefing & Sail Change Roles",
           "sideA": [
             {
               "type": "text",
@@ -8219,7 +8219,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_8.00",
-      "title": "Docking Team Choreography-json",
+      "title": "Docking Team Choreography",
       "content": [
         {
           "type": "text",
@@ -8244,7 +8244,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_8.00_1c872615",
-          "title": "Docking Team Choreography-json",
+          "title": "Docking Team Choreography",
           "sideA": [
             {
               "type": "text",
@@ -8264,7 +8264,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_9.00",
-      "title": "Man Overboard Team Roles & Drills-json",
+      "title": "Man Overboard Team Roles & Drills",
       "content": [
         {
           "type": "text",
@@ -8289,7 +8289,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_9.00_658e3ebc",
-          "title": "Man Overboard Team Roles & Drills-json",
+          "title": "Man Overboard Team Roles & Drills",
           "sideA": [
             {
               "type": "text",
@@ -8309,7 +8309,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_10.00",
-      "title": "Heavy Weather Crew Management-json",
+      "title": "Heavy Weather Crew Management",
       "content": [
         {
           "type": "text",
@@ -8333,7 +8333,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_10.00_e1405566",
-          "title": "Heavy Weather Crew Management-json",
+          "title": "Heavy Weather Crew Management",
           "sideA": [
             {
               "type": "text",
@@ -8353,7 +8353,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_11.00",
-      "title": "Task Loading & Fatigue Management-json",
+      "title": "Task Loading & Fatigue Management",
       "content": [
         {
           "type": "text",
@@ -8378,7 +8378,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_11.00_13460442",
-          "title": "Task Loading & Fatigue Management-json",
+          "title": "Task Loading & Fatigue Management",
           "sideA": [
             {
               "type": "text",
@@ -8398,7 +8398,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_12.00",
-      "title": "Situational Awareness & 360 Scans-json",
+      "title": "Situational Awareness & 360 Scans",
       "content": [
         {
           "type": "text",
@@ -8423,7 +8423,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_12.00_caccd779",
-          "title": "Situational Awareness & 360 Scans-json",
+          "title": "Situational Awareness & 360 Scans",
           "sideA": [
             {
               "type": "text",
@@ -8443,7 +8443,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_13.00",
-      "title": "Conflict Resolution & Psychological Safety-json",
+      "title": "Conflict Resolution & Psychological Safety",
       "content": [
         {
           "type": "text",
@@ -8468,7 +8468,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_13.00_ca7de895",
-          "title": "Conflict Resolution & Psychological Safety-json",
+          "title": "Conflict Resolution & Psychological Safety",
           "sideA": [
             {
               "type": "text",
@@ -8488,7 +8488,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_14.00",
-      "title": "Post‑Maneuver Debriefs & Continuous Improvement-json",
+      "title": "Post‑Maneuver Debriefs & Continuous Improvement",
       "content": [
         {
           "type": "text",
@@ -8512,7 +8512,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_14.00_10b86f6b",
-          "title": "Post‑Maneuver Debriefs & Continuous Improvement-json",
+          "title": "Post‑Maneuver Debriefs & Continuous Improvement",
           "sideA": [
             {
               "type": "text",
@@ -8532,7 +8532,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_15.00",
-      "title": "Radio Discipline & Hailing Etiquette-json",
+      "title": "Radio Discipline & Hailing Etiquette",
       "content": [
         {
           "type": "text",
@@ -8557,7 +8557,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_15.00_17cb3cf3",
-          "title": "Radio Discipline & Hailing Etiquette-json",
+          "title": "Radio Discipline & Hailing Etiquette",
           "sideA": [
             {
               "type": "text",
@@ -8577,7 +8577,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_16.00",
-      "title": "Emergency Muster & Role Cards-json",
+      "title": "Emergency Muster & Role Cards",
       "content": [
         {
           "type": "text",
@@ -8602,7 +8602,7 @@ File: assets/json/lessons/teamwork.json
       "flashcards": [
         {
           "id": "flashcard_lesson_team_16.00_f81b5077",
-          "title": "Emergency Muster & Role Cards-json",
+          "title": "Emergency Muster & Role Cards",
           "sideA": [
             {
               "type": "text",
@@ -8622,7 +8622,7 @@ File: assets/json/lessons/teamwork.json
     },
     {
       "id": "lesson_team_17.00",
-      "title": "Pathways Forward: Day Skipper, Bareboat, Offshore-json",
+      "title": "Pathways Forward: Day Skipper, Bareboat, Offshore",
       "keywords": [
         "next steps",
         "training",
@@ -8650,11 +8650,11 @@ File: assets/json/lessons/teamwork.json
 
 File: assets/json/lessons/safety.json
 {
-  "module": "safety-json",
+  "module": "safety",
   "lessons": [
     {
       "id": "lesson_safety_1.00",
-      "title": "Personal Safety Basics-json",
+      "title": "Personal Safety Basics",
       "content": [
         {
           "type": "text",
@@ -8670,7 +8670,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_1.00_3e7b5aa0",
-          "title": "Personal Safety Basics-json",
+          "title": "Personal Safety Basics",
           "sideA": [
             {
               "type": "text",
@@ -8690,7 +8690,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_03.00",
-      "title": "Man Overboard Overview-json",
+      "title": "Man Overboard Overview",
       "content": [
         {
           "type": "text",
@@ -8705,7 +8705,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_03.00_3bd483de",
-          "title": "Man Overboard Overview-json",
+          "title": "Man Overboard Overview",
           "sideA": [
             {
               "type": "text",
@@ -8725,7 +8725,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_04.00",
-      "title": "PFD Selection & Proper Fit-json",
+      "title": "PFD Selection & Proper Fit",
       "content": [
         {
           "type": "text",
@@ -8746,7 +8746,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_04.00_2d33d0f5",
-          "title": "PFD Selection & Proper Fit-json",
+          "title": "PFD Selection & Proper Fit",
           "sideA": [
             {
               "type": "text",
@@ -8766,7 +8766,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_05.00",
-      "title": "Comfort & Seasickness: Staying Useful-json",
+      "title": "Comfort & Seasickness: Staying Useful",
       "keywords": [
         "seasick",
         "comfort",
@@ -8783,7 +8783,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_06.00",
-      "title": "Jacklines, Tethers & Clip‑In Protocol-json",
+      "title": "Jacklines, Tethers & Clip‑In Protocol",
       "content": [
         {
           "type": "text",
@@ -8800,7 +8800,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_06.00_a32356b0",
-          "title": "Jacklines, Tethers & Clip‑In Protocol-json",
+          "title": "Jacklines, Tethers & Clip‑In Protocol",
           "sideA": [
             {
               "type": "text",
@@ -8820,7 +8820,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_07.00",
-      "title": "Night Safety & Watchstanding-json",
+      "title": "Night Safety & Watchstanding",
       "content": [
         {
           "type": "text",
@@ -8837,7 +8837,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_07.00_ef045273",
-          "title": "Night Safety & Watchstanding-json",
+          "title": "Night Safety & Watchstanding",
           "sideA": [
             {
               "type": "text",
@@ -8857,7 +8857,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_08.00",
-      "title": "Winch & Line Handling Safety-json",
+      "title": "Winch & Line Handling Safety",
       "content": [
         {
           "type": "text",
@@ -8874,7 +8874,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_08.00_cb74fa82",
-          "title": "Winch & Line Handling Safety-json",
+          "title": "Winch & Line Handling Safety",
           "sideA": [
             {
               "type": "text",
@@ -8894,7 +8894,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_09.00",
-      "title": "Knife & Cutting Tool Readiness-json",
+      "title": "Knife & Cutting Tool Readiness",
       "content": [
         {
           "type": "text",
@@ -8911,7 +8911,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_09.00_9ed57560",
-          "title": "Knife & Cutting Tool Readiness-json",
+          "title": "Knife & Cutting Tool Readiness",
           "sideA": [
             {
               "type": "text",
@@ -8931,7 +8931,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_10.00",
-      "title": "Flares & Visual Distress Signals-json",
+      "title": "Flares & Visual Distress Signals",
       "content": [
         {
           "type": "text",
@@ -8948,7 +8948,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_10.00_52eb7a88",
-          "title": "Flares & Visual Distress Signals-json",
+          "title": "Flares & Visual Distress Signals",
           "sideA": [
             {
               "type": "text",
@@ -8968,7 +8968,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_11.00",
-      "title": "VHF/DSC Mayday & Comms Discipline-json",
+      "title": "VHF/DSC Mayday & Comms Discipline",
       "content": [
         {
           "type": "text",
@@ -8985,7 +8985,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_11.00_a3001eb8",
-          "title": "VHF/DSC Mayday & Comms Discipline-json",
+          "title": "VHF/DSC Mayday & Comms Discipline",
           "sideA": [
             {
               "type": "text",
@@ -9005,7 +9005,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_12.00",
-      "title": "Fire Prevention & Extinguishers-json",
+      "title": "Fire Prevention & Extinguishers",
       "content": [
         {
           "type": "text",
@@ -9022,7 +9022,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_12.00_615b41c2",
-          "title": "Fire Prevention & Extinguishers-json",
+          "title": "Fire Prevention & Extinguishers",
           "sideA": [
             {
               "type": "text",
@@ -9042,7 +9042,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_2.00",
-      "title": "Galley Safety: Burns & Scalds-json",
+      "title": "Galley Safety: Burns & Scalds",
       "content": [
         {
           "type": "text",
@@ -9059,7 +9059,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_2.00_84820216",
-          "title": "Galley Safety: Burns & Scalds-json",
+          "title": "Galley Safety: Burns & Scalds",
           "sideA": [
             {
               "type": "text",
@@ -9079,7 +9079,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_13.00",
-      "title": "Propane/LP Gas Safety-json",
+      "title": "Propane/LP Gas Safety",
       "content": [
         {
           "type": "text",
@@ -9096,7 +9096,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_13.00_f5ccf8c0",
-          "title": "Propane/LP Gas Safety-json",
+          "title": "Propane/LP Gas Safety",
           "sideA": [
             {
               "type": "text",
@@ -9116,7 +9116,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_14.00",
-      "title": "Going Aloft: Bosun’s Chair & Redundancy-json",
+      "title": "Going Aloft: Bosun’s Chair & Redundancy",
       "content": [
         {
           "type": "text",
@@ -9133,7 +9133,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_14.00_131241b8",
-          "title": "Going Aloft: Bosun’s Chair & Redundancy-json",
+          "title": "Going Aloft: Bosun’s Chair & Redundancy",
           "sideA": [
             {
               "type": "text",
@@ -9153,7 +9153,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_15.00",
-      "title": "Hypothermia & Cold Shock Response-json",
+      "title": "Hypothermia & Cold Shock Response",
       "content": [
         {
           "type": "text",
@@ -9170,7 +9170,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_15.00_fe22213d",
-          "title": "Hypothermia & Cold Shock Response-json",
+          "title": "Hypothermia & Cold Shock Response",
           "sideA": [
             {
               "type": "text",
@@ -9190,7 +9190,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_16.00",
-      "title": "Heat Stress, Sun & Hydration-json",
+      "title": "Heat Stress, Sun & Hydration",
       "content": [
         {
           "type": "text",
@@ -9207,7 +9207,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_16.00_7578affd",
-          "title": "Heat Stress, Sun & Hydration-json",
+          "title": "Heat Stress, Sun & Hydration",
           "sideA": [
             {
               "type": "text",
@@ -9227,7 +9227,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_17.00",
-      "title": "Flood Response & Seacock Drills-json",
+      "title": "Flood Response & Seacock Drills",
       "content": [
         {
           "type": "text",
@@ -9244,7 +9244,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_17.00_e7d920d9",
-          "title": "Flood Response & Seacock Drills-json",
+          "title": "Flood Response & Seacock Drills",
           "sideA": [
             {
               "type": "text",
@@ -9264,7 +9264,7 @@ File: assets/json/lessons/safety.json
     },
     {
       "id": "lesson_safety_18.00",
-      "title": "Personal Medical Kit & Allergies-json",
+      "title": "Personal Medical Kit & Allergies",
       "content": [
         {
           "type": "text",
@@ -9281,7 +9281,7 @@ File: assets/json/lessons/safety.json
       "flashcards": [
         {
           "id": "flashcard_lesson_safety_18.00_e1931390",
-          "title": "Personal Medical Kit & Allergies-json",
+          "title": "Personal Medical Kit & Allergies",
           "sideA": [
             {
               "type": "text",
@@ -9312,13 +9312,13 @@ File: assets/json/lessons/safety.json
 
 File: assets/json/lessons/emergencies.json
 {
-  "module": "emergencies-json",
+  "module": "emergencies",
   "lessons": [
 
 
     {
       "id": "lesson_emer_1.00",
-      "title": "Mayday Basics-json",
+      "title": "Mayday Basics",
       "content": [
         {
           "type": "text",
@@ -9333,7 +9333,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_1.00_3d102ef6",
-          "title": "Mayday Basics-json",
+          "title": "Mayday Basics",
           "sideA": [
             {
               "type": "text",
@@ -9353,7 +9353,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_2.00",
-      "title": "Crew Overboard (MOB): Immediate Actions-json",
+      "title": "Crew Overboard (MOB): Immediate Actions",
       "content": [
         {
           "type": "text",
@@ -9381,7 +9381,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_2.00",
-          "title": "FC: Crew Overboard (MOB): Immediate Actions-json",
+          "title": "FC: Crew Overboard (MOB): Immediate Actions",
           "sideA": [
             {
               "type": "text",
@@ -9401,7 +9401,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_3.00",
-      "title": "Loss of Steering: Tiller/Rudder Failure-json",
+      "title": "Loss of Steering: Tiller/Rudder Failure",
       "content": [
         {
           "type": "text",
@@ -9429,7 +9429,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_3.00",
-          "title": "FC: Loss of Steering: Tiller/Rudder Failure-json",
+          "title": "FC: Loss of Steering: Tiller/Rudder Failure",
           "sideA": [
             {
               "type": "text",
@@ -9449,7 +9449,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_4.00",
-      "title": "Distress Traffic: PAN-PAN & SECURITÉ-json",
+      "title": "Distress Traffic: PAN-PAN & SECURITÉ",
       "content": [
         {
           "type": "text",
@@ -9477,7 +9477,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_4.00",
-          "title": "FC: Distress Traffic: PAN-PAN & SECURITÉ-json",
+          "title": "FC: Distress Traffic: PAN-PAN & SECURITÉ",
           "sideA": [
             {
               "type": "text",
@@ -9497,7 +9497,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_5.00",
-      "title": "Line in Prop / Fouled Propeller-json",
+      "title": "Line in Prop / Fouled Propeller",
       "content": [
         {
           "type": "text",
@@ -9525,7 +9525,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_5.00",
-          "title": "FC: Line in Prop / Fouled Propeller-json",
+          "title": "FC: Line in Prop / Fouled Propeller",
           "sideA": [
             {
               "type": "text",
@@ -9545,7 +9545,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_6.00",
-      "title": "Electrical Failure / Power Loss-json",
+      "title": "Electrical Failure / Power Loss",
       "content": [
         {
           "type": "text",
@@ -9573,7 +9573,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_6.00",
-          "title": "FC: Electrical Failure / Power Loss-json",
+          "title": "FC: Electrical Failure / Power Loss",
           "sideA": [
             {
               "type": "text",
@@ -9593,7 +9593,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_7.00",
-      "title": "Engine Failure at Sea-json",
+      "title": "Engine Failure at Sea",
       "content": [
         {
           "type": "text",
@@ -9611,7 +9611,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_7.00_ca6ae82e",
-          "title": "Engine Failure at Sea-json",
+          "title": "Engine Failure at Sea",
           "sideA": [
             {
               "type": "text",
@@ -9631,7 +9631,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_8.00",
-      "title": "Rigging or Sail Damage-json",
+      "title": "Rigging or Sail Damage",
       "content": [
         {
           "type": "text",
@@ -9649,7 +9649,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_8.00_c00601e1",
-          "title": "Rigging or Sail Damage-json",
+          "title": "Rigging or Sail Damage",
           "sideA": [
             {
               "type": "text",
@@ -9669,7 +9669,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_9.00",
-      "title": "Fire Onboard-json",
+      "title": "Fire Onboard",
       "content": [
         {
           "type": "text",
@@ -9687,7 +9687,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_9.00_5690ed51",
-          "title": "Fire Onboard-json",
+          "title": "Fire Onboard",
           "sideA": [
             {
               "type": "text",
@@ -9707,7 +9707,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_10.00",
-      "title": "Flooding / Taking on Water-json",
+      "title": "Flooding / Taking on Water",
       "content": [
         {
           "type": "text",
@@ -9725,7 +9725,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_10.00_eea49725",
-          "title": "Flooding / Taking on Water-json",
+          "title": "Flooding / Taking on Water",
           "sideA": [
             {
               "type": "text",
@@ -9745,7 +9745,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_11.00",
-      "title": "Grounding / Running Aground-json",
+      "title": "Grounding / Running Aground",
       "content": [
         {
           "type": "text",
@@ -9763,7 +9763,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_11.00_60927868",
-          "title": "Grounding / Running Aground-json",
+          "title": "Grounding / Running Aground",
           "sideA": [
             {
               "type": "text",
@@ -9783,7 +9783,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_12.00",
-      "title": "Emergency Anchoring-json",
+      "title": "Emergency Anchoring",
       "content": [
         {
           "type": "text",
@@ -9801,7 +9801,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_12.00_d2ce8441",
-          "title": "Emergency Anchoring-json",
+          "title": "Emergency Anchoring",
           "sideA": [
             {
               "type": "text",
@@ -9821,7 +9821,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_13.00",
-      "title": "Heavy Weather Survival (Squall)-json",
+      "title": "Heavy Weather Survival (Squall)",
       "content": [
         {
           "type": "text",
@@ -9839,7 +9839,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_13.00_209b5a71",
-          "title": "Heavy Weather Survival (Squall)-json",
+          "title": "Heavy Weather Survival (Squall)",
           "sideA": [
             {
               "type": "text",
@@ -9859,7 +9859,7 @@ File: assets/json/lessons/emergencies.json
     },
     {
       "id": "lesson_emer_14.00",
-      "title": "Medical Emergency (Serious Injury/Illness)-json",
+      "title": "Medical Emergency (Serious Injury/Illness)",
       "content": [
         {
           "type": "text",
@@ -9877,7 +9877,7 @@ File: assets/json/lessons/emergencies.json
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_14.00_21d0aa8e",
-          "title": "Medical Emergency (Serious Injury/Illness)-json",
+          "title": "Medical Emergency (Serious Injury/Illness)",
           "sideA": [
             {
               "type": "text",
@@ -9908,11 +9908,11 @@ File: assets/json/lessons/emergencies.json
 
 File: assets/json/lessons/seamanship.json
 {
-  "module": "seamanship-json",
+  "module": "seamanship",
   "lessons": [
     {
       "id": "lesson_seam_1.00",
-      "title": "Lines & Fenders-json",
+      "title": "Lines & Fenders",
       "content": [
         {
           "type": "text",
@@ -9928,7 +9928,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_1.00_f8515257",
-          "title": "Lines & Fenders-json",
+          "title": "Lines & Fenders",
           "sideA": [
             {
               "type": "text",
@@ -9948,7 +9948,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_2.00",
-      "title": "Docking Approach & Departure (Wind/Current/Prop Walk)-json",
+      "title": "Docking Approach & Departure (Wind/Current/Prop Walk)",
       "content": [
         {
           "type": "text",
@@ -9969,7 +9969,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_2.00_d604eb6f",
-          "title": "Docking Approach & Departure (Wind/Current/Prop Walk)-json",
+          "title": "Docking Approach & Departure (Wind/Current/Prop Walk)",
           "sideA": [
             {
               "type": "text",
@@ -9989,7 +9989,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_3.00",
-      "title": "Spring Lines: Breast & Spring for Control-json",
+      "title": "Spring Lines: Breast & Spring for Control",
       "content": [
         {
           "type": "text",
@@ -10006,7 +10006,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_3.00_a20ec33e",
-          "title": "Spring Lines: Breast & Spring for Control-json",
+          "title": "Spring Lines: Breast & Spring for Control",
           "sideA": [
             {
               "type": "text",
@@ -10026,7 +10026,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_4.00",
-      "title": "Fendering Strategy & Placement-json",
+      "title": "Fendering Strategy & Placement",
       "content": [
         {
           "type": "text",
@@ -10043,7 +10043,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_4.00_ce024cb0",
-          "title": "Fendering Strategy & Placement-json",
+          "title": "Fendering Strategy & Placement",
           "sideA": [
             {
               "type": "text",
@@ -10063,7 +10063,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_5.00",
-      "title": "Heaving Line: Coils & Throws-json",
+      "title": "Heaving Line: Coils & Throws",
       "content": [
         {
           "type": "text",
@@ -10080,7 +10080,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_5.00_b4fa66e7",
-          "title": "Heaving Line: Coils & Throws-json",
+          "title": "Heaving Line: Coils & Throws",
           "sideA": [
             {
               "type": "text",
@@ -10100,7 +10100,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_6.00",
-      "title": "Mooring Ball Pickup & Bridle Setup-json",
+      "title": "Mooring Ball Pickup & Bridle Setup",
       "content": [
         {
           "type": "text",
@@ -10117,7 +10117,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_6.00_4f7cee6e",
-          "title": "Mooring Ball Pickup & Bridle Setup-json",
+          "title": "Mooring Ball Pickup & Bridle Setup",
           "sideA": [
             {
               "type": "text",
@@ -10137,7 +10137,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_7.00",
-      "title": "Rafting Up: Lines, Fenders & Etiquette-json",
+      "title": "Rafting Up: Lines, Fenders & Etiquette",
       "content": [
         {
           "type": "text",
@@ -10154,7 +10154,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_7.00_a6e5bae0",
-          "title": "Rafting Up: Lines, Fenders & Etiquette-json",
+          "title": "Rafting Up: Lines, Fenders & Etiquette",
           "sideA": [
             {
               "type": "text",
@@ -10174,7 +10174,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_8.00",
-      "title": "Anchoring Basics: Scope, Set & Snub-json",
+      "title": "Anchoring Basics: Scope, Set & Snub",
       "content": [
         {
           "type": "text",
@@ -10191,7 +10191,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_8.00_1958079f",
-          "title": "Anchoring Basics: Scope, Set & Snub-json",
+          "title": "Anchoring Basics: Scope, Set & Snub",
           "sideA": [
             {
               "type": "text",
@@ -10211,7 +10211,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_9.00",
-      "title": "Close\u2011Quarters Maneuvering: Bursts & Pivots-json",
+      "title": "Close\u2011Quarters Maneuvering: Bursts & Pivots",
       "content": [
         {
           "type": "text",
@@ -10228,7 +10228,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_9.00_75a294bc",
-          "title": "Close\u2011Quarters Maneuvering: Bursts & Pivots-json",
+          "title": "Close\u2011Quarters Maneuvering: Bursts & Pivots",
           "sideA": [
             {
               "type": "text",
@@ -10248,7 +10248,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_10.00",
-      "title": "Reverse Handling & Prop Walk Mastery-json",
+      "title": "Reverse Handling & Prop Walk Mastery",
       "content": [
         {
           "type": "text",
@@ -10265,7 +10265,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_10.00_c61455d7",
-          "title": "Reverse Handling & Prop Walk Mastery-json",
+          "title": "Reverse Handling & Prop Walk Mastery",
           "sideA": [
             {
               "type": "text",
@@ -10285,7 +10285,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_11.00",
-      "title": "Crew Comms: Hand Signals & Roles-json",
+      "title": "Crew Comms: Hand Signals & Roles",
       "content": [
         {
           "type": "text",
@@ -10302,7 +10302,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_11.00_25a7790d",
-          "title": "Crew Comms: Hand Signals & Roles-json",
+          "title": "Crew Comms: Hand Signals & Roles",
           "sideA": [
             {
               "type": "text",
@@ -10322,7 +10322,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_12.00",
-      "title": "Sound Signals & VHF in Harbors-json",
+      "title": "Sound Signals & VHF in Harbors",
       "content": [
         {
           "type": "text",
@@ -10339,7 +10339,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_12.00_499552cc",
-          "title": "Sound Signals & VHF in Harbors-json",
+          "title": "Sound Signals & VHF in Harbors",
           "sideA": [
             {
               "type": "text",
@@ -10359,7 +10359,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_13.00",
-      "title": "Fueling Procedures & Spill Control-json",
+      "title": "Fueling Procedures & Spill Control",
       "content": [
         {
           "type": "text",
@@ -10376,7 +10376,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_13.00_e8833457",
-          "title": "Fueling Procedures & Spill Control-json",
+          "title": "Fueling Procedures & Spill Control",
           "sideA": [
             {
               "type": "text",
@@ -10396,7 +10396,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_14.00",
-      "title": "Dinghy Operations: Towing, Ties & Lifts-json",
+      "title": "Dinghy Operations: Towing, Ties & Lifts",
       "content": [
         {
           "type": "text",
@@ -10413,7 +10413,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_14.00_8578a811",
-          "title": "Dinghy Operations: Towing, Ties & Lifts-json",
+          "title": "Dinghy Operations: Towing, Ties & Lifts",
           "sideA": [
             {
               "type": "text",
@@ -10433,7 +10433,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_15.00",
-      "title": "Line Care & Stowage: Coils, Flakes, Kink Avoidance-json",
+      "title": "Line Care & Stowage: Coils, Flakes, Kink Avoidance",
       "content": [
         {
           "type": "text",
@@ -10450,7 +10450,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_15.00_d15ce4d7",
-          "title": "Line Care & Stowage: Coils, Flakes, Kink Avoidance-json",
+          "title": "Line Care & Stowage: Coils, Flakes, Kink Avoidance",
           "sideA": [
             {
               "type": "text",
@@ -10470,7 +10470,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_16.00",
-      "title": "Boat Hook Techniques & Retrieval-json",
+      "title": "Boat Hook Techniques & Retrieval",
       "content": [
         {
           "type": "text",
@@ -10487,7 +10487,7 @@ File: assets/json/lessons/seamanship.json
       "flashcards": [
         {
           "id": "flashcard_lesson_seam_16.00_dc16c671",
-          "title": "Boat Hook Techniques & Retrieval-json",
+          "title": "Boat Hook Techniques & Retrieval",
           "sideA": [
             {
               "type": "text",
@@ -10507,7 +10507,7 @@ File: assets/json/lessons/seamanship.json
     },
     {
       "id": "lesson_seam_17.00",
-      "title": "Watchstanding Basics-json",
+      "title": "Watchstanding Basics",
       "keywords": ["watch","lookout","night"],
       "isPaid": false,
       "content": [

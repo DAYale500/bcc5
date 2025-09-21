@@ -1,9 +1,9 @@
 {
-  "module": "colregs-json",
+  "module": "colregs",
   "tools": [
     {
       "id": "tool_colregs_1.00",
-      "title": "Nav Lights — Basics-json",
+      "title": "Nav Lights — Basics",
       "content": [
         {
           "type": "text",
@@ -21,7 +21,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_colregs_1.00",
-          "title": "Nav Lights — Basics-json",
+          "title": "Nav Lights — Basics",
           "sideA": [
             {
               "type": "text",
@@ -39,7 +39,7 @@
     },
     {
       "id": "tool_rules_02.00",
-      "title": "Right of Way — Overview-json",
+      "title": "Right of Way — Overview",
       "content": [
         {
           "type": "text",
@@ -57,7 +57,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_rules_02.00_e5692016",
-          "title": "Right of Way — Overview-json",
+          "title": "Right of Way — Overview",
           "sideA": [
             {
               "type": "text",

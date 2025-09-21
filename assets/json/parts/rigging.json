@@ -1,9 +1,9 @@
 {
-  "module": "rigging-json",
+  "module": "rigging",
   "parts": [
     {
       "id": "part_rigg_1.00",
-      "title": "Standing vs Running Rigging-json",
+      "title": "Standing vs Running Rigging",
       "content": [
         {
           "type": "text",
@@ -23,7 +23,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_1.00_cd597338",
-          "title": "Standing vs Running Rigging-json",
+          "title": "Standing vs Running Rigging",
           "sideA": [
             {
               "type": "text",
@@ -43,7 +43,7 @@
     },
     {
       "id": "part_rigg_03.00",
-      "title": "Winches & Clutches-json",
+      "title": "Winches & Clutches",
       "content": [
         {
           "type": "text",
@@ -58,7 +58,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_03.00_35b0fe92",
-          "title": "Winches & Clutches-json",
+          "title": "Winches & Clutches",
           "sideA": [
             {
               "type": "text",
@@ -78,7 +78,7 @@
     },
     {
       "id": "part_rigg_04.00",
-      "title": "Chainplates, Turnbuckles & Cotter Pins-json",
+      "title": "Chainplates, Turnbuckles & Cotter Pins",
       "content": [
         {
           "type": "text",
@@ -103,7 +103,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_04.00_14f7054d",
-          "title": "Chainplates, Turnbuckles & Cotter Pins-json",
+          "title": "Chainplates, Turnbuckles & Cotter Pins",
           "sideA": [
             {
               "type": "text",
@@ -123,7 +123,7 @@
     },
     {
       "id": "part_rigg_05.00",
-      "title": "Shrouds & Stays Tension (LOA Check)-json",
+      "title": "Shrouds & Stays Tension (LOA Check)",
       "content": [
         {
           "type": "text",
@@ -144,7 +144,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_05.00_9a3a3a94",
-          "title": "Shrouds & Stays Tension (LOA Check)-json",
+          "title": "Shrouds & Stays Tension (LOA Check)",
           "sideA": [
             {
               "type": "text",
@@ -164,7 +164,7 @@
     },
     {
       "id": "part_rigg_06.00",
-      "title": "Mast Step, Partners & Compression Post-json",
+      "title": "Mast Step, Partners & Compression Post",
       "content": [
         {
           "type": "text",
@@ -185,7 +185,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_06.00_3133ae6d",
-          "title": "Mast Step, Partners & Compression Post-json",
+          "title": "Mast Step, Partners & Compression Post",
           "sideA": [
             {
               "type": "text",
@@ -205,7 +205,7 @@
     },
     {
       "id": "part_rigg_07.00",
-      "title": "Halyards (Main/Headsail/Spinnaker)-json",
+      "title": "Halyards (Main/Headsail/Spinnaker)",
       "content": [
         {
           "type": "text",
@@ -226,7 +226,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_07.00_bb5b0f0b",
-          "title": "Halyards (Main/Headsail/Spinnaker)-json",
+          "title": "Halyards (Main/Headsail/Spinnaker)",
           "sideA": [
             {
               "type": "text",
@@ -246,7 +246,7 @@
     },
     {
       "id": "part_rigg_08.00",
-      "title": "Sheets (Main/Genoa/Jib) & Tails-json",
+      "title": "Sheets (Main/Genoa/Jib) & Tails",
       "content": [
         {
           "type": "text",
@@ -267,7 +267,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_08.00_45f329ee",
-          "title": "Sheets (Main/Genoa/Jib) & Tails-json",
+          "title": "Sheets (Main/Genoa/Jib) & Tails",
           "sideA": [
             {
               "type": "text",
@@ -287,7 +287,7 @@
     },
     {
       "id": "part_rigg_09.00",
-      "title": "Reefing System (Slab/In‑Boom)-json",
+      "title": "Reefing System (Slab/In‑Boom)",
       "content": [
         {
           "type": "text",
@@ -308,7 +308,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_09.00_5bf3d9fd",
-          "title": "Reefing System (Slab/In‑Boom)-json",
+          "title": "Reefing System (Slab/In‑Boom)",
           "sideA": [
             {
               "type": "text",
@@ -328,7 +328,7 @@
     },
     {
       "id": "part_rigg_10.00",
-      "title": "Boom Vang (Rigid/Line)-json",
+      "title": "Boom Vang (Rigid/Line)",
       "content": [
         {
           "type": "text",
@@ -349,7 +349,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_10.00_3e3fba1a",
-          "title": "Boom Vang (Rigid/Line)-json",
+          "title": "Boom Vang (Rigid/Line)",
           "sideA": [
             {
               "type": "text",
@@ -369,7 +369,7 @@
     },
     {
       "id": "part_rigg_2.00",
-      "title": "Mainsheet Traveler & Car (Rigging)-json",
+      "title": "Mainsheet Traveler & Car (Rigging)",
       "content": [
         {
           "type": "text",
@@ -390,7 +390,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_2.00_31650dbc",
-          "title": "Mainsheet Traveler & Car (Rigging)-json",
+          "title": "Mainsheet Traveler & Car (Rigging)",
           "sideA": [
             {
               "type": "text",
@@ -410,7 +410,7 @@
     },
     {
       "id": "part_rigg_11.00",
-      "title": "Genoa/Jib Cars & Tracks (Rigging)-json",
+      "title": "Genoa/Jib Cars & Tracks (Rigging)",
       "content": [
         {
           "type": "text",
@@ -431,7 +431,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_11.00_bbcb36a0",
-          "title": "Genoa/Jib Cars & Tracks (Rigging)-json",
+          "title": "Genoa/Jib Cars & Tracks (Rigging)",
           "sideA": [
             {
               "type": "text",
@@ -451,7 +451,7 @@
     },
     {
       "id": "part_rigg_12.00",
-      "title": "Headsail Furler & Extrusions-json",
+      "title": "Headsail Furler & Extrusions",
       "content": [
         {
           "type": "text",
@@ -472,7 +472,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_12.00_db0dc813",
-          "title": "Headsail Furler & Extrusions-json",
+          "title": "Headsail Furler & Extrusions",
           "sideA": [
             {
               "type": "text",
@@ -492,7 +492,7 @@
     },
     {
       "id": "part_rigg_13.00",
-      "title": "Preventer System (Gybe Control)-json",
+      "title": "Preventer System (Gybe Control)",
       "content": [
         {
           "type": "text",
@@ -513,7 +513,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_13.00_e9e6a374",
-          "title": "Preventer System (Gybe Control)-json",
+          "title": "Preventer System (Gybe Control)",
           "sideA": [
             {
               "type": "text",
@@ -533,7 +533,7 @@
     },
     {
       "id": "part_rigg_14.00",
-      "title": "Backstay / Adjuster (or Running Backs)-json",
+      "title": "Backstay / Adjuster (or Running Backs)",
       "content": [
         {
           "type": "text",
@@ -554,7 +554,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_14.00_dace4426",
-          "title": "Backstay / Adjuster (or Running Backs)-json",
+          "title": "Backstay / Adjuster (or Running Backs)",
           "sideA": [
             {
               "type": "text",
@@ -574,7 +574,7 @@
     },
     {
       "id": "part_rigg_15.00",
-      "title": "Outhaul & Foot Tension-json",
+      "title": "Outhaul & Foot Tension",
       "content": [
         {
           "type": "text",
@@ -595,7 +595,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_15.00_be2a14bc",
-          "title": "Outhaul & Foot Tension-json",
+          "title": "Outhaul & Foot Tension",
           "sideA": [
             {
               "type": "text",
@@ -615,7 +615,7 @@
     },
     {
       "id": "part_rigg_16.00",
-      "title": "Cunningham / Downhaul-json",
+      "title": "Cunningham / Downhaul",
       "content": [
         {
           "type": "text",
@@ -636,7 +636,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_16.00_2139455e",
-          "title": "Cunningham / Downhaul-json",
+          "title": "Cunningham / Downhaul",
           "sideA": [
             {
               "type": "text",
@@ -656,7 +656,7 @@
     },
     {
       "id": "part_rigg_17.00",
-      "title": "Lazy Jacks / Topping Lift-json",
+      "title": "Lazy Jacks / Topping Lift",
       "content": [
         {
           "type": "text",
@@ -677,7 +677,7 @@
       "flashcards": [
         {
           "id": "flashcard_part_rigg_17.00_cbc741a6",
-          "title": "Lazy Jacks / Topping Lift-json",
+          "title": "Lazy Jacks / Topping Lift",
           "sideA": [
             {
               "type": "text",

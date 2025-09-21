@@ -1,9 +1,9 @@
 {
-  "module": "vhf-json",
+  "module": "vhf",
   "tools": [
     {
       "id": "tool_vhf_1.00",
-      "title": "VHF Basics-json",
+      "title": "VHF Basics",
       "content": [
         {
           "type": "text",
@@ -18,7 +18,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_vhf_1.00_cb9d4f32",
-          "title": "VHF Basics-json",
+          "title": "VHF Basics",
           "sideA": [
             {
               "type": "text",

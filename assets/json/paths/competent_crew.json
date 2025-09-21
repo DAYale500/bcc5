@@ -3,7 +3,7 @@
   "chapters": [
     {
       "id": "path_competentCrew_1.00",
-      "title": "Home: Before You Board-json",
+      "title": "Home: Before You Board",
       "showFlashcardEnding": true,
       "items": [
         {
@@ -37,7 +37,7 @@
     },
     {
       "id": "path_competentCrew_2.00",
-      "title": "Dockside: Lines, Fenders & Boarding-json",
+      "title": "Dockside: Lines, Fenders & Boarding",
       "items": [
         {
           "id": "lesson_seam_1.00"
@@ -61,7 +61,7 @@
     },
     {
       "id": "path_competentCrew_3.00",
-      "title": "Safety Foundations & MOB-json",
+      "title": "Safety Foundations & MOB",
       "items": [
         {
           "id": "lesson_safety_03.00"
@@ -82,7 +82,7 @@
     },
     {
       "id": "path_competentCrew_4.00",
-      "title": "Boat Tour: Hull, Interior, Rigging-json",
+      "title": "Boat Tour: Hull, Interior, Rigging",
       "items": [
         {
           "id": "part_hull_1.00"
@@ -100,7 +100,7 @@
     },
     {
       "id": "path_competentCrew_5.00",
-      "title": "Knots You’ll Use Every Day-json",
+      "title": "Knots You’ll Use Every Day",
       "showFlashcardEnding": true,
       "items": [
         {
@@ -122,7 +122,7 @@
     },
     {
       "id": "path_competentCrew_6.00",
-      "title": "Getting Underway (Engine & Motoring)-json",
+      "title": "Getting Underway (Engine & Motoring)",
       "items": [
         {
           "id": "lesson_syst_15.00"
@@ -143,7 +143,7 @@
     },
     {
       "id": "path_competentCrew_7.00",
-      "title": "Sail Handling Basics-json",
+      "title": "Sail Handling Basics",
       "items": [
         {
           "id": "part_sail_04.00"
@@ -164,7 +164,7 @@
     },
     {
       "id": "path_competentCrew_8.00",
-      "title": "Sail Control & Maneuvers-json",
+      "title": "Sail Control & Maneuvers",
       "items": [
         {
           "id": "lesson_team_6.00"
@@ -185,7 +185,7 @@
     },
     {
       "id": "path_competentCrew_9.00",
-      "title": "Navigation: Buoys, Lights & Basics-json",
+      "title": "Navigation: Buoys, Lights & Basics",
       "items": [
         {
           "id": "lesson_nav_1.00"
@@ -206,7 +206,7 @@
     },
     {
       "id": "path_competentCrew_10.00",
-      "title": "Navigation: Position & Piloting-json",
+      "title": "Navigation: Position & Piloting",
       "items": [
         {
           "id": "lesson_nav_3.00"
@@ -227,7 +227,7 @@
     },
     {
       "id": "path_competentCrew_11.00",
-      "title": "Tides, Currents & Course to Steer-json",
+      "title": "Tides, Currents & Course to Steer",
       "items": [
         {
           "id": "lesson_nav_11.00"
@@ -242,7 +242,7 @@
     },
     {
       "id": "path_competentCrew_12.00",
-      "title": "Anchoring & Mooring-json",
+      "title": "Anchoring & Mooring",
       "items": [
         {
           "id": "lesson_term_12.00"
@@ -257,7 +257,7 @@
     },
     {
       "id": "path_competentCrew_13.00",
-      "title": "Heavy Weather & Night Ops-json",
+      "title": "Heavy Weather & Night Ops",
       "items": [
         {
           "id": "lesson_safety_07.00"
@@ -275,7 +275,7 @@
     },
     {
       "id": "path_competentCrew_14.00",
-      "title": "Emergencies & Damage Control-json",
+      "title": "Emergencies & Damage Control",
       "items": [
         {
           "id": "lesson_safety_17.00"
@@ -293,7 +293,7 @@
     },
     {
       "id": "path_competentCrew_15.00",
-      "title": "Docking & Close-Quarters Mastery-json",
+      "title": "Docking & Close-Quarters Mastery",
       "items": [
         {
           "id": "lesson_seam_2.00"
@@ -311,7 +311,7 @@
     },
     {
       "id": "path_competentCrew_16.00",
-      "title": "Wrap-Up: Debrief & Next Steps-json",
+      "title": "Wrap-Up: Debrief & Next Steps",
       "showFlashcardEnding": true,
       "items": [
         {

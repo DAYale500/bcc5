@@ -1,11 +1,11 @@
 {
-  "module": "emergencies-json",
+  "module": "emergencies",
   "lessons": [
 
 
     {
       "id": "lesson_emer_1.00",
-      "title": "Mayday Basics-json",
+      "title": "Mayday Basics",
       "content": [
         {
           "type": "text",
@@ -20,7 +20,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_1.00_3d102ef6",
-          "title": "Mayday Basics-json",
+          "title": "Mayday Basics",
           "sideA": [
             {
               "type": "text",
@@ -40,7 +40,7 @@
     },
     {
       "id": "lesson_emer_2.00",
-      "title": "Crew Overboard (MOB): Immediate Actions-json",
+      "title": "Crew Overboard (MOB): Immediate Actions",
       "content": [
         {
           "type": "text",
@@ -68,7 +68,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_2.00",
-          "title": "FC: Crew Overboard (MOB): Immediate Actions-json",
+          "title": "FC: Crew Overboard (MOB): Immediate Actions",
           "sideA": [
             {
               "type": "text",
@@ -88,7 +88,7 @@
     },
     {
       "id": "lesson_emer_3.00",
-      "title": "Loss of Steering: Tiller/Rudder Failure-json",
+      "title": "Loss of Steering: Tiller/Rudder Failure",
       "content": [
         {
           "type": "text",
@@ -116,7 +116,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_3.00",
-          "title": "FC: Loss of Steering: Tiller/Rudder Failure-json",
+          "title": "FC: Loss of Steering: Tiller/Rudder Failure",
           "sideA": [
             {
               "type": "text",
@@ -136,7 +136,7 @@
     },
     {
       "id": "lesson_emer_4.00",
-      "title": "Distress Traffic: PAN-PAN & SECURITÉ-json",
+      "title": "Distress Traffic: PAN-PAN & SECURITÉ",
       "content": [
         {
           "type": "text",
@@ -164,7 +164,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_4.00",
-          "title": "FC: Distress Traffic: PAN-PAN & SECURITÉ-json",
+          "title": "FC: Distress Traffic: PAN-PAN & SECURITÉ",
           "sideA": [
             {
               "type": "text",
@@ -184,7 +184,7 @@
     },
     {
       "id": "lesson_emer_5.00",
-      "title": "Line in Prop / Fouled Propeller-json",
+      "title": "Line in Prop / Fouled Propeller",
       "content": [
         {
           "type": "text",
@@ -212,7 +212,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_5.00",
-          "title": "FC: Line in Prop / Fouled Propeller-json",
+          "title": "FC: Line in Prop / Fouled Propeller",
           "sideA": [
             {
               "type": "text",
@@ -232,7 +232,7 @@
     },
     {
       "id": "lesson_emer_6.00",
-      "title": "Electrical Failure / Power Loss-json",
+      "title": "Electrical Failure / Power Loss",
       "content": [
         {
           "type": "text",
@@ -260,7 +260,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_6.00",
-          "title": "FC: Electrical Failure / Power Loss-json",
+          "title": "FC: Electrical Failure / Power Loss",
           "sideA": [
             {
               "type": "text",
@@ -280,7 +280,7 @@
     },
     {
       "id": "lesson_emer_7.00",
-      "title": "Engine Failure at Sea-json",
+      "title": "Engine Failure at Sea",
       "content": [
         {
           "type": "text",
@@ -298,7 +298,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_7.00_ca6ae82e",
-          "title": "Engine Failure at Sea-json",
+          "title": "Engine Failure at Sea",
           "sideA": [
             {
               "type": "text",
@@ -318,7 +318,7 @@
     },
     {
       "id": "lesson_emer_8.00",
-      "title": "Rigging or Sail Damage-json",
+      "title": "Rigging or Sail Damage",
       "content": [
         {
           "type": "text",
@@ -336,7 +336,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_8.00_c00601e1",
-          "title": "Rigging or Sail Damage-json",
+          "title": "Rigging or Sail Damage",
           "sideA": [
             {
               "type": "text",
@@ -356,7 +356,7 @@
     },
     {
       "id": "lesson_emer_9.00",
-      "title": "Fire Onboard-json",
+      "title": "Fire Onboard",
       "content": [
         {
           "type": "text",
@@ -374,7 +374,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_9.00_5690ed51",
-          "title": "Fire Onboard-json",
+          "title": "Fire Onboard",
           "sideA": [
             {
               "type": "text",
@@ -394,7 +394,7 @@
     },
     {
       "id": "lesson_emer_10.00",
-      "title": "Flooding / Taking on Water-json",
+      "title": "Flooding / Taking on Water",
       "content": [
         {
           "type": "text",
@@ -412,7 +412,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_10.00_eea49725",
-          "title": "Flooding / Taking on Water-json",
+          "title": "Flooding / Taking on Water",
           "sideA": [
             {
               "type": "text",
@@ -432,7 +432,7 @@
     },
     {
       "id": "lesson_emer_11.00",
-      "title": "Grounding / Running Aground-json",
+      "title": "Grounding / Running Aground",
       "content": [
         {
           "type": "text",
@@ -450,7 +450,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_11.00_60927868",
-          "title": "Grounding / Running Aground-json",
+          "title": "Grounding / Running Aground",
           "sideA": [
             {
               "type": "text",
@@ -470,7 +470,7 @@
     },
     {
       "id": "lesson_emer_12.00",
-      "title": "Emergency Anchoring-json",
+      "title": "Emergency Anchoring",
       "content": [
         {
           "type": "text",
@@ -488,7 +488,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_12.00_d2ce8441",
-          "title": "Emergency Anchoring-json",
+          "title": "Emergency Anchoring",
           "sideA": [
             {
               "type": "text",
@@ -508,7 +508,7 @@
     },
     {
       "id": "lesson_emer_13.00",
-      "title": "Heavy Weather Survival (Squall)-json",
+      "title": "Heavy Weather Survival (Squall)",
       "content": [
         {
           "type": "text",
@@ -526,7 +526,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_13.00_209b5a71",
-          "title": "Heavy Weather Survival (Squall)-json",
+          "title": "Heavy Weather Survival (Squall)",
           "sideA": [
             {
               "type": "text",
@@ -546,7 +546,7 @@
     },
     {
       "id": "lesson_emer_14.00",
-      "title": "Medical Emergency (Serious Injury/Illness)-json",
+      "title": "Medical Emergency (Serious Injury/Illness)",
       "content": [
         {
           "type": "text",
@@ -564,7 +564,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_emer_14.00_21d0aa8e",
-          "title": "Medical Emergency (Serious Injury/Illness)-json",
+          "title": "Medical Emergency (Serious Injury/Illness)",
           "sideA": [
             {
               "type": "text",

@@ -1,9 +1,9 @@
 {
-  "module": "docking-json",
+  "module": "docking",
   "lessons": [
     {
       "id": "lesson_dock_1.00",
-      "title": "L1: Handling Dock Lines Repository-json",
+      "title": "L1: Handling Dock Lines Repository",
       "content": [
         {
           "type": "text",
@@ -31,7 +31,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_1.00",
-          "title": "Using Dock Lines-json",
+          "title": "Using Dock Lines",
           "sideA": [
             {
               "type": "text",
@@ -51,7 +51,7 @@
     },
     {
       "id": "lesson_dock_10.00",
-      "title": "Departing the Dock – What to Expect-json",
+      "title": "Departing the Dock – What to Expect",
       "content": [
         {
           "type": "text",
@@ -72,7 +72,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_10.00",
-          "title": "FC: What to Expect During Departure-json",
+          "title": "FC: What to Expect During Departure",
           "sideA": [
             {
               "type": "text",
@@ -92,7 +92,7 @@
     },
     {
       "id": "lesson_dock_2.00",
-      "title": "L2: Anchoring - Setting Up-json",
+      "title": "L2: Anchoring - Setting Up",
       "content": [
         {
           "type": "text",
@@ -120,7 +120,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_2.00",
-          "title": "Choosing Anchor Location-json",
+          "title": "Choosing Anchor Location",
           "sideA": [
             {
               "type": "text",
@@ -140,7 +140,7 @@
     },
     {
       "id": "lesson_dock_3.00",
-      "title": "Basics of Side Ties-json",
+      "title": "Basics of Side Ties",
       "content": [
         {
           "type": "text",
@@ -168,7 +168,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_3.00",
-          "title": "Side Tie Basics-json",
+          "title": "Side Tie Basics",
           "sideA": [
             {
               "type": "text",
@@ -188,7 +188,7 @@
     },
     {
       "id": "lesson_dock_4.00",
-      "title": "Returning to Dock - Docking Procedure-json",
+      "title": "Returning to Dock - Docking Procedure",
       "content": [
         {
           "type": "text",
@@ -216,7 +216,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_4.00",
-          "title": "Final Docking Steps-json",
+          "title": "Final Docking Steps",
           "sideA": [
             {
               "type": "text",
@@ -236,7 +236,7 @@
     },
     {
       "id": "lesson_dock_5.00",
-      "title": "Basic Deck Safety and Boom Awareness-json",
+      "title": "Basic Deck Safety and Boom Awareness",
       "content": [
         {
           "type": "text",
@@ -264,7 +264,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_5.00",
-          "title": "Deck Safety-json",
+          "title": "Deck Safety",
           "sideA": [
             {
               "type": "text",
@@ -284,7 +284,7 @@
     },
     {
       "id": "lesson_dock_6.00",
-      "title": "How to Assist in Docking-json",
+      "title": "How to Assist in Docking",
       "content": [
         {
           "type": "text",
@@ -312,7 +312,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_6.00",
-          "title": "Assisting Docking-json",
+          "title": "Assisting Docking",
           "sideA": [
             {
               "type": "text",
@@ -332,7 +332,7 @@
     },
     {
       "id": "lesson_dock_7.00",
-      "title": "How to Assist in Anchoring-json",
+      "title": "How to Assist in Anchoring",
       "content": [
         {
           "type": "text",
@@ -360,7 +360,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_7.00",
-          "title": "Assisting Anchoring-json",
+          "title": "Assisting Anchoring",
           "sideA": [
             {
               "type": "text",
@@ -380,7 +380,7 @@
     },
     {
       "id": "lesson_dock_8.00",
-      "title": "Lowering the Anchor Safely-json",
+      "title": "Lowering the Anchor Safely",
       "content": [
         {
           "type": "text",
@@ -408,7 +408,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_8.00",
-          "title": "Lowering Anchor-json",
+          "title": "Lowering Anchor",
           "sideA": [
             {
               "type": "text",
@@ -428,7 +428,7 @@
     },
     {
       "id": "lesson_dock_9.00",
-      "title": "Raising the Anchor Safely-json",
+      "title": "Raising the Anchor Safely",
       "content": [
         {
           "type": "text",
@@ -456,7 +456,7 @@
       "flashcards": [
         {
           "id": "flashcard_lesson_dock_9.00",
-          "title": "Raising Anchor-json",
+          "title": "Raising Anchor",
           "sideA": [
             {
               "type": "text",

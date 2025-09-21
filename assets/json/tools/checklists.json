@@ -1,9 +1,9 @@
 {
-  "module": "checklists-json",
+  "module": "checklists",
   "tools": [
     {
       "id": "tool_check_preDeparture_1.00",
-      "title": "Pre-Departure Checklist-json",
+      "title": "Pre-Departure Checklist",
       "content": [
         {
           "type": "text",
@@ -28,7 +28,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_check_preDeparture_1.00",
-          "title": "Pre-Departure Essentials-json",
+          "title": "Pre-Departure Essentials",
           "sideA": [
             {
               "type": "text",
@@ -46,7 +46,7 @@
     },
     {
       "id": "tool_check_returnToDock_1.00",
-      "title": "Return-to-Dock Checklist-json",
+      "title": "Return-to-Dock Checklist",
       "content": [
         {
           "type": "text",
@@ -66,7 +66,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_check_returnToDock_1.00_20536672",
-          "title": "Return-to-Dock Checklist-json",
+          "title": "Return-to-Dock Checklist",
           "sideA": [
             {
               "type": "text",

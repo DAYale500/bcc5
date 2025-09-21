@@ -1,9 +1,9 @@
 {
-  "module": "Communications-json",
+  "module": "Communications",
   "tools": [
     {
       "id": "tool_comm_preDeparture_1.00",
-      "title": "Comm stuff-json",
+      "title": "Comm stuff",
       "content": [
         {
           "type": "text",
@@ -28,7 +28,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_check_preDeparture_1.00",
-          "title": "Pre-Departure Essentials-json",
+          "title": "Pre-Departure Essentials",
           "sideA": [
             {
               "type": "text",
@@ -46,7 +46,7 @@
     },
     {
       "id": "tool_comm_flares_1.00",
-      "title": "flares-json",
+      "title": "flares",
       "content": [
         {
           "type": "text",
@@ -66,7 +66,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_comm_flares_1.00_b73ca0c9",
-          "title": "flares-json",
+          "title": "flares",
           "sideA": [
             {
               "type": "text",

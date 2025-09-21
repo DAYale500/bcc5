@@ -1,9 +1,9 @@
 {
-  "module": "emergency-json",
+  "module": "emergency",
   "tools": [
     {
       "id": "tool_emer_mob_1.00",
-      "title": "Man Overboard (MOB) — Immediate Actions-json",
+      "title": "Man Overboard (MOB) — Immediate Actions",
       "content": [
         {
           "type": "text",
@@ -27,7 +27,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_emer_mob_1.00",
-          "title": "MOB Priorities-json",
+          "title": "MOB Priorities",
           "sideA": [
             {
               "type": "text",
@@ -45,7 +45,7 @@
     },
     {
       "id": "tool_emer_fire_1.00",
-      "title": "Onboard Fire — Response-json",
+      "title": "Onboard Fire — Response",
       "content": [
         {
           "type": "text",
@@ -64,7 +64,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_emer_fire_1.00_cad285c8",
-          "title": "Onboard Fire — Response-json",
+          "title": "Onboard Fire — Response",
           "sideA": [
             {
               "type": "text",

@@ -1,9 +1,9 @@
 {
-  "module": "engine-json",
+  "module": "engine",
   "tools": [
     {
       "id": "tool_engine_1.00",
-      "title": "Pre-Start Checks-json",
+      "title": "Pre-Start Checks",
       "content": [
         {
           "type": "text",
@@ -21,7 +21,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_engine_1.00_b15bf2f5",
-          "title": "Pre-Start Checks-json",
+          "title": "Pre-Start Checks",
           "sideA": [
             {
               "type": "text",
@@ -41,7 +41,7 @@
     },
     {
       "id": "tool_mot_02.00",
-      "title": "Overheating — Immediate Actions-json",
+      "title": "Overheating — Immediate Actions",
       "content": [
         {
           "type": "text",
@@ -59,7 +59,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_mot_02.00_1ac909eb",
-          "title": "Overheating — Immediate Actions-json",
+          "title": "Overheating — Immediate Actions",
           "sideA": [
             {
               "type": "text",

@@ -1,9 +1,9 @@
 {
-  "module": "cheats-json",
+  "module": "cheats",
   "tools": [
     {
       "id": "tool_rules_cheat_1.00",
-      "title": "One-Page Rules Recap (Crew Cheat Sheet)-json",
+      "title": "One-Page Rules Recap (Crew Cheat Sheet)",
       "content": [
         { "type": "text", "content": "If you forget everything else:" },
         {
@@ -19,7 +19,7 @@
       "flashcards": [
         {
           "id": "flashcard_tool_rules_cheat_1.00",
-          "title": "Crew Cheat Sheet-json",
+          "title": "Crew Cheat Sheet",
           "sideA": [{ "type": "text", "content": "Four golden crew rules?" }],
           "sideB": [{ "type": "text", "content": "One hand for the boat; don’t fall in; don’t block helm/winches; repeat back & ask." }],
           "isPaid": false,
